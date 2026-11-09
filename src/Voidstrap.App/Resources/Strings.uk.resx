@@ -10012,4 +10012,9 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit і запис</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Локація: {0}
+Час роботи: {1}
+Гравці: {2}</value>
+  </data>
 </root>

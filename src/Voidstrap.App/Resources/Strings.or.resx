@@ -9702,4 +9702,9 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ଏବଂ ରେକର୍ଡିଂ</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>ଅବସ୍ଥାନ: {0}
+ଅପଟାଇମ୍ |: {1}
+ଖେଳାଳି: {2}</value>
+  </data>
 </root>

@@ -10016,4 +10016,9 @@ Leisti?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ir įrašymas</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Vieta: {0}
+Veikimo laikas: {1}
+Žaidėjai: {2}</value>
+  </data>
 </root>

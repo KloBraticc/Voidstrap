@@ -9702,4 +9702,9 @@ Vil du tillate det?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit og opptak</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Sted: {0}
+Oppetid: {1}
+Spillere: {2}</value>
+  </data>
 </root>

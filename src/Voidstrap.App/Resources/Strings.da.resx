@@ -9701,4 +9701,9 @@ tillade det?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit og optagelse</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Beliggenhed: {0}
+Oppetid: {1}
+Spillere: {2}</value>
+  </data>
 </root>

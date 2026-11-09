@@ -9702,4 +9702,9 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit და ჩაწერა</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>მდებარეობა: {0}
+Uptime: {1}
+მოთამაშეები: {2}</value>
+  </data>
 </root>

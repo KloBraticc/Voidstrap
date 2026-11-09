@@ -10013,4 +10013,9 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit 및 녹화</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>위치: {0}
+가동 시간: {1}
+플레이어: {2}</value>
+  </data>
 </root>

@@ -10012,4 +10012,9 @@ Payagan ba?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit at pag-record</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Lokasyon: {0}
+Tagal ng pagtakbo: {1}
+Mga player: {2}</value>
+  </data>
 </root>

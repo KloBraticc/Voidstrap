@@ -9701,4 +9701,9 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit మరియు రికార్డింగ్</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>స్థానం: {0}
+సమయము: {1}
+ఆటగాళ్ళు: {2}</value>
+  </data>
 </root>

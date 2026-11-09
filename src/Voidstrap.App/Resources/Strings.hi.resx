@@ -9702,4 +9702,9 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit और रिकॉर्डिंग</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>जगह: {0}
+अपटाइम: {1}
+खिलाड़ी: {2}</value>
+  </data>
 </root>

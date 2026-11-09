@@ -10029,4 +10029,9 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit と録画</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>地域: {0}
+稼働時間: {1}
+プレイヤー: {2}</value>
+  </data>
 </root>

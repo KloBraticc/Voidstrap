@@ -9702,4 +9702,9 @@ Leyfa það?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit og upptaka</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Staðsetning: {0}
+Spenntur: {1}
+Leikmenn: {2}</value>
+  </data>
 </root>

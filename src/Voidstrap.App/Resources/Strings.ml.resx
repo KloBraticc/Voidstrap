@@ -9702,4 +9702,9 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ഉം റെക്കോർഡിംഗും</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>സ്ഥാനം: {0}
+പ്രവർത്തനസമയം: {1}
+കളിക്കാർ: {2}</value>
+  </data>
 </root>

@@ -10009,4 +10009,9 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit และการบันทึก</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>ตำแหน่งที่ตั้ง: {0}
+เวลาทำงาน: {1}
+ผู้เล่น: {2}</value>
+  </data>
 </root>

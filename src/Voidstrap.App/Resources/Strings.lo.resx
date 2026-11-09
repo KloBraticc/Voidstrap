@@ -9702,4 +9702,9 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ແລະ ການບັນທຶກ</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>ສະຖານທີ່: {0}
+ເວລາຫວ່າງ: {1}
+ຜູ້ຫຼິ້ນ: {2}</value>
+  </data>
 </root>

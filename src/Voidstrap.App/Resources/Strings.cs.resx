@@ -10015,4 +10015,9 @@ Povolit?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit a nahrávání</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Lokace: {0}
+Doba běhu: {1}
+Hráči: {2}</value>
+  </data>
 </root>

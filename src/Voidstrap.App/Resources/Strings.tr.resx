@@ -10012,4 +10012,9 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ve kayıt</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Dosya Konumu: {0}
+Çalışma süresi: {1}
+Oyuncular: {2}</value>
+  </data>
 </root>

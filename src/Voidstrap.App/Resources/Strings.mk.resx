@@ -9702,4 +9702,9 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit и снимање</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Локација: {0}
+Време на работа: {1}
+Играчи: {2}</value>
+  </data>
 </root>

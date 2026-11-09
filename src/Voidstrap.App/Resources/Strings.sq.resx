@@ -9702,4 +9702,9 @@ E lejon atë?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit dhe regjistrimi</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Vendndodhja: {0}
+Koha e funksionimit: {1}
+Lojtarët: {2}</value>
+  </data>
 </root>

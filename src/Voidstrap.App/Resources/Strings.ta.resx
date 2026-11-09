@@ -9701,4 +9701,9 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit மற்றும் பதிவு</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>இடம்: {0}
+இயக்க நேரம்: {1}
+வீரர்கள்: {2}</value>
+  </data>
 </root>

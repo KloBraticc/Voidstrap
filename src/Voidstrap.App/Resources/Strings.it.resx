@@ -10017,4 +10017,9 @@ Consentire?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit e registrazione</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Posizione: {0}
+Tempo attivo: {1}
+Giocatori: {2}</value>
+  </data>
 </root>

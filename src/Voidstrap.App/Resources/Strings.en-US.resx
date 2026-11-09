@@ -10015,4 +10015,9 @@ Allow it?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit &amp; recording</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Location: {0}
+Uptime: {1}
+Players: {2}</value>
+  </data>
 </root>

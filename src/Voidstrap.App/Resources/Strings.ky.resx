@@ -9702,4 +9702,9 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit жана жазуу</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Жайгашкан жер: {0}
+Иштөө убактысы: {1}
+Оюнчулар: {2}</value>
+  </data>
 </root>

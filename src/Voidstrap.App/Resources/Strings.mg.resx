@@ -9702,4 +9702,9 @@ Avelao izany?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit sy fandraisam-peo</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Toerana: {0}
+Fotoana misokatra: {1}
+Mpilalao: {2}</value>
+  </data>
 </root>

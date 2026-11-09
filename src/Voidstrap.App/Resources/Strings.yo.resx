@@ -9701,4 +9701,9 @@ Gba laaye?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit àti gbígbàsílẹ̀</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Ipo: {0}
+Akoko ipari: {1}
+Awọn oṣere: {2}</value>
+  </data>
 </root>

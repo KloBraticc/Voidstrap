@@ -9702,4 +9702,9 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit և ձայնագրում</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Գտնվելու վայրը: {0}
+Գործողության ժամանակ: {1}
+Խաղացողներ: {2}</value>
+  </data>
 </root>

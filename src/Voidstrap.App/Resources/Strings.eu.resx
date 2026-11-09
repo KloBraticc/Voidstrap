@@ -9701,4 +9701,9 @@ Baimendu al duzu?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit eta grabazioa</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Kokapena: {0}
+Epea: {1}
+Jokalariak: {2}</value>
+  </data>
 </root>

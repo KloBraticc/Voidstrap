@@ -9702,4 +9702,9 @@ Emera?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit no gufata amashusho</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Aho biherereye: {0}
+Igihe: {1}
+Abakinnyi: {2}</value>
+  </data>
 </root>

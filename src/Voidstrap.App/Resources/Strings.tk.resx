@@ -9701,4 +9701,9 @@ Rugsat beriň?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit we ýazgy</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Locationerleşýän ýeri: {0}
+Iş wagty: {1}
+Oýunçylar: {2}</value>
+  </data>
 </root>

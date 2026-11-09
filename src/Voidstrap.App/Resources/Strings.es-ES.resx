@@ -10014,4 +10014,9 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit y grabación</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Ubicación: {0}
+Tiempo activo: {1}
+Jugadores: {2}</value>
+  </data>
 </root>

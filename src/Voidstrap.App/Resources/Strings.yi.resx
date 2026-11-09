@@ -9701,4 +9701,9 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit און רעקאָרדירן</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>אָרט: {0}
+ופּטימע: {1}
+שפּילער: {2}</value>
+  </data>
 </root>

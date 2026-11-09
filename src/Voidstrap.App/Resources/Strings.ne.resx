@@ -9702,4 +9702,9 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit र रेकर्डिङ</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>स्थान: {0}
+अपटाइम: {1}
+खेलाडीहरू: {2}</value>
+  </data>
 </root>

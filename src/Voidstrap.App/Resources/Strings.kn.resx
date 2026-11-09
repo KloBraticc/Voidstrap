@@ -9702,4 +9702,9 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ಮತ್ತು ರೆಕಾರ್ಡಿಂಗ್</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>ಸ್ಥಳ: {0}
+ಅಪ್ಟೈಮ್: {1}
+ಆಟಗಾರರು: {2}</value>
+  </data>
 </root>

@@ -9702,4 +9702,9 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ۽ رڪارڊنگ</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>مقام: {0}
+اپٽائم: {1}
+رانديگر: {2}</value>
+  </data>
 </root>

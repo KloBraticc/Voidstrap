@@ -9701,4 +9701,9 @@ icazə verilir?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit və yazma</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Məkan: {0}
+İş vaxtı: {1}
+Oyunçular: {2}</value>
+  </data>
 </root>

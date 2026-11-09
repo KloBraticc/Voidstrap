@@ -9701,4 +9701,9 @@ Uyakuvumela?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit nokuqopha</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Indawo: {0}
+Isikhathi esiphezulu: {1}
+Abadlali: {2}</value>
+  </data>
 </root>

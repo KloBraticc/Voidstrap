@@ -10016,4 +10016,9 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit و ضبط</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>مکان: {0}
+مدت فعالیت: {1}
+بازیکنان: {2}</value>
+  </data>
 </root>

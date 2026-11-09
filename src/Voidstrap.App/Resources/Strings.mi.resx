@@ -9702,4 +9702,9 @@ Whakaaetia?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit me te hopu</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Tauwāhi: {0}
+Te wa mahi: {1}
+Kaitākaro: {2}</value>
+  </data>
 </root>

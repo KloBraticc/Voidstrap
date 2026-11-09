@@ -10038,4 +10038,9 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit 与录制</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>地点：{0}
+运行时间：{1}
+玩家：{2}</value>
+  </data>
 </root>

@@ -9702,4 +9702,9 @@ Ceadaigh é?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit agus taifeadadh</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Suíomh: {0}
+Aga fónaimh: {1}
+Rannpháirtithe: {2}</value>
+  </data>
 </root>

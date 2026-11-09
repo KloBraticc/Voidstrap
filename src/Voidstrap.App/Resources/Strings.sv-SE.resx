@@ -10014,4 +10014,9 @@ Tillåta?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit och inspelning</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Plats: {0}
+Drifttid: {1}
+Spelare: {2}</value>
+  </data>
 </root>

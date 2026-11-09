@@ -9702,4 +9702,9 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit او ثبت</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>ځای: {0}
+وخت: {1}
+لوبغاړي: {2}</value>
+  </data>
 </root>

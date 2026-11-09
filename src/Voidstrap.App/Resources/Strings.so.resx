@@ -9702,4 +9702,9 @@ Oggolow?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit iyo duubid</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Goobta: {0}
+Wakhtiga shaqada: {1}
+Ciyaartoyda: {2}</value>
+  </data>
 </root>

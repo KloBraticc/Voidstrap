@@ -9702,4 +9702,9 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit आणि रेकॉर्डिंग</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>स्थान: {0}
+अपटाइम: {1}
+खेळाडू: {2}</value>
+  </data>
 </root>

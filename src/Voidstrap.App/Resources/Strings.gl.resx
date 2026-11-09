@@ -9702,4 +9702,9 @@ Permíteo?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit e gravación</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Localización: {0}
+Tempo de actividade: {1}
+Xogadores: {2}</value>
+  </data>
 </root>

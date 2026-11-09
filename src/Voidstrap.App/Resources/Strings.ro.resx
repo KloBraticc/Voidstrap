@@ -10016,4 +10016,9 @@ Permiți?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit și înregistrare</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Locație: {0}
+Timp de funcționare: {1}
+Jucători: {2}</value>
+  </data>
 </root>

@@ -9702,4 +9702,9 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit והקלטה</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>מִקוּם: {0}
+זמן פעולה: {1}
+שחקנים: {2}</value>
+  </data>
 </root>

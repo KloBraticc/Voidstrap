@@ -10013,4 +10013,9 @@ Autoriser ?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit et enregistrement</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Emplacement : {0}
+Durée d'activité : {1}
+Joueurs : {2}</value>
+  </data>
 </root>

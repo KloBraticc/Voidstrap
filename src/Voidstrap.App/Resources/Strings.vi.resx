@@ -10017,4 +10017,9 @@ Cho phép?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit và ghi hình</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Vị trí: {0}
+Thời gian hoạt động: {1}
+Người chơi: {2}</value>
+  </data>
 </root>

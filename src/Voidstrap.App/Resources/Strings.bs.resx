@@ -9701,4 +9701,9 @@ Dozvoliti?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit i snimanje</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Lokacija: {0}
+Uptime: {1}
+Igrači: {2}</value>
+  </data>
 </root>

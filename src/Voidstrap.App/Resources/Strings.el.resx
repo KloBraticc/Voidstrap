@@ -9701,4 +9701,9 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit και εγγραφή</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Τοποθεσία: {0}
+Χρόνος λειτουργίας: {1}
+Παίκτες: {2}</value>
+  </data>
 </root>

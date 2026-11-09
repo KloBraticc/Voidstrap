@@ -9702,4 +9702,9 @@ Erlaabt et?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit an Opnam</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Location: {0}
+Uptime: {1}
+Spiller: {2}</value>
+  </data>
 </root>

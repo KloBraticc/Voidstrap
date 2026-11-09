@@ -9701,4 +9701,9 @@ Ruxsat berasizmi?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit va yozib olish</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Joylashuv: {0}
+Ish vaqti: {1}
+O'yinchilar: {2}</value>
+  </data>
 </root>

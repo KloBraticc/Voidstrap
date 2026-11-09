@@ -9702,4 +9702,9 @@ Vai atļaut?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit un ierakstīšana</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Atrašanās vieta: {0}
+Darbības laiks: {1}
+Spēlētāji: {2}</value>
+  </data>
 </root>

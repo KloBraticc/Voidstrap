@@ -10014,4 +10014,9 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit и запис</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Локация: {0}
+Време на работа: {1}
+Играчи: {2}</value>
+  </data>
 </root>

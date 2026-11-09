@@ -9701,4 +9701,9 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ۋە خاتىرىلەش</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>ئورنى: {0}
+Uptime: {1}
+قويغۇچىلار: {2}</value>
+  </data>
 </root>

@@ -10017,4 +10017,9 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit 與錄製</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>地區：{0}
+運作時間：{1}
+玩家：{2}</value>
+  </data>
 </root>

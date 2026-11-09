@@ -9701,4 +9701,9 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit kaj registrado</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Loko: {0}
+Aktivtempo: {1}
+Ludantoj: {2}</value>
+  </data>
 </root>

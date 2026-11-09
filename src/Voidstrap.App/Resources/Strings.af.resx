@@ -9701,4 +9701,9 @@ Laat dit toe?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit en opname</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Ligging: {0}
+Optyd: {1}
+Spelers: {2}</value>
+  </data>
 </root>

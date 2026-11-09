@@ -9701,4 +9701,9 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ও রেকর্ডিং</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>অবস্থান: {0}
+আপটাইম: {1}
+খেলোয়াড়: {2}</value>
+  </data>
 </root>

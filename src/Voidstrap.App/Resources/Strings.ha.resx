@@ -9702,4 +9702,9 @@ Bada shi?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit da naɗa</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Wuri: {0}
+Uptime: {1}
+'Yan wasa: {2}</value>
+  </data>
 </root>

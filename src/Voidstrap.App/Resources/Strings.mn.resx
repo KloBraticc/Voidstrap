@@ -9702,4 +9702,9 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ба бичлэг</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Байршил: {0}
+Ажиллах хугацаа: {1}
+Тоглогчид: {2}</value>
+  </data>
 </root>

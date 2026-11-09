@@ -9701,4 +9701,9 @@ E lumella?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit le ho rekota</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Sebaka: {0}
+Nako ea ho qetela: {1}
+Libapali: {2}</value>
+  </data>
 </root>

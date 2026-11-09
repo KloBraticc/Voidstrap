@@ -9701,4 +9701,9 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit እና ቀረጻ</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>አካባቢ፡- {0}
+የትርፍ ጊዜ፡- {1}
+ተጫዋቾች፡- {2}</value>
+  </data>
 </root>

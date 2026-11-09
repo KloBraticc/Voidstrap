@@ -52,7 +52,7 @@ public partial class SessionDock : Window
     private ActivityData? _data;
     private DateTimeOffset? _serverStarted;
     private DateTime _lastRefreshUtc = DateTime.MinValue;
-    private string _location = "Unavailable";
+    private string _location = Strings.OverlayDiagnostics_Unavailable;
     private string _players = string.Empty;
     private string _serverType = string.Empty;
     private bool _opened;
@@ -278,7 +278,7 @@ public partial class SessionDock : Window
         )
             CloseServerPanels();
         _serverStarted = data.ServerStartedUtc;
-        _location = "Unavailable";
+        _location = Strings.OverlayDiagnostics_Unavailable;
         _players = string.Empty;
         _serverType = data.ServerType.ToConnectedString();
         _lastRefreshUtc = DateTime.MinValue;
@@ -1455,7 +1455,7 @@ public partial class SessionDock : Window
             if (_closed || token.IsCancellationRequested || !ReferenceEquals(_data, data))
                 return;
             if (location.IsCompletedSuccessfully)
-                _location = location.Result ?? "Unavailable";
+                _location = location.Result ?? Strings.OverlayDiagnostics_Unavailable;
             if (uptime.IsCompletedSuccessfully && uptime.Result.Status == ServerStartStatus.Found)
                 _serverStarted = uptime.Result.StartedUtc;
             if (players.IsCompletedSuccessfully)
@@ -1466,7 +1466,7 @@ public partial class SessionDock : Window
                         ? count.Max > 0
                             ? $"{count.Current}/{count.Max}"
                             : count.Current.ToString(Locale.CurrentCulture)
-                        : "Unavailable";
+                        : Strings.OverlayDiagnostics_Unavailable;
             }
             UpdateReadout();
         }
@@ -1518,7 +1518,7 @@ public partial class SessionDock : Window
         _serverStarted ??= data.ServerStartedUtc;
         string uptime = _serverStarted.HasValue
             ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - _serverStarted.Value)
-            : "Unavailable";
+            : Strings.OverlayDiagnostics_Unavailable;
         SetRun(SessionClock, data.TimeJoined == default ? "0:00" : FormatClock(DateTime.Now - data.TimeJoined));
         SetRun(ServerClock, _serverStarted.HasValue ? FormatClock(DateTimeOffset.UtcNow - _serverStarted.Value) : "--");
         if (!PopoutOpen)
@@ -1529,7 +1529,7 @@ public partial class SessionDock : Window
         SetText(BannerSubtitle, _serverType);
         SetText(
             ServerReadout,
-            "Location: " + _location + "\nUptime: " + uptime + "\nPlayers: " + (_players.Length == 0 ? "Unavailable" : _players)
+            string.Format(Strings.Ui_Session_ServerReadout, _location, uptime, _players.Length == 0 ? Strings.OverlayDiagnostics_Unavailable : _players)
         );
     }
 

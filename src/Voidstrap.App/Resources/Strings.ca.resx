@@ -9701,4 +9701,9 @@ Ho permets?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit i enregistrament</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Ubicació: {0}
+Temps de funcionament: {1}
+Jugadors: {2}</value>
+  </data>
 </root>

@@ -9702,4 +9702,9 @@ kwe ya?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit na ndekọ</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Ebe: {0}
+Oge nkwụsị: {1}
+Ndị egwuregwu: {2}</value>
+  </data>
 </root>

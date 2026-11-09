@@ -9701,4 +9701,9 @@ Kas lubada?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ja salvestamine</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Asukoht: {0}
+Tööaeg: {1}
+Mängijad: {2}</value>
+  </data>
 </root>

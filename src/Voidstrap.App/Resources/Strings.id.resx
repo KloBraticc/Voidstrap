@@ -10017,4 +10017,9 @@ Izinkan?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit dan perekaman</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Lokasi: {0}
+Waktu aktif: {1}
+Pemain: {2}</value>
+  </data>
 </root>

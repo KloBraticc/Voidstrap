@@ -9701,4 +9701,9 @@ Je, unairuhusu?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit na kurekodi</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Mahali: {0}
+Uptime: {1}
+Wachezaji: {2}</value>
+  </data>
 </root>

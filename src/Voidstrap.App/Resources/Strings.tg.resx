@@ -9701,4 +9701,9 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit ва сабт</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Ҷойгиршавӣ: {0}
+Вақти корӣ: {1}
+Бозингарон: {2}</value>
+  </data>
 </root>

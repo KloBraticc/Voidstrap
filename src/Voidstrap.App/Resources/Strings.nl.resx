@@ -10016,4 +10016,9 @@ Toestaan?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit en opnemen</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Locatie: {0}
+Actief sinds: {1}
+Spelers: {2}</value>
+  </data>
 </root>

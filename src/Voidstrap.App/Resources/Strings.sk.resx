@@ -9702,4 +9702,9 @@ Povoliť?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit a nahrávanie</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Poloha: {0}
+Uptime: {1}
+Hráči: {2}</value>
+  </data>
 </root>

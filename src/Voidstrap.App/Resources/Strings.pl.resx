@@ -10015,4 +10015,9 @@ Zezwolić?</value>
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit i nagrywanie</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>Położenie: {0}
+Czas działania: {1}
+Gracze: {2}</value>
+  </data>
 </root>

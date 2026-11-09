@@ -10013,4 +10013,9 @@
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit والتسجيل</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>موقع: {0}
+مدة التشغيل: {1}
+اللاعبون: {2}</value>
+  </data>
 </root>

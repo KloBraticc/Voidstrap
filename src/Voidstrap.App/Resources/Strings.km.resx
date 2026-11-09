@@ -9702,4 +9702,9 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.VoidEdit.Section" xml:space="preserve">
     <value>Void Edit និងការថត</value>
   </data>
+  <data name="Ui.Session.ServerReadout" xml:space="preserve">
+    <value>ទីតាំង៖ {0}
+ម៉ោងធ្វើការ៖ {1}
+អ្នកលេង៖ {2}</value>
+  </data>
 </root>
