@@ -222,29 +222,9 @@ public static class RobloxFriends
         return result;
     }
 
-    public static async Task<Dictionary<long, DateTimeOffset>> GetLastOnlineAsync(IReadOnlyList<long> userIds, CancellationToken token)
+    public static Dictionary<long, DateTimeOffset> GetLastOnline(IReadOnlyList<long> userIds)
     {
         Dictionary<long, DateTimeOffset> result = new();
-        string? cookie = Cookie();
-        for (int i = 0; i < userIds.Count; i += PresenceBatch)
-        {
-            string body = JsonSerializer.Serialize(new { userIds = userIds.Skip(i).Take(PresenceBatch) });
-            (_, JsonDocument? document) = await RobloxChat
-                .SendAsync(HttpMethod.Post, "https://presence.roblox.com/v1/presence/last-online", body, cookie, token)
-                .ConfigureAwait(false);
-            using (document)
-            {
-                if (document == null || !RobloxChat.TryGetArray(document.RootElement, out JsonElement items, "lastOnlineTimestamps"))
-                    continue;
-                foreach (JsonElement item in items.EnumerateArray())
-                {
-                    long id = RobloxChat.ReadLong(item, "userId");
-                    if (id > 0 && RobloxChat.ReadTime(item, "lastOnline") is DateTimeOffset when)
-                        result[id] = when;
-                }
-            }
-        }
-        RecordSeen(Array.Empty<long>(), result);
         lock (SeenLock)
             foreach (long id in userIds)
                 if (Seen().TryGetValue(id, out DateTimeOffset when))

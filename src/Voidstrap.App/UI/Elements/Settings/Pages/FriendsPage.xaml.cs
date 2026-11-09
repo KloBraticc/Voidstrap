@@ -131,7 +131,7 @@ public partial class FriendsPage : UiPage
             Publish();
             Task<Dictionary<long, string>> headsTask = Task.Run(() => RobloxChat.GetHeadshotUrlsAsync(ids, token), token);
             Task<Dictionary<long, FriendPresenceInfo>> presenceTask = Task.Run(() => RobloxFriends.GetPresenceAsync(ids, token), token);
-            Task<Dictionary<long, DateTimeOffset>> lastTask = Task.Run(() => RobloxFriends.GetLastOnlineAsync(ids, token), token);
+            Task<Dictionary<long, DateTimeOffset>> lastTask = Task.Run(() => RobloxFriends.GetLastOnline(ids), token);
             Task<Dictionary<long, string>> nickTask = Task.Run(() => RobloxFriends.GetNicknamesAsync(ids, token), token);
             Task<Dictionary<long, string>>? gamesTask = null;
             List<Task> pending = new() { headsTask, presenceTask, lastTask, nickTask };
