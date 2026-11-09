@@ -13,16 +13,12 @@
       </Style>
       <DataTemplate x:Key="FriendAvatar">
         <Grid Width="48" Height="48">
-          <Border CornerRadius="24" ClipToBounds="True" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
-            <Border.OpacityMask>
-              <VisualBrush>
-                <VisualBrush.Visual>
-                  <Ellipse Width="48" Height="48" Fill="Black" />
-                </VisualBrush.Visual>
-              </VisualBrush>
-            </Border.OpacityMask>
-            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding AvatarUrl}" />
-          </Border>
+          <Ellipse Fill="{DynamicResource SubtleFillColorSecondaryBrush}" />
+          <Image Width="48" Height="48" Stretch="UniformToFill" util:DynamicRenderSystem.LazyImageSource="{Binding AvatarUrl}">
+            <UIElement.Clip>
+              <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
+            </UIElement.Clip>
+          </Image>
           <Ellipse Width="14" Height="14" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-1,-1" Fill="{Binding PresenceBrush}" Stroke="{DynamicResource SolidBackgroundFillColorBaseBrush}" StrokeThickness="2.5" />
         </Grid>
       </DataTemplate>
@@ -74,18 +70,29 @@
           <TextBlock x:Name="FriendsHeader" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
           <ui:Button HorizontalAlignment="Right" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Click="Refresh_Click" />
         </Grid>
-        <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Auto">
-          <StackPanel Margin="0,0,10,0">
-            <ProgressBar x:Name="FriendsLoading" Height="3" IsIndeterminate="True" Margin="0,0,0,6" />
-            <TextBlock x:Name="FriendsEmpty" Margin="2,8,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" />
-            <ItemsControl x:Name="FriendList" VirtualizingPanel.IsVirtualizing="True">
+        <Grid Grid.Row="4">
+            <ProgressBar x:Name="FriendsLoading" Height="3" IsIndeterminate="True" Margin="0,0,10,0" VerticalAlignment="Top" />
+            <TextBlock x:Name="FriendsEmpty" Margin="2,14,0,0" VerticalAlignment="Top" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" />
+            <ItemsControl x:Name="FriendList" Margin="0,9,0,0" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.ScrollUnit="Pixel" ScrollViewer.CanContentScroll="True">
+              <ItemsControl.Template>
+                <ControlTemplate TargetType="ItemsControl">
+                  <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" Focusable="False">
+                    <ItemsPresenter />
+                  </ScrollViewer>
+                </ControlTemplate>
+              </ItemsControl.Template>
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                  <Grid Margin="0,0,0,6" Height="68">
+                  <Grid Margin="0,0,10,6" Height="68">
                     <Border CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" />
                     <Border CornerRadius="8" Margin="1">
                       <Border.Background>
-                        <ImageBrush ImageSource="{Binding GameImage, TargetNullValue={x:Null}}" Stretch="UniformToFill" AlignmentY="Center" Opacity="0.45" />
+                        <ImageBrush ImageSource="{Binding GameArt}" Stretch="UniformToFill" AlignmentY="Center" Opacity="0.45" />
                       </Border.Background>
                     </Border>
                     <Border CornerRadius="8" Margin="1">
@@ -121,8 +128,7 @@
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
-          </StackPanel>
-        </ScrollViewer>
+        </Grid>
       </Grid>
     </TabItem>
     <TabItem x:Name="RequestsTab">
