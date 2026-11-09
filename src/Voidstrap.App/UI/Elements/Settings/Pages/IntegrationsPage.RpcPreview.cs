@@ -269,7 +269,9 @@ public partial class IntegrationsPage
         try
         {
             PresenceSnapshot snapshot = ResolveSnapshot();
-            RpcPreviewHeader.Text = snapshot.Active ? "Playing Roblox" : "Not in a game";
+            RpcPreviewHeader.Text = Strings.Ui_Integrations_PlayingRoblox;
+            RpcPreviewBody.Visibility = snapshot.Active ? Visibility.Visible : Visibility.Collapsed;
+            RpcPreviewHeader.Opacity = snapshot.Active ? 1.0 : 0.5;
             RpcPreviewDetails.Text = snapshot.Details;
             RpcPreviewDetails.Visibility = string.IsNullOrEmpty(snapshot.Details) ? Visibility.Collapsed : Visibility.Visible;
 
@@ -600,8 +602,8 @@ public partial class IntegrationsPage
             PresenceButton button = snapshot.Buttons[i];
             Border host = new Border
             {
-                CornerRadius = new CornerRadius(3.0),
-                Padding = new Thickness(8.0, 6.0, 8.0, 6.0),
+                CornerRadius = new CornerRadius(8.0),
+                Padding = new Thickness(12.0, 7.0, 12.0, 7.0),
                 Margin = new Thickness(0.0, i == 0 ? 0.0 : 6.0, 0.0, 0.0),
                 ToolTip = string.IsNullOrEmpty(button.Url) ? null : button.Url,
             };
@@ -610,7 +612,6 @@ public partial class IntegrationsPage
             host.BorderThickness = new Thickness(1.0);
             TextBlock label = new TextBlock
             {
-                // Button labels carry translation markers until rendered, exactly like Discord receives them
                 Text = Voidstrap.Utility.DiscordPresenceGuard.Label(Voidstrap.Utility.RpcText.Render(button.Label), "Open"),
                 FontSize = 13.0,
                 FontWeight = FontWeights.Medium,
