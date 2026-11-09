@@ -163,11 +163,10 @@
   </StackPanel>
     </ui:DynamicScrollViewer>
     <Border Grid.Row="0" Margin="0,0,14,10" Padding="4" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-      <ui:SelectorBar x:Name="SectionBar" Orientation="Horizontal" SelectionChanged="SectionBar_SelectionChanged">
+            <ui:SelectorBar x:Name="SectionBar" Orientation="Horizontal" SelectionChanged="SectionBar_SelectionChanged">
         <ui:SelectorBar.ItemsPanel>
           <ItemsPanelTemplate>
-            <StackPanel Orientation="Horizontal" />
+            <UniformGrid Rows="1" />
           </ItemsPanelTemplate>
         </ui:SelectorBar.ItemsPanel>
         <ui:SelectorBarItem Tag="{Binding ElementName=SectionInterface}" Icon="Apps24" Content="{resources:Loc Ui_Mods_Interface}" />
@@ -178,7 +177,6 @@
         <ui:SelectorBarItem Tag="{Binding ElementName=SectionVr}" Icon="HeadsetVr24" Content="{resources:Loc Ui_Gbs_VirtualReality}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
         <ui:SelectorBarItem Tag="{Binding ElementName=SectionAdvanced}" Icon="Wrench24" Content="{resources:Loc Ui_Bootstrapper_Advanced}" />
       </ui:SelectorBar>
-      </ScrollViewer>
     </Border>
   </Grid>
 </ui:UiPage>
