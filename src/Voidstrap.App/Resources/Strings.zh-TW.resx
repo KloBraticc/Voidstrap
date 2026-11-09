@@ -10028,4 +10028,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>這裡還沒有內容</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>了解更多</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>追蹤 Voidstrap，取得協助並支持這個專案。</value>
+  </data>
 </root>

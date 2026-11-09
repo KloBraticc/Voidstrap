@@ -9712,4 +9712,10 @@ Chwaraewyr: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Does dim byd yma eto</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Dysgu mwy</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Dilynwch Voidstrap, cewch help a chefnogwch y prosiect.</value>
+  </data>
 </root>

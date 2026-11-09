@@ -10028,4 +10028,10 @@ Người chơi: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Chưa có gì ở đây</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Tìm hiểu thêm</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Theo dõi Voidstrap, nhận trợ giúp và ủng hộ dự án.</value>
+  </data>
 </root>

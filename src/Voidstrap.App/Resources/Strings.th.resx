@@ -10020,4 +10020,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>ยังไม่มีอะไรที่นี่</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ดูเพิ่มเติม</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>ติดตาม Voidstrap รับความช่วยเหลือ และสนับสนุนโปรเจกต์</value>
+  </data>
 </root>

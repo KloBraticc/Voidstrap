@@ -9713,4 +9713,10 @@ Igralci: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Tukaj še ni ničesar</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Več o tem</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Sledite Voidstrapu, poiščite pomoč in podprite projekt.</value>
+  </data>
 </root>

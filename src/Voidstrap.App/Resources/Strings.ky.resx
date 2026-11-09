@@ -9713,4 +9713,10 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Бул жерде азырынча эч нерсе жок</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Кененирээк</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap'ке жазылыңыз, жардам алыңыз жана долбоорду колдоңуз.</value>
+  </data>
 </root>

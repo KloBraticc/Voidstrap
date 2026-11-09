@@ -10017,4 +10017,10 @@ Pemain: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Belum ada apa-apa di sini</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Ketahui lebih lanjut</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Ikuti Voidstrap, dapatkan bantuan dan sokong projek ini.</value>
+  </data>
 </root>

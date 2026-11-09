@@ -9713,4 +9713,10 @@ Ndị egwuregwu: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Ọ dịbeghị ihe ọ bụla ebe a</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Mụtakwuo</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Soro Voidstrap, nweta enyemaka ma kwado ọrụ a.</value>
+  </data>
 </root>

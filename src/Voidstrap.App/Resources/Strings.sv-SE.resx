@@ -10025,4 +10025,10 @@ Spelare: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Inget här ännu</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Läs mer</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Följ Voidstrap, få hjälp och stöd projektet.</value>
+  </data>
 </root>

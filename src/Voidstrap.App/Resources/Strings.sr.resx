@@ -9713,4 +9713,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Овде још нема ничега</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Сазнајте више</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Пратите Voidstrap, потражите помоћ и подржите пројекат.</value>
+  </data>
 </root>

@@ -10023,4 +10023,10 @@ Mga player: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Wala pang laman dito</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Alamin pa</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>I-follow ang Voidstrap, humingi ng tulong at suportahan ang proyekto.</value>
+  </data>
 </root>

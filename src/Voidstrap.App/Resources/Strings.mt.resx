@@ -9713,4 +9713,10 @@ Parteċipanti: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Għad m'hemm xejn hawn</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Kun af aktar</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Segwi lil Voidstrap, ikseb l-għajnuna u appoġġja l-proġett.</value>
+  </data>
 </root>

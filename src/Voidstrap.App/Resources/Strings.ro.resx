@@ -10027,4 +10027,10 @@ Jucători: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Încă nu e nimic aici</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Află mai multe</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Urmărește Voidstrap, primește ajutor și susține proiectul.</value>
+  </data>
 </root>

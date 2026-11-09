@@ -9713,4 +9713,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>ಇಲ್ಲಿ ಇನ್ನೂ ಏನೂ ಇಲ್ಲ</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap ಅನ್ನು ಫಾಲೋ ಮಾಡಿ, ಸಹಾಯ ಪಡೆಯಿರಿ ಮತ್ತು ಯೋಜನೆಯನ್ನು ಬೆಂಬಲಿಸಿ.</value>
+  </data>
 </root>

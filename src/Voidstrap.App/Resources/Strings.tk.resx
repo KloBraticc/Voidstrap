@@ -9712,4 +9712,10 @@ Oýunçylar: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Bu ýerde entek hiç zat ýok</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Has giňişleýin</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap-y yzarlaň, kömek alyň we taslamany goldaň.</value>
+  </data>
 </root>

@@ -9712,4 +9712,10 @@ O'yinchilar: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Bu yerda hozircha hech narsa yoʻq</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Batafsil</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap’ni kuzating, yordam oling va loyihani qoʻllab-quvvatlang.</value>
+  </data>
 </root>

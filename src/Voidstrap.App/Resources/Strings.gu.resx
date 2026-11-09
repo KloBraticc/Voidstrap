@@ -9713,4 +9713,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>અહીં હજી કંઈ નથી</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>વધુ જાણો</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap ને ફોલો કરો, મદદ મેળવો અને પ્રોજેક્ટને સપોર્ટ કરો.</value>
+  </data>
 </root>

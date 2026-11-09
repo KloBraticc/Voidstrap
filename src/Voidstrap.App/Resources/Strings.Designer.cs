@@ -1911,6 +1911,8 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Session_CopyTheInstanceID => ResourceManager.GetString("Ui.Session.CopyTheInstanceID", resourceCulture);
 
+        public static string Ui_Home_LearnMore => ResourceManager.GetString("Ui.Home.LearnMore", resourceCulture);
+        public static string Ui_Home_LearnMore_Description => ResourceManager.GetString("Ui.Home.LearnMore.Description", resourceCulture);
         public static string Ui_Session_SocialLinks => ResourceManager.GetString("Ui.Session.SocialLinks", resourceCulture);
         public static string Ui_Session_HubEmpty => ResourceManager.GetString("Ui.Session.HubEmpty", resourceCulture);
         public static string Ui_Session_ServerReadout => ResourceManager.GetString("Ui.Session.ServerReadout", resourceCulture);

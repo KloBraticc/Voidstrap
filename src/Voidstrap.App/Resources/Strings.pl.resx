@@ -10026,4 +10026,10 @@ Gracze: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Na razie nic tu nie ma</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Dowiedz się więcej</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Obserwuj Voidstrap, uzyskaj pomoc i wesprzyj projekt.</value>
+  </data>
 </root>

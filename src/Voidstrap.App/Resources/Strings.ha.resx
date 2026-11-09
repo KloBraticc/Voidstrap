@@ -9713,4 +9713,10 @@ Uptime: {1}
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Babu komai a nan tukuna</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Ƙara koyo</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Bi Voidstrap, sami taimako kuma ka tallafa wa aikin.</value>
+  </data>
 </root>

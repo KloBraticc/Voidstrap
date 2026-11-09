@@ -9713,4 +9713,10 @@ Xogadores: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Aínda non hai nada aquí</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Máis información</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Segue a Voidstrap, consegue axuda e apoia o proxecto.</value>
+  </data>
 </root>

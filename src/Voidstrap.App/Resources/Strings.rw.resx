@@ -9713,4 +9713,10 @@ Abakinnyi: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Nta kintu kirahari</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Menya byinshi</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Kurikira Voidstrap, ubone ubufasha kandi ushyigikire umushinga.</value>
+  </data>
 </root>

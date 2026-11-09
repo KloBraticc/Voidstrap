@@ -9713,4 +9713,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Այստեղ դեռ ոչինչ չկա</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Իմանալ ավելին</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Հետևեք Voidstrap-ին, ստացեք օգնություն և աջակցեք նախագծին։</value>
+  </data>
 </root>

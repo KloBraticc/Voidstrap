@@ -10027,4 +10027,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>هنوز چیزی اینجا نیست</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>بیشتر بدانید</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap را دنبال کنید، کمک بگیرید و از پروژه حمایت کنید.</value>
+  </data>
 </root>

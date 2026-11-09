@@ -9713,4 +9713,10 @@ Ciyaartoyda: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Weli halkan waxba ma jiraan</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Wax badan ka baro</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Raac Voidstrap, hel caawimo oo taageer mashruuca.</value>
+  </data>
 </root>

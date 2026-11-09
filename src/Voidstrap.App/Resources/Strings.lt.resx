@@ -10027,4 +10027,10 @@ Veikimo laikas: {1}
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Čia kol kas nieko nėra</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Sužinokite daugiau</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Sekite Voidstrap, gaukite pagalbos ir paremkite projektą.</value>
+  </data>
 </root>

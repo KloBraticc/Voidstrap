@@ -10026,4 +10026,10 @@ Hráči: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Zatím zde nic není</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Další informace</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Sledujte Voidstrap, získejte pomoc a podpořte projekt.</value>
+  </data>
 </root>

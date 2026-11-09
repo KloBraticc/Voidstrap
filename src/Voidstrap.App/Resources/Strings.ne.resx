@@ -9713,4 +9713,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>यहाँ अझै केही छैन</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>थप जान्नुहोस्</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap फलो गर्नुहोस्, मद्दत पाउनुहोस् र परियोजनालाई समर्थन गर्नुहोस्।</value>
+  </data>
 </root>

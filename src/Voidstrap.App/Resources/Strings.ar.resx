@@ -10024,4 +10024,10 @@
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>لا يوجد شيء هنا بعد</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>اعرف المزيد</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>تابع Voidstrap واحصل على المساعدة وادعم المشروع.</value>
+  </data>
 </root>

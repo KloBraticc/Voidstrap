@@ -9712,4 +9712,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>እስካሁን ምንም የለም</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ተጨማሪ ይወቁ</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrapን ይከተሉ፣ እርዳታ ያግኙ እና ፕሮጀክቱን ይደግፉ።</value>
+  </data>
 </root>

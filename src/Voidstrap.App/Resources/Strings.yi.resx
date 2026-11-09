@@ -9712,4 +9712,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>נאך גאָרנישט דאָ</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>לערן מער</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>גייט נאָך Voidstrap, באַקומט הילף און שטיצט דעם פּראָיעקט.</value>
+  </data>
 </root>

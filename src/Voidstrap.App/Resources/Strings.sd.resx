@@ -9713,4 +9713,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>هتي اڃا ڪجهه به ناهي</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>وڌيڪ ڄاڻو</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap کي فالو ڪريو، مدد حاصل ڪريو ۽ منصوبي جي حمايت ڪريو.</value>
+  </data>
 </root>

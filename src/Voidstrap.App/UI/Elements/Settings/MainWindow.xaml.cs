@@ -8198,7 +8198,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     }
 
     private Border[] ModalPanels =>
-        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, GameDetailPanel, BootstrapperImportPanel];
+        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, GameDetailPanel, BootstrapperImportPanel, LearnMorePanel];
 
     private bool ModalIsSidebar => ReferenceEquals(_modalPanel, LaunchTargetPanel);
 
@@ -8537,6 +8537,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ReleaseGameDetail();
         if (ReferenceEquals(_modalPanel, BootstrapperImportPanel))
             ReleaseBootstrapperImport();
+        if (ReferenceEquals(_modalPanel, LearnMorePanel))
+            ReleaseLearnMore();
         if (_modalScale != null)
             SetModalScale(_modalScale, 1.0);
         LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
@@ -8646,6 +8648,28 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         view.SourceChosen -= BootstrapperImport_SourceChosen;
         view.Release();
         BootstrapperImportHost.Content = null;
+    }
+
+    public void ShowLearnMore()
+    {
+        ReleaseLearnMore();
+        Voidstrap.UI.Elements.Dialogs.LearnMoreDialog view = new();
+        view.CloseRequested += LearnMore_CloseRequested;
+        LearnMoreHost.Content = view;
+        OpenSimpleModal(LearnMorePanel, LearnMorePanelScale);
+    }
+
+    private void LearnMore_CloseRequested(object? sender, EventArgs e)
+    {
+        CloseSimpleModal();
+    }
+
+    private void ReleaseLearnMore()
+    {
+        if (LearnMoreHost.Content is not Voidstrap.UI.Elements.Dialogs.LearnMoreDialog view)
+            return;
+        view.CloseRequested -= LearnMore_CloseRequested;
+        LearnMoreHost.Content = null;
     }
 
     public void ShowGameDetail(long placeId, long universeId, string name)

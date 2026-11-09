@@ -9713,4 +9713,10 @@ Leikmenn: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Hér er ekkert ennþá</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Frekari upplýsingar</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Fylgdu Voidstrap, fáðu aðstoð og styddu verkefnið.</value>
+  </data>
 </root>

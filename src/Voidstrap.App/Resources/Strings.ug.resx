@@ -9712,4 +9712,10 @@ Uptime: {1}
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>بۇ يەردە تېخى ھېچنېمە يوق</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>تېخىمۇ كۆپ بىلىش</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap نى ئەگىشىڭ، ياردەم ئېلىڭ ۋە تۈرنى قوللاڭ.</value>
+  </data>
 </root>

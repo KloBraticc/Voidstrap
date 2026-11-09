@@ -9713,4 +9713,10 @@ Spiller: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Hei ass nach näischt</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Méi gewuer ginn</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Follegt Voidstrap, kritt Hëllef an ënnerstëtzt de Projet.</value>
+  </data>
 </root>

@@ -9712,4 +9712,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>ဤနေရာတွင် ဘာမှမရှိသေးပါ</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ပိုမိုလေ့လာရန်</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap ကို follow လုပ်ပါ၊ အကူအညီရယူပြီး ပရောဂျက်ကို ထောက်ပံ့ပါ။</value>
+  </data>
 </root>

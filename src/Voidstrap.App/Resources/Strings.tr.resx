@@ -10023,4 +10023,10 @@ Oyuncular: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Burada henüz bir şey yok</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Daha fazla bilgi</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap’i takip edin, yardım alın ve projeyi destekleyin.</value>
+  </data>
 </root>

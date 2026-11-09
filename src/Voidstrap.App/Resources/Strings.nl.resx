@@ -10027,4 +10027,10 @@ Spelers: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Hier staat nog niets</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Meer informatie</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Volg Voidstrap, krijg hulp en steun het project.</value>
+  </data>
 </root>

@@ -10026,4 +10026,10 @@ Pelaajat: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Täällä ei ole vielä mitään</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Lue lisää</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Seuraa Voidstrapia, saa apua ja tue projektia.</value>
+  </data>
 </root>

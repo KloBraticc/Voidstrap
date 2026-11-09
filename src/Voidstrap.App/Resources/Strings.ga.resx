@@ -9713,4 +9713,10 @@ Rannpháirtithe: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Níl aon rud anseo fós</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Tuilleadh eolais</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Lean Voidstrap, faigh cabhair agus tacaigh leis an tionscadal.</value>
+  </data>
 </root>

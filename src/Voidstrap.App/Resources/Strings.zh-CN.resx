@@ -10049,4 +10049,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>这里还没有内容</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>了解更多</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>关注 Voidstrap，获取帮助并支持本项目。</value>
+  </data>
 </root>

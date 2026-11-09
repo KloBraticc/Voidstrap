@@ -9713,4 +9713,10 @@ Uptime: {1}
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>აქ ჯერ არაფერია</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>გაიგეთ მეტი</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>გამოიწერეთ Voidstrap, მიიღეთ დახმარება და მხარი დაუჭირეთ პროექტს.</value>
+  </data>
 </root>

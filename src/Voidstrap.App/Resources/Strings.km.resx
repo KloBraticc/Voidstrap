@@ -9713,4 +9713,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>មិនទាន់មានអ្វីនៅទីនេះនៅឡើយទេ</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ស្វែងយល់បន្ថែម</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>តាមដាន Voidstrap ទទួលជំនួយ និងគាំទ្រគម្រោង។</value>
+  </data>
 </root>

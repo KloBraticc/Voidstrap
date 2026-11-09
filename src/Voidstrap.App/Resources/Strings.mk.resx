@@ -9713,4 +9713,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Сѐ уште нема ништо тука</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Дознајте повеќе</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Следете го Voidstrap, добијте помош и поддржете го проектот.</value>
+  </data>
 </root>

@@ -9712,4 +9712,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Тут пакуль нічога няма</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Даведацца больш</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Сачыце за Voidstrap, атрымлівайце дапамогу і падтрымлівайце праект.</value>
+  </data>
 </root>

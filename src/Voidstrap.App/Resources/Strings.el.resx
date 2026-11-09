@@ -9712,4 +9712,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Δεν υπάρχει τίποτα εδώ ακόμα</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Μάθε περισσότερα</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Ακολούθησε το Voidstrap, βρες βοήθεια και υποστήριξε το έργο.</value>
+  </data>
 </root>

@@ -9713,4 +9713,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>אין כאן עדיין כלום</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>מידע נוסף</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>עקבו אחרי Voidstrap, קבלו עזרה ותמכו בפרויקט.</value>
+  </data>
 </root>

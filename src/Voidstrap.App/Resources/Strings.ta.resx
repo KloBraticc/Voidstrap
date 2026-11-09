@@ -9712,4 +9712,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>இங்கே இன்னும் எதுவும் இல்லை</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>மேலும் அறிக</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap-ஐப் பின்தொடருங்கள், உதவி பெறுங்கள், திட்டத்தை ஆதரியுங்கள்.</value>
+  </data>
 </root>

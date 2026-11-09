@@ -9713,4 +9713,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>ຍັງບໍ່ມີຫຍັງຢູ່ນີ້</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ຮຽນຮູ້ເພີ່ມເຕີມ</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>ຕິດຕາມ Voidstrap, ຂໍຄວາມຊ່ວຍເຫຼືອ ແລະ ສະໜັບສະໜູນໂຄງການ.</value>
+  </data>
 </root>

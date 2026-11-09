@@ -9713,4 +9713,10 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>ਇੱਥੇ ਅਜੇ ਕੁਝ ਨਹੀਂ ਹੈ</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ਹੋਰ ਜਾਣੋ</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap ਨੂੰ ਫਾਲੋ ਕਰੋ, ਮਦਦ ਲਓ ਅਤੇ ਪ੍ਰੋਜੈਕਟ ਦਾ ਸਮਰਥਨ ਕਰੋ।</value>
+  </data>
 </root>

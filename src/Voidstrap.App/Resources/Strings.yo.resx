@@ -9712,4 +9712,10 @@ Awọn oṣere: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Kò sí nǹkan kan níbí síbẹ̀</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Kọ́ ẹ̀kọ́ síi</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Tẹ̀lé Voidstrap, gba ìrànlọ́wọ́ kí o sì ṣàtìlẹ́yìn iṣẹ́ náà.</value>
+  </data>
 </root>

@@ -10040,4 +10040,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>まだ何もありません</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>詳細を見る</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap をフォローして、サポートを受けたりプロジェクトを支援したりしましょう。</value>
+  </data>
 </root>

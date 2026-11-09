@@ -9713,4 +9713,10 @@ Spēlētāji: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Šeit vēl nekā nav</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Uzzināt vairāk</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Seko Voidstrap, saņem palīdzību un atbalsti projektu.</value>
+  </data>
 </root>

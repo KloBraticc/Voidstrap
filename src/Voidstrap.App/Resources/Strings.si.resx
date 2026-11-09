@@ -9713,4 +9713,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>මෙහි තවම කිසිවක් නැත</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>තවත් දැනගන්න</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap අනුගමනය කරන්න, උදව් ලබාගන්න සහ ව්‍යාපෘතියට සහාය වන්න.</value>
+  </data>
 </root>

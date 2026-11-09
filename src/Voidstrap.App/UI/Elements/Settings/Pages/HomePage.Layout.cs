@@ -219,6 +219,12 @@ public partial class HomePage
 
     private void EditLayout_Click(object sender, RoutedEventArgs e) => SetLayoutEditMode(!_viewModel.IsLayoutEditMode);
 
+    private void LearnMore_Click(object sender, RoutedEventArgs e)
+    {
+        if (Window.GetWindow(this) is MainWindow main)
+            main.ShowLearnMore();
+    }
+
     private void SetLayoutEditMode(bool enabled)
     {
         _viewModel.IsLayoutEditMode = enabled;

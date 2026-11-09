@@ -9713,4 +9713,10 @@ Lojtarët: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Ende nuk ka asgjë këtu</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Mëso më shumë</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Ndiq Voidstrap, merr ndihmë dhe mbështet projektin.</value>
+  </data>
 </root>

@@ -10025,4 +10025,10 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Здесь пока ничего нет</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Подробнее</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Следите за Voidstrap, получайте помощь и поддержите проект.</value>
+  </data>
 </root>

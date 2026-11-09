@@ -9713,4 +9713,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>इथे अजून काहीही नाही</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>अधिक जाणून घ्या</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap ला फॉलो करा, मदत मिळवा आणि प्रकल्पाला पाठिंबा द्या.</value>
+  </data>
 </root>

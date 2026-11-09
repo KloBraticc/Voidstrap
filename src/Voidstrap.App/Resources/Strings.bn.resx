@@ -9712,4 +9712,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>এখানে এখনও কিছু নেই</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>আরও জানুন</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap ফলো করুন, সাহায্য নিন এবং প্রকল্পটিকে সমর্থন করুন।</value>
+  </data>
 </root>

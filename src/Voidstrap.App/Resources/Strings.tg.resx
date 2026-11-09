@@ -9712,4 +9712,10 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Дар ин ҷо ҳоло чизе нест</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Маълумоти бештар</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap-ро пайгирӣ кунед, кӯмак гиред ва лоиҳаро дастгирӣ намоед.</value>
+  </data>
 </root>

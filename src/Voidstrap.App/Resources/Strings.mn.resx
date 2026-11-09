@@ -9713,4 +9713,10 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Энд одоогоор юу ч алга</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Дэлгэрэнгүй</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap-г дагаж, тусламж аваад төслийг дэмжээрэй.</value>
+  </data>
 </root>

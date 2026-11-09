@@ -9713,4 +9713,10 @@ Kaitākaro: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Kāore anō he mea i konei</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Ako atu anō</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Whāia a Voidstrap, tikina he āwhina, tautokona te kaupapa.</value>
+  </data>
 </root>

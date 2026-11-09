@@ -434,6 +434,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="0,4,28,6">
+            <ui:Button HorizontalAlignment="Left" VerticalAlignment="Center" Appearance="Secondary" Icon="Info24" Content="{resources:Loc Ui_Home_LearnMore}" Click="LearnMore_Click"/>
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
                 <ui:Button x:Name="EditLayoutButton"
                            Appearance="Secondary"
