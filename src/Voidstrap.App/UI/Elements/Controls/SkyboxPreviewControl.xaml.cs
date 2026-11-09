@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using System.Windows.Threading;
 
 namespace Voidstrap.UI.Elements.Controls
 {
@@ -21,6 +22,22 @@ namespace Voidstrap.UI.Elements.Controls
         private const double DefaultDistance = 3.0;
 
         private const string PlaceholderHex = "#FFB9BDC6";
+
+        private const int SoftwareFaceLimit = 512;
+
+        private const int SoftwareFrameLimit = 1024;
+
+        private static readonly bool Supports3D = Voidstrap.Utility.Platform.IsWindows;
+
+        private static readonly Color PlaceholderColor = (Color)ColorConverter.ConvertFromString(PlaceholderHex);
+
+        private static readonly Vector3D AmbientLight = new Vector3D(0xA9 / 255.0, 0xAD / 255.0, 0xB6 / 255.0);
+
+        private static readonly (Vector3D Direction, Vector3D Color)[] DirectionalLights =
+        {
+            (ToLight(new Vector3D(-0.45, -0.55, -0.7)), new Vector3D(0x6B / 255.0, 0x6B / 255.0, 0x70 / 255.0)),
+            (ToLight(new Vector3D(0.6, 0.2, 0.75)), new Vector3D(0x2E / 255.0, 0x2E / 255.0, 0x36 / 255.0)),
+        };
 
         private static readonly (Vector3D Major, Vector3D S, Vector3D T)[] FaceAxes =
         {
@@ -48,6 +65,15 @@ namespace Voidstrap.UI.Elements.Controls
 
         private readonly GeometryModel3D[] _faceModels = new GeometryModel3D[FaceAxes.Length];
 
+        private readonly byte[]?[] _softwareFaces = new byte[FaceAxes.Length][];
+
+        private readonly int[] _softwareFaceWidths = new int[FaceAxes.Length];
+
+        private readonly int[] _softwareFaceHeights = new int[FaceAxes.Length];
+
+        private WriteableBitmap? _softwareBitmap;
+
+        private int[] _softwareFrame = Array.Empty<int>();
 
         private CancellationTokenSource? _loadCts;
 
@@ -61,12 +87,19 @@ namespace Voidstrap.UI.Elements.Controls
 
         private bool _orbiting;
 
+        private bool _softwareRenderPending;
 
         private bool _initialized;
 
         public SkyboxPreviewControl()
         {
             InitializeComponent();
+            if (!Supports3D)
+            {
+                ((Grid)Viewport.Parent).Children.Remove(Viewport);
+                SoftwareView.Visibility = Visibility.Visible;
+                SizeChanged += OnControlSizeChanged;
+            }
             BuildBall();
             UpdateCamera();
             Unloaded += OnControlUnloaded;
@@ -95,6 +128,11 @@ namespace Voidstrap.UI.Elements.Controls
         {
             if (sender is SkyboxPreviewControl control && control._initialized)
                 _ = control.ReloadAsync();
+        }
+
+        private void OnControlSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            RequestSoftwareRender();
         }
 
         private void OnControlUnloaded(object sender, RoutedEventArgs e)
@@ -164,11 +202,43 @@ namespace Voidstrap.UI.Elements.Controls
                 _faceModels[i].Material = material;
                 _faceModels[i].BackMaterial = material;
             }
+            if (Supports3D)
+                return;
+            for (int i = 0; i < _softwareFaces.Length; i++)
+            {
+                _softwareFaces[i] = i < faces.Length
+                    ? ReadSoftwareFace(faces[i], out _softwareFaceWidths[i], out _softwareFaceHeights[i])
+                    : null;
+            }
+            RequestSoftwareRender();
+        }
+
+        private static byte[] ReadSoftwareFace(BitmapSource face, out int width, out int height)
+        {
+            if (face.Format != PixelFormats.Bgra32)
+            {
+                FormatConvertedBitmap converted = new FormatConvertedBitmap(face, PixelFormats.Bgra32, null, 0);
+                converted.Freeze();
+                face = converted;
+            }
+            width = face.PixelWidth;
+            height = face.PixelHeight;
+            byte[] pixels = new byte[width * height * 4];
+            face.CopyPixels(pixels, width * 4, 0);
+            if (width <= SoftwareFaceLimit && height <= SoftwareFaceLimit)
+                return pixels;
+            double scale = Math.Min((double)SoftwareFaceLimit / width, (double)SoftwareFaceLimit / height);
+            int targetWidth = Math.Max(1, (int)(width * scale));
+            int targetHeight = Math.Max(1, (int)(height * scale));
+            Raster resized = new Raster(width, height, pixels).Resize(targetWidth, targetHeight, RasterFilter.Bilinear);
+            width = resized.Width;
+            height = resized.Height;
+            return resized.Pixels;
         }
 
         private void ApplyPlaceholder()
         {
-            SolidColorBrush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(PlaceholderHex));
+            SolidColorBrush brush = new SolidColorBrush(PlaceholderColor);
             brush.Freeze();
             DiffuseMaterial material = new DiffuseMaterial(brush);
             material.Freeze();
@@ -177,6 +247,8 @@ namespace Voidstrap.UI.Elements.Controls
                 model.Material = material;
                 model.BackMaterial = material;
             }
+            Array.Clear(_softwareFaces);
+            RequestSoftwareRender();
         }
 
         private void BuildBall()
@@ -248,7 +320,113 @@ namespace Voidstrap.UI.Elements.Controls
             double z = _distance * Math.Cos(pitchRad) * Math.Cos(yawRad);
             Camera.Position = new Point3D(x, y, z);
             Camera.LookDirection = new Vector3D(-x, -y, -z);
+            RequestSoftwareRender();
         }
+
+        private static Vector3D ToLight(Vector3D direction)
+        {
+            direction.Normalize();
+            return -direction;
+        }
+
+        private void RequestSoftwareRender()
+        {
+            if (Supports3D || !_initialized || _softwareRenderPending)
+                return;
+            _softwareRenderPending = true;
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(RenderSoftware));
+        }
+
+        private void RenderSoftware()
+        {
+            _softwareRenderPending = false;
+            if (Supports3D || !_initialized)
+                return;
+            DpiScale dpi = VisualTreeHelper.GetDpi(this);
+            int width = Math.Min(SoftwareFrameLimit, (int)Math.Ceiling(ActualWidth * dpi.DpiScaleX));
+            int height = Math.Min(SoftwareFrameLimit, (int)Math.Ceiling(ActualHeight * dpi.DpiScaleY));
+            if (width <= 0 || height <= 0)
+                return;
+            if (_softwareBitmap == null || _softwareBitmap.PixelWidth != width || _softwareBitmap.PixelHeight != height)
+            {
+                _softwareBitmap = new WriteableBitmap(width, height, 96.0, 96.0, PixelFormats.Pbgra32, null);
+                _softwareFrame = new int[width * height];
+                SoftwareView.Source = _softwareBitmap;
+            }
+            Vector3D origin = (Vector3D)Camera.Position;
+            Vector3D forward = Camera.LookDirection;
+            forward.Normalize();
+            Vector3D right = Vector3D.CrossProduct(forward, Camera.UpDirection);
+            right.Normalize();
+            Vector3D up = Vector3D.CrossProduct(right, forward);
+            double tanX = Math.Tan(Camera.FieldOfView * Math.PI / 360.0);
+            double tanY = tanX * height / width;
+            double c = origin.LengthSquared - 1.0;
+            for (int py = 0; py < height; py++)
+            {
+                double sy = (1.0 - 2.0 * (py + 0.5) / height) * tanY;
+                for (int px = 0; px < width; px++)
+                {
+                    double sx = (2.0 * (px + 0.5) / width - 1.0) * tanX;
+                    Vector3D ray = forward + right * sx + up * sy;
+                    double a = ray.LengthSquared;
+                    double b = 2.0 * Vector3D.DotProduct(origin, ray);
+                    double discriminant = b * b - 4.0 * a * c;
+                    int index = py * width + px;
+                    if (discriminant < 0.0)
+                    {
+                        _softwareFrame[index] = 0;
+                        continue;
+                    }
+                    Vector3D normal = origin + ray * ((-b - Math.Sqrt(discriminant)) / (2.0 * a));
+                    normal.Normalize();
+                    Vector3D light = AmbientLight;
+                    foreach ((Vector3D direction, Vector3D color) in DirectionalLights)
+                        light += color * Math.Max(0.0, Vector3D.DotProduct(normal, direction));
+                    SampleFace(normal, out byte blue, out byte green, out byte red);
+                    _softwareFrame[index] = unchecked((int)0xFF000000)
+                        | Shade(red, light.X) << 16
+                        | Shade(green, light.Y) << 8
+                        | Shade(blue, light.Z);
+                }
+            }
+            _softwareBitmap.WritePixels(new Int32Rect(0, 0, width, height), _softwareFrame, width * 4, 0);
+        }
+
+        private void SampleFace(Vector3D normal, out byte blue, out byte green, out byte red)
+        {
+            int face = 0;
+            double major = double.MinValue;
+            for (int i = 0; i < FaceAxes.Length; i++)
+            {
+                double dot = Vector3D.DotProduct(normal, FaceAxes[i].Major);
+                if (dot > major)
+                {
+                    major = dot;
+                    face = i;
+                }
+            }
+            byte[]? pixels = _softwareFaces[face];
+            if (pixels == null)
+            {
+                blue = PlaceholderColor.B;
+                green = PlaceholderColor.G;
+                red = PlaceholderColor.R;
+                return;
+            }
+            double s = Vector3D.DotProduct(normal, FaceAxes[face].S) / major;
+            double t = Vector3D.DotProduct(normal, FaceAxes[face].T) / major;
+            int width = _softwareFaceWidths[face];
+            int height = _softwareFaceHeights[face];
+            int x = Math.Clamp((int)((s + 1.0) * 0.5 * width), 0, width - 1);
+            int y = Math.Clamp((int)((1.0 - t) * 0.5 * height), 0, height - 1);
+            int offset = (y * width + x) * 4;
+            blue = pixels[offset];
+            green = pixels[offset + 1];
+            red = pixels[offset + 2];
+        }
+
+        private static int Shade(byte channel, double light) => Math.Min(255, (int)(channel * light));
 
         private void ResetView()
         {

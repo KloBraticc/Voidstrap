@@ -26,6 +26,7 @@
       </ModelVisual3D>
       <ModelVisual3D x:Name="BallVisual" />
     </Viewport3D>
+    <Image x:Name="SoftwareView" Stretch="Fill" IsHitTestVisible="False" Visibility="Collapsed" />
     <TextBlock
         x:Name="StatusText"
         Margin="12,0,12,10"
