@@ -24,7 +24,7 @@ public partial class ActivityWatcher : IDisposable
 
     private const string SdkGameMessageEntry = "[FLog::Output] [BloxstrapRPC]";
 
-    private const int MaxRPCMessagesPerSecond = 10;
+    private const int MaxRPCMessagesPerSecond = 60;
 
     private const string GameJoiningEntry = "[FLog::Output] ! Joining game";
 
@@ -1541,7 +1541,7 @@ public partial class ActivityWatcher : IDisposable
                     }
                     Data.RPCLaunchData = text;
                 }
-                else if (message3.Command != "SetRichPresence" || message3.Data.ValueKind != JsonValueKind.Object)
+                else if (message3.Command == "SetRichPresence" && message3.Data.ValueKind != JsonValueKind.Object)
                 {
                     return;
                 }
