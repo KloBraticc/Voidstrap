@@ -32,7 +32,7 @@ internal static class DiscordInvites
         return secret.Length <= MaxSecretLength && TryParseSecret(secret, out _) ? secret : null;
     }
 
-    internal static void Apply(DiscordRPC.RichPresence presence, ActivityData? data, UniverseDetails? universe)
+    internal static void Apply(DiscordRPC.RichPresence presence, ActivityData? data, UniverseDetails? universe, int playing = 0, int serverMax = 0)
     {
         string? secret = Enabled ? BuildSecret(data) : null;
         if (secret == null || data == null)
@@ -41,12 +41,12 @@ internal static class DiscordInvites
             presence.Secrets = null;
             return;
         }
-        int max = universe?.Data?.MaxPlayers ?? 0;
+        int max = Math.Max(serverMax > 0 ? serverMax : universe?.Data?.MaxPlayers ?? 0, 2);
         presence.Party = new Party
         {
             ID = PartyId(data),
-            Size = 1,
-            Max = Math.Max(max, 2),
+            Size = Math.Clamp(playing, 1, max),
+            Max = max,
             Privacy = Party.PrivacySetting.Private,
         };
         presence.Secrets = new Secrets { JoinSecret = secret };

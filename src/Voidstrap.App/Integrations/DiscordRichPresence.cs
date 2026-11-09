@@ -111,6 +111,10 @@ public partial class DiscordRichPresence : IDisposable
 
     private Timer? _refreshTimer;
 
+    private int _partyPlaying;
+
+    private int _partyMax;
+
     private readonly EventHandler _onGameJoinHandler;
 
     private readonly EventHandler _onGameLeaveHandler;
@@ -268,7 +272,7 @@ public partial class DiscordRichPresence : IDisposable
         _activityWatcher.OnGameLeave += _onGameLeaveHandler;
         _activityWatcher.OnRPCMessage += _onRpcMessageHandler;
         EnsureConnected();
-        _refreshTimer = new Timer(OnRefreshTimer, null, TimeSpan.FromMinutes(5L), TimeSpan.FromMinutes(5L));
+        _refreshTimer = new Timer(OnRefreshTimer, null, TimeSpan.FromMinutes(2L), TimeSpan.FromMinutes(2L));
         _studioWatchTimer = new Timer(OnStudioWatch, null, TimeSpan.FromSeconds(4L), TimeSpan.FromSeconds(4L));
     }
 
@@ -409,6 +413,28 @@ public partial class DiscordRichPresence : IDisposable
         DiscordIpc.Close(client);
     }
 
+    private async Task RefreshPartyCountAsync()
+    {
+        const string LOG_IDENT = "DiscordRichPresence::RefreshPartyCountAsync";
+
+        try
+        {
+            Task<(int Current, int Max)> count = _activityWatcher.GetServerPlayerCountAsync();
+            if (await Task.WhenAny(count, Task.Delay(TimeSpan.FromSeconds(3), _lifetimeToken)).ConfigureAwait(false) != count)
+                return;
+            (int current, int max) = await count.ConfigureAwait(false);
+            if (current > 0)
+                _partyPlaying = current;
+            if (max > 0)
+                _partyMax = max;
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, ex.Message);
+        }
+    }
+
     private void OnRefreshTimer(object? state)
     {
         try
@@ -466,7 +492,7 @@ public partial class DiscordRichPresence : IDisposable
         if (message.Command == "SetLaunchData")
         {
             _currentPresence.Buttons = GetButtons();
-            DiscordInvites.Apply(_currentPresence, _activityWatcher.Data, _activityWatcher.Data?.UniverseDetails);
+            DiscordInvites.Apply(_currentPresence, _activityWatcher.Data, _activityWatcher.Data?.UniverseDetails, _partyPlaying, _partyMax);
             return true;
         }
         if (
@@ -928,6 +954,7 @@ public partial class DiscordRichPresence : IDisposable
             (smallImage, smallText) = (knownSmallKey, knownSmallText ?? "Voidstrap");
         else if (showAccount)
             (smallImage, smallText) = (App.RpcLoadingImageUrl, string.Empty);
+        await RefreshPartyCountAsync().ConfigureAwait(false);
         DiscordRPC.RichPresence gamePresence;
         OriginalSnapshot original;
         lock (_activityGate)
@@ -951,7 +978,7 @@ public partial class DiscordRichPresence : IDisposable
                     SmallImageText = smallText ?? string.Empty,
                 },
             };
-            DiscordInvites.Apply(_currentPresence, activity, universe);
+            DiscordInvites.Apply(_currentPresence, activity, universe, _partyPlaying, _partyMax);
             _originalSnapshot = new OriginalSnapshot
             {
                 Details = detailText,
