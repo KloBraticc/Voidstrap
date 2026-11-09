@@ -9719,4 +9719,88 @@ Mpilalao: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Araho ny Voidstrap, mahazoa fanampiana ary tohano ny tetikasa.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>NAMANA</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>NAMANA</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Namana ({0} an-tserasera)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>fangatahana</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>hiresaka</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Mitadiava namana</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Ampio namana amin'ny solon'anarana</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>hametraka</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Nalefa tany amin'i {0} ny fangatahana namana</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Tsy nisy mpampiasa antsoina hoe {0} hita</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>-tserasera</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Milalao {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Ao amin'ny Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Hita farany {0} lasa izay</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>ivelan'ny aterineto</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Nalefa {0} lasa izay</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>anaram-bositra</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Anaram-bositra ihany no hitanao</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Tsy namana</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Esory {0} amin'ny namanao?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>MANAIKY</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>fitontonganan'ny</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Mandà daholo</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Tsy manana fangatahana namana ianao</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Tsy misy namana aseho</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Midira ao amin'ny Roblox ao amin'ny Voidstrap raha te hahita ny namanao</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox tsy namaly, andramo indray afaka fotoana fohy</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>anjara</value>
+  </data>
 </root>

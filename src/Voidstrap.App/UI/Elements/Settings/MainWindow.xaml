@@ -393,6 +393,16 @@
               <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M4 11.5a7.5 7.5 0 1 0 15 0a7.5 7.5 0 1 0 -15 0z M21 21L16.8 16.8" /></Canvas></Viewbox>
             </Button>
           </Grid>
+          <Grid Margin="0,0,4,0">
+            <Button x:Name="FriendsButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Friends_Tooltip}" Click="FriendsButton_Click">
+              <Grid Width="28" Height="28" ClipToBounds="False">
+                <Viewbox Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M16 21v-2a4 4 0 0 0 -4 -4H6a4 4 0 0 0 -4 4v2 M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M22 21v-2a4 4 0 0 0 -3 -3.87 M16 3.13a4 4 0 0 1 0 7.75" /></Canvas></Viewbox>
+                <Border x:Name="FriendsBadge" MinWidth="16" Height="16" Padding="3,0" CornerRadius="8" Background="#FFFF4D4F" BorderBrush="#FF0E0E0E" BorderThickness="1.5" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-1,-4,0" Panel.ZIndex="2" Visibility="Collapsed" appUi:LinuxTextGuard.PreserveCompactLayout="True">
+                  <TextBlock x:Name="FriendsBadgeText" Text="0" Foreground="White" FontSize="9" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+              </Grid>
+            </Button>
+          </Grid>
           <Grid Margin="0,0,12,0">
             <Button x:Name="NotificationsButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Notifications_Title}" Click="NotificationsButton_Click">
               <Grid Width="28" Height="28" ClipToBounds="False">

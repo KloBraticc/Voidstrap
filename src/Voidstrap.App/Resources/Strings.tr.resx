@@ -10029,4 +10029,88 @@ Oyuncular: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Voidstrap’i takip edin, yardım alın ve projeyi destekleyin.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Arkadaşlar</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Arkadaşlar</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Arkadaşlar ({0} çevrimiçi)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>İstekler</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Sohbet</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Arkadaşları ara</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Kullanıcı adına göre arkadaş ekle</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Eklemek</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Arkadaşlık isteği {0} adresine gönderildi</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} adında bir kullanıcı bulunamadı</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Çevrimiçi</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>{0} oynuyorum</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio yılında</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>En son {0} önce görüldü</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Çevrimdışı</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} önce gönderildi</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Takma ad</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Yalnızca sizin görebileceğiniz takma ad</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Arkadaşlıktan çıkar</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>{0} arkadaşlarınızdan kaldırılsın mı?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Kabul etmek</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Reddetmek</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Tümünü reddet</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Hiç arkadaşlık isteğin yok</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Gösterilecek arkadaş yok</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Arkadaşlarınızı görmek için Voidstrap'de Roblox hesabında oturum açın</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox yanıt vermedi, biraz sonra tekrar deneyin</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Katılmak</value>
+  </data>
 </root>

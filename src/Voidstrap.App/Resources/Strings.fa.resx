@@ -10033,4 +10033,88 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Voidstrap را دنبال کنید، کمک بگیرید و از پروژه حمایت کنید.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>دوستان</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>دوستان</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>دوستان ({0} آنلاین)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>درخواست ها</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>چت کنید</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>جستجوی دوستان</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>یک دوست با نام کاربری اضافه کنید</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>اضافه کنید</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>درخواست دوستی به {0} ارسال شد</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>کاربری به نام {0} یافت نشد</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>آنلاین</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>در حال پخش {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>در Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>آخرین حضور {0} پیش</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>آفلاین</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} پیش ارسال شد</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>نام مستعار</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>نام مستعار را فقط شما می توانید ببینید</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>بی دوست</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>{0} را از دوستان خود حذف کنید؟</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>قبول کنید</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>رد کردن</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>همه را رد کنید</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>شما هیچ درخواست دوستی ندارید</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>هیچ دوستی برای نشان دادن وجود ندارد</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>برای دیدن دوستان خود به Roblox در Voidstrap وارد شوید</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox پاسخ نداد، یک لحظه دیگر دوباره امتحان کنید</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>بپیوندید</value>
+  </data>
 </root>

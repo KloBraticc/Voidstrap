@@ -9719,4 +9719,88 @@ Uptime: {1}
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Bi Voidstrap, sami taimako kuma ka tallafa wa aikin.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Abokai</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Abokai</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Abokai ({0} kan layi)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Bukatu</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Taɗi</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Bincika abokai</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Ƙara aboki da sunan mai amfani</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Ƙara</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>An aika buƙatar aboki zuwa {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ba a sami mai amfani mai suna {0} ba</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Kan layi</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Ana wasa {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>A cikin Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>An gani na ƙarshe {0} da suka wuce</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>An aika {0} da suka wuce</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Laƙabi</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Sunan laƙabi kawai zaka iya gani</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Cire {0} daga abokanka?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Karba</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Karya</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Rage duka</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Ba ku da buƙatun aboki</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Babu abokai da za a nuna</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Shiga zuwa Roblox cikin Voidstrap don ganin abokanka</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox bai amsa ba, sake gwadawa nan da wani lokaci</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Shiga</value>
+  </data>
 </root>

@@ -9718,4 +9718,88 @@ Mängijad: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Jälgi Voidstrapi, saa abi ja toeta projekti.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Sõbrad</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Sõbrad</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Sõbrad ({0} võrgus)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Taotlused</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Vestlus</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Otsige sõpru</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Lisage sõber kasutajanime järgi</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Lisa</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Sõbrakutse saadeti aadressile {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ühtegi kasutajat nimega {0} ei leitud</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Internetis</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Mängib {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Aastal Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Viimati nähtud {0} tagasi</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Võrguühenduseta</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Saadetud {0} tagasi</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Hüüdnimi</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Hüüdnime näete ainult teie</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Sõbrata</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Kas eemaldada {0} oma sõprade hulgast?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Nõustu</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Keeldumine</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Keeldu kõigest</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Teil pole sõbrakutseid</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Pole sõpru, keda näidata</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Sõprade nägemiseks logige sisse teenusesse Roblox Voidstrap</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ei vastanud, proovige hetke pärast uuesti</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Liitu</value>
+  </data>
 </root>

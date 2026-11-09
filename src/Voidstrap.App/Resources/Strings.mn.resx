@@ -9719,4 +9719,88 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Voidstrap-г дагаж, тусламж аваад төслийг дэмжээрэй.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Найзууд</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Найзууд</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Найзууд ({0} онлайн)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Хүсэлтүүд</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Чатлах</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Найзуудаа хайх</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Хэрэглэгчийн нэрээр найз нэмнэ үү</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Нэмэх</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Найзын хүсэлтийг {0} руу илгээсэн</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} нэртэй хэрэглэгч олдсонгүй</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Тоглож байна {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio-д</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Хамгийн сүүлд {0} өмнө үзсэн</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Офлайн</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} өмнө илгээсэн</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Хоч</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Зөвхөн та л харж болно хоч</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Найзыг нь хас</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>{0}-г найзуудаасаа хасах уу?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Зөвшөөрөх</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Татгалзах</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Бүгдээс татгалз</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Танд найзлах хүсэлт байхгүй байна</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Үзүүлэх найз байхгүй</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Найзуудтайгаа уулзахын тулд Roblox Voidstrap руу нэвтэрнэ үү</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox хариу өгсөнгүй, хэсэг хугацааны дараа дахин оролдоно уу</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Нэгдэх</value>
+  </data>
 </root>

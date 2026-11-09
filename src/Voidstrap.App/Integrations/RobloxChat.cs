@@ -374,7 +374,7 @@ public static class RobloxChat
         return urls;
     }
 
-    private static async Task ResolveUsersAsync(IEnumerable<long> userIds, CancellationToken token)
+    internal static async Task ResolveUsersAsync(IEnumerable<long> userIds, CancellationToken token)
     {
         List<long> missing;
         lock (UserLock)
@@ -407,7 +407,7 @@ public static class RobloxChat
         }
     }
 
-    private static void RememberUser(RobloxChatUser user)
+    internal static void RememberUser(RobloxChatUser user)
     {
         if (user.Id <= 0 || user.Name.Length == 0 && user.DisplayName.Length == 0)
             return;
@@ -510,7 +510,7 @@ public static class RobloxChat
         };
     }
 
-    private static async Task<(RobloxChatStatus Status, JsonDocument? Document)> SendAsync(
+    internal static async Task<(RobloxChatStatus Status, JsonDocument? Document)> SendAsync(
         HttpMethod method,
         string url,
         string? body,
@@ -585,7 +585,7 @@ public static class RobloxChat
         return false;
     }
 
-    private static bool TryGetArray(JsonElement element, out JsonElement value, params string[] names)
+    internal static bool TryGetArray(JsonElement element, out JsonElement value, params string[] names)
     {
         if (element.ValueKind == JsonValueKind.Array)
         {
@@ -646,7 +646,7 @@ public static class RobloxChat
         return cursor.Length > 0 ? cursor : null;
     }
 
-    private static string ReadString(JsonElement element, params string[] names)
+    internal static string ReadString(JsonElement element, params string[] names)
     {
         if (!TryGetProperty(element, out JsonElement value, names))
             return string.Empty;
@@ -658,7 +658,7 @@ public static class RobloxChat
         };
     }
 
-    private static long ReadLong(JsonElement element, params string[] names)
+    internal static long ReadLong(JsonElement element, params string[] names)
     {
         if (!TryGetProperty(element, out JsonElement value, names))
             return 0;
@@ -671,7 +671,7 @@ public static class RobloxChat
             : 0;
     }
 
-    private static DateTimeOffset? ReadTime(JsonElement element, params string[] names)
+    internal static DateTimeOffset? ReadTime(JsonElement element, params string[] names)
     {
         if (!TryGetProperty(element, out JsonElement value, names))
             return null;

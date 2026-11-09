@@ -9718,4 +9718,88 @@ Chwaraewyr: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Dilynwch Voidstrap, cewch help a chefnogwch y prosiect.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Ffrindiau</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Ffrindiau</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Ffrindiau ({0} ar-lein)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Ceisiadau</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Sgwrsio</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Chwiliwch am ffrindiau</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Ychwanegu ffrind yn ôl enw defnyddiwr</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Ychwanegu</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Cais ffrind wedi'i anfon at {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ni chanfuwyd defnyddiwr o'r enw {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Ar-lein</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Chwarae {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Mewn Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Gwelwyd ddiwethaf {0} yn ôl</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>All-lein</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Anfonwyd {0} yn ôl</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Llysenw</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Llysenw yn unig y gallwch ei weld</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Tynnu {0} oddi wrth eich ffrindiau?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Derbyn</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Dirywiad</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Gwrthod y cyfan</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Nid oes gennych unrhyw geisiadau ffrind</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Dim ffrindiau i ddangos</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Mewngofnodwch i Roblox yn Voidstrap i weld eich ffrindiau</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Ni wnaeth Roblox ymateb, ceisiwch eto mewn eiliad</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Ymuno</value>
+  </data>
 </root>

@@ -58,6 +58,42 @@ public partial class SessionChatWindow : Window
         Closed += OnClosed;
     }
 
+    public UIElement DetachContent()
+    {
+        Loaded -= OnLoaded;
+        UIElement content = (UIElement)Content;
+        Content = null;
+        _ = PortableOverlay.RunAsync(this, () => OnLoadedAsync(this, new RoutedEventArgs()));
+        return content;
+    }
+
+    public void ReleaseDetached() => OnClosed(this, EventArgs.Empty);
+
+    public Task OpenWithAsync(long userId) =>
+        PortableOverlay.RunAsync(
+            this,
+            async () =>
+            {
+                if (_closed || userId <= 0)
+                    return;
+                try
+                {
+                    RobloxChatResult<RobloxConversation> opened = await RobloxChat.OpenDirectAsync(userId, _lifetimeToken);
+                    if (_closed)
+                        return;
+                    if (opened.Status != RobloxChatStatus.Ready || opened.Value == null)
+                    {
+                        ChatStatus.Text = Describe(opened.Status);
+                        return;
+                    }
+                    SetMode(false);
+                    await OpenConversationAsync(opened.Value);
+                    _ = LoadConversationsAsync();
+                }
+                catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
+            }
+        );
+
     private void OnLoaded(object sender, RoutedEventArgs e) => _ = PortableOverlay.RunAsync(this, () => OnLoadedAsync(sender, e));
 
     private async Task OnLoadedAsync(object sender, RoutedEventArgs e)

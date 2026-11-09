@@ -9719,4 +9719,88 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>עקבו אחרי Voidstrap, קבלו עזרה ותמכו בפרויקט.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>חברים</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>חברים</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>חברים ({0} מקוונים)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>בקשות</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>לְשׂוֹחֵחַ</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>חפש חברים</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>הוסף חבר לפי שם משתמש</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>לְהוֹסִיף</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>בקשת חברות נשלחה אל {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>לא נמצא משתמש בשם {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>באינטרנט</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>משחק {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>בעוד Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>נראה לאחרונה לפני {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>לא מקוון</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>נשלח לפני {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>כינוי</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>כינוי רק אתה יכול לראות</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>לא חבר</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>להסיר את {0} מהחברים שלך?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>לְקַבֵּל</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>יְרִידָה</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>דחה הכל</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>אין לך בקשות חברות</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>אין חברים להראות</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>היכנס ל-Roblox ב-Voidstrap כדי לראות את החברים שלך</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox לא הגיב, נסה שוב בעוד רגע</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>לְהִצְטַרֵף</value>
+  </data>
 </root>

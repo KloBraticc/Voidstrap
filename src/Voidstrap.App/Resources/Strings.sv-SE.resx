@@ -10031,4 +10031,88 @@ Spelare: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Följ Voidstrap, få hjälp och stöd projektet.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Vänner</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Vänner</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Vänner ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Förfrågningar</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chatta</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Sök vänner</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Lägg till en vän med användarnamn</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Tillägga</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Vänförfrågan skickad till {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ingen användare med namnet {0} hittades</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Spelar {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Om Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Sågs senast för {0} sedan</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Off-line</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Skickat för {0} sedan</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Smeknamn</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Smeknamn bara du kan se</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Ta bort {0} från dina vänner?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Acceptera</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Nedgång</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Avvisa alla</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Du har inga vänförfrågningar</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Inga vänner att visa</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Logga in på Roblox i Voidstrap för att se dina vänner</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox svarade inte, försök igen om ett ögonblick</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Ansluta sig till</value>
+  </data>
 </root>

@@ -9719,4 +9719,88 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Հետևեք Voidstrap-ին, ստացեք օգնություն և աջակցեք նախագծին։</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Ընկերներ</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Ընկերներ</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Ընկերներ ({0} առցանց)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>հարցումներ</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Զրուցարան</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Փնտրեք ընկերներին</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Ավելացրեք ընկեր օգտվողի անունով</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Ավելացնել</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Ընկերության հարցումն ուղարկվել է {0} հասցեին</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} անունով օգտվող չի գտնվել</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Առցանց</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Խաղում է {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio-ին</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Վերջին անգամ եղել է {0} առաջ</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Անցանց</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Ուղարկվել է {0} առաջ</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Մականուն</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Մականունը միայն դուք կարող եք տեսնել</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Անբարեկամ</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Հեռացնե՞լ {0}-ը ձեր ընկերներից:</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Ընդունել</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Անկում</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Մերժել բոլորը</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Դուք ընկերանալու հարցում չունեք</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Ցույց տալու համար ընկերներ չկան</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Մուտք գործեք Roblox Voidstrap-ում՝ ձեր ընկերներին տեսնելու համար</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox-ը չպատասխանեց, մի պահ նորից փորձեք</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Միանալ</value>
+  </data>
 </root>

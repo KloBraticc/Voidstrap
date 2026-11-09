@@ -1913,6 +1913,62 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_LearnMore => ResourceManager.GetString("Ui.Home.LearnMore", resourceCulture);
         public static string Ui_Home_LearnMore_Description => ResourceManager.GetString("Ui.Home.LearnMore.Description", resourceCulture);
+        public static string Ui_Friends_Title => ResourceManager.GetString("Ui.Friends.Title", resourceCulture);
+
+        public static string Ui_Friends_Tooltip => ResourceManager.GetString("Ui.Friends.Tooltip", resourceCulture);
+
+        public static string Ui_Friends_Header => ResourceManager.GetString("Ui.Friends.Header", resourceCulture);
+
+        public static string Ui_Friends_Requests => ResourceManager.GetString("Ui.Friends.Requests", resourceCulture);
+
+        public static string Ui_Friends_Chat => ResourceManager.GetString("Ui.Friends.Chat", resourceCulture);
+
+        public static string Ui_Friends_Search => ResourceManager.GetString("Ui.Friends.Search", resourceCulture);
+
+        public static string Ui_Friends_AddPlaceholder => ResourceManager.GetString("Ui.Friends.AddPlaceholder", resourceCulture);
+
+        public static string Ui_Friends_Add => ResourceManager.GetString("Ui.Friends.Add", resourceCulture);
+
+        public static string Ui_Friends_RequestSent => ResourceManager.GetString("Ui.Friends.RequestSent", resourceCulture);
+
+        public static string Ui_Friends_UserNotFound => ResourceManager.GetString("Ui.Friends.UserNotFound", resourceCulture);
+
+        public static string Ui_Friends_Online => ResourceManager.GetString("Ui.Friends.Online", resourceCulture);
+
+        public static string Ui_Friends_Playing => ResourceManager.GetString("Ui.Friends.Playing", resourceCulture);
+
+        public static string Ui_Friends_InStudio => ResourceManager.GetString("Ui.Friends.InStudio", resourceCulture);
+
+        public static string Ui_Friends_LastSeen => ResourceManager.GetString("Ui.Friends.LastSeen", resourceCulture);
+
+        public static string Ui_Friends_Offline => ResourceManager.GetString("Ui.Friends.Offline", resourceCulture);
+
+        public static string Ui_Friends_Sent => ResourceManager.GetString("Ui.Friends.Sent", resourceCulture);
+
+        public static string Ui_Friends_Nickname => ResourceManager.GetString("Ui.Friends.Nickname", resourceCulture);
+
+        public static string Ui_Friends_NicknamePlaceholder => ResourceManager.GetString("Ui.Friends.NicknamePlaceholder", resourceCulture);
+
+        public static string Ui_Friends_Unfriend => ResourceManager.GetString("Ui.Friends.Unfriend", resourceCulture);
+
+        public static string Ui_Friends_UnfriendConfirm => ResourceManager.GetString("Ui.Friends.UnfriendConfirm", resourceCulture);
+
+        public static string Ui_Friends_Accept => ResourceManager.GetString("Ui.Friends.Accept", resourceCulture);
+
+        public static string Ui_Friends_Decline => ResourceManager.GetString("Ui.Friends.Decline", resourceCulture);
+
+        public static string Ui_Friends_DeclineAll => ResourceManager.GetString("Ui.Friends.DeclineAll", resourceCulture);
+
+        public static string Ui_Friends_NoRequests => ResourceManager.GetString("Ui.Friends.NoRequests", resourceCulture);
+
+        public static string Ui_Friends_NoFriends => ResourceManager.GetString("Ui.Friends.NoFriends", resourceCulture);
+
+        public static string Ui_Friends_SignIn => ResourceManager.GetString("Ui.Friends.SignIn", resourceCulture);
+
+        public static string Ui_Friends_Failed => ResourceManager.GetString("Ui.Friends.Failed", resourceCulture);
+
+        public static string Ui_Friends_Join => ResourceManager.GetString("Ui.Friends.Join", resourceCulture);
+
         public static string Ui_Session_SocialLinks => ResourceManager.GetString("Ui.Session.SocialLinks", resourceCulture);
         public static string Ui_Session_HubEmpty => ResourceManager.GetString("Ui.Session.HubEmpty", resourceCulture);
         public static string Ui_Session_ServerReadout => ResourceManager.GetString("Ui.Session.ServerReadout", resourceCulture);

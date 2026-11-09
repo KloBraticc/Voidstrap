@@ -9719,4 +9719,88 @@ Leikmenn: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Fylgdu Voidstrap, fáðu aðstoð og styddu verkefnið.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Vinir</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Vinir</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Vinir ({0} á netinu)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Beiðnir</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Spjall</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Leitaðu að vinum</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Bættu vini við með notendanafni</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Bæta við</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Vinabeiðni send til {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Enginn notandi að nafni {0} fannst</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Á netinu</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Að spila {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Í Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Síðast sást fyrir {0} síðan</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Ótengdur</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Sent fyrir {0} síðan</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Gælunafn</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Gælunafn aðeins þú getur séð</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Óvinur</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Fjarlægja {0} frá vinum þínum?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Samþykkja</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Afneita</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Afþakka allt</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Þú hefur engar vinabeiðnir</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Enga vini til að sýna</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Skráðu þig inn á Roblox í Voidstrap til að sjá vini þína</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox svaraði ekki, reyndu aftur eftir augnablik</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Vertu með</value>
+  </data>
 </root>

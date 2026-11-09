@@ -9719,4 +9719,88 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Следете го Voidstrap, добијте помош и поддржете го проектот.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Пријатели</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Пријатели</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Пријатели ({0} онлајн)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Барања</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Разговор</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Барај пријатели</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Додадете пријател по корисничко име</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Додадете</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Барањето за пријателство испратено до {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Не е пронајден корисник со име {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Онлајн</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Играње {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>во Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Последен пат виден пред {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Офлајн</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Испратено пред {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Прекар</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Прекар само вие можете да го видите</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Непријател</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Да се отстрани {0} од вашите пријатели?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Прифати</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Одбивање</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Одби ги сите</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Немате барања за пријателство</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Нема пријатели за прикажување</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Пријавете се на Roblox во Voidstrap за да ги видите вашите пријатели</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox не одговори, обидете се повторно за момент</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Приклучи се</value>
+  </data>
 </root>

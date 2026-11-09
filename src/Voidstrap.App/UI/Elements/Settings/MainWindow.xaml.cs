@@ -388,6 +388,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["BootstrapperPage"] = ("Bootstrapper", "Customizing the launch window"),
         ["LibraryPage"] = ("Library", "Browsing the game library"),
         ["PrivateServersPage"] = ("Private Servers", "Managing private servers"),
+        ["FriendsPage"] = ("Friends", "Chatting with friends"),
         ["AccountsPage"] = ("Account Manager", "Managing Roblox accounts"),
         ["SoberPage"] = ("Sober", "Setting up Roblox on Linux"),
         ["RosemaryPage"] = ("Rosemary", "Setting up Roblox on Linux"),
@@ -1021,6 +1022,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             || ReferenceEquals(page, _accountsPage)
             || ReferenceEquals(page, _robloxNewsPage)
             || ReferenceEquals(page, _voidstrapModsPage)
+            || ReferenceEquals(page, _friendsPage)
         )
         {
             return true;
@@ -1164,7 +1166,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BreadcrumbPanel.Visibility = Visibility.Visible;
         }
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
-        bool hidesSidebar = content is VoidstrapModsPage or DownloadsPage or ExtensionPage;
+        bool hidesSidebar = content is VoidstrapModsPage or DownloadsPage or ExtensionPage or FriendsPage;
         SetRootNavigationShown(!hasOwnSidebar && !hidesSidebar);
         SidebarToggle.Visibility = hidesSidebar ? Visibility.Collapsed : Visibility.Visible;
         SynchronizeSidebarSelection(content);
@@ -2935,6 +2937,40 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private DownloadsPage? _managerPage;
 
     private VoidstrapModsPage? _voidstrapModsPage;
+
+    private FriendsPage? _friendsPage;
+
+    private void FriendsButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_friendsPage == null)
+        {
+            _friendsPage = new FriendsPage();
+            _friendsPage.RequestCountChanged += FriendsPage_RequestCountChanged;
+        }
+        if (!ReferenceEquals(RootFrame.Content, _friendsPage))
+            RootNavigation.NavigateExternal(_friendsPage);
+    }
+
+    private void FriendsPage_RequestCountChanged(object? sender, int count) => SetFriendsBadge(count);
+
+    private void SetFriendsBadge(int count)
+    {
+        FriendsBadgeText.Text = count > 99 ? "99+" : count.ToString(CultureInfo.CurrentCulture);
+        FriendsBadge.Visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private async Task RefreshFriendsBadgeAsync()
+    {
+        const string LOG_IDENT = "MainWindow::RefreshFriendsBadgeAsync";
+        try
+        {
+            SetFriendsBadge(await RobloxFriends.GetRequestCountAsync(CancellationToken.None));
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+        }
+    }
 
     private void TopNavVoidstrapMods_Click(object sender, RoutedEventArgs e)
     {
@@ -5802,6 +5838,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             long loadedStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             InitializeNavigation();
+            _ = RefreshFriendsBadgeAsync();
             Voidstrap.Integrations.Plugins.PluginTheme.ReapplyActiveBrushes();
             Voidstrap.Integrations.Plugins.PluginWindow.ApplyPending(this);
             Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
@@ -7594,6 +7631,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WpfUiWindow_Closed(object sender, EventArgs e)
     {
+        if (_friendsPage != null)
+            _friendsPage.RequestCountChanged -= FriendsPage_RequestCountChanged;
         if (_searchSpanTimer != null)
         {
             _searchSpanTimer.Stop();

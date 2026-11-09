@@ -9719,4 +9719,88 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Voidstrap අනුගමනය කරන්න, උදව් ලබාගන්න සහ ව්‍යාපෘතියට සහාය වන්න.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>මිතුරන්</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>මිතුරන්</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>මිතුරන් ({0} මාර්ගගතව)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>ඉල්ලීම්</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>කතාබස් කරන්න</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>මිතුරන් සොයන්න</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>පරිශීලක නාමයෙන් මිතුරෙකු එක් කරන්න</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>එකතු කරන්න</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>මිතුරු ඉල්ලීම {0} වෙත යවන ලදී</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} නම් පරිශීලකයෙකු හමු නොවීය</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>ඔන්ලයින්</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>ක්‍රීඩා කිරීම {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio දී</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>අවසන් වරට දුටුවේ {0}_ කට පෙරය</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>නොබැඳි</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} පෙර යවන ලදී</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>අන්වර්ථ නාමය</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>ඔබට දැකිය හැක්කේ අන්වර්ථ නාමය පමණි</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>මිතුරෙකු ඉවත් කරන්න</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>ඔබේ මිතුරන්ගෙන් {0} ඉවත් කරන්නද?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>පිළිගන්න</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>ප්රතික්ෂේප කරන්න</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>සියල්ල ප්‍රතික්ෂේප කරන්න</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>ඔබට මිතුරු ඉල්ලීම් නොමැත</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>පෙන්වීමට මිතුරන් නැත</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>ඔබේ මිතුරන් බැලීමට Voidstrap හි Roblox වෙත පුරන්න</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ප්‍රතිචාර දැක්වූයේ නැත, මොහොතකින් නැවත උත්සාහ කරන්න</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>එක්වන්න</value>
+  </data>
 </root>

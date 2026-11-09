@@ -9719,4 +9719,88 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Voidstrap फलो गर्नुहोस्, मद्दत पाउनुहोस् र परियोजनालाई समर्थन गर्नुहोस्।</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>साथीहरू</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>साथीहरू</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>साथीहरू ({0} अनलाइन)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>अनुरोधहरू</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>च्याट</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>साथीहरू खोज्नुहोस्</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>प्रयोगकर्ता नाम द्वारा एक साथी थप्नुहोस्</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>थप्नुहोस्</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>मित्र अनुरोध {0} मा पठाइयो</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} नामको कुनै प्रयोगकर्ता फेला परेन</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>अनलाइन</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>खेल्दै {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio मा</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>अन्तिम पटक {0} पहिले देखियो</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>अफलाइन</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} पहिले पठाइयो</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>उपनाम</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>उपनाम मात्र तपाईंले देख्न सक्नुहुन्छ</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>अनफ्रेन्ड गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>आफ्ना साथीहरूबाट {0} हटाउने हो?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>स्वीकार गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>अस्वीकार गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>सबै अस्वीकार गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>तपाईलाई कुनै मित्र अनुरोध छैन</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>देखाउने साथीहरू छैनन्</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>आफ्ना साथीहरूलाई हेर्नको लागि Roblox मा Voidstrap मा साइन इन गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ले प्रतिक्रिया दिएन, एक क्षणमा पुन: प्रयास गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>सामेल हुनुहोस्</value>
+  </data>
 </root>

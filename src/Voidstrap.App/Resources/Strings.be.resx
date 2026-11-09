@@ -9718,4 +9718,88 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Сачыце за Voidstrap, атрымлівайце дапамогу і падтрымлівайце праект.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Сябры</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Сябры</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Сябры ({0} онлайн)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Запыты</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Чат</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Пошук сяброў</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Дадайце сябра па імені карыстальніка</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Дадаць</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Запыт у сябры адпраўлены {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Карыстальнік з імем {0} не знойдзены</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Анлайн</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Гуляе {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>У Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Апошні раз быў {0} таму</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>У аўтаномным рэжыме</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Адпраўлена {0} таму</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Мянушка</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Псеўданім бачыце толькі вы</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Выдаліць сяброўства</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Выдаліць {0} са сваіх сяброў?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Прыняць</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>адмовіцца</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Адхіліць усе</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>У вас няма запытаў у сябры</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Няма сяброў для паказу</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Увайдзіце ў Roblox у Voidstrap, каб убачыць сваіх сяброў</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox не адказаў, паўтарыце спробу праз імгненне</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Далучайцеся</value>
+  </data>
 </root>

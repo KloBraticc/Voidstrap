@@ -9718,4 +9718,88 @@ Players: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Follow Voidstrap, get help and support the project.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Friends</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Friends</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Friends ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Requests</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Search friends</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Add a friend by username</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Friend request sent to {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>No user named {0} was found</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Playing {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>In Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Last seen {0} ago</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Sent {0} ago</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Nickname</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Nickname only you can see</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Remove {0} from your friends?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Decline</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Decline all</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>You have no friend requests</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>No friends to show</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Sign in to Roblox in Voidstrap to see your friends</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox did not respond, try again in a moment</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Join</value>
+  </data>
 </root>

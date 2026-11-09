@@ -9719,4 +9719,88 @@ Xogadores: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Segue a Voidstrap, consegue axuda e apoia o proxecto.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Amigos</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Amigos</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Amigos ({0} en liña)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Solicitudes</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Busca amigos</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Engade un amigo polo nome de usuario</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Engadir</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Solicitude de amizade enviada a {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Non se atopou ningún usuario chamado {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>En liña</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Xogando {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>En Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Visto por última vez hai {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Sen conexión</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Enviado hai {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Alcume</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Só o alcume podes ver</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Non amigo</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Quitar {0} dos teus amigos?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Declinar</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Rexeite todo</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Non tes solicitudes de amizade</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Non hai amigos para mostrar</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Inicia sesión en Roblox en Voidstrap para ver os teus amigos</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox non respondeu, téntao de novo nun momento</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Únete</value>
+  </data>
 </root>

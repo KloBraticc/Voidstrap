@@ -9718,4 +9718,88 @@ O'yinchilar: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Voidstrap’ni kuzating, yordam oling va loyihani qoʻllab-quvvatlang.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Do'stlar</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Do'stlar</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Do'stlar ({0} onlayn)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>So'rovlar</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Do'stlarni qidiring</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Foydalanuvchi nomi bilan do'st qo'shing</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Qo'shish</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Doʻstlik soʻrovi {0} raqamiga yuborildi</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} ismli foydalanuvchi topilmadi</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Onlayn</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>{0} ijro etilmoqda</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio ichida</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Oxirgi marta {0} oldin koʻrilgan</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Oflayn</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} oldin yuborilgan</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Taxallus</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Taxallusni faqat siz ko'rishingiz mumkin</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Doʻstni bekor qilish</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>{0} do'stlaringizdan olib tashlansinmi?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Qabul qiling</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Rad etish</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Hammasini rad eting</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Sizda doʻstlik soʻrovlari yoʻq</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Ko'rsatadigan do'stlar yo'q</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Doʻstlaringizni koʻrish uchun Roblox in Voidstrap hisobiga kiring</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox javob bermadi, birozdan keyin qayta urinib ko'ring</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Qo'shilish</value>
+  </data>
 </root>

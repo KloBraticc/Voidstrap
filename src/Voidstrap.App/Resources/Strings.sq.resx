@@ -9719,4 +9719,88 @@ Lojtarët: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Ndiq Voidstrap, merr ndihmë dhe mbështet projektin.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Miqtë</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Miqtë</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Miqtë ({0} në linjë)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Kërkesat</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Bisedë</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Kërkoni miq</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Shto një mik me emrin e përdoruesit</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Shtoni</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Kërkesa për miqësi u dërgua te {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Nuk u gjet asnjë përdorues me emrin {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Duke luajtur {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>në Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Është parë për herë të fundit {0} më parë</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Jashtë linje</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Dërguar {0} më parë</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Pseudonimi</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Pseudonimin vetëm ju mund ta shihni</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unmik</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Të hiqet {0} nga miqtë tuaj?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Pranoje</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Rënia</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Refuzoni të gjitha</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Nuk keni kërkesa për miqësi</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Nuk ka miq për të treguar</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Hyni në Roblox në Voidstrap për të parë miqtë tuaj</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox nuk u përgjigj, provo sërish pas një momenti</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Bashkohu</value>
+  </data>
 </root>

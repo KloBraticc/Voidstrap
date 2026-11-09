@@ -9718,4 +9718,88 @@ Spillere: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Følg Voidstrap, få hjælp og støt projektet.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Venner</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Venner</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Venner ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Forespørgsler</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Snak</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Søg venner</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Tilføj en ven ved brugernavn</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Tilføje</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Venneanmodning sendt til {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ingen bruger ved navn {0} blev fundet</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Spiller {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Om Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Sidst set for {0} siden</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Sendt for {0} siden</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Kaldenavn</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Kun kaldenavn kan du se</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Uven</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Vil du fjerne {0} fra dine venner?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Acceptere</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Nedgang</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Afvis alle</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Du har ingen venneanmodninger</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Ingen venner at vise</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Log ind på Roblox i Voidstrap for at se dine venner</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox svarede ikke, prøv igen om et øjeblik</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Deltag</value>
+  </data>
 </root>

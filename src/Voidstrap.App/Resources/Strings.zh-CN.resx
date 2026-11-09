@@ -10055,4 +10055,88 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>关注 Voidstrap，获取帮助并支持本项目。</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>朋友们</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>朋友们</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>朋友（{0} 在线）</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>要求</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>聊天</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>搜索好友</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>通过用户名添加好友</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>好友请求已发送至 {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>未找到名为 {0} 的用户</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>在线的</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>玩{0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>在Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>上次见到 {0} 前</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>离线</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} 前发送</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>昵称</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>昵称只有你能看到</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>解除好友关系</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>从您的朋友中删除 {0} ？</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>接受</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>衰退</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>全部拒绝</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>您没有好友请求</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>没有好友可显示</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>登录 Voidstrap 中的 Roblox 查看您的朋友</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox 没有回应，请稍后再试</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>加入</value>
+  </data>
 </root>

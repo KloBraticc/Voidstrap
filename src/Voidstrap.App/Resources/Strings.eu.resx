@@ -9718,4 +9718,88 @@ Jokalariak: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Jarraitu Voidstrap, lortu laguntza eta babestu proiektua.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Lagunak</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Lagunak</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Lagunak ({0} konektatuta)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Eskaerak</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Txateatu</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Bilatu lagunak</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Gehitu lagun bat erabiltzaile-izenaren arabera</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Gehitu</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Lagun eskaera {0} helbidera bidali da</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ez da aurkitu {0} izeneko erabiltzailerik</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Sarean</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>{0} jolasten</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studion</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Duela {0} ikusi zen azkenekoz</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Lineaz kanpo</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Duela {0} bidalia</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Ezizena</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Ezizena bakarrik ikus dezakezu</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Lagungabea</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>{0} zure lagunetatik kendu?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Onartu</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Gainbehera</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Guztiak baztertu</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Ez duzu lagun eskaerarik</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Ez dago lagunik erakusteko</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Hasi saioa Roblox Voidstrap-n zure lagunak ikusteko</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ez du erantzun, saiatu berriro une batean</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Sartu</value>
+  </data>
 </root>

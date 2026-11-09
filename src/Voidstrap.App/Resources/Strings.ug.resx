@@ -9718,4 +9718,88 @@ Uptime: {1}
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Voidstrap نى ئەگىشىڭ، ياردەم ئېلىڭ ۋە تۈرنى قوللاڭ.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>دوستلار</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>دوستلار</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>دوستلار ({0} توردا)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>تەلەپ</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>پاراڭ</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>دوست ئىزدەڭ</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>ئىشلەتكۈچى ئىسمى بىلەن دوست قوشۇڭ</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>قوش</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>دوست تەلىپى {0} غا ئەۋەتىلدى</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} ئىسىملىك ئىشلەتكۈچى تېپىلمىدى</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>توردا</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>ئويناش {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>ئەڭ ئاخىرقى قېتىم {0} بۇرۇن</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>تورسىز</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>ئەۋەتىلگەن {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>لەقەم</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>لەقەم پەقەت سىز كۆرەلەيسىز</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>دوست ئەمەس</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>دوستلىرىڭىزدىن {0} ئېلىۋېتىڭ؟</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>قوبۇل قىلىڭ</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>رەت قىلىش</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>ھەممىنى رەت قىلىڭ</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>دوستىڭىزنىڭ تەلىپى يوق</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>كۆرسىتىدىغان دوست يوق</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>دوستلىرىڭىزنى كۆرۈش ئۈچۈن Voidstrap غا Roblox غا كىرىڭ</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox جاۋاب بەرمىدى ، بىر ئازدىن كېيىن قايتا سىناڭ</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>قوشۇلۇڭ</value>
+  </data>
 </root>

@@ -10032,4 +10032,88 @@ Hráči: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Sledujte Voidstrap, získejte pomoc a podpořte projekt.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Přátelé</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Přátelé</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Přátelé ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Žádosti</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Povídání</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Hledat přátele</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Přidat přítele podle uživatelského jména</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Přidat</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Žádost o přátelství byla odeslána na adresu {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Nebyl nalezen žádný uživatel s názvem {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Přehrává se {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>V Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Naposledy online před {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Odesláno před {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Přezdívka</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Přezdívku vidíte pouze vy</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Nepřítel</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Odebrat uživatele {0} ze svých přátel?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Přijmout</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Pokles</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Odmítnout vše</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Nemáte žádné žádosti o přátelství</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Žádní přátelé k zobrazení</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Chcete-li vidět své přátele, přihlaste se do Roblox v Voidstrap</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox neodpověděl, zkuste to znovu za chvíli</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Připojte se</value>
+  </data>
 </root>

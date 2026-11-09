@@ -9719,4 +9719,88 @@ Spēlētāji: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Seko Voidstrap, saņem palīdzību un atbalsti projektu.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Draugi</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Draugi</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Draugi ({0} tiešsaistē)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Pieprasījumi</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Tērzēšana</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Meklēt draugus</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Pievienojiet draugu pēc lietotājvārda</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Pievienot</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Draudzības pieprasījums nosūtīts uz {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Netika atrasts neviens lietotājs ar nosaukumu {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Tiešsaistē</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Spēlē {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Pēdējoreiz redzēts pirms {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Bezsaistē</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Nosūtīts pirms {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Segvārds</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Segvārdu redzat tikai jūs</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Nedraudzēties</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Vai noņemt lietotāju {0} no draugiem?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Pieņemt</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Noraidīt</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Noraidīt visu</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Jums nav draugu lūgumu</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Nav draugu, ko parādīt</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Pierakstieties Roblox pakalpojumā Voidstrap, lai redzētu savus draugus</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox neatbildēja, pēc brīža mēģiniet vēlreiz</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Pievienojieties</value>
+  </data>
 </root>

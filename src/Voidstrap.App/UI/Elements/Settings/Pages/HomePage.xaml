@@ -435,7 +435,7 @@
 
         <Grid Grid.Row="0" Margin="0,4,28,6">
             <StackPanel x:Name="LearnMoreGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
-            <ui:Button VerticalAlignment="Center" Appearance="Secondary" Foreground="#6AABF1" Content="{resources:Loc Ui_Home_LearnMore}" Click="LearnMore_Click"/>
+            <ui:Button VerticalAlignment="Center" Appearance="Secondary" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Content="{resources:Loc Ui_Home_LearnMore}" Click="LearnMore_Click"/>
             <ui:Button x:Name="LearnMoreHideButton" Margin="6,0,0,0" Style="{StaticResource HomeSectionToolButtonStyle}" Icon="EyeOff24" ToolTip="{resources:Loc Ui_Home_HideSectionTooltip}" Visibility="Collapsed" Click="LearnMoreHide_Click"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">

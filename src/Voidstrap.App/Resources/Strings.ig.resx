@@ -9719,4 +9719,88 @@ Ndị egwuregwu: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Soro Voidstrap, nweta enyemaka ma kwado ọrụ a.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Enyi</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Enyi</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Ndị enyi ({0} na ntanetị)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Arịrịọ</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Kpaa nkata</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Chọọ ndị enyi</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Tinye enyi site na aha njirimara</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Tinye</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Arịrịọ enyi zitere {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ọ nweghị onye ọrụ aha ya bụ {0} ahụghị</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Na-egwu {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>N'ime Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Ahụrụ ikpeazụ {0} gara aga</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Na-anọghị n'ịntanetị</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Ezitere {0} gara aga</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Aha otutu</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Aha njirimara naanị ị nwere ike ịhụ</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>enyi enyi</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Wepu {0} na ndị enyi gị?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Nabata</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Ajụ</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Jụla ihe niile</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Ị nweghị enyi arịrịọ</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Enweghị enyi ga-egosi</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Banye na Roblox na Voidstrap ka ịhụ ndị enyi gị</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox azaghị, nwaa ọzọ n'otu ntabi anya</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Soro</value>
+  </data>
 </root>

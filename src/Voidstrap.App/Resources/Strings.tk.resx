@@ -9718,4 +9718,88 @@ Oýunçylar: {2}</value>
   <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
     <value>Voidstrap-y yzarlaň, kömek alyň we taslamany goldaň.</value>
   </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Dostlar</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Dostlar</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Dostlar ({0} onlaýn)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Islegler</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Söhbet</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Dost gözläň</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Ulanyjy ady bilen dost goşuň</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Goş</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Dost haýyş {0} iberildi</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} atly ulanyjy tapylmady</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Onlaýn</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>{0} oýnamak</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Iň soňky gezek {0} öň</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Oflayn</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} öň iberildi</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Lakam</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Lakamy diňe görüp bilersiňiz</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Dost däl</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Dostlaryňyzdan {0} aýyryň?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Kabul et</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Pese gaç</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Hemmesini ret et</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Dostuňyzyň haýyşy ýok</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Görkezjek dostlar ýok</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Dostlaryňyzy görmek üçin Voidstrap-de giriň</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox jogap bermedi, sähel salymdan gaýtadan synanyşyň</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Goşul</value>
+  </data>
 </root>
