@@ -565,6 +565,14 @@ public static class PluginHost
         }
     }
 
+    internal static string? ModRunningOnThisThread()
+    {
+        List<LoadedPlugin> snapshot;
+        lock (Gate)
+            snapshot = Loaded.ToList();
+        return snapshot.FirstOrDefault(static plugin => plugin.IsRunningOnThisThread)?.Name;
+    }
+
     public static bool HasHook(string eventName)
     {
         List<LoadedPlugin> snapshot;
@@ -991,6 +999,8 @@ public static class PluginHost
 			""";
 
         private readonly object _gate = new();
+
+        public bool IsRunningOnThisThread => Monitor.IsEntered(_gate);
 
         private readonly Engine _engine;
 

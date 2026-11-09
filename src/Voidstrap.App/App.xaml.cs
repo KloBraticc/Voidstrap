@@ -460,6 +460,8 @@ public partial class App : Application
             Logger.WriteException("App::GlobalExceptionHandler", ex);
             return;
         }
+        if (Voidstrap.Integrations.Plugins.ModCrashGuard.TryContain(ex))
+            return;
         Logger.WriteLine("App::GlobalExceptionHandler", "An exception occurred");
         if (IsFatalException(ex))
         {
