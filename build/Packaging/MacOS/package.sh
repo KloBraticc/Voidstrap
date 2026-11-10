@@ -37,18 +37,18 @@ if ! mkdir "$LOCK" 2>/dev/null; then
   echo "Another package operation is already running"
   exit 1
 fi
+STAGE=""
 MOUNTPOINT=""
-MOUNT_DEVICE=""
 MOUNTED=0
 
 cleanup() {
-  if [ "$MOUNTED" -eq 1 ]; then
-    if hdiutil detach "${MOUNTPOINT:-$MOUNT_DEVICE}" >/dev/null 2>&1; then
+  if [ "$MOUNTED" -eq 1 ] && [ -n "$MOUNTPOINT" ]; then
+    if hdiutil detach "$MOUNTPOINT" >/dev/null 2>&1; then
       MOUNTED=0
-    elif hdiutil detach "${MOUNTPOINT:-$MOUNT_DEVICE}" -force >/dev/null 2>&1; then
+    elif hdiutil detach "$MOUNTPOINT" -force >/dev/null 2>&1; then
       MOUNTED=0
     else
-      echo "Unable to detach the macOS disk image at ${MOUNTPOINT:-$MOUNT_DEVICE}" >&2
+      echo "Unable to detach the macOS disk image at $MOUNTPOINT" >&2
     fi
   fi
   if [ -n "$STAGE" ] && [ -e "$STAGE" ]; then
@@ -215,7 +215,7 @@ if [ -n "${MACOS_NOTARY_PROFILE:-}" ] && [ -n "${MACOS_SIGN_IDENTITY:-}" ]; then
 fi
 
 create_disk_image_macos() {
-  local volname="Voidstrap-$RID"
+  local volname
   local writable_dmg="$STAGE/Voidstrap-writable.dmg"
   local dmg_contents="$STAGE/dmg-contents"
   local attach_output
@@ -226,11 +226,12 @@ create_disk_image_macos() {
   ln -s /Applications "$dmg_contents/Applications" || return 1
   cp "$ROOT/build/Packaging/MacOS/background.tiff" "$dmg_contents/.background/background.tiff" || return 1
 
-  hdiutil create -volname "$volname" -srcfolder "$dmg_contents" -ov -format UDRW "$writable_dmg" || return 1
+  hdiutil create -volname Voidstrap -srcfolder "$dmg_contents" -ov -format UDRW "$writable_dmg" || return 1
   attach_output="$(hdiutil attach -readwrite -noverify -noautoopen "$writable_dmg")" || return 1
   MOUNTPOINT="$(printf '%s\n' "$attach_output" | awk -F '\t' '$3 ~ /^\/Volumes\// { print $3; exit }')"
   [ -z "$MOUNTPOINT" ] && return 1
   MOUNTED=1
+  volname="$(basename "$MOUNTPOINT")"
 
   rm -f "$MOUNTPOINT/.DS_Store"
 
@@ -258,7 +259,7 @@ APPLESCRIPT
 
   sync
   sleep 2
-  hdiutil detach "$MOUNTPOINT" || hdiutil detach "$MOUNTPOINT" -force
+  hdiutil detach "$MOUNTPOINT" >/dev/null 2>&1 || hdiutil detach "$MOUNTPOINT" -force >/dev/null 2>&1 || return 1
   MOUNTED=0
   MOUNTPOINT=""
 
@@ -271,7 +272,7 @@ create_disk_image() {
   if create_disk_image_macos; then
     return 0
   fi
-  echo "Stylized macOS DMG creation failed; falling back to standard layout"
+  echo "The styled disk image could not be created, using the standard layout"
   if [ "$MOUNTED" -eq 1 ]; then
     hdiutil detach "$MOUNTPOINT" -force >/dev/null 2>&1 || true
     MOUNTED=0
