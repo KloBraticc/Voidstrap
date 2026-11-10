@@ -18,6 +18,10 @@ public sealed class SpotifyEngine
 {
     private const string LOG_IDENT = "SpotifyEngine";
 
+#if !CROSSPLAT
+    private const long WebCacheBudgetBytes = 48L * 1024 * 1024;
+#endif
+
     private static readonly TimeSpan IdleLimit = TimeSpan.FromSeconds(60);
 
     private static readonly TimeSpan PrewarmLimit = TimeSpan.FromMinutes(10);
@@ -306,6 +310,9 @@ public sealed class SpotifyEngine
             CoreWebView2 core = controller.CoreWebView2;
             core.Settings.AreDevToolsEnabled = false;
             await core.AddScriptToExecuteOnDocumentCreatedAsync(Bridge);
+#if !CROSSPLAT
+            await TrimWebCacheAsync(core);
+#endif
             _ready = new TaskCompletionSource();
             core.NavigationCompleted += Core_NavigationCompleted;
             core.IsDocumentPlayingAudioChanged += Core_AudioChanged;
@@ -330,6 +337,28 @@ public sealed class SpotifyEngine
             _starting = null;
         }
     }
+
+#if !CROSSPLAT
+    private static async Task TrimWebCacheAsync(CoreWebView2 core)
+    {
+        try
+        {
+            string profile = Path.Combine(UserDataFolder, "EBWebView", "Default");
+            long bytes = await Task.Run(() =>
+                ClassicClients.GetDirectorySize(Path.Combine(profile, "Cache"))
+                + ClassicClients.GetDirectorySize(Path.Combine(profile, "Service Worker", "CacheStorage"))
+            );
+            if (bytes <= WebCacheBudgetBytes)
+                return;
+            await core.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.CacheStorage | CoreWebView2BrowsingDataKinds.DiskCache);
+            App.Logger.WriteLine(LOG_IDENT, $"Cleared {bytes / 1048576} MB of cached player files, the sign in is kept");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The player cache could not be trimmed: " + ex.GetType().Name);
+        }
+    }
+#endif
 
     private void Core_NavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e)
     {
