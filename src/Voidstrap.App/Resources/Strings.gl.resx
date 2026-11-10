@@ -9893,7 +9893,4 @@ Xogadores: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Aínda non se atoparon recensións da comunidade</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Comprobados {0} de {1} xogos</value>
-  </data>
 </root>

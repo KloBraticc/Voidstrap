@@ -9893,7 +9893,4 @@ Spēlētāji: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Kopienas atsauksmes vēl nav atrastas</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Pārbaudītas {0} no {1} spēlēm</value>
-  </data>
 </root>

@@ -9892,7 +9892,4 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>இதுவரை சமூக மதிப்புரைகள் எதுவும் கிடைக்கவில்லை</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} கேம்களில் {0} சரிபார்க்கப்பட்டது</value>
-  </data>
 </root>

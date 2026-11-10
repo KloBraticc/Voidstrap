@@ -9892,7 +9892,4 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Водгукаў супольнасці пакуль не знойдзена</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Праверана {0} з {1} гульняў</value>
-  </data>
 </root>

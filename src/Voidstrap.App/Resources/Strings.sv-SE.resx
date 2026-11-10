@@ -10205,7 +10205,4 @@ Spelare: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Inga communityrecensioner hittades ännu</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Kontrollerade {0} av {1} spel</value>
-  </data>
 </root>

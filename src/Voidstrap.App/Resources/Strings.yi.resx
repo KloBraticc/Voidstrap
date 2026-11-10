@@ -9892,7 +9892,4 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>נאך קיין קהילה רעצענזיעס נישט געפֿונען</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>געקוקט {0} פֿון {1} שפּילן</value>
-  </data>
 </root>

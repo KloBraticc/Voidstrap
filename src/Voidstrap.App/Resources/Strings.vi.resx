@@ -10208,7 +10208,4 @@ Người chơi: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Chưa tìm thấy đánh giá nào từ cộng đồng</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Đã kiểm tra {0} trên {1} trò chơi</value>
-  </data>
 </root>

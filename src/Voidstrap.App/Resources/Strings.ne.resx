@@ -9893,7 +9893,4 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>अहिलेसम्म कुनै समुदाय समीक्षा भेटिएन</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} मध्ये {0} खेल जाँचियो</value>
-  </data>
 </root>

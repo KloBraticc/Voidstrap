@@ -9893,7 +9893,4 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>មិនទាន់រកឃើញការវាយតម្លៃពីសហគមន៍នៅឡើយទេ</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>បានពិនិត្យ {0} ក្នុងចំណោម {1} ហ្គេម</value>
-  </data>
 </root>

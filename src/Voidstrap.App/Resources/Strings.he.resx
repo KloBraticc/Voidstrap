@@ -9893,7 +9893,4 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>עדיין לא נמצאו ביקורות מהקהילה</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>נבדקו {0} מתוך {1} משחקים</value>
-  </data>
 </root>

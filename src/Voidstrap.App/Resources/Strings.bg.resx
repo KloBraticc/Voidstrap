@@ -10205,7 +10205,4 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Все още няма намерени отзиви от общността</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Проверени {0} от {1} игри</value>
-  </data>
 </root>

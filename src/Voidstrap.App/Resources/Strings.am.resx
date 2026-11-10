@@ -9892,7 +9892,4 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>እስካሁን ምንም የማህበረሰብ ግምገማ አልተገኘም</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>ከ{1} ጨዋታዎች {0} ተፈትሸዋል</value>
-  </data>
 </root>

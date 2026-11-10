@@ -9892,7 +9892,4 @@ Spillere: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Ingen anmeldelser fra fællesskabet fundet endnu</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Tjekket {0} af {1} spil</value>
-  </data>
 </root>

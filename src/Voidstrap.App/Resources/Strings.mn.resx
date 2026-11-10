@@ -9893,7 +9893,4 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Нийгэмлэгийн сэтгэгдэл одоогоор олдсонгүй</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} тоглоомоос {0}г шалгасан</value>
-  </data>
 </root>

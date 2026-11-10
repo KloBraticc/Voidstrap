@@ -9892,7 +9892,4 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Ҳоло шарҳи ҷомеа ёфт нашуд</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{0} аз {1} бозӣ санҷида шуд</value>
-  </data>
 </root>

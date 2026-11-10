@@ -10203,7 +10203,4 @@ Mga player: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Wala pang nahanap na review mula sa komunidad</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Nasuri ang {0} sa {1} na laro</value>
-  </data>
 </root>

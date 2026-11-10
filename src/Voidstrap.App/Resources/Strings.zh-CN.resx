@@ -10229,7 +10229,4 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>暂未找到社区评价</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>已检查 {1} 款游戏中的 {0} 款</value>
-  </data>
 </root>

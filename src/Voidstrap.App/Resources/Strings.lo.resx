@@ -9893,7 +9893,4 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ຍັງບໍ່ພົບການລີວິວຈາກຊຸມຊົນ</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>ກວດແລ້ວ {0} ຈາກ {1} ເກມ</value>
-  </data>
 </root>

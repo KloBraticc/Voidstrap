@@ -9893,7 +9893,4 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>තවම ප්‍රජා සමාලෝචන හමු නොවීය</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>ක්‍රීඩා {1} න් {0} ක් පරීක්ෂා කළා</value>
-  </data>
 </root>

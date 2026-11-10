@@ -10205,7 +10205,4 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Отзывы сообщества пока не найдены</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Проверено {0} из {1} игр</value>
-  </data>
 </root>

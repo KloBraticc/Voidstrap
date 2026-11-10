@@ -9893,7 +9893,4 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>अद्याप कोणतीही समुदाय पुनरावलोकने आढळली नाहीत</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} पैकी {0} गेम तपासले</value>
-  </data>
 </root>

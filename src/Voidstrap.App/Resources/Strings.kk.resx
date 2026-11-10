@@ -9893,7 +9893,4 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Қауымдастық пікірлері әзірге табылмады</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} ойынның {0} тексерілді</value>
-  </data>
 </root>

@@ -9892,7 +9892,4 @@ Ludantoj: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Ankoraŭ neniuj komunumaj recenzoj trovitaj</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Kontrolis {0} el {1} ludoj</value>
-  </data>
 </root>

@@ -10220,7 +10220,4 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>コミュニティのレビューはまだ見つかりません</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} 件中 {0} 件のゲームを確認しました</value>
-  </data>
 </root>

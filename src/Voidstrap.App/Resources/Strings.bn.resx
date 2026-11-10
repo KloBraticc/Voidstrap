@@ -9892,7 +9892,4 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>এখনও কোনো কমিউনিটি রিভিউ পাওয়া যায়নি</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1}টি গেমের মধ্যে {0}টি যাচাই করা হয়েছে</value>
-  </data>
 </root>

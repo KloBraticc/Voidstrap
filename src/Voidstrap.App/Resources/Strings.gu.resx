@@ -9893,7 +9893,4 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>હજુ સુધી કોઈ સમુદાય સમીક્ષા મળી નથી</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} માંથી {0} રમતો તપાસી</value>
-  </data>
 </root>

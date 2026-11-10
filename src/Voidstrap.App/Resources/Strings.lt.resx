@@ -10207,7 +10207,4 @@ Veikimo laikas: {1}
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Bendruomenės atsiliepimų dar nerasta</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Patikrinta {0} iš {1} žaidimų</value>
-  </data>
 </root>

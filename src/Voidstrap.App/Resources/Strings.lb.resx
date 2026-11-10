@@ -9893,7 +9893,4 @@ Spiller: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Nach keng Bewäertunge vun der Communautéit fonnt</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{0} vun {1} Spiller iwwerpréift</value>
-  </data>
 </root>

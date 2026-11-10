@@ -9893,7 +9893,4 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ਅਜੇ ਤੱਕ ਕੋਈ ਭਾਈਚਾਰਕ ਸਮੀਖਿਆ ਨਹੀਂ ਮਿਲੀ</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} ਵਿੱਚੋਂ {0} ਗੇਮਾਂ ਦੀ ਜਾਂਚ ਕੀਤੀ</value>
-  </data>
 </root>

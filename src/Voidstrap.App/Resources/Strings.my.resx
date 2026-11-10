@@ -9892,7 +9892,4 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>အသိုင်းအဝိုင်း သုံးသပ်ချက် မတွေ့ရသေးပါ</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>ဂိမ်း {1} ခုအနက် {0} ခု စစ်ဆေးပြီး</value>
-  </data>
 </root>

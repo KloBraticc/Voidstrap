@@ -10208,7 +10208,4 @@ Giocatori: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Nessuna recensione della community trovata</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Controllati {0} giochi su {1}</value>
-  </data>
 </root>

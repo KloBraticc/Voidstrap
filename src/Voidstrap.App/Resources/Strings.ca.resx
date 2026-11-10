@@ -9892,7 +9892,4 @@ Jugadors: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Encara no s'han trobat ressenyes de la comunitat</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>S'han comprovat {0} de {1} jocs</value>
-  </data>
 </root>

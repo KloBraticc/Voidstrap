@@ -10208,7 +10208,4 @@ Pemain: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Belum ada ulasan komunitas yang ditemukan</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Memeriksa {0} dari {1} game</value>
-  </data>
 </root>

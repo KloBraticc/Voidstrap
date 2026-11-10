@@ -17,8 +17,6 @@ public partial class CommunityFeedControl : UserControl
     private bool _active;
     private bool _loaded;
     private bool _dirty;
-    private int _done;
-    private int _total;
 
     public CommunityFeedControl()
     {
@@ -60,7 +58,7 @@ public partial class CommunityFeedControl : UserControl
         const string LOG_IDENT = "CommunityFeedControl::RunScanAsync";
         try
         {
-            await Task.Run(() => RoReviewCommunityFeed.RunAsync(OnReviews, OnProgress, token), token).ConfigureAwait(true);
+            await Task.Run(() => RoReviewCommunityFeed.RunAsync(OnReviews, static (_, _) => { }, token), token).ConfigureAwait(true);
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
@@ -83,12 +81,6 @@ public partial class CommunityFeedControl : UserControl
             _pending.Add((placeId, reviews));
     }
 
-    private void OnProgress(int done, int total)
-    {
-        Volatile.Write(ref _done, done);
-        Volatile.Write(ref _total, total);
-    }
-
     private void FlushTimer_Tick(object? sender, EventArgs e) => Flush();
 
     private void Flush()
@@ -104,8 +96,6 @@ public partial class CommunityFeedControl : UserControl
             }
             _pending.Clear();
         }
-        int total = Volatile.Read(ref _total);
-        StatusText.Text = total > 0 ? string.Format(Strings.Ui_Library_CommunityScanning, Volatile.Read(ref _done), total) : string.Empty;
         Rebuild();
     }
 

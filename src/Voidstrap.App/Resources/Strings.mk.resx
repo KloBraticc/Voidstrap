@@ -9893,7 +9893,4 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Сè уште не се пронајдени рецензии од заедницата</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Проверени {0} од {1} игри</value>
-  </data>
 </root>

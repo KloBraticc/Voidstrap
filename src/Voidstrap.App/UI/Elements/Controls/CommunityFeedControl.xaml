@@ -12,7 +12,6 @@
       <ui:TextBox x:Name="SearchBox" PlaceholderText="{resources:Loc Ui_Library_CommunitySearch}" Icon="Search24" ClearButtonEnabled="True" TextChanged="SearchBox_TextChanged" />
       <StackPanel Grid.Column="1" Margin="12,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
         <ui:ProgressRing x:Name="ScanRing" Width="16" Height="16" IsIndeterminate="True" Visibility="Collapsed" />
-        <TextBlock x:Name="StatusText" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
       </StackPanel>
     </Grid>
     <TextBlock x:Name="EmptyText" Grid.Row="1" Margin="0,40,0,0" HorizontalAlignment="Center" FontSize="14" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Library_CommunityEmpty}" Visibility="Collapsed" />

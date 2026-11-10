@@ -10200,7 +10200,4 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ยังไม่พบรีวิวจากชุมชน</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>ตรวจสอบแล้ว {0} จาก {1} เกม</value>
-  </data>
 </root>

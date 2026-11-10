@@ -9893,7 +9893,4 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>تر اوسه د ټولنې کومه بیاکتنه ونه موندل شوه</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>له {1} لوبو څخه {0} وکتل شوې</value>
-  </data>
 </root>

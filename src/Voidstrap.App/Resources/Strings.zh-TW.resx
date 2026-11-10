@@ -10208,7 +10208,4 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>目前還沒有社群評論</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>已檢查 {1} 款遊戲中的 {0} 款</value>
-  </data>
 </root>

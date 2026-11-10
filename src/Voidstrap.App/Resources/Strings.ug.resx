@@ -9892,7 +9892,4 @@ Uptime: {1}
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>تېخى جەمئىيەت باھاسى تېپىلمىدى</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} ئويۇندىن {0} تەكشۈرۈلدى</value>
-  </data>
 </root>

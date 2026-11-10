@@ -9893,7 +9893,4 @@ Uptime: {1}
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>საზოგადოების მიმოხილვები ჯერ ვერ მოიძებნა</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>შემოწმდა {0} თამაში {1}დან</value>
-  </data>
 </root>

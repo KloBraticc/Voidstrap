@@ -9893,7 +9893,4 @@ Uptime: {1}
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Ba a sami sharhin al'umma ba tukuna</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>An duba wasanni {0} cikin {1}</value>
-  </data>
 </root>

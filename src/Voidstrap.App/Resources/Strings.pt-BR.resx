@@ -10207,7 +10207,4 @@ Jogadores: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Nenhuma avaliação da comunidade encontrada ainda</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{0} de {1} jogos verificados</value>
-  </data>
 </root>

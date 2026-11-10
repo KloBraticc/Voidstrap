@@ -9893,7 +9893,4 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Համայնքի կարծիքներ դեռ չեն գտնվել</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>Ստուգվել է {0}ը {1} խաղից</value>
-  </data>
 </root>

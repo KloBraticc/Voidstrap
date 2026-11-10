@@ -9893,7 +9893,4 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ഇതുവരെ കമ്മ്യൂണിറ്റി റിവ്യൂകൾ ഒന്നും കണ്ടെത്തിയില്ല</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>{1} ഗെയിമുകളിൽ {0} പരിശോധിച്ചു</value>
-  </data>
 </root>

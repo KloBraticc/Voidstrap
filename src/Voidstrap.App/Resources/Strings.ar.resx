@@ -10204,7 +10204,4 @@
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>لم يتم العثور على مراجعات من المجتمع بعد</value>
   </data>
-  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
-    <value>تم فحص {0} من {1} لعبة</value>
-  </data>
 </root>
