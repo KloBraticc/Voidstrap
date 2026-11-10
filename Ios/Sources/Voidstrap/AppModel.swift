@@ -176,6 +176,16 @@ final class AppModel: ObservableObject {
         }
     }
 
+    func launchRoblox() {
+        if flagsDirty { FlagStore.save(flags); flagsDirty = false } else { RobloxFlags.apply(flags) }
+        guard let url = URL(string: "roblox://") else { return }
+        UIApplication.shared.open(url) { [weak self] opened in
+            if !opened {
+                Task { @MainActor in self?.show("Roblox is not installed. Apply Roblox and install the IPA first.", error: true) }
+            }
+        }
+    }
+
     func importIpa(_ url: URL) {
         start("Importing Roblox") { model in
             let saved = try RobloxIpa.importIpa(url)

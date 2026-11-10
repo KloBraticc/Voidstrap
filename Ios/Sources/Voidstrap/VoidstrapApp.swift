@@ -185,7 +185,7 @@ struct ActionBar: View {
                     .foregroundColor(Palette.text)
                     .padding(.horizontal, 12)
                     .frame(minHeight: 40)
-                    .frame(maxWidth: 170)
+                    .frame(maxWidth: 130)
                     .glass(Capsule(), interactive: true)
                 }
                 .disabled(model.busy)
@@ -195,10 +195,16 @@ struct ActionBar: View {
                 } else {
                     if let patched = model.patched {
                         ShareLink(item: patched) {
-                            Label(Loc.t("Install"), systemImage: "square.and.arrow.up")
+                            Image(systemName: "square.and.arrow.up")
                         }
                         .buttonStyle(StandardButtonStyle())
+                        .accessibilityLabel(Loc.t("Install"))
                     }
+                    Button { model.launchRoblox() } label: {
+                        Image(systemName: "play.fill")
+                    }
+                    .buttonStyle(StandardButtonStyle())
+                    .accessibilityLabel(Loc.t("Launch Roblox"))
                     Button { model.patch() } label: {
                         Text(model.flagsDirty ? "Save & Apply" : "Apply Roblox").lineLimit(1).minimumScaleFactor(0.7)
                     }
