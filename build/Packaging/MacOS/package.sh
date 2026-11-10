@@ -38,10 +38,23 @@ if ! mkdir "$LOCK" 2>/dev/null; then
   exit 1
 fi
 STAGE=""
+MOUNTPOINT=""
+MOUNTED=0
 
 cleanup() {
+  if [ "$MOUNTED" -eq 1 ] && [ -n "$MOUNTPOINT" ]; then
+    if hdiutil detach "$MOUNTPOINT" >/dev/null 2>&1; then
+      MOUNTED=0
+    elif hdiutil detach "$MOUNTPOINT" -force >/dev/null 2>&1; then
+      MOUNTED=0
+    else
+      echo "Unable to detach the macOS disk image at $MOUNTPOINT" >&2
+    fi
+  fi
   if [ -n "$STAGE" ] && [ -e "$STAGE" ]; then
-    rm -rf "$STAGE"
+    if [ "$MOUNTED" -eq 0 ]; then
+      rm -rf "$STAGE"
+    fi
   fi
   rmdir "$LOCK" 2>/dev/null || true
 }
@@ -201,7 +214,71 @@ if [ -n "${MACOS_NOTARY_PROFILE:-}" ] && [ -n "${MACOS_SIGN_IDENTITY:-}" ]; then
   ditto -c -k --keepParent "$APPLICATION" "$ARCHIVE"
 fi
 
+create_disk_image_macos() {
+  local volname
+  local writable_dmg="$STAGE/Voidstrap-writable.dmg"
+  local dmg_contents="$STAGE/dmg-contents"
+  local attach_output
+
+  rm -rf "$dmg_contents"
+  mkdir -p "$dmg_contents/.background"
+  cp -R "$APPLICATION" "$dmg_contents/Voidstrap.app" || return 1
+  ln -s /Applications "$dmg_contents/Applications" || return 1
+  cp "$ROOT/build/Packaging/MacOS/background.tiff" "$dmg_contents/.background/background.tiff" || return 1
+
+  hdiutil create -volname Voidstrap -srcfolder "$dmg_contents" -ov -format UDRW "$writable_dmg" || return 1
+  attach_output="$(hdiutil attach -readwrite -noverify -noautoopen "$writable_dmg")" || return 1
+  MOUNTPOINT="$(printf '%s\n' "$attach_output" | awk -F '\t' '$3 ~ /^\/Volumes\// { print $3; exit }')"
+  [ -z "$MOUNTPOINT" ] && return 1
+  MOUNTED=1
+  volname="$(basename "$MOUNTPOINT")"
+
+  rm -f "$MOUNTPOINT/.DS_Store"
+
+  osascript <<APPLESCRIPT || { hdiutil detach "$MOUNTPOINT" -force >/dev/null 2>&1 || true; MOUNTED=0; return 1; }
+tell application "Finder"
+  tell disk "$volname"
+    open
+    delay 2
+    set current view of container window to icon view
+    set toolbar visible of container window to false
+    set statusbar visible of container window to false
+    set bounds of container window to {100, 100, 740, 500}
+    set viewOptions to icon view options of container window
+    set arrangement of viewOptions to not arranged
+    set icon size of viewOptions to 128
+    set background picture of viewOptions to POSIX file "$MOUNTPOINT/.background/background.tiff"
+    set position of item "Voidstrap.app" to {170, 200}
+    set position of item "Applications" to {470, 200}
+    update without registering applications
+    delay 2
+    close
+  end tell
+end tell
+APPLESCRIPT
+
+  sync
+  sleep 2
+  hdiutil detach "$MOUNTPOINT" >/dev/null 2>&1 || hdiutil detach "$MOUNTPOINT" -force >/dev/null 2>&1 || return 1
+  MOUNTED=0
+  MOUNTPOINT=""
+
+  hdiutil convert "$writable_dmg" -ov -format UDZO -o "$DMG" || return 1
+  rm -f "$writable_dmg"
+  [ -s "$DMG" ] || return 1
+}
+
 create_disk_image() {
+  if create_disk_image_macos; then
+    return 0
+  fi
+  echo "The styled disk image could not be created, using the standard layout"
+  if [ "$MOUNTED" -eq 1 ]; then
+    hdiutil detach "$MOUNTPOINT" -force >/dev/null 2>&1 || true
+    MOUNTED=0
+    MOUNTPOINT=""
+  fi
+  rm -f "$DMG" "$STAGE/Voidstrap-writable.dmg"
   local attempt
   for attempt in 1 2 3 4 5 6; do
     if hdiutil create -volname Voidstrap -srcfolder "$APPLICATION" -ov -format UDZO "$DMG"; then
