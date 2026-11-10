@@ -7,12 +7,25 @@ public enum RobloxFlags {
     nonisolated(unsafe) static var lastReport = ""
 
     static var groups: [String] {
-        var out = ["group.com.SideStore.SideStore", "group.com.rileytestut.AltStore", "group.com.kdt.livecontainer", "group.com.livecontainer"]
+        var out = entitledGroups + ["group.com.SideStore.SideStore", "group.com.rileytestut.AltStore", "group.com.kdt.livecontainer", "group.com.livecontainer"]
         for key in ["LCAppGroupID", "ALTAppGroups", "AppGroups"] {
             if let one = Bundle.main.object(forInfoDictionaryKey: key) as? String { out.append(one) }
             if let many = Bundle.main.object(forInfoDictionaryKey: key) as? [String] { out += many }
         }
         return out
+    }
+
+    static var entitledGroups: [String] {
+        typealias Create = @convention(c) (CFAllocator?) -> Unmanaged<AnyObject>?
+        typealias Copy = @convention(c) (AnyObject, CFString, UnsafeMutablePointer<Unmanaged<CFError>?>?) -> Unmanaged<AnyObject>?
+        guard let lib = dlopen("/System/Library/Frameworks/Security.framework/Security", RTLD_NOW),
+              let createSym = dlsym(lib, "SecTaskCreateFromSelf"),
+              let copySym = dlsym(lib, "SecTaskCopyValueForEntitlement") else { return [] }
+        let create = unsafeBitCast(createSym, to: Create.self)
+        let copy = unsafeBitCast(copySym, to: Copy.self)
+        guard let task = create(nil)?.takeRetainedValue(),
+              let value = copy(task, "com.apple.security.application-groups" as CFString, nil)?.takeRetainedValue() else { return [] }
+        return value as? [String] ?? []
     }
 
     static func describe(_ root: URL) -> String {
@@ -98,7 +111,7 @@ public enum RobloxFlags {
         }
         let report = written > 0
             ? "Wrote FastFlags to \(written) Roblox data folders"
-            : "No Roblox data folder found, searched \(roots.map(describe).joined(separator: ", "))"
+            : "No Roblox data folder found, searched \(roots.map(describe).joined(separator: ", ")), groups \(groups.joined(separator: " "))"
         if report != lastReport {
             lastReport = report
             Log.write("RobloxFlags::apply", report)
