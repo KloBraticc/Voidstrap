@@ -208,7 +208,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
     public ObservableCollection<ManagedModItem> ManagedMods { get; } = [];
 
-    public CommunityModsViewModel CommunityMods { get; } = new CommunityModsViewModel();
+    public CommunityModsViewModel CommunityMods => CommunityModsViewModel.Shared;
 
     public string ManagedModSearchText
     {

@@ -67,6 +67,8 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
     private CancellationTokenSource? _prefetchCancellation;
 
+    public static CommunityModsViewModel Shared { get; } = new CommunityModsViewModel();
+
     public CommunityModsViewModel()
     {
         _searchDebounce = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(SearchDebounceMs) };

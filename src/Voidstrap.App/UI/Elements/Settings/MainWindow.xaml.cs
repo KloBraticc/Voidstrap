@@ -1126,7 +1126,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BreadcrumbPanel.Visibility = Visibility.Visible;
         }
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
-        bool hidesSidebar = content is VoidstrapModsPage or DownloadsPage or ExtensionPage or FriendsPage or AvatarPage;
+        bool hidesSidebar = content is VoidstrapModsPage or ModPacksPage or DownloadsPage or ExtensionPage or FriendsPage or AvatarPage;
         SetRootNavigationShown(!hasOwnSidebar && !hidesSidebar);
         SidebarToggle.Visibility = hidesSidebar ? Visibility.Collapsed : Visibility.Visible;
         SynchronizeSidebarSelection(content);
@@ -1266,7 +1266,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             && (
                 _pagesToHideSearchBox.Contains(content.GetType())
                 || content is Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage fastFlagsPage && fastFlagsPage.IsAdvancedTabSelected
-                || content is Voidstrap.UI.Elements.Settings.Pages.ModsPage modsPage && modsPage.IsModPackSelected
+                || content is ModPacksPage modPacksPage && modPacksPage.IsModPackSelected
             );
         _searchSpanTimer?.Stop();
         _searchBoxHidden = hideSearchBox;
@@ -1304,6 +1304,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         TopNavServers.Tag = content is PrivateServersPage ? "Active" : null;
         TopNavManager.Tag = content is DownloadsPage ? "Active" : null;
         TopNavVoidstrapMods.Tag = content is VoidstrapModsPage ? "Active" : null;
+        TopNavModPacks.Tag = content is ModPacksPage ? "Active" : null;
     }
 
     private NavigationItem[] GetNavigationItemsInServiceOrder()
@@ -1581,6 +1582,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             case "channel":
             case "channelpage":
                 RootNavigation.Navigate(typeof(ChannelPage));
+                break;
+            case "modpacks":
+            case "modpackspage":
+                OpenModPacksPage();
                 break;
             case "voidstrapmods":
             case "voidstrapmodspage":
@@ -2892,6 +2897,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private DownloadsPage? _managerPage;
 
     private VoidstrapModsPage? _voidstrapModsPage;
+
+    private ModPacksPage? _modPacksPage;
+
+    private void TopNavModPacks_Click(object sender, RoutedEventArgs e) => OpenModPacksPage();
+
+    internal void OpenModPacksPage()
+    {
+        PagesMenuPopup.IsOpen = false;
+        _modPacksPage ??= new ModPacksPage();
+        if (!ReferenceEquals(RootFrame.Content, _modPacksPage))
+            RootNavigation.NavigateExternal(_modPacksPage);
+    }
 
     private FriendsPage? _friendsPage;
 

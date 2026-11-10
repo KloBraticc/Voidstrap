@@ -457,6 +457,9 @@
           <MenuItem x:Name="TopNavVoidstrapMods" Header="{resources:Loc Ui_Nav_VoidstrapMods}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavVoidstrapMods_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="PuzzlePiece24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
+          <MenuItem x:Name="TopNavModPacks" Header="{resources:Loc Ui_Mods_ModPacks}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavModPacks_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Globe24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
           <MenuItem x:Name="TopNavManager" Header="{resources:Loc Ui_Nav_Manager}" Style="{StaticResource TopBarMenuItemStyle}" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" Click="TopNavManager_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="ArrowDownload24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
