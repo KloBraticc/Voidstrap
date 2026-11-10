@@ -77,7 +77,8 @@ public static class PackageCache
         {
             if (!Directory.Exists(Paths.Downloads))
                 return;
-            long budget = Math.Min(MaxBudgetBytes, Math.Max(0, Filesystem.GetFreeDiskSpace(Paths.Downloads) / 4));
+            long free = Filesystem.GetFreeDiskSpace(Paths.Downloads);
+            long budget = free < 0 ? MaxBudgetBytes : Math.Min(MaxBudgetBytes, free / 4);
             List<FileInfo> files = new DirectoryInfo(Paths.Downloads).GetFiles()
                 .Where(f => !f.Name.Contains(".part", StringComparison.OrdinalIgnoreCase) && !f.Name.EndsWith(".meta", StringComparison.OrdinalIgnoreCase))
                 .ToList();

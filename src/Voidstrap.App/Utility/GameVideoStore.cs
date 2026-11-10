@@ -36,7 +36,7 @@ internal static class GameVideoStore
             if (location == null)
                 return null;
             Directory.CreateDirectory(Folder);
-            TrimCache();
+            await Task.Run(TrimCache, token).ConfigureAwait(false);
             string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
             try
             {

@@ -310,14 +310,14 @@ public sealed class SpotifyEngine
             CoreWebView2 core = controller.CoreWebView2;
             core.Settings.AreDevToolsEnabled = false;
             await core.AddScriptToExecuteOnDocumentCreatedAsync(Bridge);
-#if !CROSSPLAT
-            await TrimWebCacheAsync(core);
-#endif
             _ready = new TaskCompletionSource();
             core.NavigationCompleted += Core_NavigationCompleted;
             core.IsDocumentPlayingAudioChanged += Core_AudioChanged;
             core.Navigate(PlayerUrl);
             _controller = controller;
+#if !CROSSPLAT
+            _ = TrimWebCacheAsync(core);
+#endif
             SetLowMemory(_views == 0);
             _silentSince = DateTime.UtcNow;
             _idleTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
