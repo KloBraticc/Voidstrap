@@ -10116,4 +10116,46 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>สวมชุดนี้ทุกครั้งที่คุณเปิดเกมนี้</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>การปรับแต่งอวาตาร์</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>เปลี่ยนเสื้อผ้า เครื่องประดับ ร่างกาย และพื้นหลัง พร้อมตัวอย่าง 3D</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>อวาตาร์</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>ร่างกาย</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>เสื้อผ้า</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>เครื่องประดับ</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>พื้นหลัง</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>แอนิเมชัน</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>ประเภทอวาตาร์</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>ประเภทร่างกาย</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>กำลังสวมใส่</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>ถอดเครื่องประดับทั้งหมด</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>ไม่สามารถอัปเดตอวาตาร์ได้</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>ไม่มีไอเทมที่นี่</value>
+  </data>
 </root>

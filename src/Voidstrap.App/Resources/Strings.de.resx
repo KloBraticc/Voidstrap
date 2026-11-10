@@ -10121,4 +10121,46 @@ Spieler: {2}</value>
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Trage dieses Outfit bei jedem Start dieses Spiels</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Avatar-Anpassung</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Ändere Kleidung, Accessoires, Körper und Hintergrund mit einer 3D-Vorschau.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Avatare</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Körper</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Kleidung</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Accessoires</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Hintergründe</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Animationen</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Avatartyp</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Körpertyp</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Angezogen</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Alle Accessoires entfernen</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Der Avatar konnte nicht aktualisiert werden</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Hier gibt es keine Gegenstände</value>
+  </data>
 </root>

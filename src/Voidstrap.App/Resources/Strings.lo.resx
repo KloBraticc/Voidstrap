@@ -9809,4 +9809,46 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>ໃສ່ຊຸດນີ້ທຸກຄັ້ງທີ່ທ່ານເປີດເກມນີ້</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>ການປັບແຕ່ງອາວາຕາ</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>ປ່ຽນເສື້ອຜ້າ, ເຄື່ອງປະດັບ, ຮ່າງກາຍ ແລະ ພື້ນຫຼັງ ພ້ອມຕົວຢ່າງ 3D.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>ອາວາຕາ</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>ຮ່າງກາຍ</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>ເສື້ອຜ້າ</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>ເຄື່ອງປະດັບ</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>ພື້ນຫຼັງ</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>ອະນິເມຊັນ</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>ປະເພດອາວາຕາ</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>ປະເພດຮ່າງກາຍ</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>ກຳລັງໃສ່</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>ຖອດເຄື່ອງປະດັບທັງໝົດ</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>ບໍ່ສາມາດອັບເດດອາວາຕາໄດ້</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>ບໍ່ມີລາຍການຢູ່ທີ່ນີ້</value>
+  </data>
 </root>

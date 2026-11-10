@@ -9809,4 +9809,46 @@ Spiller: {2}</value>
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Dro dësen Outfit all Kéier wann s du dëst Spill starts</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Avatar upassen</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Änner Kleeder, Accessoiren, Kierper an Hannergrond mat enger 3D Virschau.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Avataren</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Kierper</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Kleeder</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Accessoiren</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Hannergrënn</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Animatiounen</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Avatartyp</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Kierpertyp</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Ugedoen</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>All Accessoiren ewechhuelen</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Den Avatar konnt net aktualiséiert ginn</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Keng Elementer hei</value>
+  </data>
 </root>

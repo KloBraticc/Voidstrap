@@ -9808,4 +9808,46 @@ Ludantoj: {2}</value>
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Portu ĉi tiun vestaron ĉiufoje, kiam vi lanĉas ĉi tiun ludon</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Agordo de avataro</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Ŝanĝu vestojn, akcesoraĵojn, korpon kaj fonon kun 3D antaŭrigardo.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Avataroj</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Korpo</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Vestoj</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Akcesoraĵoj</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Fonoj</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Animacioj</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Tipo de avataro</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Korpotipo</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Portataj</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Forigi ĉiujn akcesoraĵojn</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>La avataro ne povis esti ĝisdatigita</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Neniuj eroj ĉi tie</value>
+  </data>
 </root>

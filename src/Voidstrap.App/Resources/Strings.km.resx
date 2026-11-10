@@ -9809,4 +9809,46 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>ពាក់សម្លៀកបំពាក់នេះរាល់ពេលអ្នកបើកហ្គេមនេះ</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>ការប្ដូរអាវ៉ាតាតាមបំណង</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>ផ្លាស់ប្ដូរសម្លៀកបំពាក់ គ្រឿងលម្អ រាងកាយ និងផ្ទៃខាងក្រោយ ជាមួយការមើលជាមុន 3D។</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>អាវ៉ាតា</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>រាងកាយ</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>សម្លៀកបំពាក់</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>គ្រឿងលម្អ</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>ផ្ទៃខាងក្រោយ</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>ចលនា</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>ប្រភេទអាវ៉ាតា</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>ប្រភេទរាងកាយ</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>កំពុងពាក់</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>ដកគ្រឿងលម្អទាំងអស់</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>មិនអាចធ្វើបច្ចុប្បន្នភាពអាវ៉ាតាបានទេ</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>គ្មានធាតុនៅទីនេះទេ</value>
+  </data>
 </root>

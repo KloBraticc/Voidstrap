@@ -9809,4 +9809,46 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Энэ тоглоомыг эхлүүлэх бүрд энэ хувцсыг өмсөнө</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Аватар тохируулах</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Хувцас, гоёл чимэглэл, бие болон дэвсгэрийг 3D урьдчилан харахтайгаар өөрчилнө үү.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Аватарууд</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Бие</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Хувцас</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Гоёл чимэглэл</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Дэвсгэрүүд</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Хөдөлгөөнүүд</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Аватарын төрөл</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Биеийн төрөл</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Өмссөн</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Бүх гоёл чимэглэлийг авах</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Аватарыг шинэчлэх боломжгүй байна</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Энд зүйл алга</value>
+  </data>
 </root>

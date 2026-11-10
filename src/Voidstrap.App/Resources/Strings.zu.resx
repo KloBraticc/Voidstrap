@@ -9808,4 +9808,46 @@ Abadlali: {2}</value>
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Gqoka le ngubo njalo uma uqala lo mdlalo</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Ukwenza ngokwezifiso i-avatar</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Shintsha izingubo, izinsiza, umzimba nengemuva ngokubuka kuqala kwe-3D.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Ama-avatar</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Umzimba</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Izingubo</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Izinsiza</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Izingemuva</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Ukunyakaza</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Uhlobo lwe-avatar</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Uhlobo lomzimba</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Okugqokiwe</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Susa zonke izinsiza</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>I-avatar ayikwazanga ukubuyekezwa</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Azikho izinto lapha</value>
+  </data>
 </root>

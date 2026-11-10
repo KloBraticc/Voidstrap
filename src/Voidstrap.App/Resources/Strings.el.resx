@@ -9808,4 +9808,46 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Φόρεσε αυτή την εμφάνιση κάθε φορά που ξεκινάς αυτό το παιχνίδι</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Προσαρμογή άβαταρ</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Αλλάξτε ρούχα, αξεσουάρ, σώμα και φόντο με τρισδιάστατη προεπισκόπηση.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Άβαταρ</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Σώμα</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Ρούχα</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Αξεσουάρ</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Φόντα</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Κινήσεις</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Τύπος άβαταρ</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Τύπος σώματος</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Φοριούνται</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Αφαίρεση όλων των αξεσουάρ</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η ενημέρωση του άβαταρ</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Δεν υπάρχουν αντικείμενα εδώ</value>
+  </data>
 </root>

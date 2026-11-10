@@ -9809,4 +9809,46 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Կրեք այս հանդերձանքը ամեն անգամ, երբ գործարկում եք այս խաղը</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Ավատարի հարմարեցում</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Փոխեք հագուստը, աքսեսուարները, մարմինը և ֆոնը 3D նախադիտմամբ։</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Ավատարներ</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Մարմին</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Հագուստ</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Աքսեսուարներ</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Ֆոներ</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Անիմացիաներ</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Ավատարի տեսակ</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Մարմնի տեսակ</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Հագած</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Հեռացնել բոլոր աքսեսուարները</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Չհաջողվեց թարմացնել ավատարը</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Այստեղ տարրեր չկան</value>
+  </data>
 </root>

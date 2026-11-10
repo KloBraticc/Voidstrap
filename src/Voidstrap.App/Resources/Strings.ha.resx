@@ -9809,4 +9809,46 @@ Uptime: {1}
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Sanya wannan kaya duk lokacin da ka buɗe wannan wasan</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Keɓance avatar</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Canza tufafi, kayan ado, jiki da bango tare da samfotin 3D.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Avatars</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Jiki</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Tufafi</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Kayan ado</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Bangon baya</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Motsi</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Nau'in avatar</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Nau'in jiki</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Abin da ake sawa</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Cire duk kayan ado</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Ba a iya sabunta avatar ba</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Babu abubuwa a nan</value>
+  </data>
 </root>

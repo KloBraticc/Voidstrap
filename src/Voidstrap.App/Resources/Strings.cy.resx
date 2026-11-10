@@ -9808,4 +9808,46 @@ Chwaraewyr: {2}</value>
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Gwisga'r wisg hon bob tro y byddi di'n lansio'r gêm hon</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Addasu'r afatar</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Newidiwch ddillad, ategolion, corff a chefndir gyda rhagolwg 3D.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Afatarau</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Corff</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Dillad</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Ategolion</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Cefndiroedd</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Animeiddiadau</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Math o afatar</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Math o gorff</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Yn gwisgo</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Tynnu pob ategolyn</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Nid oedd modd diweddaru'r afatar</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Dim eitemau yma</value>
+  </data>
 </root>

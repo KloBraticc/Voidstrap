@@ -10120,4 +10120,46 @@
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>ارتدِ هذا الزي كلما شغّلت هذه اللعبة</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>تخصيص الأفاتار</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>غيّر الملابس والإكسسوارات والجسم والخلفية مع معاينة ثلاثية الأبعاد.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>الأفاتارات</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>الجسم</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>الملابس</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>الإكسسوارات</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>الخلفيات</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>الحركات</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>نوع الأفاتار</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>نوع الجسم</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>ما ترتديه</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>إزالة كل الإكسسوارات</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>تعذر تحديث الأفاتار</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>لا توجد عناصر هنا</value>
+  </data>
 </root>

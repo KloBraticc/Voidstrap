@@ -9809,4 +9809,46 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Носи ја оваа облека секогаш кога ќе ја стартуваш оваа игра</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Прилагодување на аватарот</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Сменете облека, додатоци, тело и позадина со 3D преглед.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Аватари</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Тело</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Облека</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Додатоци</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Позадини</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Анимации</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Тип на аватар</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Тип на тело</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Носено</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Отстрани ги сите додатоци</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Аватарот не можеше да се ажурира</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Тука нема предмети</value>
+  </data>
 </root>

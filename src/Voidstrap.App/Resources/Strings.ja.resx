@@ -10136,4 +10136,46 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>このゲームを起動するたびにこのコーデを着用します</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>アバターのカスタマイズ</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>3Dプレビューを見ながら、服、アクセサリー、ボディ、背景を変更できます。</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>アバター</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>ボディ</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>服</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>アクセサリー</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>アニメーション</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>アバタータイプ</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>体型</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>着用中</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>すべてのアクセサリーを外す</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>アバターを更新できませんでした</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>ここにはアイテムがありません</value>
+  </data>
 </root>

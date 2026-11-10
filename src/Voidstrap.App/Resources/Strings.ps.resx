@@ -9809,4 +9809,46 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>هر ځل چې دا لوبه پیلوئ دا جامې واغوندئ</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>د اواتار دودیزول</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>جامې، لوازم، بدن او شالید د 3D مخلید سره بدل کړئ.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>اواتارونه</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>بدن</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>جامې</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>لوازم</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>شالیدونه</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>انیمیشنونه</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>د اواتار ډول</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>د بدن ډول</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>اغوستل شوي</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>ټول لوازم لرې کړئ</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>اواتار تازه نه شو</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>دلته هیڅ توکي نشته</value>
+  </data>
 </root>

@@ -9809,4 +9809,46 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Осы ойынды іске қосқан сайын осы киімді киіңіз</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Аватарды баптау</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Киімді, аксессуарларды, денені және фонды 3D алдын ала қараумен өзгертіңіз.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Аватарлар</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Дене</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Киім</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Аксессуарлар</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Фондар</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Анимациялар</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Аватар түрі</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Дене түрі</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Киіп тұрған</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Барлық аксессуарды алып тастау</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Аватарды жаңарту мүмкін болмады</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Мұнда заттар жоқ</value>
+  </data>
 </root>

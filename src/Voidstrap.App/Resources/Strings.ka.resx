@@ -9809,4 +9809,46 @@ Uptime: {1}
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>ჩაიცვით ეს სამოსი ამ თამაშის ყოველი გაშვებისას</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>ავატარის მორგება</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>შეცვალეთ ტანსაცმელი, აქსესუარები, სხეული და ფონი 3D გადახედვით.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>ავატარები</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>სხეული</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>ტანსაცმელი</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>აქსესუარები</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>ფონები</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>ანიმაციები</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>ავატარის ტიპი</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>სხეულის ტიპი</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>აცვია</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>ყველა აქსესუარის მოხსნა</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>ავატარის განახლება ვერ მოხერხდა</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>აქ ნივთები არ არის</value>
+  </data>
 </root>

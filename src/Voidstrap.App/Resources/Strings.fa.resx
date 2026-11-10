@@ -10123,4 +10123,46 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>هر بار که این بازی را اجرا می‌کنید این لباس را بپوشید</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>شخصی‌سازی آواتار</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>لباس، لوازم جانبی، بدن و پس‌زمینه را با پیش‌نمایش سه‌بعدی تغییر دهید.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>آواتارها</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>بدن</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>لباس</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>لوازم جانبی</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>پس‌زمینه‌ها</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>انیمیشن‌ها</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>نوع آواتار</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>نوع بدن</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>پوشیده‌شده</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>حذف همه لوازم جانبی</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>آواتار به‌روزرسانی نشد</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>اینجا موردی نیست</value>
+  </data>
 </root>

@@ -9808,4 +9808,46 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Апранаць гэты ўбор пры кожным запуску гэтай гульні</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Налада аватара</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Змяняйце адзенне, аксесуары, цела і фон з 3D прадпраглядам.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Аватары</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Цела</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Адзенне</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Аксесуары</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Фоны</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Анімацыі</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Тып аватара</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Тып цела</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Надзета</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Зняць усе аксесуары</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Не ўдалося абнавіць аватар</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Тут няма прадметаў</value>
+  </data>
 </root>

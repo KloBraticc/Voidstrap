@@ -9809,4 +9809,46 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>ඔබ මෙම ක්‍රීඩාව ආරම්භ කරන සෑම විටම මෙම ඇඳුම අඳින්න</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>අවතාර් අභිරුචිකරණය</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>3D පෙරදසුනක් සමඟ ඇඳුම්, උපාංග, සිරුර සහ පසුබිම වෙනස් කරන්න.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>අවතාර්</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>සිරුර</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>ඇඳුම්</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>උපාංග</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>පසුබිම්</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>සජීවිකරණ</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>අවතාර් වර්ගය</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>සිරුරේ වර්ගය</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>ඇඳ සිටින</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>සියලු උපාංග ඉවත් කරන්න</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>අවතාරය යාවත්කාලීන කළ නොහැකි විය</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>මෙහි අයිතම නැත</value>
+  </data>
 </root>

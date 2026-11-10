@@ -46,6 +46,12 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             _viewModel.Dispose();
         }
 
+        private void OpenAvatar_Click(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.SelectedAccount is AccountRow row && row.Model.UserId > 0)
+                NavigationService?.Navigate(new AvatarPage(row.Model));
+        }
+
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddMenu.PlacementTarget = AddButton;

@@ -9809,4 +9809,46 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>جڏهن به توهان هي راند شروع ڪريو ته هي لباس پايو</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>اوتار جي ترتيب</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>3D ڏيک سان ڪپڙا، لوازمات، جسم ۽ پس منظر تبديل ڪريو.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>اوتار</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>جسم</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>ڪپڙا</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>لوازمات</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>پس منظر</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>اينيميشنون</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>اوتار جو قسم</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>جسم جو قسم</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>پاتل</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>سڀ لوازمات هٽايو</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>اوتار اپڊيٽ نه ٿي سگهيو</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>هتي ڪا به شيءِ ناهي</value>
+  </data>
 </root>

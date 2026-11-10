@@ -9809,4 +9809,46 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>ನೀವು ಈ ಆಟವನ್ನು ಪ್ರಾರಂಭಿಸಿದಾಗಲೆಲ್ಲಾ ಈ ಉಡುಪನ್ನು ಧರಿಸಿ</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>ಅವತಾರ್ ಕಸ್ಟಮೈಸೇಶನ್</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>3D ಪೂರ್ವವೀಕ್ಷಣೆಯೊಂದಿಗೆ ಬಟ್ಟೆ, ಪರಿಕರಗಳು, ದೇಹ ಮತ್ತು ಹಿನ್ನೆಲೆಯನ್ನು ಬದಲಾಯಿಸಿ.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>ಅವತಾರ್‌ಗಳು</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>ದೇಹ</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>ಬಟ್ಟೆ</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>ಪರಿಕರಗಳು</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>ಹಿನ್ನೆಲೆಗಳು</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>ಅನಿಮೇಷನ್‌ಗಳು</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>ಅವತಾರ್ ಪ್ರಕಾರ</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>ದೇಹದ ಪ್ರಕಾರ</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>ಧರಿಸಿರುವುದು</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>ಎಲ್ಲಾ ಪರಿಕರಗಳನ್ನು ತೆಗೆದುಹಾಕಿ</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>ಅವತಾರ್ ಅನ್ನು ನವೀಕರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>ಇಲ್ಲಿ ಯಾವುದೇ ಐಟಂಗಳಿಲ್ಲ</value>
+  </data>
 </root>

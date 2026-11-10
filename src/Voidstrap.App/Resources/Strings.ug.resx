@@ -9808,4 +9808,46 @@ Uptime: {1}
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>بۇ ئويۇننى ھەر قېتىم قوزغاتقاندا بۇ كىيىمنى كىيىڭ</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>ئاۋاتار خاسلاشتۇرۇش</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>كىيىم، زىننەت بۇيۇمى، بەدەن ۋە تەگلىكنى 3D ئالدىن كۆرۈش بىلەن ئۆزگەرتىڭ.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>ئاۋاتارلار</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>بەدەن</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>كىيىم</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>زىننەت بۇيۇملىرى</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>تەگلىكلەر</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>ھەرىكەتلەر</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>ئاۋاتار تىپى</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>بەدەن تىپى</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>كىيىلگەن</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>بارلىق زىننەت بۇيۇملىرىنى ئېلىۋېتىش</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>ئاۋاتارنى يېڭىلىغىلى بولمىدى</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>بۇ يەردە نەرسە يوق</value>
+  </data>
 </root>

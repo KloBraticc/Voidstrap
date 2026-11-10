@@ -9809,4 +9809,46 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>જ્યારે પણ તમે આ રમત શરૂ કરો ત્યારે આ પોશાક પહેરો</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>અવતાર કસ્ટમાઇઝેશન</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>3D પ્રિવ્યૂ સાથે કપડાં, એક્સેસરીઝ, શરીર અને બેકગ્રાઉન્ડ બદલો.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>અવતાર</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>શરીર</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>કપડાં</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>એક્સેસરીઝ</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>બેકગ્રાઉન્ડ</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>એનિમેશન</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>અવતારનો પ્રકાર</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>શરીરનો પ્રકાર</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>પહેરેલું</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>બધી એક્સેસરીઝ દૂર કરો</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>અવતાર અપડેટ કરી શકાયો નથી</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>અહીં કોઈ આઇટમ નથી</value>
+  </data>
 </root>

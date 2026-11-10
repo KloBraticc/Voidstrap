@@ -10124,4 +10124,46 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>每次啟動這款遊戲時穿上這套服裝</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>虛擬人偶自訂</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>透過 3D 預覽更換服裝、配件、身體和背景。</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>虛擬人偶</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>身體</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>服裝</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>配件</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>動畫</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>虛擬人偶類型</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>體型</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>目前穿戴</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>移除所有配件</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>無法更新虛擬人偶</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>這裡沒有物品</value>
+  </data>
 </root>

@@ -141,11 +141,17 @@ internal static class RobloxOutfits
     private static string Key(long userId, long placeId) =>
         userId.ToString(CultureInfo.InvariantCulture) + ":" + placeId.ToString(CultureInfo.InvariantCulture);
 
-    private static async Task<List<long>> RequestThumbnailBatchAsync(List<long> ids, Dictionary<long, string> result, CancellationToken token)
+    internal static async Task<List<long>> RequestThumbnailBatchAsync(
+        List<long> ids,
+        Dictionary<long, string> result,
+        CancellationToken token,
+        string type = "Outfit",
+        string size = "150x150"
+    )
     {
         const string LOG_IDENT = "RobloxOutfits::RequestThumbnailBatchAsync";
         List<long> pending = new();
-        string body = "[" + string.Join(",", ids.Select(id => "{\"type\":\"Outfit\",\"targetId\":" + id + ",\"format\":\"Png\",\"size\":\"150x150\",\"isCircular\":false}")) + "]";
+        string body = "[" + string.Join(",", ids.Select(id => "{\"type\":\"" + type + "\",\"targetId\":" + id + ",\"format\":\"Png\",\"size\":\"" + size + "\",\"isCircular\":false}")) + "]";
         RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
             "https://thumbnails.roblox.com/v1/batch",
             body,

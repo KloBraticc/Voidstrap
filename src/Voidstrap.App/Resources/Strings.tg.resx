@@ -9808,4 +9808,46 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Ҳар дафъа ҳангоми оғози ин бозӣ ин либосро пӯшед</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Танзими аватар</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Либос, лавозимот, бадан ва пасзаминаро бо пешнамоиши 3D иваз кунед.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Аватарҳо</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Бадан</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Либос</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Лавозимот</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Пасзаминаҳо</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Аниматсияҳо</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Навъи аватар</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Навъи бадан</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Пӯшида</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Ҳама лавозимотро хориҷ кардан</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>Аватар навсозӣ нашуд</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Дар ин ҷо чизе нест</value>
+  </data>
 </root>

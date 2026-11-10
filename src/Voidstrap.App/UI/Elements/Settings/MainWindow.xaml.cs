@@ -390,6 +390,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["PrivateServersPage"] = ("Private Servers", "Managing private servers"),
         ["FriendsPage"] = ("Friends", "Chatting with friends"),
         ["AccountsPage"] = ("Account Manager", "Managing Roblox accounts"),
+        ["AvatarPage"] = ("Avatar Customization", "Customizing an avatar"),
         ["SoberPage"] = ("Sober", "Setting up Roblox on Linux"),
         ["RosemaryPage"] = ("Rosemary", "Setting up Roblox on Linux"),
         ["Releases"] = ("Releases", "Reading the release history"),
@@ -496,6 +497,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         typeof(LibraryPage),
         typeof(PrivateServersPage),
         typeof(AccountsPage),
+        typeof(AvatarPage),
     };
 
     private LibraryPage? _libraryPage;
@@ -1124,7 +1126,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BreadcrumbPanel.Visibility = Visibility.Visible;
         }
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
-        bool hidesSidebar = content is VoidstrapModsPage or DownloadsPage or ExtensionPage or FriendsPage;
+        bool hidesSidebar = content is VoidstrapModsPage or DownloadsPage or ExtensionPage or FriendsPage or AvatarPage;
         SetRootNavigationShown(!hasOwnSidebar && !hidesSidebar);
         SidebarToggle.Visibility = hidesSidebar ? Visibility.Collapsed : Visibility.Visible;
         SynchronizeSidebarSelection(content);

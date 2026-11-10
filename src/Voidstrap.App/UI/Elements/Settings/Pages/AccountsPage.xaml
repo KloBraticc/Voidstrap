@@ -299,6 +299,13 @@
             </StackPanel>
           </Border>
 
+          <ui:CardAction Margin="0,8,0,0" Icon="Person24" Click="OpenAvatar_Click" Visibility="{Binding OutfitsVisibility}">
+            <StackPanel>
+              <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Accounts_Avatar_Title}" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Accounts_Avatar_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+            </StackPanel>
+          </ui:CardAction>
+
           <WrapPanel Margin="0,12,0,0">
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Accounts_OpenProfile}" Command="{Binding OpenProfileCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Copy24" Content="{resources:Loc Accounts_CopyUsername}" Command="{Binding CopyUsernameCommand}" />

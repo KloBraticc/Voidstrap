@@ -9808,4 +9808,46 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>இந்த விளையாட்டைத் தொடங்கும் ஒவ்வொரு முறையும் இந்த உடையை அணியுங்கள்</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>அவதார் தனிப்பயனாக்கம்</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>3D முன்னோட்டத்துடன் ஆடை, அணிகலன்கள், உடல் மற்றும் பின்னணியை மாற்றுங்கள்.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>அவதார்கள்</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>உடல்</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>ஆடை</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>அணிகலன்கள்</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>பின்னணிகள்</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>அனிமேஷன்கள்</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>அவதார் வகை</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>உடல் வகை</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>அணிந்திருப்பவை</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>அனைத்து அணிகலன்களையும் அகற்று</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>அவதாரைப் புதுப்பிக்க முடியவில்லை</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>இங்கே பொருட்கள் எதுவும் இல்லை</value>
+  </data>
 </root>

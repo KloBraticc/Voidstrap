@@ -10120,4 +10120,46 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>이 게임을 실행할 때마다 이 의상을 착용합니다</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>아바타 꾸미기</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>3D 미리보기로 의상, 액세서리, 신체, 배경을 변경합니다.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>아바타</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>신체</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>의상</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>액세서리</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>배경</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>애니메이션</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>아바타 유형</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>체형</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>착용 중</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>모든 액세서리 제거</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>아바타를 업데이트하지 못했습니다</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>여기에 아이템이 없습니다</value>
+  </data>
 </root>

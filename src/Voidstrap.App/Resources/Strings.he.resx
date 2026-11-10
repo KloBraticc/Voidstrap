@@ -9809,4 +9809,46 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>לבש את התלבושת הזו בכל פעם שאתה מפעיל את המשחק הזה</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>התאמה אישית של האווטאר</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>שנו בגדים, אביזרים, גוף ורקע עם תצוגה מקדימה בתלת ממד.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>אווטארים</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>גוף</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>בגדים</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>אביזרים</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>רקעים</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>אנימציות</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>סוג אווטאר</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>סוג גוף</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>לבוש כעת</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>הסרת כל האביזרים</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>לא ניתן היה לעדכן את האווטאר</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>אין כאן פריטים</value>
+  </data>
 </root>

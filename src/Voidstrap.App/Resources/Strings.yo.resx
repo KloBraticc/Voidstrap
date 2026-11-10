@@ -9808,4 +9808,46 @@ Awọn oṣere: {2}</value>
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>Wọ aṣọ yìí nígbàkúùgbà tí o bá bẹ̀rẹ̀ eré yìí</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>Ìṣàtúnṣe avatar</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>Yí aṣọ, ohun ọ̀ṣọ́, ara àti ẹ̀yìn àwòrán padà pẹ̀lú àyẹ̀wò 3D.</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>Àwọn avatar</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>Ara</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>Aṣọ</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>Ohun ọ̀ṣọ́</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>Ẹ̀yìn àwòrán</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>Ìṣípòpadà</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>Irú avatar</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>Irú ara</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>Ohun tí a wọ̀</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>Yọ gbogbo ohun ọ̀ṣọ́ kúrò</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>A kò lè ṣe ìmúdójúìwọ̀n avatar</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>Kò sí nǹkan níbí</value>
+  </data>
 </root>

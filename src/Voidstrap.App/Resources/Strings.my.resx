@@ -9808,4 +9808,46 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
     <value>ဤဂိမ်းကို စတင်တိုင်း ဤဝတ်စုံကို ဝတ်ဆင်ပါ</value>
   </data>
+  <data name="Accounts.Avatar.Title" xml:space="preserve">
+    <value>အဗတာ စိတ်ကြိုက်ပြင်ဆင်ခြင်း</value>
+  </data>
+  <data name="Accounts.Avatar.Description" xml:space="preserve">
+    <value>3D အကြိုကြည့်ရှုမှုဖြင့် အဝတ်အစား၊ အသုံးအဆောင်၊ ခန္ဓာကိုယ်နှင့် နောက်ခံကို ပြောင်းပါ။</value>
+  </data>
+  <data name="Accounts.Avatar.Characters" xml:space="preserve">
+    <value>အဗတာများ</value>
+  </data>
+  <data name="Accounts.Avatar.Body" xml:space="preserve">
+    <value>ခန္ဓာကိုယ်</value>
+  </data>
+  <data name="Accounts.Avatar.Clothing" xml:space="preserve">
+    <value>အဝတ်အစား</value>
+  </data>
+  <data name="Accounts.Avatar.Accessories" xml:space="preserve">
+    <value>အသုံးအဆောင်များ</value>
+  </data>
+  <data name="Accounts.Avatar.Backgrounds" xml:space="preserve">
+    <value>နောက်ခံများ</value>
+  </data>
+  <data name="Accounts.Avatar.Animations" xml:space="preserve">
+    <value>လှုပ်ရှားမှုများ</value>
+  </data>
+  <data name="Accounts.Avatar.AvatarType" xml:space="preserve">
+    <value>အဗတာ အမျိုးအစား</value>
+  </data>
+  <data name="Accounts.Avatar.BodyType" xml:space="preserve">
+    <value>ခန္ဓာကိုယ် အမျိုးအစား</value>
+  </data>
+  <data name="Accounts.Avatar.Wearing" xml:space="preserve">
+    <value>ဝတ်ဆင်ထားသည်</value>
+  </data>
+  <data name="Accounts.Avatar.RemoveAccessories" xml:space="preserve">
+    <value>အသုံးအဆောင်အားလုံး ဖယ်ရှားရန်</value>
+  </data>
+  <data name="Accounts.Avatar.Failed" xml:space="preserve">
+    <value>အဗတာကို အပ်ဒိတ်လုပ်၍ မရပါ</value>
+  </data>
+  <data name="Accounts.Avatar.Empty" xml:space="preserve">
+    <value>ဤနေရာတွင် ပစ္စည်းမရှိပါ</value>
+  </data>
 </root>
