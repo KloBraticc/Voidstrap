@@ -408,9 +408,50 @@ public partial class ModsPage : UiPage
         }
     }
 
-    private void CommunitySource_Click(object sender, RoutedEventArgs e)
+    private const double SourceIndicatorStep = 139;
+
+    private static readonly Duration SourceSlideDuration = new(TimeSpan.FromMilliseconds(220));
+
+    private int _sourceSwitchVersion;
+
+    private static double SourceOffset(string source) =>
+        source == Voidstrap.Integrations.CommunityMods.MarketplaceCatalog.SourceName ? SourceIndicatorStep : 0;
+
+    private void SourceIndicator_Loaded(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement { Tag: string source })
+        SourceIndicatorShift.BeginAnimation(System.Windows.Media.TranslateTransform.XProperty, null);
+        SourceIndicatorShift.X = SourceOffset(ViewModel.CommunityMods.SelectedSource);
+    }
+
+    private async void CommunitySource_Click(object sender, RoutedEventArgs e)
+    {
+        const string LOG_IDENT = "ModsPage::CommunitySource";
+        if (sender is not FrameworkElement { Tag: string source })
+            return;
+        int version = ++_sourceSwitchVersion;
+        double target = SourceOffset(source);
+        double from = SourceIndicatorShift.X;
+        SourceIndicatorShift.BeginAnimation(System.Windows.Media.TranslateTransform.XProperty, null);
+        SourceIndicatorShift.X = target;
+        if (Math.Abs(from - target) > 0.5)
+        {
+            System.Windows.Media.Animation.DoubleAnimation slide = new(from, target, SourceSlideDuration)
+            {
+                EasingFunction = new System.Windows.Media.Animation.CubicEase { EasingMode = System.Windows.Media.Animation.EasingMode.EaseOut },
+                FillBehavior = System.Windows.Media.Animation.FillBehavior.Stop,
+            };
+            slide.Freeze();
+            SourceIndicatorShift.BeginAnimation(System.Windows.Media.TranslateTransform.XProperty, slide);
+            try
+            {
+                await Task.Delay(SourceSlideDuration.TimeSpan);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException(LOG_IDENT, ex);
+            }
+        }
+        if (version == _sourceSwitchVersion)
             ViewModel.CommunityMods.SelectedSource = source;
     }
 

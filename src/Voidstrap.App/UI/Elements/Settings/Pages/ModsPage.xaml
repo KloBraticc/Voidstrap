@@ -389,40 +389,10 @@
                       <ColumnDefinition Width="139" />
                       <ColumnDefinition Width="139" />
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" CornerRadius="6" IsHitTestVisible="False" Background="{DynamicResource SystemAccentColorPrimaryBrush}" Opacity="0.45">
+                    <Border x:Name="SourceIndicator" Grid.Column="0" CornerRadius="6" IsHitTestVisible="False" Background="{DynamicResource SystemAccentColorPrimaryBrush}" Opacity="0.45" Loaded="SourceIndicator_Loaded">
                       <Border.RenderTransform>
-                        <TranslateTransform />
+                        <TranslateTransform x:Name="SourceIndicatorShift" />
                       </Border.RenderTransform>
-                      <Border.Style>
-                        <Style TargetType="{x:Type Border}">
-                          <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsMarketplace}" Value="True">
-                              <DataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                  <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="139" Duration="0:0:0.22">
-                                      <DoubleAnimation.EasingFunction>
-                                        <CubicEase EasingMode="EaseOut" />
-                                      </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                  </Storyboard>
-                                </BeginStoryboard>
-                              </DataTrigger.EnterActions>
-                              <DataTrigger.ExitActions>
-                                <BeginStoryboard>
-                                  <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.22">
-                                      <DoubleAnimation.EasingFunction>
-                                        <CubicEase EasingMode="EaseOut" />
-                                      </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                  </Storyboard>
-                                </BeginStoryboard>
-                              </DataTrigger.ExitActions>
-                            </DataTrigger>
-                          </Style.Triggers>
-                        </Style>
-                      </Border.Style>
                     </Border>
                     <ui:Button Grid.Column="0" Height="32" Padding="12,0" HorizontalAlignment="Stretch" Appearance="Transparent" BorderThickness="0" Background="Transparent" Tag="GameBanana" Click="CommunitySource_Click">
                       <StackPanel Orientation="Horizontal">

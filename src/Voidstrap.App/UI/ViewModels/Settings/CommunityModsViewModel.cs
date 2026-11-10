@@ -108,8 +108,8 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
             }
             _selectedSource = value;
             foreach (CommunityModCategory selectedCategory in _selectedCategories)
-            selectedCategory.IsSelected = false;
-        _selectedCategories.Clear();
+                selectedCategory.IsSelected = false;
+            _selectedCategories.Clear();
             _searchText = "";
             _selectedSort = SortOptions[0];
             _suppressRefresh = true;
