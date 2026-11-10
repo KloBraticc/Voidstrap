@@ -418,7 +418,17 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
         : InstallButtonsFor(SelectedMod, SelectedFile) is (false, true) ? "This file is a replacement config, it applies through Fleasion"
         : "Verified before install, the target is detected from the package";
 
-    public async Task InitializeAsync()
+    private Task? _initializeTask;
+
+    public Task InitializeAsync()
+    {
+        if (_initializeTask is { IsCompleted: false } running)
+            return running;
+        _initializeTask = InitializeCoreAsync();
+        return _initializeTask;
+    }
+
+    private async Task InitializeCoreAsync()
     {
         if (_disposed)
         {

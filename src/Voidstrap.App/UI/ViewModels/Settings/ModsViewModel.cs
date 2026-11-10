@@ -3853,7 +3853,6 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         FontManagerBusy = false;
         SkyboxManagerBusy = false;
         CustomSkyboxBusy = false;
-        CommunityMods.CancelTransientOperations();
     }
 
     private async Task LoadManagedModsAsync()

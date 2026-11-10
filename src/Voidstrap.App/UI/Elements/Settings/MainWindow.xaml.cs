@@ -2901,6 +2901,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void TopNavModPacks_Click(object sender, RoutedEventArgs e) => OpenModPacksPage();
 
+    private static async void PrefetchModPacks()
+    {
+        const string LOG_IDENT = "MainWindow::PrefetchModPacks";
+        try
+        {
+            await CommunityModsViewModel.Shared.InitializeAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+        }
+    }
+
     internal void OpenModPacksPage()
     {
         PagesMenuPopup.IsOpen = false;
@@ -6772,6 +6785,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void IntroWatchdog_Tick(object? sender, EventArgs e)
     {
         Storyboard? storyboard = _introWatchdogStoryboard;
+        Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, PrefetchModPacks);
         StopIntroWatchdog();
         if (!_introFinished)
         {
