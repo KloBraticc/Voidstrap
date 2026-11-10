@@ -105,6 +105,8 @@ public partial class SessionDock : Window
     private bool _prewarmLogged;
     private int _prewarmIndex;
     private DispatcherTimer? _prewarmTimer;
+
+    private bool _fitAnchorPending;
     public static SessionDock? ActiveInstance { get; private set; }
     private bool _screenDragDimOverride;
     private static readonly string[] PrewarmActions =
@@ -1110,8 +1112,10 @@ public partial class SessionDock : Window
             return;
         if (_opened)
         {
+            _fitAnchorPending = false;
             _anchor?.Refresh();
             ApplyLinuxDockShape();
+            QueueFitWidth();
         }
         completed?.Invoke();
     }
@@ -1191,14 +1195,19 @@ public partial class SessionDock : Window
             if (PortableOverlay.Active && _availableWidth > 0)
                 width = Math.Min(_availableWidth, width);
         }
-        if (width <= shadowRoom || Math.Abs(width - Width) < 0.5)
+        bool changed = width > shadowRoom && Math.Abs(width - Width) >= 0.5;
+        if (changed)
+            Width = width;
+        if (!changed && !_fitAnchorPending)
             return;
-        Width = width;
         if (_opened && !_slide.IsRunning && !_linuxMotionActive)
         {
+            _fitAnchorPending = false;
             _anchor?.Refresh();
             ApplyLinuxDockShape();
         }
+        else
+            _fitAnchorPending = true;
     }
 
     private void SetPillScale(double scale)
@@ -1574,8 +1583,12 @@ public partial class SessionDock : Window
             return;
         bool lengthChanged = run.Text.Length != text.Length;
         run.Text = text;
-        if (lengthChanged)
-            QueueFitWidth();
+        if (!lengthChanged)
+            return;
+        SessionTimes.InvalidateMeasure();
+        GameCard.InvalidateMeasure();
+        _fitAnchorPending = true;
+        QueueFitWidth();
     }
 
     private void DockScroll_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
