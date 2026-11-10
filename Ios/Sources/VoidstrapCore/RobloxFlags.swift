@@ -6,6 +6,22 @@ public enum RobloxFlags {
     static let markers = ["Library/Preferences/\(bundleId).plist", "Library/Caches/\(bundleId)", "Library/Application Support/ClientSettings", "Library/Caches/Roblox"]
     nonisolated(unsafe) static var lastReport = ""
 
+    static var groups: [String] {
+        var out = ["group.com.SideStore.SideStore", "group.com.rileytestut.AltStore", "group.com.kdt.livecontainer", "group.com.livecontainer"]
+        for key in ["LCAppGroupID", "ALTAppGroups", "AppGroups"] {
+            if let one = Bundle.main.object(forInfoDictionaryKey: key) as? String { out.append(one) }
+            if let many = Bundle.main.object(forInfoDictionaryKey: key) as? [String] { out += many }
+        }
+        return out
+    }
+
+    static func describe(_ root: URL) -> String {
+        let fm = FileManager.default
+        let apps = (try? fm.contentsOfDirectory(atPath: root.appendingPathComponent("Applications").path)) ?? []
+        let data = (try? fm.contentsOfDirectory(atPath: root.appendingPathComponent("Data/Application").path)) ?? []
+        return "\(root.path) (apps: \(apps.isEmpty ? "none" : apps.joined(separator: " ")), data folders: \(data.count))"
+    }
+
     static var roots: [URL] {
         var out: [URL] = []
         let path = Paths.documents.standardizedFileURL.path
@@ -14,6 +30,11 @@ public enum RobloxFlags {
         }
         let shared = Paths.shared.standardizedFileURL
         if !out.contains(where: { $0.path == shared.path }) { out.append(shared) }
+        for group in groups {
+            guard let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: group) else { continue }
+            let lc = url.appendingPathComponent("LiveContainer", isDirectory: true).standardizedFileURL
+            if FileManager.default.fileExists(atPath: lc.path), !out.contains(where: { $0.path == lc.path }) { out.append(lc) }
+        }
         return out
     }
 
@@ -77,7 +98,7 @@ public enum RobloxFlags {
         }
         let report = written > 0
             ? "Wrote FastFlags to \(written) Roblox data folders"
-            : "No Roblox data folder found, searched \(roots.map(\.path).joined(separator: ", "))"
+            : "No Roblox data folder found, searched \(roots.map(describe).joined(separator: ", "))"
         if report != lastReport {
             lastReport = report
             Log.write("RobloxFlags::apply", report)
