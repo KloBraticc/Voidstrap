@@ -90,10 +90,8 @@
                 <DataTemplate>
                   <Grid Margin="0,0,10,6" Height="68">
                     <Border CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" />
-                    <Border CornerRadius="8" Margin="1">
-                      <Border.Background>
-                        <ImageBrush ImageSource="{Binding GameArt}" Stretch="UniformToFill" AlignmentY="Center" Opacity="0.45" />
-                      </Border.Background>
+                    <Border Margin="1" Opacity="0.45" util:RoundedClip.Radius="8">
+                      <Image Source="{Binding GameArt}" Stretch="UniformToFill" VerticalAlignment="Center" />
                     </Border>
                     <Border CornerRadius="8" Margin="1">
                       <Border.Background>

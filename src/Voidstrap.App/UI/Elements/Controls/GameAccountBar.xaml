@@ -26,18 +26,23 @@
       </ComboBox.ItemTemplate>
     </ComboBox>
     <ComboBox x:Name="OutfitBox" MinWidth="130" MaxWidth="220" Padding="10,3" FontSize="12" VerticalAlignment="Center" Visibility="Collapsed" ToolTip="{resources:Loc Accounts_Outfits_GameTooltip}" AutomationProperties.Name="{resources:Loc Accounts_Outfits_GameTooltip}" SelectionChanged="OutfitBox_SelectionChanged">
+      <ComboBox.ItemContainerStyle>
+        <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+          <Setter Property="Tag" Value="item" />
+        </Style>
+      </ComboBox.ItemContainerStyle>
       <ComboBox.ItemTemplate>
         <DataTemplate>
           <StackPanel Orientation="Horizontal">
             <Grid VerticalAlignment="Center">
               <Grid.Style>
                 <Style TargetType="Grid">
-                  <Setter Property="Width" Value="34" />
-                  <Setter Property="Height" Value="34" />
+                  <Setter Property="Width" Value="20" />
+                  <Setter Property="Height" Value="20" />
                   <Style.Triggers>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ComboBoxItem}}" Value="{x:Null}">
-                      <Setter Property="Width" Value="20" />
-                      <Setter Property="Height" Value="20" />
+                    <DataTrigger Binding="{Binding TemplatedParent.Tag, RelativeSource={RelativeSource AncestorType=ContentPresenter}}" Value="item">
+                      <Setter Property="Width" Value="34" />
+                      <Setter Property="Height" Value="34" />
                     </DataTrigger>
                   </Style.Triggers>
                 </Style>
