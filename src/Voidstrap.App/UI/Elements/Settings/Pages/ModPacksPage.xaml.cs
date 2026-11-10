@@ -25,6 +25,7 @@ public partial class ModPacksPage : UiPage
         Breadcrumb.AddBackRequestedHandler(this, OnBreadcrumbBack);
         UpdateBreadcrumb();
         PublishPresence();
+        ScrollToTop();
         try
         {
             await Mods.InitializeAsync();
@@ -50,6 +51,40 @@ public partial class ModPacksPage : UiPage
             return;
         UpdateBreadcrumb();
         PublishPresence();
+        ScrollToTop();
+    }
+
+    private void ScrollToTop()
+    {
+        if (FindScrollViewer(this) is { } inner)
+        {
+            inner.ScrollToTop();
+            return;
+        }
+        DependencyObject? node = this;
+        while (node != null)
+        {
+            if (node is System.Windows.Controls.ScrollViewer viewer)
+            {
+                viewer.ScrollToTop();
+                return;
+            }
+            node = System.Windows.Media.VisualTreeHelper.GetParent(node);
+        }
+    }
+
+    private static System.Windows.Controls.ScrollViewer? FindScrollViewer(DependencyObject parent)
+    {
+        int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent);
+        for (int i = 0; i < count; i++)
+        {
+            DependencyObject child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
+            if (child is System.Windows.Controls.ScrollViewer viewer)
+                return viewer;
+            if (FindScrollViewer(child) is { } found)
+                return found;
+        }
+        return null;
     }
 
     private void UpdateBreadcrumb()
