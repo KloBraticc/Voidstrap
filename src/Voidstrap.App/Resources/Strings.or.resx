@@ -9884,7 +9884,4 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ସ୍ୱୟଂଚାଳିତ ଘୂର୍ଣ୍ଣନ</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>ଲାଇଭ୍ ପ୍ରିଭ୍ୟୁ</value>
-  </data>
 </root>

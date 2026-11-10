@@ -26,6 +26,8 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public const string EmotesCategory = "Emotes";
 
+        private static readonly TimeSpan ScaleSendDelay = TimeSpan.FromMilliseconds(600);
+
         private const string BodyTypeScale = "bodyType";
 
         private const string HeightScale = "height";
@@ -67,7 +69,11 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private bool _adjustLoading;
 
-        private bool _livePreview = App.Settings.Prop.AvatarLivePreview;
+        private string _renderedSignature = "";
+
+        private int _sceneVersion;
+
+        private int _scaleVersion;
 
         private ImageSource? _backgroundImage;
 
@@ -121,20 +127,6 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand SetSkinColorCommand { get; }
 
         public ICommand ResetAdjustCommand { get; }
-
-        public bool LivePreview
-        {
-            get => _livePreview;
-            set
-            {
-                if (!SetProperty(ref _livePreview, value))
-                    return;
-                App.Settings.Prop.AvatarLivePreview = value;
-                App.Settings.SaveDeferred();
-                if (_loaded && !_disposed && Cookie() is string cookie)
-                    _ = RefreshPreviewAsync(cookie);
-            }
-        }
 
         public ObservableCollection<AvatarItemRow> Adjustable { get; } = new();
 
@@ -268,8 +260,10 @@ namespace Voidstrap.UI.ViewModels.Settings
             get => _isR15;
             set
             {
-                if (SetProperty(ref _isR15, value) && _loaded)
-                    _ = SetAvatarTypeAsync(value);
+                if (!SetProperty(ref _isR15, value) || !_loaded)
+                    return;
+                Predict(state => state.AvatarType = value ? "R15" : "R6");
+                _ = SetAvatarTypeAsync(value);
             }
         }
 
@@ -414,7 +408,66 @@ namespace Voidstrap.UI.ViewModels.Settings
             LoadAdjust();
             MarkWorn();
             _ = FillThumbnailsAsync(Wearing.ToList(), _cts.Token);
+            _ = RefreshSceneAsync(cookie);
             _ = RefreshPreviewAsync(cookie);
+        }
+
+        private static string Signature(AvatarState state) =>
+            state.AvatarType
+            + "|"
+            + string.Join(",", state.Assets.Select(a => a.Id.ToString(CultureInfo.InvariantCulture) + ":" + a.MetaJson))
+            + "|"
+            + string.Join(",", state.Scales.OrderBy(s => s.Key, StringComparer.Ordinal).Select(s => s.Key + "=" + s.Value.ToString("0.###", CultureInfo.InvariantCulture)))
+            + "|"
+            + string.Join(",", state.BodyColors.OrderBy(c => c.Key, StringComparer.Ordinal).Select(c => c.Key + "=" + c.Value));
+
+        private void Predict(Action<AvatarState> change)
+        {
+            if (_state == null || _disposed)
+                return;
+            AvatarState predicted = new() { AvatarType = _state.AvatarType };
+            predicted.Assets.AddRange(_state.Assets);
+            predicted.Emotes.AddRange(_state.Emotes);
+            foreach ((string key, double value) in _state.Scales)
+                predicted.Scales[key] = value;
+            foreach ((string key, string value) in _state.BodyColors)
+                predicted.BodyColors[key] = value;
+            change(predicted);
+            _state = predicted;
+            string? cookie = SavedAccounts.ReadCurrentCookie(_account);
+            if (!string.IsNullOrEmpty(cookie))
+                _ = RefreshSceneAsync(cookie);
+        }
+
+        private async Task RefreshSceneAsync(string cookie)
+        {
+            const string LOG_IDENT = "AvatarViewModel::RefreshSceneAsync";
+            AvatarState? state = _state;
+            if (state == null || _disposed)
+                return;
+            string signature = Signature(state);
+            if (signature == _renderedSignature && Scene != null)
+                return;
+            int version = ++_sceneVersion;
+            _renderedSignature = signature;
+            CancellationToken token = _cts.Token;
+            try
+            {
+                PreviewLoading = true;
+                AvatarScene? scene = await RobloxAvatar.BuildLiveSceneAsync(state, cookie, token) ?? await RobloxAvatar.LoadSceneAsync(_account.UserId, cookie, token);
+                if (version == _sceneVersion)
+                    Scene = scene;
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The avatar could not be drawn: " + ex.Message);
+            }
+            finally
+            {
+                if (version == _sceneVersion)
+                    PreviewLoading = false;
+            }
         }
 
         private async Task RefreshPreviewAsync(string cookie)
@@ -424,7 +477,6 @@ namespace Voidstrap.UI.ViewModels.Settings
             CancellationToken token = _cts.Token;
             try
             {
-                PreviewLoading = true;
                 if (_backgroundId == 0)
                 {
                     List<AvatarItemRow> owned = await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.BackgroundTypes, cookie, token);
@@ -433,7 +485,6 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
                 Task<string?> background = _backgroundId > 0 ? RobloxAvatar.ThumbnailAsync("Asset", _backgroundId, token) : Task.FromResult<string?>(null);
                 Task<string?> image = RobloxAvatar.ThumbnailAsync("Avatar", _account.UserId, token);
-                Task<AvatarScene?> scene = LoadSceneAsync(cookie, token);
                 string? backgroundUrl = await background;
                 string? imageUrl = await image;
                 if (version != _previewVersion)
@@ -447,27 +498,12 @@ namespace Voidstrap.UI.ViewModels.Settings
                     BackgroundImage = picture;
                 }
                 AvatarImageUrl = imageUrl ?? AvatarImageUrl;
-                AvatarScene? loaded = await scene;
-                if (version == _previewVersion)
-                    Scene = loaded;
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger?.WriteLine(LOG_IDENT, "The avatar preview could not be refreshed: " + ex.Message);
             }
-            finally
-            {
-                if (version == _previewVersion)
-                    PreviewLoading = false;
-            }
-        }
-
-        private async Task<AvatarScene?> LoadSceneAsync(string cookie, CancellationToken token)
-        {
-            if (_livePreview && _state != null && _state.AvatarType != "R6" && await RobloxAvatar.BuildLiveSceneAsync(_state, cookie, token) is AvatarScene live)
-                return live;
-            return await RobloxAvatar.LoadSceneAsync(_account.UserId, cookie, token);
         }
 
         private async Task LoadCategoryAsync()
@@ -597,6 +633,12 @@ namespace Voidstrap.UI.ViewModels.Settings
                             assets.Remove(assets.First(a => a.TypeName == row.TypeName));
                         assets.Add(new AvatarAsset(row.Id, row.Name, typeId, row.TypeName, RobloxAvatar.DefaultMeta(row.TypeName)));
                     }
+                    if (row.TypeName != RobloxAvatar.BackgroundType)
+                        Predict(state =>
+                        {
+                            state.Assets.Clear();
+                            state.Assets.AddRange(assets);
+                        });
                     ok = await RobloxAvatar.SetWearingAsync(assets, cookie, _cts.Token);
                     if (ok && row.TypeName == RobloxAvatar.BackgroundType)
                         _backgroundId = wasWorn ? 0 : row.Id;
@@ -637,6 +679,11 @@ namespace Voidstrap.UI.ViewModels.Settings
             string value = (hex ?? "").TrimStart('#');
             if (value.Length != 6 || !value.All(Uri.IsHexDigit))
                 return Task.CompletedTask;
+            Predict(state =>
+            {
+                foreach (string part in RobloxAvatar.BodyColorParts)
+                    state.BodyColors[part] = value.ToUpperInvariant();
+            });
             return ApplyAsync(cookie => RobloxAvatar.SetBodyColorsAsync(value, cookie, _cts.Token), true);
         }
 
@@ -652,7 +699,24 @@ namespace Voidstrap.UI.ViewModels.Settings
             Dictionary<string, double> scales = new(_state.Scales);
             foreach ((string name, double amount) in _scales)
                 scales[name] = amount / 100.0;
-            _ = ApplyAsync(cookie => RobloxAvatar.SetScalesAsync(scales, cookie, _cts.Token), false);
+            Predict(state =>
+            {
+                foreach ((string name, double amount) in scales)
+                    state.Scales[name] = amount;
+            });
+            _ = SendScalesAsync(scales, ++_scaleVersion);
+        }
+
+        private async Task SendScalesAsync(Dictionary<string, double> scales, int version)
+        {
+            try
+            {
+                await Task.Delay(ScaleSendDelay, _cts.Token);
+                if (version == _scaleVersion && !_disposed)
+                    await ApplyAsync(cookie => RobloxAvatar.SetScalesAsync(scales, cookie, _cts.Token), false);
+            }
+            catch (OperationCanceledException) { }
+            catch (ObjectDisposedException) { }
         }
 
         private (double Min, double Max) AdjustBound(string kind, string axis)
@@ -750,6 +814,11 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
             string json = meta.ToJsonString();
             List<AvatarAsset> assets = _state.Assets.Select(a => a.Id == id ? a with { MetaJson = json } : a).ToList();
+            Predict(state =>
+            {
+                state.Assets.Clear();
+                state.Assets.AddRange(assets);
+            });
             return ApplyAsync(cookie => RobloxAvatar.SetWearingAsync(assets, cookie, _cts.Token), false);
         }
 

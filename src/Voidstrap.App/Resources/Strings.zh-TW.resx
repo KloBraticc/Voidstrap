@@ -10199,7 +10199,4 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>自動旋轉</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>即時預覽</value>
-  </data>
 </root>

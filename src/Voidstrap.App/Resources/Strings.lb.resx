@@ -9884,7 +9884,4 @@ Spiller: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatesch Rotatioun</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>Live Virschau</value>
-  </data>
 </root>

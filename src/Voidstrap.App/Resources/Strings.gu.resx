@@ -9884,7 +9884,4 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ઑટો રોટેટ</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>લાઇવ પ્રિવ્યૂ</value>
-  </data>
 </root>

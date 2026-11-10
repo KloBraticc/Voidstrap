@@ -10196,7 +10196,4 @@ Spelare: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatisk rotation</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>Live förhandsvisning</value>
-  </data>
 </root>

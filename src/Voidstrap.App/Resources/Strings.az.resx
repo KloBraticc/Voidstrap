@@ -9883,7 +9883,4 @@ Oyunçular: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Avtomatik fırlanma</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>Canlı önizləmə</value>
-  </data>
 </root>

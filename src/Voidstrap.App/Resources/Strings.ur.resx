@@ -9883,7 +9883,4 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>خودکار گردش</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>لائیو پیش منظر</value>
-  </data>
 </root>

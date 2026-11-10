@@ -10198,7 +10198,4 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>چرخش خودکار</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>پیش‌نمایش زنده</value>
-  </data>
 </root>

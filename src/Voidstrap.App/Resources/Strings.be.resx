@@ -9883,7 +9883,4 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Аўтаматычны паварот</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>Жывы прадпрагляд</value>
-  </data>
 </root>

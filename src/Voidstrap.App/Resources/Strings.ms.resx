@@ -10188,7 +10188,4 @@ Pemain: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Putaran automatik</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>Pratonton langsung</value>
-  </data>
 </root>

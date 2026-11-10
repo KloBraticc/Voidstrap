@@ -9884,7 +9884,4 @@ Abakinnyi: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Kuzenguruka byikora</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>Igaragaza rya ako kanya</value>
-  </data>
 </root>

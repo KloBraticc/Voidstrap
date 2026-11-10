@@ -9883,7 +9883,4 @@ Chwaraewyr: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Cylchdroi awtomatig</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>Rhagolwg byw</value>
-  </data>
 </root>

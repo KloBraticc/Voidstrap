@@ -9884,7 +9884,4 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ໝຸນອັດຕະໂນມັດ</value>
   </data>
-  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
-    <value>ຕົວຢ່າງສົດ</value>
-  </data>
 </root>
