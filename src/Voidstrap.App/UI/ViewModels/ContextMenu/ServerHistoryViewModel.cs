@@ -48,6 +48,7 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 {
     private readonly ActivityWatcher _activityWatcher;
     private readonly SemaphoreSlim _loadGate = new SemaphoreSlim(1, 1);
+    private int _reloadPending;
     private readonly CancellationTokenSource _lifetimeCts = new CancellationTokenSource();
 
     private bool _disposed;
@@ -189,9 +190,11 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
         bool gateHeld = false;
         try
         {
+            Interlocked.Exchange(ref _reloadPending, 1);
             if (!await _loadGate.WaitAsync(0, token))
                 return;
             gateHeld = true;
+            Interlocked.Exchange(ref _reloadPending, 0);
             token.ThrowIfCancellationRequested();
             SetLoadingState();
             List<ActivityData> stored = await Task.Run(LoadHistoryFromFile, token);
@@ -261,7 +264,11 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
         finally
         {
             if (gateHeld)
+            {
                 _loadGate.Release();
+                if (!_disposed && Interlocked.Exchange(ref _reloadPending, 0) == 1)
+                    _ = LoadDataAsync(_lifetimeToken);
+            }
         }
     }
 
@@ -292,10 +299,11 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
         bool acquired = false;
         try
         {
-            if (_disposed || !await _statusGate.WaitAsync(0, _lifetimeToken))
+            if (_disposed || _lifetimeToken.IsCancellationRequested || !await _statusGate.WaitAsync(0, _lifetimeToken))
                 return;
             acquired = true;
             var places = FilteredGameHistory
+                .ToArray()
                 .Where(item => item.ServerType == ServerType.Public && !string.IsNullOrWhiteSpace(item.JobId))
                 .GroupBy(item => item.PlaceId)
                 .ToArray();
@@ -499,6 +507,7 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
             ServerType filterType = _selectedServerTypeFilter.Value.Value;
             source = source.Where((ActivityData x) => x.ServerType == filterType);
         }
+        source = source.GroupBy(x => x.PlaceId).Select(group => group.OrderByDescending(x => x.TimeJoined).First());
         source = (_selectedSort?.Value) switch
         {
             ServerHistorySortBy.Oldest => source.OrderBy((ActivityData x) => x.TimeJoined),
@@ -556,25 +565,13 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
         Dispatcher? dispatcher = Application.Current?.Dispatcher;
         if (dispatcher == null || dispatcher.CheckAccess())
             action();
-        else
-            dispatcher.Invoke(action);
+        else if (!dispatcher.HasShutdownStarted)
+            _ = dispatcher.InvokeAsync(action);
     }
 
     private void RequestClose()
     {
         this.RequestCloseEvent?.Invoke(this, EventArgs.Empty);
-    }
-
-    private async Task DisposeStatusGateAsync()
-    {
-        await _statusGate.WaitAsync().ConfigureAwait(false);
-        _statusGate.Dispose();
-    }
-
-    private async Task DisposeLoadGateAsync()
-    {
-        await _loadGate.WaitAsync().ConfigureAwait(false);
-        _loadGate.Dispose();
     }
 
     public void Dispose()
@@ -588,11 +585,8 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
         _statusTimer.Stop();
         _statusTimer.Tick -= OnStatusTick;
         _lifetimeCts.Cancel();
-        _lifetimeCts.Dispose();
-        _ = DisposeLoadGateAsync();
-        _ = DisposeStatusGateAsync();
-        GameHistory.Clear();
-        FilteredGameHistory.Clear();
+        GameHistory = new List<ActivityData>();
+        FilteredGameHistory = new List<ActivityData>();
         RequestCloseEvent = null;
         GC.SuppressFinalize(this);
     }
