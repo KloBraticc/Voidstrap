@@ -4,7 +4,12 @@ using Voidstrap.Integrations.Animation;
 
 namespace Voidstrap.Models;
 
-public sealed record AvatarPiece(MeshGeometry3D Mesh, Material Material, string Part, Matrix3D Offset);
+public sealed record AvatarSkin(Point3D[] Local, int[] Bone, string[] Bones);
+
+public sealed record AvatarPiece(MeshGeometry3D Mesh, Material Material, string Part, Matrix3D Offset)
+{
+    public AvatarSkin? Skin { get; init; }
+}
 
 public sealed record AvatarEffect(string Kind, string Part, Matrix3D Offset, Color Color);
 

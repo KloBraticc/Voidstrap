@@ -465,7 +465,7 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private async Task<AvatarScene?> LoadSceneAsync(string cookie, CancellationToken token)
         {
-            if (_livePreview && _state != null && await RobloxAvatar.BuildLiveSceneAsync(_state, cookie, token) is AvatarScene live)
+            if (_livePreview && _state != null && _state.AvatarType != "R6" && await RobloxAvatar.BuildLiveSceneAsync(_state, cookie, token) is AvatarScene live)
                 return live;
             return await RobloxAvatar.LoadSceneAsync(_account.UserId, cookie, token);
         }

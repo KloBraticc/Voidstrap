@@ -99,7 +99,7 @@ namespace Voidstrap.UI.Elements.Controls
 
         private DateTime _lastRotateTick;
 
-        private List<(AvatarPiece Piece, MatrixTransform3D Transform)>? _pieces;
+        private List<(AvatarPiece Piece, MatrixTransform3D Transform, MeshGeometry3D? Skinned)>? _pieces;
 
         private double _animationTime;
 
@@ -164,7 +164,7 @@ namespace Voidstrap.UI.Elements.Controls
             {
                 Model3D? model = BuildPieces(scene) ?? scene?.Model;
                 _particles = scene?.Effects is { Count: > 0 } effects && _pieces != null ? new AvatarParticles(effects) : null;
-                if (_particles is { Any: true } && model is Model3DGroup holder)
+                if (_particles is { Any: true } && Supports3D && model is Model3DGroup holder)
                     foreach (GeometryModel3D effect in _particles.Models)
                         holder.Children.Add(effect);
                 if (_renderer != null)
@@ -204,13 +204,16 @@ namespace Voidstrap.UI.Elements.Controls
             _pieces = null;
             if (scene?.Pieces == null || scene.Rig == null || scene.Pieces.Count == 0)
                 return null;
-            List<(AvatarPiece Piece, MatrixTransform3D Transform)> pieces = new();
+            List<(AvatarPiece Piece, MatrixTransform3D Transform, MeshGeometry3D? Skinned)> pieces = new();
             Model3DGroup group = new();
             foreach (AvatarPiece piece in scene.Pieces)
             {
                 MatrixTransform3D transform = new();
-                group.Children.Add(new GeometryModel3D(piece.Mesh, piece.Material) { BackMaterial = piece.Material, Transform = transform });
-                pieces.Add((piece, transform));
+                MeshGeometry3D? skinned = piece.Skin == null
+                    ? null
+                    : new MeshGeometry3D { Positions = piece.Mesh.Positions, TextureCoordinates = piece.Mesh.TextureCoordinates, TriangleIndices = piece.Mesh.TriangleIndices };
+                group.Children.Add(new GeometryModel3D(skinned ?? piece.Mesh, piece.Material) { BackMaterial = piece.Material, Transform = transform });
+                pieces.Add((piece, transform, skinned));
             }
             _pieces = pieces;
             return group;
@@ -222,8 +225,22 @@ namespace Voidstrap.UI.Elements.Controls
                 return;
             Dictionary<string, Voidstrap.Integrations.Animation.RobloxCFrame> world = Voidstrap.Integrations.AvatarPose.Evaluate(scene.Rig, _animationTime);
             List<Matrix3D>? moved = _renderer != null ? new List<Matrix3D>(_pieces.Count) : null;
-            foreach ((AvatarPiece piece, MatrixTransform3D transform) in _pieces)
+            for (int index = 0; index < _pieces.Count; index++)
             {
+                (AvatarPiece piece, MatrixTransform3D transform, MeshGeometry3D? skinned) = _pieces[index];
+                if (piece.Skin is AvatarSkin skin && skinned != null)
+                {
+                    Matrix3D[] bones = new Matrix3D[skin.Bones.Length];
+                    for (int b = 0; b < bones.Length; b++)
+                        bones[b] = world.TryGetValue(skin.Bones[b], out Voidstrap.Integrations.Animation.RobloxCFrame bone) ? bone.ToMatrix3D() : Matrix3D.Identity;
+                    Point3DCollection posed = new(skin.Local.Length);
+                    for (int v = 0; v < skin.Local.Length; v++)
+                        posed.Add(bones[skin.Bone[v]].Transform(skin.Local[v]));
+                    skinned.Positions = posed;
+                    _renderer?.SetPositions(index, posed);
+                    moved?.Add(Matrix3D.Identity);
+                    continue;
+                }
                 Matrix3D matrix = world.TryGetValue(piece.Part, out Voidstrap.Integrations.Animation.RobloxCFrame frame) ? piece.Offset * frame.ToMatrix3D() : piece.Offset;
                 transform.Matrix = matrix;
                 moved?.Add(matrix);

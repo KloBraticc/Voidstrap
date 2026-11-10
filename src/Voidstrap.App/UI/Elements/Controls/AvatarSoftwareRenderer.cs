@@ -44,6 +44,19 @@ internal sealed class AvatarSoftwareRenderer
         }
     }
 
+    public void SetPositions(int index, IList<Point3D> positions)
+    {
+        if (index < 0 || index >= _avatar.Count || _avatar[index].Positions.Length != positions.Count * 3)
+            return;
+        float[] target = _avatar[index].Positions;
+        for (int i = 0; i < positions.Count; i++)
+        {
+            target[i * 3] = (float)positions[i].X;
+            target[i * 3 + 1] = (float)positions[i].Y;
+            target[i * 3 + 2] = (float)positions[i].Z;
+        }
+    }
+
     public void SetEffects(IEnumerable<GeometryModel3D> models)
     {
         _effects.Clear();

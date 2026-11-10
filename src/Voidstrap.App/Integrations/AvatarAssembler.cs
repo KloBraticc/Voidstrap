@@ -67,6 +67,10 @@ internal static partial class AvatarAssembler
         ["ParticleEmitter"] = ("", Color.FromRgb(255, 255, 255)),
     };
 
+    private static readonly string[] RigFiles = ["characterR15DynamicHeadV2.rbxm", "characterR15.rbxm"];
+
+    private static readonly string[] MeshKeys = ["MeshId", "MeshID", "MeshContent"];
+
     private static readonly string[] TextureKeys = ["TextureID", "TextureId", "TextureContent"];
 
     private static readonly string[] SurfaceKeys = ["ColorMap", "ColorMapContent"];
@@ -87,8 +91,8 @@ internal static partial class AvatarAssembler
     )
     {
         string content = Path.Combine(installRoot, "content");
-        string rigPath = Path.Combine(content, "avatar", "characterR15.rbxm");
-        if (!File.Exists(rigPath))
+        string rigPath = RigFiles.Select(name => Path.Combine(content, "avatar", name)).FirstOrDefault(File.Exists) ?? "";
+        if (rigPath.Length == 0)
         {
             log("The Roblox character rig was not found in the Roblox install");
             return null;
@@ -174,6 +178,7 @@ internal static partial class AvatarAssembler
         }
         if (models.Count < MinimumParts || !bounds.Valid)
             return null;
+        Dictionary<(long, long), AvatarLayering.CagePoint> cage = await BuildCageAsync(parts, world, bodyScale, headScale, content, fetchAsset, log, token);
         foreach (AvatarAsset asset in state.Assets)
         {
             token.ThrowIfCancellationRequested();
@@ -191,6 +196,16 @@ internal static partial class AvatarAssembler
                 RbxmInstance? accessory = roots.Concat(roots.SelectMany(r => r.Descendants())).FirstOrDefault(i => i.ClassName == "Accessory");
                 RbxmInstance? handle = accessory?.Child("Handle") ?? accessory?.Children.FirstOrDefault(c => c.ClassName is "MeshPart" or "Part");
                 RbxmInstance? attachment = handle?.Children.FirstOrDefault(c => c.ClassName == "Attachment" && c.CFrames.ContainsKey("CFrame"));
+                if (handle != null && cage.Count > 0 && handle.Children.FirstOrDefault(c => c.ClassName == "WrapLayer") is RbxmInstance layer)
+                {
+                    GeometryModel3D? wrapped = await BuildLayeredAsync(handle, layer, cage, world, pieces, bounds, content, fetchAsset, token);
+                    if (wrapped != null)
+                    {
+                        models.Add(wrapped);
+                        continue;
+                    }
+                    log("Layered item " + asset.Id + " could not be fitted to the body, so it is placed without bending");
+                }
                 RobloxCFrame frame;
                 Vector3D scale;
                 string owner = HeadPart;
@@ -250,6 +265,136 @@ internal static partial class AvatarAssembler
         AnimationData? animation = await LoadAnimationAsync(state, fetchAsset, log, token);
         return new AvatarScene(group, bounds.ToRect(), 180.0) { Pieces = pieces, Rig = new AvatarRig(RootPart, joints, animation), Effects = effects };
     }
+
+    private static string? FirstValue(RbxmInstance instance, string[] keys)
+    {
+        foreach (string key in keys)
+            if (instance.Strings.TryGetValue(key, out string? value) && value.Length > 0)
+                return value;
+        return null;
+    }
+
+    private static Vector3D MeshScale(RbxmInstance part) =>
+        part.Vectors.TryGetValue("size", out Vector3D size) && part.Vectors.TryGetValue("InitialSize", out Vector3D initial) && initial.X > 1e-6 && initial.Y > 1e-6 && initial.Z > 1e-6
+            ? new Vector3D(size.X / initial.X, size.Y / initial.Y, size.Z / initial.Z)
+            : new Vector3D(1, 1, 1);
+
+    private static async Task<Dictionary<(long, long), AvatarLayering.CagePoint>> BuildCageAsync(
+        Dictionary<string, RbxmInstance> parts,
+        Dictionary<string, RobloxCFrame> world,
+        Vector3D bodyScale,
+        double headScale,
+        string content,
+        Func<long, CancellationToken, Task<byte[]?>> fetchAsset,
+        Action<string> log,
+        CancellationToken token
+    )
+    {
+        Dictionary<(long, long), AvatarLayering.CagePoint> cage = new();
+        foreach ((string name, RbxmInstance part) in parts)
+        {
+            if (!world.TryGetValue(name, out RobloxCFrame frame) || part.Children.FirstOrDefault(c => c.ClassName == "WrapTarget") is not RbxmInstance target)
+                continue;
+            try
+            {
+                byte[]? bytes = await ResolveAsync(FirstValue(target, CageKeys), content, fetchAsset, token);
+                if (bytes == null)
+                    continue;
+                TexturedMesh mesh = MeshParser.ParseTextured(bytes);
+                Matrix3D origin = (target.CFrames.TryGetValue("CageOrigin", out RobloxCFrame cageOrigin) ? cageOrigin : RobloxCFrame.Identity).ToMatrix3D();
+                Matrix3D placed = frame.ToMatrix3D();
+                Vector3D scale = MeshScale(part);
+                Vector3D body = name == HeadPart ? Uniform(headScale) : bodyScale;
+                for (int i = 0; i < mesh.Positions.Count && i < mesh.Coords.Count; i++)
+                {
+                    Point3D local = origin.Transform(mesh.Positions[i]);
+                    cage[AvatarLayering.Key(mesh.Coords[i])] = new AvatarLayering.CagePoint(
+                        placed.Transform(new Point3D(local.X * scale.X * body.X, local.Y * scale.Y * body.Y, local.Z * scale.Z * body.Z)),
+                        name
+                    );
+                }
+            }
+            catch (Exception ex) when (ex is InvalidDataException or IOException or HttpRequestException)
+            {
+                log("The fitting shape for " + name + " could not be read: " + ex.Message);
+            }
+        }
+        return cage;
+    }
+
+    private static async Task<GeometryModel3D?> BuildLayeredAsync(
+        RbxmInstance handle,
+        RbxmInstance layer,
+        Dictionary<(long, long), AvatarLayering.CagePoint> cage,
+        Dictionary<string, RobloxCFrame> world,
+        List<AvatarPiece> pieces,
+        Bounds bounds,
+        string content,
+        Func<long, CancellationToken, Task<byte[]?>> fetchAsset,
+        CancellationToken token
+    )
+    {
+        byte[]? meshBytes = await ResolveAsync(FirstValue(handle, MeshKeys), content, fetchAsset, token);
+        byte[]? referenceBytes = await ResolveAsync(FirstValue(layer, ReferenceKeys), content, fetchAsset, token);
+        byte[]? textureBytes = await ResolveAsync(TextureUri(handle), content, fetchAsset, token);
+        if (meshBytes == null || referenceBytes == null)
+            return null;
+        TexturedMesh source = MeshParser.ParseTextured(meshBytes);
+        AvatarLayering.Wrapped? wrapped = AvatarLayering.Wrap(
+            source,
+            MeshScale(handle),
+            MeshParser.ParseTextured(referenceBytes),
+            layer.CFrames.TryGetValue("ReferenceOrigin", out RobloxCFrame referenceOrigin) ? referenceOrigin : RobloxCFrame.Identity,
+            cage,
+            RootPart
+        );
+        if (wrapped == null)
+            return null;
+        string[] bones = wrapped.Parts.Distinct().Where(world.ContainsKey).ToArray();
+        if (bones.Length == 0)
+            return null;
+        Dictionary<string, int> boneIndex = new(StringComparer.Ordinal);
+        Matrix3D[] inverse = new Matrix3D[bones.Length];
+        for (int i = 0; i < bones.Length; i++)
+        {
+            boneIndex[bones[i]] = i;
+            inverse[i] = world[bones[i]].Inverse().ToMatrix3D();
+        }
+        MeshGeometry3D mesh = new();
+        Point3D[] local = new Point3D[wrapped.Positions.Length];
+        int[] bone = new int[wrapped.Positions.Length];
+        for (int i = 0; i < wrapped.Positions.Length; i++)
+        {
+            mesh.Positions.Add(wrapped.Positions[i]);
+            bounds.Add(wrapped.Positions[i]);
+            bone[i] = boneIndex.GetValueOrDefault(wrapped.Parts[i]);
+            local[i] = inverse[bone[i]].Transform(wrapped.Positions[i]);
+        }
+        foreach (Point coord in source.Coords)
+            mesh.TextureCoordinates.Add(coord);
+        foreach (int index in source.Indices)
+            mesh.TriangleIndices.Add(index);
+        mesh.Freeze();
+        Brush brush = new SolidColorBrush(Color.FromRgb(0xA3, 0xA2, 0xA5));
+        if (textureBytes != null && textureBytes.Length <= MaxTextureBytes && Composite(textureBytes, null) is BitmapSource texture)
+            brush = new ImageBrush(texture)
+            {
+                ViewportUnits = BrushMappingMode.Absolute,
+                Viewport = new Rect(0, 0, 1, 1),
+                TileMode = TileMode.Tile,
+                Stretch = Stretch.Fill,
+            };
+        DiffuseMaterial material = new(brush);
+        material.Freeze();
+        pieces.Add(new AvatarPiece(mesh, material, "", Matrix3D.Identity) { Skin = new AvatarSkin(local, bone, bones) });
+        GeometryModel3D model = new(mesh, material) { BackMaterial = material };
+        model.Freeze();
+        return model;
+    }
+
+    private static readonly string[] CageKeys = ["CageMeshId", "CageMeshContent"];
+
+    private static readonly string[] ReferenceKeys = ["ReferenceMeshId", "ReferenceMeshContent"];
 
     private static async Task<AnimationData?> LoadAnimationAsync(
         AvatarState state,
@@ -331,6 +476,12 @@ internal static partial class AvatarAssembler
             if (part.Vectors.TryGetValue("size", out Vector3D size) && part.Vectors.TryGetValue("InitialSize", out Vector3D initial) && initial.X > 1e-6 && initial.Y > 1e-6 && initial.Z > 1e-6)
                 meshScale = new Vector3D(size.X / initial.X, size.Y / initial.Y, size.Z / initial.Z);
             textureUri = TextureUri(part);
+            if (meshBytes == null && defaultHead)
+            {
+                meshBytes = await ReadFileAsync(Path.Combine(content, "avatar", "heads", "head.mesh"), token);
+                meshScale = new Vector3D(1, 1, 1);
+                textureUri = "rbxasset://textures/face.png";
+            }
         }
         else
         {
