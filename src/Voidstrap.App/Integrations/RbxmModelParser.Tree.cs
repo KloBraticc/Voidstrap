@@ -21,6 +21,10 @@ public static partial class RbxmModelParser
 
     private const byte Color3ByteType = 26;
 
+    private const byte EnumType = 18;
+
+    private const byte Int64Type = 27;
+
     public static List<RbxmInstance> ReadTree(byte[] data)
     {
         List<RbxmInstance> roots = new();
@@ -153,6 +157,26 @@ public static partial class RbxmModelParser
                 for (int i = 0; i < count; i++)
                     if (instances.TryGetValue(referents[i], out RbxmInstance? instance))
                         instance.Numbers[name] = (int)((integers[i] >> 1) ^ (0 - (integers[i] & 1)));
+                break;
+            case EnumType:
+                if ((long)count * 4 > p.Length - pos)
+                    return;
+                uint[] tokens = ReadInterleavedU32(p, ref pos, count);
+                for (int i = 0; i < count; i++)
+                    if (instances.TryGetValue(referents[i], out RbxmInstance? instance))
+                        instance.Numbers[name] = tokens[i];
+                break;
+            case Int64Type:
+                if ((long)count * 8 > p.Length - pos)
+                    return;
+                for (int i = 0; i < count; i++)
+                {
+                    ulong raw = 0;
+                    for (int b = 0; b < 8; b++)
+                        raw = (raw << 8) | p[pos + b * count + i];
+                    if (instances.TryGetValue(referents[i], out RbxmInstance? instance))
+                        instance.Numbers[name] = (long)(raw >> 1) ^ -(long)(raw & 1);
+                }
                 break;
             case FloatType:
                 if ((long)count * 4 > p.Length - pos)

@@ -136,18 +136,70 @@ internal static class AvatarClothing
         if (mesh != null)
         {
             if (lower != null)
-                Draw(canvas, width, height, mesh, lower, false);
+                Draw(canvas, width, height, mesh, lower, false, null);
             if (upper != null)
-                Draw(canvas, width, height, mesh, upper, false);
+                Draw(canvas, width, height, mesh, upper, false, null);
             if (front != null)
-                Draw(canvas, width, height, mesh, front, true);
+                Draw(canvas, width, height, mesh, front, true, null);
         }
         BitmapSource result = BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, canvas, width * 4);
         result.Freeze();
         return result;
     }
 
-    private static void Draw(byte[] canvas, int width, int height, TexturedMesh mesh, Picture source, bool frontOnly)
+    public static BitmapSource? PaintClassic(IReadOnlyDictionary<string, Color> colors, Picture? pants, Picture? shirt, Picture? graphic, string content)
+    {
+        const int width = 1024;
+        const int height = 512;
+        byte[] canvas = new byte[width * height * 4];
+        Color fallback = colors.GetValueOrDefault(Torso, Color.FromRgb(0xA3, 0xA2, 0xA5));
+        for (int i = 0; i < canvas.Length; i += 4)
+        {
+            canvas[i] = fallback.B;
+            canvas[i + 1] = fallback.G;
+            canvas[i + 2] = fallback.R;
+            canvas[i + 3] = 255;
+        }
+        foreach ((string limb, string file) in ClassicBases)
+            if (colors.TryGetValue(limb, out Color color) && LoadMesh(content, file) is TexturedMesh mesh)
+                Draw(canvas, width, height, mesh, null, false, color);
+        if (pants != null && LoadMesh(content, "CompositPantsTemplate.mesh") is TexturedMesh pantsMesh)
+            Draw(canvas, width, height, pantsMesh, pants, false, null);
+        if (shirt != null && LoadMesh(content, "CompositShirtTemplate.mesh") is TexturedMesh shirtMesh)
+            Draw(canvas, width, height, shirtMesh, shirt, false, null);
+        if (graphic != null && LoadMesh(content, "CompositTShirt.mesh") is TexturedMesh graphicMesh)
+            Draw(canvas, width, height, graphicMesh, graphic, false, null);
+        BitmapSource result = BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, canvas, width * 4);
+        result.Freeze();
+        return result;
+    }
+
+    private static readonly (string Limb, string File)[] ClassicBases =
+    [
+        (Torso, "CompositTorsoBase.mesh"),
+        (LeftArm, "CompositLeftArmBase.mesh"),
+        (RightArm, "CompositRightArmBase.mesh"),
+        (LeftLeg, "CompositLeftLegBase.mesh"),
+        (RightLeg, "CompositRightLegBase.mesh"),
+    ];
+
+    private static TexturedMesh? LoadMesh(string content, string file) =>
+        Meshes.GetOrAdd(
+            Path.Combine(content, "avatar", "compositing", file),
+            path =>
+            {
+                try
+                {
+                    return File.Exists(path) ? MeshParser.ParseTextured(File.ReadAllBytes(path)) : null;
+                }
+                catch (Exception ex) when (ex is InvalidDataException or IOException)
+                {
+                    return null;
+                }
+            }
+        );
+
+    private static void Draw(byte[] canvas, int width, int height, TexturedMesh mesh, Picture? source, bool frontOnly, Color? fill)
     {
         for (int t = 0; t + 2 < mesh.Indices.Count; t += 3)
         {
@@ -186,7 +238,17 @@ internal static class AvatarClothing
                     if (u < 0 || u > 1 || v < 0 || v > 1)
                         continue;
                 }
-                Blend(canvas, (y * width + x) * 4, source, u, v);
+                int offset = (y * width + x) * 4;
+                if (fill is Color solid)
+                {
+                    canvas[offset] = solid.B;
+                    canvas[offset + 1] = solid.G;
+                    canvas[offset + 2] = solid.R;
+                }
+                else if (source != null)
+                {
+                    Blend(canvas, offset, source, u, v);
+                }
             }
         }
     }
