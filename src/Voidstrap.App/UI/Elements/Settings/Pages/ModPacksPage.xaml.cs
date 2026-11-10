@@ -57,7 +57,7 @@ public partial class ModPacksPage : UiPage
         if (Mods.SelectedMod is { } mod)
             Voidstrap.UI.BreadcrumbHeader.Set(this, mod.Name);
         else
-            Voidstrap.UI.BreadcrumbHeader.Clear(this);
+            Voidstrap.UI.BreadcrumbHeader.SetLocalized(this, nameof(Voidstrap.Resources.Strings.Ui_Mods_ModPacks));
         if (Window.GetWindow(this) is MainWindow mainWindow)
             mainWindow.RefreshGlobalSearchBoxVisibility();
     }
