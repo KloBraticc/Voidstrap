@@ -959,6 +959,8 @@ public partial class DiscordRichPresence : IDisposable
         bool verified = universe?.Data?.Creator?.HasVerifiedBadge ?? false;
         _gameActivityName = cleanName.Trim().Length < 2 ? cleanName + "⠀⠀⠀" : cleanName;
         string detailText = BuildDetailText(cleanName, betaTag);
+        if (string.Equals(detailText.Trim(), cleanName.Trim(), StringComparison.Ordinal))
+            detailText = string.Empty;
         bool sameActivity;
         string? knownLocation;
         string knownLargeImage;
@@ -1037,7 +1039,7 @@ public partial class DiscordRichPresence : IDisposable
             {
                 _lastPresenceSignature = signature;
                 UpdatePresence(force: joined);
-                string status = "Prepared presence for " + Voidstrap.Utility.RpcText.Render(detailText);
+                string status = "Prepared presence for " + Voidstrap.Utility.RpcText.Render(cleanName);
                 App.Logger.WriteLine(LOG_IDENT, status);
                 if (joined)
                     PublishLaunchStatus(status);
