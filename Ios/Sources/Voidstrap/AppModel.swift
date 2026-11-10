@@ -172,6 +172,10 @@ final class AppModel: ObservableObject {
     }
 
     func launchRoblox() {
+        if LiveInstall.installed, !LiveInstall.opened {
+            show("Open Roblox from the LiveContainer app list once so LiveContainer can sign it. After that, Launch works from here.", error: true)
+            return
+        }
         let target = LiveInstall.installed ? "livecontainer://livecontainer-launch?bundle-name=\(LiveInstall.folder)" : "roblox://"
         if let url = URL(string: target) { launchUrl(url) }
     }

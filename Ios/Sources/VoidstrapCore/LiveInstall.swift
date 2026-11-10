@@ -7,6 +7,32 @@ public enum LiveInstall {
         RobloxFlags.roots.first { FileManager.default.fileExists(atPath: $0.appendingPathComponent("Applications").path) }
     }
 
+    public static var opened: Bool {
+        guard let root, let info = RobloxFlags.plist(root.appendingPathComponent("Applications/\(folder)/LCAppInfo.plist")),
+              let id = info["LCDataUUID"] as? String else { return false }
+        let home = root.appendingPathComponent("Data/Application/\(id)")
+        return RobloxFlags.markers.dropLast(2).contains { FileManager.default.fileExists(atPath: home.appendingPathComponent($0).path) }
+    }
+
+    static func patchExec(_ url: URL) throws {
+        let handle = try FileHandle(forUpdating: url)
+        defer { try? handle.close() }
+        var head = try ZipReader.read(handle, 0, 32 + 72)
+        guard head.le32(0) == 0xFEEDFACF else { return }
+        func put(_ offset: Int, _ value: UInt64, _ size: Int) {
+            for i in 0..<size { head[offset + i] = UInt8(value >> (8 * UInt64(i)) & 0xFF) }
+        }
+        put(12, 6, 4)
+        put(24, UInt64((head.le32(24) | 0x100000) & ~0x200000), 4)
+        let vmaddr = UInt64(head.le32(56)) | UInt64(head.le32(60)) << 32
+        if head.le32(32) == 0x19, vmaddr == 0 {
+            put(56, 0x1_0000_0000 - 0x4000, 8)
+            put(64, 0x4000, 8)
+        }
+        try handle.seek(toOffset: 0)
+        try handle.write(contentsOf: head)
+    }
+
     public static var installed: Bool {
         guard let root else { return false }
         return FileManager.default.fileExists(atPath: root.appendingPathComponent("Applications/\(folder)/Info.plist").path)
@@ -44,6 +70,9 @@ public enum LiveInstall {
                 }
                 done += 1
                 if done % 200 == 0 { status("Installing Roblox in LiveContainer", Double(done) / Double(files.count)) }
+            }
+            if let exec = RobloxFlags.plist(staging.appendingPathComponent("Info.plist"))?["CFBundleExecutable"] as? String {
+                try patchExec(staging.appendingPathComponent(exec))
             }
             var info = RobloxFlags.plist(target.appendingPathComponent("LCAppInfo.plist")) ?? [:]
             if info["LCDataUUID"] == nil { info["LCDataUUID"] = UUID().uuidString }
