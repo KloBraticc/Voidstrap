@@ -163,17 +163,12 @@ final class AppModel: ObservableObject {
 
     func play(_ game: LibraryGame) {
         guard let url = game.launchUrl else { return }
-        if flagsDirty { FlagStore.save(flags); flagsDirty = false } else { RobloxFlags.apply(flags) }
         if let index = games.firstIndex(where: { $0.placeId == game.placeId }) {
             games[index].lastPlayed = Date()
             games[index].timesPlayed += 1
             saveGames()
         }
-        UIApplication.shared.open(url) { [weak self] opened in
-            if !opened {
-                Task { @MainActor in self?.show("Roblox is not installed. Apply Roblox and install the IPA first.", error: true) }
-            }
-        }
+        launchUrl(url)
     }
 
     func launchRoblox() {
@@ -181,7 +176,10 @@ final class AppModel: ObservableObject {
     }
 
     func launchUrl(_ url: URL) {
-        if flagsDirty { FlagStore.save(flags); flagsDirty = false } else { RobloxFlags.apply(flags) }
+        if flagsDirty { FlagStore.save(flags); flagsDirty = false }
+        if RobloxFlags.apply(flags) == 0, !flags.isEmpty {
+            show("FastFlags could not reach Roblox. Install Roblox in the same LiveContainer as Voidstrap and open it once.", error: true)
+        }
         UIApplication.shared.open(url) { [weak self] opened in
             if !opened {
                 Task { @MainActor in self?.show("Roblox is not installed. Apply Roblox and install the IPA first.", error: true) }
