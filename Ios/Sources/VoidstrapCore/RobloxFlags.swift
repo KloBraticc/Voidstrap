@@ -9,7 +9,7 @@ public enum RobloxFlags {
     static var roots: [URL] {
         var out: [URL] = []
         let path = Paths.documents.standardizedFileURL.path
-        if let range = path.range(of: "/Data/Application/") {
+        if let range = path.range(of: "/Data/Application/", options: .backwards) {
             out.append(URL(fileURLWithPath: String(path[..<range.lowerBound]), isDirectory: true))
         }
         let shared = Paths.shared.standardizedFileURL
