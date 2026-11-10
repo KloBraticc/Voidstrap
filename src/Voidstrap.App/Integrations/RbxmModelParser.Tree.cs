@@ -17,6 +17,10 @@ public static partial class RbxmModelParser
 
     private const byte ContentType = 34;
 
+    private const byte Color3Type = 12;
+
+    private const byte Color3ByteType = 26;
+
     public static List<RbxmInstance> ReadTree(byte[] data)
     {
         List<RbxmInstance> roots = new();
@@ -167,6 +171,23 @@ public static partial class RbxmModelParser
                 for (int i = 0; i < count; i++)
                     if (instances.TryGetValue(referents[i], out RbxmInstance? instance))
                         instance.Vectors[name] = new Vector3D(xs[i], ys[i], zs[i]);
+                break;
+            case Color3Type:
+                if ((long)count * 12 > p.Length - pos)
+                    return;
+                float[] reds = ReadInterleavedFloats(p, ref pos, count);
+                float[] greens = ReadInterleavedFloats(p, ref pos, count);
+                float[] blues = ReadInterleavedFloats(p, ref pos, count);
+                for (int i = 0; i < count; i++)
+                    if (instances.TryGetValue(referents[i], out RbxmInstance? instance))
+                        instance.Vectors[name] = new Vector3D(reds[i], greens[i], blues[i]);
+                break;
+            case Color3ByteType:
+                if ((long)count * 3 > p.Length - pos)
+                    return;
+                for (int i = 0; i < count; i++)
+                    if (instances.TryGetValue(referents[i], out RbxmInstance? instance))
+                        instance.Vectors[name] = new Vector3D(p[pos + i] / 255.0, p[pos + count + i] / 255.0, p[pos + count * 2 + i] / 255.0);
                 break;
             case CFrameType:
                 RobloxCFrame[] frames = ReadCFrames(p, ref pos, count);

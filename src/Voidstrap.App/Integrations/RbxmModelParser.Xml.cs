@@ -73,6 +73,13 @@ public static partial class RbxmModelParser
                     case "Vector3":
                         instance.Vectors[name] = new Vector3D(XmlNumber(property, "X"), XmlNumber(property, "Y"), XmlNumber(property, "Z"));
                         break;
+                    case "Color3":
+                    case "Color3uint8":
+                        if (property.Element("R") != null)
+                            instance.Vectors[name] = new Vector3D(XmlNumber(property, "R"), XmlNumber(property, "G"), XmlNumber(property, "B"));
+                        else if (uint.TryParse(property.Value, NumberStyles.None, CultureInfo.InvariantCulture, out uint packed))
+                            instance.Vectors[name] = new Vector3D(((packed >> 16) & 255) / 255.0, ((packed >> 8) & 255) / 255.0, (packed & 255) / 255.0);
+                        break;
                     case "CoordinateFrame":
                         instance.CFrames[name] = new RobloxCFrame(
                             XmlNumber(property, "X"),

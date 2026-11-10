@@ -59,6 +59,14 @@ internal static partial class AvatarAssembler
 
     private static readonly string[] PreferredFolders = ["R15ArtistIntent", "R15Fixed"];
 
+    private static readonly Dictionary<string, (string Property, Color Fallback)> EffectColors = new(StringComparer.Ordinal)
+    {
+        ["Sparkles"] = ("SparkleColor", Color.FromRgb(144, 25, 255)),
+        ["Fire"] = ("Color", Color.FromRgb(236, 139, 70)),
+        ["Smoke"] = ("Color", Color.FromRgb(120, 120, 120)),
+        ["ParticleEmitter"] = ("", Color.FromRgb(255, 255, 255)),
+    };
+
     private static readonly string[] TextureKeys = ["TextureID", "TextureId", "TextureContent"];
 
     private static readonly string[] SurfaceKeys = ["ColorMap", "ColorMapContent"];
@@ -121,6 +129,7 @@ internal static partial class AvatarAssembler
         Dictionary<string, RobloxCFrame> world = new(StringComparer.Ordinal) { [RootPart] = RobloxCFrame.Identity };
         List<AvatarJoint> joints = new();
         List<AvatarPiece> pieces = new();
+        List<AvatarEffect> effects = new();
         foreach ((string joint, string parentName, string childName) in Joints)
         {
             if (!world.TryGetValue(parentName, out RobloxCFrame parentFrame) || !parts.TryGetValue(parentName, out RbxmInstance? parent) || !parts.TryGetValue(childName, out RbxmInstance? child))
@@ -215,6 +224,19 @@ internal static partial class AvatarAssembler
                     models.Add(model);
                 else
                     log("Accessory " + asset.Id + " has no mesh: " + Outline(bytes, roots));
+                Matrix3D offset = (world[owner].Inverse() * frame).ToMatrix3D();
+                foreach (RbxmInstance child in handle.Descendants())
+                    if (EffectColors.TryGetValue(child.ClassName, out (string Property, Color Fallback) effect))
+                        effects.Add(
+                            new AvatarEffect(
+                                child.ClassName,
+                                owner,
+                                offset,
+                                child.Vectors.TryGetValue(effect.Property, out Vector3D tint)
+                                    ? Color.FromRgb((byte)Math.Clamp(tint.X * 255, 0, 255), (byte)Math.Clamp(tint.Y * 255, 0, 255), (byte)Math.Clamp(tint.Z * 255, 0, 255))
+                                    : effect.Fallback
+                            )
+                        );
             }
             catch (Exception ex) when (ex is InvalidDataException or IOException or HttpRequestException or NotSupportedException or ArgumentException)
             {
@@ -226,7 +248,7 @@ internal static partial class AvatarAssembler
             group.Children.Add(model);
         group.Freeze();
         AnimationData? animation = await LoadAnimationAsync(state, fetchAsset, log, token);
-        return new AvatarScene(group, bounds.ToRect(), 180.0) { Pieces = pieces, Rig = new AvatarRig(RootPart, joints, animation) };
+        return new AvatarScene(group, bounds.ToRect(), 180.0) { Pieces = pieces, Rig = new AvatarRig(RootPart, joints, animation), Effects = effects };
     }
 
     private static async Task<AnimationData?> LoadAnimationAsync(

@@ -103,6 +103,8 @@ namespace Voidstrap.UI.Elements.Controls
 
         private double _animationTime;
 
+        private AvatarParticles? _particles;
+
         public AvatarPreviewControl()
         {
             InitializeComponent();
@@ -161,6 +163,10 @@ namespace Voidstrap.UI.Elements.Controls
             try
             {
                 Model3D? model = BuildPieces(scene) ?? scene?.Model;
+                _particles = scene?.Effects is { Count: > 0 } effects && _pieces != null ? new AvatarParticles(effects) : null;
+                if (_particles is { Any: true } && model is Model3DGroup holder)
+                    foreach (GeometryModel3D effect in _particles.Models)
+                        holder.Children.Add(effect);
                 if (_renderer != null)
                     _renderer.SetAvatar(model);
                 else
@@ -172,6 +178,7 @@ namespace Voidstrap.UI.Elements.Controls
             {
                 App.Logger?.WriteLine(LOG_IDENT, "The 3D avatar could not be shown: " + ex.Message);
                 _pieces = null;
+                _particles = null;
                 _renderer?.SetAvatar(null);
                 if (_renderer == null)
                     AvatarVisual.Content = null;
@@ -224,6 +231,31 @@ namespace Voidstrap.UI.Elements.Controls
             if (moved != null)
             {
                 _renderer!.SetTransforms(moved);
+                RequestSoftwareRender();
+            }
+        }
+
+        private void UpdateParticles(AvatarScene scene, double elapsed)
+        {
+            if (_particles is not { Any: true } || scene.Rig == null)
+                return;
+            Dictionary<string, Voidstrap.Integrations.Animation.RobloxCFrame> world = Voidstrap.Integrations.AvatarPose.Evaluate(scene.Rig, _animationTime);
+            Vector3D look = Camera.LookDirection;
+            Vector3D right = Vector3D.CrossProduct(look, Camera.UpDirection);
+            if (right.LengthSquared < 1e-12)
+                return;
+            right.Normalize();
+            Vector3D up = Vector3D.CrossProduct(right, look);
+            up.Normalize();
+            _particles.Update(
+                elapsed,
+                effect => world.TryGetValue(effect.Part, out Voidstrap.Integrations.Animation.RobloxCFrame frame) ? effect.Offset * frame.ToMatrix3D() : effect.Offset,
+                right,
+                up
+            );
+            if (_renderer != null)
+            {
+                _renderer.SetEffects(_particles.Models);
                 RequestSoftwareRender();
             }
         }
@@ -300,7 +332,7 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void UpdateRotateTimer()
         {
-            bool run = (_autoRotate || Scene?.Rig?.Animation != null) && IsLoaded && Scene != null;
+            bool run = (_autoRotate || Scene?.Rig?.Animation != null || _particles is { Any: true }) && IsLoaded && Scene != null;
             if (run && _rotateTimer == null)
             {
                 _lastRotateTick = DateTime.UtcNow;
@@ -328,6 +360,7 @@ namespace Voidstrap.UI.Elements.Controls
                 _animationTime += elapsed;
                 ApplyPose(scene);
             }
+            UpdateParticles(scene, elapsed);
             if (!_autoRotate || _orbiting || _panning || now - _lastInteraction < RotateResumeDelay)
                 return;
             _yaw = (_yaw + RotateDegreesPerSecond * elapsed) % 360.0;

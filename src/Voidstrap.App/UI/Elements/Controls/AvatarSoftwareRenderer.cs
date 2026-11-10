@@ -20,6 +20,10 @@ internal sealed class AvatarSoftwareRenderer
 
     private Mesh? _backdrop;
 
+    private readonly List<Mesh> _effects = new();
+
+    private readonly Dictionary<ImageSource, Texture> _effectTextures = new();
+
     private float[] _depth = [];
 
     private float[] _projected = [];
@@ -38,6 +42,13 @@ internal sealed class AvatarSoftwareRenderer
             _avatar[i].Transform = transforms[i];
             _avatar[i].Moved = !transforms[i].IsIdentity;
         }
+    }
+
+    public void SetEffects(IEnumerable<GeometryModel3D> models)
+    {
+        _effects.Clear();
+        foreach (GeometryModel3D model in models)
+            Collect(model, _effectTextures, true, _effects);
     }
 
     public void SetBackdrop(Model3D? model)
@@ -68,6 +79,8 @@ internal sealed class AvatarSoftwareRenderer
         if (_backdrop != null)
             Draw(_backdrop, frame, view);
         foreach (Mesh mesh in _avatar)
+            Draw(mesh, frame, view);
+        foreach (Mesh mesh in _effects)
             Draw(mesh, frame, view);
     }
 
@@ -136,7 +149,15 @@ internal sealed class AvatarSoftwareRenderer
             mesh.Transform = transform.Value;
             mesh.Moved = true;
         }
-        Brush? brush = FindBrush(((GeometryModel3D)model).Material);
+        Material? material = ((GeometryModel3D)model).Material;
+        if (material is EmissiveMaterial glow)
+        {
+            mesh.Additive = true;
+            mesh.Red = glow.Color.R;
+            mesh.Green = glow.Color.G;
+            mesh.Blue = glow.Color.B;
+        }
+        Brush? brush = FindBrush(material);
         if (brush is ImageBrush { ImageSource: BitmapSource source } imageBrush)
         {
             if (!textures.TryGetValue(source, out Texture? texture))
@@ -287,6 +308,21 @@ internal sealed class AvatarSoftwareRenderer
                     int red = mesh.Red;
                     int green = mesh.Green;
                     int blue = mesh.Blue;
+                    if (texture != null && mesh.Additive)
+                    {
+                        float u = (w0 * ua + w1 * ub + w2 * uc) / inverseZ;
+                        float v = (w0 * va + w1 * vb + w2 * vc) / inverseZ;
+                        int strength = texture.Pixels[texture.Offset(u, v, false) + 3];
+                        if (strength == 0)
+                            continue;
+                        int existing = frame[pixel];
+                        int addRed = Math.Min(255, ((existing >> 16) & 255) + red * strength / 255);
+                        int addGreen = Math.Min(255, ((existing >> 8) & 255) + green * strength / 255);
+                        int addBlue = Math.Min(255, (existing & 255) + blue * strength / 255);
+                        int addAlpha = Math.Max((existing >> 24) & 255, Math.Max(addRed, Math.Max(addGreen, addBlue)));
+                        frame[pixel] = addAlpha << 24 | addRed << 16 | addGreen << 8 | addBlue;
+                        continue;
+                    }
                     if (texture != null)
                     {
                         float u = (w0 * ua + w1 * ub + w2 * uc) / inverseZ;
@@ -353,6 +389,8 @@ internal sealed class AvatarSoftwareRenderer
         public Matrix3D Transform { get; set; } = Matrix3D.Identity;
 
         public bool Moved { get; set; }
+
+        public bool Additive { get; set; }
 
         public int Red { get; set; } = 200;
 
