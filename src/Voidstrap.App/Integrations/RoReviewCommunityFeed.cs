@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
 using System.IO;
+using System.Net;
 using System.Text.Json;
 using Voidstrap.Models.Entities;
-using Voidstrap.UI.ViewModels.Pages;
 using Voidstrap.UI.ViewModels.Settings;
 
 namespace Voidstrap.Integrations;
@@ -19,7 +19,7 @@ public static class RoReviewCommunityFeed
     private const int MaxPlaces = 20000;
     private const int MaxReviews = 40000;
     private const int ReviewConcurrency = 24;
-    private const int SearchConcurrency = 8;
+    private const int SearchConcurrency = 4;
     private const int SearchPages = 8;
     private const long RecheckSeconds = 6 * 60 * 60;
     private static readonly HttpClient HttpClient = VpnHttpClient.Create(TimeSpan.FromSeconds(20));
@@ -357,7 +357,10 @@ public static class RoReviewCommunityFeed
             for (int page = 0; page < 10 && places.Count < MaxPlaces; page++)
             {
                 string url = "https://apis.roblox.com/explore-api/v1/get-sort-content?sessionId=" + session + "&sortId=" + Uri.EscapeDataString(sortId) + "&pageToken=" + Uri.EscapeDataString(pageToken) + "&device=computer&country=all";
-                using JsonDocument document = JsonDocument.Parse(await Http.GetStringBoundedAsync(HttpClient, url, token: token).ConfigureAwait(false));
+                string? body = await GetWithBackoffAsync(url, token).ConfigureAwait(false);
+                if (body == null)
+                    break;
+                using JsonDocument document = JsonDocument.Parse(body);
                 if (document.RootElement.TryGetProperty("games", out JsonElement games) && games.ValueKind == JsonValueKind.Array)
                     AddGames(places, games);
                 pageToken = document.RootElement.TryGetProperty("nextPageToken", out JsonElement next) && next.ValueKind == JsonValueKind.String ? next.GetString() ?? string.Empty : string.Empty;
@@ -394,9 +397,22 @@ public static class RoReviewCommunityFeed
         {
             if (places.Count >= MaxPlaces)
                 return;
-            foreach (DiscoverGameEntry game in await HomePageViewModel.SearchGamesAsync(seed, session, SearchPages, token).ConfigureAwait(false))
-                if (game.PlaceId > 0)
-                    places.TryAdd(game.PlaceId, new CommunityGameInfo { PlaceId = game.PlaceId, UniverseId = game.UniverseId, Name = game.Name });
+            string pageToken = string.Empty;
+            for (int page = 0; page < SearchPages && places.Count < MaxPlaces; page++)
+            {
+                string url = "https://apis.roblox.com/search-api/omni-search?searchQuery=" + Uri.EscapeDataString(seed) + "&pageToken=" + Uri.EscapeDataString(pageToken) + "&sessionId=" + session + "&pageType=all";
+                string? body = await GetWithBackoffAsync(url, token).ConfigureAwait(false);
+                if (body == null)
+                    break;
+                using JsonDocument document = JsonDocument.Parse(body);
+                if (document.RootElement.TryGetProperty("searchResults", out JsonElement groups) && groups.ValueKind == JsonValueKind.Array)
+                    foreach (JsonElement group in groups.EnumerateArray())
+                        if (group.TryGetProperty("contents", out JsonElement contents) && contents.ValueKind == JsonValueKind.Array)
+                            AddGames(places, contents);
+                pageToken = document.RootElement.TryGetProperty("nextPageToken", out JsonElement next) && next.ValueKind == JsonValueKind.String ? next.GetString() ?? string.Empty : string.Empty;
+                if (pageToken.Length == 0)
+                    break;
+            }
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
@@ -407,6 +423,24 @@ public static class RoReviewCommunityFeed
         {
             gate.Release();
         }
+    }
+
+    private static async Task<string?> GetWithBackoffAsync(string url, CancellationToken token)
+    {
+        for (int attempt = 0; attempt < 4; attempt++)
+        {
+            using HttpResponseMessage response = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+            if (response.StatusCode == HttpStatusCode.TooManyRequests)
+            {
+                TimeSpan wait = response.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(2 << attempt);
+                await Task.Delay(wait > TimeSpan.FromSeconds(30) ? TimeSpan.FromSeconds(30) : wait, token).ConfigureAwait(false);
+                continue;
+            }
+            if (!response.IsSuccessStatusCode)
+                return null;
+            return await Http.ReadStringBoundedAsync(response.Content, 4 * 1024 * 1024, token).ConfigureAwait(false);
+        }
+        return null;
     }
 
     private static FeedCache GetCacheLocked()

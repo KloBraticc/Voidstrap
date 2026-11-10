@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8692,6 +8692,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     public void ShowGameDetail(long placeId, long universeId, string name)
     {
         if (placeId <= 0)
+            return;
+        if (GameDetailHost.Content is Voidstrap.UI.Elements.Dialogs.GameDetailDialog shown && shown.PlaceId == placeId && _simpleModalOpen)
             return;
         ReleaseGameDetail();
         Voidstrap.UI.Elements.Dialogs.GameDetailDialog view = new(placeId, universeId, name);
