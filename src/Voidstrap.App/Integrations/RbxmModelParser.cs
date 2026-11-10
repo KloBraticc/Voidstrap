@@ -7,7 +7,7 @@ using ZstdSharp;
 
 namespace Voidstrap.Integrations;
 
-public static class RbxmModelParser
+public static partial class RbxmModelParser
 {
     private const int MaxChunkBytes = 64 * 1024 * 1024;
 

@@ -9883,4 +9883,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>தானியங்கி சுழற்சி</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>நேரடி முன்னோட்டம்</value>
+  </data>
 </root>

@@ -9884,4 +9884,7 @@ Kaitākaro: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Hurihanga aunoa</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Arokite ora</value>
+  </data>
 </root>

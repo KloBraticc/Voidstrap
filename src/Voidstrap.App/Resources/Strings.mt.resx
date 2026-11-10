@@ -9884,4 +9884,7 @@ Parteċipanti: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Rotazzjoni awtomatika</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Dehra minn qabel diretta</value>
+  </data>
 </root>

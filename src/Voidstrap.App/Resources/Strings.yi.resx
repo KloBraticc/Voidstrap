@@ -9883,4 +9883,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>אויטאָמאַטישע דרייונג</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>לעבעדיקער פֿאָרויסקוק</value>
+  </data>
 </root>

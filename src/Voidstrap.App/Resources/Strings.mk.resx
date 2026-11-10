@@ -9884,4 +9884,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Автоматска ротација</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Преглед во живо</value>
+  </data>
 </root>

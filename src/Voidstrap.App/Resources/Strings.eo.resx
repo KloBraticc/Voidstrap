@@ -9883,4 +9883,7 @@ Ludantoj: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Aŭtomata rotacio</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Viva antaŭrigardo</value>
+  </data>
 </root>

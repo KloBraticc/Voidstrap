@@ -9883,4 +9883,7 @@ Uptime: {1}
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ئاپتوماتىك ئايلاندۇرۇش</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>نەق مەيدان ئالدىن كۆرۈش</value>
+  </data>
 </root>

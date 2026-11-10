@@ -9884,4 +9884,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ස්වයංක්‍රීය භ්‍රමණය</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>සජීවී පෙරදසුන</value>
+  </data>
 </root>

@@ -9883,4 +9883,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Αυτόματη περιστροφή</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Ζωντανή προεπισκόπηση</value>
+  </data>
 </root>

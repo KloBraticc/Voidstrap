@@ -10196,4 +10196,7 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Автоматично завъртане</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Преглед на живо</value>
+  </data>
 </root>

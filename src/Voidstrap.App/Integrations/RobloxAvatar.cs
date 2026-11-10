@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -101,7 +102,15 @@ internal static partial class RobloxAvatar
 
     private static readonly int[] RetryDelaysMs = [1200, 2000, 3000, 4500, 6000];
 
-    private static readonly HttpClient CdnClient = new() { Timeout = TimeSpan.FromSeconds(30), MaxResponseContentBufferSize = MaxSceneBytes };
+    private const int AssetCacheLimit = 256;
+
+    private static readonly ConcurrentDictionary<long, byte[]> AssetCache = new();
+
+    private static readonly HttpClient CdnClient = new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All })
+    {
+        Timeout = TimeSpan.FromSeconds(30),
+        MaxResponseContentBufferSize = MaxSceneBytes,
+    };
 
     public static bool IsRigidAccessory(AvatarAsset asset) => RigidAccessoryTypeIds.Contains(asset.TypeId);
 
@@ -448,6 +457,78 @@ internal static partial class RobloxAvatar
                 return null;
         }
         return null;
+    }
+
+    public static async Task<byte[]?> DownloadAssetAsync(long id, string? cookie, CancellationToken token)
+    {
+        const string LOG_IDENT = "RobloxAvatar::DownloadAssetAsync";
+        if (AssetCache.TryGetValue(id, out byte[]? cached))
+            return cached;
+        RobloxApiResponse response = await RobloxCookie.SendGetWithCookieAsync(
+            "https://assetdelivery.roblox.com/v2/assetId/" + id.ToString(CultureInfo.InvariantCulture),
+            cookie,
+            token
+        );
+        if (response.StatusCode != 200 || string.IsNullOrEmpty(response.Body))
+            return null;
+        try
+        {
+            string? location = null;
+            using (JsonDocument doc = JsonDocument.Parse(response.Body))
+            {
+                if (doc.RootElement.TryGetProperty("locations", out JsonElement locations) && locations.ValueKind == JsonValueKind.Array)
+                    foreach (JsonElement entry in locations.EnumerateArray())
+                        if (entry.TryGetProperty("location", out JsonElement value) && value.ValueKind == JsonValueKind.String)
+                        {
+                            location = value.GetString();
+                            break;
+                        }
+            }
+            if (location == null || !IsCdnUrl(location))
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Asset " + id + " has no download location");
+                return null;
+            }
+            byte[] bytes = await CdnClient.GetByteArrayAsync(location, token);
+            if (AssetCache.Count >= AssetCacheLimit)
+                AssetCache.Clear();
+            AssetCache[id] = bytes;
+            return bytes;
+        }
+        catch (Exception ex) when (ex is JsonException or HttpRequestException or IOException)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "Asset " + id + " could not be downloaded: " + ex.Message);
+            return null;
+        }
+    }
+
+    public static async Task<AvatarScene?> BuildLiveSceneAsync(AvatarState state, string? cookie, CancellationToken token)
+    {
+        const string LOG_IDENT = "RobloxAvatar::BuildLiveSceneAsync";
+        try
+        {
+            string? root = await ClassicTopBar.ClassicTopBarMod.FindRobloxInstallAsync(token);
+            if (root == null)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The Roblox install was not found, so the live preview is unavailable");
+                return null;
+            }
+            Task<AvatarScene?> Build() =>
+                AvatarAssembler.BuildAsync(state, root, (id, inner) => DownloadAssetAsync(id, cookie, inner), message => App.Logger?.WriteLine(LOG_IDENT, message), token);
+            AvatarScene? scene = Utility.Platform.IsWindows ? await Task.Run(Build, token) : await Build();
+            if (scene == null)
+                App.Logger?.WriteLine(LOG_IDENT, "The live preview could not be built, so the Roblox render is shown");
+            return scene;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "The live preview failed: " + ex.Message);
+            return null;
+        }
     }
 
     public static async Task<AvatarScene?> LoadSceneAsync(long userId, string? cookie, CancellationToken token)

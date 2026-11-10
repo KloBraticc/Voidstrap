@@ -9884,4 +9884,7 @@ Ciyaartoyda: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Wareeg otomaatig ah</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Horudhac toos ah</value>
+  </data>
 </root>

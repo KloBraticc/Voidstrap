@@ -10220,4 +10220,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>自动旋转</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>实时预览</value>
+  </data>
 </root>

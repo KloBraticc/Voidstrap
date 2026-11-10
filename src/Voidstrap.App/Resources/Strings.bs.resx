@@ -9883,4 +9883,7 @@ Igrači: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatska rotacija</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Pregled uživo</value>
+  </data>
 </root>

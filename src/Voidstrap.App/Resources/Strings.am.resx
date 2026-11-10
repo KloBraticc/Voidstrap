@@ -9883,4 +9883,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ራስ-ሰር ማሽከርከር</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>ቀጥታ ቅድመ እይታ</value>
+  </data>
 </root>

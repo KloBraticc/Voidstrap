@@ -54,6 +54,11 @@
               <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_AvatarType}" />
             </DockPanel>
             <Border Height="1" Margin="0,10" Background="{DynamicResource ControlStrokeColorDefaultBrush}" />
+            <DockPanel LastChildFill="True">
+              <ui:ToggleSwitch DockPanel.Dock="Right" VerticalAlignment="Center" IsChecked="{Binding LivePreview, Mode=TwoWay}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_LivePreview}" />
+              <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_LivePreview}" />
+            </DockPanel>
+            <Border Height="1" Margin="0,10" Background="{DynamicResource ControlStrokeColorDefaultBrush}" />
             <DockPanel Margin="0,0,0,0" LastChildFill="True">
               <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="14" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding BodyType, StringFormat={}{0:0}%}" />
               <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_BodyType}" />

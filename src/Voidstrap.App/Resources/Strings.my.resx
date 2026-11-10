@@ -9883,4 +9883,7 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>အလိုအလျောက် လှည့်ခြင်း</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>တိုက်ရိုက် အကြိုကြည့်ရှုမှု</value>
+  </data>
 </root>

@@ -9884,4 +9884,7 @@ Lojtarët: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Rrotullim automatik</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Pamje paraprake e drejtpërdrejtë</value>
+  </data>
 </root>

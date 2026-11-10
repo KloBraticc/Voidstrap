@@ -9884,4 +9884,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>خودڪار گردش</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>لائيو ڏيک</value>
+  </data>
 </root>

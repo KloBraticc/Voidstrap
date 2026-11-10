@@ -67,6 +67,8 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private bool _adjustLoading;
 
+        private bool _livePreview = App.Settings.Prop.AvatarLivePreview;
+
         private ImageSource? _backgroundImage;
 
         private AvatarState? _state;
@@ -119,6 +121,20 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand SetSkinColorCommand { get; }
 
         public ICommand ResetAdjustCommand { get; }
+
+        public bool LivePreview
+        {
+            get => _livePreview;
+            set
+            {
+                if (!SetProperty(ref _livePreview, value))
+                    return;
+                App.Settings.Prop.AvatarLivePreview = value;
+                App.Settings.SaveDeferred();
+                if (_loaded && !_disposed && Cookie() is string cookie)
+                    _ = RefreshPreviewAsync(cookie);
+            }
+        }
 
         public ObservableCollection<AvatarItemRow> Adjustable { get; } = new();
 
@@ -417,7 +433,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
                 Task<string?> background = _backgroundId > 0 ? RobloxAvatar.ThumbnailAsync("Asset", _backgroundId, token) : Task.FromResult<string?>(null);
                 Task<string?> image = RobloxAvatar.ThumbnailAsync("Avatar", _account.UserId, token);
-                Task<AvatarScene?> scene = RobloxAvatar.LoadSceneAsync(_account.UserId, cookie, token);
+                Task<AvatarScene?> scene = LoadSceneAsync(cookie, token);
                 string? backgroundUrl = await background;
                 string? imageUrl = await image;
                 if (version != _previewVersion)
@@ -445,6 +461,13 @@ namespace Voidstrap.UI.ViewModels.Settings
                 if (version == _previewVersion)
                     PreviewLoading = false;
             }
+        }
+
+        private async Task<AvatarScene?> LoadSceneAsync(string cookie, CancellationToken token)
+        {
+            if (_livePreview && _state != null && await RobloxAvatar.BuildLiveSceneAsync(_state, cookie, token) is AvatarScene live)
+                return live;
+            return await RobloxAvatar.LoadSceneAsync(_account.UserId, cookie, token);
         }
 
         private async Task LoadCategoryAsync()

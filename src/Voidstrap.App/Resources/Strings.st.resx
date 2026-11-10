@@ -9883,4 +9883,7 @@ Libapali: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Potoloho e iketsahallang</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Ponelopele ea hona joale</value>
+  </data>
 </root>

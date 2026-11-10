@@ -9884,4 +9884,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Аутоматска ротација</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Преглед уживо</value>
+  </data>
 </root>

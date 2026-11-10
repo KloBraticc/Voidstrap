@@ -9884,4 +9884,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>स्वचालित घुमाइ</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>प्रत्यक्ष पूर्वावलोकन</value>
+  </data>
 </root>

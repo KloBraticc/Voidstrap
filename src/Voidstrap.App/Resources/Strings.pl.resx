@@ -10197,4 +10197,7 @@ Gracze: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatyczny obrót</value>
   </data>
+  <data name="Accounts.Avatar.LivePreview" xml:space="preserve">
+    <value>Podgląd na żywo</value>
+  </data>
 </root>
