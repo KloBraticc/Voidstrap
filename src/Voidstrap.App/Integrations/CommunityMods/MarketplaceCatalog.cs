@@ -159,7 +159,7 @@ public static class MarketplaceCatalog
                 listing.DetailLines.Add(line);
             }
         }
-        if (!string.IsNullOrEmpty(listing.IconUrl) && listing.Images.Count == 0)
+        if (!string.IsNullOrEmpty(listing.IconUrl) && listing.IconUrl != FallbackIcon && listing.Images.Count == 0)
         {
             listing.Images.Add(
                 new CommunityModImage
@@ -386,15 +386,21 @@ public static class MarketplaceCatalog
         }
         if (!IsMarketplaceUrl(thumbnail))
         {
-            thumbnail = "";
+            thumbnail = FallbackIcon;
         }
+        else if (thumbnail.StartsWith(DownloadPrefix, StringComparison.Ordinal))
+        {
+            thumbnail = RawRefsPrefix + thumbnail[DownloadPrefix.Length..];
+        }
+        string author = ReadString(element, "author");
         string description = ReadString(element, "description");
         CommunityModEntry entry = new CommunityModEntry
         {
             Id = StableId(id),
             Slug = id,
             Name = name,
-            Author = ReadString(element, "author"),
+            Author = author,
+            AuthorAvatar = AuthorAvatarUrl(author),
             ProfileUrl = SourceUrl,
             IconUrl = thumbnail,
             Category = "Roblox file mod",
@@ -420,6 +426,15 @@ public static class MarketplaceCatalog
             }
         );
         return entry;
+    }
+
+    private const string FallbackIcon = "pack://application:,,,/Resources/CommunityMods/KlikosModManager.png";
+
+    private static string AuthorAvatarUrl(string author)
+    {
+        if (string.IsNullOrWhiteSpace(author) || !author.All(character => char.IsAsciiLetterOrDigit(character) || character == '-'))
+            return "";
+        return "https://github.com/" + author + ".png?size=64";
     }
 
     private static long StableId(string value)
