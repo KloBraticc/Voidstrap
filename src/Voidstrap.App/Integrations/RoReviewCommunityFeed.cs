@@ -16,11 +16,11 @@ public static class RoReviewCommunityFeed
         public List<CommunityReview> Reviews { get; set; } = new();
     }
 
-    private const int MaxPlaces = 5000;
-    private const int MaxReviews = 20000;
-    private const int ReviewConcurrency = 12;
-    private const int SearchConcurrency = 6;
-    private const int SearchPages = 3;
+    private const int MaxPlaces = 20000;
+    private const int MaxReviews = 40000;
+    private const int ReviewConcurrency = 24;
+    private const int SearchConcurrency = 8;
+    private const int SearchPages = 8;
     private const long RecheckSeconds = 6 * 60 * 60;
     private static readonly HttpClient HttpClient = VpnHttpClient.Create(TimeSpan.FromSeconds(20));
     private static readonly JsonSerializerOptions CacheOptions = new() { IgnoreReadOnlyProperties = true };
@@ -36,6 +36,7 @@ public static class RoReviewCommunityFeed
         "sports", "soccer", "basketball", "football", "fishing", "farming", "cooking", "restaurant", "hospital", "police",
         "prison", "heist", "detective", "mystery", "adventure", "dungeon", "dragon", "magic", "pirate", "ninja",
         "samurai", "space", "mining", "clicker", "idle", "merge", "rng", "gacha", "trading", "fashion",
+        "horror story", "anime battlegrounds", "simulator 2", "brainrot", "steal a", "grow a", "99 nights", "doors", "hide and seek", "tag", "bedwars", "murder", "sniper", "car", "driving", "train", "plane", "boat", "airport", "island", "ocean", "survive", "disaster", "natural disaster", "build", "sandbox", "creative", "art", "draw", "guess", "quiz", "trivia", "word", "spelling", "math", "chess", "card", "casino", "slots", "obstacle", "tower", "climb", "jump", "run", "speed", "race", "kart", "bike", "skate", "ski", "snow", "christmas", "halloween", "easter", "summer", "beach", "camp", "forest", "jungle", "desert", "castle", "kingdom", "medieval", "viking", "knight", "wizard", "witch", "vampire", "werewolf", "alien", "robot", "mech", "superhero", "villain", "spy", "agent", "cops", "robbers", "jail", "bank", "mall", "shop", "store", "cafe", "bakery", "pizza", "burger", "cat", "dog", "horse", "dinosaur", "shark", "monster", "ghost", "backrooms", "piggy", "rainbow", "doll", "baby", "family", "house", "home", "mansion", "hotel", "office", "work", "job", "factory", "army", "tank", "gun", "boxing", "wrestling", "karate", "kung fu", "hockey", "baseball", "tennis", "golf", "volleyball", "bowling", "pool", "swim", "fish", "hunt", "zoo", "farm", "garden", "plant", "tree", "fruit", "anime fighting", "one piece", "dragon ball", "naruto", "demon", "slayer", "hero", "academy", "jojo", "titan", "ghoul", "bleach",
         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
         "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
     };
@@ -88,7 +89,7 @@ public static class RoReviewCommunityFeed
                 if (sourcesDone)
                     break;
                 sourcesDone = explore.IsCompleted && search.IsCompleted;
-                await Task.Delay(250, token).ConfigureAwait(false);
+                await Task.Delay(150, token).ConfigureAwait(false);
             }
             while (work.Any(static t => !t.IsCompleted))
             {
@@ -305,14 +306,49 @@ public static class RoReviewCommunityFeed
             {
                 if (!sort.TryGetProperty("games", out JsonElement games) || games.ValueKind != JsonValueKind.Array)
                     continue;
-                foreach (JsonElement game in games.EnumerateArray())
-                    if (game.TryGetProperty("rootPlaceId", out JsonElement id) && id.TryGetInt64(out long placeId) && placeId > 0)
-                        places.TryAdd(placeId, new CommunityGameInfo
-                        {
-                            PlaceId = placeId,
-                            UniverseId = game.TryGetProperty("universeId", out JsonElement universe) && universe.TryGetInt64(out long universeId) ? universeId : 0,
-                            Name = game.TryGetProperty("name", out JsonElement name) ? name.GetString() ?? string.Empty : string.Empty,
-                        });
+                AddGames(places, games);
+            }
+            await Task.WhenAll(sorts.EnumerateArray()
+                .Select(static sort => sort.TryGetProperty("sortId", out JsonElement id) ? id.GetString() ?? string.Empty : string.Empty)
+                .Where(static id => id.Length > 0)
+                .ToList()
+                .Select(id => PageSortAsync(places, id, token))).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, ex.Message);
+        }
+    }
+
+    private static void AddGames(ConcurrentDictionary<long, CommunityGameInfo> places, JsonElement games)
+    {
+        foreach (JsonElement game in games.EnumerateArray())
+            if (game.TryGetProperty("rootPlaceId", out JsonElement id) && id.TryGetInt64(out long placeId) && placeId > 0)
+                places.TryAdd(placeId, new CommunityGameInfo
+                {
+                    PlaceId = placeId,
+                    UniverseId = game.TryGetProperty("universeId", out JsonElement universe) && universe.TryGetInt64(out long universeId) ? universeId : 0,
+                    Name = game.TryGetProperty("name", out JsonElement name) ? name.GetString() ?? string.Empty : string.Empty,
+                });
+    }
+
+    private static async Task PageSortAsync(ConcurrentDictionary<long, CommunityGameInfo> places, string sortId, CancellationToken token)
+    {
+        const string LOG_IDENT = "RoReviewCommunityFeed::PageSortAsync";
+        string session = Guid.NewGuid().ToString();
+        string pageToken = string.Empty;
+        try
+        {
+            for (int page = 0; page < 10 && places.Count < MaxPlaces; page++)
+            {
+                string url = "https://apis.roblox.com/explore-api/v1/get-sort-content?sessionId=" + session + "&sortId=" + Uri.EscapeDataString(sortId) + "&pageToken=" + Uri.EscapeDataString(pageToken) + "&device=computer&country=all";
+                using JsonDocument document = JsonDocument.Parse(await Http.GetStringBoundedAsync(HttpClient, url, token: token).ConfigureAwait(false));
+                if (document.RootElement.TryGetProperty("games", out JsonElement games) && games.ValueKind == JsonValueKind.Array)
+                    AddGames(places, games);
+                pageToken = document.RootElement.TryGetProperty("nextPageToken", out JsonElement next) && next.ValueKind == JsonValueKind.String ? next.GetString() ?? string.Empty : string.Empty;
+                if (pageToken.Length == 0)
+                    break;
             }
         }
         catch (OperationCanceledException) { }

@@ -17,7 +17,7 @@ public partial class CommunityFeedControl : UserControl
     private readonly Dictionary<long, CommunityGame> _byPlace = new();
     private readonly object _pendingLock = new();
     private readonly List<(CommunityGameInfo Game, IReadOnlyList<CommunityReview> Reviews)> _pending = new();
-    private readonly DispatcherTimer _flushTimer = new() { Interval = TimeSpan.FromMilliseconds(600) };
+    private readonly DispatcherTimer _flushTimer = new() { Interval = TimeSpan.FromMilliseconds(400) };
     private string _filter = string.Empty;
     private bool _dirty;
     private CancellationTokenSource? _cts;
