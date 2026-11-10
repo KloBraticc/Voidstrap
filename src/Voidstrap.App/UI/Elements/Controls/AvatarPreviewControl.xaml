@@ -20,7 +20,7 @@
   <Grid x:Name="Host" ClipToBounds="True" util:RoundedClip.Radius="8">
     <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" />
     <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" util:DynamicRenderSystem.LazyImageSource="{Binding BackgroundUrl, ElementName=Root, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
-    <Image x:Name="FlatImage" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, ElementName=Root, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+    <Grid x:Name="FlatHost" IsHitTestVisible="False"><Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, ElementName=Root, TargetNullValue={x:Null}, FallbackValue={x:Null}}" /></Grid>
     <Viewport3D x:Name="Viewport" Visibility="Collapsed" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="HighQuality">
       <Viewport3D.Camera>
         <PerspectiveCamera x:Name="Camera" Position="0,0,10" LookDirection="0,0,-1" UpDirection="0,1,0" FieldOfView="30" />

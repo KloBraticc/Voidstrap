@@ -380,6 +380,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 return;
             }
             _state = state;
+            Voidstrap.Utility.SavedAccounts.InvalidateAvatar(_account.UserId);
+            _ = Voidstrap.Utility.SavedAccounts.RefreshCurrentAsync(_cts.Token);
             if (_isR15 != (state.AvatarType != "R6"))
             {
                 _isR15 = state.AvatarType != "R6";

@@ -189,7 +189,7 @@ namespace Voidstrap.UI.Elements.Controls
             bool show = scene != null;
             Viewport.Visibility = show && Supports3D ? Visibility.Visible : Visibility.Collapsed;
             SoftwareView.Visibility = show && !Supports3D ? Visibility.Visible : Visibility.Collapsed;
-            FlatImage.Visibility = show ? Visibility.Collapsed : Visibility.Visible;
+            FlatHost.Visibility = show ? Visibility.Collapsed : Visibility.Visible;
             ResetButton.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
             RotateButton.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
             UpdateRotateTimer();

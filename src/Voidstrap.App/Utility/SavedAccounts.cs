@@ -53,6 +53,7 @@ public static class SavedAccounts
     private static readonly string[] LinuxRobloxProcessNames = { "sober", "Sober", "org.vinegarhq.Sober" };
 
     private static readonly Dictionary<long, string> AvatarCache = new Dictionary<long, string>();
+private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRetryDelay = TimeSpan.FromSeconds(2);
 
     private static CurrentAccountInfo? _current;
 
@@ -515,6 +516,24 @@ public static class SavedAccounts
                     missing.Add(id);
             }
         }
+        for (int attempt = 0; attempt < AvatarAttempts && missing.Count > 0; attempt++)
+        {
+            if (attempt > 0)
+                await Task.Delay(AvatarRetryDelay, token).ConfigureAwait(false);
+            await FetchAvatarsAsync(missing, result, token).ConfigureAwait(false);
+            missing.RemoveAll(result.ContainsKey);
+        }
+        return result;
+    }
+
+    public static void InvalidateAvatar(long userId)
+    {
+        lock (AvatarCache)
+            AvatarCache.Remove(userId);
+    }
+
+    private static async Task FetchAvatarsAsync(List<long> missing, Dictionary<long, string> result, CancellationToken token)
+    {
         for (int i = 0; i < missing.Count; i += 100)
         {
             List<long> chunk = missing.GetRange(i, Math.Min(100, missing.Count - i));
@@ -531,7 +550,8 @@ public static class SavedAccounts
                 {
                     long id = el.TryGetProperty("targetId", out JsonElement t) && t.TryGetInt64(out long l) ? l : 0;
                     string img = el.TryGetProperty("imageUrl", out JsonElement iu) ? iu.GetString() ?? "" : "";
-                    if (id == 0 || string.IsNullOrEmpty(img))
+                    string state = el.TryGetProperty("state", out JsonElement st) ? st.GetString() ?? "" : "";
+                    if (id == 0 || string.IsNullOrEmpty(img) || state == "Pending")
                         continue;
                     result[id] = img;
                     lock (AvatarCache)
@@ -547,7 +567,6 @@ public static class SavedAccounts
                 App.Logger?.WriteLine(LogIdent, "Avatar fetch failed: " + ex.Message);
             }
         }
-        return result;
     }
 
     public static bool IsRobloxRunning()
