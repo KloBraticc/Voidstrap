@@ -172,13 +172,14 @@ final class AppModel: ObservableObject {
     }
 
     func launchRoblox() {
-        if let url = URL(string: "roblox://") { launchUrl(url) }
+        let target = LiveInstall.installed ? "livecontainer://livecontainer-launch?bundle-name=\(LiveInstall.folder)" : "roblox://"
+        if let url = URL(string: target) { launchUrl(url) }
     }
 
     func launchUrl(_ url: URL) {
         if flagsDirty { FlagStore.save(flags); flagsDirty = false }
         if RobloxFlags.apply(flags) == 0, !flags.isEmpty {
-            show("FastFlags could not reach Roblox. Install Roblox in the same LiveContainer as Voidstrap and open it once.", error: true)
+            show("FastFlags could not reach Roblox. Press Apply Roblox to install it in LiveContainer.", error: true)
         }
         UIApplication.shared.open(url) { [weak self] opened in
             if !opened {
@@ -221,11 +222,19 @@ final class AppModel: ObservableObject {
             let result = try await Task.detached(priority: .userInitiated) {
                 try RobloxIpa.patch(ipa: ipa, mods: enabled, flags: flags, settings: settings, presets: presets, assets: assets) { text, value in model.report(text, value) }
             }.value
+            var installed = false
+            if Paths.isLiveContainer {
+                installed = try await Task.detached(priority: .userInitiated) {
+                    _ = try LiveInstall.install(ipa: result.output) { text, value in model.report(text, value) }
+                    return true
+                }.value
+                RobloxFlags.apply(flags)
+            }
             await MainActor.run {
                 model.patched = result.output
                 model.lastResult = result
                 if !settings.keepOriginalIpa { model.robloxIpa = RobloxIpa.cached() }
-                model.show("Roblox \(result.robloxVersion) is ready to install")
+                model.show(installed ? "Roblox \(result.robloxVersion) is installed in LiveContainer" : "Roblox \(result.robloxVersion) is ready to install")
             }
         }
     }

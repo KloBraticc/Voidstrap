@@ -18,6 +18,7 @@ public struct ZipEntry {
     let method: Int
 
     public var isDirectory: Bool { name.hasSuffix("/") }
+    public var mode: Int { central.count >= 42 ? central.le32(38) >> 16 & 0xFFFF : 0 }
 }
 
 public final class ZipReader {
