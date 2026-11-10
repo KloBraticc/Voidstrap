@@ -57,6 +57,17 @@ internal static partial class AvatarAssembler
 
     private static readonly string[] PreferredFolders = ["R15ArtistIntent", "R15Fixed"];
 
+    private static readonly string[] TextureKeys = ["TextureID", "TextureId", "TextureContent"];
+
+    private static readonly string[] SurfaceKeys = ["ColorMap", "ColorMapContent"];
+
+    private static readonly Dictionary<string, (string Class, string Property)> ClothingProperties = new(StringComparer.Ordinal)
+    {
+        ["Shirt"] = ("Shirt", "ShirtTemplate"),
+        ["Pants"] = ("Pants", "PantsTemplate"),
+        ["TShirt"] = ("ShirtGraphic", "Graphic"),
+    };
+
     public static async Task<AvatarScene?> BuildAsync(
         AvatarState state,
         string installRoot,
@@ -102,6 +113,7 @@ internal static partial class AvatarAssembler
         }
         if (!parts.ContainsKey(RootPart))
             return null;
+        Dictionary<string, BitmapSource?> painted = await PaintLimbsAsync(state, parts, content, fetchAsset, log, token);
         Vector3D bodyScale = new(Scale(state, "width"), Scale(state, "height"), Scale(state, "depth"));
         double headScale = Scale(state, "head");
         Dictionary<string, RobloxCFrame> world = new(StringComparer.Ordinal) { [RootPart] = RobloxCFrame.Identity };
@@ -133,7 +145,8 @@ internal static partial class AvatarAssembler
             try
             {
                 Color color = ParseColor(state.BodyColors.GetValueOrDefault(PartColors[name]));
-                GeometryModel3D? model = await BuildPartAsync(part, frame, name == HeadPart ? Uniform(headScale) : bodyScale, color, true, name == HeadPart, content, fetchAsset, bounds, token);
+                BitmapSource? skin = AvatarClothing.PartLimbs.TryGetValue(name, out string? limb) ? painted.GetValueOrDefault(limb) : null;
+                GeometryModel3D? model = await BuildPartAsync(part, frame, name == HeadPart ? Uniform(headScale) : bodyScale, color, true, name == HeadPart, skin, content, fetchAsset, bounds, token);
                 if (model != null)
                     models.Add(model);
                 else
@@ -189,7 +202,7 @@ internal static partial class AvatarAssembler
                     log("Accessory " + asset.Id + " (" + asset.TypeName + ") has an unknown layout: " + Outline(bytes, roots));
                     continue;
                 }
-                GeometryModel3D? model = await BuildPartAsync(handle, frame, scale, Color.FromRgb(0xA3, 0xA2, 0xA5), false, false, content, fetchAsset, bounds, token);
+                GeometryModel3D? model = await BuildPartAsync(handle, frame, scale, Color.FromRgb(0xA3, 0xA2, 0xA5), false, false, null, content, fetchAsset, bounds, token);
                 if (model != null)
                     models.Add(model);
                 else
@@ -234,6 +247,7 @@ internal static partial class AvatarAssembler
         Color color,
         bool opaque,
         bool defaultHead,
+        BitmapSource? painted,
         string content,
         Func<long, CancellationToken, Task<byte[]?>> fetchAsset,
         Bounds bounds,
@@ -249,7 +263,7 @@ internal static partial class AvatarAssembler
             meshBytes = await ResolveAsync(meshUri, content, fetchAsset, token);
             if (part.Vectors.TryGetValue("size", out Vector3D size) && part.Vectors.TryGetValue("InitialSize", out Vector3D initial) && initial.X > 1e-6 && initial.Y > 1e-6 && initial.Z > 1e-6)
                 meshScale = new Vector3D(size.X / initial.X, size.Y / initial.Y, size.Z / initial.Z);
-            textureUri = part.Strings.GetValueOrDefault("TextureID") ?? part.Strings.GetValueOrDefault("TextureId") ?? part.Strings.GetValueOrDefault("TextureContent");
+            textureUri = TextureUri(part);
         }
         else
         {
@@ -266,7 +280,7 @@ internal static partial class AvatarAssembler
         }
         if (meshBytes == null)
             return null;
-        byte[]? textureBytes = string.IsNullOrEmpty(textureUri) ? null : await ResolveAsync(textureUri, content, fetchAsset, token);
+        byte[]? textureBytes = painted != null || string.IsNullOrEmpty(textureUri) ? null : await ResolveAsync(textureUri, content, fetchAsset, token);
         TexturedMesh source = MeshParser.ParseTextured(meshBytes);
         Matrix3D matrix = frame.ToMatrix3D();
         MeshGeometry3D mesh = new();
@@ -283,7 +297,7 @@ internal static partial class AvatarAssembler
         foreach (int index in source.Indices)
             mesh.TriangleIndices.Add(index);
         Brush brush = new SolidColorBrush(color);
-        if (textureBytes != null && textureBytes.Length <= MaxTextureBytes && Composite(textureBytes, opaque ? color : null) is BitmapSource texture)
+        if ((painted ?? (textureBytes != null && textureBytes.Length <= MaxTextureBytes ? Composite(textureBytes, opaque ? color : null) : null)) is BitmapSource texture)
             brush = new ImageBrush(texture)
             {
                 ViewportUnits = BrushMappingMode.Absolute,
@@ -295,6 +309,62 @@ internal static partial class AvatarAssembler
         GeometryModel3D model = new(mesh, material) { BackMaterial = material };
         model.Freeze();
         return model;
+    }
+
+    private static string? TextureUri(RbxmInstance part)
+    {
+        foreach (string key in TextureKeys)
+            if (part.Strings.TryGetValue(key, out string? value) && value.Length > 0)
+                return value;
+        RbxmInstance? surface = part.Children.FirstOrDefault(c => c.ClassName == "SurfaceAppearance");
+        if (surface != null)
+            foreach (string key in SurfaceKeys)
+                if (surface.Strings.TryGetValue(key, out string? value) && value.Length > 0)
+                    return value;
+        return null;
+    }
+
+    private static async Task<Dictionary<string, BitmapSource?>> PaintLimbsAsync(
+        AvatarState state,
+        Dictionary<string, RbxmInstance> parts,
+        string content,
+        Func<long, CancellationToken, Task<byte[]?>> fetchAsset,
+        Action<string> log,
+        CancellationToken token
+    )
+    {
+        Dictionary<string, BitmapSource?> painted = new(StringComparer.Ordinal);
+        Dictionary<string, AvatarClothing.Picture?> layers = new(StringComparer.Ordinal);
+        foreach (AvatarAsset asset in state.Assets)
+        {
+            if (!ClothingProperties.TryGetValue(asset.TypeName, out (string Class, string Property) kind))
+                continue;
+            byte[]? bytes = await fetchAsset(asset.Id, token);
+            List<RbxmInstance> roots = bytes == null ? new List<RbxmInstance>() : RbxmModelParser.ReadTree(bytes);
+            string? uri = roots.Concat(roots.SelectMany(r => r.Descendants())).FirstOrDefault(i => i.ClassName == kind.Class)?.Strings.GetValueOrDefault(kind.Property);
+            AvatarClothing.Picture? picture = AvatarClothing.Decode(await ResolveAsync(uri, content, fetchAsset, token));
+            if (picture == null)
+                log("Clothing " + asset.Id + " (" + asset.TypeName + ") could not be loaded" + (bytes == null ? "" : ": " + Outline(bytes, roots)));
+            layers[asset.TypeName] = picture;
+        }
+        foreach (string limb in AvatarClothing.PartLimbs.Values.Distinct())
+        {
+            AvatarClothing.Picture? own = null;
+            foreach ((string name, RbxmInstance part) in parts)
+                if (own == null && AvatarClothing.PartLimbs.GetValueOrDefault(name) == limb && TextureUri(part) is string uri)
+                    own = AvatarClothing.Decode(await ResolveAsync(uri, content, fetchAsset, token));
+            string colorKey = PartColors[AvatarClothing.PartLimbs.First(p => p.Value == limb).Key];
+            painted[limb] = AvatarClothing.Paint(
+                limb,
+                ParseColor(state.BodyColors.GetValueOrDefault(colorKey)),
+                own,
+                layers.GetValueOrDefault("Pants"),
+                layers.GetValueOrDefault("Shirt"),
+                layers.GetValueOrDefault("TShirt"),
+                content
+            );
+        }
+        return painted;
     }
 
     private static Color ParseColor(string? hex)
@@ -357,11 +427,16 @@ internal static partial class AvatarAssembler
             string path = Path.GetFullPath(Path.Combine(content, relative));
             return path.StartsWith(Path.GetFullPath(content) + Path.DirectorySeparatorChar, StringComparison.Ordinal) ? await ReadFileAsync(path, token) : null;
         }
-        Match match = AssetIdPattern().Match(uri);
+        Match match = AssetQueryPattern().Match(uri);
+        if (!match.Success)
+            match = AssetIdPattern().Match(uri);
         return match.Success && long.TryParse(match.Groups[1].Value, NumberStyles.None, CultureInfo.InvariantCulture, out long id) && id > 0 ? await fetchAsset(id, token) : null;
     }
 
     private static async Task<byte[]?> ReadFileAsync(string path, CancellationToken token) => File.Exists(path) ? await File.ReadAllBytesAsync(path, token) : null;
+
+    [GeneratedRegex("[?&]id=(\\d+)", RegexOptions.IgnoreCase)]
+    private static partial Regex AssetQueryPattern();
 
     [GeneratedRegex("(\\d{3,})\\s*$")]
     private static partial Regex AssetIdPattern();
