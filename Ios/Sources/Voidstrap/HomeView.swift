@@ -15,6 +15,7 @@ struct HomeView: View {
 
     var body: some View {
         Page(title: "Home", subtitle: "Apply your mods and FastFlags to Roblox, then install it with your sideloader.") {
+            FeaturedBanner()
             if let release = model.update {
                 Card {
                     Row(symbol: "arrow.down.app", title: "Voidstrap \(release.version) is available",

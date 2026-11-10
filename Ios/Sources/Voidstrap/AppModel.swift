@@ -177,8 +177,11 @@ final class AppModel: ObservableObject {
     }
 
     func launchRoblox() {
+        if let url = URL(string: "roblox://") { launchUrl(url) }
+    }
+
+    func launchUrl(_ url: URL) {
         if flagsDirty { FlagStore.save(flags); flagsDirty = false } else { RobloxFlags.apply(flags) }
-        guard let url = URL(string: "roblox://") else { return }
         UIApplication.shared.open(url) { [weak self] opened in
             if !opened {
                 Task { @MainActor in self?.show("Roblox is not installed. Apply Roblox and install the IPA first.", error: true) }
