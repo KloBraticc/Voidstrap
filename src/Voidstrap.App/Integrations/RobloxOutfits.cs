@@ -262,27 +262,84 @@ internal static class RobloxOutfits
     public static async Task<RobloxApiResponse> CreateFromCurrentAsync(string name, string cookie, CancellationToken token)
     {
         string? body = await ReadCurrentAvatarAsync(cookie, name, token);
-        return body == null ? new RobloxApiResponse(0, null, null) : await RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/v3/outfits/create", body, cookie, token);
+        if (body == null)
+            return new RobloxApiResponse(0, null, null);
+        RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/v3/outfits/create", body, cookie, token);
+        if (!NeedsV4(response))
+            return response;
+        return await SendV4Async(
+            "https://avatar.roblox.com/v4/outfits/create",
+            false,
+            [Wrap("outfitDefinition", body), Wrap("outfitDefinition", Wrap("updateOutfitModel", body)), body],
+            response,
+            cookie,
+            token
+        );
     }
 
     public static async Task<RobloxApiResponse> UpdateFromCurrentAsync(long outfitId, string name, string cookie, CancellationToken token)
     {
         string? body = await ReadCurrentAvatarAsync(cookie, name, token);
-        return body == null
-            ? new RobloxApiResponse(0, null, null)
-            : await RobloxCookie.SendPatchWithCookieAsync("https://avatar.roblox.com/v3/outfits/" + outfitId.ToString(CultureInfo.InvariantCulture), body, cookie, token);
+        if (body == null)
+            return new RobloxApiResponse(0, null, null);
+        string id = outfitId.ToString(CultureInfo.InvariantCulture);
+        RobloxApiResponse response = await RobloxCookie.SendPatchWithCookieAsync("https://avatar.roblox.com/v3/outfits/" + id, body, cookie, token);
+        if (!NeedsV4(response))
+            return response;
+        return await SendV4Async("https://avatar.roblox.com/v4/outfits/" + id, true, V4Updates(["UpdateAssets", "UpdateName"], body), response, cookie, token);
     }
 
-    public static Task<RobloxApiResponse> RenameAsync(long outfitId, string name, string cookie, CancellationToken token) =>
-        RobloxCookie.SendPatchWithCookieAsync(
-            "https://avatar.roblox.com/v1/outfits/" + outfitId.ToString(CultureInfo.InvariantCulture),
-            "{\"name\":" + JsonSerializer.Serialize(name) + "}",
-            cookie,
-            token
-        );
+    public static async Task<RobloxApiResponse> RenameAsync(long outfitId, string name, string cookie, CancellationToken token)
+    {
+        string id = outfitId.ToString(CultureInfo.InvariantCulture);
+        string body = "{\"name\":" + JsonSerializer.Serialize(name) + "}";
+        RobloxApiResponse response = await RobloxCookie.SendPatchWithCookieAsync("https://avatar.roblox.com/v1/outfits/" + id, body, cookie, token);
+        if (!NeedsV4(response))
+            return response;
+        return await SendV4Async("https://avatar.roblox.com/v4/outfits/" + id, true, V4Updates(["UpdateName"], body), response, cookie, token);
+    }
 
-    public static Task<RobloxApiResponse> DeleteAsync(long outfitId, string cookie, CancellationToken token) =>
-        RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/v1/outfits/" + outfitId.ToString(CultureInfo.InvariantCulture) + "/delete", null, cookie, token);
+    public static async Task<RobloxApiResponse> DeleteAsync(long outfitId, string cookie, CancellationToken token)
+    {
+        string id = outfitId.ToString(CultureInfo.InvariantCulture);
+        RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/v1/outfits/" + id + "/delete", null, cookie, token);
+        if (!NeedsV4(response))
+            return response;
+        RobloxApiResponse fallback = await RobloxCookie.SendDeleteWithCookieAsync("https://avatar.roblox.com/v4/outfits/" + id, cookie, token);
+        return fallback.StatusCode == 200 ? fallback : response;
+    }
+
+    private static bool NeedsV4(RobloxApiResponse response) => response.StatusCode is 400 or 404 or 405 or 410 or 501;
+
+    private static string Wrap(string key, string json) => "{" + JsonSerializer.Serialize(key) + ":" + json + "}";
+
+    private static string[] V4Updates(string[] updateTypes, string body)
+    {
+        string types = JsonSerializer.Serialize(updateTypes);
+        return
+        [
+            "{\"updateTypes\":" + types + ",\"outfitDefinition\":" + Wrap("updateOutfitModel", body) + "}",
+            "{\"updateTypes\":" + types + ",\"outfitDefinition\":" + body + "}",
+            "{\"updateTypes\":" + types + ",\"updateOutfitModel\":" + body + "}",
+        ];
+    }
+
+    private static async Task<RobloxApiResponse> SendV4Async(string url, bool patch, string[] bodies, RobloxApiResponse original, string cookie, CancellationToken token)
+    {
+        const string LOG_IDENT = "RobloxOutfits::SendV4Async";
+        App.Logger?.WriteLine(LOG_IDENT, "Roblox returned " + original.StatusCode + " for the older outfit route, trying the newer one");
+        RobloxApiResponse last = original;
+        foreach (string body in bodies)
+        {
+            last = patch ? await RobloxCookie.SendPatchWithCookieAsync(url, body, cookie, token) : await RobloxCookie.SendPostWithCookieAsync(url, body, cookie, token);
+            if (last.StatusCode == 200)
+                return last;
+            App.Logger?.WriteLine(LOG_IDENT, "The newer outfit route returned " + last.StatusCode + ": " + last.Body);
+            if (last.StatusCode != 400)
+                break;
+        }
+        return last.StatusCode is 404 or 405 ? original : last;
+    }
 
     private static async Task<string?> ReadCurrentAvatarAsync(string cookie, string name, CancellationToken token)
     {
