@@ -104,7 +104,8 @@
                   </Grid.ColumnDefinitions>
                   <Border Width="44" Height="44" CornerRadius="6" ClipToBounds="True" util:RoundedClip.Radius="6" Background="{Binding TileBrush}">
                     <Grid>
-                      <ui:SymbolIcon Symbol="Link24" FontSize="22" Foreground="White" />
+                      <ui:SymbolIcon Symbol="Link24" FontSize="22" Foreground="White" Visibility="{Binding FallbackVisibility, Mode=OneTime}" />
+                      <Path Width="24" Height="24" Stretch="Uniform" Fill="White" Data="{Binding Glyph, Mode=OneTime}" />
                       <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, Mode=OneTime}" />
                     </Grid>
                   </Border>
