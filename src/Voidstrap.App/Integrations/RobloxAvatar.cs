@@ -106,6 +106,8 @@ internal static partial class RobloxAvatar
 
     private const int AssetCacheLimit = 256;
 
+    private static readonly TimeSpan AssetCacheLifetime = TimeSpan.FromDays(7);
+
     private static readonly ConcurrentDictionary<long, byte[]> AssetCache = new();
 
     private static readonly HttpClient CdnClient = new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All })
@@ -438,6 +440,21 @@ internal static partial class RobloxAvatar
         if (AssetCache.TryGetValue(id, out byte[]? cached))
             return cached;
         string number = id.ToString(CultureInfo.InvariantCulture);
+        string cachePath = Path.Combine(Paths.Cache, "AvatarAssets", number + ".bin");
+        try
+        {
+            FileInfo file = new(cachePath);
+            if (file.Exists && file.Length > 0 && DateTime.UtcNow - file.LastWriteTimeUtc < AssetCacheLifetime)
+            {
+                byte[] stored = await File.ReadAllBytesAsync(cachePath, token);
+                AssetCache[id] = stored;
+                return stored;
+            }
+        }
+        catch (IOException ex)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "The saved copy of asset " + number + " could not be read: " + ex.Message);
+        }
         string? location =
             await FindAssetLocationAsync("https://assetdelivery.roblox.com/v2/assetId/" + number, cookie, token)
             ?? await FindAssetLocationAsync("https://assetdelivery.roblox.com/v1/assetId/" + number, cookie, token)
@@ -453,6 +470,15 @@ internal static partial class RobloxAvatar
             if (AssetCache.Count >= AssetCacheLimit)
                 AssetCache.Clear();
             AssetCache[id] = bytes;
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(cachePath)!);
+                await File.WriteAllBytesAsync(cachePath, bytes, token);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Asset " + number + " could not be saved for next time: " + ex.Message);
+            }
             return bytes;
         }
         catch (Exception ex) when (ex is HttpRequestException or IOException)

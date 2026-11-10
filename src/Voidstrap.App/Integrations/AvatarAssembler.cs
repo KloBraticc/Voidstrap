@@ -88,11 +88,17 @@ internal static partial class AvatarAssembler
                 continue;
             }
             List<RbxmInstance> roots = RbxmModelParser.ReadTree(bytes);
+            int replaced = 0;
             RbxmInstance? folder = PreferredFolders.Select(name => roots.FirstOrDefault(r => r.Name == name)).FirstOrDefault(f => f != null);
             IEnumerable<RbxmInstance> candidates = folder != null ? folder.Children : roots.Concat(roots.SelectMany(r => r.Descendants()));
             foreach (RbxmInstance candidate in candidates)
                 if (candidate.ClassName == "MeshPart" && PartColors.ContainsKey(candidate.Name))
+                {
                     parts[candidate.Name] = candidate;
+                    replaced++;
+                }
+            if (replaced == 0)
+                log("Body part " + asset.Id + " (" + asset.TypeName + ") had no usable parts: " + Outline(bytes, roots));
         }
         if (!parts.ContainsKey(RootPart))
             return null;
@@ -126,9 +132,12 @@ internal static partial class AvatarAssembler
                 continue;
             try
             {
-                GeometryModel3D? model = await BuildPartAsync(name, part, frame, name == HeadPart ? Uniform(headScale) : bodyScale, state, content, fetchAsset, bounds, token);
+                Color color = ParseColor(state.BodyColors.GetValueOrDefault(PartColors[name]));
+                GeometryModel3D? model = await BuildPartAsync(part, frame, name == HeadPart ? Uniform(headScale) : bodyScale, color, true, name == HeadPart, content, fetchAsset, bounds, token);
                 if (model != null)
                     models.Add(model);
+                else
+                    log("The " + name + " part has no mesh: " + string.Join(", ", part.Strings.Keys));
             }
             catch (Exception ex) when (ex is InvalidDataException or IOException or HttpRequestException or NotSupportedException or ArgumentException)
             {
@@ -137,11 +146,78 @@ internal static partial class AvatarAssembler
         }
         if (models.Count < MinimumParts || !bounds.Valid)
             return null;
+        foreach (AvatarAsset asset in state.Assets)
+        {
+            token.ThrowIfCancellationRequested();
+            if (BodyPartTypes.Contains(asset.TypeName) || !(asset.TypeName == "Hat" || asset.TypeName.EndsWith("Accessory", StringComparison.Ordinal)))
+                continue;
+            try
+            {
+                byte[]? bytes = await fetchAsset(asset.Id, token);
+                if (bytes == null)
+                {
+                    log("Accessory " + asset.Id + " could not be downloaded");
+                    continue;
+                }
+                List<RbxmInstance> roots = RbxmModelParser.ReadTree(bytes);
+                RbxmInstance? accessory = roots.Concat(roots.SelectMany(r => r.Descendants())).FirstOrDefault(i => i.ClassName == "Accessory");
+                RbxmInstance? handle = accessory?.Child("Handle") ?? accessory?.Children.FirstOrDefault(c => c.ClassName is "MeshPart" or "Part");
+                RbxmInstance? attachment = handle?.Children.FirstOrDefault(c => c.ClassName == "Attachment" && c.CFrames.ContainsKey("CFrame"));
+                RobloxCFrame frame;
+                Vector3D scale;
+                if (handle != null && attachment != null)
+                {
+                    (string? partName, RbxmInstance? bodyAttachment) = parts
+                        .Where(p => world.ContainsKey(p.Key))
+                        .Select(p => ((string?)p.Key, p.Value.Child(attachment.Name)))
+                        .FirstOrDefault(p => p.Item2 != null && p.Item2.CFrames.ContainsKey("CFrame"));
+                    if (partName == null || bodyAttachment == null)
+                    {
+                        log("Accessory " + asset.Id + " attaches to " + attachment.Name + ", which this body does not have");
+                        continue;
+                    }
+                    scale = partName == HeadPart ? Uniform(headScale) : bodyScale;
+                    frame = world[partName] * Scaled(bodyAttachment.CFrames["CFrame"], scale) * Scaled(attachment.CFrames["CFrame"], scale).Inverse();
+                }
+                else if (handle != null && accessory != null && accessory.CFrames.TryGetValue("AttachmentPoint", out RobloxCFrame point) && world.TryGetValue(HeadPart, out RobloxCFrame headFrame))
+                {
+                    scale = Uniform(headScale);
+                    frame = headFrame * Scaled(RobloxCFrame.FromPosition(0, 0.5, 0), scale) * Scaled(point, scale).Inverse();
+                }
+                else
+                {
+                    log("Accessory " + asset.Id + " (" + asset.TypeName + ") has an unknown layout: " + Outline(bytes, roots));
+                    continue;
+                }
+                GeometryModel3D? model = await BuildPartAsync(handle, frame, scale, Color.FromRgb(0xA3, 0xA2, 0xA5), false, false, content, fetchAsset, bounds, token);
+                if (model != null)
+                    models.Add(model);
+                else
+                    log("Accessory " + asset.Id + " has no mesh: " + Outline(bytes, roots));
+            }
+            catch (Exception ex) when (ex is InvalidDataException or IOException or HttpRequestException or NotSupportedException or ArgumentException)
+            {
+                log("Accessory " + asset.Id + " could not be built: " + ex.Message);
+            }
+        }
         Model3DGroup group = new();
         foreach (GeometryModel3D model in models)
             group.Children.Add(model);
         group.Freeze();
         return new AvatarScene(group, bounds.ToRect(), 180.0);
+    }
+
+    private static string Outline(byte[] bytes, List<RbxmInstance> roots)
+    {
+        if (roots.Count == 0)
+            return "unreadable file starting with " + Convert.ToHexString(bytes, 0, Math.Min(bytes.Length, 12));
+        return string.Join(
+            "; ",
+            roots
+                .Concat(roots.SelectMany(r => r.Descendants()))
+                .Take(30)
+                .Select(i => i.ClassName + " " + i.Name + (i.Strings.Count > 0 ? " [" + string.Join(",", i.Strings.Where(v => v.Value.Length > 0).Select(v => v.Key)) + "]" : ""))
+        );
     }
 
     private static double Scale(AvatarState state, string key) => state.Scales.TryGetValue(key, out double value) && value is > 0.1 and < 10 ? value : 1.0;
@@ -152,11 +228,12 @@ internal static partial class AvatarAssembler
         new(frame.X * scale.X, frame.Y * scale.Y, frame.Z * scale.Z, frame.R00, frame.R01, frame.R02, frame.R10, frame.R11, frame.R12, frame.R20, frame.R21, frame.R22);
 
     private static async Task<GeometryModel3D?> BuildPartAsync(
-        string name,
         RbxmInstance part,
         RobloxCFrame frame,
         Vector3D bodyScale,
-        AvatarState state,
+        Color color,
+        bool opaque,
+        bool defaultHead,
         string content,
         Func<long, CancellationToken, Task<byte[]?>> fetchAsset,
         Bounds bounds,
@@ -178,12 +255,14 @@ internal static partial class AvatarAssembler
         {
             RbxmInstance? special = part.Children.FirstOrDefault(c => c.ClassName == "SpecialMesh");
             string? meshUri = special?.Strings.GetValueOrDefault("MeshId");
-            meshBytes = string.IsNullOrEmpty(meshUri)
-                ? await ReadFileAsync(Path.Combine(content, "avatar", "heads", "head.mesh"), token)
-                : await ResolveAsync(meshUri, content, fetchAsset, token);
-            if (special != null && special.Vectors.TryGetValue("Scale", out Vector3D specialScale))
+            meshBytes = !string.IsNullOrEmpty(meshUri) ? await ResolveAsync(meshUri, content, fetchAsset, token)
+                : defaultHead ? await ReadFileAsync(Path.Combine(content, "avatar", "heads", "head.mesh"), token)
+                : null;
+            if (!string.IsNullOrEmpty(meshUri) && special != null && special.Vectors.TryGetValue("Scale", out Vector3D specialScale))
                 meshScale = specialScale;
-            textureUri = part.Children.FirstOrDefault(c => c.ClassName == "Decal")?.Strings.GetValueOrDefault("Texture");
+            textureUri = defaultHead
+                ? part.Children.FirstOrDefault(c => c.ClassName == "Decal")?.Strings.GetValueOrDefault("Texture")
+                : special?.Strings.GetValueOrDefault("TextureId") ?? special?.Strings.GetValueOrDefault("TextureID");
         }
         if (meshBytes == null)
             return null;
@@ -203,9 +282,8 @@ internal static partial class AvatarAssembler
             mesh.TextureCoordinates.Add(coord);
         foreach (int index in source.Indices)
             mesh.TriangleIndices.Add(index);
-        Color color = ParseColor(state.BodyColors.GetValueOrDefault(PartColors[name]));
         Brush brush = new SolidColorBrush(color);
-        if (textureBytes != null && textureBytes.Length <= MaxTextureBytes && Composite(textureBytes, color) is BitmapSource texture)
+        if (textureBytes != null && textureBytes.Length <= MaxTextureBytes && Composite(textureBytes, opaque ? color : null) is BitmapSource texture)
             brush = new ImageBrush(texture)
             {
                 ViewportUnits = BrushMappingMode.Absolute,
@@ -226,7 +304,7 @@ internal static partial class AvatarAssembler
         return Color.FromRgb(0xA3, 0xA2, 0xA5);
     }
 
-    private static BitmapSource? Composite(byte[] bytes, Color color)
+    private static BitmapSource? Composite(byte[] bytes, Color? underlay)
     {
         try
         {
@@ -248,6 +326,8 @@ internal static partial class AvatarAssembler
             int height = source.PixelHeight;
             byte[] pixels = new byte[width * height * 4];
             source.CopyPixels(pixels, width * 4, 0);
+            if (underlay is not Color color)
+                return source;
             for (int i = 0; i < pixels.Length; i += 4)
             {
                 int alpha = pixels[i + 3];

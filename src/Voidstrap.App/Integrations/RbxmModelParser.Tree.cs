@@ -22,6 +22,8 @@ public static partial class RbxmModelParser
         List<RbxmInstance> roots = new();
         if (data == null || data.Length < 32)
             return roots;
+        if (IsXmlModel(data))
+            return ReadXmlTree(data);
         for (int i = 0; i < Magic.Length; i++)
             if (data[i] != Magic[i])
                 return roots;
