@@ -14,6 +14,13 @@ public partial class GameAccountBar : UserControl
         new PropertyMetadata(0L, OnPlaceIdChanged)
     );
 
+    public static readonly DependencyProperty StackedProperty = DependencyProperty.Register(
+        nameof(Stacked),
+        typeof(bool),
+        typeof(GameAccountBar),
+        new PropertyMetadata(false, OnStackedChanged)
+    );
+
     private CancellationTokenSource? _cts;
     private long _userId;
     private bool _syncing;
@@ -32,6 +39,23 @@ public partial class GameAccountBar : UserControl
     {
         get => (long)GetValue(PlaceIdProperty);
         set => SetValue(PlaceIdProperty, value);
+    }
+
+    public bool Stacked
+    {
+        get => (bool)GetValue(StackedProperty);
+        set => SetValue(StackedProperty, value);
+    }
+
+    private static void OnStackedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not GameAccountBar bar)
+            return;
+        bool stacked = (bool)e.NewValue;
+        bar.Boxes.Rows = stacked ? 0 : 1;
+        bar.Boxes.Columns = stacked ? 1 : 0;
+        bar.AccountBox.Margin = stacked ? new Thickness(0, 0, 0, 6) : new Thickness(0, 0, 6, 0);
+        bar.AccountBox.MaxWidth = bar.OutfitBox.MaxWidth = stacked ? double.PositiveInfinity : 220;
     }
 
     private static void OnPlaceIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
