@@ -90,7 +90,12 @@ public partial class SessionHubPanel : Window
             List<GameUpdatePost> newsList = await news;
             List<LibraryEventEntry> eventList = await events;
             lock (CacheLock)
-                Cache[_universeId] = new HubCache(DateTime.UtcNow, newsList, linkList, eventList);
+            {
+                DateTime now = DateTime.UtcNow;
+                foreach (long stale in Cache.Where(pair => now - pair.Value.At >= CacheLifetime).Select(static pair => pair.Key).ToList())
+                    Cache.Remove(stale);
+                Cache[_universeId] = new HubCache(now, newsList, linkList, eventList);
+            }
             await badges;
         }
         catch (OperationCanceledException) { }

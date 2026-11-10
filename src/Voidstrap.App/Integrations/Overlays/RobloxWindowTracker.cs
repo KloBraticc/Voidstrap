@@ -291,7 +291,7 @@ namespace Voidstrap.Integrations.Overlays
 
             if (_hwnd != IntPtr.Zero && IsWindow(_hwnd) && IsWindowVisible(_hwnd))
             {
-                SetDiscoveryInterval(250);
+                SetDiscoveryInterval(1000);
                 Publish();
                 return;
             }
