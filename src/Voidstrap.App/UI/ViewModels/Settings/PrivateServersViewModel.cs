@@ -90,6 +90,7 @@ namespace Voidstrap.UI.ViewModels.Settings
     internal sealed class PrivateServerGame : NotifyPropertyChangedViewModel
     {
         private string? _iconUrl;
+        private string? _bannerUrl;
 
         public long UniverseId { get; init; }
 
@@ -104,6 +105,18 @@ namespace Voidstrap.UI.ViewModels.Settings
                     return;
                 _iconUrl = value;
                 OnPropertyChanged(nameof(IconUrl));
+            }
+        }
+
+        public string? BannerUrl
+        {
+            get => _bannerUrl;
+            set
+            {
+                if (_bannerUrl == value)
+                    return;
+                _bannerUrl = value;
+                OnPropertyChanged(nameof(BannerUrl));
             }
         }
 
@@ -241,7 +254,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     $"Showing {servers.Count} private servers, {_mineGames.Count} games of your own and {_friendGames.Count} shared with you"
                 );
                 IsLoading = false;
-                await LoadIconsAsync();
+                await Task.WhenAll(LoadIconsAsync(), LoadBannersAsync());
             }
             catch (Exception ex)
             {
@@ -281,6 +294,30 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 if (game.UniverseId > 0 && UniverseDetails.LoadFromCache(game.UniverseId)?.Thumbnail?.ImageUrl is { Length: > 0 } url)
                     game.IconUrl = url;
+            }
+        }
+
+        private async Task LoadBannersAsync()
+        {
+            const string LOG_IDENT = "PrivateServersViewModel::LoadBannersAsync";
+
+            List<PrivateServerGame> games = _mineGames.Concat(_friendGames).Where(game => game.UniverseId > 0).ToList();
+            if (games.Count == 0)
+                return;
+            try
+            {
+                Dictionary<long, string> banners = await Task.Run(() =>
+                    RobloxFriends.GetGameThumbnailsAsync(games.Select(game => game.UniverseId), CancellationToken.None)
+                );
+                foreach (PrivateServerGame game in games)
+                {
+                    if (banners.TryGetValue(game.UniverseId, out string? url))
+                        game.BannerUrl = url;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Game banners could not be loaded: " + ex.Message);
             }
         }
 

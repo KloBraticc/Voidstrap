@@ -156,18 +156,38 @@
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <Grid Margin="0,2,0,14">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Border Width="64" Height="64" CornerRadius="10" ClipToBounds="True" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
-          <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+      <Grid Height="168" Margin="0,2,16,12">
+        <Border CornerRadius="8" Background="{DynamicResource SubtleFillColorSecondaryBrush}" util:RoundedClip.Radius="8">
+          <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.BannerUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
         </Border>
-        <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
-          <TextBlock Text="{Binding SelectedGame.Name}" FontSize="20" FontWeight="Bold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-          <TextBlock Text="{Binding SelectedGame.CountText}" FontSize="12.5" Margin="0,3,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-        </StackPanel>
+        <Border CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Color="#33000000" Offset="0" />
+              <GradientStop Color="#D9000000" Offset="1" />
+            </LinearGradientBrush>
+          </Border.Background>
+        </Border>
+        <Grid VerticalAlignment="Bottom" Margin="18,0,18,16">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Width="76" Height="76" CornerRadius="10" BorderThickness="2" BorderBrush="{DynamicResource SurfaceStrokeColorFlyoutBrush}" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+            <Border util:RoundedClip.Radius="8">
+              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+            </Border>
+          </Border>
+          <StackPanel Grid.Column="1" Margin="14,0,0,2" VerticalAlignment="Bottom">
+            <TextBlock Text="{Binding SelectedGame.Name}" ToolTip="{Binding SelectedGame.Name}" FontSize="22" FontWeight="Bold" TextTrimming="CharacterEllipsis" Foreground="White" />
+            <Border Margin="0,8,0,0" Padding="10,4" CornerRadius="6" Background="#33FFFFFF" HorizontalAlignment="Left">
+              <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="LockClosed24" FontSize="13" Foreground="White" VerticalAlignment="Center" />
+                <TextBlock Margin="6,0,0,0" Text="{Binding SelectedGame.CountText}" FontSize="12.5" Foreground="White" VerticalAlignment="Center" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Grid>
       </Grid>
       <ListBox Grid.Row="1" Background="Transparent" BorderThickness="0" Focusable="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.ScrollUnit="Pixel" ItemsSource="{Binding SelectedGame.Servers}">
         <ListBox.ItemContainerStyle>
