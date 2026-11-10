@@ -294,6 +294,7 @@ Adding the flake as an input is not enough on its own: enable the module or add 
 | Linux | Linux or Windows. macOS can cross publish the executable. | x64 and ARM64, glibc or musl |
 | macOS | macOS, Windows or Linux. Windows disk-image packaging uses WSL 2. | Intel and Apple silicon |
 | Android | Windows, Linux or macOS with the Android NDK host tools | ARM64, ARMv7 and x64 in each APK |
+| iOS | macOS with Xcode 26, or any host through a GitHub Actions macOS runner | ARM64 IPA for iOS 16 or newer |
 
 Clone with [Git](https://git-scm.com/downloads):
 
@@ -307,7 +308,7 @@ cd Voidstrap
 
 If you've already cloned the repository, run `git submodule update --init --recursive`. Desktop builds need `external/wpfui` and the bundled files in `external/LibreWPF`.
 
-Desktop builds need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), version **10.0.300 or a newer stable 10.0 release**, as set in `global.json`. Check your version with `dotnet --version`. The runtime alone cannot build the app. The first build downloads NuGet packages and may take a while.
+Desktop builds need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), version **10.0.403 or a newer stable 10.0 release**, as set in `global.json`. Check your version with `dotnet --version`. The runtime alone cannot build the app. The first build downloads NuGet packages and may take a while.
 
 Run commands from the repository root unless noted otherwise. Linux and macOS need [PowerShell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) for `publish-all.ps1`. Windows supports both Windows PowerShell and PowerShell 7.
 
@@ -511,6 +512,37 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only andr
 ```
 
 On Linux or macOS, use `pwsh -NoProfile -File ./publish-all.ps1 -Only android -NoPause`. The signed APKs are saved as `PublishedBuilds/Android/Voidstrap-Android-play-<version>.apk` and `Voidstrap-Android-direct-<version>.apk`, using the version in `Directory.Build.props`. The script rejects unsigned APKs and APKs signed with the debug certificate.
+
+</details>
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-ios-dark.svg"><img src="assets/readme/build-ios-light.svg" alt="iOS build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
+**You need:** a Mac with [Xcode 26](https://developer.apple.com/xcode/) and [xtool](https://github.com/xtool-org/xtool). The app is a Swift package in `Ios`, built with SwiftUI and the Liquid Glass interface, and it runs on iOS 16 or newer. No Apple developer account is needed for an unsigned IPA.
+
+Build the IPA on a Mac:
+
+```bash
+cd Ios
+sh scripts/sync-version.sh
+xtool dev build --configuration release --ipa
+```
+
+The IPA is saved in `Ios/xtool`. `sync-version.sh` copies the version from `Directory.Build.props` into `Info.plist`. Install the IPA with LiveContainer, SideStore or another sideloader, which signs it for your device.
+
+**Building through publish-all.ps1**
+
+Windows and Linux have no iOS SDK, so the publish script builds on a GitHub Actions macOS runner instead. You need [GitHub CLI](https://cli.github.com/) signed in with `gh auth login`, and a clone of a GitHub repository with an `ios-build.yml` workflow next to your Voidstrap folder, named `voidstrap-mac-ci`. The script copies `Ios` into it, pushes it, starts the workflow and downloads the IPA:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only ios -NoPause
+```
+
+On Linux or macOS, use `pwsh -NoProfile -File ./publish-all.ps1 -Only ios -NoPause`. Output: `PublishedBuilds/iOS/Voidstrap-<version>.ipa`, using the version in `Directory.Build.props`.
+
+**FastFlags on iOS**
+
+Voidstrap writes FastFlags to `Library/Application Support/ClientSettings/ClientAppSettings.json`, the file Roblox reads for local settings. This needs Roblox installed in LiveContainer next to Voidstrap, since iOS keeps other apps' files private. Launch Roblox there once so its data folder exists. Nothing is injected into Roblox.
 
 </details>
 
