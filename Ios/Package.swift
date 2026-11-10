@@ -15,7 +15,7 @@ let package = Package(
         .target(
             name: "Voidstrap",
             dependencies: ["VoidstrapCore"],
-            resources: [.copy("Resources"), .copy("ModAssets")]
+            resources: [.copy("ModAssets")]
         )
     ]
 )

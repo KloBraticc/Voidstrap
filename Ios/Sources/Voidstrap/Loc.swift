@@ -51,5 +51,5 @@ final class Loc: ObservableObject {
 }
 
 extension Text {
-    init(loc text: String) { self.init(verbatim: Loc.t(text)) }
+    @MainActor init(loc text: String) { self.init(verbatim: Loc.t(text)) }
 }
