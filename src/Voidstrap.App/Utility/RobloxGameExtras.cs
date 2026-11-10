@@ -25,7 +25,6 @@ internal static class RobloxGameExtras
                     continue;
                 links.Add(new GameSocialLink { Type = Text(item, "type"), Title = Text(item, "title"), Url = uri.AbsoluteUri });
             }
-            await Task.WhenAll(links.Select(link => ResolveLinkIconAsync(link, token))).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
@@ -37,6 +36,9 @@ internal static class RobloxGameExtras
         }
         return links;
     }
+
+    public static Task ResolveLinkIconsAsync(IReadOnlyList<GameSocialLink> links, CancellationToken token) =>
+        Task.WhenAll(links.Where(static link => link.IconUrl.Length == 0).Select(link => ResolveLinkIconAsync(link, token)));
 
     private static async Task ResolveLinkIconAsync(GameSocialLink link, CancellationToken token)
     {

@@ -54,7 +54,7 @@
     <ui:DynamicScrollViewer Grid.Column="0" Margin="0,0,8,0" VerticalScrollBarVisibility="Auto">
       <StackPanel>
         <TextBlock Style="{StaticResource HubHeading}" Text="{resources:Loc Ui_Nav_News}" />
-        <TextBlock x:Name="NewsEmpty" Style="{StaticResource HubEmpty}" Text="{resources:Loc Ui_Session_HubEmpty}" />
+        <TextBlock x:Name="NewsEmpty" Visibility="Collapsed" Style="{StaticResource HubEmpty}" Text="{resources:Loc Ui_Session_HubEmpty}" />
         <ItemsControl x:Name="NewsList" Margin="0,0,0,12">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
@@ -69,7 +69,7 @@
         </ItemsControl>
 
         <TextBlock Style="{StaticResource HubHeading}" Text="{resources:Loc Ui_Pages_Events}" />
-        <TextBlock x:Name="EventsEmpty" Style="{StaticResource HubEmpty}" Text="{resources:Loc Ui_Session_HubEmpty}" />
+        <TextBlock x:Name="EventsEmpty" Visibility="Collapsed" Style="{StaticResource HubEmpty}" Text="{resources:Loc Ui_Session_HubEmpty}" />
         <ItemsControl x:Name="EventList" Margin="0,0,0,12">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
@@ -92,7 +92,7 @@
         </ItemsControl>
 
         <TextBlock Style="{StaticResource HubHeading}" Text="{resources:Loc Ui_Session_SocialLinks}" />
-        <TextBlock x:Name="LinksEmpty" Style="{StaticResource HubEmpty}" Text="{resources:Loc Ui_Session_HubEmpty}" />
+        <TextBlock x:Name="LinksEmpty" Visibility="Collapsed" Style="{StaticResource HubEmpty}" Text="{resources:Loc Ui_Session_HubEmpty}" />
         <ItemsControl x:Name="LinkList">
           <ItemsControl.ItemTemplate>
             <DataTemplate>

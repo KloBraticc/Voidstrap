@@ -18,6 +18,14 @@ public partial class SessionHubPanel : Window
     private readonly string _gameName;
     private bool _closed;
 
+    private sealed record HubCache(DateTime At, List<GameUpdatePost> News, List<GameSocialLink> Links, List<LibraryEventEntry> Events);
+
+    private static readonly TimeSpan CacheLifetime = TimeSpan.FromMinutes(5);
+
+    private static readonly object CacheLock = new();
+
+    private static readonly Dictionary<long, HubCache> Cache = new();
+
     public SessionHubPanel(ActivityWatcher? activity)
     {
         InitializeComponent();
@@ -53,16 +61,36 @@ public partial class SessionHubPanel : Window
             return;
         }
         CancellationToken token = _lifetime.Token;
+        Task badges = LoadBadgesAsync(token);
+        HubCache? cached;
+        lock (CacheLock)
+            Cache.TryGetValue(_universeId, out cached);
+        if (cached != null && DateTime.UtcNow - cached.At < CacheLifetime)
+        {
+            Fill(_news, cached.News);
+            Fill(_links, cached.Links);
+            Fill(_events, cached.Events);
+            ShowEmptyStates();
+            await badges;
+            return;
+        }
         try
         {
-            Task<List<GameUpdatePost>> news = RobloxGameExtras.GetUpdatesAsync(_universeId, token);
-            Task<List<GameSocialLink>> links = RobloxGameExtras.GetSocialLinksAsync(_universeId, token);
-            Task<List<LibraryEventEntry>> events = LoadEventsAsync(token);
-            Task badges = LoadBadgesAsync(token);
-            Fill(_news, await news);
-            Fill(_links, await links);
-            Fill(_events, await events);
-            ShowEmptyStates();
+            Task<List<GameUpdatePost>> news = FillWhenReady(_news, NewsEmpty, RobloxGameExtras.GetUpdatesAsync(_universeId, token));
+            Task<List<GameSocialLink>> links = FillWhenReady(_links, LinksEmpty, RobloxGameExtras.GetSocialLinksAsync(_universeId, token));
+            Task<List<LibraryEventEntry>> events = FillWhenReady(_events, EventsEmpty, LoadEventsAsync(token));
+            await Task.WhenAll(news, links, events);
+            List<GameSocialLink> linkList = await links;
+            if (linkList.Count > 0)
+            {
+                await RobloxGameExtras.ResolveLinkIconsAsync(linkList, token);
+                if (linkList.Any(static link => link.IconUrl.Length > 0))
+                    Fill(_links, linkList);
+            }
+            List<GameUpdatePost> newsList = await news;
+            List<LibraryEventEntry> eventList = await events;
+            lock (CacheLock)
+                Cache[_universeId] = new HubCache(DateTime.UtcNow, newsList, linkList, eventList);
             await badges;
         }
         catch (OperationCanceledException) { }
@@ -154,6 +182,15 @@ public partial class SessionHubPanel : Window
         NewsEmpty.Visibility = _news.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         EventsEmpty.Visibility = _events.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         LinksEmpty.Visibility = _links.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private async Task<List<T>> FillWhenReady<T>(ObservableCollection<T> target, System.Windows.Controls.TextBlock empty, Task<List<T>> source)
+    {
+        List<T> items = await source;
+        Fill(target, items);
+        if (!_closed)
+            empty.Visibility = target.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        return items;
     }
 
     private void Fill<T>(ObservableCollection<T> target, IEnumerable<T> source)
