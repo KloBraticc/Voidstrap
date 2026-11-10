@@ -10186,4 +10186,13 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>شکلک‌ها</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>تنظیم لوازم جانبی</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>چرخش</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>مقیاس</value>
+  </data>
 </root>

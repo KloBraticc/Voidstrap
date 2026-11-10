@@ -10187,4 +10187,13 @@ Giocatori: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emote</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Regola accessori</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Rotazione</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Scala</value>
+  </data>
 </root>

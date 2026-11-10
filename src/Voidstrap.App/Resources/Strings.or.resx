@@ -9872,4 +9872,13 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ଇମୋଟ୍</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>ଆକ୍ସେସରି ସଜାଡ଼ନ୍ତୁ</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>ଘୂର୍ଣ୍ଣନ</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>ସ୍କେଲ୍</value>
+  </data>
 </root>

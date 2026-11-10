@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -44,8 +45,6 @@ namespace Voidstrap.UI.ViewModels.Settings
             [ProportionScale] = nameof(ScaleProportion),
         };
 
-        private static readonly bool Supports3D = Voidstrap.Utility.Platform.IsWindows;
-
         private readonly SavedAccount _account;
 
         private readonly CancellationTokenSource _cts = new();
@@ -56,7 +55,17 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private readonly Dictionary<string, double> _scales = new();
 
-        private AvatarRules _rules = new(new Dictionary<string, (int Id, int Max)>(), new List<string>());
+        private readonly Dictionary<string, double> _adjust = new();
+
+        private AvatarRules _rules = new(
+            new Dictionary<string, (int Id, int Max)>(),
+            new List<string>(),
+            new Dictionary<string, (double Min, double Max)>()
+        );
+
+        private AvatarItemRow? _selectedAdjust;
+
+        private bool _adjustLoading;
 
         private ImageSource? _backgroundImage;
 
@@ -96,6 +105,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             ToggleItemCommand = new AsyncRelayCommand<AvatarItemRow?>(row => ToggleItemAsync(row));
             RemoveAccessoriesCommand = new AsyncRelayCommand(RemoveAccessoriesAsync);
             SetSkinColorCommand = new AsyncRelayCommand<string?>(hex => SetSkinColorAsync(hex));
+            ResetAdjustCommand = new AsyncRelayCommand(ResetAdjustAsync);
         }
 
         public ObservableCollection<AvatarItemRow> Items { get; } = new();
@@ -107,6 +117,77 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand RemoveAccessoriesCommand { get; }
 
         public ICommand SetSkinColorCommand { get; }
+
+        public ICommand ResetAdjustCommand { get; }
+
+        public ObservableCollection<AvatarItemRow> Adjustable { get; } = new();
+
+        public Visibility AdjustVisibility => Adjustable.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+        public AvatarItemRow? SelectedAdjust
+        {
+            get => _selectedAdjust;
+            set
+            {
+                if (SetProperty(ref _selectedAdjust, value))
+                    LoadAdjust();
+            }
+        }
+
+        public double AdjustPositionX
+        {
+            get => GetAdjustPercent(RobloxAvatar.PositionKind, "X");
+            set => SetAdjustPercent(RobloxAvatar.PositionKind, "X", value);
+        }
+
+        public double AdjustPositionY
+        {
+            get => GetAdjustPercent(RobloxAvatar.PositionKind, "Y");
+            set => SetAdjustPercent(RobloxAvatar.PositionKind, "Y", value);
+        }
+
+        public double AdjustPositionZ
+        {
+            get => GetAdjustPercent(RobloxAvatar.PositionKind, "Z");
+            set => SetAdjustPercent(RobloxAvatar.PositionKind, "Z", value);
+        }
+
+        public double AdjustRotationX
+        {
+            get => GetAdjustPercent(RobloxAvatar.RotationKind, "X");
+            set => SetAdjustPercent(RobloxAvatar.RotationKind, "X", value);
+        }
+
+        public double AdjustRotationY
+        {
+            get => GetAdjustPercent(RobloxAvatar.RotationKind, "Y");
+            set => SetAdjustPercent(RobloxAvatar.RotationKind, "Y", value);
+        }
+
+        public double AdjustRotationZ
+        {
+            get => GetAdjustPercent(RobloxAvatar.RotationKind, "Z");
+            set => SetAdjustPercent(RobloxAvatar.RotationKind, "Z", value);
+        }
+
+        public double AdjustScale
+        {
+            get => Math.Round(_adjust.GetValueOrDefault(RobloxAvatar.ScaleKind + ".X", 1.0) * 100);
+            set
+            {
+                double scale = Math.Round(value) / 100.0;
+                if (_adjustLoading || _selectedAdjust == null || Math.Abs(_adjust.GetValueOrDefault(RobloxAvatar.ScaleKind + ".X", 1.0) - scale) < 0.0005)
+                    return;
+                foreach (string axis in RobloxAvatar.AdjustAxes)
+                    _adjust[RobloxAvatar.ScaleKind + "." + axis] = scale;
+                OnPropertyChanged();
+                _ = ApplyAdjustAsync();
+            }
+        }
+
+        public double AdjustScaleMin => Math.Round(AdjustBound(RobloxAvatar.ScaleKind, "X").Min * 100);
+
+        public double AdjustScaleMax => Math.Round(AdjustBound(RobloxAvatar.ScaleKind, "X").Max * 100);
 
         public ObservableCollection<string> Palette { get; } = new();
 
@@ -306,6 +387,15 @@ namespace Voidstrap.UI.ViewModels.Settings
                 Wearing.Add(
                     new AvatarItemRow(asset.Id, asset.Name, asset.TypeName, false) { Worn = true, ImageUrl = known.GetValueOrDefault(asset.Id) }
                 );
+            long adjustId = _selectedAdjust?.Id ?? 0;
+            Adjustable.Clear();
+            foreach (AvatarItemRow row in Wearing)
+                if (_rules.Bounds.ContainsKey(RobloxAvatar.AdjustKey(row.TypeName, RobloxAvatar.ScaleKind, "X")))
+                    Adjustable.Add(row);
+            _selectedAdjust = Adjustable.FirstOrDefault(r => r.Id == adjustId) ?? Adjustable.FirstOrDefault();
+            OnPropertyChanged(nameof(SelectedAdjust));
+            OnPropertyChanged(nameof(AdjustVisibility));
+            LoadAdjust();
             MarkWorn();
             _ = FillThumbnailsAsync(Wearing.ToList(), _cts.Token);
             _ = RefreshPreviewAsync(cookie);
@@ -327,7 +417,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
                 Task<string?> background = _backgroundId > 0 ? RobloxAvatar.ThumbnailAsync("Asset", _backgroundId, token) : Task.FromResult<string?>(null);
                 Task<string?> image = RobloxAvatar.ThumbnailAsync("Avatar", _account.UserId, token);
-                Task<AvatarScene?> scene = Supports3D ? RobloxAvatar.LoadSceneAsync(_account.UserId, cookie, token) : Task.FromResult<AvatarScene?>(null);
+                Task<AvatarScene?> scene = RobloxAvatar.LoadSceneAsync(_account.UserId, cookie, token);
                 string? backgroundUrl = await background;
                 string? imageUrl = await image;
                 if (version != _previewVersion)
@@ -335,7 +425,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 if (backgroundUrl != BackgroundUrl || backgroundUrl == null)
                 {
                     BackgroundUrl = backgroundUrl;
-                    ImageSource? picture = Supports3D ? await RobloxAvatar.LoadBitmapAsync(backgroundUrl, token) : null;
+                    ImageSource? picture = await RobloxAvatar.LoadBitmapAsync(backgroundUrl, token);
                     if (version != _previewVersion)
                         return;
                     BackgroundImage = picture;
@@ -535,6 +625,116 @@ namespace Voidstrap.UI.ViewModels.Settings
             foreach ((string name, double amount) in _scales)
                 scales[name] = amount / 100.0;
             _ = ApplyAsync(cookie => RobloxAvatar.SetScalesAsync(scales, cookie, _cts.Token), false);
+        }
+
+        private (double Min, double Max) AdjustBound(string kind, string axis)
+        {
+            if (_selectedAdjust != null && _rules.Bounds.TryGetValue(RobloxAvatar.AdjustKey(_selectedAdjust.TypeName, kind, axis), out (double Min, double Max) bound))
+                return bound;
+            return kind switch
+            {
+                RobloxAvatar.ScaleKind => (0.8, 1.2),
+                RobloxAvatar.RotationKind => (-30.0, 30.0),
+                _ => (-0.25, 0.25),
+            };
+        }
+
+        private double GetAdjustPercent(string kind, string axis)
+        {
+            (double min, double max) = AdjustBound(kind, axis);
+            double value = Math.Clamp(_adjust.GetValueOrDefault(kind + "." + axis), min, max);
+            return Math.Round((value - min) / (max - min) * 200.0 - 100.0);
+        }
+
+        private void SetAdjustPercent(string kind, string axis, double percent, [System.Runtime.CompilerServices.CallerMemberName] string? property = null)
+        {
+            if (_adjustLoading || _selectedAdjust == null || Math.Round(percent) == GetAdjustPercent(kind, axis))
+                return;
+            (double min, double max) = AdjustBound(kind, axis);
+            _adjust[kind + "." + axis] = Math.Round(min + (Math.Clamp(Math.Round(percent), -100, 100) + 100.0) / 200.0 * (max - min), 4);
+            OnPropertyChanged(property);
+            _ = ApplyAdjustAsync();
+        }
+
+        private void LoadAdjust()
+        {
+            const string LOG_IDENT = "AvatarViewModel::LoadAdjust";
+            _adjustLoading = true;
+            try
+            {
+                _adjust.Clear();
+                foreach (string axis in RobloxAvatar.AdjustAxes)
+                    _adjust[RobloxAvatar.ScaleKind + "." + axis] = 1.0;
+                string? meta = _selectedAdjust == null ? null : _state?.Assets.FirstOrDefault(a => a.Id == _selectedAdjust.Id)?.MetaJson;
+                if (meta != null)
+                {
+                    using JsonDocument doc = JsonDocument.Parse(meta);
+                    foreach (string kind in RobloxAvatar.AdjustKinds)
+                        if (doc.RootElement.TryGetProperty(kind, out JsonElement group) && group.ValueKind == JsonValueKind.Object)
+                            foreach (string axis in RobloxAvatar.AdjustAxes)
+                                if (group.TryGetProperty(axis, out JsonElement value) && value.ValueKind == JsonValueKind.Number)
+                                    _adjust[kind + "." + axis] = value.GetDouble();
+                }
+            }
+            catch (JsonException ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The accessory adjustment could not be read: " + ex.Message);
+            }
+            OnPropertyChanged(nameof(AdjustScaleMin));
+            OnPropertyChanged(nameof(AdjustScaleMax));
+            OnPropertyChanged(nameof(AdjustScale));
+            OnPropertyChanged(nameof(AdjustPositionX));
+            OnPropertyChanged(nameof(AdjustPositionY));
+            OnPropertyChanged(nameof(AdjustPositionZ));
+            OnPropertyChanged(nameof(AdjustRotationX));
+            OnPropertyChanged(nameof(AdjustRotationY));
+            OnPropertyChanged(nameof(AdjustRotationZ));
+            _adjustLoading = false;
+        }
+
+        private Task ApplyAdjustAsync()
+        {
+            const string LOG_IDENT = "AvatarViewModel::ApplyAdjustAsync";
+            if (_state == null || _selectedAdjust == null || !_loaded)
+                return Task.CompletedTask;
+            long id = _selectedAdjust.Id;
+            AvatarAsset? current = _state.Assets.FirstOrDefault(a => a.Id == id);
+            if (current == null)
+                return Task.CompletedTask;
+            JsonObject meta = new();
+            try
+            {
+                if (current.MetaJson != null && JsonNode.Parse(current.MetaJson) is JsonObject existing)
+                    meta = existing;
+            }
+            catch (JsonException ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The old accessory adjustment was replaced: " + ex.Message);
+            }
+            if (!meta.ContainsKey("version"))
+                meta["version"] = 1;
+            foreach (string kind in RobloxAvatar.AdjustKinds)
+            {
+                JsonObject group = new();
+                foreach (string axis in RobloxAvatar.AdjustAxes)
+                    group[axis] = _adjust.GetValueOrDefault(kind + "." + axis);
+                meta[kind] = group;
+            }
+            string json = meta.ToJsonString();
+            List<AvatarAsset> assets = _state.Assets.Select(a => a.Id == id ? a with { MetaJson = json } : a).ToList();
+            return ApplyAsync(cookie => RobloxAvatar.SetWearingAsync(assets, cookie, _cts.Token), false);
+        }
+
+        private Task ResetAdjustAsync()
+        {
+            if (_selectedAdjust == null)
+                return Task.CompletedTask;
+            _adjustLoading = true;
+            foreach (string kind in RobloxAvatar.AdjustKinds)
+            foreach (string axis in RobloxAvatar.AdjustAxes)
+                _adjust[kind + "." + axis] = kind == RobloxAvatar.ScaleKind ? 1.0 : 0.0;
+            _adjustLoading = false;
+            return ApplyAdjustAsync();
         }
 
         private async Task ApplyAsync(Func<string, Task<bool>> change, bool exclusive)

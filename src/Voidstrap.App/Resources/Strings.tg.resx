@@ -9871,4 +9871,13 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Эмотсияҳо</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Танзими лавозимот</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Гардиш</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Миқёс</value>
+  </data>
 </root>

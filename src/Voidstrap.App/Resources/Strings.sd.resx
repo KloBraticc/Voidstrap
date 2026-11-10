@@ -9872,4 +9872,13 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ايموٽ</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>لوازمات ترتيب ڏيو</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>گردش</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>ماپ</value>
+  </data>
 </root>

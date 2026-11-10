@@ -9872,4 +9872,13 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ಎಮೋಟ್ ಗಳು</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>ಪರಿಕರಗಳನ್ನು ಹೊಂದಿಸಿ</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>ತಿರುಗುವಿಕೆ</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>ಗಾತ್ರ</value>
+  </data>
 </root>

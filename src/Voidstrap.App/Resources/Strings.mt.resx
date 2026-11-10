@@ -9872,4 +9872,13 @@ Parteċipanti: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emotes</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Aġġusta l-aċċessorji</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Rotazzjoni</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Skala</value>
+  </data>
 </root>

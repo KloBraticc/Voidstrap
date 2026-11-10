@@ -9872,4 +9872,13 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ਇਮੋਟ</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>ਐਕਸੈਸਰੀਜ਼ ਠੀਕ ਕਰੋ</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>ਘੁਮਾਅ</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>ਸਕੇਲ</value>
+  </data>
 </root>

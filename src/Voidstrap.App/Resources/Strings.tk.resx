@@ -9871,4 +9871,13 @@ Oýunçylar: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emosiýalar</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Aksessuarlary sazla</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Aýlaw</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Masştab</value>
+  </data>
 </root>

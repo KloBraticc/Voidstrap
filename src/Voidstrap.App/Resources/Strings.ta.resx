@@ -9871,4 +9871,13 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>எமோட்கள்</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>அணிகலன்களைச் சரிசெய்</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>சுழற்சி</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>அளவு</value>
+  </data>
 </root>

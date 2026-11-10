@@ -9871,4 +9871,13 @@ Ludantoj: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Gestoj</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Alĝustigi akcesoraĵojn</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Rotacio</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Skalo</value>
+  </data>
 </root>

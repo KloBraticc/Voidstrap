@@ -10183,4 +10183,13 @@
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>الإيماءات</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>ضبط الإكسسوارات</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>الدوران</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>الحجم</value>
+  </data>
 </root>

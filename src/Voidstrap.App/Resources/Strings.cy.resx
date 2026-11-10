@@ -9871,4 +9871,13 @@ Chwaraewyr: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emotiau</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Addasu ategolion</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Cylchdro</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Graddfa</value>
+  </data>
 </root>

@@ -9872,4 +9872,13 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Эмоциялар</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Аксессуарларды тууралоо</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Буруу</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Масштаб</value>
+  </data>
 </root>

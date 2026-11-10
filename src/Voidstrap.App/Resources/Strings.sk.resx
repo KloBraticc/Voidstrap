@@ -9872,4 +9872,13 @@ Hráči: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emócie</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Upraviť doplnky</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Otočenie</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Mierka</value>
+  </data>
 </root>

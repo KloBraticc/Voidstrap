@@ -2,7 +2,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using System.Windows.Threading;
 
 namespace Voidstrap.UI.Elements.Controls
 {
@@ -19,6 +21,8 @@ namespace Voidstrap.UI.Elements.Controls
         private const double BackdropRadius = 9.0;
 
         private const int BackdropSegments = 64;
+
+        private const int SoftwareFrameLimit = 1024;
 
         private static readonly bool Supports3D = Voidstrap.Utility.Platform.IsWindows;
 
@@ -71,11 +75,23 @@ namespace Voidstrap.UI.Elements.Controls
 
         private bool _panning;
 
+        private bool _hasBackdrop;
+
+        private readonly AvatarSoftwareRenderer? _renderer = Supports3D ? null : new AvatarSoftwareRenderer();
+
+        private WriteableBitmap? _softwareBitmap;
+
+        private int[] _softwareFrame = [];
+
+        private bool _softwarePending;
+
         public AvatarPreviewControl()
         {
             InitializeComponent();
             if (!Supports3D)
                 Host.Children.Remove(Viewport);
+            else
+                Host.Children.Remove(SoftwareView);
         }
 
         public AvatarScene? Scene
@@ -123,21 +139,25 @@ namespace Voidstrap.UI.Elements.Controls
         private void ApplyScene(bool resetView)
         {
             const string LOG_IDENT = "AvatarPreviewControl::ApplyScene";
-            if (!Supports3D)
-                return;
             AvatarScene? scene = Scene;
             try
             {
-                AvatarVisual.Content = scene?.Model;
+                if (_renderer != null)
+                    _renderer.SetAvatar(scene?.Model);
+                else
+                    AvatarVisual.Content = scene?.Model;
             }
             catch (Exception ex)
             {
                 App.Logger?.WriteLine(LOG_IDENT, "The 3D avatar could not be shown: " + ex.Message);
-                AvatarVisual.Content = null;
+                _renderer?.SetAvatar(null);
+                if (_renderer == null)
+                    AvatarVisual.Content = null;
                 scene = null;
             }
             bool show = scene != null;
-            Viewport.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
+            Viewport.Visibility = show && Supports3D ? Visibility.Visible : Visibility.Collapsed;
+            SoftwareView.Visibility = show && !Supports3D ? Visibility.Visible : Visibility.Collapsed;
             FlatImage.Visibility = show ? Visibility.Collapsed : Visibility.Visible;
             ResetButton.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
             Cursor = show ? Cursors.SizeAll : null;
@@ -159,17 +179,68 @@ namespace Voidstrap.UI.Elements.Controls
         private void ApplyBackdrop()
         {
             const string LOG_IDENT = "AvatarPreviewControl::ApplyBackdrop";
-            if (!Supports3D)
-                return;
+            GeometryModel3D? backdrop = null;
             try
             {
-                BackdropVisual.Content = Scene is AvatarScene scene && BackgroundImage is ImageSource image ? BuildBackdrop(scene, image) : null;
+                if (Scene is AvatarScene scene && BackgroundImage is ImageSource image)
+                    backdrop = BuildBackdrop(scene, image);
+                if (_renderer != null)
+                    _renderer.SetBackdrop(backdrop);
+                else
+                    BackdropVisual.Content = backdrop;
             }
             catch (Exception ex)
             {
                 App.Logger?.WriteLine(LOG_IDENT, "The 3D background could not be shown: " + ex.Message);
-                BackdropVisual.Content = null;
+                backdrop = null;
+                _renderer?.SetBackdrop(null);
+                if (_renderer == null)
+                    BackdropVisual.Content = null;
             }
+            _hasBackdrop = backdrop != null;
+            if (Scene is AvatarScene current)
+                UpdateCamera(current);
+        }
+
+        private void RequestSoftwareRender()
+        {
+            if (_renderer == null || _softwarePending)
+                return;
+            _softwarePending = true;
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(RenderSoftware));
+        }
+
+        private void RenderSoftware()
+        {
+            const string LOG_IDENT = "AvatarPreviewControl::RenderSoftware";
+            _softwarePending = false;
+            if (_renderer == null || Scene == null)
+                return;
+            try
+            {
+                DpiScale dpi = VisualTreeHelper.GetDpi(this);
+                int width = Math.Min(SoftwareFrameLimit, (int)Math.Ceiling(ActualWidth * dpi.DpiScaleX));
+                int height = Math.Min(SoftwareFrameLimit, (int)Math.Ceiling(ActualHeight * dpi.DpiScaleY));
+                if (width <= 0 || height <= 0)
+                    return;
+                if (_softwareBitmap == null || _softwareBitmap.PixelWidth != width || _softwareBitmap.PixelHeight != height)
+                {
+                    _softwareBitmap = new WriteableBitmap(width, height, 96.0, 96.0, PixelFormats.Pbgra32, null);
+                    _softwareFrame = new int[width * height];
+                    SoftwareView.Source = _softwareBitmap;
+                }
+                _renderer.Render(_softwareFrame, width, height, Camera.Position, Camera.LookDirection, Camera.UpDirection, Camera.FieldOfView);
+                _softwareBitmap.WritePixels(new Int32Rect(0, 0, width, height), _softwareFrame, width * 4, 0);
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The 3D avatar could not be drawn: " + ex.Message);
+            }
+        }
+
+        private void OnPreviewSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            RequestSoftwareRender();
         }
 
         private static (Point3D Center, double Radius) Measure(AvatarScene scene)
@@ -192,10 +263,10 @@ namespace Voidstrap.UI.Elements.Controls
                 double angle = t * Math.PI * 2.0;
                 double x = center.X + Math.Sin(angle) * radius;
                 double z = center.Z + Math.Cos(angle) * radius;
-                mesh.Positions.Add(new Point3D(x, center.Y + halfHeight, z));
-                mesh.Positions.Add(new Point3D(x, center.Y - halfHeight, z));
-                mesh.TextureCoordinates.Add(new Point(t * 4.0, 0));
-                mesh.TextureCoordinates.Add(new Point(t * 4.0, 1));
+                mesh.Positions.Add(new Point3D(x, center.Y + halfHeight * 3.0, z));
+                mesh.Positions.Add(new Point3D(x, center.Y - halfHeight * 3.0, z));
+                mesh.TextureCoordinates.Add(new Point(t * 4.0, -1));
+                mesh.TextureCoordinates.Add(new Point(t * 4.0, 2));
             }
             for (int i = 0; i < BackdropSegments; i++)
             {
@@ -211,7 +282,7 @@ namespace Voidstrap.UI.Elements.Controls
             {
                 ViewportUnits = BrushMappingMode.Absolute,
                 Viewport = new Rect(0, 0, 1, 1),
-                TileMode = TileMode.FlipX,
+                TileMode = TileMode.FlipXY,
                 Stretch = Stretch.Fill,
             };
             MaterialGroup material = new();
@@ -225,9 +296,8 @@ namespace Voidstrap.UI.Elements.Controls
         private void UpdateCamera(AvatarScene scene)
         {
             (Point3D center, double radius) = Measure(scene);
-            bool backdrop = BackdropVisual.Content != null;
-            double maxPitch = backdrop ? 28.0 : 60.0;
-            double minPitch = backdrop ? -18.0 : -35.0;
+            double maxPitch = _hasBackdrop ? 28.0 : 60.0;
+            double minPitch = _hasBackdrop ? -18.0 : -35.0;
             _pitch = Math.Clamp(_pitch, minPitch, maxPitch);
             double maxPan = radius * 1.4;
             if (_pan.Length > maxPan)
@@ -240,11 +310,12 @@ namespace Voidstrap.UI.Elements.Controls
             Camera.LookDirection = -offset;
             Camera.NearPlaneDistance = Math.Max(radius * 0.05, 0.01);
             Camera.FarPlaneDistance = distance + radius * (BackdropRadius * 2.5);
+            RequestSoftwareRender();
         }
 
         private void OnPreviewDown(object sender, MouseButtonEventArgs e)
         {
-            if (!Supports3D || Scene == null || _orbiting || _panning || e.OriginalSource is DependencyObject source && IsInsideButton(source))
+            if (Scene == null || _orbiting || _panning || e.OriginalSource is DependencyObject source && IsInsideButton(source))
                 return;
             _lastMouse = e.GetPosition(this);
             bool pan = e.ChangedButton == MouseButton.Right || Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
@@ -301,7 +372,7 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void OnPreviewWheel(object sender, MouseWheelEventArgs e)
         {
-            if (!Supports3D || Scene is not AvatarScene scene)
+            if (Scene is not AvatarScene scene)
                 return;
             _zoom = Math.Clamp(_zoom * (e.Delta > 0 ? 0.9 : 1.1), MinZoom, MaxZoom);
             UpdateCamera(scene);

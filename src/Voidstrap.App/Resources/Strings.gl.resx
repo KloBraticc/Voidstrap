@@ -9872,4 +9872,13 @@ Xogadores: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Xestos</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Axustar accesorios</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Rotación</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Escala</value>
+  </data>
 </root>

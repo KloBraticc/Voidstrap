@@ -9872,4 +9872,13 @@ Uptime: {1}
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ემოციები</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>აქსესუარების მორგება</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>ბრუნვა</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>მასშტაბი</value>
+  </data>
 </root>

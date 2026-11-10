@@ -9872,4 +9872,13 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>אימוטים</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>התאמת אביזרים</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>סיבוב</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>קנה מידה</value>
+  </data>
 </root>

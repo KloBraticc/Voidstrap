@@ -9872,4 +9872,13 @@ Leikmenn: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Tjáningar</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Stilla aukahluti</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Snúningur</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Kvarði</value>
+  </data>
 </root>

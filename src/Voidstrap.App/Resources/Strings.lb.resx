@@ -9872,4 +9872,13 @@ Spiller: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emotes</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Accessoiren upassen</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Rotatioun</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Skaléierung</value>
+  </data>
 </root>

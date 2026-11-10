@@ -9872,4 +9872,13 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Емоције</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Подеси додатке</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Ротација</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Величина</value>
+  </data>
 </root>

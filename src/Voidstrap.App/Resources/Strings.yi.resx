@@ -9871,4 +9871,13 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>עמאָטן</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>צופּאַסן אַקסעסואַרן</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>דרייונג</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>מאָסשטאַב</value>
+  </data>
 </root>

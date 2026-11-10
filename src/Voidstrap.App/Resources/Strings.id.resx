@@ -10187,4 +10187,13 @@ Pemain: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emote</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Sesuaikan aksesori</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Rotasi</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Skala</value>
+  </data>
 </root>

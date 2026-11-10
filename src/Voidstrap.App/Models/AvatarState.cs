@@ -4,7 +4,7 @@ internal sealed record AvatarAsset(long Id, string Name, int TypeId, string Type
 
 internal sealed record AvatarEmote(long Id, int Position);
 
-internal sealed record AvatarRules(Dictionary<string, (int Id, int Max)> Types, List<string> Palette);
+internal sealed record AvatarRules(Dictionary<string, (int Id, int Max)> Types, List<string> Palette, Dictionary<string, (double Min, double Max)> Bounds);
 
 internal sealed class AvatarState
 {

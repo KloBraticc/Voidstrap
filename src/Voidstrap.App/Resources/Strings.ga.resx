@@ -9872,4 +9872,13 @@ Rannpháirtithe: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Geáitsí</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Coigeartaigh gabhálais</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Rothlú</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Scála</value>
+  </data>
 </root>

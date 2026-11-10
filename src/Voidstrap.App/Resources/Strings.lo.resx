@@ -9872,4 +9872,13 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ອີໂມດ</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>ປັບເຄື່ອງປະດັບ</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>ການໝຸນ</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>ຂະໜາດ</value>
+  </data>
 </root>

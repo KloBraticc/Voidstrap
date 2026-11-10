@@ -9871,4 +9871,13 @@ Abadlali: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Ama-emote</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Lungisa izinsiza</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Ukuzungeza</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Isikali</value>
+  </data>
 </root>

@@ -9872,4 +9872,13 @@ Ndị egwuregwu: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emotes</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Dozie ihe ịchọ mma</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Ntụgharị</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Nha</value>
+  </data>
 </root>

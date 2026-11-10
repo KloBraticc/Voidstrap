@@ -9872,4 +9872,13 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Էմոցիաներ</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Կարգավորել աքսեսուարները</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Պտույտ</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Մասշտաբ</value>
+  </data>
 </root>

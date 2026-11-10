@@ -10187,4 +10187,13 @@ Người chơi: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Biểu cảm</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Điều chỉnh phụ kiện</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Xoay</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Tỷ lệ</value>
+  </data>
 </root>

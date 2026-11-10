@@ -10199,4 +10199,13 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>エモート</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>アクセサリーを調整</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>回転</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>スケール</value>
+  </data>
 </root>

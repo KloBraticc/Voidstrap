@@ -9871,4 +9871,13 @@ Oyunçular: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emosiyalar</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Aksesuarları tənzimlə</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Fırlanma</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Miqyas</value>
+  </data>
 </root>

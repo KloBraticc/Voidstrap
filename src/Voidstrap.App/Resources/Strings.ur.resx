@@ -9871,4 +9871,13 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ایموٹس</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>لوازمات ایڈجسٹ کریں</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>گردش</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>پیمانہ</value>
+  </data>
 </root>

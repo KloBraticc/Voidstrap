@@ -10184,4 +10184,13 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Емоции</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Настройване на аксесоарите</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Завъртане</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Мащаб</value>
+  </data>
 </root>

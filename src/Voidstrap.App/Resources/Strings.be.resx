@@ -9871,4 +9871,13 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Эмоцыі</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Наладзіць аксесуары</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Паварот</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Маштаб</value>
+  </data>
 </root>

@@ -113,6 +113,46 @@
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
         </ItemsControl>
+        <Border Margin="0,14,0,0" Padding="14,12" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}" Visibility="{Binding AdjustVisibility}">
+          <StackPanel>
+            <DockPanel LastChildFill="True">
+              <ui:Button DockPanel.Dock="Right" Padding="8,2" FontSize="12" Icon="ArrowReset24" Content="{resources:Loc Common_Reset}" Command="{Binding ResetAdjustCommand}" />
+              <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_AdjustAccessories}" />
+            </DockPanel>
+            <ComboBox Margin="0,10,0,0" HorizontalAlignment="Stretch" ItemsSource="{Binding Adjustable}" SelectedItem="{Binding SelectedAdjust, Mode=TwoWay}" DisplayMemberPath="Name" AutomationProperties.Name="{resources:Loc Accounts_Avatar_AdjustAccessories}" />
+            <TextBlock Margin="0,10,0,0" FontSize="13" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_SessionNotify_Position}" />
+            <DockPanel Margin="0,4,0,0" LastChildFill="True">
+              <TextBlock Width="18" VerticalAlignment="Center" FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="X" />
+              <Slider Minimum="-100" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding AdjustPositionX, Mode=TwoWay, Delay=600}" />
+            </DockPanel>
+            <DockPanel Margin="0,4,0,0" LastChildFill="True">
+              <TextBlock Width="18" VerticalAlignment="Center" FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Y" />
+              <Slider Minimum="-100" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding AdjustPositionY, Mode=TwoWay, Delay=600}" />
+            </DockPanel>
+            <DockPanel Margin="0,4,0,0" LastChildFill="True">
+              <TextBlock Width="18" VerticalAlignment="Center" FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Z" />
+              <Slider Minimum="-100" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding AdjustPositionZ, Mode=TwoWay, Delay=600}" />
+            </DockPanel>
+            <TextBlock Margin="0,10,0,0" FontSize="13" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_Rotation}" />
+            <DockPanel Margin="0,4,0,0" LastChildFill="True">
+              <TextBlock Width="18" VerticalAlignment="Center" FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="X" />
+              <Slider Minimum="-100" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding AdjustRotationX, Mode=TwoWay, Delay=600}" />
+            </DockPanel>
+            <DockPanel Margin="0,4,0,0" LastChildFill="True">
+              <TextBlock Width="18" VerticalAlignment="Center" FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Y" />
+              <Slider Minimum="-100" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding AdjustRotationY, Mode=TwoWay, Delay=600}" />
+            </DockPanel>
+            <DockPanel Margin="0,4,0,0" LastChildFill="True">
+              <TextBlock Width="18" VerticalAlignment="Center" FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Z" />
+              <Slider Minimum="-100" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding AdjustRotationZ, Mode=TwoWay, Delay=600}" />
+            </DockPanel>
+            <DockPanel Margin="0,10,0,0" LastChildFill="True">
+              <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="13" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding AdjustScale, StringFormat={}{0:0}%}" />
+              <TextBlock VerticalAlignment="Center" FontSize="13" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_Scale}" />
+            </DockPanel>
+            <Slider Margin="0,4,0,0" Minimum="{Binding AdjustScaleMin}" Maximum="{Binding AdjustScaleMax}" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding AdjustScale, Mode=TwoWay, Delay=600}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_Scale}" />
+          </StackPanel>
+        </Border>
       </StackPanel>
     </ScrollViewer>
     <TabControl Grid.Column="1" SelectedValuePath="Tag" SelectedValue="{Binding Category, Mode=TwoWay}">

@@ -10179,4 +10179,13 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>อีโมท</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>ปรับเครื่องประดับ</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>การหมุน</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>ขนาด</value>
+  </data>
 </root>

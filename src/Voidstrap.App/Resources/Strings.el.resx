@@ -9871,4 +9871,13 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emotes</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Προσαρμογή αξεσουάρ</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Περιστροφή</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Κλίμακα</value>
+  </data>
 </root>

@@ -9872,4 +9872,13 @@ Igralci: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emocije</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Prilagodi dodatke</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Vrtenje</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Merilo</value>
+  </data>
 </root>

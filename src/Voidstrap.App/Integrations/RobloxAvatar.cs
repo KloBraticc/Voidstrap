@@ -14,6 +14,18 @@ internal static partial class RobloxAvatar
 
     public const int EmoteSlots = 8;
 
+    public const string PositionKind = "position";
+
+    public const string RotationKind = "rotation";
+
+    public const string ScaleKind = "scale";
+
+    public static readonly string[] AdjustKinds = [PositionKind, RotationKind, ScaleKind];
+
+    public static readonly string[] AdjustAxes = ["X", "Y", "Z"];
+
+    public static string AdjustKey(string typeName, string kind, string axis) => typeName + "." + kind + "." + axis;
+
     private const int InventoryPages = 3;
 
     private const long MaxSceneBytes = 48L * 1024 * 1024;
@@ -156,7 +168,8 @@ internal static partial class RobloxAvatar
         const string LOG_IDENT = "RobloxAvatar::LoadRulesAsync";
         Dictionary<string, (int Id, int Max)> types = new(StringComparer.Ordinal);
         List<string> palette = new();
-        AvatarRules rules = new(types, palette);
+        Dictionary<string, (double Min, double Max)> bounds = new(StringComparer.Ordinal);
+        AvatarRules rules = new(types, palette, bounds);
         RobloxApiResponse response = await RobloxCookie.SendGetWithCookieAsync("https://avatar.roblox.com/v1/avatar-rules", null, token);
         if (response.StatusCode != 200 || string.IsNullOrEmpty(response.Body))
             return rules;
@@ -172,6 +185,33 @@ internal static partial class RobloxAvatar
                         && value.All(Uri.IsHexDigit)
                     )
                         palette.Add(value.ToUpperInvariant());
+            if (
+                doc.RootElement.TryGetProperty("accessoryRefinementLowerBounds", out JsonElement lower)
+                && doc.RootElement.TryGetProperty("accessoryRefinementUpperBounds", out JsonElement upper)
+                && lower.ValueKind == JsonValueKind.Object
+                && upper.ValueKind == JsonValueKind.Object
+            )
+                foreach (JsonProperty type in lower.EnumerateObject())
+                foreach (string kind in AdjustKinds)
+                foreach (string axis in AdjustAxes)
+                {
+                    string field = axis.ToLowerInvariant() + char.ToUpperInvariant(kind[0]) + kind[1..];
+                    if (
+                        type.Value.ValueKind == JsonValueKind.Object
+                        && type.Value.TryGetProperty(kind, out JsonElement low)
+                        && low.ValueKind == JsonValueKind.Object
+                        && low.TryGetProperty(field, out JsonElement min)
+                        && min.ValueKind == JsonValueKind.Number
+                        && upper.TryGetProperty(type.Name, out JsonElement upperType)
+                        && upperType.ValueKind == JsonValueKind.Object
+                        && upperType.TryGetProperty(kind, out JsonElement high)
+                        && high.ValueKind == JsonValueKind.Object
+                        && high.TryGetProperty(field, out JsonElement max)
+                        && max.ValueKind == JsonValueKind.Number
+                        && max.GetDouble() > min.GetDouble()
+                    )
+                        bounds[AdjustKey(type.Name, kind, axis)] = (min.GetDouble(), max.GetDouble());
+                }
             if (!doc.RootElement.TryGetProperty("wearableAssetTypes", out JsonElement wearable) || wearable.ValueKind != JsonValueKind.Array)
                 return rules;
             foreach (JsonElement type in wearable.EnumerateArray())
@@ -437,7 +477,7 @@ internal static partial class RobloxAvatar
             }
             if (manifest == null || !IsCdnUrl(manifest))
                 return null;
-            return await Task.Run(() => BuildSceneAsync(manifest, token), token);
+            return Utility.Platform.IsWindows ? await Task.Run(() => BuildSceneAsync(manifest, token), token) : await BuildSceneAsync(manifest, token);
         }
         catch (OperationCanceledException)
         {
@@ -555,7 +595,7 @@ internal static partial class RobloxAvatar
             return null;
         try
         {
-            return await Task.Run(() => LoadImageAsync(url, token), token);
+            return Utility.Platform.IsWindows ? await Task.Run(() => LoadImageAsync(url, token), token) : await LoadImageAsync(url, token);
         }
         catch (OperationCanceledException)
         {

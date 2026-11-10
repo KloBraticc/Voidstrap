@@ -9872,4 +9872,13 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Емоции</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Прилагоди ги додатоците</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Ротација</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Размер</value>
+  </data>
 </root>

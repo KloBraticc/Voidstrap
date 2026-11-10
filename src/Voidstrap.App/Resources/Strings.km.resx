@@ -9872,4 +9872,13 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>កាយវិការ</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>កែសម្រួលគ្រឿងលម្អ</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>ការបង្វិល</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>មាត្រដ្ឋាន</value>
+  </data>
 </root>

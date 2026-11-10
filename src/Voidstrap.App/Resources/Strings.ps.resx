@@ -9872,4 +9872,13 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ایموټونه</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>لوازم تنظیم کړئ</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>څرخښت</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>کچه</value>
+  </data>
 </root>

@@ -9872,4 +9872,13 @@ Kaitākaro: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Ngā Emote</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Whakatika whakarākei</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Hurihanga</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Āwhata</value>
+  </data>
 </root>

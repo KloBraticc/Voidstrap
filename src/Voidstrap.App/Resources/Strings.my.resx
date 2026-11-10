@@ -9871,4 +9871,13 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>အီမုတ်များ</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>အသုံးအဆောင်များ ချိန်ညှိရန်</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>လှည့်ခြင်း</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>အရွယ်အစား</value>
+  </data>
 </root>

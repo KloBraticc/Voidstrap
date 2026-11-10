@@ -10186,4 +10186,13 @@ Jucători: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emote-uri</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Ajustează accesoriile</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Rotație</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Scară</value>
+  </data>
 </root>

@@ -9871,4 +9871,13 @@ Mängijad: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emotsioonid</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Kohanda aksessuaare</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Pööramine</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Mastaap</value>
+  </data>
 </root>

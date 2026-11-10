@@ -9871,4 +9871,13 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ఎమోట్ లు</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>యాక్సెసరీలను సర్దుబాటు చేయి</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>భ్రమణం</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>స్కేల్</value>
+  </data>
 </root>

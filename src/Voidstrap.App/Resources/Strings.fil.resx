@@ -10182,4 +10182,13 @@ Mga player: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Mga Emote</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>I-adjust ang accessories</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Pag-ikot</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Sukat</value>
+  </data>
 </root>

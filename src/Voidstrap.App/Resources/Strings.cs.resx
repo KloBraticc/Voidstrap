@@ -10185,4 +10185,13 @@ Hráči: {2}</value>
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>Emoce</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>Upravit doplňky</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>Otočení</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>Měřítko</value>
+  </data>
 </root>

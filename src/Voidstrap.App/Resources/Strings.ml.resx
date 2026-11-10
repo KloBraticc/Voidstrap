@@ -9872,4 +9872,13 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Accounts.Avatar.Emotes" xml:space="preserve">
     <value>ഇമോട്ടുകൾ</value>
   </data>
+  <data name="Accounts.Avatar.AdjustAccessories" xml:space="preserve">
+    <value>ആക്സസറികൾ ക്രമീകരിക്കുക</value>
+  </data>
+  <data name="Accounts.Avatar.Rotation" xml:space="preserve">
+    <value>ഭ്രമണം</value>
+  </data>
+  <data name="Accounts.Avatar.Scale" xml:space="preserve">
+    <value>സ്കെയിൽ</value>
+  </data>
 </root>
