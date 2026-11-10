@@ -30,6 +30,42 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             _ = _viewModel.LoadAsync();
         }
 
+        private void OnItemMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        {
+            if (sender is not FrameworkElement { DataContext: AvatarItemRow row, ContextMenu: System.Windows.Controls.ContextMenu menu } || _viewModel == null)
+                return;
+            foreach (object item in menu.Items)
+                if (item is System.Windows.Controls.MenuItem entry)
+                    entry.IsEnabled = (entry.Tag as string) switch
+                    {
+                        "adjust" => _viewModel.CanAdjust(row),
+                        "view" => !row.IsOutfit,
+                        _ => !row.Busy,
+                    };
+        }
+
+        private void OnItemMenuClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not System.Windows.Controls.MenuItem { DataContext: AvatarItemRow row } entry || _viewModel == null)
+                return;
+            string id = row.Id.ToString(CultureInfo.InvariantCulture);
+            switch (entry.Tag as string)
+            {
+                case "wear":
+                    _viewModel.ToggleItemCommand.Execute(row);
+                    break;
+                case "adjust":
+                    _viewModel.Adjust(row);
+                    break;
+                case "view":
+                    Utilities.OpenWebLink("https://www.roblox.com/catalog/" + id);
+                    break;
+                case "copy":
+                    ClipboardService.SetText(id);
+                    break;
+            }
+        }
+
         private void OnPageUnloaded(object sender, RoutedEventArgs e)
         {
             _viewModel?.Dispose();

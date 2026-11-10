@@ -11,6 +11,8 @@ internal static partial class RobloxAvatar
 {
     public const string BackgroundType = "AvatarBackground";
 
+    private const int BackgroundTypeId = 92;
+
     public const string EmoteType = "EmoteAnimation";
 
     public const int EmoteSlots = 8;
@@ -235,6 +237,7 @@ internal static partial class RobloxAvatar
                 if (name.Length > 0 && id > 0)
                     types[name.Replace(" ", "", StringComparison.Ordinal).Replace("-", "", StringComparison.Ordinal)] = (id, max);
             }
+            types.TryAdd(BackgroundType, (BackgroundTypeId, 1));
         }
         catch (JsonException ex)
         {
@@ -279,7 +282,10 @@ internal static partial class RobloxAvatar
             token
         );
         if (response.StatusCode != 200)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "Roblox refused the avatar change: " + response.Body);
             return false;
+        }
         try
         {
             using JsonDocument doc = JsonDocument.Parse(response.Body ?? "{}");

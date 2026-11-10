@@ -12,7 +12,17 @@
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <DataTemplate x:Key="AvatarItemTile">
-        <ui:Button Width="134" Margin="0,0,6,10" Padding="4" VerticalAlignment="Top" Appearance="Transparent" ToolTip="{Binding Name}" Command="{Binding DataContext.ToggleItemCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}">
+        <ui:Button Width="134" Margin="0,0,6,10" Padding="4" VerticalAlignment="Top" Appearance="Transparent" ToolTip="{Binding Name}" Command="{Binding DataContext.ToggleItemCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" ContextMenuOpening="OnItemMenuOpening">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu>
+              <MenuItem Tag="wear" Header="{resources:Loc Accounts_Outfits_Wear}" Click="OnItemMenuClick" Visibility="{Binding Worn, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+              <MenuItem Tag="wear" Header="{resources:Loc Accounts_Remove}" Click="OnItemMenuClick" Visibility="{Binding Worn, Converter={StaticResource BooleanToVisibilityConverter}}" />
+              <MenuItem Tag="adjust" Header="{resources:Loc Accounts_Avatar_AdjustAccessories}" Click="OnItemMenuClick" />
+              <Separator />
+              <MenuItem Tag="view" Header="{resources:Loc Library_ViewOnRoblox}" Click="OnItemMenuClick" />
+              <MenuItem Tag="copy" Header="{resources:Loc Accounts_CopyId}" Click="OnItemMenuClick" />
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
           <StackPanel>
             <Grid Width="126" Height="126" util:RoundedClip.Radius="8">
               <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" />
@@ -25,7 +35,17 @@
         </ui:Button>
       </DataTemplate>
       <DataTemplate x:Key="AvatarWearingTile">
-        <ui:Button Margin="0,0,6,6" Padding="0" Appearance="Transparent" ToolTip="{Binding Name}" Command="{Binding DataContext.ToggleItemCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}">
+        <ui:Button Margin="0,0,6,6" Padding="0" Appearance="Transparent" ToolTip="{Binding Name}" Command="{Binding DataContext.ToggleItemCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" ContextMenuOpening="OnItemMenuOpening">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu>
+              <MenuItem Tag="wear" Header="{resources:Loc Accounts_Outfits_Wear}" Click="OnItemMenuClick" Visibility="{Binding Worn, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+              <MenuItem Tag="wear" Header="{resources:Loc Accounts_Remove}" Click="OnItemMenuClick" Visibility="{Binding Worn, Converter={StaticResource BooleanToVisibilityConverter}}" />
+              <MenuItem Tag="adjust" Header="{resources:Loc Accounts_Avatar_AdjustAccessories}" Click="OnItemMenuClick" />
+              <Separator />
+              <MenuItem Tag="view" Header="{resources:Loc Library_ViewOnRoblox}" Click="OnItemMenuClick" />
+              <MenuItem Tag="copy" Header="{resources:Loc Accounts_CopyId}" Click="OnItemMenuClick" />
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
           <Grid Width="62" Height="62" util:RoundedClip.Radius="6">
             <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" />
             <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />

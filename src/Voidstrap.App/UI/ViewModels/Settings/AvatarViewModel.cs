@@ -602,6 +602,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             row.Busy = true;
             Status = null;
             bool wasWorn = row.Worn;
+            AvatarState previous = _state;
             if (!row.IsOutfit)
                 row.Worn = !wasWorn;
             try
@@ -652,6 +653,11 @@ namespace Voidstrap.UI.ViewModels.Settings
                     App.Logger?.WriteLine(LOG_IDENT, "Roblox did not accept the change for item " + row.Id);
                     Status = Strings.Accounts_Avatar_Failed;
                     row.Worn = wasWorn;
+                    if (!ReferenceEquals(_state, previous))
+                    {
+                        _state = previous;
+                        _ = RefreshSceneAsync(cookie);
+                    }
                 }
             }
             catch (OperationCanceledException) { }
@@ -661,6 +667,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                 _busy = false;
             }
         }
+
+        public bool CanAdjust(AvatarItemRow row) => Adjustable.Any(a => a.Id == row.Id);
+
+        public void Adjust(AvatarItemRow row) => SelectedAdjust = Adjustable.FirstOrDefault(a => a.Id == row.Id);
 
         private async Task RemoveAccessoriesAsync()
         {
