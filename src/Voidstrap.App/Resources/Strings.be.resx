@@ -9802,4 +9802,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Далучайцеся</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Без убору для гульні</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Апранаць гэты ўбор пры кожным запуску гэтай гульні</value>
+  </data>
 </root>

@@ -10113,4 +10113,10 @@ Oyuncular: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Katılmak</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Oyun kıyafeti yok</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Bu oyunu her başlattığınızda bu kıyafeti giyin</value>
+  </data>
 </root>

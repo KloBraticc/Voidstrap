@@ -9803,4 +9803,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Придружите се</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Без одеће за игру</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Носи ову одећу сваки пут када покренеш ову игру</value>
+  </data>
 </root>

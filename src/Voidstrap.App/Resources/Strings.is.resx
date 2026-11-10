@@ -9803,4 +9803,10 @@ Leikmenn: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Vertu með</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Enginn búningur fyrir leikinn</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Klæðstu þessum búningi í hvert sinn sem þú ræsir þennan leik</value>
+  </data>
 </root>

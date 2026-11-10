@@ -9802,4 +9802,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>சேருங்கள்</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>விளையாட்டுக்கு உடை இல்லை</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>இந்த விளையாட்டைத் தொடங்கும் ஒவ்வொரு முறையும் இந்த உடையை அணியுங்கள்</value>
+  </data>
 </root>

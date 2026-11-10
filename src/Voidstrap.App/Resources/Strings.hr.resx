@@ -10115,4 +10115,10 @@ Igrači: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Pridruži se</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Bez odjeće za igru</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Nosi ovu odjeću svaki put kad pokreneš ovu igru</value>
+  </data>
 </root>

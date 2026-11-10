@@ -10117,4 +10117,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>بپیوندید</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>بدون لباس برای بازی</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>هر بار که این بازی را اجرا می‌کنید این لباس را بپوشید</value>
+  </data>
 </root>

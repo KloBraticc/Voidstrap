@@ -9802,4 +9802,10 @@ Wachezaji: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Jiunge</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Hakuna vazi la mchezo</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Vaa vazi hili kila unapozindua mchezo huu</value>
+  </data>
 </root>

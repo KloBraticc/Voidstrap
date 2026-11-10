@@ -10113,4 +10113,10 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Приєднуйтесь</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Без вбрання для гри</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Одягати це вбрання під час кожного запуску цієї гри</value>
+  </data>
 </root>

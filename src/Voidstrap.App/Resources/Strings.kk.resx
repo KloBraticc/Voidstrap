@@ -9803,4 +9803,10 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Қосылыңыз</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Ойын киімі жоқ</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Осы ойынды іске қосқан сайын осы киімді киіңіз</value>
+  </data>
 </root>

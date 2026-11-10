@@ -100,7 +100,10 @@ public partial class Bootstrapper
         else
             await MaybeApplyVoidstrapMatchmakerAsync(ct);
         if (_launchMode == LaunchMode.Player)
+        {
+            await RobloxOutfits.ApplySavedForLaunchAsync(_launchCommandLine, ct);
             ReapplyFpsUnlocker();
+        }
         if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
         {
             if (await TryLaunchNonWindowsClientAsync(_launchCommandLine, _launchMode, ct))

@@ -9803,4 +9803,10 @@ Xogadores: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Únete</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Sen vestimenta para o xogo</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Leva esta vestimenta cada vez que inicies este xogo</value>
+  </data>
 </root>

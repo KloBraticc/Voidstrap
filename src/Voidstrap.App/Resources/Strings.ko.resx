@@ -10114,4 +10114,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>가입하다</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>게임 의상 없음</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>이 게임을 실행할 때마다 이 의상을 착용합니다</value>
+  </data>
 </root>

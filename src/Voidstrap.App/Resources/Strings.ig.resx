@@ -9803,4 +9803,10 @@ Ndị egwuregwu: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Soro</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Enweghị uwe egwuregwu</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Yiri uwe a mgbe ọ bụla ị malitere egwuregwu a</value>
+  </data>
 </root>

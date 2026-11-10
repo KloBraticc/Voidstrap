@@ -10107,4 +10107,10 @@ Pemain: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Sertai</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Tiada pakaian permainan</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Pakai pakaian ini setiap kali anda melancarkan permainan ini</value>
+  </data>
 </root>

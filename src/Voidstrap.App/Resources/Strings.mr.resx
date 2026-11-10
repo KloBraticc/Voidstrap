@@ -9803,4 +9803,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>सामील व्हा</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>गेमसाठी पोशाख नाही</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>तुम्ही हा गेम सुरू कराल तेव्हा प्रत्येक वेळी हा पोशाख घाला</value>
+  </data>
 </root>

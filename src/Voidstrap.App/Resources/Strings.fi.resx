@@ -10116,4 +10116,10 @@ Pelaajat: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Liity</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Ei peliasua</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Käytä tätä asua aina, kun käynnistät tämän pelin</value>
+  </data>
 </root>

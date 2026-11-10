@@ -9802,4 +9802,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>פאַרבינדן</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>קיין אויסשטאַט פֿאַר דער שפּיל</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>טראָג דעם אויסשטאַט יעדעס מאָל ווען דו עפֿנסט די שפּיל</value>
+  </data>
 </root>

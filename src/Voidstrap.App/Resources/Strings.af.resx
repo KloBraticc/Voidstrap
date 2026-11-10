@@ -9802,4 +9802,10 @@ Spelers: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Sluit aan</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Geen speletjie-uitrusting</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Dra hierdie uitrusting elke keer as jy hierdie speletjie begin</value>
+  </data>
 </root>

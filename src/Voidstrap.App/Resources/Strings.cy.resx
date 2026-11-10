@@ -9802,4 +9802,10 @@ Chwaraewyr: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Ymuno</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Dim gwisg ar gyfer y gêm</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Gwisga'r wisg hon bob tro y byddi di'n lansio'r gêm hon</value>
+  </data>
 </root>

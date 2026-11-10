@@ -9802,4 +9802,10 @@ Spillere: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Deltag</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Intet outfit til spillet</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Bær dette outfit, hver gang du starter dette spil</value>
+  </data>
 </root>

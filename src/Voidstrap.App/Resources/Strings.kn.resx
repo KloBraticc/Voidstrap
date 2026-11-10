@@ -9803,4 +9803,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>ಸೇರಿಕೊಳ್ಳಿ</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ಆಟಕ್ಕೆ ಉಡುಪು ಇಲ್ಲ</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ನೀವು ಈ ಆಟವನ್ನು ಪ್ರಾರಂಭಿಸಿದಾಗಲೆಲ್ಲಾ ಈ ಉಡುಪನ್ನು ಧರಿಸಿ</value>
+  </data>
 </root>

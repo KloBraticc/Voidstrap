@@ -9802,4 +9802,10 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Ҳамроҳ шавед</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Бе либоси бозӣ</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Ҳар дафъа ҳангоми оғози ин бозӣ ин либосро пӯшед</value>
+  </data>
 </root>

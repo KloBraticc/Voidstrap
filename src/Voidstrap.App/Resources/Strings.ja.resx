@@ -10130,4 +10130,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>参加する</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ゲーム用コーデなし</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>このゲームを起動するたびにこのコーデを着用します</value>
+  </data>
 </root>

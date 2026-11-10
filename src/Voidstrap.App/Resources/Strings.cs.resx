@@ -10116,4 +10116,10 @@ Hráči: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Připojte se</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Žádný outfit pro hru</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Nosit tento outfit při každém spuštění této hry</value>
+  </data>
 </root>

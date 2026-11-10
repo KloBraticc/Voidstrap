@@ -9802,4 +9802,10 @@ Oýunçylar: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Goşul</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Oýun eşigi ýok</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Bu oýny her gezek işledeniňizde şu eşigi geýiň</value>
+  </data>
 </root>

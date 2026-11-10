@@ -10113,4 +10113,10 @@ Mga player: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Sumali</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Walang outfit para sa laro</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Isuot ang outfit na ito tuwing ilulunsad mo ang larong ito</value>
+  </data>
 </root>

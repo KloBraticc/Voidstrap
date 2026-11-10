@@ -13,8 +13,6 @@ namespace Voidstrap.UI.Elements.Dialogs
         private long _universeId;
         private readonly CancellationTokenSource _cts = new();
         private bool _released;
-        private bool _syncingAccount;
-        private bool _switching;
 
         public event EventHandler? CloseRequested;
 
@@ -37,7 +35,7 @@ namespace Voidstrap.UI.Elements.Dialogs
             Servers.SetViewActive(true);
             Servers.SetGame(new LibraryGameEntry { PlaceId = placeId, UniverseId = universeId, Name = TitleText.Text });
             _ = LoadAsync(_cts.Token);
-            _ = LoadAccountsAsync(_cts.Token);
+            AccountBar.PlaceId = placeId;
             _ = RunLiveLoopAsync(_cts.Token);
             GameLiveData.Changed += OnLiveDataChanged;
         }
@@ -52,7 +50,6 @@ namespace Voidstrap.UI.Elements.Dialogs
             _cts.Dispose();
             Servers.SetViewActive(false);
             Servers.SetGame(null);
-            AccountBox.ItemsSource = null;
         }
 
         private async Task LoadAsync(CancellationToken token)
@@ -203,93 +200,10 @@ namespace Voidstrap.UI.Elements.Dialogs
             }
         }
 
-        private async Task LoadAccountsAsync(CancellationToken token)
+        private void AccountBar_AccountSwitched(object? sender, EventArgs e)
         {
-            const string LOG_IDENT = "GameDetailDialog::LoadAccountsAsync";
-
-            if (!SavedAccounts.SwitchingSupported)
-                return;
-            try
-            {
-                List<SavedAccount> accounts = await SavedAccounts.LoadAsync(token);
-                CurrentAccountInfo? current = SavedAccounts.Current ?? await SavedAccounts.RefreshCurrentAsync(token);
-                if (token.IsCancellationRequested || accounts.Count == 0)
-                    return;
-                Dictionary<long, string> avatars = new();
-                try
-                {
-                    avatars = await SavedAccounts.GetAvatarsAsync(accounts.Select(x => x.UserId), token);
-                }
-                catch (Exception ex) when (ex is not OperationCanceledException)
-                {
-                    App.Logger.WriteLine(LOG_IDENT, "Could not load avatars: " + ex.Message);
-                }
-                if (token.IsCancellationRequested)
-                    return;
-                List<AccountChoice> choices = accounts
-                    .Select(x => new AccountChoice { Account = x, AvatarUrl = avatars.TryGetValue(x.UserId, out string? url) && url.Length > 0 ? url : null })
-                    .ToList();
-                _syncingAccount = true;
-                AccountBox.ItemsSource = choices;
-                AccountBox.SelectedItem = choices.FirstOrDefault(x => x.Account.UserId == current?.UserId);
-                _syncingAccount = false;
-                AccountBox.Visibility = Visibility.Visible;
-            }
-            catch (OperationCanceledException) { }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine(LOG_IDENT, ex.Message);
-            }
-        }
-
-        private async void AccountBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            const string LOG_IDENT = "GameDetailDialog::AccountBox_SelectionChanged";
-
-            if (_syncingAccount || _switching || _released || AccountBox.SelectedItem is not AccountChoice { Account: SavedAccount target })
-                return;
-            AccountChoice? previous = e.RemovedItems.Count > 0 ? e.RemovedItems[0] as AccountChoice : null;
-            _switching = true;
-            AccountBox.IsEnabled = false;
-            try
-            {
-                if (target.Expired)
-                {
-                    Frontend.ShowMessageBox(Strings.Accounts_Expired, MessageBoxImage.Warning);
-                    Revert(previous);
-                    return;
-                }
-                if (!await AccountsViewModel.EnsureRobloxClosedAsync())
-                {
-                    Revert(previous);
-                    return;
-                }
-                await SavedAccounts.SwitchAsync(target);
-                App.Logger.WriteLine(LOG_IDENT, "Switched account from the game popup");
-                if (!_released)
-                    Servers.RefreshCommand.Execute(null);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine(LOG_IDENT, "The account switch failed: " + ex.Message);
-                Frontend.ShowMessageBox(ex is FileNotFoundException ? Strings.Accounts_MissingLogin : ex.Message, MessageBoxImage.Warning);
-                Revert(previous);
-            }
-            finally
-            {
-                _switching = false;
-                if (!_released)
-                    AccountBox.IsEnabled = true;
-            }
-        }
-
-        private void Revert(AccountChoice? previous)
-        {
-            if (_released)
-                return;
-            _syncingAccount = true;
-            AccountBox.SelectedItem = previous;
-            _syncingAccount = false;
+            if (!_released)
+                Servers.RefreshCommand.Execute(null);
         }
 
         private async Task RunLiveLoopAsync(CancellationToken token)

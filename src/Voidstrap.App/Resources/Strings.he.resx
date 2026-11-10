@@ -9803,4 +9803,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>לְהִצְטַרֵף</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ללא תלבושת למשחק</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>לבש את התלבושת הזו בכל פעם שאתה מפעיל את המשחק הזה</value>
+  </data>
 </root>

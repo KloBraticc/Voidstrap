@@ -9802,4 +9802,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>যোগদান করুন</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>গেমের জন্য কোনো পোশাক নেই</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>এই গেম চালু করলেই এই পোশাকটি পরুন</value>
+  </data>
 </root>

@@ -8988,6 +8988,8 @@ namespace Voidstrap.Resources {
         public static string Accounts_Copied => ResourceManager.GetString("Accounts.Copied", resourceCulture);
         public static string Accounts_Outfits => ResourceManager.GetString("Accounts.Outfits", resourceCulture);
         public static string Accounts_Outfits_Empty => ResourceManager.GetString("Accounts.Outfits.Empty", resourceCulture);
+        public static string Accounts_Outfits_GameNone => ResourceManager.GetString("Accounts.Outfits.GameNone", resourceCulture);
+        public static string Accounts_Outfits_GameTooltip => ResourceManager.GetString("Accounts.Outfits.GameTooltip", resourceCulture);
         public static string Accounts_Outfits_Wear => ResourceManager.GetString("Accounts.Outfits.Wear", resourceCulture);
         public static string Accounts_Outfits_Applied => ResourceManager.GetString("Accounts.Outfits.Applied", resourceCulture);
         public static string Accounts_Outfits_Failed => ResourceManager.GetString("Accounts.Outfits.Failed", resourceCulture);

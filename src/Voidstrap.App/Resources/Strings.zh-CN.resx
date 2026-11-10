@@ -10139,4 +10139,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>加入</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>无游戏装扮</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>每次启动此游戏时穿上这套装扮</value>
+  </data>
 </root>

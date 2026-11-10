@@ -9803,4 +9803,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>ចូលរួម</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>គ្មានសម្លៀកបំពាក់សម្រាប់ហ្គេម</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ពាក់សម្លៀកបំពាក់នេះរាល់ពេលអ្នកបើកហ្គេមនេះ</value>
+  </data>
 </root>

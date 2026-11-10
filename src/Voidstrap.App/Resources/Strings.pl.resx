@@ -10116,4 +10116,10 @@ Gracze: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Dołączyć</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Brak stroju dla gry</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Zakładaj ten strój przy każdym uruchomieniu tej gry</value>
+  </data>
 </root>

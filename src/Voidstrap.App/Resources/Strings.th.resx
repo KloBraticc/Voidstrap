@@ -10110,4 +10110,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>เข้าร่วม</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ไม่มีชุดสำหรับเกม</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>สวมชุดนี้ทุกครั้งที่คุณเปิดเกมนี้</value>
+  </data>
 </root>

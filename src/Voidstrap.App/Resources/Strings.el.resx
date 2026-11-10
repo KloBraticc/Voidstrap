@@ -9802,4 +9802,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Ενώνω</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Χωρίς εμφάνιση για το παιχνίδι</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Φόρεσε αυτή την εμφάνιση κάθε φορά που ξεκινάς αυτό το παιχνίδι</value>
+  </data>
 </root>

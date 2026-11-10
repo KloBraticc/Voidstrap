@@ -9802,4 +9802,10 @@ Abadlali: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Joyina</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Ayikho ingubo yomdlalo</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Gqoka le ngubo njalo uma uqala lo mdlalo</value>
+  </data>
 </root>

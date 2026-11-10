@@ -10114,4 +10114,10 @@
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>ينضم</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>بدون زي للعبة</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ارتدِ هذا الزي كلما شغّلت هذه اللعبة</value>
+  </data>
 </root>

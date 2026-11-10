@@ -9802,4 +9802,10 @@ Uptime: {1}
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>قوشۇلۇڭ</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ئويۇن كىيىمى يوق</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>بۇ ئويۇننى ھەر قېتىم قوزغاتقاندا بۇ كىيىمنى كىيىڭ</value>
+  </data>
 </root>

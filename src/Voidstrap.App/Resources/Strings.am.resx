@@ -9802,4 +9802,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>ተቀላቀል</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>የጨዋታ አልባሳት የለም</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ይህን ጨዋታ በጀመሩ ቁጥር ይህን አልባሳት ይልበሱ</value>
+  </data>
 </root>

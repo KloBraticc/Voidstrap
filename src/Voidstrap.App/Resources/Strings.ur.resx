@@ -9802,4 +9802,10 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>شمولیت</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>گیم کے لیے کوئی لباس نہیں</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>جب بھی آپ یہ گیم شروع کریں یہ لباس پہنیں</value>
+  </data>
 </root>

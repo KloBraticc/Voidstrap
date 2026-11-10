@@ -9802,4 +9802,10 @@ Libapali: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Kena</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Ha ho seaparo sa papali</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Apara seaparo sena nako le nako ha o qala papali ena</value>
+  </data>
 </root>

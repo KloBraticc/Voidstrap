@@ -9802,4 +9802,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>ပူးပေါင်းပါ။</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ဂိမ်းအတွက် ဝတ်စုံမရှိ</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ဤဂိမ်းကို စတင်တိုင်း ဤဝတ်စုံကို ဝတ်ဆင်ပါ</value>
+  </data>
 </root>

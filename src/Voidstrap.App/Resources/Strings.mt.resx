@@ -9803,4 +9803,10 @@ Parteċipanti: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Ingħaqad</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>L-ebda ilbies għal-logħba</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Ilbes dan l-ilbies kull darba li tniedi din il-logħba</value>
+  </data>
 </root>

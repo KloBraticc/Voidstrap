@@ -850,36 +850,16 @@ namespace Voidstrap.UI.ViewModels.Settings
             const string LOG_IDENT = "AccountsViewModel::LoadOutfitsAsync";
             try
             {
-                RobloxApiResponse list = await RobloxCookie.SendGetWithCookieAsync(
-                    "https://avatar.roblox.com/v1/users/" + userId + "/outfits?page=1&itemsPerPage=50",
-                    cookie,
-                    token
-                );
+                List<OutfitRow> loaded = await RobloxOutfits.ListAsync(userId, cookie, token);
                 if (token.IsCancellationRequested)
                     return;
-                List<OutfitRow> loaded = new();
-                if (list.StatusCode == 200 && list.Body != null)
-                {
-                    using JsonDocument doc = JsonDocument.Parse(list.Body);
-                    if (doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
-                    {
-                        foreach (JsonElement el in data.EnumerateArray())
-                        {
-                            long id = el.TryGetProperty("id", out JsonElement idEl) && idEl.TryGetInt64(out long l) ? l : 0;
-                            string name = el.TryGetProperty("name", out JsonElement nameEl) ? nameEl.GetString() ?? "" : "";
-                            bool editable = !el.TryGetProperty("isEditable", out JsonElement editEl) || editEl.ValueKind != JsonValueKind.False;
-                            if (id != 0 && editable)
-                                loaded.Add(new OutfitRow(id, name));
-                        }
-                    }
-                }
                 if (loaded.Count > 0)
                 {
                     foreach (OutfitRow outfit in loaded)
                         Outfits.Add(outfit);
                     UpdateOutfitPage();
                     OnPropertyChanged(nameof(OutfitsVisibility));
-                    await FillOutfitThumbnailsAsync(loaded, token);
+                    await RobloxOutfits.FillThumbnailsAsync(loaded, token);
                 }
             }
             catch (OperationCanceledException) { }
@@ -888,89 +868,6 @@ namespace Voidstrap.UI.ViewModels.Settings
                 App.Logger?.WriteLine(LOG_IDENT, "The outfit list could not be loaded: " + ex.Message);
             }
             OnPropertyChanged(nameof(OutfitsVisibility));
-        }
-
-        private static readonly System.Collections.Concurrent.ConcurrentDictionary<long, string> OutfitThumbnailCache = new();
-
-        private static readonly int[] OutfitThumbnailRetryDelaysMs = [1000, 1500, 2500, 4000, 6000, 8000, 10000, 15000];
-
-        private static async Task FillOutfitThumbnailsAsync(List<OutfitRow> outfits, CancellationToken token)
-        {
-            const string LOG_IDENT = "AccountsViewModel::FillOutfitThumbnailsAsync";
-            Dictionary<long, OutfitRow> byId = outfits.GroupBy(o => o.Id).ToDictionary(g => g.Key, g => g.First());
-            List<long> remaining = new();
-            foreach ((long id, OutfitRow row) in byId)
-            {
-                if (OutfitThumbnailCache.TryGetValue(id, out string? cached))
-                    row.ImageUrl = cached;
-                else
-                    remaining.Add(id);
-            }
-            for (int attempt = 0; attempt <= OutfitThumbnailRetryDelaysMs.Length && remaining.Count > 0; attempt++)
-            {
-                if (attempt > 0)
-                    await Task.Delay(OutfitThumbnailRetryDelaysMs[attempt - 1], token);
-                List<long> next = new();
-                for (int i = 0; i < remaining.Count; i += 50)
-                {
-                    List<long> chunk = remaining.GetRange(i, Math.Min(50, remaining.Count - i));
-                    Dictionary<long, string> found = new();
-                    next.AddRange(await RequestThumbnailBatchAsync(chunk, found, token));
-                    if (token.IsCancellationRequested)
-                        return;
-                    foreach ((long id, string url) in found)
-                    {
-                        OutfitThumbnailCache[id] = url;
-                        if (byId.TryGetValue(id, out OutfitRow? row))
-                            row.ImageUrl = url;
-                    }
-                }
-                remaining = next;
-            }
-            if (remaining.Count > 0)
-                App.Logger?.WriteLine(LOG_IDENT, remaining.Count + " outfit thumbnails never finished rendering");
-        }
-
-        private static async Task<List<long>> RequestThumbnailBatchAsync(List<long> ids, Dictionary<long, string> result, CancellationToken token)
-        {
-            const string LOG_IDENT = "AccountsViewModel::RequestThumbnailBatchAsync";
-            List<long> pending = new();
-            string body = "[" + string.Join(",", ids.Select(id => "{\"type\":\"Outfit\",\"targetId\":" + id + ",\"format\":\"Png\",\"size\":\"150x150\",\"isCircular\":false}")) + "]";
-            RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
-                "https://thumbnails.roblox.com/v1/batch",
-                body,
-                null,
-                token
-            );
-            if (response.StatusCode != 200 || response.Body == null)
-                return ids;
-            try
-            {
-                using JsonDocument doc = JsonDocument.Parse(response.Body);
-                JsonElement items = doc.RootElement.ValueKind == JsonValueKind.Array
-                    ? doc.RootElement
-                    : doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array ? data : default;
-                if (items.ValueKind != JsonValueKind.Array)
-                    return ids;
-                HashSet<long> seen = new();
-                foreach (JsonElement el in items.EnumerateArray())
-                {
-                    long id = el.TryGetProperty("targetId", out JsonElement t) && t.TryGetInt64(out long l) ? l : 0;
-                    string img = el.TryGetProperty("imageUrl", out JsonElement iu) ? iu.GetString() ?? "" : "";
-                    string state = el.TryGetProperty("state", out JsonElement st) ? st.GetString() ?? "" : "";
-                    if (id == 0 || !seen.Add(id))
-                        continue;
-                    if (state == "Completed" && img.Length > 0)
-                        result[id] = img;
-                    else if (state is "Pending" or "InReview" or "Error")
-                        pending.Add(id);
-                }
-            }
-            catch (JsonException ex)
-            {
-                App.Logger?.WriteLine(LOG_IDENT, "The outfit thumbnail response could not be parsed: " + ex.Message);
-            }
-            return pending;
         }
 
         private async Task WearOutfitAsync(OutfitRow? outfit)
@@ -987,19 +884,14 @@ namespace Voidstrap.UI.ViewModels.Settings
             outfit.Busy = true;
             try
             {
-                RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
-                    "https://avatar.roblox.com/v1/outfits/" + outfit.Id + "/wear",
-                    null,
-                    cookie,
-                    _cts.Token
-                );
-                if (response.StatusCode == 200)
+                int status = await RobloxOutfits.WearAsync(outfit.Id, cookie, _cts.Token);
+                if (status == 200)
                 {
                     Status = string.Format(Strings.Accounts_Outfits_Applied, outfit.Name);
                 }
                 else
                 {
-                    App.Logger?.WriteLine(LOG_IDENT, "Wearing outfit " + outfit.Id + " returned " + response.StatusCode);
+                    App.Logger?.WriteLine(LOG_IDENT, "Wearing outfit " + outfit.Id + " returned " + status);
                     Status = Strings.Accounts_Outfits_Failed;
                 }
             }
@@ -1166,9 +1058,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                 if (response.StatusCode == 200)
                 {
                     Status = string.Format(Strings.Accounts_Outfits_Updated, outfit.Name);
-                    OutfitThumbnailCache.TryRemove(outfit.Id, out _);
+                    RobloxOutfits.ForgetThumbnail(outfit.Id);
                     outfit.ImageUrl = null;
-                    await FillOutfitThumbnailsAsync([outfit], _cts.Token);
+                    await RobloxOutfits.FillThumbnailsAsync([outfit], _cts.Token);
                 }
                 else
                 {
@@ -1204,7 +1096,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 );
                 if (response.StatusCode == 200)
                 {
-                    OutfitThumbnailCache.TryRemove(outfit.Id, out _);
+                    RobloxOutfits.ForgetThumbnail(outfit.Id);
                     Outfits.Remove(outfit);
                     _outfitOffset = Math.Max(0, Math.Min(_outfitOffset, Outfits.Count - 1) / OutfitsPerPage * OutfitsPerPage);
                     UpdateOutfitPage();

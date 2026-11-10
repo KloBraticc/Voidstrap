@@ -9803,4 +9803,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>شامل ٿيڻ</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>راند لاءِ ڪو لباس ناهي</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>جڏهن به توهان هي راند شروع ڪريو ته هي لباس پايو</value>
+  </data>
 </root>

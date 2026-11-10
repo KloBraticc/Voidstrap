@@ -9803,4 +9803,10 @@ Mpilalao: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>anjara</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Tsy misy akanjo ho an'ny lalao</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Anaovy ity akanjo ity isaky ny manomboka ity lalao ity ianao</value>
+  </data>
 </root>

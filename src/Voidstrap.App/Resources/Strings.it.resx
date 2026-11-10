@@ -10118,4 +10118,10 @@ Giocatori: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Giuntura</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Nessun outfit per il gioco</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Indossa questo outfit ogni volta che avvii questo gioco</value>
+  </data>
 </root>

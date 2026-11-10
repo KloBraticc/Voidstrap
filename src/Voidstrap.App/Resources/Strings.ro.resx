@@ -10117,4 +10117,10 @@ Jucători: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Alăturați-vă</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Nicio ținută pentru joc</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Poartă această ținută de fiecare dată când lansezi acest joc</value>
+  </data>
 </root>

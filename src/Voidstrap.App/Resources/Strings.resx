@@ -9802,4 +9802,10 @@ Players: {2}</value>
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Join</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>No game outfit</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Wear this outfit whenever you launch this game</value>
+  </data>
 </root>

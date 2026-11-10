@@ -9803,4 +9803,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>එක්වන්න</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ක්‍රීඩාවට ඇඳුමක් නැත</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ඔබ මෙම ක්‍රීඩාව ආරම්භ කරන සෑම විටම මෙම ඇඳුම අඳින්න</value>
+  </data>
 </root>

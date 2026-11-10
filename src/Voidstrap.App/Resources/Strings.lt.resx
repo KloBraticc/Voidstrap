@@ -10117,4 +10117,10 @@ Veikimo laikas: {1}
   <data name="Ui.Friends.Join" xml:space="preserve">
     <value>Prisijunk</value>
   </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Nėra žaidimo aprangos</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Dėvėkite šią aprangą kaskart paleisdami šį žaidimą</value>
+  </data>
 </root>
