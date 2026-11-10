@@ -9884,4 +9884,16 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Автоматска ротација</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Заедница</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Пребарај рецензии</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Сè уште не се пронајдени рецензии од заедницата</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Проверени {0} од {1} игри</value>
+  </data>
 </root>

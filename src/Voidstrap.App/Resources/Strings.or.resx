@@ -9884,4 +9884,16 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ସ୍ୱୟଂଚାଳିତ ଘୂର୍ଣ୍ଣନ</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>ସମୁଦାୟ</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>ସମୀକ୍ଷା ଖୋଜନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ସମୁଦାୟ ସମୀକ୍ଷା ମିଳିନାହିଁ</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} ମଧ୍ୟରୁ {0} ଖେଳ ଯାଞ୍ଚ ହେଲା</value>
+  </data>
 </root>

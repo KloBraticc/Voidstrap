@@ -10198,4 +10198,16 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>چرخش خودکار</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>انجمن</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>جستجوی نقدها</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>هنوز هیچ نقدی از انجمن پیدا نشد</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{0} از {1} بازی بررسی شد</value>
+  </data>
 </root>

@@ -9883,4 +9883,16 @@ Chwaraewyr: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Cylchdroi awtomatig</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Cymuned</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Chwilio adolygiadau</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Heb ddod o hyd i adolygiadau cymuned eto</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Wedi gwirio {0} o {1} gêm</value>
+  </data>
 </root>

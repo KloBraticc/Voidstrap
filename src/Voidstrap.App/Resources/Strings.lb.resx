@@ -9884,4 +9884,16 @@ Spiller: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatesch Rotatioun</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Communautéit</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Bewäertunge sichen</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Nach keng Bewäertunge vun der Communautéit fonnt</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{0} vun {1} Spiller iwwerpréift</value>
+  </data>
 </root>

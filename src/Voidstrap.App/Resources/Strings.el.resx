@@ -9883,4 +9883,16 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Αυτόματη περιστροφή</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Κοινότητα</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Αναζήτηση κριτικών</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Δεν βρέθηκαν ακόμη κριτικές της κοινότητας</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Ελέγχθηκαν {0} από {1} παιχνίδια</value>
+  </data>
 </root>

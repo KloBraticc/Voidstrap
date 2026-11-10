@@ -9884,4 +9884,16 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ઑટો રોટેટ</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>સમુદાય</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>સમીક્ષાઓ શોધો</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>હજુ સુધી કોઈ સમુદાય સમીક્ષા મળી નથી</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} માંથી {0} રમતો તપાસી</value>
+  </data>
 </root>

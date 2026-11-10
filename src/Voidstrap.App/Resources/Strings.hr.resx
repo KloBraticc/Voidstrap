@@ -10196,4 +10196,16 @@ Igrači: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatska rotacija</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Zajednica</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Pretraži recenzije</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Još nisu pronađene recenzije zajednice</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Provjereno {0} od {1} igara</value>
+  </data>
 </root>

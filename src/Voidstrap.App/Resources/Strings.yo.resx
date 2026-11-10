@@ -9883,4 +9883,16 @@ Awọn oṣere: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Ìyípo aládàáṣe</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Àwùjọ</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Wá àwọn àtúnyẹ̀wò</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>A kò tíì rí àtúnyẹ̀wò àwùjọ kankan</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>A ti ṣàyẹ̀wò eré {0} nínú {1}</value>
+  </data>
 </root>

@@ -9883,4 +9883,16 @@ Libapali: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Potoloho e iketsahallang</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Setjhaba</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Batla maikutlo</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Ha ho maikutlo a setjhaba a fumanweng hajoale</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Ho hlahlobilwe dipapadi tse {0} ho tse {1}</value>
+  </data>
 </root>

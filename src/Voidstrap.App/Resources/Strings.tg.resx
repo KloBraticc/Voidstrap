@@ -9883,4 +9883,16 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Гардиши худкор</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Ҷомеа</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Ҷустуҷӯи шарҳҳо</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Ҳоло шарҳи ҷомеа ёфт нашуд</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{0} аз {1} бозӣ санҷида шуд</value>
+  </data>
 </root>

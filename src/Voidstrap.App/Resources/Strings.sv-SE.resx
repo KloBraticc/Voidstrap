@@ -10196,4 +10196,16 @@ Spelare: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatisk rotation</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Community</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Sök recensioner</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Inga communityrecensioner hittades ännu</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Kontrollerade {0} av {1} spel</value>
+  </data>
 </root>

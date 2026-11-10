@@ -1898,6 +1898,10 @@ namespace Voidstrap.Resources {
         public static string Ui_Session_Servers => ResourceManager.GetString("Ui.Session.Servers", resourceCulture);
 
         public static string Ui_Session_Games => ResourceManager.GetString("Ui.Session.Games", resourceCulture);
+        public static string Ui_Library_Community => ResourceManager.GetString("Ui.Library.Community", resourceCulture);
+        public static string Ui_Library_CommunitySearch => ResourceManager.GetString("Ui.Library.CommunitySearch", resourceCulture);
+        public static string Ui_Library_CommunityEmpty => ResourceManager.GetString("Ui.Library.CommunityEmpty", resourceCulture);
+        public static string Ui_Library_CommunityScanning => ResourceManager.GetString("Ui.Library.CommunityScanning", resourceCulture);
 
         public static string Ui_Session_Music => ResourceManager.GetString("Ui.Session.Music", resourceCulture);
 

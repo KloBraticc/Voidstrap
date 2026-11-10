@@ -9884,4 +9884,16 @@ Lojtarët: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Rrotullim automatik</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Komuniteti</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Kërko vlerësime</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Ende nuk u gjetën vlerësime të komunitetit</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>U kontrolluan {0} nga {1} lojëra</value>
+  </data>
 </root>

@@ -10198,4 +10198,16 @@ Jucători: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Rotire automată</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Comunitate</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Caută recenzii</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Încă nu s-au găsit recenzii ale comunității</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Verificate {0} din {1} jocuri</value>
+  </data>
 </root>

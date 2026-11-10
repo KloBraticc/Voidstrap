@@ -10197,4 +10197,16 @@ Pelaajat: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automaattinen kierto</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Yhteisö</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Hae arvosteluja</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Yhteisön arvosteluja ei vielä löytynyt</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Tarkistettu {0}/{1} peliä</value>
+  </data>
 </root>

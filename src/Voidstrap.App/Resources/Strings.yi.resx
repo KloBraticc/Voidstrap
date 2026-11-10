@@ -9883,4 +9883,16 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>אויטאָמאַטישע דרייונג</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>קהילה</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>זוכן רעצענזיעס</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>נאך קיין קהילה רעצענזיעס נישט געפֿונען</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>געקוקט {0} פֿון {1} שפּילן</value>
+  </data>
 </root>

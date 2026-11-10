@@ -9884,4 +9884,16 @@ Hráči: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatické otáčanie</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Komunita</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Hľadať recenzie</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Zatiaľ sa nenašli žiadne recenzie komunity</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Skontrolovaných {0} z {1} hier</value>
+  </data>
 </root>

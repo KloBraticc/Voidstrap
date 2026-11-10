@@ -9883,4 +9883,16 @@ Wachezaji: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Mzunguko wa kiotomatiki</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Jumuiya</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Tafuta maoni</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Bado hakuna maoni ya jumuiya yaliyopatikana</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Imekagua michezo {0} kati ya {1}</value>
+  </data>
 </root>

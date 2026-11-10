@@ -9884,4 +9884,16 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Автоматтык буруу</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Коомчулук</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Сын пикирлерди издөө</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Коомчулуктун сын пикирлери азырынча табылган жок</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} оюндун {0} текшерилди</value>
+  </data>
 </root>

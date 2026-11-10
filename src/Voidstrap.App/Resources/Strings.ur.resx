@@ -9883,4 +9883,16 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>خودکار گردش</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>کمیونٹی</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>تبصرے تلاش کریں</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>ابھی تک کمیونٹی کے کوئی تبصرے نہیں ملے</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} میں سے {0} گیمز چیک کیے گئے</value>
+  </data>
 </root>

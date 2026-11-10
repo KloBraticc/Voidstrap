@@ -9883,4 +9883,16 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>အလိုအလျောက် လှည့်ခြင်း</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>အသိုင်းအဝိုင်း</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>သုံးသပ်ချက်များ ရှာရန်</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>အသိုင်းအဝိုင်း သုံးသပ်ချက် မတွေ့ရသေးပါ</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>ဂိမ်း {1} ခုအနက် {0} ခု စစ်ဆေးပြီး</value>
+  </data>
 </root>

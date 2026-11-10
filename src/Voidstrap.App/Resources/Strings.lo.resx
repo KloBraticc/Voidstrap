@@ -9884,4 +9884,16 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ໝຸນອັດຕະໂນມັດ</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>ຊຸມຊົນ</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>ຄົ້ນຫາການລີວິວ</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>ຍັງບໍ່ພົບການລີວິວຈາກຊຸມຊົນ</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>ກວດແລ້ວ {0} ຈາກ {1} ເກມ</value>
+  </data>
 </root>

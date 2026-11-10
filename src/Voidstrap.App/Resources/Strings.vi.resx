@@ -10199,4 +10199,16 @@ Người chơi: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Tự động xoay</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Cộng đồng</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Tìm đánh giá</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Chưa tìm thấy đánh giá nào từ cộng đồng</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Đã kiểm tra {0} trên {1} trò chơi</value>
+  </data>
 </root>

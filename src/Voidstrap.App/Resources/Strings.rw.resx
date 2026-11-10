@@ -9884,4 +9884,16 @@ Abakinnyi: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Kuzenguruka byikora</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Umuryango</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Shakisha ibitekerezo</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Nta bitekerezo by'umuryango biraboneka</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Hagenzuwe imikino {0} kuri {1}</value>
+  </data>
 </root>

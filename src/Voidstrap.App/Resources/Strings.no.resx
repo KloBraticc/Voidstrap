@@ -9884,4 +9884,16 @@ Spillere: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatisk rotasjon</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Fellesskap</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Søk i anmeldelser</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Ingen anmeldelser fra fellesskapet funnet ennå</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Sjekket {0} av {1} spill</value>
+  </data>
 </root>

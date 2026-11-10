@@ -10194,4 +10194,16 @@ Mga player: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Awtomatikong pag-ikot</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Komunidad</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Maghanap ng mga review</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Wala pang nahanap na review mula sa komunidad</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Nasuri ang {0} sa {1} na laro</value>
+  </data>
 </root>

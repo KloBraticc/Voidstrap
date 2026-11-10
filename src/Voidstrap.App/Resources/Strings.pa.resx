@@ -9884,4 +9884,16 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ਆਟੋ ਰੋਟੇਟ</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>ਭਾਈਚਾਰਾ</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>ਸਮੀਖਿਆਵਾਂ ਖੋਜੋ</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>ਅਜੇ ਤੱਕ ਕੋਈ ਭਾਈਚਾਰਕ ਸਮੀਖਿਆ ਨਹੀਂ ਮਿਲੀ</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} ਵਿੱਚੋਂ {0} ਗੇਮਾਂ ਦੀ ਜਾਂਚ ਕੀਤੀ</value>
+  </data>
 </root>

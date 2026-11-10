@@ -9883,4 +9883,16 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ఆటో రొటేట్</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>సంఘం</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>సమీక్షలను వెతకండి</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>ఇంకా సంఘ సమీక్షలు ఏవీ కనుగొనబడలేదు</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} గేమ్‌లలో {0} తనిఖీ చేయబడ్డాయి</value>
+  </data>
 </root>

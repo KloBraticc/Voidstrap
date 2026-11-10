@@ -10197,4 +10197,16 @@ Gracze: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatyczny obrót</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Społeczność</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Szukaj recenzji</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Nie znaleziono jeszcze recenzji społeczności</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Sprawdzono {0} z {1} gier</value>
+  </data>
 </root>

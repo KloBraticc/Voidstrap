@@ -9884,4 +9884,16 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>ಸ್ವಯಂ ತಿರುಗುವಿಕೆ</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>ಸಮುದಾಯ</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>ವಿಮರ್ಶೆಗಳನ್ನು ಹುಡುಕಿ</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>ಇನ್ನೂ ಯಾವುದೇ ಸಮುದಾಯ ವಿಮರ್ಶೆಗಳು ಸಿಕ್ಕಿಲ್ಲ</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} ಆಟಗಳಲ್ಲಿ {0} ಪರಿಶೀಲಿಸಲಾಗಿದೆ</value>
+  </data>
 </root>

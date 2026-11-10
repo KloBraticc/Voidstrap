@@ -9883,4 +9883,16 @@ O'yinchilar: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Avtomatik aylantirish</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Hamjamiyat</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Sharhlarni qidirish</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Hozircha hamjamiyat sharhlari topilmadi</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} ta o'yindan {0} tasi tekshirildi</value>
+  </data>
 </root>

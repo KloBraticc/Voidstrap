@@ -9883,4 +9883,16 @@ Abadlali: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Ujikelezo oluzenzekelayo</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Uluntu</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Khangela uphononongo</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Akukafunyanwa luphononongo loluntu</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Kujongwe imidlalo eyi {0} kwengama {1}</value>
+  </data>
 </root>

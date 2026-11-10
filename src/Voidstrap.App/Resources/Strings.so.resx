@@ -9884,4 +9884,16 @@ Ciyaartoyda: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Wareeg otomaatig ah</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Bulsho</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Raadi faallooyinka</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Weli lama helin faallooyin bulsho</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>La hubiyay {0} ka mid ah {1} ciyaarood</value>
+  </data>
 </root>

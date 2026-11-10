@@ -9883,4 +9883,16 @@ Mängijad: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automaatne pööramine</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Kogukond</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Otsi arvustusi</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Kogukonna arvustusi pole veel leitud</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>Kontrollitud {0} mängu {1}st</value>
+  </data>
 </root>

@@ -10194,4 +10194,16 @@ Oyuncular: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Otomatik döndürme</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Topluluk</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>İncelemelerde ara</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Henüz topluluk incelemesi bulunamadı</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} oyundan {0} tanesi kontrol edildi</value>
+  </data>
 </root>

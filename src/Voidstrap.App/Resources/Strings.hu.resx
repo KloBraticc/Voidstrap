@@ -10196,4 +10196,16 @@ Játékosok: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Automatikus forgatás</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Közösség</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Értékelések keresése</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Még nem található közösségi értékelés</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1} játékból {0} ellenőrizve</value>
+  </data>
 </root>

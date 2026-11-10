@@ -10198,4 +10198,16 @@ Jogadores: {2}</value>
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>Rotação automática</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>Comunidade</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>Pesquisar avaliações</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>Nenhuma avaliação da comunidade encontrada ainda</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{0} de {1} jogos verificados</value>
+  </data>
 </root>

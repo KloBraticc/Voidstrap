@@ -10195,4 +10195,16 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
     <value>자동 회전</value>
   </data>
+  <data name="Ui.Library.Community" xml:space="preserve">
+    <value>커뮤니티</value>
+  </data>
+  <data name="Ui.Library.CommunitySearch" xml:space="preserve">
+    <value>리뷰 검색</value>
+  </data>
+  <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
+    <value>아직 커뮤니티 리뷰가 없습니다</value>
+  </data>
+  <data name="Ui.Library.CommunityScanning" xml:space="preserve">
+    <value>{1}개 중 {0}개 게임 확인함</value>
+  </data>
 </root>

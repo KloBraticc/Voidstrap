@@ -938,5 +938,14 @@
       </TabItem.Header>
       <controls:LibraryGamesControl x:Name="GamesView" Margin="12,10,6,0" />
     </TabItem>
+    <TabItem x:Name="CommunityTab">
+      <TabItem.Header>
+        <StackPanel Orientation="Horizontal">
+          <ui:SymbolIcon Margin="0,0,6,0" VerticalAlignment="Center" Symbol="PeopleCommunity24" />
+          <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Library_Community}" />
+        </StackPanel>
+      </TabItem.Header>
+      <controls:CommunityFeedControl x:Name="CommunityView" Margin="12,10,6,0" />
+    </TabItem>
   </TabControl>
 </ui:UiPage>

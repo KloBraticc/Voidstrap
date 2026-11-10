@@ -120,11 +120,14 @@ public partial class LibraryPage : UiPage
     {
         if (e.OriginalSource == RootTabs && GamesView != null && GamesTab != null)
             GamesView.SetActive(GamesTab.IsSelected);
+        if (e.OriginalSource == RootTabs && CommunityView != null && CommunityTab != null)
+            CommunityView.SetActive(CommunityTab.IsSelected);
     }
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
         GamesView.SetActive(false);
+        CommunityView.SetActive(false);
         _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         _viewModel.SetSubplaceViewActive(false);
         _viewModel.Servers.SetViewActive(false);
