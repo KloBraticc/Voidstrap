@@ -982,6 +982,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             || ReferenceEquals(page, _accountsPage)
             || ReferenceEquals(page, _robloxNewsPage)
             || ReferenceEquals(page, _voidstrapModsPage)
+            || ReferenceEquals(page, _modPacksPage)
             || ReferenceEquals(page, _friendsPage)
         )
         {
