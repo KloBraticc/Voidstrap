@@ -26,6 +26,7 @@ public partial class ModPacksPage : UiPage
         UpdateBreadcrumb();
         PublishPresence();
         ScrollToTop();
+        AttachStickyScroll();
         try
         {
             await Mods.InitializeAsync();
@@ -40,6 +41,7 @@ public partial class ModPacksPage : UiPage
     {
         Mods.PropertyChanged -= OnModsPropertyChanged;
         Breadcrumb.RemoveBackRequestedHandler(this, OnBreadcrumbBack);
+        DetachStickyScroll();
         _sourceSwitchVersion++;
         SourceIndicatorShift.BeginAnimation(System.Windows.Media.TranslateTransform.XProperty, null);
         Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(ModPacksPage));
@@ -52,6 +54,58 @@ public partial class ModPacksPage : UiPage
         UpdateBreadcrumb();
         PublishPresence();
         ScrollToTop();
+    }
+
+    private readonly System.Windows.Media.TranslateTransform _stickyShift = new();
+
+    private System.Windows.Controls.ScrollViewer? _stickyViewer;
+
+    private void AttachStickyScroll()
+    {
+        DetachStickyScroll();
+        SourceSwitch.RenderTransform = _stickyShift;
+        CategoryPanel.RenderTransform = _stickyShift;
+        _stickyViewer = FindScrollViewer(this) ?? FindAncestorScrollViewer();
+        if (_stickyViewer == null)
+            return;
+        _stickyViewer.ScrollChanged += OnStickyScrollChanged;
+        UpdateSticky();
+    }
+
+    private void DetachStickyScroll()
+    {
+        if (_stickyViewer != null)
+            _stickyViewer.ScrollChanged -= OnStickyScrollChanged;
+        _stickyViewer = null;
+        _stickyShift.Y = 0;
+    }
+
+    private void OnStickyScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e) => UpdateSticky();
+
+    private void UpdateSticky()
+    {
+        if (_stickyViewer == null || !BrowseRoot.IsVisible || !SourceSwitch.IsVisible)
+        {
+            _stickyShift.Y = 0;
+            return;
+        }
+        double current = _stickyShift.Y;
+        double top = SourceSwitch.TranslatePoint(new Point(0, 0), _stickyViewer).Y - current;
+        double bottom = (CategoryPanel.IsVisible ? CategoryPanel.TranslatePoint(new Point(0, CategoryPanel.ActualHeight), BrowseRoot).Y : SourceSwitch.TranslatePoint(new Point(0, SourceSwitch.ActualHeight), BrowseRoot).Y) - current;
+        double room = Math.Max(0, BrowseRoot.ActualHeight - bottom);
+        _stickyShift.Y = Math.Clamp(8 - top, 0, room);
+    }
+
+    private System.Windows.Controls.ScrollViewer? FindAncestorScrollViewer()
+    {
+        DependencyObject? node = System.Windows.Media.VisualTreeHelper.GetParent(this);
+        while (node != null)
+        {
+            if (node is System.Windows.Controls.ScrollViewer viewer)
+                return viewer;
+            node = System.Windows.Media.VisualTreeHelper.GetParent(node);
+        }
+        return null;
     }
 
     private bool _compactDetail;
@@ -104,6 +158,7 @@ public partial class ModPacksPage : UiPage
 
     private void UpdateBreadcrumb()
     {
+        Breadcrumb.SetRootTitle(this, Mods.SelectedMod == null ? null : Voidstrap.Resources.Strings.Ui_Mods_ModPacks);
         if (Mods.SelectedMod is { } mod)
             Voidstrap.UI.BreadcrumbHeader.Set(this, mod.Name);
         else
