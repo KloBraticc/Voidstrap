@@ -110,7 +110,8 @@ internal static class RobloxAppStorage
     private static JsonObject? Load()
     {
         string path = Location;
-        if (!File.Exists(path))
+        FileInfo file = new(path);
+        if (!file.Exists || file.Length == 0)
             return null;
 
         string json = JsonFile.ReadText(path, MaximumBytes);
