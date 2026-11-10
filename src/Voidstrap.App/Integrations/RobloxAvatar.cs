@@ -254,7 +254,7 @@ internal static partial class RobloxAvatar
         {
             writer.WriteStartObject();
             writer.WriteStartArray("assets");
-            foreach (AvatarAsset asset in assets)
+            foreach (AvatarAsset asset in assets.Where(a => a.TypeName != BackgroundType))
             {
                 writer.WriteStartObject();
                 writer.WriteNumber("id", asset.Id);
@@ -281,16 +281,6 @@ internal static partial class RobloxAvatar
             cookie,
             token
         );
-        if (response.StatusCode == 400)
-        {
-            App.Logger?.WriteLine(LOG_IDENT, "Roblox refused the avatar change, trying the asset id list: " + response.Body);
-            response = await RobloxCookie.SendPostWithCookieAsync(
-                "https://avatar.roblox.com/v1/avatar/set-wearing-assets",
-                JsonSerializer.Serialize(new { assetIds = assets.Select(a => a.Id).ToArray() }),
-                cookie,
-                token
-            );
-        }
         if (response.StatusCode != 200)
         {
             App.Logger?.WriteLine(LOG_IDENT, "Roblox refused the avatar change: " + response.Body);
@@ -308,6 +298,28 @@ internal static partial class RobloxAvatar
         {
             return true;
         }
+    }
+
+    public static async Task<bool> SetBackgroundAsync(long assetId, string? cookie, CancellationToken token)
+    {
+        const string LOG_IDENT = "RobloxAvatar::SetBackgroundAsync";
+        object[] configs =
+        [
+            new { background = new { backgroundAssetId = assetId } },
+            new { backgroundAssetId = assetId },
+            new { background = new { backgroundAsset = new { id = assetId } } },
+        ];
+        foreach (object config in configs)
+        {
+            string body = JsonSerializer.Serialize(new { updateTypes = new[] { "UpdateBackground" }, avatarDefinition = new { updateAvatarConfig = config } });
+            RobloxApiResponse response = await RobloxCookie.SendPatchWithCookieAsync("https://avatar.roblox.com/v4/avatar", body, cookie, token);
+            if (response.StatusCode == 200)
+                return true;
+            App.Logger?.WriteLine(LOG_IDENT, "Roblox refused the background change: " + response.Body);
+            if (response.StatusCode != 400)
+                return false;
+        }
+        return false;
     }
 
     public static async Task<bool> SetAvatarTypeAsync(bool r15, string? cookie, CancellationToken token)

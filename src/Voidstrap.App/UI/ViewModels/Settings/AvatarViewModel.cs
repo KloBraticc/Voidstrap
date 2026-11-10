@@ -624,6 +624,12 @@ namespace Voidstrap.UI.ViewModels.Settings
                         ok = await RobloxAvatar.EquipEmoteAsync(row.Id, slot, cookie, _cts.Token);
                     }
                 }
+                else if (row.TypeName == RobloxAvatar.BackgroundType)
+                {
+                    ok = await RobloxAvatar.SetBackgroundAsync(wasWorn ? 0 : row.Id, cookie, _cts.Token);
+                    if (ok)
+                        _backgroundId = wasWorn ? 0 : row.Id;
+                }
                 else
                 {
                     List<AvatarAsset> assets = _state.Assets.ToList();
@@ -634,15 +640,12 @@ namespace Voidstrap.UI.ViewModels.Settings
                             assets.Remove(assets.First(a => a.TypeName == row.TypeName));
                         assets.Add(new AvatarAsset(row.Id, row.Name, typeId, row.TypeName, RobloxAvatar.DefaultMeta(row.TypeName)));
                     }
-                    if (row.TypeName != RobloxAvatar.BackgroundType)
-                        Predict(state =>
-                        {
-                            state.Assets.Clear();
-                            state.Assets.AddRange(assets);
-                        });
+                    Predict(state =>
+                    {
+                        state.Assets.Clear();
+                        state.Assets.AddRange(assets);
+                    });
                     ok = await RobloxAvatar.SetWearingAsync(assets, cookie, _cts.Token);
-                    if (ok && row.TypeName == RobloxAvatar.BackgroundType)
-                        _backgroundId = wasWorn ? 0 : row.Id;
                 }
                 if (ok)
                 {
