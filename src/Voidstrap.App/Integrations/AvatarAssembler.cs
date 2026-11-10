@@ -345,6 +345,7 @@ internal static partial class AvatarAssembler
                 TileMode = TileMode.Tile,
                 Stretch = Stretch.Fill,
             };
+        RenderOptions.SetBitmapScalingMode(brush, BitmapScalingMode.HighQuality);
         DiffuseMaterial material = new(brush);
         material.Freeze();
         pieces.Add(new AvatarPiece(mesh, material, "", Matrix3D.Identity) { Skin = new AvatarSkin(local, bone, bones) });
@@ -598,6 +599,7 @@ internal static partial class AvatarAssembler
                 TileMode = TileMode.Tile,
                 Stretch = Stretch.Fill,
             };
+        RenderOptions.SetBitmapScalingMode(brush, BitmapScalingMode.HighQuality);
         DiffuseMaterial material = new(brush);
         material.Freeze();
         local.Freeze();

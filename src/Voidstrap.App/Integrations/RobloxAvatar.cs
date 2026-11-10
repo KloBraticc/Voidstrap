@@ -698,6 +698,7 @@ internal static partial class RobloxAvatar
                 };
             else
                 brush = new SolidColorBrush(materials.TryGetValue(name, out material) ? material.Color : Colors.LightGray);
+            RenderOptions.SetBitmapScalingMode(brush, BitmapScalingMode.HighQuality);
             brush.Freeze();
             DiffuseMaterial diffuse = new(brush);
             diffuse.Freeze();

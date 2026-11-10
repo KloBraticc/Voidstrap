@@ -51,6 +51,8 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private readonly CancellationTokenSource _cts = new();
 
+        private CancellationTokenSource? _sceneCts;
+
         private readonly List<AvatarItemRow> _all = new();
 
         private CancellationTokenSource? _categoryCts;
@@ -349,6 +351,9 @@ namespace Voidstrap.UI.ViewModels.Settings
             _categoryCts?.Cancel();
             _categoryCts?.Dispose();
             _categoryCts = null;
+            _sceneCts?.Cancel();
+            _sceneCts?.Dispose();
+            _sceneCts = null;
             _cts.Cancel();
             _cts.Dispose();
             GC.SuppressFinalize(this);
@@ -452,7 +457,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                 return;
             int version = ++_sceneVersion;
             _renderedSignature = signature;
-            CancellationToken token = _cts.Token;
+            _sceneCts?.Cancel();
+            _sceneCts?.Dispose();
+            _sceneCts = CancellationTokenSource.CreateLinkedTokenSource(_cts.Token);
+            CancellationToken token = _sceneCts.Token;
             try
             {
                 PreviewLoading = true;

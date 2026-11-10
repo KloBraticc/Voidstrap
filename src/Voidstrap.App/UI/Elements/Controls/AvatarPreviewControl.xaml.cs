@@ -24,6 +24,8 @@ namespace Voidstrap.UI.Elements.Controls
 
         private const int SoftwareFrameLimit = 1024;
 
+        private const double SoftwareSupersample = 2.0;
+
         private const double RotateDegreesPerSecond = 14.0;
 
         private static readonly TimeSpan RotateInterval = TimeSpan.FromMilliseconds(33);
@@ -223,7 +225,13 @@ namespace Voidstrap.UI.Elements.Controls
         {
             if (_pieces == null || scene.Rig == null)
                 return;
-            Dictionary<string, Voidstrap.Integrations.Animation.RobloxCFrame> world = Voidstrap.Integrations.AvatarPose.Evaluate(scene.Rig, _animationTime);
+            ApplyPose(Voidstrap.Integrations.AvatarPose.Evaluate(scene.Rig, _animationTime));
+        }
+
+        private void ApplyPose(Dictionary<string, Voidstrap.Integrations.Animation.RobloxCFrame> world)
+        {
+            if (_pieces == null)
+                return;
             List<Matrix3D>? moved = _renderer != null ? new List<Matrix3D>(_pieces.Count) : null;
             for (int index = 0; index < _pieces.Count; index++)
             {
@@ -236,6 +244,7 @@ namespace Voidstrap.UI.Elements.Controls
                     Point3DCollection posed = new(skin.Local.Length);
                     for (int v = 0; v < skin.Local.Length; v++)
                         posed.Add(bones[skin.Bone[v]].Transform(skin.Local[v]));
+                    posed.Freeze();
                     skinned.Positions = posed;
                     _renderer?.SetPositions(index, posed);
                     moved?.Add(Matrix3D.Identity);
@@ -252,11 +261,10 @@ namespace Voidstrap.UI.Elements.Controls
             }
         }
 
-        private void UpdateParticles(AvatarScene scene, double elapsed)
+        private void UpdateParticles(Dictionary<string, Voidstrap.Integrations.Animation.RobloxCFrame> world, double elapsed)
         {
-            if (_particles is not { Any: true } || scene.Rig == null)
+            if (_particles is not { Any: true })
                 return;
-            Dictionary<string, Voidstrap.Integrations.Animation.RobloxCFrame> world = Voidstrap.Integrations.AvatarPose.Evaluate(scene.Rig, _animationTime);
             Vector3D look = Camera.LookDirection;
             Vector3D right = Vector3D.CrossProduct(look, Camera.UpDirection);
             if (right.LengthSquared < 1e-12)
@@ -328,8 +336,8 @@ namespace Voidstrap.UI.Elements.Controls
             try
             {
                 DpiScale dpi = VisualTreeHelper.GetDpi(this);
-                int width = Math.Min(SoftwareFrameLimit, (int)Math.Ceiling(ActualWidth * dpi.DpiScaleX));
-                int height = Math.Min(SoftwareFrameLimit, (int)Math.Ceiling(ActualHeight * dpi.DpiScaleY));
+                int width = Math.Min(SoftwareFrameLimit, (int)Math.Ceiling(ActualWidth * dpi.DpiScaleX * SoftwareSupersample));
+                int height = Math.Min(SoftwareFrameLimit, (int)Math.Ceiling(ActualHeight * dpi.DpiScaleY * SoftwareSupersample));
                 if (width <= 0 || height <= 0)
                     return;
                 if (_softwareBitmap == null || _softwareBitmap.PixelWidth != width || _softwareBitmap.PixelHeight != height)
@@ -372,12 +380,16 @@ namespace Voidstrap.UI.Elements.Controls
             _lastRotateTick = now;
             if (Scene is not AvatarScene scene)
                 return;
-            if (scene.Rig?.Animation != null && _pieces != null)
+            bool animate = scene.Rig?.Animation != null && _pieces != null;
+            if (scene.Rig != null && (animate || _particles is { Any: true }))
             {
-                _animationTime += elapsed;
-                ApplyPose(scene);
+                if (animate)
+                    _animationTime += elapsed;
+                Dictionary<string, Voidstrap.Integrations.Animation.RobloxCFrame> world = Voidstrap.Integrations.AvatarPose.Evaluate(scene.Rig, _animationTime);
+                if (animate)
+                    ApplyPose(world);
+                UpdateParticles(world, elapsed);
             }
-            UpdateParticles(scene, elapsed);
             if (!_autoRotate || _orbiting || _panning || now - _lastInteraction < RotateResumeDelay)
                 return;
             _yaw = (_yaw + RotateDegreesPerSecond * elapsed) % 360.0;
@@ -393,12 +405,26 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void OnPreviewLoaded(object sender, RoutedEventArgs e)
         {
+            if (Scene != null && _pieces == null)
+                ApplyScene(false);
             UpdateRotateTimer();
         }
 
         private void OnPreviewUnloaded(object sender, RoutedEventArgs e)
         {
             UpdateRotateTimer();
+            _pieces = null;
+            _particles = null;
+            _renderer?.SetAvatar(null);
+            _renderer?.SetBackdrop(null);
+            if (_renderer == null)
+            {
+                AvatarVisual.Content = null;
+                BackdropVisual.Content = null;
+            }
+            _softwareBitmap = null;
+            _softwareFrame = [];
+            SoftwareView.Source = null;
         }
 
         private void OnPreviewSizeChanged(object sender, SizeChangedEventArgs e)
@@ -449,6 +475,7 @@ namespace Voidstrap.UI.Elements.Controls
                 TileMode = TileMode.FlipXY,
                 Stretch = Stretch.Fill,
             };
+            RenderOptions.SetBitmapScalingMode(brush, BitmapScalingMode.HighQuality);
             MaterialGroup material = new();
             material.Children.Add(new DiffuseMaterial(Brushes.Black));
             material.Children.Add(new EmissiveMaterial(brush));

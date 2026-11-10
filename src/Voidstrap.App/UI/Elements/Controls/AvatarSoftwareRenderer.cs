@@ -340,12 +340,8 @@ internal sealed class AvatarSoftwareRenderer
                     {
                         float u = (w0 * ua + w1 * ub + w2 * uc) / inverseZ;
                         float v = (w0 * va + w1 * vb + w2 * vc) / inverseZ;
-                        int offset = texture.Offset(u, v, mesh.Mirror);
-                        if (texture.Pixels[offset + 3] < 128)
+                        if (!texture.Sample(u, v, mesh.Mirror, out red, out green, out blue))
                             continue;
-                        blue = texture.Pixels[offset];
-                        green = texture.Pixels[offset + 1];
-                        red = texture.Pixels[offset + 2];
                     }
                     float light = w0 * la + w1 * lb + w2 * lc;
                     depth[pixel] = inverseZ;
@@ -359,6 +355,52 @@ internal sealed class AvatarSoftwareRenderer
 
     private sealed record Texture(byte[] Pixels, int Width, int Height)
     {
+        public bool Sample(float u, float v, bool mirror, out int red, out int green, out int blue)
+        {
+            red = green = blue = 0;
+            if (float.IsNaN(u) || float.IsInfinity(u) || float.IsNaN(v) || float.IsInfinity(v))
+                return false;
+            if (mirror)
+            {
+                u -= MathF.Floor(u * 0.5f) * 2f;
+                if (u > 1f)
+                    u = 2f - u;
+                v -= MathF.Floor(v * 0.5f) * 2f;
+                if (v > 1f)
+                    v = 2f - v;
+            }
+            else
+            {
+                u -= MathF.Floor(u);
+                v -= MathF.Floor(v);
+            }
+            float fx = u * Width - 0.5f;
+            float fy = v * Height - 0.5f;
+            int x0 = (int)MathF.Floor(fx);
+            int y0 = (int)MathF.Floor(fy);
+            float tx = fx - x0;
+            float ty = fy - y0;
+            int x1 = Math.Clamp(x0 + 1, 0, Width - 1);
+            int y1 = Math.Clamp(y0 + 1, 0, Height - 1);
+            x0 = Math.Clamp(x0, 0, Width - 1);
+            y0 = Math.Clamp(y0, 0, Height - 1);
+            int a = (y0 * Width + x0) * 4;
+            int b = (y0 * Width + x1) * 4;
+            int c = (y1 * Width + x0) * 4;
+            int d = (y1 * Width + x1) * 4;
+            float wa = (1f - tx) * (1f - ty);
+            float wb = tx * (1f - ty);
+            float wc = (1f - tx) * ty;
+            float wd = tx * ty;
+            float alpha = Pixels[a + 3] * wa + Pixels[b + 3] * wb + Pixels[c + 3] * wc + Pixels[d + 3] * wd;
+            if (alpha < 128f)
+                return false;
+            blue = (int)(Pixels[a] * wa + Pixels[b] * wb + Pixels[c] * wc + Pixels[d] * wd);
+            green = (int)(Pixels[a + 1] * wa + Pixels[b + 1] * wb + Pixels[c + 1] * wc + Pixels[d + 1] * wd);
+            red = (int)(Pixels[a + 2] * wa + Pixels[b + 2] * wb + Pixels[c + 2] * wc + Pixels[d + 2] * wd);
+            return true;
+        }
+
         public int Offset(float u, float v, bool mirror)
         {
             if (float.IsNaN(u) || float.IsInfinity(u))
