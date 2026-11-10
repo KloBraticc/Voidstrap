@@ -145,13 +145,13 @@ public partial class VoidstrapModsPage : UiPage
             if (generation != _renderGeneration || !IsLoaded || Dispatcher.HasShutdownStarted)
                 return;
             string signature = string.Join("|", items.Select(item => item.Signature));
-            if (signature != _lastModSignature || ModsHost.Children.Count != items.Count)
+            if (signature != _lastModSignature || ModsHost.Items.Count != items.Count)
             {
                 _lastModSignature = signature;
-                ModsHost.Children.Clear();
+                ModsHost.Items.Clear();
                 EmptyText.Visibility = items.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
                 foreach (ModRenderItem item in items)
-                    ModsHost.Children.Add(BuildInstalledModCard(item));
+                    ModsHost.Items.Add(BuildInstalledModCard(item));
             }
             _ = FillModIconsAsync(pendingIcons, generation);
         }
@@ -842,7 +842,7 @@ public partial class VoidstrapModsPage : UiPage
                 App.Logger.WriteLine("VoidstrapModsPage::LoadLibraryAsync", "Showing the saved library: " + ex.Message);
                 return;
             }
-            LibraryHost.Children.Clear();
+            LibraryHost.Items.Clear();
             LibraryStatusText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryFailed, ex.Message);
             LibraryEmpty.Visibility = Visibility.Visible;
         }
@@ -916,13 +916,13 @@ public partial class VoidstrapModsPage : UiPage
     {
         if (_libraryIndex == null)
             return;
-        LibraryHost.Children.Clear();
+        LibraryHost.Items.Clear();
         _libraryIconHosts.Clear();
         List<ModLibrary.LibraryMod> mods = ModLibrarySearch.Run(_libraryIndex.Mods, LibraryQuery(), null, SelectedSort);
         LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryEmpty;
         LibraryEmpty.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         foreach (ModLibrary.LibraryMod mod in mods)
-            LibraryHost.Children.Add(BuildLibraryCard(mod));
+            LibraryHost.Items.Add(BuildLibraryCard(mod));
         if (_detailMod != null && LibraryDetail.Visibility == Visibility.Visible)
             ShowLibraryDetail(_libraryIndex.Mods.FirstOrDefault(m => m.Id == _detailMod.Id) ?? _detailMod);
     }

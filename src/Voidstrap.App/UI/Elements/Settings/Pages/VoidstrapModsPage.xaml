@@ -31,7 +31,7 @@
             <ui:Button Height="34" Margin="0,0,8,8" Icon="Code24" Content="{resources:Loc Ui_ModCode_OpenButton}" Click="ModCode_Click" ToolTip="{resources:Loc Ui_ModCode_OpenButtonTooltip}" />
             <ui:Button x:Name="AccountButton" Height="34" Margin="0,0,0,8" Icon="Person24" Click="AccountButton_Click" />
           </WrapPanel>
-          <StackPanel x:Name="LibraryHost" />
+          <ItemsControl x:Name="LibraryHost" Style="{StaticResource RowList}" />
           <Border x:Name="LibraryEmpty" Visibility="Collapsed" Margin="0,8,0,0" Padding="28" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundBrush}">
             <StackPanel HorizontalAlignment="Center">
               <ui:SymbolIcon Symbol="Search24" FontSize="34" HorizontalAlignment="Center" Opacity="0.55" />
@@ -126,7 +126,7 @@
         </Grid>
   
         <TextBlock Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_Installed}" />
-        <StackPanel x:Name="ModsHost" Margin="0,0,0,16" />
+        <ItemsControl x:Name="ModsHost" Margin="0,0,0,6" Style="{StaticResource RowList}" />
   
         <TextBlock x:Name="ActivePanesHeader" Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_ActivePanes}" />
         <TextBlock x:Name="EmptyText" Margin="0,16,0,0" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_Empty}" />
