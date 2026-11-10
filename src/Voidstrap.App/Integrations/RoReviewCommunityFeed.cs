@@ -12,14 +12,14 @@ public static class RoReviewCommunityFeed
     private sealed class FeedCache
     {
         public Dictionary<long, long> Checked { get; set; } = new();
-        public Dictionary<long, string> Names { get; set; } = new();
+        public Dictionary<long, CommunityGameInfo> Games { get; set; } = new();
         public List<CommunityReview> Reviews { get; set; } = new();
     }
 
     private const int MaxPlaces = 5000;
     private const int MaxReviews = 20000;
-    private const int ReviewConcurrency = 6;
-    private const int SearchConcurrency = 3;
+    private const int ReviewConcurrency = 12;
+    private const int SearchConcurrency = 6;
     private const int SearchPages = 3;
     private const long RecheckSeconds = 6 * 60 * 60;
     private static readonly HttpClient HttpClient = VpnHttpClient.Create(TimeSpan.FromSeconds(20));
@@ -40,15 +40,21 @@ public static class RoReviewCommunityFeed
         "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
     };
 
-    private static string CachePath => Path.Combine(Paths.Cache, "CommunityReviews.json");
+    private static string CachePath => Path.Combine(Paths.Cache, "CommunityFeed.json");
 
-    public static List<CommunityReview> LoadCached()
+    public static List<(CommunityGameInfo Game, List<CommunityReview> Reviews)> LoadCached()
     {
         lock (CacheLock)
-            return GetCacheLocked().Reviews.OrderByDescending(static r => r.UnixTime).ToList();
+        {
+            FeedCache cache = GetCacheLocked();
+            return cache.Reviews
+                .GroupBy(static r => r.PlaceId)
+                .Select(g => (cache.Games.TryGetValue(g.Key, out CommunityGameInfo? info) ? info : new CommunityGameInfo { PlaceId = g.Key, Name = g.First().GameName }, g.OrderByDescending(static r => r.UnixTime).ToList()))
+                .ToList();
+        }
     }
 
-    public static async Task RunAsync(Action<IReadOnlyList<CommunityReview>, long> onReviews, Action<int, int> onProgress, CancellationToken token)
+    public static async Task RunAsync(Action<CommunityGameInfo, IReadOnlyList<CommunityReview>> onReviews, Action<int, int> onProgress, CancellationToken token)
     {
         const string LOG_IDENT = "RoReviewCommunityFeed::RunAsync";
         if (!await RunLock.WaitAsync(0, token).ConfigureAwait(false))
@@ -56,7 +62,7 @@ public static class RoReviewCommunityFeed
         List<Task> work = new();
         try
         {
-            ConcurrentDictionary<long, string> places = new();
+            ConcurrentDictionary<long, CommunityGameInfo> places = new();
             AddLibraryPlaces(places);
             Task explore = AddExplorePlacesAsync(places, token);
             Task search = AddSearchPlacesAsync(places, token);
@@ -67,7 +73,7 @@ public static class RoReviewCommunityFeed
             while (true)
             {
                 token.ThrowIfCancellationRequested();
-                foreach (KeyValuePair<long, string> place in places.ToArray())
+                foreach (KeyValuePair<long, CommunityGameInfo> place in places.ToArray())
                 {
                     if (queued.Count >= MaxPlaces || !queued.Add(place.Key))
                         continue;
@@ -82,7 +88,7 @@ public static class RoReviewCommunityFeed
                 if (sourcesDone)
                     break;
                 sourcesDone = explore.IsCompleted && search.IsCompleted;
-                await Task.Delay(1000, token).ConfigureAwait(false);
+                await Task.Delay(250, token).ConfigureAwait(false);
             }
             while (work.Any(static t => !t.IsCompleted))
             {
@@ -109,11 +115,11 @@ public static class RoReviewCommunityFeed
         }
     }
 
-    private static async Task FetchPlaceCountedAsync(long placeId, string name, SemaphoreSlim gate, Action<IReadOnlyList<CommunityReview>, long> onReviews, Action onDone, CancellationToken token)
+    private static async Task FetchPlaceCountedAsync(long placeId, CommunityGameInfo source, SemaphoreSlim gate, Action<CommunityGameInfo, IReadOnlyList<CommunityReview>> onReviews, Action onDone, CancellationToken token)
     {
         try
         {
-            await FetchPlaceAsync(placeId, name, gate, onReviews, token).ConfigureAwait(false);
+            await FetchPlaceAsync(placeId, source, gate, onReviews, token).ConfigureAwait(false);
         }
         catch (OperationCanceledException) { }
         finally
@@ -122,7 +128,7 @@ public static class RoReviewCommunityFeed
         }
     }
 
-    private static async Task FetchPlaceAsync(long placeId, string name, SemaphoreSlim gate, Action<IReadOnlyList<CommunityReview>, long> onReviews, CancellationToken token)
+    private static async Task FetchPlaceAsync(long placeId, CommunityGameInfo source, SemaphoreSlim gate, Action<CommunityGameInfo, IReadOnlyList<CommunityReview>> onReviews, CancellationToken token)
     {
         const string LOG_IDENT = "RoReviewCommunityFeed::FetchPlaceAsync";
         await gate.WaitAsync(token).ConfigureAwait(false);
@@ -132,13 +138,13 @@ public static class RoReviewCommunityFeed
             if (data == null)
                 return;
             List<CommunityReview> added = new();
+            CommunityGameInfo info;
             lock (CacheLock)
             {
                 FeedCache cache = GetCacheLocked();
                 cache.Checked[placeId] = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                if (name.Length > 0)
-                    cache.Names[placeId] = name;
-                string gameName = cache.Names.TryGetValue(placeId, out string? known) ? known : placeId.ToString();
+                info = Merge(cache.Games.TryGetValue(placeId, out CommunityGameInfo? known) ? known : null, source);
+                cache.Games[placeId] = info;
                 cache.Reviews.RemoveAll(r => r.PlaceId == placeId);
                 foreach (RoReviewService.ReviewEntry entry in data.Reviews)
                 {
@@ -148,7 +154,7 @@ public static class RoReviewCommunityFeed
                     {
                         Id = entry.Id,
                         PlaceId = placeId,
-                        GameName = gameName,
+                        GameName = info.Name,
                         AuthorName = entry.AuthorName,
                         AuthorId = entry.AuthorId,
                         AvatarUrl = entry.AvatarUrl,
@@ -164,7 +170,16 @@ public static class RoReviewCommunityFeed
                 if (cache.Reviews.Count > MaxReviews)
                     cache.Reviews = cache.Reviews.OrderByDescending(static r => r.UnixTime).Take(MaxReviews).ToList();
             }
-            onReviews(added, placeId);
+            if (added.Count == 0)
+                return;
+            if (info.IconUrl.Length == 0 || info.ThumbnailUrl.Length == 0 || info.CreatorName.Length == 0 || info.Name.Length == 0)
+            {
+                CommunityGameInfo enriched = await EnrichAsync(info, token).ConfigureAwait(false);
+                lock (CacheLock)
+                    GetCacheLocked().Games[placeId] = enriched;
+                info = enriched;
+            }
+            onReviews(info, added);
         }
         catch (OperationCanceledException)
         {
@@ -180,13 +195,86 @@ public static class RoReviewCommunityFeed
         }
     }
 
+    private static CommunityGameInfo Merge(CommunityGameInfo? known, CommunityGameInfo source)
+    {
+        known ??= new CommunityGameInfo();
+        return new CommunityGameInfo
+        {
+            PlaceId = source.PlaceId,
+            UniverseId = source.UniverseId > 0 ? source.UniverseId : known.UniverseId,
+            Name = source.Name.Length > 0 ? source.Name : known.Name,
+            IconUrl = source.IconUrl.Length > 0 ? source.IconUrl : known.IconUrl,
+            ThumbnailUrl = source.ThumbnailUrl.Length > 0 ? source.ThumbnailUrl : known.ThumbnailUrl,
+            CreatorName = source.CreatorName.Length > 0 ? source.CreatorName : known.CreatorName,
+        };
+    }
+
+    private static async Task<CommunityGameInfo> EnrichAsync(CommunityGameInfo info, CancellationToken token)
+    {
+        const string LOG_IDENT = "RoReviewCommunityFeed::EnrichAsync";
+        CommunityGameInfo result = Merge(null, info);
+        try
+        {
+            if (result.UniverseId <= 0)
+            {
+                using JsonDocument universe = JsonDocument.Parse(await Http.GetStringBoundedAsync(HttpClient, "https://apis.roblox.com/universes/v1/places/" + result.PlaceId + "/universe", token: token).ConfigureAwait(false));
+                if (universe.RootElement.TryGetProperty("universeId", out JsonElement id) && id.TryGetInt64(out long universeId))
+                    result.UniverseId = universeId;
+            }
+            if (result.UniverseId <= 0)
+                return result;
+            string ids = result.UniverseId.ToString();
+            Task<string> details = Http.GetStringBoundedAsync(HttpClient, "https://games.roblox.com/v1/games?universeIds=" + ids, token: token);
+            Task<string> icons = Http.GetStringBoundedAsync(HttpClient, "https://thumbnails.roblox.com/v1/games/icons?universeIds=" + ids + "&size=256x256&format=Png&isCircular=false", token: token);
+            Task<string> thumbs = Http.GetStringBoundedAsync(HttpClient, "https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=" + ids + "&countPerUniverse=1&defaults=true&size=768x432&format=Jpeg&isCircular=false", token: token);
+            await Task.WhenAll(details, icons, thumbs).ConfigureAwait(false);
+            using (JsonDocument doc = JsonDocument.Parse(details.Result))
+                foreach (JsonElement game in Data(doc))
+                {
+                    if (result.Name.Length == 0 && game.TryGetProperty("name", out JsonElement name))
+                        result.Name = name.GetString() ?? string.Empty;
+                    if (game.TryGetProperty("creator", out JsonElement creator) && creator.TryGetProperty("name", out JsonElement creatorName))
+                        result.CreatorName = creatorName.GetString() ?? string.Empty;
+                }
+            using (JsonDocument doc = JsonDocument.Parse(icons.Result))
+                foreach (JsonElement icon in Data(doc))
+                    if (icon.TryGetProperty("imageUrl", out JsonElement url) && url.GetString() is { Length: > 0 } iconUrl && iconUrl.StartsWith("https://", StringComparison.Ordinal))
+                        result.IconUrl = iconUrl;
+            using (JsonDocument doc = JsonDocument.Parse(thumbs.Result))
+                foreach (JsonElement item in Data(doc))
+                    if (item.TryGetProperty("thumbnails", out JsonElement list) && list.ValueKind == JsonValueKind.Array)
+                        foreach (JsonElement thumb in list.EnumerateArray())
+                            if (thumb.TryGetProperty("imageUrl", out JsonElement url) && url.GetString() is { Length: > 0 } thumbUrl && thumbUrl.StartsWith("https://", StringComparison.Ordinal))
+                            {
+                                result.ThumbnailUrl = thumbUrl;
+                                break;
+                            }
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, ex.Message);
+        }
+        return result;
+    }
+
+    private static IEnumerable<JsonElement> Data(JsonDocument doc)
+    {
+        if (doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
+            foreach (JsonElement item in data.EnumerateArray())
+                yield return item;
+    }
+
     private static bool NeedsCheck(long placeId)
     {
         lock (CacheLock)
             return !GetCacheLocked().Checked.TryGetValue(placeId, out long at) || DateTimeOffset.UtcNow.ToUnixTimeSeconds() - at > RecheckSeconds;
     }
 
-    private static void AddLibraryPlaces(ConcurrentDictionary<long, string> places)
+    private static void AddLibraryPlaces(ConcurrentDictionary<long, CommunityGameInfo> places)
     {
         const string LOG_IDENT = "RoReviewCommunityFeed::AddLibraryPlaces";
         try
@@ -196,7 +284,7 @@ public static class RoReviewCommunityFeed
                 return;
             foreach (LibraryGameEntry entry in JsonFile.Deserialize<List<LibraryGameEntry>>(path, CacheOptions) ?? new())
                 if (entry.PlaceId > 0)
-                    places.TryAdd(entry.PlaceId, entry.Name ?? string.Empty);
+                    places.TryAdd(entry.PlaceId, new CommunityGameInfo { PlaceId = entry.PlaceId, UniverseId = entry.UniverseId, Name = entry.Name ?? string.Empty, IconUrl = entry.IconUrl ?? string.Empty, ThumbnailUrl = entry.ThumbnailUrl ?? string.Empty, CreatorName = entry.CreatorName ?? string.Empty });
         }
         catch (Exception ex)
         {
@@ -204,7 +292,7 @@ public static class RoReviewCommunityFeed
         }
     }
 
-    private static async Task AddExplorePlacesAsync(ConcurrentDictionary<long, string> places, CancellationToken token)
+    private static async Task AddExplorePlacesAsync(ConcurrentDictionary<long, CommunityGameInfo> places, CancellationToken token)
     {
         const string LOG_IDENT = "RoReviewCommunityFeed::AddExplorePlacesAsync";
         try
@@ -219,7 +307,12 @@ public static class RoReviewCommunityFeed
                     continue;
                 foreach (JsonElement game in games.EnumerateArray())
                     if (game.TryGetProperty("rootPlaceId", out JsonElement id) && id.TryGetInt64(out long placeId) && placeId > 0)
-                        places.TryAdd(placeId, game.TryGetProperty("name", out JsonElement name) ? name.GetString() ?? string.Empty : string.Empty);
+                        places.TryAdd(placeId, new CommunityGameInfo
+                        {
+                            PlaceId = placeId,
+                            UniverseId = game.TryGetProperty("universeId", out JsonElement universe) && universe.TryGetInt64(out long universeId) ? universeId : 0,
+                            Name = game.TryGetProperty("name", out JsonElement name) ? name.GetString() ?? string.Empty : string.Empty,
+                        });
             }
         }
         catch (OperationCanceledException) { }
@@ -229,14 +322,14 @@ public static class RoReviewCommunityFeed
         }
     }
 
-    private static async Task AddSearchPlacesAsync(ConcurrentDictionary<long, string> places, CancellationToken token)
+    private static async Task AddSearchPlacesAsync(ConcurrentDictionary<long, CommunityGameInfo> places, CancellationToken token)
     {
         string session = Guid.NewGuid().ToString();
         using SemaphoreSlim gate = new(SearchConcurrency, SearchConcurrency);
         await Task.WhenAll(SearchSeeds.Select(seed => SearchSeedAsync(seed, session, places, gate, token))).ConfigureAwait(false);
     }
 
-    private static async Task SearchSeedAsync(string seed, string session, ConcurrentDictionary<long, string> places, SemaphoreSlim gate, CancellationToken token)
+    private static async Task SearchSeedAsync(string seed, string session, ConcurrentDictionary<long, CommunityGameInfo> places, SemaphoreSlim gate, CancellationToken token)
     {
         const string LOG_IDENT = "RoReviewCommunityFeed::SearchSeedAsync";
         try
@@ -253,7 +346,7 @@ public static class RoReviewCommunityFeed
                 return;
             foreach (DiscoverGameEntry game in await HomePageViewModel.SearchGamesAsync(seed, session, SearchPages, token).ConfigureAwait(false))
                 if (game.PlaceId > 0)
-                    places.TryAdd(game.PlaceId, game.Name);
+                    places.TryAdd(game.PlaceId, new CommunityGameInfo { PlaceId = game.PlaceId, UniverseId = game.UniverseId, Name = game.Name });
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)

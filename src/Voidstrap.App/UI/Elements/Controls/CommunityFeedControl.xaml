@@ -1,4 +1,82 @@
 <UserControl x:Class="Voidstrap.UI.Elements.Controls.CommunityFeedControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources">
+  <UserControl.Resources>
+    <DataTemplate x:Key="ReviewBody">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+          <ui:SymbolIcon FontSize="14" Symbol="ThumbLike16" Filled="True" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+          <TextBlock Margin="5,0,14,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Review.UpCount}" />
+          <ui:SymbolIcon FontSize="14" Symbol="ThumbDislike16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Review.DownCount}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Margin="0,12,0,0" Orientation="Horizontal">
+          <Border Width="34" Height="34" CornerRadius="4" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+            <Grid util:RoundedClip.Radius="4">
+              <Image Source="{Binding Review.AvatarUrl, TargetNullValue={x:Null}}" util:DynamicRenderSystem.LinuxImageSource="{Binding Review.AvatarUrl}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+            </Grid>
+          </Border>
+          <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+            <TextBlock FontSize="14" FontWeight="SemiBold" MaxWidth="260" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Review.AuthorName}" />
+            <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Review.CreatedAt}" />
+          </StackPanel>
+        </StackPanel>
+        <TextBlock Grid.Row="2" Margin="0,12,0,0" FontSize="13.5" LineHeight="21" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Review.Content}" />
+        <Border Grid.Row="3" Margin="0,12,0,0" Padding="0,10,0,0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}">
+          <TextBlock FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Game.Name}" />
+        </Border>
+      </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="GameShot">
+      <Grid util:RoundedClip.Radius="4" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+        <Image Source="{Binding Game.ThumbnailUrl, TargetNullValue={x:Null}}" util:DynamicRenderSystem.LinuxImageSource="{Binding Game.ThumbnailUrl}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+        <Border Width="44" Height="44" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="8" BorderThickness="2" BorderBrush="#40FFFFFF">
+          <Grid util:RoundedClip.Radius="6">
+            <Image Source="{Binding Game.IconUrl, TargetNullValue={x:Null}}" util:DynamicRenderSystem.LinuxImageSource="{Binding Game.IconUrl}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+          </Grid>
+        </Border>
+      </Grid>
+    </DataTemplate>
+    <Style x:Key="CardBorder" TargetType="Border">
+      <Setter Property="Padding" Value="10" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <DataTemplate x:Key="TallCard">
+      <Border Style="{StaticResource CardBorder}" Tag="{Binding}" MouseLeftButtonUp="Card_Click">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <ContentPresenter ContentTemplate="{StaticResource GameShot}" Content="{Binding}" />
+          <ContentPresenter Grid.Row="1" Margin="4,12,4,2" MaxHeight="230" ContentTemplate="{StaticResource ReviewBody}" Content="{Binding}" />
+        </Grid>
+      </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="WideCard">
+      <Border Style="{StaticResource CardBorder}" Tag="{Binding}" MouseLeftButtonUp="Card_Click">
+        <Grid Height="300">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+          </Grid.ColumnDefinitions>
+          <ContentPresenter ContentTemplate="{StaticResource GameShot}" Content="{Binding}" />
+          <ContentPresenter Grid.Column="1" Margin="16,4,6,2" ContentTemplate="{StaticResource ReviewBody}" Content="{Binding}" />
+        </Grid>
+      </Border>
+    </DataTemplate>
+  </UserControl.Resources>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -10,9 +88,7 @@
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
       <ui:TextBox x:Name="SearchBox" PlaceholderText="{resources:Loc Ui_Library_CommunitySearch}" Icon="Search24" ClearButtonEnabled="True" TextChanged="SearchBox_TextChanged" />
-      <StackPanel Grid.Column="1" Margin="12,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-        <ui:ProgressRing x:Name="ScanRing" Width="16" Height="16" IsIndeterminate="True" Visibility="Collapsed" />
-      </StackPanel>
+      <ui:ProgressRing x:Name="ScanRing" Grid.Column="1" Margin="12,0,0,0" Width="16" Height="16" IsIndeterminate="True" Visibility="Collapsed" />
     </Grid>
     <TextBlock x:Name="EmptyText" Grid.Row="1" Margin="0,40,0,0" HorizontalAlignment="Center" FontSize="14" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Library_CommunityEmpty}" Visibility="Collapsed" />
     <ListBox x:Name="FeedList" Grid.Row="1" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.ScrollUnit="Pixel">
@@ -31,29 +107,26 @@
       </ListBox.ItemContainerStyle>
       <ListBox.ItemTemplate>
         <DataTemplate>
-          <Border Margin="0,0,8,10" Padding="14,12" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}">
-            <StackPanel>
-              <TextBlock FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" Text="{Binding GameName}" />
-              <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                <Border Width="28" Height="28" CornerRadius="14" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}">
-                  <Image Source="{Binding AvatarUrl, TargetNullValue={x:Null}}" util:DynamicRenderSystem.LinuxImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
-                    <Image.Clip>
-                      <EllipseGeometry Center="14,14" RadiusX="14" RadiusY="14" />
-                    </Image.Clip>
-                  </Image>
-                </Border>
-                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding AuthorName}" />
-                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding CreatedAt}" />
-              </StackPanel>
-              <TextBlock Margin="0,8,0,0" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Content}" />
-              <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                <ui:SymbolIcon FontSize="14" Symbol="ThumbLike16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                <TextBlock Margin="5,0,14,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding UpCount}" />
-                <ui:SymbolIcon FontSize="14" Symbol="ThumbDislike16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding DownCount}" />
-              </StackPanel>
-            </StackPanel>
-          </Border>
+          <Grid Margin="0,0,8,12">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="12" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ContentControl x:Name="WideHost" Grid.ColumnSpan="3" Content="{Binding First}" ContentTemplate="{StaticResource WideCard}" Visibility="Collapsed" />
+            <ContentControl x:Name="LeftHost" Content="{Binding First}" ContentTemplate="{StaticResource TallCard}" />
+            <ContentControl x:Name="RightHost" Grid.Column="2" Content="{Binding Second}" ContentTemplate="{StaticResource TallCard}" />
+          </Grid>
+          <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsWide}" Value="True">
+              <Setter TargetName="WideHost" Property="Visibility" Value="Visible" />
+              <Setter TargetName="LeftHost" Property="Visibility" Value="Collapsed" />
+              <Setter TargetName="RightHost" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Second}" Value="{x:Null}">
+              <Setter TargetName="RightHost" Property="Visibility" Value="Hidden" />
+            </DataTrigger>
+          </DataTemplate.Triggers>
         </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>

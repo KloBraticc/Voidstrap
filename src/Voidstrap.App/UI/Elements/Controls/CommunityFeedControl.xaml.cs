@@ -1,5 +1,8 @@
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Voidstrap.Integrations;
 using Voidstrap.Models.Entities;
@@ -8,19 +11,23 @@ namespace Voidstrap.UI.Elements.Controls;
 
 public partial class CommunityFeedControl : UserControl
 {
-    private const int MaxShown = 3000;
-    private readonly Dictionary<long, List<CommunityReview>> _byPlace = new();
+    private const int MaxCards = 2000;
+    private readonly ObservableCollection<CommunityRow> _rows = new();
+    private readonly List<CommunityCard> _cards = new();
+    private readonly Dictionary<long, CommunityGame> _byPlace = new();
     private readonly object _pendingLock = new();
-    private readonly List<(long PlaceId, IReadOnlyList<CommunityReview> Reviews)> _pending = new();
-    private readonly DispatcherTimer _flushTimer = new() { Interval = TimeSpan.FromMilliseconds(1200) };
+    private readonly List<(CommunityGameInfo Game, IReadOnlyList<CommunityReview> Reviews)> _pending = new();
+    private readonly DispatcherTimer _flushTimer = new() { Interval = TimeSpan.FromMilliseconds(600) };
+    private string _filter = string.Empty;
+    private bool _dirty;
     private CancellationTokenSource? _cts;
     private bool _active;
     private bool _loaded;
-    private bool _dirty;
 
     public CommunityFeedControl()
     {
         InitializeComponent();
+        FeedList.ItemsSource = _rows;
     }
 
     public void SetActive(bool active)
@@ -30,16 +37,15 @@ public partial class CommunityFeedControl : UserControl
         _active = active;
         if (active)
         {
-            _flushTimer.Tick += FlushTimer_Tick;
-            _flushTimer.Start();
             if (!_loaded)
             {
                 _loaded = true;
-                foreach (CommunityReview review in RoReviewCommunityFeed.LoadCached())
-                    AddToPlace(review.PlaceId, review);
-                _dirty = true;
+                foreach ((CommunityGameInfo game, List<CommunityReview> reviews) in RoReviewCommunityFeed.LoadCached())
+                    Upsert(game, reviews);
                 Rebuild();
             }
+            _flushTimer.Tick += FlushTimer_Tick;
+            _flushTimer.Start();
             _cts?.Dispose();
             _cts = new CancellationTokenSource();
             ScanRing.Visibility = Visibility.Visible;
@@ -75,35 +81,42 @@ public partial class CommunityFeedControl : UserControl
         }
     }
 
-    private void OnReviews(IReadOnlyList<CommunityReview> reviews, long placeId)
+    private void OnReviews(CommunityGameInfo game, IReadOnlyList<CommunityReview> reviews)
     {
         lock (_pendingLock)
-            _pending.Add((placeId, reviews));
+            _pending.Add((game, reviews));
     }
 
     private void FlushTimer_Tick(object? sender, EventArgs e) => Flush();
 
     private void Flush()
     {
+        List<(CommunityGameInfo Game, IReadOnlyList<CommunityReview> Reviews)> batch;
         lock (_pendingLock)
         {
-            foreach ((long placeId, IReadOnlyList<CommunityReview> reviews) in _pending)
-            {
-                _byPlace.Remove(placeId);
-                foreach (CommunityReview review in reviews)
-                    AddToPlace(placeId, review);
-                _dirty = true;
-            }
+            batch = new(_pending);
             _pending.Clear();
         }
-        Rebuild();
+        foreach ((CommunityGameInfo game, IReadOnlyList<CommunityReview> reviews) in batch)
+            Upsert(game, reviews);
+        if (FindScroller(FeedList) is not ScrollViewer scroller || scroller.VerticalOffset < 1)
+            Rebuild();
     }
 
-    private void AddToPlace(long placeId, CommunityReview review)
+    private void Upsert(CommunityGameInfo info, IReadOnlyList<CommunityReview> reviews)
     {
-        if (!_byPlace.TryGetValue(placeId, out List<CommunityReview>? list))
-            _byPlace[placeId] = list = new List<CommunityReview>();
-        list.Add(review);
+        if (!_byPlace.TryGetValue(info.PlaceId, out CommunityGame? game))
+        {
+            game = new CommunityGame { PlaceId = info.PlaceId };
+            _byPlace[info.PlaceId] = game;
+        }
+        game.Apply(info);
+        if (game.Name.Length == 0 && reviews.Count > 0)
+            game.Name = reviews[0].GameName;
+        _cards.RemoveAll(card => card.Game.PlaceId == info.PlaceId);
+        foreach (CommunityReview review in reviews)
+            _cards.Add(new CommunityCard { Game = game, Review = review });
+        _dirty = true;
     }
 
     private void Rebuild()
@@ -111,19 +124,67 @@ public partial class CommunityFeedControl : UserControl
         if (!_dirty)
             return;
         _dirty = false;
-        string filter = SearchBox.Text.Trim();
-        IEnumerable<CommunityReview> all = _byPlace.Values.SelectMany(static list => list);
-        if (filter.Length > 0)
-            all = all.Where(r => r.GameName.Contains(filter, StringComparison.OrdinalIgnoreCase) || r.AuthorName.Contains(filter, StringComparison.OrdinalIgnoreCase) || r.Content.Contains(filter, StringComparison.OrdinalIgnoreCase));
-        List<CommunityReview> shown = all.OrderByDescending(static r => r.UnixTime).Take(MaxShown).ToList();
-        FeedList.ItemsSource = shown;
-        EmptyText.Visibility = shown.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        List<CommunityCard> shown = _cards
+            .Where(card => _filter.Length == 0 || Matches(card, _filter))
+            .OrderByDescending(static card => card.Review.UnixTime)
+            .Take(MaxCards)
+            .ToList();
+        List<CommunityRow> rows = new();
+        int index = 0;
+        int step = 0;
+        while (index < shown.Count)
+        {
+            if (step % 3 == 0)
+            {
+                rows.Add(new CommunityRow { IsWide = true, First = shown[index++] });
+            }
+            else
+            {
+                CommunityCard first = shown[index++];
+                rows.Add(new CommunityRow { First = first, Second = index < shown.Count ? shown[index++] : null });
+            }
+            step++;
+        }
+        _rows.Clear();
+        foreach (CommunityRow row in rows)
+            _rows.Add(row);
+        EmptyText.Visibility = rows.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
     {
+        _filter = SearchBox.Text.Trim();
         _dirty = true;
         if (_loaded)
             Rebuild();
+    }
+
+    private static bool Matches(CommunityCard card, string filter)
+    {
+        return card.Game.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)
+            || card.Game.CreatorName.Contains(filter, StringComparison.OrdinalIgnoreCase)
+            || card.Review.AuthorName.Contains(filter, StringComparison.OrdinalIgnoreCase)
+            || card.Review.Content.Contains(filter, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void Card_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not FrameworkElement { Tag: CommunityCard card })
+            return;
+        if (Window.GetWindow(this) is Settings.MainWindow window)
+            window.ShowGameDetail(card.Game.PlaceId, card.Game.UniverseId, card.Game.Name);
+    }
+
+    private static ScrollViewer? FindScroller(DependencyObject root)
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+        {
+            DependencyObject child = VisualTreeHelper.GetChild(root, i);
+            if (child is ScrollViewer scroller)
+                return scroller;
+            if (FindScroller(child) is ScrollViewer nested)
+                return nested;
+        }
+        return null;
     }
 }
