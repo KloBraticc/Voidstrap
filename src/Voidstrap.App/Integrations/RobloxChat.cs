@@ -167,7 +167,7 @@ public static class RobloxChat
                         conversations.Add(conversation);
                 }
             }
-            if (conversations.Count == 0)
+            else
                 LogShape("get-user-conversations", document.RootElement);
             await ResolveUsersAsync(conversations.SelectMany(c => c.ParticipantIds), token).ConfigureAwait(false);
             return new RobloxChatResult<List<RobloxConversation>>
@@ -205,7 +205,7 @@ public static class RobloxChat
                         messages.Add(message);
                 }
             }
-            if (messages.Count == 0)
+            else
                 LogShape("get-conversation-messages", document.RootElement);
             await ResolveUsersAsync(messages.Select(m => m.SenderId), token).ConfigureAwait(false);
             return new RobloxChatResult<List<RobloxChatMessage>>

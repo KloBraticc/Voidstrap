@@ -5069,10 +5069,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Dispatcher.BeginInvoke(new Action(() => RetryDiscordRpcLater(sender)));
     }
 
+    private object? _discordConfirmedClient;
+
     private void DiscordClient_OnPresenceUpdate(object sender, PresenceMessage e)
     {
-        if (!_isClosed && ReferenceEquals(sender, _discordClient))
-            App.Logger.WriteLine("DiscordRPC", "Discord confirmed the Voidstrap activity");
+        if (_isClosed || !ReferenceEquals(sender, _discordClient) || ReferenceEquals(sender, _discordConfirmedClient))
+            return;
+        _discordConfirmedClient = sender;
+        App.Logger.WriteLine("DiscordRPC", "Discord confirmed the Voidstrap activity");
     }
 
     private void RetryDiscordRpcLater(object client)

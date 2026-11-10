@@ -177,7 +177,8 @@ public static class RobloxAuthedClient
 
             string body = await Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, token).ConfigureAwait(false);
             int code = (int)response.StatusCode;
-            App.Logger?.WriteLine(LogIdent, method.Method + " " + uri.Host + uri.AbsolutePath + " returned " + code);
+            if (code is < 200 or >= 300)
+                App.Logger?.WriteLine(LogIdent, method.Method + " " + uri.Host + uri.AbsolutePath + " returned " + code);
             RobloxAuthedStatus status = code switch
             {
                 >= 200 and < 300 => RobloxAuthedStatus.Ok,
