@@ -415,7 +415,10 @@ public static partial class RobloxCookie
                 if (!res.IsSuccessStatusCode)
                 {
                     App.Logger?.WriteLine("RobloxCookie", method.Method + " " + target!.Host + target.AbsolutePath + " returned " + status);
-                    return new RobloxApiResponse(status, null, null);
+                    string? error = await Utility
+                        .Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct)
+                        .ConfigureAwait(continueOnCapturedContext: false);
+                    return new RobloxApiResponse(status, error, null);
                 }
                 return new RobloxApiResponse(
                     status,

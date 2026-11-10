@@ -281,6 +281,16 @@ internal static partial class RobloxAvatar
             cookie,
             token
         );
+        if (response.StatusCode == 400)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "Roblox refused the avatar change, trying the asset id list: " + response.Body);
+            response = await RobloxCookie.SendPostWithCookieAsync(
+                "https://avatar.roblox.com/v1/avatar/set-wearing-assets",
+                JsonSerializer.Serialize(new { assetIds = assets.Select(a => a.Id).ToArray() }),
+                cookie,
+                token
+            );
+        }
         if (response.StatusCode != 200)
         {
             App.Logger?.WriteLine(LOG_IDENT, "Roblox refused the avatar change: " + response.Body);
