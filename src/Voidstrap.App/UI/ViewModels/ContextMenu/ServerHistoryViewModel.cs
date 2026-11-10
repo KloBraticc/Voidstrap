@@ -507,7 +507,7 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
             ServerType filterType = _selectedServerTypeFilter.Value.Value;
             source = source.Where((ActivityData x) => x.ServerType == filterType);
         }
-        source = source.GroupBy(x => x.PlaceId).Select(group => group.OrderByDescending(x => x.TimeJoined).First());
+        source = source.GroupBy(x => x.UniverseId > 0 ? -x.UniverseId : x.PlaceId).Select(group => group.OrderByDescending(x => x.TimeJoined).First());
         source = (_selectedSort?.Value) switch
         {
             ServerHistorySortBy.Oldest => source.OrderBy((ActivityData x) => x.TimeJoined),
