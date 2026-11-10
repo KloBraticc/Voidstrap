@@ -60,19 +60,20 @@
             <TextBlock Margin="0,6,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Mods_AnythingThatFailsTheRobloxAnd}" />
           </StackPanel>
         </Border>
-        <Border CornerRadius="10" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+        <Border>
           <ItemsControl ItemsSource="{Binding Mods}" Focusable="False">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
-                <Button Padding="0" Cursor="Hand" Focusable="False" HorizontalContentAlignment="Stretch" Tag="{Binding}" Click="CommunityMod_Click">
+                <Button Margin="0,0,0,8" Padding="0" Cursor="Hand" Focusable="False" HorizontalContentAlignment="Stretch" Tag="{Binding}" Click="CommunityMod_Click">
                   <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
-                      <Border x:Name="Row" Padding="14,12" Background="Transparent" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                      <Border x:Name="Row" Padding="14,12" CornerRadius="10" SnapsToDevicePixels="True" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
                         <ContentPresenter />
                       </Border>
                       <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                          <Setter TargetName="Row" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                          <Setter TargetName="Row" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                                  <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
                         </Trigger>
                       </ControlTemplate.Triggers>
                     </ControlTemplate>
