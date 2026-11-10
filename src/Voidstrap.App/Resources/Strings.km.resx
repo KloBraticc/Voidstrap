@@ -9713,4 +9713,100 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>មិនទាន់មានអ្វីនៅទីនេះនៅឡើយទេ</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ស្វែងយល់បន្ថែម</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>តាមដាន Voidstrap ទទួលជំនួយ និងគាំទ្រគម្រោង។</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>មិត្តភក្តិ</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>មិត្តភក្តិ</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>មិត្តភក្តិ ({0} អនឡាញ)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>សំណើ</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>ជជែក</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>ស្វែងរកមិត្តភក្តិ</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>បន្ថែមមិត្តម្នាក់តាមឈ្មោះអ្នកប្រើប្រាស់</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>បន្ថែម</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>សំណើសុំមិត្តបានផ្ញើទៅ {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>គ្មានអ្នកប្រើប្រាស់ឈ្មោះ {0} ត្រូវបានរកឃើញទេ។</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>អនឡាញ</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>លេង {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>ក្នុង Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>បានឃើញចុងក្រោយ {0} មុន។</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>ក្រៅបណ្តាញ</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>បានផ្ញើ {0} មុន។</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>ឈ្មោះហៅក្រៅ</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>ឈ្មោះហៅក្រៅមានតែអ្នកប៉ុណ្ណោះដែលអាចមើលឃើញ</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>លែងមិត្ត</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>លុប {0} ចេញពីមិត្តរបស់អ្នក?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>ទទួលយក</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>បដិសេធ</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>បដិសេធទាំងអស់។</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>អ្នកមិនមានសំណើសុំមិត្តភ័ក្តិទេ។</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>គ្មានមិត្តភ័ក្តិត្រូវបង្ហាញ</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>ចូល Roblox ក្នុង Voidstrap ដើម្បីមើលមិត្តរបស់អ្នក។</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox មិនឆ្លើយតបទេ សូមព្យាយាមម្តងទៀតក្នុងពេលបន្តិចទៀត។</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>ចូលរួម</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>គ្មានសម្លៀកបំពាក់សម្រាប់ហ្គេម</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ពាក់សម្លៀកបំពាក់នេះរាល់ពេលអ្នកបើកហ្គេមនេះ</value>
+  </data>
 </root>

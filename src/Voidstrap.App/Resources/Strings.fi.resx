@@ -10026,4 +10026,100 @@ Pelaajat: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Täällä ei ole vielä mitään</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Lue lisää</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Seuraa Voidstrapia, saa apua ja tue projektia.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Ystävät</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Ystävät</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Ystävät ({0} verkossa)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Pyynnöt</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Etsi ystäviä</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Lisää ystävä käyttäjänimellä</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Lisätä</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Ystäväpyyntö lähetetty osoitteeseen {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Käyttäjää nimeltä {0} ei löytynyt</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>verkossa</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Toistetaan {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Viimeksi nähty {0} sitten</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline-tilassa</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Lähetetty {0} sitten</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Lempinimi</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Lempinimi vain sinä näet</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Poistetaanko {0} ystävistäsi?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Hyväksyä</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Hylkää</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Hylkää kaikki</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Sinulla ei ole kaveripyyntöjä</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Ei ystäviä näytettävänä</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Kirjaudu sisään Roblox sisään Voidstrap nähdäksesi ystäväsi</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ei vastannut, yritä hetken kuluttua uudelleen</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Liity</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Ei peliasua</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Käytä tätä asua aina, kun käynnistät tämän pelin</value>
+  </data>
 </root>

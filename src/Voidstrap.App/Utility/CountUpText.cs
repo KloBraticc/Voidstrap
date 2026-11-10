@@ -45,6 +45,8 @@ public static class CountUpText
     public static string Format(string format, double value)
     {
         long rounded = (long)Math.Round(value);
+        if (IsTemplate(format))
+            return string.Format(CultureInfo.CurrentCulture, format, rounded.ToString("N0", CultureInfo.CurrentCulture));
         return format switch
         {
             "n0" => rounded.ToString("N0", CultureInfo.CurrentCulture),
@@ -53,6 +55,8 @@ public static class CountUpText
             _ => LibraryViewModel.FormatCount(rounded),
         };
     }
+
+    private static bool IsTemplate(string format) => format.Contains("{0", StringComparison.Ordinal);
 
     private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -66,12 +70,15 @@ public static class CountUpText
             from = running.Current;
             Active.Remove(running);
         }
+        bool template = IsTemplate(GetFormat(text));
         if (double.IsNaN(to) || double.IsInfinity(to))
         {
-            text.SetValue(ShownProperty, double.NaN);
-            text.Text = "--";
+            text.SetValue(ShownProperty, template ? from : double.NaN);
+            text.Text = template ? "" : "--";
             return;
         }
+        if (template && double.IsNaN(from))
+            from = 0;
         if (double.IsNaN(from) || from == to || !text.IsLoaded || !SystemParameters.ClientAreaAnimation)
         {
             Show(text, to);

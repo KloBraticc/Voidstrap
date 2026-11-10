@@ -68,9 +68,9 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-              <Border x:Name="MainBorder" Background="Transparent" BorderThickness="1" CornerRadius="4">
+              <Border x:Name="MainBorder" Background="Transparent" BorderThickness="1" CornerRadius="5">
                 <Grid>
-                  <Rectangle x:Name="ActiveRectangle" Width="0" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="2" RadiusY="2">
+                  <Rectangle x:Name="ActiveRectangle" Width="3" Height="0" Margin="-1,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="1.5" RadiusY="1.5">
                     <Rectangle.Fill>
                       <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
                     </Rectangle.Fill>
@@ -82,24 +82,29 @@
                 <Trigger Property="IsSelected" Value="True">
                   <Setter TargetName="MainBorder" Property="Background">
                     <Setter.Value>
-                      <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                      <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
                     </Setter.Value>
                   </Setter>
+                  <Setter TargetName="ActiveRectangle" Property="Height" Value="17" />
+                  <Setter TargetName="ActiveRectangle" Property="Opacity" Value="1" />
                   <Trigger.EnterActions>
-                    <BeginStoryboard>
+                    <BeginStoryboard x:Name="PillSelected">
                       <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="0" To="4" Duration="00:00:00.167" />
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.167" />
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.25">
+                          <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut" />
+                          </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Height)" From="0" To="17" Duration="00:00:00.667">
+                          <DoubleAnimation.EasingFunction>
+                            <QuinticEase EasingMode="EaseOut" />
+                          </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
                       </Storyboard>
                     </BeginStoryboard>
                   </Trigger.EnterActions>
                   <Trigger.ExitActions>
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="4" To="0" Duration="00:00:00.167" />
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="1.0" To="0.0" Duration="00:00:00.167" />
-                      </Storyboard>
-                    </BeginStoryboard>
+                    <RemoveStoryboard BeginStoryboardName="PillSelected" />
                   </Trigger.ExitActions>
                 </Trigger>
                 <MultiTrigger>
@@ -108,7 +113,7 @@
                   </MultiTrigger.Conditions>
                   <Setter TargetName="MainBorder" Property="Background">
                     <Setter.Value>
-                      <SolidColorBrush Opacity="0.5" Color="{DynamicResource ControlFillColorDefault}" />
+                      <SolidColorBrush Opacity="0.5" Color="{DynamicResource SubtleFillColorSecondary}" />
                     </Setter.Value>
                   </Setter>
                 </MultiTrigger>
@@ -618,6 +623,7 @@
               </StackPanel>
               <DockPanel Grid.Column="1" Margin="14,0,0,0">
                 <StackPanel DockPanel.Dock="Bottom">
+                  <controls:GameAccountBar Margin="0,0,0,8" Stacked="True" PlaceId="{Binding SelectedGame.PlaceId, FallbackValue=0}" />
                   <ui:Button HorizontalAlignment="Stretch" Height="44" FontSize="15" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Icon="Play24" Content="{resources:Loc Ui_Pages_Play}" Command="{Binding LaunchCommand}" CommandParameter="{Binding SelectedGame}" />
                   <controls:GameVoteBar Margin="0,8,0,0" ShowRatio="False" UniverseId="{Binding SelectedGame.UniverseId}" />
                   <StackPanel Margin="0,4,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -860,7 +866,7 @@
                     </StackPanel>
                   </WrapPanel>
                   <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" FontSize="12" Text="{Binding Servers.CountText}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                    <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" FontSize="12" util:CountUpText.Format="{Binding Servers.CountFormat}" util:CountUpText.Value="{Binding Servers.CountValue}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                     <ui:Button Appearance="Secondary" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding Servers.RefreshCommand}">
                       <StackPanel Orientation="Horizontal">
                         <ui:SymbolIcon Symbol="ArrowSync24" Margin="0,0,8,0" />
@@ -872,14 +878,9 @@
                 <ProgressBar Height="4" Margin="0,12,0,0" IsIndeterminate="True" Visibility="{Binding Servers.PublicProgressVisibility}" />
                 <TextBlock Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Text="{Binding Servers.PublicStatus}" Visibility="{Binding Servers.PublicStatusVisibility}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Servers.Servers}" ItemTemplate="{StaticResource ServerCardTemplate}">
-                  <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                      <Setter Property="Width" Value="322" />
-                    </Style>
-                  </ItemsControl.ItemContainerStyle>
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                      <WrapPanel />
+                      <controls:FillWrapPanel MinItemWidth="300" Margin="0,0,-12,0" />
                     </ItemsPanelTemplate>
                   </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -902,14 +903,9 @@
                 <ProgressBar Height="4" Margin="0,12,0,0" IsIndeterminate="True" Visibility="{Binding Servers.PrivateLoading, Converter={StaticResource BoolToVis}}" />
                 <TextBlock Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Text="{Binding Servers.PrivateStatus}" Visibility="{Binding Servers.PrivateStatusVisibility}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Servers.PrivateServers}" ItemTemplate="{StaticResource ServerCardTemplate}">
-                  <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                      <Setter Property="Width" Value="322" />
-                    </Style>
-                  </ItemsControl.ItemContainerStyle>
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                      <WrapPanel />
+                      <controls:FillWrapPanel MinItemWidth="300" Margin="0,0,-12,0" />
                     </ItemsPanelTemplate>
                   </ItemsControl.ItemsPanel>
                 </ItemsControl>

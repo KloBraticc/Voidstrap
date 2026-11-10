@@ -9712,4 +9712,100 @@ Libapali: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Ha ho letho mona hajoale</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Ithute haholwanyane</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Latela Voidstrap, fumana thuso mme o tshehetse projeke.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Metsoalle</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Metsoalle</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Metsoalle ({0} inthaneteng)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Likopo</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Batla metsoalle</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Kenya motsoalle ka lebitso la mosebelisi</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Eketsa</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Kopo ea motsoalle e rometsoe ho {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ha ho mosebelisi ea bitsoang {0} ea fumanoeng</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Marang-rang</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>E bapala {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Ho Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>E qetetse ho bonoa {0} e fetileng</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>E rometsoe {0} e fetileng</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Reneketso</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Lebitso la bosoasoi ke uena feela u ka le bonang</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Setsoalle</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Tlosa {0} ho metsoalle ea hau?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Amohela</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Ho hana</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Hana tsohle</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Ha u na likopo tsa metsoalle</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Ha ho metsoalle ea ho bontša</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Kena ho Roblox ho Voidstrap ho bona metsoalle ea hau</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ha e a araba, leka hape ka mor'a nakoana</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Kena</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Ha ho seaparo sa papali</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Apara seaparo sena nako le nako ha o qala papali ena</value>
+  </data>
 </root>

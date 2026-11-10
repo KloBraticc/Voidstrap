@@ -10027,4 +10027,100 @@ Veikimo laikas: {1}
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Čia kol kas nieko nėra</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Sužinokite daugiau</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Sekite Voidstrap, gaukite pagalbos ir paremkite projektą.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Draugai</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Draugai</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Draugai ({0} prisijungę)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Prašymai</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Pokalbis</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Ieškoti draugų</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Pridėkite draugą pagal vartotojo vardą</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Pridėti</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Draugo prašymas išsiųstas {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Nerastas joks vartotojas, vardu {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Prisijungę</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Žaidžiama {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Paskutinį kartą matytas prieš {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Neprisijungus</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Išsiųsta prieš {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Slapyvardis</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Slapyvardį matote tik jūs</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Nedraugauti</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Pašalinti {0} iš draugų?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Priimti</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Atmesti</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Atmesti visus</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Jūs neturite prašymų draugauti</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Nėra draugų, kuriuos būtų galima parodyti</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Prisijunkite prie Roblox Voidstrap, kad pamatytumėte savo draugus</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox neatsakė, po akimirkos bandykite dar kartą</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Prisijunk</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Nėra žaidimo aprangos</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Dėvėkite šią aprangą kaskart paleisdami šį žaidimą</value>
+  </data>
 </root>

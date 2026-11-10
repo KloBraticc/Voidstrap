@@ -9713,4 +9713,100 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>ଏଠାରେ ଏପର୍ଯ୍ୟନ୍ତ କିଛି ନାହିଁ</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ଅଧିକ ଜାଣନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap କୁ ଫଲୋ କରନ୍ତୁ, ସହାୟତା ପାଆନ୍ତୁ ଏବଂ ପ୍ରକଳ୍ପକୁ ସମର୍ଥନ କରନ୍ତୁ।</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>ବନ୍ଧୁଗଣ</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>ବନ୍ଧୁଗଣ</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>ବନ୍ଧୁଗଣ ({0} ଅନଲାଇନ୍)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>ଅନୁରୋଧ</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>ଚାଟ୍ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>ସାଙ୍ଗମାନଙ୍କୁ ଖୋଜ |</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>ଉପଯୋଗକର୍ତ୍ତା ନାମ ଦ୍ୱାରା ଏକ ବନ୍ଧୁ ଯୋଡନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>ଯୋଡନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>ବନ୍ଧୁ ଅନୁରୋଧ {0} କୁ ପଠାଯାଇଛି |</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} ନାମକ କ user ଣସି ଉପଭୋକ୍ତା ମିଳିଲା ନାହିଁ |</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>ଅନଲାଇନ୍ |</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>{0} ଖେଳିବା</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio ରେ</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>ଶେଷ ଥର {0} ପୂର୍ବରୁ ଦେଖାଯାଇଥିଲା |</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>ଅଫଲାଇନ୍ |</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} ପୂର୍ବରୁ ପଠାଯାଇଛି |</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>ଡାକନାମ</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>ଡାକନାମ କେବଳ ଆପଣ ଦେଖିପାରିବେ |</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>ବନ୍ଧୁ</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>ଆପଣଙ୍କର ସାଙ୍ଗମାନଙ୍କ ଠାରୁ {0} ଅପସାରଣ କରନ୍ତୁ?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>ଗ୍ରହଣ କରନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>ସମସ୍ତ ପ୍ରତ୍ୟାଖ୍ୟାନ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>ଆପଣଙ୍କର କ friend ଣସି ସାଙ୍ଗ ଅନୁରୋଧ ନାହିଁ |</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>ଦେଖାଇବାକୁ କ friends ଣସି ସାଙ୍ଗ ନାହାଁନ୍ତି |</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>ଆପଣଙ୍କର ସାଙ୍ଗମାନଙ୍କୁ ଦେଖିବା ପାଇଁ Voidstrap ରେ Roblox ରେ ସାଇନ୍ ଇନ୍ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ପ୍ରତିକ୍ରିୟା କରିନାହିଁ, ଏକ ମୁହୂର୍ତ୍ତରେ ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>ଯୋଗ ଦିଅନ୍ତୁ |</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ଖେଳ ପାଇଁ କୌଣସି ପୋଷାକ ନାହିଁ</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ଆପଣ ଏହି ଖେଳ ଆରମ୍ଭ କରିବା ସମୟରେ ପ୍ରତିଥର ଏହି ପୋଷାକ ପିନ୍ଧନ୍ତୁ</value>
+  </data>
 </root>

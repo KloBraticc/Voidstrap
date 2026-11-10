@@ -10028,4 +10028,100 @@ Người chơi: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Chưa có gì ở đây</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Tìm hiểu thêm</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Theo dõi Voidstrap, nhận trợ giúp và ủng hộ dự án.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Bạn</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Bạn</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Bạn bè ({0} trực tuyến)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Yêu cầu</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Trò chuyện</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Tìm kiếm bạn bè</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Thêm một người bạn theo tên người dùng</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Thêm vào</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Yêu cầu kết bạn đã được gửi tới {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Không tìm thấy người dùng có tên {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Trực tuyến</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Đang chơi {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Trong Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Nhìn thấy lần cuối {0} trước</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Ngoại tuyến</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Đã gửi {0} trước</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Biệt danh</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Biệt danh chỉ bạn mới có thể nhìn thấy</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Hủy kết bạn</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Xóa {0} khỏi bạn bè của bạn?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Chấp nhận</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Sự suy sụp</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Từ chối tất cả</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Bạn không có yêu cầu kết bạn nào</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Không có bạn bè để hiển thị</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Đăng nhập vào Roblox trong Voidstrap để gặp bạn bè của bạn</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox không phản hồi, hãy thử lại sau giây lát</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Tham gia</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Không có trang phục cho trò chơi</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Mặc trang phục này mỗi khi bạn khởi chạy trò chơi này</value>
+  </data>
 </root>

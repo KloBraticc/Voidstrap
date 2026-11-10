@@ -9712,4 +9712,100 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>ဤနေရာတွင် ဘာမှမရှိသေးပါ</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ပိုမိုလေ့လာရန်</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap ကို follow လုပ်ပါ၊ အကူအညီရယူပြီး ပရောဂျက်ကို ထောက်ပံ့ပါ။</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>သူငယ်ချင်း</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>သူငယ်ချင်း</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>သူငယ်ချင်းများ ({0} အွန်လိုင်း)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>တောင်းဆိုချက်များ</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>စကားစမြည်</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>သူငယ်ချင်းများကိုရှာပါ။</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>အသုံးပြုသူအမည်ဖြင့် သူငယ်ချင်းကို ထည့်ပါ။</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>ထည့်ပါ။</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>သူငယ်ချင်းတောင်းဆိုချက် {0} သို့ ပို့လိုက်သည်</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} အမည်ရှိ အသုံးပြုသူကို ရှာမတွေ့ပါ။</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>အွန်လိုင်း</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>ကစားနေသည် {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio တွင်</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>လွန်ခဲ့သော {0} နောက်ဆုံးတွေ့ခဲ့သည်။</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>အော့ဖ်လိုင်း</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>လွန်ခဲ့သော {0} ပေးပို့ခဲ့သည်။</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>နာမည်ပြောင်</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>သင်မြင်နိုင်သော အမည်နာမ</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend လုပ်ပါ။</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>သင့်သူငယ်ချင်းများထံမှ {0} ကို ဖယ်ရှားမလား။</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>လက်ခံပါတယ်။</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>ငြင်းသည်။</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>အားလုံးကို ငြင်းပယ်ပါ။</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>သင့်တွင် သူငယ်ချင်းတောင်းဆိုမှုများ မရှိပါ။</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>ပြရန်သူငယ်ချင်းများမရှိပါ။</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>သင့်သူငယ်ချင်းများကိုကြည့်ရှုရန် Roblox တွင် Voidstrap သို့ ဝင်ရောက်ပါ။</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox မတုံ့ပြန်ပါ၊ ခဏအတွင်း ထပ်စမ်းကြည့်ပါ။</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>ပူးပေါင်းပါ။</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ဂိမ်းအတွက် ဝတ်စုံမရှိ</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ဤဂိမ်းကို စတင်တိုင်း ဤဝတ်စုံကို ဝတ်ဆင်ပါ</value>
+  </data>
 </root>

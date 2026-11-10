@@ -87,7 +87,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
 
     private string _privateStatus = "";
 
-    private string _countText = "";
+    private double _countValue = double.NaN;
 
     private string _selectedRegion = "";
 
@@ -169,11 +169,13 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
 
     public Visibility PrivateStatusVisibility => string.IsNullOrEmpty(_privateStatus) ? Visibility.Collapsed : Visibility.Visible;
 
-    public string CountText
+    public double CountValue
     {
-        get => _countText;
-        private set => SetProperty(ref _countText, value);
+        get => _countValue;
+        private set => SetProperty(ref _countValue, value);
     }
+
+    public string CountFormat => Strings.ContextMenu_ServerBrowser_Count;
 
     public string SelectedRegion
     {
@@ -271,7 +273,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         Servers.Clear();
         PrivateServers.Clear();
         ResetRegions();
-        CountText = "";
+        CountValue = double.NaN;
         PublicStatus = "";
         PrivateStatus = "";
         _publicLoaded = false;
@@ -345,7 +347,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         Servers.Clear();
         if (Regions.Count == 0)
             ResetRegions();
-        CountText = "";
+        CountValue = double.NaN;
         PublicLoading = true;
         PublicStatus = Strings.ContextMenu_ServerBrowser_Loading;
         using CancellationTokenSource request = new(ScanTimeout);
@@ -785,7 +787,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         };
         List<ServerCard> cards = query.ToList();
         ReplaceServers(cards);
-        CountText = _publicAll.Count > 0 ? string.Format(Strings.ContextMenu_ServerBrowser_Count, cards.Count) : "";
+        CountValue = _publicAll.Count > 0 ? cards.Count : double.NaN;
         foreach (ServerCard card in cards)
             QueueAvatars(card);
     }

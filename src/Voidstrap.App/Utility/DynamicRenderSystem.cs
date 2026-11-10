@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -27,6 +28,16 @@ namespace Voidstrap.Utility
         private static readonly int DecodeConcurrency = Platform.UsesPortableUi
             ? Math.Clamp(Environment.ProcessorCount / 2, 2, 4)
             : Math.Max(4, Environment.ProcessorCount);
+
+        private static readonly Duration FadeDuration = TimeSpan.FromMilliseconds(200);
+        private static readonly QuadraticEase FadeEase = CreateFadeEase();
+
+        private static QuadraticEase CreateFadeEase()
+        {
+            QuadraticEase ease = new() { EasingMode = EasingMode.EaseOut };
+            ease.Freeze();
+            return ease;
+        }
 
         public static readonly DependencyProperty LazyImageSourceProperty = DependencyProperty.RegisterAttached(
             "LazyImageSource",
@@ -1028,7 +1039,10 @@ namespace Voidstrap.Utility
                     if (bmp != null)
                     {
                         img.Visibility = Visibility.Visible;
+                        bool fresh = img.Source == null;
                         img.Source = bmp;
+                        if (fresh)
+                            img.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0, 1, FadeDuration) { EasingFunction = FadeEase });
                     }
                     else
                     {

@@ -10027,4 +10027,100 @@ Jucători: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Încă nu e nimic aici</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Află mai multe</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Urmărește Voidstrap, primește ajutor și susține proiectul.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Prieteni</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Prieteni</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Prieteni ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Cereri</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Caută prieteni</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Adăugați un prieten după numele de utilizator</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Adăuga</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Solicitare de prietenie trimisă către {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Nu a fost găsit niciun utilizator cu numele {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Se joacă {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>În Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Văzut ultima dată acum {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Trimis acum {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Pseudonim</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Numai porecla puteți vedea</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Neprieten</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Eliminați {0} de la prietenii dvs.?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Accepta</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Declin</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Refuzați-le pe toate</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Nu aveți cereri de prietenie</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Nu există prieteni de arătat</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Conectați-vă la Roblox în Voidstrap pentru a vă vedea prietenii</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox nu a răspuns, încercați din nou peste un moment</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Alăturați-vă</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Nicio ținută pentru joc</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Poartă această ținută de fiecare dată când lansezi acest joc</value>
+  </data>
 </root>

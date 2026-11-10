@@ -9713,4 +9713,100 @@ Kaitākaro: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Kāore anō he mea i konei</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Ako atu anō</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Whāia a Voidstrap, tikina he āwhina, tautokona te kaupapa.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>E hoa ma</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>E hoa ma</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Hoa ({0} ipurangi)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Nga tono</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Kōrerorero</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Rapu hoa</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Tāpirihia he hoa mā te ingoa kaiwhakamahi</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Tāpiri</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>I tukuna te tono hoa ki {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Kaore i kitea he kaiwhakamahi ko {0} te ingoa</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>ipurangi</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Kei te purei {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>I Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>I kite whakamutunga {0} ki mua</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Tuimotu</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>I tukuna {0} ki mua</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Ingoa ingoa</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Ko koe anake te ingoa ka kitea</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Whakakore hoa</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Tango {0} i o hoa?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Whakaae</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Whakaheke</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Whakakore katoa</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Karekau he tono hoa</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Kaore he hoa hei whakaatu</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Waitohu ki Roblox i Voidstrap kia kite i o hoa</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Karekau a Roblox i whakautu, ka ngana ano</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Hono</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Kāore he kākahu kēmu</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Mauria ēnei kākahu ia wā ka whakarewa koe i tēnei kēmu</value>
+  </data>
 </root>

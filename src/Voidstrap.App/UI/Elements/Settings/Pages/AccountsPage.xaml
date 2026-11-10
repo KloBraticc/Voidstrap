@@ -24,9 +24,9 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-              <Border x:Name="MainBorder" Background="Transparent" BorderThickness="1" CornerRadius="4">
+              <Border x:Name="MainBorder" Background="Transparent" BorderThickness="1" CornerRadius="5">
                 <Grid>
-                  <Rectangle x:Name="ActiveRectangle" Width="0" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="2" RadiusY="2">
+                  <Rectangle x:Name="ActiveRectangle" Width="3" Height="0" Margin="-1,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="1.5" RadiusY="1.5">
                     <Rectangle.Fill>
                       <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
                     </Rectangle.Fill>
@@ -38,24 +38,29 @@
                 <Trigger Property="IsSelected" Value="True">
                   <Setter TargetName="MainBorder" Property="Background">
                     <Setter.Value>
-                      <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                      <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
                     </Setter.Value>
                   </Setter>
+                  <Setter TargetName="ActiveRectangle" Property="Height" Value="17" />
+                  <Setter TargetName="ActiveRectangle" Property="Opacity" Value="1" />
                   <Trigger.EnterActions>
-                    <BeginStoryboard>
+                    <BeginStoryboard x:Name="PillSelected">
                       <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="0" To="4" Duration="00:00:00.167" />
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.167" />
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.25">
+                          <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut" />
+                          </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Height)" From="0" To="17" Duration="00:00:00.667">
+                          <DoubleAnimation.EasingFunction>
+                            <QuinticEase EasingMode="EaseOut" />
+                          </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
                       </Storyboard>
                     </BeginStoryboard>
                   </Trigger.EnterActions>
                   <Trigger.ExitActions>
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="4" To="0" Duration="00:00:00.167" />
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="1.0" To="0.0" Duration="00:00:00.167" />
-                      </Storyboard>
-                    </BeginStoryboard>
+                    <RemoveStoryboard BeginStoryboardName="PillSelected" />
                   </Trigger.ExitActions>
                 </Trigger>
                 <MultiTrigger>
@@ -64,7 +69,7 @@
                   </MultiTrigger.Conditions>
                   <Setter TargetName="MainBorder" Property="Background">
                     <Setter.Value>
-                      <SolidColorBrush Opacity="0.5" Color="{DynamicResource ControlFillColorDefault}" />
+                      <SolidColorBrush Opacity="0.5" Color="{DynamicResource SubtleFillColorSecondary}" />
                     </Setter.Value>
                   </Setter>
                 </MultiTrigger>
@@ -136,7 +141,7 @@
               </Grid.ColumnDefinitions>
               <Grid Width="28" Height="28" Margin="-4,0,10,0">
                 <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
-                <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding AvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
+                <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding AvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
                   <Image.Clip><EllipseGeometry Center="14,14" RadiusX="14" RadiusY="14" /></Image.Clip>
                 </Image>
                 <Ellipse Width="9" Height="9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Fill="#FF3FB950" Stroke="{DynamicResource ApplicationBackgroundBrush}" StrokeThickness="1.5" Visibility="{Binding CurrentVisibility}" />
@@ -186,7 +191,7 @@
         <TextBlock Margin="0,40,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="360" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding EmptyText}" Visibility="{Binding EmptyVisibility}" />
 
         <StackPanel Visibility="{Binding DetailVisibility}">
-          <Grid Margin="0,2,0,16">
+          <Grid Margin="0,2,0,12">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="*" />
@@ -194,7 +199,7 @@
             </Grid.ColumnDefinitions>
             <Grid Width="64" Height="64">
               <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
-              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedAccount.AvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
+              <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedAccount.AvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
                 <Image.Clip><EllipseGeometry Center="32,32" RadiusX="32" RadiusY="32" /></Image.Clip>
               </Image>
             </Grid>
@@ -205,7 +210,11 @@
                   <TextBlock FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Current}" />
                 </Border>
               </StackPanel>
-              <TextBlock Text="{Binding SelectedAccount.Handle}" FontSize="12.5" Margin="0,3,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
+                <TextBlock Text="{Binding SelectedAccount.Handle}" FontSize="12.5" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock Text="{Binding SelectedAccount.Model.UserId}" FontSize="12.5" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <ui:Button Appearance="Transparent" Margin="2,0,0,0" Padding="4,2" FontSize="12" Icon="Copy24" ToolTip="{resources:Loc Accounts_CopyId}" Command="{Binding CopyIdCommand}" />
+              </StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
               <ui:Button Appearance="Secondary" Icon="Play24" Content="{resources:Loc Accounts_SwitchAndPlay}" IsEnabled="{Binding CanSwitch}" Command="{Binding SwitchAndPlayCommand}" />
@@ -215,51 +224,32 @@
 
           <ui:InfoBar Margin="0,0,0,12" IsOpen="True" IsClosable="False" Severity="Error" Message="{resources:Loc Accounts_ExpiredDetail}" Visibility="{Binding SelectedAccount.ExpiredVisibility}" />
 
-          <UniformGrid Rows="1" Margin="0,0,0,12">
-            <UniformGrid.Resources>
-              <Style x:Key="StatCard" TargetType="Border">
-                <Setter Property="Margin" Value="0,0,8,0" />
-                <Setter Property="Padding" Value="12,10" />
-                <Setter Property="CornerRadius" Value="8" />
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
-                <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-              </Style>
+          <Border Margin="0,0,0,8" Padding="14,10" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
+            <Border.Resources>
               <Style x:Key="StatLabel" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="11.5" />
                 <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
                 <Setter Property="TextTrimming" Value="CharacterEllipsis" />
               </Style>
               <Style x:Key="StatValue" TargetType="TextBlock">
-                <Setter Property="Margin" Value="0,3,0,0" />
-                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Margin" Value="0,2,8,0" />
+                <Setter Property="FontSize" Value="14" />
                 <Setter Property="FontWeight" Value="SemiBold" />
                 <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
                 <Setter Property="TextTrimming" Value="CharacterEllipsis" />
               </Style>
-            </UniformGrid.Resources>
-            <Border Style="{StaticResource StatCard}"><StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Robux}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Robux}" /></StackPanel></Border>
-            <Border Style="{StaticResource StatCard}"><StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Premium}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Premium}" /></StackPanel></Border>
-            <Border Style="{StaticResource StatCard}"><StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Friends}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Friends}" /></StackPanel></Border>
-            <Border Style="{StaticResource StatCard}"><StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Followers}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Followers}" /></StackPanel></Border>
-            <Border Style="{StaticResource StatCard}" Margin="0"><StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Joined}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Joined}" /></StackPanel></Border>
-          </UniformGrid>
-
-          <controls:OptionControl Header="{resources:Loc Accounts_Note}">
-            <ui:TextBox Width="260" PlaceholderText="{resources:Loc Accounts_NotePlaceholder}" Text="{Binding SelectedAccount.Note, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Accounts_LastUsed}">
-            <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SelectedAccount.LastUsedText}" />
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Accounts_Added}">
-            <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SelectedAccount.AddedText}" />
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Common_UserId}">
-            <StackPanel Orientation="Horizontal">
-              <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SelectedAccount.Model.UserId}" />
-              <ui:Button Appearance="Transparent" Padding="6,4" Icon="Copy24" ToolTip="{resources:Loc Accounts_CopyId}" Command="{Binding CopyIdCommand}" />
-            </StackPanel>
-          </controls:OptionControl>
+            </Border.Resources>
+            <UniformGrid Rows="1">
+              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Robux}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Robux}" /></StackPanel>
+              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Premium}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Premium}" /></StackPanel>
+              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Friends}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Friends}" /></StackPanel>
+              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Followers}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Followers}" /></StackPanel>
+              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Joined}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Joined}" /></StackPanel>
+              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_LastUsed}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding SelectedAccount.LastUsedText}" /></StackPanel>
+              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Added}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding SelectedAccount.AddedText}" /></StackPanel>
+            </UniformGrid>
+          </Border>
+          <ui:TextBox Margin="0,0,0,4" PlaceholderText="{resources:Loc Accounts_NotePlaceholder}" Text="{Binding SelectedAccount.Note, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
 
           <Border Margin="0,8,0,0" Padding="14" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}" Visibility="{Binding OutfitsVisibility}">
             <StackPanel>
@@ -273,16 +263,16 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ui:Button Width="28" Height="72" Padding="0" Margin="0,0,6,0" Appearance="Transparent" Icon="ChevronLeft24" IsEnabled="{Binding CanPageOutfitsBack}" Command="{Binding OutfitBackCommand}" />
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding OutfitPage}">
+                <ui:Button Width="28" Height="96" Padding="0" Margin="0,0,6,0" VerticalAlignment="Top" Appearance="Secondary" Icon="ChevronLeft24" IsEnabled="{Binding CanPageOutfitsBack}" Command="{Binding OutfitBackCommand}" />
+                <ItemsControl Grid.Column="1" ClipToBounds="True" ItemsSource="{Binding OutfitPage}">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                      <UniformGrid Rows="1" Columns="5" />
+                      <StackPanel Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                   </ItemsControl.ItemsPanel>
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <ui:Button Height="120" Margin="3" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Appearance="Transparent" ToolTip="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding DataContext.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" HorizontalContentAlignment="Stretch" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ui:UiPage}}">
+                      <ui:Button Width="96" Margin="0,0,6,0" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top" Appearance="Transparent" ToolTip="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding DataContext.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" HorizontalContentAlignment="Stretch" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ui:UiPage}}">
                         <ui:Button.ContextMenu>
                           <ContextMenu>
                             <MenuItem Header="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding PlacementTarget.Tag.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
@@ -293,18 +283,18 @@
                           </ContextMenu>
                         </ui:Button.ContextMenu>
                         <StackPanel HorizontalAlignment="Stretch">
-                          <Grid Height="92" HorizontalAlignment="Stretch" util:RoundedClip.Radius="6">
+                          <Grid Width="88" Height="88" util:RoundedClip.Radius="6">
                             <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" />
-                            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+                            <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
                             <ui:ProgressRing Width="18" Height="18" IsIndeterminate="True" Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}" />
                           </Grid>
-                          <TextBlock Margin="2,4,2,0" FontSize="11.5" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name}" />
+                          <TextBlock Margin="0,4,0,0" FontSize="11.5" TextAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name}" />
                         </StackPanel>
                       </ui:Button>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <ui:Button Grid.Column="2" Width="28" Height="72" Padding="0" Margin="6,0,0,0" Appearance="Transparent" Icon="ChevronRight24" IsEnabled="{Binding CanPageOutfitsForward}" Command="{Binding OutfitForwardCommand}" />
+                <ui:Button Grid.Column="2" Width="28" Height="96" Padding="0" Margin="6,0,0,0" VerticalAlignment="Top" Appearance="Secondary" Icon="ChevronRight24" IsEnabled="{Binding CanPageOutfitsForward}" Command="{Binding OutfitForwardCommand}" />
               </Grid>
             </StackPanel>
           </Border>

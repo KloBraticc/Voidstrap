@@ -36,7 +36,7 @@ internal static class GameVideoStore
             if (location == null)
                 return null;
             Directory.CreateDirectory(Folder);
-            TrimCache();
+            await Task.Run(TrimCache, token).ConfigureAwait(false);
             string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
             try
             {
@@ -65,7 +65,7 @@ internal static class GameVideoStore
 
     private static void TrimCache()
     {
-        const long MaximumCacheBytes = 1024L * 1024 * 1024;
+        const long MaximumCacheBytes = 256L * 1024 * 1024;
         if (!Directory.Exists(Folder))
             return;
         FileInfo[] files = new DirectoryInfo(Folder).GetFiles().OrderByDescending(static file => file.LastAccessTimeUtc).ToArray();

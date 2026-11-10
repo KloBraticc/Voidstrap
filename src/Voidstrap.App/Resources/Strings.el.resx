@@ -9712,4 +9712,100 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Δεν υπάρχει τίποτα εδώ ακόμα</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Μάθε περισσότερα</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Ακολούθησε το Voidstrap, βρες βοήθεια και υποστήριξε το έργο.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Φίλοι</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Φίλοι</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Φίλοι ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Αιτήματα</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Κουβέντα</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Αναζήτηση φίλων</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Προσθέστε έναν φίλο με όνομα χρήστη</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Προσθέτω</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Το αίτημα φιλίας στάλθηκε στο {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε χρήστης με το όνομα {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Διαδικτυακά</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Παίζει {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Σε Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Τελευταία επίσκεψη πριν από {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Εκτός σύνδεσης</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Στάλθηκε πριν {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Παρατσούκλι</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Ψευδώνυμο μόνο εσείς μπορείτε να δείτε</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Κατάργηση {0} από τους φίλους σας;</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Αποδέχομαι</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Πτώση</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Απόρριψη όλων</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Δεν έχετε αιτήματα φιλίας</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Δεν υπάρχουν φίλοι για εμφάνιση</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Συνδεθείτε στο Roblox στο Voidstrap για να δείτε τους φίλους σας</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Ο Roblox δεν απάντησε, δοκιμάστε ξανά σε λίγο</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Ενώνω</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Χωρίς εμφάνιση για το παιχνίδι</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Φόρεσε αυτή την εμφάνιση κάθε φορά που ξεκινάς αυτό το παιχνίδι</value>
+  </data>
 </root>

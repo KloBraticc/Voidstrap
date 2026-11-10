@@ -9713,4 +9713,100 @@ Spiller: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Hei ass nach näischt</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Méi gewuer ginn</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Follegt Voidstrap, kritt Hëllef an ënnerstëtzt de Projet.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Frënn</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Frënn</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Frënn ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Ufroen</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Sich Frënn</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Füügt e Frënd mam Benotzernumm</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Addéieren</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Frëndschaftsufro un {0} geschéckt</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Kee Benotzer mam Numm {0} gouf fonnt</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Spillen {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>An Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Lescht gesinn {0} ago</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Geschéckt {0} ago</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Spëtznumm</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Spëtznumm nëmmen Dir kënnt gesinn</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Onfrëndlech</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>{0} vun Äre Frënn ewechhuelen?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Akzeptéieren</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Decline</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Oflehnen all</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Dir hutt keng Frëndschaftsufroen</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Keng Frënn ze weisen</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Mellt Iech un Roblox an Voidstrap fir Är Frënn ze gesinn</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox huet net geäntwert, probéiert nach eng Kéier</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Maacht mat</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Keen Outfit fir d'Spill</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Dro dësen Outfit all Kéier wann s du dëst Spill starts</value>
+  </data>
 </root>

@@ -10025,4 +10025,100 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Все още тук няма нищо</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Научете повече</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Следете Voidstrap, получете помощ и подкрепете проекта.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>приятели</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>приятели</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Приятели ({0} онлайн)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Заявки</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Чат</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Търсете приятели</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Добавете приятел по потребителско име</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Добавете</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Молбата за приятелство е изпратена до {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Не беше намерен потребител с име {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Играя {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>в Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Последно ползване преди {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Офлайн</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Изпратено преди {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Псевдоним</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Псевдоним само вие можете да видите</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Премахни приятелството</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Да премахнете {0} от приятелите си?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Приеми</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Откажи</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Откажете всички</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Нямате покани за приятелство</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Няма приятели за показване</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Влезте в Roblox в Voidstrap, за да видите приятелите си</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox не отговори, опитайте отново след малко</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Присъединете се</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Без облекло за играта</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Носете това облекло при всяко стартиране на тази игра</value>
+  </data>
 </root>

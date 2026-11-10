@@ -9713,4 +9713,100 @@ Rannpháirtithe: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Níl aon rud anseo fós</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Tuilleadh eolais</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Lean Voidstrap, faigh cabhair agus tacaigh leis an tionscadal.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Cairde</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Cairde</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Cairde ({0} ar líne)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Iarratais</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Comhrá</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Cuardaigh cairde</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Cuir cara leis de réir ainm úsáideora</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Cuir</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Iarratas cara seolta chuig {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ní bhfuarthas aon úsáideoir darb ainm {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Ar líne</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Ag imirt {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>i Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Chonacthas go deireanach {0} ó shin</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>As líne</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Seolta {0} ó shin</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Leasainm</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Leasainm amháin a fheiceann tú</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>A chara</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Bain {0} ó do chairde?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Glac</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Meath</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Meath ar fad</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Níl aon iarratas cara agat</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Níl aon chairde le taispeáint</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Sínigh isteach go Roblox i Voidstrap chun do chairde a fheiceáil</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Níor fhreagair Roblox, bain triail eile as i gceann nóiméad</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Bígí</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Gan feisteas don chluiche</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Caith an feisteas seo gach uair a sheolann tú an cluiche seo</value>
+  </data>
 </root>

@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Voidstrap.Integrations;
@@ -28,8 +29,6 @@ public partial class SessionChatWindow : Window
     private readonly ObservableCollection<ChatMessageItem> _messages = new();
     private readonly HashSet<string> _messageIds = new(StringComparer.Ordinal);
     private readonly Dictionary<long, string> _avatarUrls = new();
-    private readonly Dictionary<long, ImageSource> _avatars = new();
-    private readonly HashSet<long> _avatarLoads = new();
     private List<ChatListItem> _conversations = new();
     private List<ChatListItem> _friends = new();
     private string _listSignature = string.Empty;
@@ -57,6 +56,42 @@ public partial class SessionChatWindow : Window
         Loaded += OnLoaded;
         Closed += OnClosed;
     }
+
+    public UIElement DetachContent()
+    {
+        Loaded -= OnLoaded;
+        UIElement content = (UIElement)Content;
+        Content = null;
+        _ = PortableOverlay.RunAsync(this, () => OnLoadedAsync(this, new RoutedEventArgs()));
+        return content;
+    }
+
+    public void ReleaseDetached() => OnClosed(this, EventArgs.Empty);
+
+    public Task OpenWithAsync(long userId) =>
+        PortableOverlay.RunAsync(
+            this,
+            async () =>
+            {
+                if (_closed || userId <= 0)
+                    return;
+                try
+                {
+                    RobloxChatResult<RobloxConversation> opened = await RobloxChat.OpenDirectAsync(userId, _lifetimeToken);
+                    if (_closed)
+                        return;
+                    if (opened.Status != RobloxChatStatus.Ready || opened.Value == null)
+                    {
+                        ChatStatus.Text = Describe(opened.Status);
+                        return;
+                    }
+                    SetMode(false);
+                    await OpenConversationAsync(opened.Value);
+                    _ = LoadConversationsAsync();
+                }
+                catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
+            }
+        );
 
     private void OnLoaded(object sender, RoutedEventArgs e) => _ = PortableOverlay.RunAsync(this, () => OnLoadedAsync(sender, e));
 
@@ -274,7 +309,7 @@ public partial class SessionChatWindow : Window
         _messageIds.Clear();
         _olderCursor = null;
         HeaderTitle.Text = TitleOf(conversation);
-        HeaderAvatar.Source = AvatarFor(OtherParticipant(conversation));
+        DynamicRenderSystem.SetLazyImageSource(HeaderAvatar, AvatarFor(OtherParticipant(conversation)));
         ChatStatus.Text = "Loading messages";
         InputBox.IsEnabled = true;
         SendButton.IsEnabled = true;
@@ -624,10 +659,37 @@ public partial class SessionChatWindow : Window
         catch (Exception) { }
     }
 
-    private void ChatsTab_Click(object sender, RoutedEventArgs e) => SetMode(false);
+    private void FriendsTab_Click(object sender, RoutedEventArgs e)
+    {
+        if (FriendsTab.IsChecked == true)
+            _ = PortableOverlay.RunAsync(this, () => FriendsTab_ClickAsync(sender, e));
+        else
+            SetMode(false);
+    }
 
-    private void FriendsTab_Click(object sender, RoutedEventArgs e) =>
-        _ = PortableOverlay.RunAsync(this, () => FriendsTab_ClickAsync(sender, e));
+    private void Bubble_Loaded(object sender, RoutedEventArgs e) => AnimateBubble(sender);
+
+    private void Bubble_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) => AnimateBubble(sender);
+
+    private static void AnimateBubble(object sender)
+    {
+        if (sender is not FrameworkElement element || element.DataContext is not ChatMessageItem item || !item.Animate)
+            return;
+        item.Animate = false;
+        ScaleTransform zoom = new();
+        TranslateTransform slide = new();
+        TransformGroup group = new();
+        group.Children.Add(zoom);
+        group.Children.Add(slide);
+        element.RenderTransform = group;
+        CubicEase ease = new() { EasingMode = EasingMode.EaseOut };
+        Duration duration = TimeSpan.FromMilliseconds(260);
+        DoubleAnimation scale = new(0.8, 1, duration) { EasingFunction = ease };
+        zoom.BeginAnimation(ScaleTransform.ScaleXProperty, scale);
+        zoom.BeginAnimation(ScaleTransform.ScaleYProperty, scale);
+        slide.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(16, 0, duration) { EasingFunction = ease });
+        element.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)));
+    }
 
     private async Task FriendsTab_ClickAsync(object sender, RoutedEventArgs e)
     {
@@ -647,8 +709,7 @@ public partial class SessionChatWindow : Window
         if (_showFriends == friends && ConversationList.ItemsSource != null)
             return;
         _showFriends = friends;
-        ChatsTab.Appearance = friends ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Primary;
-        FriendsTab.Appearance = friends ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Secondary;
+        FriendsTab.IsChecked = friends;
         FilterBox.PlaceholderText = friends ? "Search friends" : "Search chats";
         RenderList(true);
     }
@@ -668,98 +729,27 @@ public partial class SessionChatWindow : Window
     private async Task LoadAvatarsAsync(IEnumerable<long> userIds)
     {
         List<long> missing = userIds.Where(id => id > 0 && !_avatarUrls.ContainsKey(id)).Distinct().ToList();
-        if (missing.Count > 0)
-        {
-            try
-            {
-                Dictionary<long, string> urls = await RobloxChat.GetHeadshotUrlsAsync(missing, _lifetimeToken);
-                if (_closed)
-                    return;
-                foreach (KeyValuePair<long, string> pair in urls)
-                    _avatarUrls[pair.Key] = pair.Value;
-            }
-            catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("SessionChatWindow", "Avatar URLs could not be loaded: " + ex.Message);
-            }
-        }
-
-        if (_closed)
+        if (missing.Count == 0)
             return;
-        List<KeyValuePair<long, string>> pending = _avatarUrls
-            .Where(pair => !_avatars.ContainsKey(pair.Key) && _avatarLoads.Add(pair.Key))
-            .ToList();
-        if (pending.Count > 0)
-            _ = LoadAvatarImagesAsync(pending);
-    }
-
-    private async Task LoadAvatarImagesAsync(List<KeyValuePair<long, string>> pending)
-    {
         try
         {
-            (long UserId, BitmapSource? Image)[] results = new (long, BitmapSource?)[pending.Count];
-            Exception?[] failures = new Exception?[pending.Count];
-            await Parallel.ForEachAsync(
-                Enumerable.Range(0, pending.Count),
-                new ParallelOptions { MaxDegreeOfParallelism = 4, CancellationToken = _lifetimeToken },
-                async (index, token) =>
-                {
-                    KeyValuePair<long, string> pair = pending[index];
-                    try
-                    {
-                        results[index] = (pair.Key, await Voidstrap.Utility.SafeImaging.FromHttpAsync(pair.Value, 72, token));
-                    }
-                    catch (OperationCanceledException) when (token.IsCancellationRequested)
-                    {
-                        throw;
-                    }
-                    catch (Exception ex)
-                    {
-                        failures[index] = ex;
-                    }
-                }
-            );
-            if (_closed)
+            Dictionary<long, string> urls = await Task.Run(() => RobloxChat.GetHeadshotUrlsAsync(missing, _lifetimeToken), _lifetimeToken);
+            if (_closed || urls.Count == 0)
                 return;
-            if (failures.FirstOrDefault(error => error != null) is Exception failure)
-                App.Logger.WriteLine("SessionChatWindow", "Some avatar images could not be loaded: " + failure.Message);
-            bool changed = false;
-            foreach ((long userId, BitmapSource? image) in results)
-            {
-                if (image == null)
-                    continue;
-                _avatars[userId] = image;
-                changed = true;
-            }
-            if (!changed)
-                return;
-            foreach (ChatListItem item in _conversations.Concat(_friends))
-                item.Avatar = AvatarFor(item.UserId);
+            foreach (KeyValuePair<long, string> pair in urls)
+                _avatarUrls[pair.Key] = pair.Value;
             RenderList(true);
             if (_active != null)
-                HeaderAvatar.Source = AvatarFor(OtherParticipant(_active));
+                DynamicRenderSystem.SetLazyImageSource(HeaderAvatar, AvatarFor(OtherParticipant(_active)));
         }
         catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("SessionChatWindow", "Avatar images could not be loaded: " + ex.Message);
-        }
-        finally
-        {
-            foreach (KeyValuePair<long, string> pair in pending)
-                _avatarLoads.Remove(pair.Key);
+            App.Logger.WriteLine("SessionChatWindow", "Avatar URLs could not be loaded: " + ex.Message);
         }
     }
 
-    private ImageSource? AvatarFor(long userId)
-    {
-        if (userId <= 0)
-            return null;
-        if (_avatars.TryGetValue(userId, out ImageSource? cached))
-            return cached;
-        return null;
-    }
+    private string? AvatarFor(long userId) => userId > 0 ? _avatarUrls.GetValueOrDefault(userId) : null;
 
     private long OtherParticipant(RobloxConversation conversation) => conversation.ParticipantIds.FirstOrDefault(id => id != _selfId);
 
@@ -803,7 +793,6 @@ public partial class SessionChatWindow : Window
         _lifetime.Cancel();
         _lifetime.Dispose();
         _messages.Clear();
-        _avatars.Clear();
         ConversationList.ItemsSource = null;
         MessageList.ItemsSource = null;
     }
@@ -817,7 +806,7 @@ public sealed class ChatListItem
     public int Unread { get; }
     public long UserId { get; }
     public RobloxConversation? Conversation { get; }
-    public ImageSource? Avatar { get; set; }
+    public string? Avatar { get; set; }
     public bool HasUnread => Unread > 0;
     public string UnreadText => Unread > 99 ? "99+" : Unread.ToString(CultureInfo.CurrentCulture);
     public string Signature =>
@@ -843,7 +832,9 @@ public sealed class ChatMessageItem
     public bool IsEcho { get; }
     public bool Moderated { get; }
     public DateTimeOffset CreatedUtc { get; }
+    public bool Animate { get; set; }
     public HorizontalAlignment Alignment => IsMine ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+    public Point Origin => IsMine ? new Point(1, 1) : new Point(0, 1);
 
     public ChatMessageItem(RobloxChatMessage message, bool mine, string sender)
         : this(
@@ -865,6 +856,7 @@ public sealed class ChatMessageItem
         Moderated = moderated;
         CreatedUtc = created;
         IsEcho = echo;
+        Animate = echo || (!mine && DateTimeOffset.UtcNow - created < TimeSpan.FromSeconds(20));
         string time = created.ToLocalTime().ToString("t", CultureInfo.CurrentCulture);
         Header =
             echo ? "Sending"

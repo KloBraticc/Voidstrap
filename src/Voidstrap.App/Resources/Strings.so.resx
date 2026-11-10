@@ -9713,4 +9713,100 @@ Ciyaartoyda: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Weli halkan waxba ma jiraan</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Wax badan ka baro</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Raac Voidstrap, hel caawimo oo taageer mashruuca.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Asxaabta</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Asxaabta</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Saaxiibada ({0} onlayn)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Codsiyada</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Sheekaysi</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Raadi asxaabta</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Kudar saaxiib adoo isticmaalaya magaca isticmaalaha</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Ku dar</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Codsiga saaxiibka ayaa loo diray {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Looma helin isticmaale magaciisu yahay {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Ciyaarta {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>gudaha Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Markii ugu dambeysay ee la arko {0} kahor</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>La diray {0} kahor</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Naanaysta</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Naanaysta kaliya ee aad arki karto</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Saaxiib la'aan</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Ka saar {0} asxaabtaada?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Aqbal</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Diid</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Dhammaan diid</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Ma lihid codsi saaxiib</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Ma jiro saaxiibo la tuso</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Gal Roblox gudaha Voidstrap si aad u aragto asxaabtaada</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox kama jawaabin, isku day mar kale in yar gudaheed</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Ku biir</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Dhar ciyaareed ma jiro</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Xiro dharkan mar kasta oo aad furto ciyaartan</value>
+  </data>
 </root>

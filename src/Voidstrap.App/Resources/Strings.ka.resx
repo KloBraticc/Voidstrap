@@ -9713,4 +9713,100 @@ Uptime: {1}
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>აქ ჯერ არაფერია</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>გაიგეთ მეტი</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>გამოიწერეთ Voidstrap, მიიღეთ დახმარება და მხარი დაუჭირეთ პროექტს.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>მეგობრები</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>მეგობრები</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>მეგობრები ({0} ონლაინ)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>ითხოვს</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>ჩატი</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>მეგობრების ძებნა</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>დაამატეთ მეგობარი მომხმარებლის სახელით</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>დამატება</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>მეგობრობის მოთხოვნა გაიგზავნა {0}-ზე</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>მომხმარებელი სახელად {0} ვერ მოიძებნა</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>ონლაინ</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>თამაშობს {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio-ში</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>ბოლოს ნანახი {0} წინ</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>ხაზგარეშე</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>გაგზავნილი {0} წინ</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>მეტსახელი</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>მეტსახელი მხოლოდ თქვენ შეგიძლიათ ნახოთ</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>გაუქმე მეგობარი</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>წაშალოთ {0} თქვენი მეგობრებიდან?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>მიღება</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>უარყოფა</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>უარყო ყველა</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>თქვენ არ გაქვთ მეგობრობის მოთხოვნა</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>მეგობრების ჩვენება არ არის</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>შედით Roblox-ში Voidstrap-ში თქვენი მეგობრების სანახავად</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox არ უპასუხა, სცადეთ ხელახლა ცოტა ხანში</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>შეუერთდი</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>თამაშის სამოსის გარეშე</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ჩაიცვით ეს სამოსი ამ თამაშის ყოველი გაშვებისას</value>
+  </data>
 </root>

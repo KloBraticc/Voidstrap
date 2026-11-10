@@ -10023,4 +10023,100 @@ Mga player: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Wala pang laman dito</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Alamin pa</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>I-follow ang Voidstrap, humingi ng tulong at suportahan ang proyekto.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Mga kaibigan</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Mga kaibigan</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Mga kaibigan ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Mga kahilingan</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Maghanap ng mga kaibigan</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Magdagdag ng kaibigan sa pamamagitan ng username</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Idagdag</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Ipinadala ang Friend request kay {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Walang nakitang user na nagngangalang {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Naglalaro ng {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>sa Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Huling nakita {0} ang nakalipas</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Ipinadala {0} ang nakalipas</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>palayaw</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Nickname lang ang makikita mo</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>I-unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Alisin ang {0} sa iyong mga kaibigan?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Tanggapin</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Tanggihan</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Tanggihan ang lahat</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Wala kang friend request</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Walang maipakitang kaibigan</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Mag-sign in sa Roblox sa Voidstrap upang makita ang iyong mga kaibigan</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Hindi tumugon si Roblox, subukang muli sa ilang sandali</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Sumali</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Walang outfit para sa laro</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Isuot ang outfit na ito tuwing ilulunsad mo ang larong ito</value>
+  </data>
 </root>

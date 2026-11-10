@@ -107,7 +107,14 @@ public class Cleaner
         }
         if (Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.CleanerDirectories.Contains("RobloxLogs"))
         {
-            CleanSoberLogs(threshold);
+            try
+            {
+                CleanSoberLogs(threshold);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("Cleaner::DoCleaning", "Failed to clean up the Sober logs: " + ex.Message);
+            }
         }
         App.Logger.WriteLine("Cleaner::DoCleaning", "Cleaner finished");
     }

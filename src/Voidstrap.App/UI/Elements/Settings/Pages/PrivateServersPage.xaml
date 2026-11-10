@@ -22,9 +22,9 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-              <Border x:Name="MainBorder" Background="Transparent" BorderThickness="1" CornerRadius="4">
+              <Border x:Name="MainBorder" Background="Transparent" BorderThickness="1" CornerRadius="5">
                 <Grid>
-                  <Rectangle x:Name="ActiveRectangle" Width="0" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="2" RadiusY="2">
+                  <Rectangle x:Name="ActiveRectangle" Width="3" Height="0" Margin="-1,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="1.5" RadiusY="1.5">
                     <Rectangle.Fill>
                       <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
                     </Rectangle.Fill>
@@ -36,24 +36,29 @@
                 <Trigger Property="IsSelected" Value="True">
                   <Setter TargetName="MainBorder" Property="Background">
                     <Setter.Value>
-                      <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                      <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
                     </Setter.Value>
                   </Setter>
+                  <Setter TargetName="ActiveRectangle" Property="Height" Value="17" />
+                  <Setter TargetName="ActiveRectangle" Property="Opacity" Value="1" />
                   <Trigger.EnterActions>
-                    <BeginStoryboard>
+                    <BeginStoryboard x:Name="PillSelected">
                       <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="0" To="4" Duration="00:00:00.167" />
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.167" />
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.25">
+                          <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut" />
+                          </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Height)" From="0" To="17" Duration="00:00:00.667">
+                          <DoubleAnimation.EasingFunction>
+                            <QuinticEase EasingMode="EaseOut" />
+                          </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
                       </Storyboard>
                     </BeginStoryboard>
                   </Trigger.EnterActions>
                   <Trigger.ExitActions>
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="4" To="0" Duration="00:00:00.167" />
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="1.0" To="0.0" Duration="00:00:00.167" />
-                      </Storyboard>
-                    </BeginStoryboard>
+                    <RemoveStoryboard BeginStoryboardName="PillSelected" />
                   </Trigger.ExitActions>
                 </Trigger>
                 <MultiTrigger>
@@ -62,7 +67,7 @@
                   </MultiTrigger.Conditions>
                   <Setter TargetName="MainBorder" Property="Background">
                     <Setter.Value>
-                      <SolidColorBrush Opacity="0.5" Color="{DynamicResource ControlFillColorDefault}" />
+                      <SolidColorBrush Opacity="0.5" Color="{DynamicResource SubtleFillColorSecondary}" />
                     </Setter.Value>
                   </Setter>
                 </MultiTrigger>
@@ -151,18 +156,38 @@
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <Grid Margin="0,2,0,14">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Border Width="64" Height="64" CornerRadius="10" ClipToBounds="True" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
-          <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+      <Grid Height="168" Margin="0,2,16,12">
+        <Border CornerRadius="8" Background="{DynamicResource SubtleFillColorSecondaryBrush}" util:RoundedClip.Radius="8">
+          <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.BannerUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
         </Border>
-        <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
-          <TextBlock Text="{Binding SelectedGame.Name}" FontSize="20" FontWeight="Bold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-          <TextBlock Text="{Binding SelectedGame.CountText}" FontSize="12.5" Margin="0,3,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-        </StackPanel>
+        <Border CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Color="#33000000" Offset="0" />
+              <GradientStop Color="#D9000000" Offset="1" />
+            </LinearGradientBrush>
+          </Border.Background>
+        </Border>
+        <Grid VerticalAlignment="Bottom" Margin="18,0,18,16">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Width="76" Height="76" CornerRadius="10" BorderThickness="2" BorderBrush="{DynamicResource SurfaceStrokeColorFlyoutBrush}" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+            <Border util:RoundedClip.Radius="8">
+              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+            </Border>
+          </Border>
+          <StackPanel Grid.Column="1" Margin="14,0,0,2" VerticalAlignment="Bottom">
+            <TextBlock Text="{Binding SelectedGame.Name}" ToolTip="{Binding SelectedGame.Name}" FontSize="22" FontWeight="Bold" TextTrimming="CharacterEllipsis" Foreground="White" />
+            <Border Margin="0,8,0,0" Padding="10,4" CornerRadius="6" Background="#33FFFFFF" HorizontalAlignment="Left">
+              <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="LockClosed24" FontSize="13" Foreground="White" VerticalAlignment="Center" />
+                <TextBlock Margin="6,0,0,0" Text="{Binding SelectedGame.CountText}" FontSize="12.5" Foreground="White" VerticalAlignment="Center" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Grid>
       </Grid>
       <ListBox Grid.Row="1" Background="Transparent" BorderThickness="0" Focusable="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.ScrollUnit="Pixel" ItemsSource="{Binding SelectedGame.Servers}">
         <ListBox.ItemContainerStyle>

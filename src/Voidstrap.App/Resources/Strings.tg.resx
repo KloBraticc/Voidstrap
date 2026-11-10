@@ -9712,4 +9712,100 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Дар ин ҷо ҳоло чизе нест</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Маълумоти бештар</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap-ро пайгирӣ кунед, кӯмак гиред ва лоиҳаро дастгирӣ намоед.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>дустон</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>дустон</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Дӯстон ({0} онлайн)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Дархостҳо</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Чат</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Ҷустуҷӯи дӯстон</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Дӯстро бо номи корбар илова кунед</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Илова</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Дархости дӯстӣ ба {0} фиристода шуд</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ягон корбаре бо номи {0} ёфт нашуд</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Бозӣ {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Дар Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Охирин дида шуд {0} пеш</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Офлайн</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} пеш фиристода шуд</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Лақаб</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Лақаб танҳо шумо метавонед бубинед</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>{0}-ро аз дӯстонатон хориҷ кунед?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Қабул кунед</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Рад кардан</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Ҳамаро рад кунед</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Шумо ягон дархости дӯстӣ надоред</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Дӯстон барои нишон додан нест</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Барои дидани дӯстони худ ба Roblox дар Voidstrap ворид шавед</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ҷавоб надод, пас аз лаҳзаи дигар кӯшиш кунед</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Ҳамроҳ шавед</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Бе либоси бозӣ</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Ҳар дафъа ҳангоми оғози ин бозӣ ин либосро пӯшед</value>
+  </data>
 </root>

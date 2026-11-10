@@ -10025,4 +10025,100 @@ Igrači: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Ovdje još nema ničega</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Saznaj više</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Prati Voidstrap, potraži pomoć i podrži projekt.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Prijatelji</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Prijatelji</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Prijatelji ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Zahtjevi</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Razgovor</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Traži prijatelje</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Dodaj prijatelja po korisničkom imenu</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Dodati</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Zahtjev za prijateljstvo poslan na {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Nije pronađen nijedan korisnik pod imenom {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Igranje {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>U Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Zadnji put viđen prije {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Izvan mreže</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Poslano prije {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Nadimak</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Nadimak možete vidjeti samo vi</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Ukini prijateljstvo</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Ukloniti {0} iz svojih prijatelja?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Prihvatiti</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Pad</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Odbij sve</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Nemaš zahtjeva za prijateljstvo</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Nema prijatelja za pokazati</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Prijavite se na Roblox u Voidstrap da vidite svoje prijatelje</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox nije odgovorio, pokušajte ponovno za trenutak</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Pridruži se</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Bez odjeće za igru</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Nosi ovu odjeću svaki put kad pokreneš ovu igru</value>
+  </data>
 </root>

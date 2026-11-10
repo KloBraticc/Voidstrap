@@ -444,8 +444,6 @@ public partial class RoReviewControl : UserControl
         if (ct.IsCancellationRequested || _isUnloaded)
             return;
 
-        App.Logger.WriteLine("RoReviewControl", "Loading place " + targetPlaceId.ToString(CultureInfo.InvariantCulture));
-
         _activePlaceId = targetPlaceId;
         _ = Dispatcher.BeginInvoke(() =>
         {
@@ -516,6 +514,7 @@ public partial class RoReviewControl : UserControl
             return;
         }
         _loading = true;
+        App.Logger.WriteLine("RoReviewControl", "Loading place " + placeId.ToString(CultureInfo.InvariantCulture));
         try
         {
             _ = Dispatcher.BeginInvoke(() =>

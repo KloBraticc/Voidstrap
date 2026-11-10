@@ -388,6 +388,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["BootstrapperPage"] = ("Bootstrapper", "Customizing the launch window"),
         ["LibraryPage"] = ("Library", "Browsing the game library"),
         ["PrivateServersPage"] = ("Private Servers", "Managing private servers"),
+        ["FriendsPage"] = ("Friends", "Chatting with friends"),
         ["AccountsPage"] = ("Account Manager", "Managing Roblox accounts"),
         ["SoberPage"] = ("Sober", "Setting up Roblox on Linux"),
         ["RosemaryPage"] = ("Rosemary", "Setting up Roblox on Linux"),
@@ -479,7 +480,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private Page? _lastPage;
 
-    private readonly Dictionary<NavigationItem, SymbolRegular> _defaultIcons = new Dictionary<NavigationItem, SymbolRegular>();
 
     private Dictionary<string, SymbolRegular>? _defaultSidebarIcons;
 
@@ -796,7 +796,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         UpdateButtonContent();
         RefreshManageModsStatus();
         InitializeDiscordRPC();
-        RegisterHoverIcons();
         _backgroundSettings = AppearanceViewModel.LoadSettings();
         GlobalBackground.Changed += OnGlobalBackgroundChanged;
         ApplyBackgroundSettings();
@@ -842,46 +841,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _notificationReloadTicks = 0;
             Voidstrap.Utility.AppNotifications.Reload();
-        }
-    }
-
-    private void RegisterHoverIcons()
-    {
-        foreach (NavigationItem item in _defaultIcons.Keys.ToArray())
-        {
-            item.MouseEnter -= NavigationItem_MouseEnter;
-            item.MouseLeave -= NavigationItem_MouseLeave;
-        }
-        _defaultIcons.Clear();
-        Dictionary<string, string> customIcons = App.Settings.Prop.SidebarIcons ??= new Dictionary<string, string>();
-        foreach (
-            NavigationItem item in from i in RootNavigation
-                .Items.OfType<NavigationItem>()
-                .Concat(RootNavigation.Footer.OfType<NavigationItem>())
-                                   where i.Tag != null && i.Image == null && !customIcons.ContainsKey(i.Name)
-                                   select i
-        )
-        {
-            SymbolRegular defaultIcon = item.Icon;
-            _defaultIcons[item] = defaultIcon;
-            item.MouseEnter += NavigationItem_MouseEnter;
-            item.MouseLeave += NavigationItem_MouseLeave;
-        }
-    }
-
-    private void NavigationItem_MouseEnter(object sender, MouseEventArgs e)
-    {
-        if (sender is NavigationItem item && Enum.TryParse<SymbolRegular>(item.Tag?.ToString(), out var result))
-        {
-            item.Icon = result;
-        }
-    }
-
-    private void NavigationItem_MouseLeave(object sender, MouseEventArgs e)
-    {
-        if (sender is NavigationItem item && _defaultIcons.TryGetValue(item, out SymbolRegular defaultIcon))
-        {
-            item.Icon = defaultIcon;
         }
     }
 
@@ -1021,6 +980,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             || ReferenceEquals(page, _accountsPage)
             || ReferenceEquals(page, _robloxNewsPage)
             || ReferenceEquals(page, _voidstrapModsPage)
+            || ReferenceEquals(page, _friendsPage)
         )
         {
             return true;
@@ -1164,7 +1124,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BreadcrumbPanel.Visibility = Visibility.Visible;
         }
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
-        bool hidesSidebar = content is VoidstrapModsPage or DownloadsPage or ExtensionPage;
+        bool hidesSidebar = content is VoidstrapModsPage or DownloadsPage or ExtensionPage or FriendsPage;
         SetRootNavigationShown(!hasOwnSidebar && !hidesSidebar);
         SidebarToggle.Visibility = hidesSidebar ? Visibility.Collapsed : Visibility.Visible;
         SynchronizeSidebarSelection(content);
@@ -1196,11 +1156,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 .Items.OfType<NavigationItem>()
                 .Concat(RootNavigation.Footer.OfType<NavigationItem>())
                 .FirstOrDefault((NavigationItem i) => i.IsActive);
-        if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
-        {
-            PageBreadcrumb.Icon = value;
-        }
-        else if (navigationItem != null)
+        if (navigationItem != null)
         {
             PageBreadcrumb.Icon = navigationItem.Icon;
         }
@@ -1840,7 +1796,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             RootNavigation.Footer.Insert(footerIndex++, items[definition.Key]);
         }
-        RegisterHoverIcons();
         if (IsLoaded)
         {
             if (RootFrame?.Content is Pages.ModCustomPage activeModPage && !items.ContainsKey(activeModPage.PageKey))
@@ -2935,6 +2890,46 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private DownloadsPage? _managerPage;
 
     private VoidstrapModsPage? _voidstrapModsPage;
+
+    private FriendsPage? _friendsPage;
+
+    private void FriendsButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_friendsPage == null)
+        {
+            _friendsPage = new FriendsPage();
+            _friendsPage.RequestCountChanged += FriendsPage_RequestCountChanged;
+        }
+        if (!ReferenceEquals(RootFrame.Content, _friendsPage))
+            RootNavigation.NavigateExternal(_friendsPage);
+    }
+
+    private void FriendsPage_RequestCountChanged(object? sender, int count) => SetFriendsBadge(count);
+
+    private void SetFriendsBadge(int count)
+    {
+        FriendsBadgeText.Text = count > 99 ? "99+" : count.ToString(CultureInfo.CurrentCulture);
+        FriendsBadge.Visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private async Task RefreshFriendsBadgeAsync()
+    {
+        const string LOG_IDENT = "MainWindow::RefreshFriendsBadgeAsync";
+        try
+        {
+            SetFriendsBadge(await Task.Run(() => RobloxFriends.GetRequestCountAsync(CancellationToken.None)));
+            if (_friendsPage == null)
+            {
+                _friendsPage = new FriendsPage();
+                _friendsPage.RequestCountChanged += FriendsPage_RequestCountChanged;
+            }
+            await _friendsPage.PreloadAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+        }
+    }
 
     private void TopNavVoidstrapMods_Click(object sender, RoutedEventArgs e)
     {
@@ -5027,10 +5022,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Dispatcher.BeginInvoke(new Action(() => RetryDiscordRpcLater(sender)));
     }
 
+    private object? _discordConfirmedClient;
+
     private void DiscordClient_OnPresenceUpdate(object sender, PresenceMessage e)
     {
-        if (!_isClosed && ReferenceEquals(sender, _discordClient))
-            App.Logger.WriteLine("DiscordRPC", "Discord confirmed the Voidstrap activity");
+        if (_isClosed || !ReferenceEquals(sender, _discordClient) || ReferenceEquals(sender, _discordConfirmedClient))
+            return;
+        _discordConfirmedClient = sender;
+        App.Logger.WriteLine("DiscordRPC", "Discord confirmed the Voidstrap activity");
     }
 
     private void RetryDiscordRpcLater(object client)
@@ -5802,6 +5801,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             long loadedStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             InitializeNavigation();
+            _ = RefreshFriendsBadgeAsync();
             Voidstrap.Integrations.Plugins.PluginTheme.ReapplyActiveBrushes();
             Voidstrap.Integrations.Plugins.PluginWindow.ApplyPending(this);
             Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
@@ -7594,6 +7594,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WpfUiWindow_Closed(object sender, EventArgs e)
     {
+        if (_friendsPage != null)
+            _friendsPage.RequestCountChanged -= FriendsPage_RequestCountChanged;
         if (_searchSpanTimer != null)
         {
             _searchSpanTimer.Stop();
@@ -7794,12 +7796,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         SettingChangeNotifier.Failed -= OnSettingChangeFailed;
         Voidstrap.Utility.LinuxRuntimeChoice.Changed -= OnLinuxRuntimeChanged;
-        foreach (NavigationItem item in _defaultIcons.Keys.ToArray())
-        {
-            item.MouseEnter -= NavigationItem_MouseEnter;
-            item.MouseLeave -= NavigationItem_MouseLeave;
-        }
-        _defaultIcons.Clear();
         _navItemMargins.Clear();
         _navHistoryBack.Clear();
         _navHistoryForward.Clear();
@@ -8198,7 +8194,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     }
 
     private Border[] ModalPanels =>
-        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, GameDetailPanel, BootstrapperImportPanel];
+        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, GameDetailPanel, BootstrapperImportPanel, LearnMorePanel];
 
     private bool ModalIsSidebar => ReferenceEquals(_modalPanel, LaunchTargetPanel);
 
@@ -8537,6 +8533,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ReleaseGameDetail();
         if (ReferenceEquals(_modalPanel, BootstrapperImportPanel))
             ReleaseBootstrapperImport();
+        if (ReferenceEquals(_modalPanel, LearnMorePanel))
+            ReleaseLearnMore();
         if (_modalScale != null)
             SetModalScale(_modalScale, 1.0);
         LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
@@ -8646,6 +8644,28 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         view.SourceChosen -= BootstrapperImport_SourceChosen;
         view.Release();
         BootstrapperImportHost.Content = null;
+    }
+
+    public void ShowLearnMore()
+    {
+        ReleaseLearnMore();
+        Voidstrap.UI.Elements.Dialogs.LearnMoreDialog view = new();
+        view.CloseRequested += LearnMore_CloseRequested;
+        LearnMoreHost.Content = view;
+        OpenSimpleModal(LearnMorePanel, LearnMorePanelScale);
+    }
+
+    private void LearnMore_CloseRequested(object? sender, EventArgs e)
+    {
+        CloseSimpleModal();
+    }
+
+    private void ReleaseLearnMore()
+    {
+        if (LearnMoreHost.Content is not Voidstrap.UI.Elements.Dialogs.LearnMoreDialog view)
+            return;
+        view.CloseRequested -= LearnMore_CloseRequested;
+        LearnMoreHost.Content = null;
     }
 
     public void ShowGameDetail(long placeId, long universeId, string name)

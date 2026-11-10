@@ -9713,4 +9713,100 @@ Abakinnyi: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Nta kintu kirahari</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Menya byinshi</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Kurikira Voidstrap, ubone ubufasha kandi ushyigikire umushinga.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Nshuti</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Nshuti</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Inshuti ({0} kumurongo)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Gusaba</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Kuganira</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Shakisha inshuti</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Ongeraho inshuti ukoresheje izina</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Ongeraho</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Icyifuzo cyinshuti cyoherejwe kuri {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Nta mukoresha witwa {0} wabonetse</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Kurubuga</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Gukina {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Muri Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Iheruka kuboneka {0} ishize</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Kurubuga</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Yoherejwe {0} ishize</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Amazina</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Amazina gusa ushobora kubona</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Inshuti</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Kuraho {0} mu nshuti zawe?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Emera</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Kugabanuka</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Hagarika byose</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Nta nshuti usaba</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Nta nshuti zerekana</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Injira kuri Roblox muri Voidstrap kugirango urebe inshuti zawe</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ntabwo yashubije, gerageza nanone mumwanya muto</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Injira</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Nta myambaro y'umukino</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Ambara iyi myambaro igihe cyose utangije uyu mukino</value>
+  </data>
 </root>

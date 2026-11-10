@@ -9712,4 +9712,100 @@ Abadlali: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Akukho lutho lapha okwamanje</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Funda kabanzi</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Landela iVoidstrap, uthole usizo futhi usekele iphrojekthi.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Abangane</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Abangane</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Abangani ({0} ku-inthanethi)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Izicelo</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Xoxa</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Sesha abangani</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Engeza umngane ngegama lomsebenzisi</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Engeza</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Isicelo sobungani sithunyelwe ku-{0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Akekho umsebenzisi okuthiwa {0} otholiwe</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Ku-inthanethi</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Idlala i-{0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Ngo-Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Ugcine ukubonwa {0} edlule</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Okungaxhunyiwe ku-inthanethi</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Kuthunyelwe {0} edlule</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Isiteketiso</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Isiteketiso kuphela ongasibona</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Susa umngani</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Susa i-{0} kubangani bakho?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Yamukela</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Yenqaba</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Yenqaba konke</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Awunazo izicelo zobungane</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Abekho abangani abangaboniswa</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Ngena ngemvume ku-Roblox ku-Voidstrap ukuze ubone abangani bakho</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>U-Roblox akaphendulanga, zama futhi ngemva kwesikhashana</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Joyina</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Ayikho ingubo yomdlalo</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Gqoka le ngubo njalo uma uqala lo mdlalo</value>
+  </data>
 </root>

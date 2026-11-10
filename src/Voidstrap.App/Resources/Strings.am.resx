@@ -9712,4 +9712,100 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>እስካሁን ምንም የለም</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ተጨማሪ ይወቁ</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrapን ይከተሉ፣ እርዳታ ያግኙ እና ፕሮጀክቱን ይደግፉ።</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>ጓደኞች</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>ጓደኞች</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>ጓደኞች ({0} በመስመር ላይ)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>ጥያቄዎች</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>ተወያይ</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>ጓደኞችን ፈልግ</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>ጓደኛ በተጠቃሚ ስም ያክሉ</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>አክል</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>የጓደኛ ጥያቄ ለ {0} ተልኳል</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} የሚባል ተጠቃሚ አልተገኘም።</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>በመስመር ላይ</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>በመጫወት ላይ {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>በRoblox Studio ውስጥ</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>መጨረሻ የታየው ከ{0} በፊት ነው።</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>ከመስመር ውጭ</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>ከ{0} በፊት ተልኳል።</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>ቅጽል ስም</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>ቅጽል ስም እርስዎ ብቻ ማየት ይችላሉ።</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>ጓደኛ ውጣ</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>{0} ከጓደኞችህ ይወገድ?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>ተቀበል</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>አትቀበል</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>ሁሉንም አትቀበል</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>ምንም የጓደኛ ጥያቄ የለዎትም።</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>ምንም ጓደኞች ለማሳየት</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>ጓደኞችዎን ለማየት በ Voidstrap ውስጥ ወደ Roblox ይግቡ</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ምላሽ አልሰጡም፣ ከአፍታ በኋላ እንደገና ይሞክሩ</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>ተቀላቀል</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>የጨዋታ አልባሳት የለም</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ይህን ጨዋታ በጀመሩ ቁጥር ይህን አልባሳት ይልበሱ</value>
+  </data>
 </root>

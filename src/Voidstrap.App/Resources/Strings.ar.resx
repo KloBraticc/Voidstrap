@@ -10024,4 +10024,100 @@
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>لا يوجد شيء هنا بعد</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>اعرف المزيد</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>تابع Voidstrap واحصل على المساعدة وادعم المشروع.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>أصدقاء</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>أصدقاء</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>الأصدقاء ({0} متصلون)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>الطلبات</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>محادثة</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>البحث عن الأصدقاء</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>إضافة صديق عن طريق اسم المستخدم</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>يضيف</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>تم إرسال طلب الصداقة إلى {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>لم يتم العثور على مستخدم اسمه {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>متصل</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>اللعب {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>في Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>آخر ظهور منذ {0}</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>غير متصل</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>تم الإرسال منذ {0}</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>كنية</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>اللقب يمكنك رؤيته فقط</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>غير صديق</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>هل تريد إزالة {0} من أصدقائك؟</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>يقبل</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>انخفاض</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>رفض الكل</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>ليس لديك أي طلبات صداقة</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>لا يوجد أصدقاء لإظهارهم</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>قم بتسجيل الدخول إلى Roblox في Voidstrap لرؤية أصدقائك</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox لم يستجب، حاول مرة أخرى بعد قليل</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>ينضم</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>بدون زي للعبة</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>ارتدِ هذا الزي كلما شغّلت هذه اللعبة</value>
+  </data>
 </root>

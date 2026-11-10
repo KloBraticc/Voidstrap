@@ -117,6 +117,9 @@ public static class VoidstrapMatchmaker
 
     private static long _joinBackoffUntilTicks;
     private static int _joinRateLimitStreak;
+    private static long _joinPacedUntilTicks;
+    private static readonly TimeSpan JoinPacedWindow = TimeSpan.FromSeconds(20);
+    private static readonly TimeSpan JoinPacedSpacing = TimeSpan.FromMilliseconds(300);
 
     private static string? _csrfToken;
 
@@ -1296,16 +1299,27 @@ public static class VoidstrapMatchmaker
 
     private static async Task WaitForJoinBackoffAsync(CancellationToken token)
     {
-        long until = Interlocked.Read(ref _joinBackoffUntilTicks);
-        long now = DateTime.UtcNow.Ticks;
-        if (until > now)
-            await Task.Delay(TimeSpan.FromTicks(until - now) + TimeSpan.FromMilliseconds(Random.Shared.Next(25, 201)), token)
+        long now;
+        long slot;
+        while (true)
+        {
+            now = DateTime.UtcNow.Ticks;
+            long until = Interlocked.Read(ref _joinBackoffUntilTicks);
+            slot = Math.Max(until, now);
+            if (Interlocked.Read(ref _joinPacedUntilTicks) <= now)
+                break;
+            if (Interlocked.CompareExchange(ref _joinBackoffUntilTicks, slot + JoinPacedSpacing.Ticks, until) == until)
+                break;
+        }
+        if (slot > now)
+            await Task.Delay(TimeSpan.FromTicks(slot - now) + TimeSpan.FromMilliseconds(Random.Shared.Next(25, 201)), token)
                 .ConfigureAwait(false);
     }
 
     private static void NoteJoinRateLimited(TimeSpan? retryAfter)
     {
         int streak = Math.Min(Interlocked.Increment(ref _joinRateLimitStreak), 4);
+        Interlocked.Exchange(ref _joinPacedUntilTicks, DateTime.UtcNow.Ticks + JoinPacedWindow.Ticks);
         SetJoinBackoff(retryAfter ?? TimeSpan.FromSeconds(1.5 * (1 << (streak - 1))));
     }
 

@@ -9712,4 +9712,100 @@ Spelers: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Nog niks hier nie</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Kom meer te wete</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Volg Voidstrap, kry hulp en ondersteun die projek.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Vriende</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Vriende</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Vriende ({0} aanlyn)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Versoeke</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Gesels</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Soek vriende</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Voeg 'n vriend by volgens gebruikersnaam</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Voeg by</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Vriendversoek gestuur aan {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Geen gebruiker met die naam {0} is gevind nie</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Aanlyn</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Speel {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>In Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Laas gesien {0} gelede</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Vanlyn</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Gestuur {0} gelede</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Bynaam</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Bynaam net jy kan sien</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Onvriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Verwyder {0} van jou vriende af?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Aanvaar</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Weier</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Weier almal</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Jy het geen vriendskapsversoeke nie</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Geen vriende om te wys nie</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Meld aan by Roblox in Voidstrap om jou vriende te sien</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox het nie gereageer nie, probeer oor 'n oomblik weer</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Sluit aan</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Geen speletjie-uitrusting</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Dra hierdie uitrusting elke keer as jy hierdie speletjie begin</value>
+  </data>
 </root>

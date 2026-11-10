@@ -9713,4 +9713,100 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>هتي اڃا ڪجهه به ناهي</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>وڌيڪ ڄاڻو</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap کي فالو ڪريو، مدد حاصل ڪريو ۽ منصوبي جي حمايت ڪريو.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>دوستو</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>دوستو</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>دوست ({0} آن لائن)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>درخواستون</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>چيٽ</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>دوستن جي ڳولا ڪريو</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>استعمال ڪندڙ جي نالي سان دوست شامل ڪريو</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>شامل ڪريو</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>دوستي جي درخواست موڪلي وئي {0} تي</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} نالي ڪو به استعمال ڪندڙ نه مليو</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>آن لائن</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>راند ڪندي {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>۾ Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>آخري دفعو ڏٺو ويو {0} اڳ</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>آف لائن</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} اڳ موڪليو ويو</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>نالو</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>نالو صرف توهان ڏسي سگهو ٿا</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>دوستي نه ڪريو</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>پنهنجي دوستن مان {0} کي هٽايو؟</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>قبول ڪريو</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>رد ڪرڻ</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>سڀ رد ڪريو</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>توهان وٽ ڪا به دوستي جي درخواست ناهي</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>ڪو دوست ڏيکارڻ لاءِ</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>پنهنجي دوستن کي ڏسڻ لاءِ Roblox ۾ Voidstrap ۾ سائن ان ڪريو</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox جواب نه ڏنو، هڪ لمحي ۾ ٻيهر ڪوشش ڪريو</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>شامل ٿيڻ</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>راند لاءِ ڪو لباس ناهي</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>جڏهن به توهان هي راند شروع ڪريو ته هي لباس پايو</value>
+  </data>
 </root>

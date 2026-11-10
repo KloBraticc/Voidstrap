@@ -10028,4 +10028,100 @@ Pemain: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Belum ada apa pun di sini</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Pelajari lebih lanjut</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Ikuti Voidstrap, dapatkan bantuan, dan dukung proyek ini.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Teman-teman</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Teman-teman</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Teman ({0} daring)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Permintaan</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Mengobrol</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Cari teman</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Tambahkan teman berdasarkan nama pengguna</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Menambahkan</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Permintaan pertemanan dikirim ke {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Tidak ada pengguna bernama {0} yang ditemukan</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>On line</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Memainkan {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Di Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Terakhir terlihat {0} yang lalu</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Luring</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Dikirim {0} yang lalu</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Nama panggilan</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Hanya nama panggilan yang dapat Anda lihat</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Batalkan pertemanan</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Hapus {0} dari teman Anda?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Menerima</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Menolak</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Tolak semuanya</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Anda tidak memiliki permintaan pertemanan</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Tidak ada teman untuk ditunjukkan</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Masuk ke Roblox di Voidstrap untuk melihat teman Anda</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox tidak merespons, coba lagi sebentar lagi</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Bergabung</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Tanpa pakaian game</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Kenakan pakaian ini setiap kali Anda meluncurkan game ini</value>
+  </data>
 </root>

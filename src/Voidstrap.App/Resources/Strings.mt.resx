@@ -9713,4 +9713,100 @@ Parteċipanti: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Għad m'hemm xejn hawn</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Kun af aktar</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Segwi lil Voidstrap, ikseb l-għajnuna u appoġġja l-proġett.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Ħbieb</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Ħbieb</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Ħbieb ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Talbiet</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Fittex ħbieb</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Żid ħabib bl-isem tal-utent</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Żid</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Talba ta' ħabib mibgħuta lil {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ma nstab l-ebda utent bl-isem {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Nilgħab {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Fi Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Rajt l-aħħar {0} ilu</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Mibgħuta {0} ilu</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Laqam</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Laqam biss tista' tara</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Neħħi {0} minn sħabek?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Aċċetta</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Tnaqqis</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Irrifjuta kollox</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>M'għandekx talbiet ta' ħabib</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Ebda ħbieb x'juri</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Idħol f'Roblox fi Voidstrap biex tara sħabek</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ma weġibx, erġa' pprova fi ftit mument</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Ingħaqad</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>L-ebda ilbies għal-logħba</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Ilbes dan l-ilbies kull darba li tniedi din il-logħba</value>
+  </data>
 </root>

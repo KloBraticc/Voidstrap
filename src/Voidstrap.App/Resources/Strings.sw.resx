@@ -9712,4 +9712,100 @@ Wachezaji: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Bado hakuna kitu hapa</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Pata maelezo zaidi</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Fuata Voidstrap, pata usaidizi na uunge mkono mradi.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Marafiki</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Marafiki</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Marafiki ({0} mtandaoni)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Maombi</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Soga</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Tafuta marafiki</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Ongeza rafiki kwa jina la mtumiaji</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Ongeza</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Ombi la urafiki limetumwa kwa {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Hakuna mtumiaji anayeitwa {0} aliyepatikana</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Mtandaoni</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Inacheza {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Katika Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Alionekana mwisho {0} zilizopita</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Nje ya mtandao</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Ilitumwa {0} zilizopita</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Jina la utani</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Jina la utani pekee unaweza kuona</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Achana na urafiki</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Ungependa kuondoa {0} kutoka kwa marafiki zako?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Kubali</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Kataa</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Kataa yote</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Huna maombi ya urafiki</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Hakuna marafiki wa kuonyesha</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Ingia kwa Roblox katika Voidstrap ili kuona marafiki zako</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox haikujibu, jaribu tena baada ya muda mfupi</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Jiunge</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Hakuna vazi la mchezo</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Vaa vazi hili kila unapozindua mchezo huu</value>
+  </data>
 </root>

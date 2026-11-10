@@ -9713,4 +9713,100 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>دلته لا هېڅ نشته</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>نور زده کړئ</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap تعقیب کړئ، مرسته ترلاسه کړئ او د پروژې ملاتړ وکړئ.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>ملګرو</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>ملګرو</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>ملګري ({0} آنلاین)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>غوښتنې</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>چټ</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>ملګري ولټوئ</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>د کارن نوم په واسطه یو ملګری اضافه کړئ</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>اضافه کړئ</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>د ملګري غوښتنه {0} ته لیږل شوې</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>د {0} په نوم هیڅ کارن ونه موندل شو</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>آنلاین</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>لوبې کول {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>په Roblox Studio کې</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>وروستی ځل {0} مخکې لیدل شوی</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>آف لائن</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} مخکې لیږل شوی</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>مستعار نوم</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>مستعار نوم یوازې تاسو لیدلی شئ</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>ملګرتيا نه کول</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>له خپلو ملګرو څخه {0} لرې کړئ؟</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>ومنئ</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>کمول</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>ټول رد کړئ</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>تاسو د ملګري غوښتنه نلرئ</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>د ښودلو لپاره ملګري نشته</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>د خپلو ملګرو د لیدلو لپاره په Voidstrap کې Roblox ته ننوتل</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ځواب نه دی ورکړی، په یوه شیبه کې بیا هڅه وکړئ</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>ګډون وکړئ</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>د لوبې لپاره جامې نشته</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>هر ځل چې دا لوبه پیلوئ دا جامې واغوندئ</value>
+  </data>
 </root>

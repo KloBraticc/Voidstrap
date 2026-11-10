@@ -9712,4 +9712,100 @@ Awọn oṣere: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Kò sí nǹkan kan níbí síbẹ̀</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Kọ́ ẹ̀kọ́ síi</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Tẹ̀lé Voidstrap, gba ìrànlọ́wọ́ kí o sì ṣàtìlẹ́yìn iṣẹ́ náà.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Awọn ọrẹ</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Awọn ọrẹ</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Awọn ọrẹ ({0} lori ayelujara)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Awọn ibeere</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Wiregbe</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Wa awọn ọrẹ</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Fi ore kan kun nipasẹ orukọ olumulo</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Fi kun</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Ibere ore ti a fi ranse si {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Ko si olumulo ti a npè ni {0} ti a ri</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Ti nṣere {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Ninu Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Ti a rii kẹhin {0} sẹhin</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Aisinipo</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>Ti firanṣẹ {0} sẹyin</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Oruko apeso</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Oruko apeso nikan ni o le rii</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Ọrẹ</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Yọ {0} kuro ninu awọn ọrẹ rẹ?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Gba</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Kọ silẹ</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Kọ gbogbo rẹ silẹ</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>O ko ni awọn ibeere ọrẹ</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Ko si awọn ọrẹ lati fihan</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Wọle si Roblox ni Voidstrap lati ri awọn ọrẹ rẹ</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ko dahun, gbiyanju lẹẹkansi ni iṣẹju kan</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Darapọ mọ</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Kò sí aṣọ fún eré</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Wọ aṣọ yìí nígbàkúùgbà tí o bá bẹ̀rẹ̀ eré yìí</value>
+  </data>
 </root>

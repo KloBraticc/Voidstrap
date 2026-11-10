@@ -9713,4 +9713,100 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Бул жерде азырынча эч нерсе жок</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Кененирээк</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Voidstrap'ке жазылыңыз, жардам алыңыз жана долбоорду колдоңуз.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Достор</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Достор</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Достор ({0} онлайн)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Суранычтар</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Чат</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Досторду изде</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Колдонуучунун аты менен дос кошуңуз</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>кошуу</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Достук суроо {0} дарегине жөнөтүлдү</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>{0} аттуу колдонуучу табылган жок</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Ойнотуу {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio ичинде</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Акыркы жолу {0} мурун көрүлгөн</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Оффлайн</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} мурун жөнөтүлгөн</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>лакап ат</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>Лакап ысымды сиз гана көрө аласыз</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Unfriend</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>{0} досторуңуздан өчүрүлсүнбү?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Кабыл алуу</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Баш тартуу</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Баарын четке кагуу</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Сизде достошуу сурамдары жок</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Көрсөтө турган достор жок</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Досторуңузду көрүү үчүн Roblox кириңиз Voidstrap</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox жооп берген жок, бир аздан кийин кайталап көрүңүз</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Кошулуу</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Оюн кийими жок</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Бул оюнду ишке киргизген сайын ушул кийимди кийиңиз</value>
+  </data>
 </root>

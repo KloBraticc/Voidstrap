@@ -10025,4 +10025,100 @@ Játékosok: {2}</value>
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>Itt még nincs semmi</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>Tudj meg többet</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>Kövesd a Voidstrapet, kérj segítséget és támogasd a projektet.</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>Barátok</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>Barátok</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>Barátok ({0} online)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>Kérések</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>Csevegés</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>Ismerősök keresése</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>Barát hozzáadása felhasználónévvel</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>Hozzáadás</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>Ismerős felkérés elküldve a következő címre: {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>Nem található {0} nevű felhasználó</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>Lejátszás {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>Utoljára {0} ezelőtt láttam</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>{0} elküldve</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>Becenév</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>A becenevet csak te láthatod</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>Barátságtalan</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>Eltávolítja {0} az ismerősei közül?</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>Elfogadás</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>Hanyatlás</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>Az összes elutasítása</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>Nincsenek baráti kéréseid</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>Nincsenek megmutatható barátok</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>Jelentkezzen be a Roblox Voidstrap-ban, hogy láthassa ismerőseit</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox nem válaszolt, próbálja újra egy pillanat múlva</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>Csatlakozik</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>Nincs öltözet a játékhoz</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>Viseld ezt az öltözetet, valahányszor elindítod ezt a játékot</value>
+  </data>
 </root>

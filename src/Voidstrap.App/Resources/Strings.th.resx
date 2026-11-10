@@ -10020,4 +10020,100 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Session.HubEmpty" xml:space="preserve">
     <value>ยังไม่มีอะไรที่นี่</value>
   </data>
+  <data name="Ui.Home.LearnMore" xml:space="preserve">
+    <value>ดูเพิ่มเติม</value>
+  </data>
+  <data name="Ui.Home.LearnMore.Description" xml:space="preserve">
+    <value>ติดตาม Voidstrap รับความช่วยเหลือ และสนับสนุนโปรเจกต์</value>
+  </data>
+  <data name="Ui.Friends.Title" xml:space="preserve">
+    <value>เพื่อน</value>
+  </data>
+  <data name="Ui.Friends.Tooltip" xml:space="preserve">
+    <value>เพื่อน</value>
+  </data>
+  <data name="Ui.Friends.Header" xml:space="preserve">
+    <value>เพื่อน ({0} ออนไลน์)</value>
+  </data>
+  <data name="Ui.Friends.Requests" xml:space="preserve">
+    <value>คำขอ</value>
+  </data>
+  <data name="Ui.Friends.Chat" xml:space="preserve">
+    <value>แชท</value>
+  </data>
+  <data name="Ui.Friends.Search" xml:space="preserve">
+    <value>ค้นหาเพื่อน</value>
+  </data>
+  <data name="Ui.Friends.AddPlaceholder" xml:space="preserve">
+    <value>เพิ่มเพื่อนด้วยชื่อผู้ใช้</value>
+  </data>
+  <data name="Ui.Friends.Add" xml:space="preserve">
+    <value>เพิ่ม</value>
+  </data>
+  <data name="Ui.Friends.RequestSent" xml:space="preserve">
+    <value>ส่งคำขอเป็นเพื่อนไปที่ {0}</value>
+  </data>
+  <data name="Ui.Friends.UserNotFound" xml:space="preserve">
+    <value>ไม่พบผู้ใช้ชื่อ {0}</value>
+  </data>
+  <data name="Ui.Friends.Online" xml:space="preserve">
+    <value>ออนไลน์</value>
+  </data>
+  <data name="Ui.Friends.Playing" xml:space="preserve">
+    <value>กำลังเล่น {0}</value>
+  </data>
+  <data name="Ui.Friends.InStudio" xml:space="preserve">
+    <value>ใน Roblox Studio</value>
+  </data>
+  <data name="Ui.Friends.LastSeen" xml:space="preserve">
+    <value>เห็นครั้งสุดท้าย {0} ที่แล้ว</value>
+  </data>
+  <data name="Ui.Friends.Offline" xml:space="preserve">
+    <value>ออฟไลน์</value>
+  </data>
+  <data name="Ui.Friends.Sent" xml:space="preserve">
+    <value>ส่ง{0}ที่แล้ว</value>
+  </data>
+  <data name="Ui.Friends.Nickname" xml:space="preserve">
+    <value>ชื่อเล่น</value>
+  </data>
+  <data name="Ui.Friends.NicknamePlaceholder" xml:space="preserve">
+    <value>ชื่อเล่นที่มีเพียงคุณเท่านั้นที่เห็น</value>
+  </data>
+  <data name="Ui.Friends.Unfriend" xml:space="preserve">
+    <value>เลิกเป็นเพื่อน</value>
+  </data>
+  <data name="Ui.Friends.UnfriendConfirm" xml:space="preserve">
+    <value>ลบ {0} ออกจากเพื่อนของคุณใช่ไหม</value>
+  </data>
+  <data name="Ui.Friends.Accept" xml:space="preserve">
+    <value>ยอมรับ</value>
+  </data>
+  <data name="Ui.Friends.Decline" xml:space="preserve">
+    <value>ปฏิเสธ</value>
+  </data>
+  <data name="Ui.Friends.DeclineAll" xml:space="preserve">
+    <value>ปฏิเสธทั้งหมด</value>
+  </data>
+  <data name="Ui.Friends.NoRequests" xml:space="preserve">
+    <value>คุณไม่มีคำขอเป็นเพื่อน</value>
+  </data>
+  <data name="Ui.Friends.NoFriends" xml:space="preserve">
+    <value>ไม่มีเพื่อนที่จะแสดง</value>
+  </data>
+  <data name="Ui.Friends.SignIn" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ Roblox ใน Voidstrap เพื่อดูเพื่อนของคุณ</value>
+  </data>
+  <data name="Ui.Friends.Failed" xml:space="preserve">
+    <value>Roblox ไม่ตอบกลับ โปรดลองอีกครั้งในอีกสักครู่</value>
+  </data>
+  <data name="Ui.Friends.Join" xml:space="preserve">
+    <value>เข้าร่วม</value>
+  </data>
+  <data name="Accounts.Outfits.GameNone" xml:space="preserve">
+    <value>ไม่มีชุดสำหรับเกม</value>
+  </data>
+  <data name="Accounts.Outfits.GameTooltip" xml:space="preserve">
+    <value>สวมชุดนี้ทุกครั้งที่คุณเปิดเกมนี้</value>
+  </data>
 </root>

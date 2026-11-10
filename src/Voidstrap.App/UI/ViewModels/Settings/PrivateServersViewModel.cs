@@ -90,6 +90,7 @@ namespace Voidstrap.UI.ViewModels.Settings
     internal sealed class PrivateServerGame : NotifyPropertyChangedViewModel
     {
         private string? _iconUrl;
+        private string? _bannerUrl;
 
         public long UniverseId { get; init; }
 
@@ -107,6 +108,18 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
         }
 
+        public string? BannerUrl
+        {
+            get => _bannerUrl;
+            set
+            {
+                if (_bannerUrl == value)
+                    return;
+                _bannerUrl = value;
+                OnPropertyChanged(nameof(BannerUrl));
+            }
+        }
+
         public string CountText { get; init; } = string.Empty;
 
         public List<PrivateServerRow> Servers { get; init; } = [];
@@ -114,6 +127,10 @@ namespace Voidstrap.UI.ViewModels.Settings
 
     internal sealed class PrivateServersViewModel : NotifyPropertyChangedViewModel
     {
+        private const string SnapshotFile = "PrivateServers.json";
+
+        private static PrivateServersSnapshot? _snapshot;
+
         private readonly SemaphoreSlim _loadGate = new(1, 1);
         private List<PrivateServerGame> _mineGames = [];
         private List<PrivateServerGame> _friendGames = [];
@@ -220,15 +237,22 @@ namespace Voidstrap.UI.ViewModels.Settings
             if (!await _loadGate.WaitAsync(0))
                 return;
             IsLoading = true;
-            Status = Strings.PrivateServers_Loading;
+            long userId = SavedAccounts.Current?.UserId ?? 0;
+            if (_mineGames.Count == 0 && _friendGames.Count == 0)
+            {
+                PrivateServersSnapshot? cached = _snapshot ??= await Task.Run(ReadSnapshot);
+                if (cached != null && cached.UserId == userId && cached.Servers.Count > 0)
+                    ShowServers(cached.Servers, cached.Banners);
+            }
+            Status = Games.Count == 0 ? Strings.PrivateServers_Loading : string.Empty;
             try
             {
                 (PrivateServersStatus result, List<AccountPrivateServer> servers) = await Task.Run(() =>
                     RobloxServers.GetAccountPrivateServersAsync(CancellationToken.None)
                 );
-                _mineGames = BuildGames(servers.Where(server => server.IsMine));
-                _friendGames = BuildGames(servers.Where(server => !server.IsMine));
-                ApplyFilter();
+                Dictionary<long, string> known = CollectBanners();
+                if (result == PrivateServersStatus.Ready || servers.Count > 0 || Games.Count == 0)
+                    ShowServers(servers, known);
                 Status = result switch
                 {
                     PrivateServersStatus.NotSignedIn => Strings.PrivateServers_SignIn,
@@ -241,7 +265,13 @@ namespace Voidstrap.UI.ViewModels.Settings
                     $"Showing {servers.Count} private servers, {_mineGames.Count} games of your own and {_friendGames.Count} shared with you"
                 );
                 IsLoading = false;
-                await LoadIconsAsync();
+                await Task.WhenAll(LoadIconsAsync(), LoadBannersAsync());
+                if (result == PrivateServersStatus.Ready)
+                {
+                    _snapshot = new PrivateServersSnapshot { UserId = userId, Servers = servers, Banners = CollectBanners() };
+                    PrivateServersSnapshot snapshot = _snapshot;
+                    await Task.Run(() => WriteSnapshot(snapshot));
+                }
             }
             catch (Exception ex)
             {
@@ -281,6 +311,87 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 if (game.UniverseId > 0 && UniverseDetails.LoadFromCache(game.UniverseId)?.Thumbnail?.ImageUrl is { Length: > 0 } url)
                     game.IconUrl = url;
+            }
+        }
+
+        private void ShowServers(List<AccountPrivateServer> servers, Dictionary<long, string> banners)
+        {
+            _mineGames = BuildGames(servers.Where(server => server.IsMine));
+            _friendGames = BuildGames(servers.Where(server => !server.IsMine));
+            foreach (PrivateServerGame game in _mineGames.Concat(_friendGames))
+            {
+                if (banners.TryGetValue(game.UniverseId, out string? url))
+                    game.BannerUrl = url;
+            }
+            ApplyFilter();
+        }
+
+        private Dictionary<long, string> CollectBanners()
+        {
+            Dictionary<long, string> banners = new();
+            foreach (PrivateServerGame game in _mineGames.Concat(_friendGames))
+            {
+                if (game.UniverseId > 0 && game.BannerUrl is { Length: > 0 } url)
+                    banners[game.UniverseId] = url;
+            }
+            return banners;
+        }
+
+        private static PrivateServersSnapshot? ReadSnapshot()
+        {
+            const string LOG_IDENT = "PrivateServersViewModel::ReadSnapshot";
+
+            try
+            {
+                string path = Path.Combine(Paths.Cache, SnapshotFile);
+                return File.Exists(path) ? JsonSerializer.Deserialize<PrivateServersSnapshot>(File.ReadAllText(path)) : null;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The saved private server list could not be read: " + ex.Message);
+                return null;
+            }
+        }
+
+        private static void WriteSnapshot(PrivateServersSnapshot snapshot)
+        {
+            const string LOG_IDENT = "PrivateServersViewModel::WriteSnapshot";
+
+            try
+            {
+                Directory.CreateDirectory(Paths.Cache);
+                File.WriteAllText(Path.Combine(Paths.Cache, SnapshotFile), JsonSerializer.Serialize(snapshot));
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The private server list could not be saved: " + ex.Message);
+            }
+        }
+
+        private async Task LoadBannersAsync()
+        {
+            const string LOG_IDENT = "PrivateServersViewModel::LoadBannersAsync";
+
+            List<PrivateServerGame> games = _mineGames
+                .Concat(_friendGames)
+                .Where(game => game.UniverseId > 0 && string.IsNullOrEmpty(game.BannerUrl))
+                .ToList();
+            if (games.Count == 0)
+                return;
+            try
+            {
+                Dictionary<long, string> banners = await Task.Run(() =>
+                    RobloxFriends.GetGameThumbnailsAsync(games.Select(game => game.UniverseId), CancellationToken.None)
+                );
+                foreach (PrivateServerGame game in games)
+                {
+                    if (banners.TryGetValue(game.UniverseId, out string? url))
+                        game.BannerUrl = url;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Game banners could not be loaded: " + ex.Message);
             }
         }
 
@@ -337,7 +448,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                     Games.Add(game);
                 }
             }
-            SelectedGame = previous != null && Games.Contains(previous) ? previous : Games.FirstOrDefault();
+            SelectedGame =
+                Games.FirstOrDefault(game => ReferenceEquals(game, previous))
+                ?? Games.FirstOrDefault(game => previous != null && game.UniverseId == previous.UniverseId)
+                ?? Games.FirstOrDefault();
         }
 
         private async Task JoinAsync(PrivateServerRow? row)
