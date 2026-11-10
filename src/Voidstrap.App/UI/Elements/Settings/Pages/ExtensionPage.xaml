@@ -231,7 +231,7 @@
         <ui:Button x:Name="DetailPrimaryButton" HorizontalAlignment="Stretch" Height="40" Appearance="Primary" Icon="ArrowDownload24" Click="DetailPrimary_Click" />
         <ui:Button x:Name="DetailOpenButton" HorizontalAlignment="Stretch" Height="36" Margin="0,8,0,0" Appearance="Secondary" Icon="Open24" Click="DetailOpen_Click" />
         <TextBlock x:Name="DetailStatus" Margin="0,10,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-        <Border Style="{StaticResource RowCard}" Margin="0,14,0,0" Padding="12">
+        <Border Style="{StaticResource PanelCard}" Margin="0,14,0,0" Padding="12">
           <StackPanel>
             <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_WorksWith}" />
             <WrapPanel x:Name="DetailWorksWith" Margin="0,6,0,0" />

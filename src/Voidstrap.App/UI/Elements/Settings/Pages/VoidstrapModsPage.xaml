@@ -71,7 +71,7 @@
             <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_VoidstrapMods_LibraryWebsites}" />
             <TextBlock x:Name="DetailNetwork" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_VoidstrapMods_LibraryFiles}" />
-            <Border Style="{StaticResource RowCard}" Padding="12">
+            <Border Style="{StaticResource PanelCard}" Padding="12">
               <TextBlock x:Name="DetailFiles" FontFamily="Cascadia Mono, Consolas" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             </Border>
           </StackPanel>
@@ -87,7 +87,7 @@
               <ui:Button x:Name="DetailUninstallButton" Grid.Column="2" HorizontalAlignment="Stretch" Height="36" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Ui_VoidstrapMods_LibraryUninstall}" Click="LibraryUninstall_Click" />
             </Grid>
             <ui:Button HorizontalAlignment="Stretch" Height="36" Margin="0,8,0,0" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Ui_Pages_OpenOnGitHub}" Click="DetailGitHub_Click" />
-            <Border Style="{StaticResource RowCard}" Margin="0,14,0,0" Padding="12">
+            <Border Style="{StaticResource PanelCard}" Margin="0,14,0,0" Padding="12">
               <StackPanel>
                 <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Common_Version}" />
                 <TextBlock x:Name="DetailVersion" Margin="0,4,0,0" FontSize="13" />

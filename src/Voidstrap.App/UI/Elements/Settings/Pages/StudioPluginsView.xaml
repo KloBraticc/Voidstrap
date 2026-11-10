@@ -179,7 +179,7 @@
           <ui:Button x:Name="DislikeButton" Grid.Column="2" HorizontalAlignment="Stretch" Height="34" Appearance="Secondary" Icon="ThumbDislike24" Content="{resources:Loc Ui_Mods_StudioPlugins_Dislike}" Click="Dislike_Click" />
         </Grid>
         <TextBlock x:Name="DetailStatus" Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-        <Border Style="{StaticResource RowCard}" Margin="0,14,0,0" Padding="12">
+        <Border Style="{StaticResource PanelCard}" Margin="0,14,0,0" Padding="12">
           <StackPanel>
             <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Mods_StudioPlugins_PriceLabel}" />
             <TextBlock x:Name="DetailPrice" Margin="0,4,0,0" FontSize="13" />

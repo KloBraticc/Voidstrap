@@ -1,5 +1,5 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="RowCard" TargetType="Border">
+    <Style x:Key="PanelCard" TargetType="Border">
       <Setter Property="Margin" Value="0,0,0,10" />
       <Setter Property="Padding" Value="14" />
       <Setter Property="CornerRadius" Value="10" />
@@ -7,16 +7,27 @@
       <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
       <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
     </Style>
+    <Style x:Key="RowCard" TargetType="Border" BasedOn="{StaticResource PanelCard}">
+      <Setter Property="Margin" Value="0,0,0,8" />
+      <Setter Property="Padding" Value="14,12" />
+      <Setter Property="SnapsToDevicePixels" Value="True" />
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
     <Style x:Key="RowIcon" TargetType="Border">
-      <Setter Property="Width" Value="84" />
-      <Setter Property="Height" Value="84" />
-      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="Width" Value="80" />
+      <Setter Property="Height" Value="80" />
+      <Setter Property="CornerRadius" Value="8" />
       <Setter Property="ClipToBounds" Value="True" />
       <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
       <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
     <Style x:Key="RowTitle" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="18" />
+      <Setter Property="FontSize" Value="17" />
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="TextTrimming" Value="CharacterEllipsis" />
     </Style>
