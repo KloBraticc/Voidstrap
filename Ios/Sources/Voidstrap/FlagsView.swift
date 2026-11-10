@@ -64,14 +64,14 @@ struct FlagsView: View {
                 }
                 .padding(.horizontal, 12)
                 .frame(minHeight: 40)
-                .glass(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
+                .surface(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
                 LazyVStack(spacing: 0) {
                     ForEach(Array(filtered.enumerated()), id: \.element.id) { index, flag in
                         if index > 0 { RowDivider() }
                         flagRow(flag)
                     }
                 }
-                .glass(RoundedRectangle(cornerRadius: Metrics.cardRadius, style: .continuous))
+                .surface(RoundedRectangle(cornerRadius: Metrics.cardRadius, style: .continuous))
             }
         }
         .sheet(item: $editing) { item in
@@ -186,7 +186,7 @@ struct PasteSheet: View {
                 .autocorrectionDisabled()
                 .scrollContentBackground(.hidden)
                 .padding(12)
-                .glass(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
+                .surface(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
                 .padding(Metrics.pageInset)
                 .background(GlassBackdrop())
                 .navigationTitle(Loc.t("Import JSON"))

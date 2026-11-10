@@ -52,6 +52,13 @@ extension View {
     }
 }
 
+extension View {
+    func surface<S: Shape>(_ shape: S, fill: Color? = nil) -> some View {
+        background(fill ?? Palette.card.opacity(0.92), in: shape)
+            .overlay(shape.stroke(Palette.divider.opacity(fill == nil ? 0.35 : 0), lineWidth: 0.5))
+    }
+}
+
 @available(iOS 26.0, *)
 extension Glass {
     static func voidstrap(tint: Color?, interactive: Bool) -> Glass {

@@ -40,7 +40,7 @@ struct Card<Content: View>: View {
 
     var body: some View {
         VStack(spacing: 0) { content }
-            .glass(RoundedRectangle(cornerRadius: Metrics.cardRadius, style: .continuous))
+            .surface(RoundedRectangle(cornerRadius: Metrics.cardRadius, style: .continuous))
     }
 }
 
@@ -134,7 +134,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .padding(.horizontal, 16)
             .frame(minHeight: 40)
             .opacity(enabled ? 1 : 0.5)
-            .glass(Capsule(), tint: Palette.primary.opacity(configuration.isPressed ? 0.75 : 0.9), interactive: true)
+            .surface(Capsule(), fill: Palette.primary.opacity(configuration.isPressed ? 0.75 : 0.9))
     }
 }
 
@@ -147,7 +147,7 @@ struct StandardButtonStyle: ButtonStyle {
             .foregroundColor(Palette.text.opacity(enabled ? 1 : 0.4))
             .padding(.horizontal, 14)
             .frame(minHeight: 40)
-            .glass(Capsule(), interactive: true)
+            .surface(Capsule())
     }
 }
 

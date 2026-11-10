@@ -147,10 +147,21 @@ struct FlagPresetsView: View {
             SectionTitle(text: "Quick setup")
             Card {
                 Row(symbol: "wand.and.stars", title: "Recommended", detail: "Sets textures and anti aliasing") {
-                    Picker("", selection: $profile) {
-                        ForEach(Array(["Balanced, recommended", "Performance", "Quality"].enumerated()), id: \.offset) { Text(Loc.t($0.element)).tag($0.offset) }
+                    Menu {
+                        ForEach(Array(["Balanced", "Performance", "Quality"].enumerated()), id: \.offset) { item in
+                            Button { profile = item.offset } label: {
+                                if item.offset == profile { Label(Loc.t(item.element), systemImage: "checkmark") } else { Text(Loc.t(item.element)) }
+                            }
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text(loc: ["Balanced", "Performance", "Quality"][profile]).lineLimit(1)
+                            Image(systemName: "chevron.up.chevron.down").font(.system(size: 11, weight: .semibold))
+                        }
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundColor(Palette.primary)
+                        .fixedSize()
                     }
-                    .labelsHidden()
                     Button(Loc.t("Apply")) {
                         let p = K.profiles[profile]
                         put(K.textureOn, true)
@@ -220,7 +231,7 @@ struct NumberField: View {
             .keyboardType(.numberPad)
             .multilineTextAlignment(.center)
             .frame(width: width, height: 36)
-            .glass(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
+            .surface(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
             .onAppear { text = value.map(String.init) ?? "" }
             .onChange(of: text) { new in
                 let t = new.trimmingCharacters(in: .whitespaces)
@@ -241,7 +252,7 @@ struct TextInput: View {
             .autocorrectionDisabled()
             .multilineTextAlignment(.center)
             .frame(width: 150, height: 36)
-            .glass(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
+            .surface(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
             .onAppear { text = value }
             .onChange(of: text) { change($0.trimmingCharacters(in: .whitespaces)) }
     }

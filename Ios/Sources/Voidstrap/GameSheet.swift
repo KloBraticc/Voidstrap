@@ -37,7 +37,7 @@ struct GameSheet: View {
                     Card {
                         Row(symbol: "server.rack", title: "Join server", detail: "Paste a server instance id") {
                             TextField("", text: $instance).textInputAutocapitalization(.never).autocorrectionDisabled()
-                                .frame(width: 140, height: 36).glass(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
+                                .frame(width: 140, height: 36).surface(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
                             Button(Loc.t("Join")) {
                                 guard let url = game.joinUrl(instance: instance) else { model.show("That server id is not valid.", error: true); return }
                                 UIApplication.shared.open(url)

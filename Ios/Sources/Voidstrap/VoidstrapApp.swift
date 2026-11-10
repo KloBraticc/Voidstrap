@@ -25,6 +25,7 @@ struct RootView: View {
     @EnvironmentObject private var model: AppModel
     @ObservedObject private var loc = Loc.shared
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @State private var onboarding = !UserDefaults.standard.bool(forKey: OnboardingView.key)
 
     var body: some View {
         Group {
@@ -46,6 +47,7 @@ struct RootView: View {
         }
         .background(GlassBackdrop())
         .overlay(alignment: .top) { NoticeBanner() }
+        .fullScreenCover(isPresented: $onboarding) { OnboardingView().environmentObject(model) }
         .id("\(loc.revision)|\(model.settings.theme.rawValue)")
         .onAppear { applyLook() }
         .onChange(of: model.settings.theme) { _ in applyLook() }

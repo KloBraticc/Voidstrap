@@ -26,7 +26,7 @@ struct LibraryView: View {
                         .onSubmit(add)
                         .padding(.horizontal, 12)
                         .frame(minHeight: 40)
-                        .glass(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
+                        .surface(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
                     Button(action: add) {
                         if working { ProgressView() } else { Text(loc: "Add") }
                     }
@@ -50,7 +50,7 @@ struct LibraryView: View {
                 }
                 .padding(.horizontal, 12)
                 .frame(minHeight: 40)
-                .glass(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
+                .surface(RoundedRectangle(cornerRadius: Metrics.controlRadius, style: .continuous))
 
                 group("RECENT", Array(filtered.filter { $0.lastPlayed != nil }.sorted { ($0.lastPlayed ?? .distantPast) > ($1.lastPlayed ?? .distantPast) }.prefix(5)))
                 group("PINNED", filtered.filter(\.pinned))
