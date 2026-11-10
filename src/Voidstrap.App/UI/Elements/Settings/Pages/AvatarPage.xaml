@@ -17,7 +17,7 @@
             <Grid Width="126" Height="126" util:RoundedClip.Radius="8">
               <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" />
               <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
-              <ui:SymbolIcon Margin="0,6,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Symbol="CheckmarkCircle24" Filled="True" FontSize="20" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Visibility="{Binding Worn, Converter={StaticResource BooleanToVisibilityConverter}}" />
+              <ui:SymbolIcon Margin="0,6,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Symbol="CheckmarkCircle24" Filled="True" FontSize="20" Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" Visibility="{Binding Worn, Converter={StaticResource BooleanToVisibilityConverter}}" />
               <ui:ProgressRing Width="20" Height="20" IsIndeterminate="True" Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
             <TextBlock Height="36" Margin="2,6,2,0" FontSize="13" FontWeight="Medium" LineHeight="18" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name}" />
