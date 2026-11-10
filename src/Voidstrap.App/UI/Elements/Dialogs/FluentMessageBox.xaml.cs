@@ -87,8 +87,6 @@ public partial class FluentMessageBox : WpfUiWindow
                 break;
             default:
                 SetButton(ButtonOne, MessageBoxResult.OK);
-                ButtonOne.IsDefault = true;
-                _enterAcceptsOk = true;
                 break;
         }
         if (ButtonThree.Visibility == Visibility.Visible)
@@ -133,15 +131,17 @@ public partial class FluentMessageBox : WpfUiWindow
         base.PreviewKeyDown += OnPreviewKeyDown;
     }
 
-    private bool _enterAcceptsOk;
+    private bool _enterHandled;
 
     private void OnPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
-        if (!_enterAcceptsOk || e.Handled || (e.Key != System.Windows.Input.Key.Enter && e.Key != System.Windows.Input.Key.Return))
+        if (_enterHandled || e.Handled || (e.Key != System.Windows.Input.Key.Enter && e.Key != System.Windows.Input.Key.Return))
+            return;
+        if (_confirmationDelaySeconds > 0 || ButtonOne.Visibility != Visibility.Visible || !ButtonOne.IsEnabled || ButtonOne.Tag is not MessageBoxResult result)
             return;
         e.Handled = true;
-        _enterAcceptsOk = false;
-        Result = MessageBoxResult.OK;
+        _enterHandled = true;
+        Result = result;
         Close();
     }
 
