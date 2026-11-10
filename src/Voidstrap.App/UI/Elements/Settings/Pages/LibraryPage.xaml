@@ -68,9 +68,9 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-              <Border x:Name="MainBorder" Background="Transparent" BorderThickness="1" CornerRadius="4">
+              <Border x:Name="MainBorder" Background="Transparent" BorderThickness="1" CornerRadius="5">
                 <Grid>
-                  <Rectangle x:Name="ActiveRectangle" Width="0" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="2" RadiusY="2">
+                  <Rectangle x:Name="ActiveRectangle" Width="3" Height="0" Margin="-1,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="1.5" RadiusY="1.5">
                     <Rectangle.Fill>
                       <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
                     </Rectangle.Fill>
@@ -82,24 +82,29 @@
                 <Trigger Property="IsSelected" Value="True">
                   <Setter TargetName="MainBorder" Property="Background">
                     <Setter.Value>
-                      <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                      <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
                     </Setter.Value>
                   </Setter>
+                  <Setter TargetName="ActiveRectangle" Property="Height" Value="17" />
+                  <Setter TargetName="ActiveRectangle" Property="Opacity" Value="1" />
                   <Trigger.EnterActions>
-                    <BeginStoryboard>
+                    <BeginStoryboard x:Name="PillSelected">
                       <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="0" To="4" Duration="00:00:00.167" />
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.167" />
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.25">
+                          <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut" />
+                          </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Height)" From="0" To="17" Duration="00:00:00.667">
+                          <DoubleAnimation.EasingFunction>
+                            <QuinticEase EasingMode="EaseOut" />
+                          </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
                       </Storyboard>
                     </BeginStoryboard>
                   </Trigger.EnterActions>
                   <Trigger.ExitActions>
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="4" To="0" Duration="00:00:00.167" />
-                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="1.0" To="0.0" Duration="00:00:00.167" />
-                      </Storyboard>
-                    </BeginStoryboard>
+                    <RemoveStoryboard BeginStoryboardName="PillSelected" />
                   </Trigger.ExitActions>
                 </Trigger>
                 <MultiTrigger>
@@ -108,7 +113,7 @@
                   </MultiTrigger.Conditions>
                   <Setter TargetName="MainBorder" Property="Background">
                     <Setter.Value>
-                      <SolidColorBrush Opacity="0.5" Color="{DynamicResource ControlFillColorDefault}" />
+                      <SolidColorBrush Opacity="0.5" Color="{DynamicResource SubtleFillColorSecondary}" />
                     </Setter.Value>
                   </Setter>
                 </MultiTrigger>
