@@ -9881,4 +9881,7 @@ Uptime: {1}
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>მასშტაბი</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>ავტომატური ბრუნვა</value>
+  </data>
 </root>

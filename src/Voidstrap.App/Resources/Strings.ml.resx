@@ -9881,4 +9881,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>സ്കെയിൽ</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>ഓട്ടോ റൊട്ടേറ്റ്</value>
+  </data>
 </root>

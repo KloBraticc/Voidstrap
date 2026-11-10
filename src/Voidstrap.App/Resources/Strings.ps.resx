@@ -9881,4 +9881,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>کچه</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>اتومات څرخښت</value>
+  </data>
 </root>

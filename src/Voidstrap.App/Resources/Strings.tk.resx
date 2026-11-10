@@ -9880,4 +9880,7 @@ Oýunçylar: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Masştab</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Awtomatik aýlaw</value>
+  </data>
 </root>

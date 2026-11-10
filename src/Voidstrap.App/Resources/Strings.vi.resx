@@ -10196,4 +10196,7 @@ Người chơi: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Tỷ lệ</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Tự động xoay</value>
+  </data>
 </root>

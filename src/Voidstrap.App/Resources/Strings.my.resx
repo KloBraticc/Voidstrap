@@ -9880,4 +9880,7 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>အရွယ်အစား</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>အလိုအလျောက် လှည့်ခြင်း</value>
+  </data>
 </root>

@@ -9880,4 +9880,7 @@ Wachezaji: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Kipimo</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Mzunguko wa kiotomatiki</value>
+  </data>
 </root>

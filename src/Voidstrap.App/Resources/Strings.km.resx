@@ -9881,4 +9881,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>មាត្រដ្ឋាន</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>បង្វិលស្វ័យប្រវត្តិ</value>
+  </data>
 </root>

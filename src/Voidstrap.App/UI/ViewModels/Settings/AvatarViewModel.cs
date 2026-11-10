@@ -541,6 +541,9 @@ namespace Voidstrap.UI.ViewModels.Settings
             _busy = true;
             row.Busy = true;
             Status = null;
+            bool wasWorn = row.Worn;
+            if (!row.IsOutfit)
+                row.Worn = !wasWorn;
             try
             {
                 bool ok;
@@ -572,7 +575,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     }
                     ok = await RobloxAvatar.SetWearingAsync(assets, cookie, _cts.Token);
                     if (ok && row.TypeName == RobloxAvatar.BackgroundType)
-                        _backgroundId = row.Worn ? 0 : row.Id;
+                        _backgroundId = wasWorn ? 0 : row.Id;
                 }
                 if (ok)
                 {
@@ -582,6 +585,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 {
                     App.Logger?.WriteLine(LOG_IDENT, "Roblox did not accept the change for item " + row.Id);
                     Status = Strings.Accounts_Avatar_Failed;
+                    row.Worn = wasWorn;
                 }
             }
             catch (OperationCanceledException) { }

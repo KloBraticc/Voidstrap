@@ -10192,4 +10192,7 @@
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>الحجم</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>تدوير تلقائي</value>
+  </data>
 </root>

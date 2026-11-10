@@ -10208,4 +10208,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>スケール</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>自動回転</value>
+  </data>
 </root>

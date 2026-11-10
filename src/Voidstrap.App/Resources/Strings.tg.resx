@@ -9880,4 +9880,7 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Миқёс</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Гардиши худкор</value>
+  </data>
 </root>

@@ -9881,4 +9881,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>ಗಾತ್ರ</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>ಸ್ವಯಂ ತಿರುಗುವಿಕೆ</value>
+  </data>
 </root>

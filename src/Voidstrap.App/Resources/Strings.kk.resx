@@ -9881,4 +9881,7 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Масштаб</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Автоматты бұру</value>
+  </data>
 </root>

@@ -10193,4 +10193,7 @@ Játékosok: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Méretezés</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Automatikus forgatás</value>
+  </data>
 </root>

@@ -9881,4 +9881,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Մասշտաբ</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Ավտոմատ պտույտ</value>
+  </data>
 </root>

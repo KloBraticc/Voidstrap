@@ -9881,4 +9881,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>ຂະໜາດ</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>ໝຸນອັດຕະໂນມັດ</value>
+  </data>
 </root>

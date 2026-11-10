@@ -9881,4 +9881,7 @@ Rannpháirtithe: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Scála</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Rothlú uathoibríoch</value>
+  </data>
 </root>

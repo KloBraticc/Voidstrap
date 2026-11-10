@@ -10188,4 +10188,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>ขนาด</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>หมุนอัตโนมัติ</value>
+  </data>
 </root>

@@ -9880,4 +9880,7 @@ Libapali: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Boholo</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Potoloho e iketsahallang</value>
+  </data>
 </root>

@@ -10195,4 +10195,7 @@ Veikimo laikas: {1}
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Mastelis</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Automatinis sukimas</value>
+  </data>
 </root>

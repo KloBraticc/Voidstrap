@@ -9881,4 +9881,7 @@ Hráči: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Mierka</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Automatické otáčanie</value>
+  </data>
 </root>

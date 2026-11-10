@@ -9024,6 +9024,7 @@ namespace Voidstrap.Resources {
         public static string Accounts_Avatar_AdjustAccessories => ResourceManager.GetString("Accounts.Avatar.AdjustAccessories", resourceCulture);
         public static string Accounts_Avatar_Rotation => ResourceManager.GetString("Accounts.Avatar.Rotation", resourceCulture);
         public static string Accounts_Avatar_Scale => ResourceManager.GetString("Accounts.Avatar.Scale", resourceCulture);
+        public static string Accounts_Avatar_AutoRotate => ResourceManager.GetString("Accounts.Avatar.AutoRotate", resourceCulture);
         public static string Accounts_Outfits_DeleteConfirm => ResourceManager.GetString("Accounts.Outfits.DeleteConfirm", resourceCulture);
         public static string Accounts_Premium_Active => ResourceManager.GetString("Accounts.Premium.Active", resourceCulture);
         public static string Accounts_Premium_None => ResourceManager.GetString("Accounts.Premium.None", resourceCulture);

@@ -24,6 +24,12 @@ namespace Voidstrap.UI.Elements.Controls
 
         private const int SoftwareFrameLimit = 1024;
 
+        private const double RotateDegreesPerSecond = 14.0;
+
+        private static readonly TimeSpan RotateInterval = TimeSpan.FromMilliseconds(33);
+
+        private static readonly TimeSpan RotateResumeDelay = TimeSpan.FromSeconds(2.5);
+
         private static readonly bool Supports3D = Voidstrap.Utility.Platform.IsWindows;
 
         public static readonly DependencyProperty SceneProperty = DependencyProperty.Register(
@@ -84,6 +90,14 @@ namespace Voidstrap.UI.Elements.Controls
         private int[] _softwareFrame = [];
 
         private bool _softwarePending;
+
+        private DispatcherTimer? _rotateTimer;
+
+        private bool _autoRotate = true;
+
+        private DateTime _lastInteraction = DateTime.MinValue;
+
+        private DateTime _lastRotateTick;
 
         public AvatarPreviewControl()
         {
@@ -160,6 +174,8 @@ namespace Voidstrap.UI.Elements.Controls
             SoftwareView.Visibility = show && !Supports3D ? Visibility.Visible : Visibility.Collapsed;
             FlatImage.Visibility = show ? Visibility.Collapsed : Visibility.Visible;
             ResetButton.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
+            RotateButton.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
+            UpdateRotateTimer();
             Cursor = show ? Cursors.SizeAll : null;
             if (scene != null && resetView)
                 ResetView(scene);
@@ -236,6 +252,52 @@ namespace Voidstrap.UI.Elements.Controls
             {
                 App.Logger?.WriteLine(LOG_IDENT, "The 3D avatar could not be drawn: " + ex.Message);
             }
+        }
+
+        private void UpdateRotateTimer()
+        {
+            bool run = _autoRotate && IsLoaded && Scene != null;
+            if (run && _rotateTimer == null)
+            {
+                _lastRotateTick = DateTime.UtcNow;
+                _rotateTimer = new DispatcherTimer(DispatcherPriority.Render) { Interval = RotateInterval };
+                _rotateTimer.Tick += OnRotateTick;
+                _rotateTimer.Start();
+            }
+            else if (!run && _rotateTimer != null)
+            {
+                _rotateTimer.Stop();
+                _rotateTimer.Tick -= OnRotateTick;
+                _rotateTimer = null;
+            }
+        }
+
+        private void OnRotateTick(object? sender, EventArgs e)
+        {
+            DateTime now = DateTime.UtcNow;
+            double elapsed = Math.Min((now - _lastRotateTick).TotalSeconds, 0.25);
+            _lastRotateTick = now;
+            if (_orbiting || _panning || now - _lastInteraction < RotateResumeDelay || Scene is not AvatarScene scene)
+                return;
+            _yaw = (_yaw + RotateDegreesPerSecond * elapsed) % 360.0;
+            UpdateCamera(scene);
+        }
+
+        private void OnRotateClick(object sender, RoutedEventArgs e)
+        {
+            _autoRotate = !_autoRotate;
+            RotateButton.Icon = _autoRotate ? Wpf.Ui.Common.SymbolRegular.Pause24 : Wpf.Ui.Common.SymbolRegular.Play24;
+            UpdateRotateTimer();
+        }
+
+        private void OnPreviewLoaded(object sender, RoutedEventArgs e)
+        {
+            UpdateRotateTimer();
+        }
+
+        private void OnPreviewUnloaded(object sender, RoutedEventArgs e)
+        {
+            UpdateRotateTimer();
         }
 
         private void OnPreviewSizeChanged(object sender, SizeChangedEventArgs e)
@@ -318,6 +380,7 @@ namespace Voidstrap.UI.Elements.Controls
             if (Scene == null || _orbiting || _panning || e.OriginalSource is DependencyObject source && IsInsideButton(source))
                 return;
             _lastMouse = e.GetPosition(this);
+            _lastInteraction = DateTime.UtcNow;
             bool pan = e.ChangedButton == MouseButton.Right || Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
             if (!CaptureMouse())
                 return;
@@ -329,7 +392,7 @@ namespace Voidstrap.UI.Elements.Controls
         private bool IsInsideButton(DependencyObject source)
         {
             for (DependencyObject? current = source; current != null && !ReferenceEquals(current, this); current = current is Visual ? VisualTreeHelper.GetParent(current) : null)
-                if (ReferenceEquals(current, ResetButton))
+                if (ReferenceEquals(current, ResetButton) || ReferenceEquals(current, RotateButton))
                     return true;
             return false;
         }
@@ -360,6 +423,7 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void OnPreviewUp(object sender, MouseButtonEventArgs e)
         {
+            _lastInteraction = DateTime.UtcNow;
             if (_orbiting || _panning)
                 ReleaseMouseCapture();
         }
@@ -374,6 +438,7 @@ namespace Voidstrap.UI.Elements.Controls
         {
             if (Scene is not AvatarScene scene)
                 return;
+            _lastInteraction = DateTime.UtcNow;
             _zoom = Math.Clamp(_zoom * (e.Delta > 0 ? 0.9 : 1.1), MinZoom, MaxZoom);
             UpdateCamera(scene);
             e.Handled = true;

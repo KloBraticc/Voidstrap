@@ -14,7 +14,9 @@
     MouseRightButtonUp="OnPreviewUp"
     LostMouseCapture="OnPreviewLostCapture"
     MouseWheel="OnPreviewWheel"
-    SizeChanged="OnPreviewSizeChanged">
+    SizeChanged="OnPreviewSizeChanged"
+    Loaded="OnPreviewLoaded"
+    Unloaded="OnPreviewUnloaded">
   <Grid x:Name="Host" ClipToBounds="True" util:RoundedClip.Radius="8">
     <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" />
     <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" util:DynamicRenderSystem.LazyImageSource="{Binding BackgroundUrl, ElementName=Root, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
@@ -37,6 +39,7 @@
     </Viewport3D>
     <Image x:Name="SoftwareView" Stretch="Fill" IsHitTestVisible="False" Visibility="Collapsed" />
     <ui:Button x:Name="ResetButton" Width="30" Height="30" Margin="0,8,8,0" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Top" Icon="ArrowReset24" Visibility="Collapsed" ToolTip="{resources:Loc Accounts_Avatar_ResetView}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_ResetView}" Click="OnResetClick" />
+    <ui:Button x:Name="RotateButton" Width="30" Height="30" Margin="0,8,44,0" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Top" Icon="Pause24" Visibility="Collapsed" ToolTip="{resources:Loc Accounts_Avatar_AutoRotate}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_AutoRotate}" Click="OnRotateClick" />
     <ui:ProgressRing Width="26" Height="26" HorizontalAlignment="Center" VerticalAlignment="Center" IsIndeterminate="True" IsHitTestVisible="False" Visibility="{Binding IsLoading, ElementName=Root, Converter={StaticResource BooleanToVisibilityConverter}}" />
   </Grid>
 </UserControl>

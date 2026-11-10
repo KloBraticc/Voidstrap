@@ -9880,4 +9880,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Маштаб</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Аўтаматычны паварот</value>
+  </data>
 </root>

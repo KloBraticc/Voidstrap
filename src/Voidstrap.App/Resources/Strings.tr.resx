@@ -10191,4 +10191,7 @@ Oyuncular: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Ölçek</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Otomatik döndürme</value>
+  </data>
 </root>

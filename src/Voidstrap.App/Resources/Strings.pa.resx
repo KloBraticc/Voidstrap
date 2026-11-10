@@ -9881,4 +9881,7 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>ਸਕੇਲ</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>ਆਟੋ ਰੋਟੇਟ</value>
+  </data>
 </root>

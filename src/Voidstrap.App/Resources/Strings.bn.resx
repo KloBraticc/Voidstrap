@@ -9880,4 +9880,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>স্কেল</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>স্বয়ংক্রিয় ঘূর্ণন</value>
+  </data>
 </root>

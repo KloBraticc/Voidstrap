@@ -10192,4 +10192,7 @@ Joueurs : {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Échelle</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Rotation automatique</value>
+  </data>
 </root>

@@ -9880,4 +9880,7 @@ Spillere: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Skala</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Automatisk rotation</value>
+  </data>
 </root>

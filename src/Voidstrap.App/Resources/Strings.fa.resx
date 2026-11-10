@@ -10195,4 +10195,7 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>مقیاس</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>چرخش خودکار</value>
+  </data>
 </root>

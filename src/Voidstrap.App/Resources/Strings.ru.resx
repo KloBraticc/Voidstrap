@@ -10193,4 +10193,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Масштаб</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Автоповорот</value>
+  </data>
 </root>

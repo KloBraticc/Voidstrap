@@ -9880,4 +9880,7 @@ Uptime: {1}
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>چوڭ-كىچىكلىك</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>ئاپتوماتىك ئايلاندۇرۇش</value>
+  </data>
 </root>

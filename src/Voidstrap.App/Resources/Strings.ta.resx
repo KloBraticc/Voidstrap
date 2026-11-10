@@ -9880,4 +9880,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>அளவு</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>தானியங்கி சுழற்சி</value>
+  </data>
 </root>

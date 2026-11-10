@@ -9881,4 +9881,7 @@ Igralci: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Merilo</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Samodejno vrtenje</value>
+  </data>
 </root>

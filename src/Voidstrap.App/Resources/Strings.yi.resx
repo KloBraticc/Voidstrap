@@ -9880,4 +9880,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>מאָסשטאַב</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>אויטאָמאַטישע דרייונג</value>
+  </data>
 </root>

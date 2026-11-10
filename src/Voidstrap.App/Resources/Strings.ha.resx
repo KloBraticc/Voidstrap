@@ -9881,4 +9881,7 @@ Uptime: {1}
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Girma</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Juyawa ta atomatik</value>
+  </data>
 </root>

@@ -10191,4 +10191,7 @@ Mga player: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Sukat</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Awtomatikong pag-ikot</value>
+  </data>
 </root>

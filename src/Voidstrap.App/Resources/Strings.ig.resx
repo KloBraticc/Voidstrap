@@ -9881,4 +9881,7 @@ Ndị egwuregwu: {2}</value>
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>Nha</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>Ntụgharị akpaaka</value>
+  </data>
 </root>

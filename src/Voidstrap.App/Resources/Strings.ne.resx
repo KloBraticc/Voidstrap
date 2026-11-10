@@ -9881,4 +9881,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Accounts.Avatar.Scale" xml:space="preserve">
     <value>स्केल</value>
   </data>
+  <data name="Accounts.Avatar.AutoRotate" xml:space="preserve">
+    <value>स्वचालित घुमाइ</value>
+  </data>
 </root>
