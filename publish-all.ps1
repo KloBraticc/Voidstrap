@@ -1559,6 +1559,7 @@ try {
     throw 'Another publish is already running for this repository, or its build directory is inaccessible.'
 }
 $originalDotnetRoot = $env:DOTNET_ROOT
+$originalFastCli = @{}
 $originalPath = $env:PATH
 $originalAppImageTool = $env:APPIMAGETOOL
 $originalWslEnv = $env:WSLENV
@@ -1632,6 +1633,15 @@ if (-not $dotnetPath) {
 
 $dotnetDirectory = Split-Path -Parent $dotnetPath
 $env:DOTNET_ROOT = $dotnetDirectory
+$fastCliNames = @('DOTNET_CLI_TELEMETRY_OPTOUT', 'DOTNET_NOLOGO', 'DOTNET_SKIP_FIRST_TIME_EXPERIENCE', 'DOTNET_GENERATE_ASPNET_CERTIFICATE', 'DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE')
+foreach ($name in $fastCliNames) {
+    $originalFastCli[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
+}
+$env:DOTNET_CLI_TELEMETRY_OPTOUT = '1'
+$env:DOTNET_NOLOGO = '1'
+$env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = '1'
+$env:DOTNET_GENERATE_ASPNET_CERTIFICATE = 'false'
+$env:DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE = '1'
 $pathSeparator = [System.IO.Path]::PathSeparator
 if (($env:PATH -split [regex]::Escape($pathSeparator)) -notcontains $dotnetDirectory) {
     $env:PATH = $dotnetDirectory + $pathSeparator + $env:PATH
@@ -2219,6 +2229,11 @@ Exit-Script 0
 } finally {
     Remove-PublishManifests
     $env:DOTNET_ROOT = $originalDotnetRoot
+    if ($originalFastCli) {
+        foreach ($name in $originalFastCli.Keys) {
+            [Environment]::SetEnvironmentVariable($name, $originalFastCli[$name], 'Process')
+        }
+    }
     $env:PATH = $originalPath
     $env:APPIMAGETOOL = $originalAppImageTool
     $env:WSLENV = $originalWslEnv
