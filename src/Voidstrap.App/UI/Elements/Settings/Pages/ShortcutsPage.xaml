@@ -59,7 +59,7 @@
         </ui:CardExpander>
       </StackPanel>
     </Grid>
-    <ui:CardExpander Margin="0,12,0,0" IsExpanded="False">
+    <ui:CardExpander Margin="0,4,0,0" IsExpanded="False">
       <HeaderedContentControl.Header>
         <StackPanel>
           <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Pages_GameShortcut}" />
