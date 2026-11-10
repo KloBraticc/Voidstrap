@@ -13,6 +13,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         public AvatarPage(SavedAccount account)
         {
             _account = account;
+            _viewModel = new AvatarViewModel(account);
+            DataContext = _viewModel;
             InitializeComponent();
             Loaded += OnPageLoaded;
             Unloaded += OnPageUnloaded;
@@ -20,10 +22,11 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private void OnPageLoaded(object sender, RoutedEventArgs e)
         {
-            if (_viewModel != null)
-                return;
-            _viewModel = new AvatarViewModel(_account);
-            DataContext = _viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = new AvatarViewModel(_account);
+                DataContext = _viewModel;
+            }
             _ = _viewModel.LoadAsync();
         }
 
@@ -31,7 +34,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             _viewModel?.Dispose();
             _viewModel = null;
-            DataContext = null;
         }
     }
 }

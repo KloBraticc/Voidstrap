@@ -160,37 +160,34 @@
         </Border>
       </StackPanel>
     </ScrollViewer>
-    <TabControl Grid.Column="1" SelectedValuePath="Tag" SelectedValue="{Binding Category, Mode=TwoWay}">
-      <TabControl.ContentTemplate>
-        <DataTemplate>
-          <Grid Margin="0,12,0,0">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <ui:TextBox Margin="0,0,0,12" Icon="Search24" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-              <ItemsControl ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AvatarItemTile}">
-                <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <WrapPanel />
-                  </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-              </ItemsControl>
-            </ScrollViewer>
-            <ui:ProgressRing Grid.Row="1" Width="28" Height="28" Margin="0,40,0,0" VerticalAlignment="Top" IsIndeterminate="True" IsHitTestVisible="False" Visibility="{Binding Loading, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <TextBlock Grid.Row="1" Margin="0,44,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14" IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Accounts_Avatar_Empty}" Visibility="{Binding EmptyVisibility}" />
-          </Grid>
-        </DataTemplate>
-      </TabControl.ContentTemplate>
-      <TabItem Tag="Recent" FontWeight="Medium" Header="{resources:Loc Ui_Session_Recent}" Content="{Binding}" />
-      <TabItem Tag="Characters" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Characters}" Content="{Binding}" />
-      <TabItem Tag="Body" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Body}" Content="{Binding}" />
-      <TabItem Tag="Clothing" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Clothing}" Content="{Binding}" />
-      <TabItem Tag="Accessories" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Accessories}" Content="{Binding}" />
-      <TabItem Tag="Backgrounds" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Backgrounds}" Content="{Binding}" />
-      <TabItem Tag="Animations" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Animations}" Content="{Binding}" />
-      <TabItem Tag="Emotes" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Emotes}" Content="{Binding}" />
-    </TabControl>
+    <Grid Grid.Column="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <TabControl SelectedValuePath="Tag" SelectedValue="{Binding Category, Mode=TwoWay}">
+        <TabItem Tag="Recent" FontWeight="Medium" Header="{resources:Loc Ui_Session_Recent}" />
+        <TabItem Tag="Characters" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Characters}" />
+        <TabItem Tag="Body" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Body}" />
+        <TabItem Tag="Clothing" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Clothing}" />
+        <TabItem Tag="Accessories" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Accessories}" />
+        <TabItem Tag="Backgrounds" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Backgrounds}" />
+        <TabItem Tag="Animations" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Animations}" />
+        <TabItem Tag="Emotes" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Emotes}" />
+      </TabControl>
+      <ui:TextBox Grid.Row="1" Margin="0,12,0,12" Icon="Search24" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
+      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <ItemsControl ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AvatarItemTile}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </ScrollViewer>
+      <ui:ProgressRing Grid.Row="2" Width="28" Height="28" Margin="0,40,0,0" VerticalAlignment="Top" IsIndeterminate="True" IsHitTestVisible="False" Visibility="{Binding Loading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+      <TextBlock Grid.Row="2" Margin="0,44,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14" IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Accounts_Avatar_Empty}" Visibility="{Binding EmptyVisibility}" />
+    </Grid>
   </Grid>
 </ui:UiPage>
