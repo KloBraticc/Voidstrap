@@ -99,6 +99,10 @@ namespace Voidstrap.UI.Elements.Controls
 
         private DateTime _lastRotateTick;
 
+        private List<(AvatarPiece Piece, MatrixTransform3D Transform)>? _pieces;
+
+        private double _animationTime;
+
         public AvatarPreviewControl()
         {
             InitializeComponent();
@@ -156,14 +160,18 @@ namespace Voidstrap.UI.Elements.Controls
             AvatarScene? scene = Scene;
             try
             {
+                Model3D? model = BuildPieces(scene) ?? scene?.Model;
                 if (_renderer != null)
-                    _renderer.SetAvatar(scene?.Model);
+                    _renderer.SetAvatar(model);
                 else
-                    AvatarVisual.Content = scene?.Model;
+                    AvatarVisual.Content = model;
+                if (scene != null)
+                    ApplyPose(scene);
             }
             catch (Exception ex)
             {
                 App.Logger?.WriteLine(LOG_IDENT, "The 3D avatar could not be shown: " + ex.Message);
+                _pieces = null;
                 _renderer?.SetAvatar(null);
                 if (_renderer == null)
                     AvatarVisual.Content = null;
@@ -182,6 +190,42 @@ namespace Voidstrap.UI.Elements.Controls
             ApplyBackdrop();
             if (scene != null)
                 UpdateCamera(scene);
+        }
+
+        private Model3DGroup? BuildPieces(AvatarScene? scene)
+        {
+            _pieces = null;
+            if (scene?.Pieces == null || scene.Rig == null || scene.Pieces.Count == 0)
+                return null;
+            List<(AvatarPiece Piece, MatrixTransform3D Transform)> pieces = new();
+            Model3DGroup group = new();
+            foreach (AvatarPiece piece in scene.Pieces)
+            {
+                MatrixTransform3D transform = new();
+                group.Children.Add(new GeometryModel3D(piece.Mesh, piece.Material) { BackMaterial = piece.Material, Transform = transform });
+                pieces.Add((piece, transform));
+            }
+            _pieces = pieces;
+            return group;
+        }
+
+        private void ApplyPose(AvatarScene scene)
+        {
+            if (_pieces == null || scene.Rig == null)
+                return;
+            Dictionary<string, Voidstrap.Integrations.Animation.RobloxCFrame> world = Voidstrap.Integrations.AvatarPose.Evaluate(scene.Rig, _animationTime);
+            List<Matrix3D>? moved = _renderer != null ? new List<Matrix3D>(_pieces.Count) : null;
+            foreach ((AvatarPiece piece, MatrixTransform3D transform) in _pieces)
+            {
+                Matrix3D matrix = world.TryGetValue(piece.Part, out Voidstrap.Integrations.Animation.RobloxCFrame frame) ? piece.Offset * frame.ToMatrix3D() : piece.Offset;
+                transform.Matrix = matrix;
+                moved?.Add(matrix);
+            }
+            if (moved != null)
+            {
+                _renderer!.SetTransforms(moved);
+                RequestSoftwareRender();
+            }
         }
 
         private void ResetView(AvatarScene scene)
@@ -256,7 +300,7 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void UpdateRotateTimer()
         {
-            bool run = _autoRotate && IsLoaded && Scene != null;
+            bool run = (_autoRotate || Scene?.Rig?.Animation != null) && IsLoaded && Scene != null;
             if (run && _rotateTimer == null)
             {
                 _lastRotateTick = DateTime.UtcNow;
@@ -277,7 +321,14 @@ namespace Voidstrap.UI.Elements.Controls
             DateTime now = DateTime.UtcNow;
             double elapsed = Math.Min((now - _lastRotateTick).TotalSeconds, 0.25);
             _lastRotateTick = now;
-            if (_orbiting || _panning || now - _lastInteraction < RotateResumeDelay || Scene is not AvatarScene scene)
+            if (Scene is not AvatarScene scene)
+                return;
+            if (scene.Rig?.Animation != null && _pieces != null)
+            {
+                _animationTime += elapsed;
+                ApplyPose(scene);
+            }
+            if (!_autoRotate || _orbiting || _panning || now - _lastInteraction < RotateResumeDelay)
                 return;
             _yaw = (_yaw + RotateDegreesPerSecond * elapsed) % 360.0;
             UpdateCamera(scene);

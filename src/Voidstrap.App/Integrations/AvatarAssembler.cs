@@ -14,6 +14,8 @@ internal static partial class AvatarAssembler
 
     private const int MinimumParts = 8;
 
+    private const long DefaultIdleAnimation = 507766388;
+
     private const int MaxTextureBytes = 16 * 1024 * 1024;
 
     private static readonly (string Joint, string Parent, string Child)[] Joints =
@@ -117,6 +119,8 @@ internal static partial class AvatarAssembler
         Vector3D bodyScale = new(Scale(state, "width"), Scale(state, "height"), Scale(state, "depth"));
         double headScale = Scale(state, "head");
         Dictionary<string, RobloxCFrame> world = new(StringComparer.Ordinal) { [RootPart] = RobloxCFrame.Identity };
+        List<AvatarJoint> joints = new();
+        List<AvatarPiece> pieces = new();
         foreach ((string joint, string parentName, string childName) in Joints)
         {
             if (!world.TryGetValue(parentName, out RobloxCFrame parentFrame) || !parts.TryGetValue(parentName, out RbxmInstance? parent) || !parts.TryGetValue(childName, out RbxmInstance? child))
@@ -132,8 +136,10 @@ internal static partial class AvatarAssembler
                 log("The " + joint + " joint is missing on this avatar");
                 continue;
             }
-            world[childName] =
-                parentFrame * Scaled(c0, parentName == HeadPart ? Uniform(headScale) : bodyScale) * Scaled(c1, childName == HeadPart ? Uniform(headScale) : bodyScale).Inverse();
+            RobloxCFrame scaledC0 = Scaled(c0, parentName == HeadPart ? Uniform(headScale) : bodyScale);
+            RobloxCFrame scaledC1 = Scaled(c1, childName == HeadPart ? Uniform(headScale) : bodyScale);
+            world[childName] = parentFrame * scaledC0 * scaledC1.Inverse();
+            joints.Add(new AvatarJoint(parentName, childName, scaledC0, scaledC1));
         }
         List<GeometryModel3D> models = new();
         Bounds bounds = new();
@@ -146,7 +152,7 @@ internal static partial class AvatarAssembler
             {
                 Color color = ParseColor(state.BodyColors.GetValueOrDefault(PartColors[name]));
                 BitmapSource? skin = AvatarClothing.PartLimbs.TryGetValue(name, out string? limb) ? painted.GetValueOrDefault(limb) : null;
-                GeometryModel3D? model = await BuildPartAsync(part, frame, name == HeadPart ? Uniform(headScale) : bodyScale, color, true, name == HeadPart, skin, content, fetchAsset, bounds, token);
+                GeometryModel3D? model = await BuildPartAsync(part, frame, name == HeadPart ? Uniform(headScale) : bodyScale, color, true, name == HeadPart, skin, name, frame, pieces, content, fetchAsset, bounds, token);
                 if (model != null)
                     models.Add(model);
                 else
@@ -178,6 +184,7 @@ internal static partial class AvatarAssembler
                 RbxmInstance? attachment = handle?.Children.FirstOrDefault(c => c.ClassName == "Attachment" && c.CFrames.ContainsKey("CFrame"));
                 RobloxCFrame frame;
                 Vector3D scale;
+                string owner = HeadPart;
                 if (handle != null && attachment != null)
                 {
                     (string? partName, RbxmInstance? bodyAttachment) = parts
@@ -189,6 +196,7 @@ internal static partial class AvatarAssembler
                         log("Accessory " + asset.Id + " attaches to " + attachment.Name + ", which this body does not have");
                         continue;
                     }
+                    owner = partName;
                     scale = partName == HeadPart ? Uniform(headScale) : bodyScale;
                     frame = world[partName] * Scaled(bodyAttachment.CFrames["CFrame"], scale) * Scaled(attachment.CFrames["CFrame"], scale).Inverse();
                 }
@@ -202,7 +210,7 @@ internal static partial class AvatarAssembler
                     log("Accessory " + asset.Id + " (" + asset.TypeName + ") has an unknown layout: " + Outline(bytes, roots));
                     continue;
                 }
-                GeometryModel3D? model = await BuildPartAsync(handle, frame, scale, Color.FromRgb(0xA3, 0xA2, 0xA5), false, false, null, content, fetchAsset, bounds, token);
+                GeometryModel3D? model = await BuildPartAsync(handle, frame, scale, Color.FromRgb(0xA3, 0xA2, 0xA5), false, false, null, owner, world[owner], pieces, content, fetchAsset, bounds, token);
                 if (model != null)
                     models.Add(model);
                 else
@@ -217,7 +225,41 @@ internal static partial class AvatarAssembler
         foreach (GeometryModel3D model in models)
             group.Children.Add(model);
         group.Freeze();
-        return new AvatarScene(group, bounds.ToRect(), 180.0);
+        AnimationData? animation = await LoadAnimationAsync(state, fetchAsset, log, token);
+        return new AvatarScene(group, bounds.ToRect(), 180.0) { Pieces = pieces, Rig = new AvatarRig(RootPart, joints, animation) };
+    }
+
+    private static async Task<AnimationData?> LoadAnimationAsync(
+        AvatarState state,
+        Func<long, CancellationToken, Task<byte[]?>> fetchAsset,
+        Action<string> log,
+        CancellationToken token
+    )
+    {
+        long animationId = DefaultIdleAnimation;
+        AvatarAsset? equipped = state.Assets.FirstOrDefault(a => a.TypeName == "IdleAnimation");
+        if (equipped != null && await fetchAsset(equipped.Id, token) is byte[] pack)
+        {
+            List<RbxmInstance> roots = RbxmModelParser.ReadTree(pack);
+            List<RbxmInstance> all = roots.Concat(roots.SelectMany(r => r.Descendants())).ToList();
+            RbxmInstance? idle = all.FirstOrDefault(i => i.Name == "idle") ?? all.FirstOrDefault(i => i.ClassName == "Animation")?.Parent;
+            string? uri = idle?.Children.FirstOrDefault(c => c.ClassName == "Animation")?.Strings.GetValueOrDefault("AnimationId");
+            Match match = uri == null ? Match.Empty : AssetQueryPattern().Match(uri);
+            if (!match.Success && uri != null)
+                match = AssetIdPattern().Match(uri);
+            if (match.Success && long.TryParse(match.Groups[1].Value, NumberStyles.None, CultureInfo.InvariantCulture, out long found) && found > 0)
+                animationId = found;
+            else
+                log("The equipped idle animation has an unknown layout: " + Outline(pack, roots));
+        }
+        byte[]? bytes = await fetchAsset(animationId, token);
+        AnimationData? animation = bytes == null ? null : RobloxAnimationParser.Parse(bytes);
+        if (animation == null || animation.Keyframes.Count == 0)
+        {
+            log("Animation " + animationId + " could not be read, so the avatar stands still");
+            return null;
+        }
+        return animation;
     }
 
     private static string Outline(byte[] bytes, List<RbxmInstance> roots)
@@ -248,6 +290,9 @@ internal static partial class AvatarAssembler
         bool opaque,
         bool defaultHead,
         BitmapSource? painted,
+        string owner,
+        RobloxCFrame ownerFrame,
+        List<AvatarPiece> pieces,
         string content,
         Func<long, CancellationToken, Task<byte[]?>> fetchAsset,
         Bounds bounds,
@@ -284,18 +329,30 @@ internal static partial class AvatarAssembler
         TexturedMesh source = MeshParser.ParseTextured(meshBytes);
         Matrix3D matrix = frame.ToMatrix3D();
         MeshGeometry3D mesh = new();
+        MeshGeometry3D local = new();
         foreach (Point3D position in source.Positions)
         {
-            Point3D placed = matrix.Transform(new Point3D(position.X * meshScale.X * bodyScale.X, position.Y * meshScale.Y * bodyScale.Y, position.Z * meshScale.Z * bodyScale.Z));
+            Point3D sized = new(position.X * meshScale.X * bodyScale.X, position.Y * meshScale.Y * bodyScale.Y, position.Z * meshScale.Z * bodyScale.Z);
+            Point3D placed = matrix.Transform(sized);
+            local.Positions.Add(sized);
             mesh.Positions.Add(placed);
             bounds.Add(placed);
         }
         foreach (Vector3D normal in source.Normals)
+        {
+            local.Normals.Add(normal);
             mesh.Normals.Add(matrix.Transform(normal));
+        }
         foreach (Point coord in source.Coords)
+        {
+            local.TextureCoordinates.Add(coord);
             mesh.TextureCoordinates.Add(coord);
+        }
         foreach (int index in source.Indices)
+        {
+            local.TriangleIndices.Add(index);
             mesh.TriangleIndices.Add(index);
+        }
         Brush brush = new SolidColorBrush(color);
         if ((painted ?? (textureBytes != null && textureBytes.Length <= MaxTextureBytes ? Composite(textureBytes, opaque ? color : null) : null)) is BitmapSource texture)
             brush = new ImageBrush(texture)
@@ -306,6 +363,9 @@ internal static partial class AvatarAssembler
                 Stretch = Stretch.Fill,
             };
         DiffuseMaterial material = new(brush);
+        material.Freeze();
+        local.Freeze();
+        pieces.Add(new AvatarPiece(local, material, owner, (ownerFrame.Inverse() * frame).ToMatrix3D()));
         GeometryModel3D model = new(mesh, material) { BackMaterial = material };
         model.Freeze();
         return model;

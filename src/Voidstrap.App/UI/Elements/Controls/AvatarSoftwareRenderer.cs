@@ -31,6 +31,15 @@ internal sealed class AvatarSoftwareRenderer
         Collect(model, textures, false, _avatar);
     }
 
+    public void SetTransforms(IReadOnlyList<Matrix3D> transforms)
+    {
+        for (int i = 0; i < _avatar.Count && i < transforms.Count; i++)
+        {
+            _avatar[i].Transform = transforms[i];
+            _avatar[i].Moved = !transforms[i].IsIdentity;
+        }
+    }
+
     public void SetBackdrop(Model3D? model)
     {
         List<Mesh> meshes = new();
@@ -122,6 +131,11 @@ internal sealed class AvatarSoftwareRenderer
                 mesh.Light[index++] = Math.Min(light, 1f);
             }
         }
+        if (model.Transform is Transform3D transform && !transform.Value.IsIdentity)
+        {
+            mesh.Transform = transform.Value;
+            mesh.Moved = true;
+        }
         Brush? brush = FindBrush(((GeometryModel3D)model).Material);
         if (brush is ImageBrush { ImageSource: BitmapSource source } imageBrush)
         {
@@ -186,11 +200,24 @@ internal sealed class AvatarSoftwareRenderer
         if (_projected.Length < count * 3)
             _projected = new float[count * 3];
         float[] projected = _projected;
+        Matrix3D move = mesh.Transform;
         for (int i = 0; i < count; i++)
         {
-            double dx = mesh.Positions[i * 3] - view.Origin.X;
-            double dy = mesh.Positions[i * 3 + 1] - view.Origin.Y;
-            double dz = mesh.Positions[i * 3 + 2] - view.Origin.Z;
+            double sx = mesh.Positions[i * 3];
+            double sy = mesh.Positions[i * 3 + 1];
+            double sz = mesh.Positions[i * 3 + 2];
+            if (mesh.Moved)
+            {
+                double tx = sx * move.M11 + sy * move.M21 + sz * move.M31 + move.OffsetX;
+                double ty = sx * move.M12 + sy * move.M22 + sz * move.M32 + move.OffsetY;
+                double tz = sx * move.M13 + sy * move.M23 + sz * move.M33 + move.OffsetZ;
+                sx = tx;
+                sy = ty;
+                sz = tz;
+            }
+            double dx = sx - view.Origin.X;
+            double dy = sy - view.Origin.Y;
+            double dz = sz - view.Origin.Z;
             double z = dx * view.Forward.X + dy * view.Forward.Y + dz * view.Forward.Z;
             if (z < NearPlane)
             {
@@ -322,6 +349,10 @@ internal sealed class AvatarSoftwareRenderer
         public Texture? Texture { get; set; }
 
         public bool Mirror { get; set; }
+
+        public Matrix3D Transform { get; set; } = Matrix3D.Identity;
+
+        public bool Moved { get; set; }
 
         public int Red { get; set; } = 200;
 
