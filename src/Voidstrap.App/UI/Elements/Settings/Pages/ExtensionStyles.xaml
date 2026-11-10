@@ -7,16 +7,41 @@
       <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
       <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
     </Style>
-    <Style x:Key="RowCard" TargetType="Border" BasedOn="{StaticResource PanelCard}">
-      <Setter Property="Margin" Value="0,0,0,8" />
+    <Style x:Key="RowCard" TargetType="Border">
       <Setter Property="Padding" Value="14,12" />
       <Setter Property="SnapsToDevicePixels" Value="True" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
       <Style.Triggers>
         <Trigger Property="IsMouseOver" Value="True">
           <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-          <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
         </Trigger>
       </Style.Triggers>
+    </Style>
+    <Style x:Key="RowList" TargetType="ItemsControl">
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ItemsControl">
+            <Border x:Name="Frame" Margin="0,0,0,10" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundBrush}" SnapsToDevicePixels="True">
+              <Border.OpacityMask>
+                <VisualBrush Stretch="None">
+                  <VisualBrush.Visual>
+                    <Border Width="{Binding ActualWidth, ElementName=Frame}" Height="{Binding ActualHeight, ElementName=Frame}" CornerRadius="10" Background="Black" />
+                  </VisualBrush.Visual>
+                </VisualBrush>
+              </Border.OpacityMask>
+              <ItemsPresenter Margin="0,0,0,-1" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="HasItems" Value="False">
+                <Setter TargetName="Frame" Property="Visibility" Value="Collapsed" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
     </Style>
     <Style x:Key="RowIcon" TargetType="Border">
       <Setter Property="Width" Value="80" />

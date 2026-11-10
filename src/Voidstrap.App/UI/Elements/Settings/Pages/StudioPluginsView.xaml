@@ -75,7 +75,7 @@
 
       <TextBlock x:Name="BrowseStatus" Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
 
-      <ItemsControl x:Name="PluginList" ItemTemplate="{StaticResource PluginRow}" Focusable="False" />
+      <ItemsControl x:Name="PluginList" Style="{StaticResource RowList}" ItemTemplate="{StaticResource PluginRow}" />
       <ui:ProgressRing x:Name="LoadingRing" IsIndeterminate="True" Width="36" Height="36" Margin="0,12,0,0" HorizontalAlignment="Center" Visibility="Collapsed" />
       <ui:Button x:Name="LoadMoreButton" HorizontalAlignment="Center" Margin="0,4,0,0" Appearance="Secondary" Content="{resources:Loc Ui_Mods_StudioPlugins_LoadMore}" Click="LoadMore_Click" Visibility="Collapsed" />
       <Border x:Name="EmptyState" Visibility="Collapsed" Margin="0,8,0,0" Padding="28" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundBrush}">

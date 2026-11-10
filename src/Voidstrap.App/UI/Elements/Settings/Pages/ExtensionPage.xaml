@@ -62,7 +62,7 @@
             </StackPanel>
           </TabItem.Header>
           <StackPanel Margin="10">
-            <ItemsControl x:Name="AssetList" ItemTemplate="{StaticResource AssetRow}" Focusable="False" />
+            <ItemsControl x:Name="AssetList" Style="{StaticResource RowList}" ItemTemplate="{StaticResource AssetRow}" />
             <Border Visibility="{Binding EmptyStateVisibility}" Margin="0,8,0,0" Padding="28" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundBrush}">
               <StackPanel HorizontalAlignment="Center">
                 <ui:SymbolIcon Symbol="Search24" FontSize="34" HorizontalAlignment="Center" Opacity="0.55" />
@@ -203,7 +203,7 @@
             </TabItem.Header>
             <StackPanel Margin="10">
               <TextBlock x:Name="DetailVersionsNote" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-              <ItemsControl x:Name="DetailReleases" Focusable="False">
+              <ItemsControl x:Name="DetailReleases" Style="{StaticResource RowList}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate DataType="{x:Type local:ReleaseRow}">
                     <Border Style="{StaticResource RowCard}">

@@ -1,6 +1,11 @@
 ﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ModPacksPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" Title="{resources:Loc Ui_Mods_ModPacks}" ui:Breadcrumb.Header="{resources:Loc Ui_Mods_ModPacks}" Scrollable="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
   <ui:UiPage.Resources>
-    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ExtensionStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </ResourceDictionary>
   </ui:UiPage.Resources>
   <Grid Margin="0,4,14,14">
     <Grid Visibility="{Binding BrowseVisibility}">
@@ -61,19 +66,18 @@
           </StackPanel>
         </Border>
         <Border>
-          <ItemsControl ItemsSource="{Binding Mods}" Focusable="False">
+          <ItemsControl ItemsSource="{Binding Mods}" Style="{StaticResource RowList}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
-                <Button Margin="0,0,0,8" Padding="0" Cursor="Hand" Focusable="False" HorizontalContentAlignment="Stretch" Tag="{Binding}" Click="CommunityMod_Click">
+                <Button Padding="0" Cursor="Hand" Focusable="False" HorizontalContentAlignment="Stretch" Tag="{Binding}" Click="CommunityMod_Click">
                   <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
-                      <Border x:Name="Row" Padding="14,12" CornerRadius="10" SnapsToDevicePixels="True" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                      <Border x:Name="Row" Padding="14,12" SnapsToDevicePixels="True" Background="Transparent" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
                         <ContentPresenter />
                       </Border>
                       <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                           <Setter TargetName="Row" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-                                  <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
                         </Trigger>
                       </ControlTemplate.Triggers>
                     </ControlTemplate>
