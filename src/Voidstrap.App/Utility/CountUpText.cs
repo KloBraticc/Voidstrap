@@ -70,12 +70,15 @@ public static class CountUpText
             from = running.Current;
             Active.Remove(running);
         }
+        bool template = IsTemplate(GetFormat(text));
         if (double.IsNaN(to) || double.IsInfinity(to))
         {
-            text.SetValue(ShownProperty, double.NaN);
-            text.Text = IsTemplate(GetFormat(text)) ? "" : "--";
+            text.SetValue(ShownProperty, template ? from : double.NaN);
+            text.Text = template ? "" : "--";
             return;
         }
+        if (template && double.IsNaN(from))
+            from = 0;
         if (double.IsNaN(from) || from == to || !text.IsLoaded || !SystemParameters.ClientAreaAnimation)
         {
             Show(text, to);
