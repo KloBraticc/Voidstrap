@@ -46,7 +46,7 @@ public partial class CommunityFeedControl : UserControl
             }
             _flushTimer.Tick += FlushTimer_Tick;
             _flushTimer.Start();
-            _cts?.Dispose();
+            _cts?.Cancel();
             _cts = new CancellationTokenSource();
             ScanRing.Visibility = Visibility.Visible;
             _ = RunScanAsync(_cts.Token);
@@ -114,7 +114,7 @@ public partial class CommunityFeedControl : UserControl
         if (game.Name.Length == 0 && reviews.Count > 0)
             game.Name = reviews[0].GameName;
         _cards.RemoveAll(card => card.Game.PlaceId == info.PlaceId);
-        foreach (CommunityReview review in reviews)
+        foreach (CommunityReview review in reviews.Where(static r => r != null && !string.IsNullOrEmpty(r.Content)))
             _cards.Add(new CommunityCard { Game = game, Review = review });
         _dirty = true;
     }
@@ -162,9 +162,9 @@ public partial class CommunityFeedControl : UserControl
     private static bool Matches(CommunityCard card, string filter)
     {
         return card.Game.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)
-            || card.Game.CreatorName.Contains(filter, StringComparison.OrdinalIgnoreCase)
-            || card.Review.AuthorName.Contains(filter, StringComparison.OrdinalIgnoreCase)
-            || card.Review.Content.Contains(filter, StringComparison.OrdinalIgnoreCase);
+            || (card.Game.CreatorName ?? string.Empty).Contains(filter, StringComparison.OrdinalIgnoreCase)
+            || (card.Review.AuthorName ?? string.Empty).Contains(filter, StringComparison.OrdinalIgnoreCase)
+            || (card.Review.Content ?? string.Empty).Contains(filter, StringComparison.OrdinalIgnoreCase);
     }
 
     private void Card_Click(object sender, MouseButtonEventArgs e)

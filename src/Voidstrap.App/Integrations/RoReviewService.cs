@@ -39,6 +39,48 @@ public static class RoReviewService
 
     private static readonly ConcurrentDictionary<long, string> _avatarCache = new();
     private static readonly ConcurrentDictionary<long, long> _fetchRequestGeneration = new();
+    private static long _cooldownUntilTicks;
+    private static int _rateLimitStrikes;
+
+    public static TimeSpan CooldownRemaining
+    {
+        get
+        {
+            long remaining = Interlocked.Read(ref _cooldownUntilTicks) - DateTime.UtcNow.Ticks;
+            return remaining > 0 ? TimeSpan.FromTicks(remaining) : TimeSpan.Zero;
+        }
+    }
+
+    public static async Task WaitForCooldownAsync(CancellationToken ct)
+    {
+        TimeSpan remaining = CooldownRemaining;
+        if (remaining > TimeSpan.Zero)
+            await Task.Delay(remaining, ct).ConfigureAwait(false);
+    }
+
+    private static bool NoteRateLimit(HttpResponseMessage response)
+    {
+        const string LOG_IDENT = "RoReviewService::NoteRateLimit";
+        if (response.StatusCode != HttpStatusCode.TooManyRequests && response.StatusCode != HttpStatusCode.ServiceUnavailable)
+        {
+            Interlocked.Exchange(ref _rateLimitStrikes, 0);
+            return false;
+        }
+        int strikes = Math.Min(Interlocked.Increment(ref _rateLimitStrikes), 6);
+        TimeSpan wait = response.Headers.RetryAfter?.Delta
+            ?? (response.Headers.RetryAfter?.Date is DateTimeOffset date ? date - DateTimeOffset.UtcNow : TimeSpan.FromSeconds(2 << strikes));
+        if (wait < TimeSpan.FromSeconds(1))
+            wait = TimeSpan.FromSeconds(1);
+        if (wait > TimeSpan.FromSeconds(120))
+            wait = TimeSpan.FromSeconds(120);
+        long until = DateTime.UtcNow.Add(wait).Ticks;
+        long current = Interlocked.Read(ref _cooldownUntilTicks);
+        if (until > current)
+            Interlocked.Exchange(ref _cooldownUntilTicks, until);
+        App.Logger.WriteLine(LOG_IDENT, "Rate limited, cooling down for " + (int)wait.TotalSeconds + " seconds");
+        return true;
+    }
+
 
     private static string? _sessionToken;
     private static long _sessionUserId;
@@ -586,6 +628,7 @@ public static class RoReviewService
         long fetchGeneration = _fetchRequestGeneration.AddOrUpdate(placeId, 1, (_, current) => current + 1);
         try
         {
+            await WaitForCooldownAsync(ct).ConfigureAwait(false);
             using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
             timeout.CancelAfter(TimeSpan.FromSeconds(8));
             SessionSnapshot? session = await ValidateSessionAsync(timeout.Token).ConfigureAwait(false);
@@ -616,6 +659,8 @@ public static class RoReviewService
                     .ConfigureAwait(false);
                 if (!publicRes.IsSuccessStatusCode)
                 {
+                    if (NoteRateLimit(publicRes))
+                        return null;
                     App.Logger.WriteLine(
                         "RoReviewService",
                         "Review fetch returned "
@@ -631,6 +676,8 @@ public static class RoReviewService
             }
             else if (!res.IsSuccessStatusCode)
             {
+                if (NoteRateLimit(res))
+                    return null;
                 App.Logger.WriteLine(
                     "RoReviewService",
                     "Review fetch returned " + (int)res.StatusCode + " for place " + placeId.ToString(CultureInfo.InvariantCulture)

@@ -48,6 +48,7 @@ public static class RoReviewCommunityFeed
         lock (CacheLock)
         {
             FeedCache cache = GetCacheLocked();
+            cache.Reviews.RemoveAll(static r => r == null || string.IsNullOrEmpty(r.Content));
             return cache.Reviews
                 .GroupBy(static r => r.PlaceId)
                 .Select(g => (cache.Games.TryGetValue(g.Key, out CommunityGameInfo? info) ? info : new CommunityGameInfo { PlaceId = g.Key, Name = g.First().GameName }, g.OrderByDescending(static r => r.UnixTime).ToList()))
@@ -58,8 +59,14 @@ public static class RoReviewCommunityFeed
     public static async Task RunAsync(Action<CommunityGameInfo, IReadOnlyList<CommunityReview>> onReviews, Action<int, int> onProgress, CancellationToken token)
     {
         const string LOG_IDENT = "RoReviewCommunityFeed::RunAsync";
-        if (!await RunLock.WaitAsync(0, token).ConfigureAwait(false))
+        try
+        {
+            await RunLock.WaitAsync(token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
             return;
+        }
         List<Task> work = new();
         try
         {
@@ -135,7 +142,14 @@ public static class RoReviewCommunityFeed
         await gate.WaitAsync(token).ConfigureAwait(false);
         try
         {
-            RoReviewService.ReviewData? data = await RoReviewService.FetchReviewsAsync(placeId, token).ConfigureAwait(false);
+            RoReviewService.ReviewData? data = null;
+            for (int attempt = 0; attempt < 4 && data == null; attempt++)
+            {
+                await RoReviewService.WaitForCooldownAsync(token).ConfigureAwait(false);
+                data = await RoReviewService.FetchReviewsAsync(placeId, token).ConfigureAwait(false);
+                if (data == null && RoReviewService.CooldownRemaining == TimeSpan.Zero)
+                    break;
+            }
             if (data == null)
                 return;
             List<CommunityReview> added = new();
@@ -410,6 +424,9 @@ public static class RoReviewCommunityFeed
             App.Logger.WriteLine(LOG_IDENT, ex.Message);
         }
         _cache ??= new FeedCache();
+        _cache.Reviews ??= new();
+        _cache.Games ??= new();
+        _cache.Checked ??= new();
         return _cache;
     }
 
