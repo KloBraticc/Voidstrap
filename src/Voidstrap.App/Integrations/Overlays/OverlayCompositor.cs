@@ -1751,6 +1751,22 @@ namespace Voidstrap.Integrations.Overlays
             return true;
         }
 
+        private static readonly uint OwnProcessId = (uint)Environment.ProcessId;
+
+        private bool IsOwnWindowOverGame(IntPtr fg)
+        {
+            if (fg == IntPtr.Zero || _robloxHwnd == IntPtr.Zero)
+                return false;
+            if (GetWindowThreadProcessId(fg, out uint pid) == 0 || pid != OwnProcessId)
+                return false;
+            if ((Interop.GetWindowLongPtrW(fg, Interop.GWL_EXSTYLE) & Interop.WS_EX_TOPMOST) == 0)
+                return false;
+            if (!Interop.GetWindowRect(fg, out var own) || !Interop.GetWindowRect(_robloxHwnd, out var game))
+                return false;
+            return Math.Min(own.Right, game.Right) > Math.Max(own.Left, game.Left)
+                && Math.Min(own.Bottom, game.Bottom) > Math.Max(own.Top, game.Top);
+        }
+
         private bool UpdateVisibility(CancellationToken token)
         {
             long tick = Environment.TickCount64;
@@ -1767,7 +1783,8 @@ namespace Voidstrap.Integrations.Overlays
                 || (_riRuntime != IntPtr.Zero && RiShadeManager.IsOverlayOpen)
                 || OverlayDiagnostics.IsOverlayHandle(fg)
                 || RobloxWindowTracker.IsRobloxForeground()
-                || RobloxWindowTracker.IsHiddenShellForeground(fg, _robloxHwnd);
+                || RobloxWindowTracker.IsHiddenShellForeground(fg, _robloxHwnd)
+                || IsOwnWindowOverGame(fg);
             if (robloxActive || (fg == IntPtr.Zero && !_hiddenByFocus))
             {
                 if (_hiddenByFocus)
