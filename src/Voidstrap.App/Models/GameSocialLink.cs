@@ -10,6 +10,8 @@ public sealed class GameSocialLink
 
     public string Url { get; init; } = string.Empty;
 
+    public string IconUrl { get; set; } = string.Empty;
+
     public string Label => string.IsNullOrWhiteSpace(Title) ? Type : Title;
 
     public Brush TileBrush => new SolidColorBrush(TileColor);

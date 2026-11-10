@@ -102,8 +102,11 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
-                  <Border Width="44" Height="44" CornerRadius="6" Background="{Binding TileBrush}">
-                    <ui:SymbolIcon Symbol="Link24" FontSize="22" Foreground="White" />
+                  <Border Width="44" Height="44" CornerRadius="6" ClipToBounds="True" util:RoundedClip.Radius="6" Background="{Binding TileBrush}">
+                    <Grid>
+                      <ui:SymbolIcon Symbol="Link24" FontSize="22" Foreground="White" />
+                      <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, Mode=OneTime}" />
+                    </Grid>
                   </Border>
                   <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Label}" />
                 </Grid>

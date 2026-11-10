@@ -25,6 +25,7 @@ internal static class RobloxGameExtras
                     continue;
                 links.Add(new GameSocialLink { Type = Text(item, "type"), Title = Text(item, "title"), Url = uri.AbsoluteUri });
             }
+            await Task.WhenAll(links.Select(link => ResolveLinkIconAsync(link, token))).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
@@ -35,6 +36,56 @@ internal static class RobloxGameExtras
             App.Logger.WriteLine(LOG_IDENT, "Social links could not be loaded for " + universeId + ": " + ex.Message);
         }
         return links;
+    }
+
+    private static async Task ResolveLinkIconAsync(GameSocialLink link, CancellationToken token)
+    {
+        const string LOG_IDENT = "RobloxGameExtras::ResolveLinkIconAsync";
+        string? code = DiscordInviteCode(link.Url);
+        if (code == null)
+            return;
+        try
+        {
+            using HttpResponseMessage response = await App
+                .HttpClient.GetAsync("https://discord.com/api/v10/invites/" + Uri.EscapeDataString(code), token)
+                .ConfigureAwait(false);
+            if (!response.IsSuccessStatusCode)
+                return;
+            await using Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+            using JsonDocument doc = await JsonDocument.ParseAsync(stream, cancellationToken: token).ConfigureAwait(false);
+            if (!doc.RootElement.TryGetProperty("guild", out JsonElement guild) || guild.ValueKind != JsonValueKind.Object)
+                return;
+            string id = Text(guild, "id");
+            string icon = Text(guild, "icon");
+            if (id.Length == 0 || icon.Length == 0 || !id.All(char.IsAsciiDigit) || !icon.All(c => char.IsAsciiLetterOrDigit(c) || c == '_'))
+                return;
+            link.IconUrl = "https://cdn.discordapp.com/icons/" + id + "/" + icon + ".png?size=128";
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Discord server icon could not be loaded: " + ex.Message);
+        }
+    }
+
+    private static string? DiscordInviteCode(string url)
+    {
+        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri))
+            return null;
+        string host = uri.Host.ToLowerInvariant();
+        if (host.StartsWith("www.", StringComparison.Ordinal))
+            host = host[4..];
+        string[] parts = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        string? code = host switch
+        {
+            "discord.gg" when parts.Length >= 1 => parts[0],
+            "discord.com" or "discordapp.com" when parts.Length >= 2 && parts[0] == "invite" => parts[1],
+            _ => null,
+        };
+        return code != null && code.Length is > 0 and <= 64 && code.All(c => char.IsAsciiLetterOrDigit(c) || c == '-') ? code : null;
     }
 
     public static async Task<List<GameUpdatePost>> GetUpdatesAsync(long universeId, CancellationToken token)
