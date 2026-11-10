@@ -56,13 +56,73 @@ internal static class RobloxOutfits
 
     public static async Task<int> WearAsync(long outfitId, string? cookie, CancellationToken token)
     {
-        RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
-            "https://avatar.roblox.com/v1/outfits/" + outfitId + "/wear",
-            null,
+        const string LOG_IDENT = "RobloxOutfits::WearAsync";
+        RobloxApiResponse details = await RobloxCookie.SendGetWithCookieAsync(
+            "https://avatar.roblox.com/v3/outfits/" + outfitId.ToString(CultureInfo.InvariantCulture) + "/details",
             cookie,
             token
         );
-        return response.StatusCode;
+        if (details.StatusCode != 200 || string.IsNullOrEmpty(details.Body))
+            return details.StatusCode;
+        try
+        {
+            using JsonDocument doc = JsonDocument.Parse(details.Body);
+            JsonElement root = doc.RootElement;
+            if (!root.TryGetProperty("assets", out JsonElement assets) || assets.ValueKind != JsonValueKind.Array)
+                return 0;
+            using MemoryStream stream = new();
+            using (Utf8JsonWriter writer = new(stream))
+            {
+                writer.WriteStartObject();
+                writer.WriteStartArray("assets");
+                foreach (JsonElement asset in assets.EnumerateArray())
+                {
+                    if (!asset.TryGetProperty("id", out JsonElement id) || id.ValueKind != JsonValueKind.Number)
+                        continue;
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("id");
+                    id.WriteTo(writer);
+                    foreach (string key in WearAssetKeys)
+                        if (asset.TryGetProperty(key, out JsonElement value) && value.ValueKind == JsonValueKind.Object)
+                        {
+                            writer.WritePropertyName(key);
+                            value.WriteTo(writer);
+                        }
+                    writer.WriteEndObject();
+                }
+                writer.WriteEndArray();
+                writer.WriteEndObject();
+            }
+            RobloxApiResponse wear = await RobloxCookie.SendPostWithCookieAsync(
+                "https://avatar.roblox.com/v2/avatar/set-wearing-assets",
+                Encoding.UTF8.GetString(stream.ToArray()),
+                cookie,
+                token
+            );
+            if (wear.StatusCode != 200)
+                return wear.StatusCode;
+            if (root.TryGetProperty("bodyColor3s", out JsonElement colors) && colors.ValueKind == JsonValueKind.Object)
+                await ApplyPartAsync("v2/avatar/set-body-colors", colors.GetRawText(), cookie, LOG_IDENT, token);
+            if (root.TryGetProperty("scale", out JsonElement scale) && scale.ValueKind == JsonValueKind.Object)
+                await ApplyPartAsync("v1/avatar/set-scales", scale.GetRawText(), cookie, LOG_IDENT, token);
+            if (root.TryGetProperty("playerAvatarType", out JsonElement type) && type.ValueKind == JsonValueKind.String && type.GetString() is "R6" or "R15")
+                await ApplyPartAsync("v1/avatar/set-player-avatar-type", "{\"playerAvatarType\":\"" + type.GetString() + "\"}", cookie, LOG_IDENT, token);
+            return 200;
+        }
+        catch (JsonException ex)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "The outfit details could not be read: " + ex.Message);
+            return 0;
+        }
+    }
+
+    private static readonly string[] WearAssetKeys = ["assetType", "meta"];
+
+    private static async Task ApplyPartAsync(string path, string body, string? cookie, string logIdent, CancellationToken token)
+    {
+        RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/" + path, body, cookie, token);
+        if (response.StatusCode != 200)
+            App.Logger?.WriteLine(logIdent, "Applying " + path + " returned " + response.StatusCode);
     }
 
     public static async Task ApplySavedForLaunchAsync(string launchCommandLine, CancellationToken token)
