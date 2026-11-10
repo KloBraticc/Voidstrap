@@ -157,69 +157,37 @@
       </Border>
     </Grid>
 
-    <Grid Visibility="{Binding DetailVisibility}">
-      <StackPanel>
-
-        <Border Margin="0,0,0,10" Padding="14" CornerRadius="10" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Border Width="84" Height="84" VerticalAlignment="Top" CornerRadius="12" Background="{DynamicResource ControlFillColorDefaultBrush}">
-              <Border.Clip>
-                <RectangleGeometry Rect="0,0,84,84" RadiusX="12" RadiusY="12" />
-              </Border.Clip>
-              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedMod.IconUrl}" />
-            </Border>
-            <StackPanel Grid.Column="1" Margin="16,0,12,0" VerticalAlignment="Center">
-              <TextBlock FontSize="18" FontWeight="SemiBold" MaxHeight="50" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Text="{Binding SelectedMod.Name}" />
-              <TextBlock Margin="0,4,0,0" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
-                <Run Text="{Binding SelectedMod.CategoryDisplay, Mode=OneWay}" /><Run Text="{resources:Loc Ui_Mods_By}" /><Run Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedMod.Author, Mode=OneWay}" />
-              </TextBlock>
-              <TextBlock Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding SelectedMod.DetailStatsDisplay, Mode=OneWay}" />
+    <Grid x:Name="DetailRoot" Visibility="{Binding DetailVisibility}" SizeChanged="DetailRoot_SizeChanged">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition x:Name="DetailSidebarColumn" Width="300" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <StackPanel x:Name="DetailMain" Grid.Column="0" Margin="0,0,20,0">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Width="96" Height="96" CornerRadius="14" ClipToBounds="True" util:RoundedClip.Radius="14" Background="{DynamicResource ControlFillColorDefaultBrush}">
+            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedMod.IconUrl}" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="16,4,0,0" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock MaxWidth="520" FontSize="24" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding SelectedMod.Name}" />
+              <ui:Button Appearance="Transparent" Icon="Open24" Padding="6" Margin="6,0,0,0" ToolTip="{resources:Loc Ui_Mods_OpenTheModPage}" Command="{Binding OpenModPageCommand}" />
             </StackPanel>
-            <StackPanel Grid.Column="2" VerticalAlignment="Center">
-              <Border Padding="8" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" Visibility="{Binding CreatorVisibility}">
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-                  <Border Width="42" Height="42" Margin="0,0,9,0" CornerRadius="6" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                    <Border.Clip>
-                      <RectangleGeometry Rect="0,0,42,42" RadiusX="6" RadiusY="6" />
-                    </Border.Clip>
-                    <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding SelectedMod.Submitter.AvatarUrl}" />
-                  </Border>
-                  <StackPanel Grid.Column="1" MaxWidth="170" VerticalAlignment="Center">
-                    <TextBlock FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding SelectedMod.Submitter.Name}" />
-                    <TextBlock Margin="0,2,0,0" FontSize="11" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SelectedMod.Submitter.Detail}" />
-                    <TextBlock Margin="0,2,0,0" FontSize="11" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource SystemAccentBrush}" Text="{Binding SelectedMod.Submitter.AchievementDisplay}" />
-                  </StackPanel>
-                </Grid>
-              </Border>
-              <ui:Button Margin="0,8,0,0" HorizontalAlignment="Right" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Ui_Mods_Page}" ToolTip="{resources:Loc Ui_Mods_OpenTheModPage}" Command="{Binding OpenModPageCommand}" />
-            </StackPanel>
-          </Grid>
-        </Border>
-
-        <Border Margin="0,0,0,12" Padding="14" CornerRadius="10" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-          <StackPanel>
-            <TextBlock FontSize="14" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_Download}" />
-            <ComboBox MinWidth="280" MaxWidth="460" Margin="0,8,0,0" HorizontalAlignment="Left" DisplayMemberPath="FileName" ItemsSource="{Binding DetailFiles}" SelectedItem="{Binding SelectedFile, Mode=TwoWay}" />
-            <TextBlock Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
-              <Run Text="{Binding SelectedFile.SizeDisplay, Mode=OneWay}" /><Run Text="   " /><Run Text="{Binding InstallTargetHint, Mode=OneWay}" />
+            <TextBlock Margin="0,4,0,0" FontSize="13" TextWrapping="Wrap">
+              <Run Text="{Binding SelectedMod.CategoryDisplay, Mode=OneWay}" /><Run Text="{resources:Loc Ui_Mods_By}" /><Run Text="{Binding SelectedMod.Author, Mode=OneWay}" />
             </TextBlock>
-            <WrapPanel Margin="0,10,0,0">
-              <ui:Button Height="36" Margin="0,0,8,0" Padding="16,0" Appearance="Primary" Icon="ArrowDownload24" Content="{resources:Loc Ui_Mods_ApplyToMyMods}" IsEnabled="{Binding CanInstall}" Command="{Binding InstallCommand}" Visibility="{Binding ManagedInstallVisibility}" />
-              <ui:Button Height="36" Padding="16,0" Appearance="Primary" Icon="ArrowDownload24" Content="{resources:Loc Ui_Mods_ApplyForFleasion}" IsEnabled="{Binding CanInstall}" Command="{Binding InstallFleasionCommand}" Visibility="{Binding FleasionInstallVisibility}" />
-            </WrapPanel>
+            <TextBlock Margin="0,6,0,0" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SelectedMod.DetailStatsDisplay, Mode=OneWay}" />
           </StackPanel>
-        </Border>
+        </Grid>
 
-        <TabControl>
+        <TabControl Margin="0,16,0,0">
           <TabItem Header="{resources:Loc Ui_Pages_Description}">
             <StackPanel Margin="12,12,12,4">
               <ItemsControl ItemsSource="{Binding DetailParagraphs}" Focusable="False">
@@ -350,6 +318,36 @@
             </StackPanel>
           </TabItem>
         </TabControl>
+      </StackPanel>
+
+      <StackPanel x:Name="DetailSidebar" Grid.Column="1" Margin="0,38,0,0">
+        <ui:Button HorizontalAlignment="Stretch" Height="40" Appearance="Primary" Icon="ArrowDownload24" Content="{resources:Loc Ui_Mods_ApplyToMyMods}" IsEnabled="{Binding CanInstall}" Command="{Binding InstallCommand}" Visibility="{Binding ManagedInstallVisibility}" />
+        <ui:Button HorizontalAlignment="Stretch" Height="40" Margin="0,8,0,0" Appearance="Primary" Icon="ArrowDownload24" Content="{resources:Loc Ui_Mods_ApplyForFleasion}" IsEnabled="{Binding CanInstall}" Command="{Binding InstallFleasionCommand}" Visibility="{Binding FleasionInstallVisibility}" />
+        <ui:Button HorizontalAlignment="Stretch" Height="36" Margin="0,8,0,0" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Ui_Mods_Page}" Command="{Binding OpenModPageCommand}" />
+        <TextBlock Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding InstallTargetHint, Mode=OneWay}" />
+        <Border Style="{StaticResource PanelCard}" Margin="0,14,0,0" Padding="12">
+          <StackPanel>
+            <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Mods_Download}" />
+            <ComboBox Margin="0,6,0,0" HorizontalAlignment="Stretch" DisplayMemberPath="FileName" ItemsSource="{Binding DetailFiles}" SelectedItem="{Binding SelectedFile, Mode=TwoWay}" />
+            <TextBlock Margin="0,6,0,0" FontSize="13" Text="{Binding SelectedFile.SizeDisplay, Mode=OneWay}" />
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource PanelCard}" Padding="12" Visibility="{Binding CreatorVisibility}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Width="42" Height="42" Margin="0,0,10,0" CornerRadius="6" ClipToBounds="True" util:RoundedClip.Radius="6" Background="{DynamicResource ControlFillColorDefaultBrush}">
+              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding SelectedMod.Submitter.AvatarUrl}" />
+            </Border>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+              <TextBlock FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding SelectedMod.Submitter.Name}" />
+              <TextBlock Margin="0,2,0,0" FontSize="11" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SelectedMod.Submitter.Detail}" />
+              <TextBlock Margin="0,2,0,0" FontSize="11" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource SystemAccentBrush}" Text="{Binding SelectedMod.Submitter.AchievementDisplay}" />
+            </StackPanel>
+          </Grid>
+        </Border>
       </StackPanel>
     </Grid>
   </Grid>

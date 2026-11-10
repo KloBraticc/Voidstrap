@@ -54,6 +54,21 @@ public partial class ModPacksPage : UiPage
         ScrollToTop();
     }
 
+    private bool _compactDetail;
+
+    private void DetailRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        bool compact = e.NewSize.Width < 840.0;
+        if (compact == _compactDetail)
+            return;
+        _compactDetail = compact;
+        DetailSidebarColumn.Width = new GridLength(compact ? 0.0 : 300.0);
+        System.Windows.Controls.Grid.SetRow(DetailSidebar, compact ? 1 : 0);
+        System.Windows.Controls.Grid.SetColumn(DetailSidebar, compact ? 0 : 1);
+        DetailMain.Margin = compact ? new Thickness(0.0) : new Thickness(0.0, 0.0, 20.0, 0.0);
+        DetailSidebar.Margin = compact ? new Thickness(0.0, 20.0, 0.0, 0.0) : new Thickness(0.0, 38.0, 0.0, 0.0);
+    }
+
     private void ScrollToTop()
     {
         if (FindScrollViewer(this) is { } inner)
