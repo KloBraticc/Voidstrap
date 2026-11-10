@@ -118,6 +118,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             RemoveAccessoriesCommand = new AsyncRelayCommand(RemoveAccessoriesAsync);
             SetSkinColorCommand = new AsyncRelayCommand<string?>(hex => SetSkinColorAsync(hex));
             ResetAdjustCommand = new AsyncRelayCommand(ResetAdjustAsync);
+            SaveOutfitCommand = new AsyncRelayCommand(SaveOutfitAsync);
         }
 
         public ObservableCollection<AvatarItemRow> Items { get; } = new();
@@ -214,8 +215,75 @@ namespace Voidstrap.UI.ViewModels.Settings
             get => _category;
             set
             {
-                if (value != null && SetProperty(ref _category, value) && _loaded)
+                if (value == null || !SetProperty(ref _category, value))
+                    return;
+                OnPropertyChanged(nameof(OutfitsVisibility));
+                if (_loaded)
                     _ = LoadCategoryAsync();
+            }
+        }
+
+        public Visibility OutfitsVisibility => _category == CharactersCategory ? Visibility.Visible : Visibility.Collapsed;
+
+        public IAsyncRelayCommand SaveOutfitCommand { get; }
+
+        private Task SaveOutfitAsync()
+        {
+            string? name = RobloxOutfits.AskName(Strings.Accounts_Outfits_SaveCurrent, Strings.Accounts_Outfits_DefaultName)?.Trim();
+            if (string.IsNullOrEmpty(name))
+                return Task.CompletedTask;
+            return OutfitActionAsync(null, "AvatarViewModel::SaveOutfitAsync", cookie => RobloxOutfits.CreateFromCurrentAsync(name, cookie, _cts.Token), string.Format(Strings.Accounts_Outfits_Saved, name));
+        }
+
+        public Task UpdateOutfitAsync(AvatarItemRow row) =>
+            OutfitActionAsync(row, "AvatarViewModel::UpdateOutfitAsync", cookie => RobloxOutfits.UpdateFromCurrentAsync(row.Id, row.Name, cookie, _cts.Token), string.Format(Strings.Accounts_Outfits_Updated, row.Name));
+
+        public Task RenameOutfitAsync(AvatarItemRow row)
+        {
+            string? name = RobloxOutfits.AskName(Strings.Accounts_Outfits_Rename, row.Name)?.Trim();
+            if (string.IsNullOrEmpty(name) || name == row.Name)
+                return Task.CompletedTask;
+            return OutfitActionAsync(row, "AvatarViewModel::RenameOutfitAsync", cookie => RobloxOutfits.RenameAsync(row.Id, name, cookie, _cts.Token), null);
+        }
+
+        public Task DeleteOutfitAsync(AvatarItemRow row)
+        {
+            if (Frontend.ShowMessageBox(string.Format(Strings.Accounts_Outfits_DeleteConfirm, row.Name), MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                return Task.CompletedTask;
+            return OutfitActionAsync(row, "AvatarViewModel::DeleteOutfitAsync", cookie => RobloxOutfits.DeleteAsync(row.Id, cookie, _cts.Token), null);
+        }
+
+        private async Task OutfitActionAsync(AvatarItemRow? row, string logIdent, Func<string, Task<RobloxApiResponse>> action, string? success)
+        {
+            if (_disposed || row is { Busy: true } || Cookie() is not string cookie)
+                return;
+            if (row != null)
+                row.Busy = true;
+            try
+            {
+                RobloxApiResponse response = await action(cookie);
+                if (response.StatusCode != 200)
+                {
+                    App.Logger?.WriteLine(logIdent, "Roblox returned " + response.StatusCode);
+                    Status = Strings.Accounts_Outfits_Failed;
+                    return;
+                }
+                if (success != null)
+                    Status = success;
+                if (_category == CharactersCategory)
+                    await LoadCategoryAsync();
+            }
+            catch (OperationCanceledException) { }
+            catch (ObjectDisposedException) { }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(logIdent, "The outfit request failed: " + ex.Message);
+                Status = Strings.Accounts_Outfits_Failed;
+            }
+            finally
+            {
+                if (row != null)
+                    row.Busy = false;
             }
         }
 

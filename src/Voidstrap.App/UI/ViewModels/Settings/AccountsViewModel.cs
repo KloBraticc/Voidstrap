@@ -915,79 +915,18 @@ namespace Voidstrap.UI.ViewModels.Settings
             return cookie;
         }
 
-        private static async Task<string?> ReadCurrentAvatarAsync(string cookie, string name, CancellationToken token)
-        {
-            RobloxApiResponse avatar = await RobloxCookie.SendGetWithCookieAsync("https://avatar.roblox.com/v2/avatar/avatar", cookie, token);
-            if (avatar.StatusCode != 200 || string.IsNullOrEmpty(avatar.Body))
-                return null;
-            try
-            {
-                using JsonDocument doc = JsonDocument.Parse(avatar.Body);
-                JsonElement root = doc.RootElement;
-                using System.IO.MemoryStream stream = new();
-                using (Utf8JsonWriter writer = new(stream))
-                {
-                    writer.WriteStartObject();
-                    writer.WriteString("name", name);
-                    if (root.TryGetProperty("bodyColor3s", out JsonElement colors))
-                    {
-                        writer.WritePropertyName("bodyColor3s");
-                        colors.WriteTo(writer);
-                    }
-                    if (root.TryGetProperty("scales", out JsonElement scales))
-                    {
-                        writer.WritePropertyName("scale");
-                        scales.WriteTo(writer);
-                    }
-                    if (root.TryGetProperty("playerAvatarType", out JsonElement type))
-                    {
-                        writer.WritePropertyName("playerAvatarType");
-                        type.WriteTo(writer);
-                    }
-                    writer.WritePropertyName("assets");
-                    writer.WriteStartArray();
-                    if (root.TryGetProperty("assets", out JsonElement assets) && assets.ValueKind == JsonValueKind.Array)
-                        foreach (JsonElement asset in assets.EnumerateArray())
-                        {
-                            if (!asset.TryGetProperty("id", out JsonElement id))
-                                continue;
-                            writer.WriteStartObject();
-                            writer.WritePropertyName("id");
-                            id.WriteTo(writer);
-                            if (asset.TryGetProperty("meta", out JsonElement meta) && meta.ValueKind == JsonValueKind.Object)
-                            {
-                                writer.WritePropertyName("meta");
-                                meta.WriteTo(writer);
-                            }
-                            writer.WriteEndObject();
-                        }
-                    writer.WriteEndArray();
-                    writer.WriteString("outfitType", "Avatar");
-                    writer.WriteEndObject();
-                }
-                return System.Text.Encoding.UTF8.GetString(stream.ToArray());
-            }
-            catch (JsonException)
-            {
-                return null;
-            }
-        }
-
         private async Task SaveCurrentOutfitAsync()
         {
             const string LOG_IDENT = "AccountsViewModel::SaveCurrentOutfitAsync";
             string? cookie = OutfitCookie();
             if (cookie == null)
                 return;
-            string? name = AskOutfitName(Strings.Accounts_Outfits_SaveCurrent, Strings.Accounts_Outfits_DefaultName)?.Trim();
+            string? name = RobloxOutfits.AskName(Strings.Accounts_Outfits_SaveCurrent, Strings.Accounts_Outfits_DefaultName)?.Trim();
             if (string.IsNullOrEmpty(name))
                 return;
             try
             {
-                string? body = await ReadCurrentAvatarAsync(cookie, name, _cts.Token);
-                RobloxApiResponse response = body == null
-                    ? new RobloxApiResponse(0, null, null)
-                    : await RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/v3/outfits/create", body, cookie, _cts.Token);
+                RobloxApiResponse response = await RobloxOutfits.CreateFromCurrentAsync(name, cookie, _cts.Token);
                 if (response.StatusCode == 200)
                 {
                     Status = string.Format(Strings.Accounts_Outfits_Saved, name);
@@ -1010,18 +949,13 @@ namespace Voidstrap.UI.ViewModels.Settings
             string? cookie = OutfitCookie();
             if (cookie == null)
                 return;
-            string? name = AskOutfitName(Strings.Accounts_Outfits_Rename, outfit.Name)?.Trim();
+            string? name = RobloxOutfits.AskName(Strings.Accounts_Outfits_Rename, outfit.Name)?.Trim();
             if (string.IsNullOrEmpty(name) || name == outfit.Name)
                 return;
             outfit.Busy = true;
             try
             {
-                RobloxApiResponse response = await RobloxCookie.SendPatchWithCookieAsync(
-                    "https://avatar.roblox.com/v1/outfits/" + outfit.Id,
-                    "{\"name\":" + JsonSerializer.Serialize(name) + "}",
-                    cookie,
-                    _cts.Token
-                );
+                RobloxApiResponse response = await RobloxOutfits.RenameAsync(outfit.Id, name, cookie, _cts.Token);
                 if (response.StatusCode == 200)
                 {
                     outfit.Name = name;
@@ -1051,10 +985,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             outfit.Busy = true;
             try
             {
-                string? body = await ReadCurrentAvatarAsync(cookie, outfit.Name, _cts.Token);
-                RobloxApiResponse response = body == null
-                    ? new RobloxApiResponse(0, null, null)
-                    : await RobloxCookie.SendPatchWithCookieAsync("https://avatar.roblox.com/v3/outfits/" + outfit.Id, body, cookie, _cts.Token);
+                RobloxApiResponse response = await RobloxOutfits.UpdateFromCurrentAsync(outfit.Id, outfit.Name, cookie, _cts.Token);
                 if (response.StatusCode == 200)
                 {
                     Status = string.Format(Strings.Accounts_Outfits_Updated, outfit.Name);
@@ -1088,12 +1019,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             outfit.Busy = true;
             try
             {
-                RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
-                    "https://avatar.roblox.com/v1/outfits/" + outfit.Id + "/delete",
-                    null,
-                    cookie,
-                    _cts.Token
-                );
+                RobloxApiResponse response = await RobloxOutfits.DeleteAsync(outfit.Id, cookie, _cts.Token);
                 if (response.StatusCode == 200)
                 {
                     RobloxOutfits.ForgetThumbnail(outfit.Id);
@@ -1112,14 +1038,6 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 outfit.Busy = false;
             }
-        }
-
-        private static string? AskOutfitName(string title, string initial)
-        {
-            Voidstrap.UI.Elements.Dialogs.TextInputDialog dialog = new(title, initial);
-            dialog.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive);
-            dialog.ShowOwnedDialog();
-            return dialog.Confirmed ? dialog.Value : null;
         }
 
         private static string? ReadNumber(string? json, string property)

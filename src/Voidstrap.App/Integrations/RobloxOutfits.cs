@@ -248,4 +248,98 @@ internal static class RobloxOutfits
         }
         return pending;
     }
+
+    private const int BackgroundAssetType = 92;
+
+    public static string? AskName(string title, string initial)
+    {
+        Voidstrap.UI.Elements.Dialogs.TextInputDialog dialog = new(title, initial);
+        dialog.Owner = System.Windows.Application.Current.Windows.OfType<System.Windows.Window>().FirstOrDefault(window => window.IsActive);
+        dialog.ShowOwnedDialog();
+        return dialog.Confirmed ? dialog.Value : null;
+    }
+
+    public static async Task<RobloxApiResponse> CreateFromCurrentAsync(string name, string cookie, CancellationToken token)
+    {
+        string? body = await ReadCurrentAvatarAsync(cookie, name, token);
+        return body == null ? new RobloxApiResponse(0, null, null) : await RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/v3/outfits/create", body, cookie, token);
+    }
+
+    public static async Task<RobloxApiResponse> UpdateFromCurrentAsync(long outfitId, string name, string cookie, CancellationToken token)
+    {
+        string? body = await ReadCurrentAvatarAsync(cookie, name, token);
+        return body == null
+            ? new RobloxApiResponse(0, null, null)
+            : await RobloxCookie.SendPatchWithCookieAsync("https://avatar.roblox.com/v3/outfits/" + outfitId.ToString(CultureInfo.InvariantCulture), body, cookie, token);
+    }
+
+    public static Task<RobloxApiResponse> RenameAsync(long outfitId, string name, string cookie, CancellationToken token) =>
+        RobloxCookie.SendPatchWithCookieAsync(
+            "https://avatar.roblox.com/v1/outfits/" + outfitId.ToString(CultureInfo.InvariantCulture),
+            "{\"name\":" + JsonSerializer.Serialize(name) + "}",
+            cookie,
+            token
+        );
+
+    public static Task<RobloxApiResponse> DeleteAsync(long outfitId, string cookie, CancellationToken token) =>
+        RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/v1/outfits/" + outfitId.ToString(CultureInfo.InvariantCulture) + "/delete", null, cookie, token);
+
+    private static async Task<string?> ReadCurrentAvatarAsync(string cookie, string name, CancellationToken token)
+    {
+        RobloxApiResponse avatar = await RobloxCookie.SendGetWithCookieAsync("https://avatar.roblox.com/v2/avatar/avatar", cookie, token);
+        if (avatar.StatusCode != 200 || string.IsNullOrEmpty(avatar.Body))
+            return null;
+        try
+        {
+            using JsonDocument doc = JsonDocument.Parse(avatar.Body);
+            JsonElement root = doc.RootElement;
+            using System.IO.MemoryStream stream = new();
+            using (Utf8JsonWriter writer = new(stream))
+            {
+                writer.WriteStartObject();
+                writer.WriteString("name", name);
+                if (root.TryGetProperty("bodyColor3s", out JsonElement colors))
+                {
+                    writer.WritePropertyName("bodyColor3s");
+                    colors.WriteTo(writer);
+                }
+                if (root.TryGetProperty("scales", out JsonElement scales))
+                {
+                    writer.WritePropertyName("scale");
+                    scales.WriteTo(writer);
+                }
+                if (root.TryGetProperty("playerAvatarType", out JsonElement type))
+                {
+                    writer.WritePropertyName("playerAvatarType");
+                    type.WriteTo(writer);
+                }
+                writer.WritePropertyName("assets");
+                writer.WriteStartArray();
+                if (root.TryGetProperty("assets", out JsonElement assets) && assets.ValueKind == JsonValueKind.Array)
+                    foreach (JsonElement asset in assets.EnumerateArray())
+                    {
+                        if (!asset.TryGetProperty("id", out JsonElement id) || asset.TryGetProperty("assetType", out JsonElement kind) && kind.TryGetProperty("id", out JsonElement kindId) && kindId.TryGetInt32(out int kindValue) && kindValue == BackgroundAssetType)
+                            continue;
+                        writer.WriteStartObject();
+                        writer.WritePropertyName("id");
+                        id.WriteTo(writer);
+                        if (asset.TryGetProperty("meta", out JsonElement meta) && meta.ValueKind == JsonValueKind.Object)
+                        {
+                            writer.WritePropertyName("meta");
+                            meta.WriteTo(writer);
+                        }
+                        writer.WriteEndObject();
+                    }
+                writer.WriteEndArray();
+                writer.WriteString("outfitType", "Avatar");
+                writer.WriteEndObject();
+            }
+            return System.Text.Encoding.UTF8.GetString(stream.ToArray());
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
+    }
+
 }

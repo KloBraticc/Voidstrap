@@ -19,6 +19,9 @@
               <MenuItem Tag="wear" Header="{resources:Loc Accounts_Remove}" Click="OnItemMenuClick" Visibility="{Binding Worn, Converter={StaticResource BooleanToVisibilityConverter}}" />
               <MenuItem Tag="adjust" Header="{resources:Loc Accounts_Avatar_AdjustAccessories}" Click="OnItemMenuClick" />
               <Separator />
+              <MenuItem Tag="outfit-update" Header="{resources:Loc Accounts_Outfits_UpdateCurrent}" Click="OnItemMenuClick" />
+              <MenuItem Tag="outfit-rename" Header="{resources:Loc Accounts_Outfits_Rename}" Click="OnItemMenuClick" />
+              <MenuItem Tag="outfit-delete" Header="{resources:Loc Accounts_Outfits_Delete}" Click="OnItemMenuClick" />
               <MenuItem Tag="view" Header="{resources:Loc Library_ViewOnRoblox}" Click="OnItemMenuClick" />
               <MenuItem Tag="copy" Header="{resources:Loc Accounts_CopyId}" Click="OnItemMenuClick" />
             </ContextMenu>
@@ -42,6 +45,9 @@
               <MenuItem Tag="wear" Header="{resources:Loc Accounts_Remove}" Click="OnItemMenuClick" Visibility="{Binding Worn, Converter={StaticResource BooleanToVisibilityConverter}}" />
               <MenuItem Tag="adjust" Header="{resources:Loc Accounts_Avatar_AdjustAccessories}" Click="OnItemMenuClick" />
               <Separator />
+              <MenuItem Tag="outfit-update" Header="{resources:Loc Accounts_Outfits_UpdateCurrent}" Click="OnItemMenuClick" />
+              <MenuItem Tag="outfit-rename" Header="{resources:Loc Accounts_Outfits_Rename}" Click="OnItemMenuClick" />
+              <MenuItem Tag="outfit-delete" Header="{resources:Loc Accounts_Outfits_Delete}" Click="OnItemMenuClick" />
               <MenuItem Tag="view" Header="{resources:Loc Library_ViewOnRoblox}" Click="OnItemMenuClick" />
               <MenuItem Tag="copy" Header="{resources:Loc Accounts_CopyId}" Click="OnItemMenuClick" />
             </ContextMenu>
@@ -197,7 +203,10 @@
         <TabItem Tag="Animations" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Animations}" />
         <TabItem Tag="Emotes" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Emotes}" />
       </TabControl>
-      <ui:TextBox Grid.Row="1" Margin="0,12,0,12" Icon="Search24" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
+      <DockPanel Grid.Row="1" Margin="0,12,0,12" LastChildFill="True">
+        <ui:Button DockPanel.Dock="Right" Margin="8,0,0,0" Appearance="Primary" Icon="Save24" Content="{resources:Loc Accounts_Outfits_SaveCurrent}" Command="{Binding SaveOutfitCommand}" Visibility="{Binding OutfitsVisibility}" />
+        <ui:TextBox Icon="Search24" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
+      </DockPanel>
       <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <ItemsControl ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AvatarItemTile}">
           <ItemsControl.ItemsPanel>
