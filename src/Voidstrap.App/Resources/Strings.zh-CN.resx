@@ -10187,4 +10187,25 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>这里没有物品</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>重置视角</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>肤色</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>身高</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>宽度</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>头部</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>比例</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>表情动作</value>
+  </data>
 </root>

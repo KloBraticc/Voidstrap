@@ -9851,4 +9851,25 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>Энд зүйл алга</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>Харагдацыг шинэчлэх</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>Арьсны өнгө</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>Өндөр</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>Өргөн</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>Толгой</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>Харьцаа</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>Эмоцууд</value>
+  </data>
 </root>

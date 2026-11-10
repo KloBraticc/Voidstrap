@@ -10161,4 +10161,25 @@ Oyuncular: {2}</value>
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>Burada öğe yok</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>Görünümü sıfırla</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>Ten rengi</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>Boy</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>Genişlik</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>Kafa</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>Oranlar</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>İfadeler</value>
+  </data>
 </root>

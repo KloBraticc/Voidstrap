@@ -10,6 +10,10 @@ internal static partial class RobloxAvatar
 {
     public const string BackgroundType = "AvatarBackground";
 
+    public const string EmoteType = "EmoteAnimation";
+
+    public const int EmoteSlots = 8;
+
     private const int InventoryPages = 3;
 
     private const long MaxSceneBytes = 48L * 1024 * 1024;
@@ -63,6 +67,10 @@ internal static partial class RobloxAvatar
 
     public static readonly string[] BackgroundTypes = [BackgroundType];
 
+    public static readonly string[] EmoteTypes = [EmoteType];
+
+    public static readonly string[] BodyColorParts = ["headColor3", "torsoColor3", "rightArmColor3", "leftArmColor3", "rightLegColor3", "leftLegColor3"];
+
     private static readonly HashSet<int> RigidAccessoryTypeIds = [8, 41, 42, 43, 44, 45, 46, 47];
 
     private static readonly Dictionary<string, int> LayeredOrder = new(StringComparer.Ordinal)
@@ -105,6 +113,18 @@ internal static partial class RobloxAvatar
                 foreach (JsonProperty scale in scales.EnumerateObject())
                     if (scale.Value.ValueKind == JsonValueKind.Number)
                         state.Scales[scale.Name] = scale.Value.GetDouble();
+            if (root.TryGetProperty("bodyColor3s", out JsonElement colors) && colors.ValueKind == JsonValueKind.Object)
+                foreach (JsonProperty color in colors.EnumerateObject())
+                    if (color.Value.ValueKind == JsonValueKind.String)
+                        state.BodyColors[color.Name] = color.Value.GetString() ?? "";
+            if (root.TryGetProperty("emotes", out JsonElement emotes) && emotes.ValueKind == JsonValueKind.Array)
+                foreach (JsonElement emote in emotes.EnumerateArray())
+                {
+                    long emoteId = emote.TryGetProperty("assetId", out JsonElement emoteIdEl) && emoteIdEl.TryGetInt64(out long e) ? e : 0;
+                    int position = emote.TryGetProperty("position", out JsonElement positionEl) && positionEl.TryGetInt32(out int p) ? p : 0;
+                    if (emoteId != 0 && position > 0)
+                        state.Emotes.Add(new AvatarEmote(emoteId, position));
+                }
             if (root.TryGetProperty("assets", out JsonElement assets) && assets.ValueKind == JsonValueKind.Array)
                 foreach (JsonElement asset in assets.EnumerateArray())
                 {
@@ -131,25 +151,36 @@ internal static partial class RobloxAvatar
         }
     }
 
-    public static async Task<Dictionary<string, (int Id, int Max)>> LoadRulesAsync(CancellationToken token)
+    public static async Task<AvatarRules> LoadRulesAsync(CancellationToken token)
     {
         const string LOG_IDENT = "RobloxAvatar::LoadRulesAsync";
-        Dictionary<string, (int Id, int Max)> rules = new(StringComparer.Ordinal);
+        Dictionary<string, (int Id, int Max)> types = new(StringComparer.Ordinal);
+        List<string> palette = new();
+        AvatarRules rules = new(types, palette);
         RobloxApiResponse response = await RobloxCookie.SendGetWithCookieAsync("https://avatar.roblox.com/v1/avatar-rules", null, token);
         if (response.StatusCode != 200 || string.IsNullOrEmpty(response.Body))
             return rules;
         try
         {
             using JsonDocument doc = JsonDocument.Parse(response.Body);
-            if (!doc.RootElement.TryGetProperty("wearableAssetTypes", out JsonElement types) || types.ValueKind != JsonValueKind.Array)
+            if (doc.RootElement.TryGetProperty("bodyColorsPalette", out JsonElement colors) && colors.ValueKind == JsonValueKind.Array)
+                foreach (JsonElement color in colors.EnumerateArray())
+                    if (
+                        color.TryGetProperty("hexColor", out JsonElement hex)
+                        && hex.ValueKind == JsonValueKind.String
+                        && hex.GetString()?.TrimStart('#') is { Length: 6 } value
+                        && value.All(Uri.IsHexDigit)
+                    )
+                        palette.Add(value.ToUpperInvariant());
+            if (!doc.RootElement.TryGetProperty("wearableAssetTypes", out JsonElement wearable) || wearable.ValueKind != JsonValueKind.Array)
                 return rules;
-            foreach (JsonElement type in types.EnumerateArray())
+            foreach (JsonElement type in wearable.EnumerateArray())
             {
                 string name = type.TryGetProperty("name", out JsonElement nameEl) ? nameEl.GetString() ?? "" : "";
                 int id = type.TryGetProperty("id", out JsonElement idEl) && idEl.TryGetInt32(out int i) ? i : 0;
                 int max = type.TryGetProperty("maxNumber", out JsonElement maxEl) && maxEl.TryGetInt32(out int m) ? m : 1;
                 if (name.Length > 0 && id > 0)
-                    rules[name.Replace(" ", "", StringComparison.Ordinal).Replace("-", "", StringComparison.Ordinal)] = (id, max);
+                    types[name.Replace(" ", "", StringComparison.Ordinal).Replace("-", "", StringComparison.Ordinal)] = (id, max);
             }
         }
         catch (JsonException ex)
@@ -215,6 +246,34 @@ internal static partial class RobloxAvatar
         RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
             "https://avatar.roblox.com/v1/avatar/set-player-avatar-type",
             "{\"playerAvatarType\":\"" + (r15 ? "R15" : "R6") + "\"}",
+            cookie,
+            token
+        );
+        return response.StatusCode == 200;
+    }
+
+    public static async Task<bool> SetBodyColorsAsync(string hex, string? cookie, CancellationToken token)
+    {
+        string body = "{" + string.Join(",", BodyColorParts.Select(part => "\"" + part + "\":\"" + hex + "\"")) + "}";
+        RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/v2/avatar/set-body-colors", body, cookie, token);
+        return response.StatusCode == 200;
+    }
+
+    public static async Task<bool> EquipEmoteAsync(long assetId, int position, string? cookie, CancellationToken token)
+    {
+        RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
+            "https://avatar.roblox.com/v1/emotes/" + assetId.ToString(CultureInfo.InvariantCulture) + "/" + position.ToString(CultureInfo.InvariantCulture),
+            null,
+            cookie,
+            token
+        );
+        return response.StatusCode == 200;
+    }
+
+    public static async Task<bool> UnequipEmoteAsync(int position, string? cookie, CancellationToken token)
+    {
+        RobloxApiResponse response = await RobloxCookie.SendDeleteWithCookieAsync(
+            "https://avatar.roblox.com/v1/emotes/" + position.ToString(CultureInfo.InvariantCulture),
             cookie,
             token
         );
@@ -487,6 +546,26 @@ internal static partial class RobloxAvatar
         )
             yaw = Math.Atan2(px.GetDouble() - (minX + maxX) / 2, pz.GetDouble() - (minZ + maxZ) / 2) * 180.0 / Math.PI;
         return new AvatarScene(group, bounds, yaw);
+    }
+
+    public static async Task<ImageSource?> LoadBitmapAsync(string? url, CancellationToken token)
+    {
+        const string LOG_IDENT = "RobloxAvatar::LoadBitmapAsync";
+        if (url == null || !IsCdnUrl(url))
+            return null;
+        try
+        {
+            return await Task.Run(() => LoadImageAsync(url, token), token);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "The picture could not be loaded: " + ex.Message);
+            return null;
+        }
     }
 
     private static async Task<ImageSource?> LoadImageAsync(string url, CancellationToken token)

@@ -355,6 +355,9 @@ public static partial class RobloxCookie
         CancellationToken ct = default(CancellationToken)
     ) => SendWithCookieAsync(HttpMethod.Post, url, jsonBody, cookie, ct);
 
+    public static Task<RobloxApiResponse> SendDeleteWithCookieAsync(string url, string? cookie, CancellationToken ct = default(CancellationToken)) =>
+        SendWithCookieAsync(HttpMethod.Delete, url, null, cookie, ct);
+
     public static Task<RobloxApiResponse> SendPatchWithCookieAsync(
         string url,
         string? jsonBody,

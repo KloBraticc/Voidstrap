@@ -10161,4 +10161,25 @@ Mga player: {2}</value>
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>Walang item dito</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>I-reset ang view</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>Kulay ng balat</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>Taas</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>Lapad</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>Ulo</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>Mga proporsyon</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>Mga Emote</value>
+  </data>
 </root>

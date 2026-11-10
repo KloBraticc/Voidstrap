@@ -9851,4 +9851,25 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>यहाँ कुनै वस्तु छैन</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>दृश्य रिसेट गर्नुहोस्</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>छालाको रङ</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>उचाइ</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>चौडाइ</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>टाउको</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>अनुपात</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>इमोटहरू</value>
+  </data>
 </root>

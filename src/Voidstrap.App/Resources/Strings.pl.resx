@@ -10164,4 +10164,25 @@ Gracze: {2}</value>
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>Brak przedmiotów</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>Resetuj widok</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>Kolor skóry</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>Wzrost</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>Szerokość</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>Głowa</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>Proporcje</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>Emotki</value>
+  </data>
 </root>

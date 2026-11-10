@@ -9850,4 +9850,25 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>Дар ин ҷо чизе нест</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>Аз нав танзим кардани намо</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>Ранги пӯст</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>Баландӣ</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>Бар</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>Сар</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>Таносубҳо</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>Эмотсияҳо</value>
+  </data>
 </root>

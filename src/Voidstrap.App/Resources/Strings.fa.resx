@@ -10165,4 +10165,25 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>اینجا موردی نیست</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>بازنشانی نما</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>رنگ پوست</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>قد</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>سر</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>تناسب</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>شکلک‌ها</value>
+  </data>
 </root>

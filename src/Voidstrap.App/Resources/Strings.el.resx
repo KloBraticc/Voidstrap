@@ -9850,4 +9850,25 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>Δεν υπάρχουν αντικείμενα εδώ</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>Επαναφορά προβολής</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>Χρώμα δέρματος</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>Ύψος</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>Πλάτος</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>Κεφάλι</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>Αναλογίες</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>Emotes</value>
+  </data>
 </root>

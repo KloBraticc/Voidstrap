@@ -9014,6 +9014,13 @@ namespace Voidstrap.Resources {
         public static string Accounts_Avatar_RemoveAccessories => ResourceManager.GetString("Accounts.Avatar.RemoveAccessories", resourceCulture);
         public static string Accounts_Avatar_Failed => ResourceManager.GetString("Accounts.Avatar.Failed", resourceCulture);
         public static string Accounts_Avatar_Empty => ResourceManager.GetString("Accounts.Avatar.Empty", resourceCulture);
+        public static string Accounts_Avatar_ResetView => ResourceManager.GetString("Accounts.Avatar.ResetView", resourceCulture);
+        public static string Accounts_Avatar_SkinColor => ResourceManager.GetString("Accounts.Avatar.SkinColor", resourceCulture);
+        public static string Accounts_Avatar_Height => ResourceManager.GetString("Accounts.Avatar.Height", resourceCulture);
+        public static string Accounts_Avatar_Width => ResourceManager.GetString("Accounts.Avatar.Width", resourceCulture);
+        public static string Accounts_Avatar_Head => ResourceManager.GetString("Accounts.Avatar.Head", resourceCulture);
+        public static string Accounts_Avatar_Proportions => ResourceManager.GetString("Accounts.Avatar.Proportions", resourceCulture);
+        public static string Accounts_Avatar_Emotes => ResourceManager.GetString("Accounts.Avatar.Emotes", resourceCulture);
         public static string Accounts_Outfits_DeleteConfirm => ResourceManager.GetString("Accounts.Outfits.DeleteConfirm", resourceCulture);
         public static string Accounts_Premium_Active => ResourceManager.GetString("Accounts.Premium.Active", resourceCulture);
         public static string Accounts_Premium_None => ResourceManager.GetString("Accounts.Premium.None", resourceCulture);

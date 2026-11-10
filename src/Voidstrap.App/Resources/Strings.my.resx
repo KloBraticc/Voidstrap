@@ -9850,4 +9850,25 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>ဤနေရာတွင် ပစ္စည်းမရှိပါ</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>မြင်ကွင်းကို ပြန်လည်သတ်မှတ်ရန်</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>အသားအရောင်</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>အမြင့်</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>အကျယ်</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>ခေါင်း</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>အချိုးအစား</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>အီမုတ်များ</value>
+  </data>
 </root>

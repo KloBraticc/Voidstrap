@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
 using Voidstrap.Integrations;
 
@@ -22,6 +23,27 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public const string AnimationsCategory = "Animations";
 
+        public const string EmotesCategory = "Emotes";
+
+        private const string BodyTypeScale = "bodyType";
+
+        private const string HeightScale = "height";
+
+        private const string WidthScale = "width";
+
+        private const string HeadScale = "head";
+
+        private const string ProportionScale = "proportion";
+
+        private static readonly Dictionary<string, string> ScaleProperties = new()
+        {
+            [BodyTypeScale] = nameof(BodyType),
+            [HeightScale] = nameof(ScaleHeight),
+            [WidthScale] = nameof(ScaleWidth),
+            [HeadScale] = nameof(ScaleHead),
+            [ProportionScale] = nameof(ScaleProportion),
+        };
+
         private static readonly bool Supports3D = Voidstrap.Utility.Platform.IsWindows;
 
         private readonly SavedAccount _account;
@@ -32,7 +54,11 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private CancellationTokenSource? _categoryCts;
 
-        private Dictionary<string, (int Id, int Max)> _rules = new();
+        private readonly Dictionary<string, double> _scales = new();
+
+        private AvatarRules _rules = new(new Dictionary<string, (int Id, int Max)>(), new List<string>());
+
+        private ImageSource? _backgroundImage;
 
         private AvatarState? _state;
 
@@ -52,8 +78,6 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private bool _isR15 = true;
 
-        private double _bodyType;
-
         private bool _loading;
 
         private bool _previewLoading;
@@ -71,6 +95,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             _account = account;
             ToggleItemCommand = new AsyncRelayCommand<AvatarItemRow?>(row => ToggleItemAsync(row));
             RemoveAccessoriesCommand = new AsyncRelayCommand(RemoveAccessoriesAsync);
+            SetSkinColorCommand = new AsyncRelayCommand<string?>(hex => SetSkinColorAsync(hex));
         }
 
         public ObservableCollection<AvatarItemRow> Items { get; } = new();
@@ -80,6 +105,16 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand ToggleItemCommand { get; }
 
         public ICommand RemoveAccessoriesCommand { get; }
+
+        public ICommand SetSkinColorCommand { get; }
+
+        public ObservableCollection<string> Palette { get; } = new();
+
+        public ImageSource? BackgroundImage
+        {
+            get => _backgroundImage;
+            private set => SetProperty(ref _backgroundImage, value);
+        }
 
         public string Category
         {
@@ -143,19 +178,33 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public double BodyType
         {
-            get => _bodyType;
-            set
-            {
-                double clamped = Math.Clamp(Math.Round(value), 0, 100);
-                if (!SetProperty(ref _bodyType, clamped))
-                    return;
-                OnPropertyChanged(nameof(BodyTypeText));
-                if (_loaded)
-                    _ = SetBodyTypeAsync(clamped);
-            }
+            get => _scales.GetValueOrDefault(BodyTypeScale);
+            set => SetScale(BodyTypeScale, value);
         }
 
-        public string BodyTypeText => _bodyType.ToString("0", CultureInfo.CurrentCulture) + "%";
+        public double ScaleHeight
+        {
+            get => _scales.GetValueOrDefault(HeightScale, 100);
+            set => SetScale(HeightScale, value);
+        }
+
+        public double ScaleWidth
+        {
+            get => _scales.GetValueOrDefault(WidthScale, 100);
+            set => SetScale(WidthScale, value);
+        }
+
+        public double ScaleHead
+        {
+            get => _scales.GetValueOrDefault(HeadScale, 100);
+            set => SetScale(HeadScale, value);
+        }
+
+        public double ScaleProportion
+        {
+            get => _scales.GetValueOrDefault(ProportionScale);
+            set => SetScale(ProportionScale, value);
+        }
 
         public bool Loading
         {
@@ -184,6 +233,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 Loading = true;
                 _rules = await RobloxAvatar.LoadRulesAsync(_cts.Token);
+                foreach (string hex in _rules.Palette)
+                    Palette.Add("#" + hex);
                 await RefreshAvatarAsync();
                 _loaded = true;
                 await LoadCategoryAsync();
@@ -236,12 +287,13 @@ namespace Voidstrap.UI.ViewModels.Settings
                 _isR15 = state.AvatarType != "R6";
                 OnPropertyChanged(nameof(IsR15));
             }
-            double bodyType = Math.Round(state.Scales.GetValueOrDefault("bodyType") * 100);
-            if (_bodyType != bodyType)
+            foreach ((string key, string property) in ScaleProperties)
             {
-                _bodyType = bodyType;
-                OnPropertyChanged(nameof(BodyType));
-                OnPropertyChanged(nameof(BodyTypeText));
+                double percent = Math.Round(state.Scales.GetValueOrDefault(key) * 100);
+                if (_scales.TryGetValue(key, out double current) && current == percent)
+                    continue;
+                _scales[key] = percent;
+                OnPropertyChanged(property);
             }
             AvatarAsset? background = state.Assets.FirstOrDefault(a => a.TypeName == RobloxAvatar.BackgroundType);
             if (background != null)
@@ -280,7 +332,14 @@ namespace Voidstrap.UI.ViewModels.Settings
                 string? imageUrl = await image;
                 if (version != _previewVersion)
                     return;
-                BackgroundUrl = backgroundUrl;
+                if (backgroundUrl != BackgroundUrl || backgroundUrl == null)
+                {
+                    BackgroundUrl = backgroundUrl;
+                    ImageSource? picture = Supports3D ? await RobloxAvatar.LoadBitmapAsync(backgroundUrl, token) : null;
+                    if (version != _previewVersion)
+                        return;
+                    BackgroundImage = picture;
+                }
                 AvatarImageUrl = imageUrl ?? AvatarImageUrl;
                 AvatarScene? loaded = await scene;
                 if (version == _previewVersion)
@@ -327,6 +386,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                         AccessoriesCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.AccessoryTypes, cookie, token),
                         BackgroundsCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.BackgroundTypes, cookie, token),
                         AnimationsCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.AnimationTypes, cookie, token),
+                        EmotesCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.EmoteTypes, cookie, token),
                         _ => rows,
                     };
                 if (token.IsCancellationRequested)
@@ -365,7 +425,7 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private void MarkWorn()
         {
-            HashSet<long> worn = _state == null ? new HashSet<long>() : _state.Assets.Select(a => a.Id).ToHashSet();
+            HashSet<long> worn = _state == null ? new HashSet<long>() : _state.Assets.Select(a => a.Id).Concat(_state.Emotes.Select(e => e.Id)).ToHashSet();
             foreach (AvatarItemRow row in _all)
                 row.Worn = !row.IsOutfit && (worn.Contains(row.Id) || row.Id == _backgroundId && row.TypeName == RobloxAvatar.BackgroundType);
         }
@@ -398,12 +458,24 @@ namespace Voidstrap.UI.ViewModels.Settings
                 {
                     ok = await RobloxOutfits.WearAsync(row.Id, cookie, _cts.Token) == 200;
                 }
+                else if (row.TypeName == RobloxAvatar.EmoteType)
+                {
+                    if (_state.Emotes.FirstOrDefault(e => e.Id == row.Id) is AvatarEmote equipped)
+                    {
+                        ok = await RobloxAvatar.UnequipEmoteAsync(equipped.Position, cookie, _cts.Token);
+                    }
+                    else
+                    {
+                        int slot = Enumerable.Range(1, RobloxAvatar.EmoteSlots).FirstOrDefault(p => _state.Emotes.All(e => e.Position != p), RobloxAvatar.EmoteSlots);
+                        ok = await RobloxAvatar.EquipEmoteAsync(row.Id, slot, cookie, _cts.Token);
+                    }
+                }
                 else
                 {
                     List<AvatarAsset> assets = _state.Assets.ToList();
                     if (assets.RemoveAll(a => a.Id == row.Id) == 0)
                     {
-                        (int typeId, int max) = _rules.GetValueOrDefault(row.TypeName, (0, 1));
+                        (int typeId, int max) = _rules.Types.GetValueOrDefault(row.TypeName, (0, 1));
                         while (max > 0 && assets.Count(a => a.TypeName == row.TypeName) >= max)
                             assets.Remove(assets.First(a => a.TypeName == row.TypeName));
                         assets.Add(new AvatarAsset(row.Id, row.Name, typeId, row.TypeName, RobloxAvatar.DefaultMeta(row.TypeName)));
@@ -442,12 +514,27 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private Task SetAvatarTypeAsync(bool r15) => ApplyAsync(cookie => RobloxAvatar.SetAvatarTypeAsync(r15, cookie, _cts.Token), false);
 
-        private Task SetBodyTypeAsync(double percent)
+        private Task SetSkinColorAsync(string? hex)
         {
-            if (_state == null)
+            string value = (hex ?? "").TrimStart('#');
+            if (value.Length != 6 || !value.All(Uri.IsHexDigit))
                 return Task.CompletedTask;
-            Dictionary<string, double> scales = new(_state.Scales) { ["bodyType"] = percent / 100.0 };
-            return ApplyAsync(cookie => RobloxAvatar.SetScalesAsync(scales, cookie, _cts.Token), false);
+            return ApplyAsync(cookie => RobloxAvatar.SetBodyColorsAsync(value, cookie, _cts.Token), true);
+        }
+
+        private void SetScale(string key, double value)
+        {
+            double percent = Math.Round(value);
+            if (_scales.TryGetValue(key, out double current) && current == percent)
+                return;
+            _scales[key] = percent;
+            OnPropertyChanged(ScaleProperties[key]);
+            if (!_loaded || _state == null)
+                return;
+            Dictionary<string, double> scales = new(_state.Scales);
+            foreach ((string name, double amount) in _scales)
+                scales[name] = amount / 100.0;
+            _ = ApplyAsync(cookie => RobloxAvatar.SetScalesAsync(scales, cookie, _cts.Token), false);
         }
 
         private async Task ApplyAsync(Func<string, Task<bool>> change, bool exclusive)

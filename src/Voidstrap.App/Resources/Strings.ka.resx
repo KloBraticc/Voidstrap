@@ -9851,4 +9851,25 @@ Uptime: {1}
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>აქ ნივთები არ არის</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>ხედის აღდგენა</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>კანის ფერი</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>სიმაღლე</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>სიგანე</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>თავი</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>პროპორციები</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>ემოციები</value>
+  </data>
 </root>

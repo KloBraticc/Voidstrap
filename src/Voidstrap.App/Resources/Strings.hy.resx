@@ -9851,4 +9851,25 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>Այստեղ տարրեր չկան</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>Վերակայել տեսքը</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>Մաշկի գույն</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>Բարձրություն</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>Լայնություն</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>Գլուխ</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>Համամասնություններ</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>Էմոցիաներ</value>
+  </data>
 </root>

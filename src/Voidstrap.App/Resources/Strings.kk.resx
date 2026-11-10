@@ -9851,4 +9851,25 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>Мұнда заттар жоқ</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>Көріністі қалпына келтіру</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>Тері түсі</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>Биіктік</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>Ені</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>Бас</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>Пропорциялар</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>Эмоциялар</value>
+  </data>
 </root>

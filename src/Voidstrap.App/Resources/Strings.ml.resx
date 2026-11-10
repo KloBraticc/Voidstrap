@@ -9851,4 +9851,25 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>ഇവിടെ ഇനങ്ങളൊന്നുമില്ല</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>വ്യൂ റീസെറ്റ് ചെയ്യുക</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>ചർമ്മത്തിന്റെ നിറം</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>ഉയരം</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>വീതി</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>തല</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>അനുപാതങ്ങൾ</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>ഇമോട്ടുകൾ</value>
+  </data>
 </root>

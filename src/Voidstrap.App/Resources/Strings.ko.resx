@@ -10162,4 +10162,25 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>여기에 아이템이 없습니다</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>시점 초기화</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>피부색</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>키</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>너비</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>머리</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>비율</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>감정 표현</value>
+  </data>
 </root>

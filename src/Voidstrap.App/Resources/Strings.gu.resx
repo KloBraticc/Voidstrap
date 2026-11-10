@@ -9851,4 +9851,25 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>અહીં કોઈ આઇટમ નથી</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>વ્યૂ રીસેટ કરો</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>ત્વચાનો રંગ</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>ઊંચાઈ</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>પહોળાઈ</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>માથું</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>પ્રમાણ</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>ઇમોટ્સ</value>
+  </data>
 </root>

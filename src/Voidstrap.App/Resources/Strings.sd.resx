@@ -9851,4 +9851,25 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>هتي ڪا به شيءِ ناهي</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>ڏيک ري سيٽ ڪريو</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>چمڙيءَ جو رنگ</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>اوچائي</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>ويڪر</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>مٿو</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>تناسب</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>ايموٽ</value>
+  </data>
 </root>

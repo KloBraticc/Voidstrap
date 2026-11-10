@@ -9851,4 +9851,25 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>ບໍ່ມີລາຍການຢູ່ທີ່ນີ້</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>ຣີເຊັດມຸມມອງ</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>ສີຜິວ</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>ຄວາມສູງ</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>ຄວາມກວ້າງ</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>ຫົວ</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>ສັດສ່ວນ</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>ອີໂມດ</value>
+  </data>
 </root>

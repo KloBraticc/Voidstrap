@@ -9851,4 +9851,25 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>ಇಲ್ಲಿ ಯಾವುದೇ ಐಟಂಗಳಿಲ್ಲ</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>ನೋಟವನ್ನು ಮರುಹೊಂದಿಸಿ</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>ಚರ್ಮದ ಬಣ್ಣ</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>ಎತ್ತರ</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>ಅಗಲ</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>ತಲೆ</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>ಅನುಪಾತಗಳು</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>ಎಮೋಟ್ ಗಳು</value>
+  </data>
 </root>

@@ -9850,4 +9850,25 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>இங்கே பொருட்கள் எதுவும் இல்லை</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>காட்சியை மீட்டமை</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>தோல் நிறம்</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>உயரம்</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>அகலம்</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>தலை</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>விகிதங்கள்</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>எமோட்கள்</value>
+  </data>
 </root>

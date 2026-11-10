@@ -9851,4 +9851,25 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>ਇੱਥੇ ਕੋਈ ਆਈਟਮ ਨਹੀਂ ਹੈ</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>ਵਿਊ ਰੀਸੈੱਟ ਕਰੋ</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>ਚਮੜੀ ਦਾ ਰੰਗ</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>ਉਚਾਈ</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>ਚੌੜਾਈ</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>ਸਿਰ</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>ਅਨੁਪਾਤ</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>ਇਮੋਟ</value>
+  </data>
 </root>

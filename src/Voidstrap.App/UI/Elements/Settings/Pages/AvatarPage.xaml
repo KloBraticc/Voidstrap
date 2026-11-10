@@ -42,7 +42,7 @@
     </Grid.ColumnDefinitions>
     <ScrollViewer Margin="0,0,16,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
       <StackPanel Width="280" HorizontalAlignment="Left">
-        <controls:AvatarPreviewControl Height="352" Scene="{Binding Scene}" ImageUrl="{Binding AvatarImageUrl}" BackgroundUrl="{Binding BackgroundUrl}" IsLoading="{Binding PreviewLoading}" />
+        <controls:AvatarPreviewControl Height="352" Scene="{Binding Scene}" ImageUrl="{Binding AvatarImageUrl}" BackgroundUrl="{Binding BackgroundUrl}" BackgroundImage="{Binding BackgroundImage}" IsLoading="{Binding PreviewLoading}" />
         <Border Margin="0,12,0,0" Padding="14,12" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
           <StackPanel>
             <DockPanel LastChildFill="True">
@@ -54,11 +54,51 @@
               <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_AvatarType}" />
             </DockPanel>
             <Border Height="1" Margin="0,10" Background="{DynamicResource ControlStrokeColorDefaultBrush}" />
-            <DockPanel LastChildFill="True">
-              <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="14" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding BodyTypeText}" />
+            <DockPanel Margin="0,0,0,0" LastChildFill="True">
+              <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="14" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding BodyType, StringFormat={}{0:0}%}" />
               <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_BodyType}" />
             </DockPanel>
-            <Slider Margin="0,8,0,0" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding BodyType, Mode=TwoWay, Delay=600}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_BodyType}" />
+            <Slider Margin="0,6,0,0" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding BodyType, Mode=TwoWay, Delay=600}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_BodyType}" />
+            <DockPanel Margin="0,10,0,0" LastChildFill="True">
+              <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="14" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding ScaleHeight, StringFormat={}{0:0}%}" />
+              <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_Height}" />
+            </DockPanel>
+            <Slider Margin="0,6,0,0" Minimum="90" Maximum="105" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ScaleHeight, Mode=TwoWay, Delay=600}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_Height}" />
+            <DockPanel Margin="0,10,0,0" LastChildFill="True">
+              <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="14" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding ScaleWidth, StringFormat={}{0:0}%}" />
+              <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_Width}" />
+            </DockPanel>
+            <Slider Margin="0,6,0,0" Minimum="70" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ScaleWidth, Mode=TwoWay, Delay=600}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_Width}" />
+            <DockPanel Margin="0,10,0,0" LastChildFill="True">
+              <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="14" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding ScaleHead, StringFormat={}{0:0}%}" />
+              <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_Head}" />
+            </DockPanel>
+            <Slider Margin="0,6,0,0" Minimum="95" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ScaleHead, Mode=TwoWay, Delay=600}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_Head}" />
+            <DockPanel Margin="0,10,0,0" LastChildFill="True">
+              <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="14" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding ScaleProportion, StringFormat={}{0:0}%}" />
+              <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_Proportions}" />
+            </DockPanel>
+            <Slider Margin="0,6,0,0" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ScaleProportion, Mode=TwoWay, Delay=600}" AutomationProperties.Name="{resources:Loc Accounts_Avatar_Proportions}" />
+            <Border Height="1" Margin="0,12,0,10" Background="{DynamicResource ControlStrokeColorDefaultBrush}" />
+            <TextBlock FontSize="14" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Avatar_SkinColor}" />
+            <ItemsControl Margin="0,8,0,0" ItemsSource="{Binding Palette}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Button Width="22" Height="22" Margin="0,0,3,3" Padding="0" Cursor="Hand" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{Binding}" ToolTip="{Binding}" Command="{Binding DataContext.SetSkinColorCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}">
+                    <Button.Template>
+                      <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+                      </ControlTemplate>
+                    </Button.Template>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
           </StackPanel>
         </Border>
         <TextBlock Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Text="{Binding Status}" Visibility="{Binding StatusVisibility}" />
@@ -105,6 +145,7 @@
       <TabItem Tag="Accessories" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Accessories}" Content="{Binding}" />
       <TabItem Tag="Backgrounds" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Backgrounds}" Content="{Binding}" />
       <TabItem Tag="Animations" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Animations}" Content="{Binding}" />
+      <TabItem Tag="Emotes" FontWeight="Medium" Header="{resources:Loc Accounts_Avatar_Emotes}" Content="{Binding}" />
     </TabControl>
   </Grid>
 </ui:UiPage>

@@ -9850,4 +9850,25 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>এখানে কোনো আইটেম নেই</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>ভিউ রিসেট করুন</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>ত্বকের রং</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>উচ্চতা</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>প্রস্থ</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>মাথা</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>অনুপাত</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>ইমোট</value>
+  </data>
 </root>

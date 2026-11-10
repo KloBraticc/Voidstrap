@@ -9851,4 +9851,25 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>គ្មានធាតុនៅទីនេះទេ</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>កំណត់ទិដ្ឋភាពឡើងវិញ</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>ពណ៌ស្បែក</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>កម្ពស់</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>ទទឹង</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>ក្បាល</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>សមាមាត្រ</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>កាយវិការ</value>
+  </data>
 </root>

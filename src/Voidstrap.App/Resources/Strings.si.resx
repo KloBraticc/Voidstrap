@@ -9851,4 +9851,25 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Accounts.Avatar.Empty" xml:space="preserve">
     <value>මෙහි අයිතම නැත</value>
   </data>
+  <data name="Accounts.Avatar.ResetView" xml:space="preserve">
+    <value>දසුන යළි සකසන්න</value>
+  </data>
+  <data name="Accounts.Avatar.SkinColor" xml:space="preserve">
+    <value>සමේ වර්ණය</value>
+  </data>
+  <data name="Accounts.Avatar.Height" xml:space="preserve">
+    <value>උස</value>
+  </data>
+  <data name="Accounts.Avatar.Width" xml:space="preserve">
+    <value>පළල</value>
+  </data>
+  <data name="Accounts.Avatar.Head" xml:space="preserve">
+    <value>හිස</value>
+  </data>
+  <data name="Accounts.Avatar.Proportions" xml:space="preserve">
+    <value>අනුපාත</value>
+  </data>
+  <data name="Accounts.Avatar.Emotes" xml:space="preserve">
+    <value>ඉමෝට්</value>
+  </data>
 </root>
