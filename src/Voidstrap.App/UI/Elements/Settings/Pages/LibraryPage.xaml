@@ -866,7 +866,7 @@
                     </StackPanel>
                   </WrapPanel>
                   <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" FontSize="12" Text="{Binding Servers.CountText}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                    <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" FontSize="12" util:CountUpText.Format="{Binding Servers.CountFormat}" util:CountUpText.Value="{Binding Servers.CountValue}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                     <ui:Button Appearance="Secondary" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding Servers.RefreshCommand}">
                       <StackPanel Orientation="Horizontal">
                         <ui:SymbolIcon Symbol="ArrowSync24" Margin="0,0,8,0" />

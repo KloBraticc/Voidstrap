@@ -127,7 +127,7 @@
               <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0" Orientation="Horizontal">
                 <CheckBox MinWidth="0" MinHeight="0" Padding="8,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding Servers.HideFull, Mode=TwoWay}"><TextBlock VerticalAlignment="Center" FontSize="12" Text="{resources:Loc ContextMenu_ServerBrowser_ExcludeFull}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" /></CheckBox>
               </StackPanel>
-              <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,10,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12" Text="{Binding Servers.CountText}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,10,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12" util:CountUpText.Format="{Binding Servers.CountFormat}" util:CountUpText.Value="{Binding Servers.CountValue}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
             </Grid>
             <ProgressBar Height="4" Margin="0,12,0,0" IsIndeterminate="True" Visibility="{Binding Servers.PublicProgressVisibility}" />
             <TextBlock Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Text="{Binding Servers.PublicStatus}" Visibility="{Binding Servers.PublicStatusVisibility}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
