@@ -82,6 +82,8 @@ internal static partial class RobloxAvatar
 
     public static readonly string[] EmoteTypes = [EmoteType];
 
+    public static readonly string[] RecentTypes = [.. AccessoryTypes, .. ClothingTypes, .. BodyTypes, .. AnimationTypes, EmoteType, BackgroundType];
+
     public static readonly string[] BodyColorParts = ["headColor3", "torsoColor3", "rightArmColor3", "leftArmColor3", "rightLegColor3", "leftLegColor3"];
 
     private static readonly HashSet<int> RigidAccessoryTypeIds = [8, 41, 42, 43, 44, 45, 46, 47];
@@ -336,13 +338,19 @@ internal static partial class RobloxAvatar
         return response.StatusCode == 200;
     }
 
-    public static async Task<List<AvatarItemRow>> ListInventoryAsync(long userId, string[] types, string? cookie, CancellationToken token)
+    public static async Task<List<AvatarItemRow>> ListInventoryAsync(
+        long userId,
+        string[] types,
+        string? cookie,
+        CancellationToken token,
+        int pages = InventoryPages
+    )
     {
         const string LOG_IDENT = "RobloxAvatar::ListInventoryAsync";
         List<AvatarItemRow> rows = new();
         HashSet<long> seen = new();
         string? cursor = null;
-        for (int page = 0; page < InventoryPages; page++)
+        for (int page = 0; page < pages; page++)
         {
             string url =
                 "https://inventory.roblox.com/v2/users/"
@@ -376,41 +384,6 @@ internal static partial class RobloxAvatar
             }
             if (string.IsNullOrEmpty(cursor))
                 break;
-        }
-        return rows;
-    }
-
-    public static async Task<List<AvatarItemRow>> ListRecentAsync(string? cookie, CancellationToken token)
-    {
-        const string LOG_IDENT = "RobloxAvatar::ListRecentAsync";
-        List<AvatarItemRow> rows = new();
-        RobloxApiResponse response = await RobloxCookie.SendGetWithCookieAsync("https://avatar.roblox.com/v1/recent-items/All/list", cookie, token);
-        if (response.StatusCode != 200 || string.IsNullOrEmpty(response.Body))
-            return rows;
-        try
-        {
-            using JsonDocument doc = JsonDocument.Parse(response.Body);
-            if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
-                return rows;
-            foreach (JsonElement el in data.EnumerateArray())
-            {
-                long id = el.TryGetProperty("id", out JsonElement idEl) && idEl.TryGetInt64(out long l) ? l : 0;
-                if (id == 0)
-                    continue;
-                string name = el.TryGetProperty("name", out JsonElement nameEl) ? nameEl.GetString() ?? "" : "";
-                bool outfit = el.TryGetProperty("type", out JsonElement kind) && kind.ValueKind == JsonValueKind.String && kind.GetString() == "Outfit";
-                string type =
-                    el.TryGetProperty("assetType", out JsonElement assetType)
-                    && assetType.ValueKind == JsonValueKind.Object
-                    && assetType.TryGetProperty("name", out JsonElement typeName)
-                        ? typeName.GetString() ?? ""
-                        : "";
-                rows.Add(new AvatarItemRow(id, name, type, outfit));
-            }
-        }
-        catch (JsonException ex)
-        {
-            App.Logger?.WriteLine(LOG_IDENT, "The recent items response could not be parsed: " + ex.Message);
         }
         return rows;
     }
@@ -464,43 +437,66 @@ internal static partial class RobloxAvatar
         const string LOG_IDENT = "RobloxAvatar::DownloadAssetAsync";
         if (AssetCache.TryGetValue(id, out byte[]? cached))
             return cached;
-        RobloxApiResponse response = await RobloxCookie.SendGetWithCookieAsync(
-            "https://assetdelivery.roblox.com/v2/assetId/" + id.ToString(CultureInfo.InvariantCulture),
-            cookie,
-            token
-        );
-        if (response.StatusCode != 200 || string.IsNullOrEmpty(response.Body))
+        string number = id.ToString(CultureInfo.InvariantCulture);
+        string? location =
+            await FindAssetLocationAsync("https://assetdelivery.roblox.com/v2/assetId/" + number, cookie, token)
+            ?? await FindAssetLocationAsync("https://assetdelivery.roblox.com/v1/assetId/" + number, cookie, token)
+            ?? (string.IsNullOrEmpty(cookie) ? null : await FindAssetLocationAsync("https://assetdelivery.roblox.com/v2/assetId/" + number, null, token));
+        if (location == null)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "Asset " + number + " has no download location");
             return null;
+        }
         try
         {
-            string? location = null;
-            using (JsonDocument doc = JsonDocument.Parse(response.Body))
-            {
-                if (doc.RootElement.TryGetProperty("locations", out JsonElement locations) && locations.ValueKind == JsonValueKind.Array)
-                    foreach (JsonElement entry in locations.EnumerateArray())
-                        if (entry.TryGetProperty("location", out JsonElement value) && value.ValueKind == JsonValueKind.String)
-                        {
-                            location = value.GetString();
-                            break;
-                        }
-            }
-            if (location == null || !IsCdnUrl(location))
-            {
-                App.Logger?.WriteLine(LOG_IDENT, "Asset " + id + " has no download location");
-                return null;
-            }
             byte[] bytes = await CdnClient.GetByteArrayAsync(location, token);
             if (AssetCache.Count >= AssetCacheLimit)
                 AssetCache.Clear();
             AssetCache[id] = bytes;
             return bytes;
         }
-        catch (Exception ex) when (ex is JsonException or HttpRequestException or IOException)
+        catch (Exception ex) when (ex is HttpRequestException or IOException)
         {
-            App.Logger?.WriteLine(LOG_IDENT, "Asset " + id + " could not be downloaded: " + ex.Message);
+            App.Logger?.WriteLine(LOG_IDENT, "Asset " + number + " could not be downloaded: " + ex.Message);
             return null;
         }
     }
+
+    private static async Task<string?> FindAssetLocationAsync(string url, string? cookie, CancellationToken token)
+    {
+        const string LOG_IDENT = "RobloxAvatar::FindAssetLocationAsync";
+        RobloxApiResponse response = await RobloxCookie.SendGetWithCookieAsync(url, cookie, token);
+        if (response.StatusCode != 200 || string.IsNullOrEmpty(response.Body))
+            return null;
+        try
+        {
+            using JsonDocument doc = JsonDocument.Parse(response.Body);
+            JsonElement root = doc.RootElement;
+            List<string?> found = new();
+            if (root.TryGetProperty("locations", out JsonElement locations) && locations.ValueKind == JsonValueKind.Array)
+                foreach (JsonElement entry in locations.EnumerateArray())
+                    if (entry.TryGetProperty("location", out JsonElement value) && value.ValueKind == JsonValueKind.String)
+                        found.Add(value.GetString());
+            if (root.TryGetProperty("location", out JsonElement single) && single.ValueKind == JsonValueKind.String)
+                found.Add(single.GetString());
+            string? location = found.FirstOrDefault(candidate => candidate != null && IsAssetHost(candidate));
+            if (location == null)
+            {
+                string hosts = string.Join(", ", found.Select(candidate => Uri.TryCreate(candidate, UriKind.Absolute, out Uri? uri) ? uri.Host : "unreadable"));
+                string detail = found.Count > 0 ? "hosts " + hosts : response.Body.Length > 200 ? response.Body[..200] : response.Body;
+                App.Logger?.WriteLine(LOG_IDENT, "No usable location from " + new Uri(url).AbsolutePath + (cookie == null ? " without sign in: " : ": ") + detail);
+            }
+            return location;
+        }
+        catch (JsonException ex)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "The asset location could not be read: " + ex.Message);
+            return null;
+        }
+    }
+
+    private static bool IsAssetHost(string url) =>
+        IsCdnUrl(url) || RobloxCookie.IsRobloxUrl(Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) ? uri : null);
 
     public static async Task<AvatarScene?> BuildLiveSceneAsync(AvatarState state, string? cookie, CancellationToken token)
     {
@@ -591,6 +587,7 @@ internal static partial class RobloxAvatar
 
     private static async Task<AvatarScene?> BuildSceneAsync(string manifestUrl, CancellationToken token)
     {
+        const string LOG_IDENT = "RobloxAvatar::BuildSceneAsync";
         using JsonDocument doc = JsonDocument.Parse(await CdnClient.GetStringAsync(manifestUrl, token));
         JsonElement root = doc.RootElement;
         string? objUrl = CdnUrl(root.TryGetProperty("obj", out JsonElement objEl) ? objEl.GetString() : null);
@@ -656,6 +653,21 @@ internal static partial class RobloxAvatar
             return null;
         group.Freeze();
         Rect3D bounds = new(minX, minY, minZ, maxX - minX, maxY - minY, maxZ - minZ);
+        if (
+            root.TryGetProperty("aabb", out JsonElement aabb)
+            && aabb.TryGetProperty("min", out JsonElement low)
+            && aabb.TryGetProperty("max", out JsonElement high)
+            && ReadPoint(low) is Point3D lowPoint
+            && ReadPoint(high) is Point3D highPoint
+            && highPoint.X > lowPoint.X
+            && highPoint.Y > lowPoint.Y
+            && highPoint.Z > lowPoint.Z
+        )
+            bounds = new Rect3D(lowPoint.X, lowPoint.Y, lowPoint.Z, highPoint.X - lowPoint.X, highPoint.Y - lowPoint.Y, highPoint.Z - lowPoint.Z);
+        App.Logger?.WriteLine(
+            LOG_IDENT,
+            "Roblox render loaded with " + group.Children.Count + " meshes, size " + bounds.SizeX.ToString("0.##", CultureInfo.InvariantCulture) + " by " + bounds.SizeY.ToString("0.##", CultureInfo.InvariantCulture) + " by " + bounds.SizeZ.ToString("0.##", CultureInfo.InvariantCulture) + ", mesh extent " + (maxX - minX).ToString("0.##", CultureInfo.InvariantCulture) + " by " + (maxY - minY).ToString("0.##", CultureInfo.InvariantCulture) + " by " + (maxZ - minZ).ToString("0.##", CultureInfo.InvariantCulture)
+        );
         double yaw = 180.0;
         if (
             root.TryGetProperty("camera", out JsonElement camera)
@@ -688,6 +700,17 @@ internal static partial class RobloxAvatar
             return null;
         }
     }
+
+    private static Point3D? ReadPoint(JsonElement element) =>
+        element.ValueKind == JsonValueKind.Object
+        && element.TryGetProperty("x", out JsonElement x)
+        && element.TryGetProperty("y", out JsonElement y)
+        && element.TryGetProperty("z", out JsonElement z)
+        && x.ValueKind == JsonValueKind.Number
+        && y.ValueKind == JsonValueKind.Number
+        && z.ValueKind == JsonValueKind.Number
+            ? new Point3D(x.GetDouble(), y.GetDouble(), z.GetDouble())
+            : null;
 
     private static async Task<ImageSource?> LoadImageAsync(string url, CancellationToken token)
     {

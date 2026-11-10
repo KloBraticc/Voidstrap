@@ -490,7 +490,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 if (cookie != null)
                     rows = _category switch
                     {
-                        RecentCategory => await RobloxAvatar.ListRecentAsync(cookie, token),
+                        RecentCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.RecentTypes, cookie, token, 1),
                         CharactersCategory => (await RobloxOutfits.ListAsync(_account.UserId, cookie, token))
                             .Select(o => new AvatarItemRow(o.Id, o.Name, "", true))
                             .ToList(),
@@ -504,6 +504,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     };
                 if (token.IsCancellationRequested)
                     return;
+                App.Logger?.WriteLine(LOG_IDENT, "Loaded " + rows.Count + " items for " + _category);
                 _all.AddRange(rows);
                 MarkWorn();
                 ApplyFilter();

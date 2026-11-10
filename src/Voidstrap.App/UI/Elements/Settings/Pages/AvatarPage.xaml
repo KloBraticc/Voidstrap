@@ -40,9 +40,14 @@
       <ColumnDefinition Width="296" />
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
-    <ScrollViewer Margin="0,0,16,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Grid Margin="0,0,16,0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <controls:AvatarPreviewControl Width="280" Height="352" HorizontalAlignment="Left" Scene="{Binding Scene}" ImageUrl="{Binding AvatarImageUrl}" BackgroundUrl="{Binding BackgroundUrl}" BackgroundImage="{Binding BackgroundImage}" IsLoading="{Binding PreviewLoading}" />
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
       <StackPanel Width="280" HorizontalAlignment="Left">
-        <controls:AvatarPreviewControl Height="352" Scene="{Binding Scene}" ImageUrl="{Binding AvatarImageUrl}" BackgroundUrl="{Binding BackgroundUrl}" BackgroundImage="{Binding BackgroundImage}" IsLoading="{Binding PreviewLoading}" />
         <Border Margin="0,12,0,0" Padding="14,12" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
           <StackPanel>
             <DockPanel LastChildFill="True">
@@ -160,6 +165,7 @@
         </Border>
       </StackPanel>
     </ScrollViewer>
+    </Grid>
     <Grid Grid.Column="1">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />

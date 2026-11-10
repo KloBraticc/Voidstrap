@@ -12,11 +12,11 @@ namespace Voidstrap.UI.Elements.Controls
     {
         private const double DefaultPitch = 6.0;
 
-        private const double DefaultZoom = 0.82;
+        private const double DefaultZoom = 1.0;
 
         private const double MinZoom = 0.3;
 
-        private const double MaxZoom = 1.6;
+        private const double MaxZoom = 1.5;
 
         private const double BackdropRadius = 9.0;
 
@@ -302,7 +302,8 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void OnPreviewSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            RequestSoftwareRender();
+            if (Scene is AvatarScene scene)
+                UpdateCamera(scene);
         }
 
         private static (Point3D Center, double Radius) Measure(AvatarScene scene)
@@ -364,7 +365,11 @@ namespace Voidstrap.UI.Elements.Controls
             double maxPan = radius * 1.4;
             if (_pan.Length > maxPan)
                 _pan *= maxPan / _pan.Length;
-            double distance = radius / Math.Sin(Camera.FieldOfView * Math.PI / 360.0) * _zoom;
+            double tanX = Math.Tan(Camera.FieldOfView * Math.PI / 360.0);
+            double tanY = tanX * (ActualWidth > 1.0 && ActualHeight > 1.0 ? ActualHeight / ActualWidth : 1.25);
+            double halfWidth = Math.Max(0.5 * Math.Sqrt(scene.Bounds.SizeX * scene.Bounds.SizeX + scene.Bounds.SizeZ * scene.Bounds.SizeZ), 0.01);
+            double halfHeight = Math.Max(0.5 * scene.Bounds.SizeY, 0.01);
+            double distance = (Math.Max(halfHeight / tanY, halfWidth / tanX) * 1.12 + halfWidth) * _zoom;
             double yaw = _yaw * Math.PI / 180.0;
             double pitch = _pitch * Math.PI / 180.0;
             Vector3D offset = new(Math.Sin(yaw) * Math.Cos(pitch) * distance, Math.Sin(pitch) * distance, Math.Cos(yaw) * Math.Cos(pitch) * distance);
