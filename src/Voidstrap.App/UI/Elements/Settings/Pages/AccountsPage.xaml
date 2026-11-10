@@ -141,7 +141,7 @@
               </Grid.ColumnDefinitions>
               <Grid Width="28" Height="28" Margin="-4,0,10,0">
                 <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
-                <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding AvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
+                <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding AvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
                   <Image.Clip><EllipseGeometry Center="14,14" RadiusX="14" RadiusY="14" /></Image.Clip>
                 </Image>
                 <Ellipse Width="9" Height="9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Fill="#FF3FB950" Stroke="{DynamicResource ApplicationBackgroundBrush}" StrokeThickness="1.5" Visibility="{Binding CurrentVisibility}" />
@@ -199,7 +199,7 @@
             </Grid.ColumnDefinitions>
             <Grid Width="64" Height="64">
               <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
-              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedAccount.AvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
+              <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedAccount.AvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
                 <Image.Clip><EllipseGeometry Center="32,32" RadiusX="32" RadiusY="32" /></Image.Clip>
               </Image>
             </Grid>
@@ -263,16 +263,16 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ui:Button Width="28" Height="72" Padding="0" Margin="0,0,6,0" Appearance="Transparent" Icon="ChevronLeft24" IsEnabled="{Binding CanPageOutfitsBack}" Command="{Binding OutfitBackCommand}" />
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding OutfitPage}">
+                <ui:Button Width="28" Height="96" Padding="0" Margin="0,0,6,0" VerticalAlignment="Top" Appearance="Secondary" Icon="ChevronLeft24" IsEnabled="{Binding CanPageOutfitsBack}" Command="{Binding OutfitBackCommand}" />
+                <ItemsControl Grid.Column="1" ClipToBounds="True" ItemsSource="{Binding OutfitPage}">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                      <UniformGrid Rows="1" Columns="5" />
+                      <StackPanel Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                   </ItemsControl.ItemsPanel>
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <ui:Button Height="120" Margin="3" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Appearance="Transparent" ToolTip="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding DataContext.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" HorizontalContentAlignment="Stretch" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ui:UiPage}}">
+                      <ui:Button Width="96" Margin="0,0,6,0" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top" Appearance="Transparent" ToolTip="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding DataContext.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" HorizontalContentAlignment="Stretch" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ui:UiPage}}">
                         <ui:Button.ContextMenu>
                           <ContextMenu>
                             <MenuItem Header="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding PlacementTarget.Tag.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
@@ -283,18 +283,18 @@
                           </ContextMenu>
                         </ui:Button.ContextMenu>
                         <StackPanel HorizontalAlignment="Stretch">
-                          <Grid Height="92" HorizontalAlignment="Stretch" util:RoundedClip.Radius="6">
+                          <Grid Width="88" Height="88" util:RoundedClip.Radius="6">
                             <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" />
-                            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+                            <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
                             <ui:ProgressRing Width="18" Height="18" IsIndeterminate="True" Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}" />
                           </Grid>
-                          <TextBlock Margin="2,4,2,0" FontSize="11.5" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name}" />
+                          <TextBlock Margin="0,4,0,0" FontSize="11.5" TextAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name}" />
                         </StackPanel>
                       </ui:Button>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <ui:Button Grid.Column="2" Width="28" Height="72" Padding="0" Margin="6,0,0,0" Appearance="Transparent" Icon="ChevronRight24" IsEnabled="{Binding CanPageOutfitsForward}" Command="{Binding OutfitForwardCommand}" />
+                <ui:Button Grid.Column="2" Width="28" Height="96" Padding="0" Margin="6,0,0,0" VerticalAlignment="Top" Appearance="Secondary" Icon="ChevronRight24" IsEnabled="{Binding CanPageOutfitsForward}" Command="{Binding OutfitForwardCommand}" />
               </Grid>
             </StackPanel>
           </Border>
