@@ -192,15 +192,11 @@
           <RowDefinition Height="*" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <!-- Banner: your avatar blurred behind, the sharp headshot and your names on top -->
-        <Border Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" ClipToBounds="True">
-          <Border Margin="-30">
+        <Border Background="Black" ClipToBounds="True">
+          <Border>
             <Border.Background>
-              <ImageBrush x:Name="ProfileBannerBrush" Stretch="UniformToFill" AlignmentY="Top" />
+              <ImageBrush x:Name="ProfileBannerBrush" Stretch="UniformToFill" AlignmentY="Center" />
             </Border.Background>
-            <Border.Effect>
-              <BlurEffect Radius="28" KernelType="Gaussian" RenderingBias="Performance" />
-            </Border.Effect>
           </Border>
         </Border>
         <Border>

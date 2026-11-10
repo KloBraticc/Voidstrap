@@ -34,6 +34,8 @@ public sealed class RobloxProfileInfo
     public string AvatarUrl { get; init; } = string.Empty;
 
     public string HeadshotUrl { get; init; } = string.Empty;
+
+    public string BackgroundUrl { get; init; } = string.Empty;
 }
 
 // Everything about the signed in account that the profile panel shows, fetched at the same time
@@ -66,7 +68,8 @@ public static class RobloxProfile
             null,
             token
         );
-        await Task.WhenAll(user, friends, followers, following, robux, premium, avatar, headshot).ConfigureAwait(false);
+        Task<string> background = GetBackgroundUrlAsync(id, cookie, token);
+        await Task.WhenAll(user, friends, followers, following, robux, premium, avatar, headshot, background).ConfigureAwait(false);
         using JsonDocument? userDoc = user.Result;
         using JsonDocument? friendsDoc = friends.Result;
         using JsonDocument? followersDoc = followers.Result;
@@ -102,8 +105,48 @@ public static class RobloxProfile
                 },
                 AvatarUrl = FirstImage(avatarDoc),
                 HeadshotUrl = FirstImage(headshotDoc),
+                BackgroundUrl = background.Result,
             }
         );
+    }
+
+    private static async Task<string> GetBackgroundUrlAsync(long id, string? cookie, CancellationToken token)
+    {
+        try
+        {
+            string body = "{\"profileId\":\"" + id.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                + "\",\"profileType\":\"User\",\"components\":[{\"component\":\"ProfileBackground\"}],\"includeComponentOrdering\":false}";
+            long assetId;
+            using (JsonDocument? profile = await GetJsonAsync("https://apis.roblox.com/profile-platform-api/v1/profiles/get", cookie, token, body).ConfigureAwait(false))
+            {
+                if (profile == null
+                    || profile.RootElement.ValueKind != JsonValueKind.Object
+                    || !profile.RootElement.TryGetProperty("components", out JsonElement components)
+                    || components.ValueKind != JsonValueKind.Object
+                    || !components.TryGetProperty("ProfileBackground", out JsonElement backgroundComponent)
+                    || ReadNumber(backgroundComponent, "assetId") is not long found
+                    || found <= 0)
+                    return string.Empty;
+                assetId = found;
+            }
+            using JsonDocument? thumbnail = await GetJsonAsync(
+                    $"https://thumbnails.roblox.com/v1/assets?assetIds={assetId}&returnPolicy=PlaceHolder&size=768x432&format=Png&isCircular=false",
+                    null,
+                    token
+                )
+                .ConfigureAwait(false);
+            string url = FirstImage(thumbnail);
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri? parsed) && parsed.Scheme == Uri.UriSchemeHttps ? url : string.Empty;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Your profile background could not be loaded: " + ex.Message);
+            return string.Empty;
+        }
     }
 
     private static string FirstImage(JsonDocument? document)
@@ -134,11 +177,13 @@ public static class RobloxProfile
             : null;
 
     // One failed part never fails the whole profile, it just shows as unavailable
-    private static async Task<JsonDocument?> GetJsonAsync(string url, string? cookie, CancellationToken token)
+    private static async Task<JsonDocument?> GetJsonAsync(string url, string? cookie, CancellationToken token, string? jsonBody = null)
     {
         try
         {
-            using HttpRequestMessage request = new(HttpMethod.Get, url);
+            using HttpRequestMessage request = new(jsonBody == null ? HttpMethod.Get : HttpMethod.Post, url);
+            if (jsonBody != null)
+                request.Content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
             if (!string.IsNullOrEmpty(cookie))
                 request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
             using HttpResponseMessage response = await Client

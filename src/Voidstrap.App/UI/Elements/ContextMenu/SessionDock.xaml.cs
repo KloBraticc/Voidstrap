@@ -1912,17 +1912,14 @@ public partial class SessionDock : Window
     {
         try
         {
-            string bannerUrl = info.AvatarUrl.Length > 0 ? info.AvatarUrl : info.HeadshotUrl;
             Task<System.Windows.Media.Imaging.BitmapSource?> headshotTask = Voidstrap.Utility.SafeImaging.FromHttpAsync(
                 info.HeadshotUrl,
                 144,
                 _lifetimeToken
             );
-            Task<System.Windows.Media.Imaging.BitmapSource?> bannerTask = Voidstrap.Utility.SafeImaging.FromHttpAsync(
-                bannerUrl,
-                300,
-                _lifetimeToken
-            );
+            Task<System.Windows.Media.Imaging.BitmapSource?> bannerTask = info.BackgroundUrl.Length > 0
+                ? Voidstrap.Utility.SafeImaging.FromHttpAsync(info.BackgroundUrl, 768, _lifetimeToken)
+                : Task.FromResult<System.Windows.Media.Imaging.BitmapSource?>(null);
             await Task.WhenAll(headshotTask, bannerTask);
             await Dispatcher.InvokeAsync(() =>
             {
