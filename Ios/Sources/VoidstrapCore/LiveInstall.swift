@@ -19,6 +19,7 @@ public enum LiveInstall {
         defer { try? handle.close() }
         var head = try ZipReader.read(handle, 0, 32 + 72)
         guard head.le32(0) == 0xFEEDFACF else { return }
+        if head.le32(12) == 6 { try addIdDylib(handle, name: "@executable_path/" + url.lastPathComponent); return }
         func put(_ offset: Int, _ value: UInt64, _ size: Int) {
             for i in 0..<size { head[offset + i] = UInt8(value >> (8 * UInt64(i)) & 0xFF) }
         }
@@ -31,6 +32,37 @@ public enum LiveInstall {
         }
         try handle.seek(toOffset: 0)
         try handle.write(contentsOf: head)
+        try addIdDylib(handle, name: "@executable_path/" + url.lastPathComponent)
+    }
+
+    static func addIdDylib(_ handle: FileHandle, name: String) throws {
+        let header = try ZipReader.read(handle, 0, 32)
+        let count = header.le32(16)
+        let size = header.le32(20)
+        let commands = try ZipReader.read(handle, 32, size)
+        var p = 0
+        for _ in 0..<count {
+            if commands.le32(p) == 0xD { return }
+            p += commands.le32(p + 4)
+        }
+        var bytes = Array(name.utf8) + [0]
+        while (24 + bytes.count) % 8 != 0 { bytes.append(0) }
+        let length = 24 + bytes.count
+        let free = try ZipReader.read(handle, 32 + size, length)
+        guard free.allSatisfy({ $0 == 0 }) else { throw ZipError("The Roblox executable has no room for LiveContainer.") }
+        var command = le32(0xD) + le32(length) + le32(24) + le32(0) + le32(0x10000) + le32(0x10000)
+        command.append(contentsOf: bytes)
+        try handle.seek(toOffset: UInt64(32 + size))
+        try handle.write(contentsOf: command)
+        try handle.seek(toOffset: 16)
+        try handle.write(contentsOf: le32(count + 1) + le32(size + length))
+    }
+
+    public static func repair() throws {
+        guard let root else { return }
+        let app = root.appendingPathComponent("Applications/\(folder)")
+        guard let exec = RobloxFlags.plist(app.appendingPathComponent("Info.plist"))?["CFBundleExecutable"] as? String else { return }
+        try patchExec(app.appendingPathComponent(exec))
     }
 
     public static var installed: Bool {

@@ -172,6 +172,7 @@ final class AppModel: ObservableObject {
     }
 
     func launchRoblox() {
+        if LiveInstall.installed { try? LiveInstall.repair() }
         if LiveInstall.installed, !LiveInstall.opened {
             show("Open Roblox from the LiveContainer app list once so LiveContainer can sign it. After that, Launch works from here.", error: true)
             return
