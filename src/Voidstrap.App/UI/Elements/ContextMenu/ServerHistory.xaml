@@ -112,7 +112,7 @@
               <TextBlock FontSize="17" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding GameName}" ToolTip="{Binding GameName}" />
               <TextBlock Margin="0,3,0,0" FontSize="13" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GameHistoryDescription}" />
               <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                <ui:SymbolIcon Margin="0,0,5,0" VerticalAlignment="Center" FontSize="14" Symbol="Server16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <ui:SymbolIcon Margin="0,0,5,0" VerticalAlignment="Center" FontSize="14" Symbol="Globe24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 <TextBlock VerticalAlignment="Center" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding ServerStatus}" ToolTip="{Binding ServerStatusCheckedAt}" />
               </StackPanel>
             </StackPanel>
