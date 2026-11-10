@@ -1304,7 +1304,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         TopNavServers.Tag = content is PrivateServersPage ? "Active" : null;
         TopNavManager.Tag = content is DownloadsPage ? "Active" : null;
         TopNavVoidstrapMods.Tag = content is VoidstrapModsPage ? "Active" : null;
-        TopNavModPacks.Tag = content is ModPacksPage ? "Active" : null;
     }
 
     private NavigationItem[] GetNavigationItemsInServiceOrder()
