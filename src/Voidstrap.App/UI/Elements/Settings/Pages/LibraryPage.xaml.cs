@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using Voidstrap.Integrations;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
 
@@ -122,6 +123,24 @@ public partial class LibraryPage : UiPage
             GamesView.SetActive(GamesTab.IsSelected);
         if (e.OriginalSource == RootTabs && CommunityView != null && CommunityTab != null)
             CommunityView.SetActive(CommunityTab.IsSelected);
+        if (e.OriginalSource == RootTabs)
+            PublishPresence();
+    }
+
+    private void PublishPresence()
+    {
+        (string tab, string activity) = CommunityTab?.IsSelected == true
+            ? ("Community", "Reading community game reviews")
+            : GamesTab?.IsSelected == true
+                ? ("Games", "Discovering new games")
+                : (string.Empty, "Browsing the game library");
+        VoidstrapPresence.Set(
+            new VoidstrapPresenceContext(
+                nameof(LibraryPage),
+                tab.Length > 0 ? RpcText.Mark("Library") + ": " + RpcText.Mark(tab) : RpcText.Mark("Library"),
+                RpcText.Mark(activity)
+            )
+        );
     }
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
