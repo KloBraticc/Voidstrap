@@ -63,7 +63,24 @@ extension Glass {
 }
 
 struct GlassBackdrop: View {
+    @ObservedObject private var custom = AppBackground.shared
+
     var body: some View {
+        if let image = custom.active {
+            GeometryReader { geo in
+                ZStack {
+                    Image(uiImage: image).resizable().scaledToFill().frame(width: geo.size.width, height: geo.size.height).clipped()
+                    Palette.window.opacity(Double(custom.dim) / 100)
+                }
+            }
+            .ignoresSafeArea()
+            .accessibilityHidden(true)
+        } else {
+            glow
+        }
+    }
+
+    private var glow: some View {
         ZStack {
             Palette.window
             Circle()

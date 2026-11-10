@@ -42,6 +42,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var githubToken: String = ""
     public var keepOriginalIpa: Bool = true
     public var language: String = "en"
+    public var background: Bool = false
+    public var backgroundDim: Int = 55
 
     public init() {}
 
@@ -51,6 +53,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
         githubToken = (try? c.decode(String.self, forKey: .githubToken)) ?? ""
         keepOriginalIpa = (try? c.decode(Bool.self, forKey: .keepOriginalIpa)) ?? true
         language = (try? c.decode(String.self, forKey: .language)) ?? "en"
+        background = (try? c.decode(Bool.self, forKey: .background)) ?? false
+        backgroundDim = (try? c.decode(Int.self, forKey: .backgroundDim)) ?? 55
     }
 
     public static func load() -> AppSettings { JSONFile.load(AppSettings.self, from: Paths.settings) ?? AppSettings() }

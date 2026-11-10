@@ -14,7 +14,7 @@ struct HomeView: View {
     }
 
     var body: some View {
-        Page(title: "Home", subtitle: "Patch Roblox with your mods and FastFlags, then install it with your sideloader.") {
+        Page(title: "Home", subtitle: "Apply your mods and FastFlags to Roblox, then install it with your sideloader.") {
             if let release = model.update {
                 Card {
                     Row(symbol: "arrow.down.app", title: "Voidstrap \(release.version) is available",
@@ -46,8 +46,8 @@ struct HomeView: View {
                     tint: model.robloxIpa == nil ? Palette.textTertiary : Palette.success)
                 RowDivider()
                 Row(symbol: "checkmark.seal", title: model.patched == nil ? "Not patched yet" : "Patched Roblox is ready",
-                    detail: model.lastResult.map { "\($0.modFiles) mod files and \($0.flagCount) FastFlags from your last patch." }
-                        ?? (model.patched == nil ? "Tap Patch Roblox to build your copy." : "Tap Install to send it to LiveContainer, SideStore or Files."),
+                    detail: model.lastResult.map { "\($0.modFiles) mod files and \($0.flagCount) FastFlags from your last apply." }
+                        ?? (model.patched == nil ? "Tap Apply Roblox to build your copy." : "Tap Install to send it to LiveContainer, SideStore or Files."),
                     tint: model.patched == nil ? Palette.textTertiary : Palette.success)
                 RowDivider()
                 Row(symbol: "paintbrush", title: "\(model.mods.filter(\.enabled).count) of \(model.mods.count) mod packs on",
@@ -72,20 +72,6 @@ struct HomeView: View {
                         GameRow(game: game)
                     }
                 }
-            }
-
-            SectionTitle(text: "How it works")
-            Card {
-                Row(symbol: "1.circle", title: "Get Roblox", detail: "Download the newest Roblox IPA or import one you already have.")
-                RowDivider()
-                Row(symbol: "2.circle", title: "Choose mods and FastFlags", detail: "Turn on mod packs and add the FastFlags you want.")
-                RowDivider()
-                Row(symbol: "3.circle", title: "Patch and install", detail: "Patch Roblox, then share the IPA to LiveContainer, SideStore or another sideloader.")
-                RowDivider()
-                Row(symbol: "4.circle", title: "Update FastFlags any time",
-                    detail: Paths.isLiveContainer
-                        ? "Run Roblox once in LiveContainer, then saved FastFlags reach it on its next launch without patching again."
-                        : "FastFlags need Roblox installed in LiveContainer next to Voidstrap, since iOS keeps other apps' files private.")
             }
         }
     }

@@ -1,13 +1,17 @@
 import SwiftUI
+import PhotosUI
 import VoidstrapCore
 
 struct SettingsView: View {
     @EnvironmentObject private var model: AppModel
     @State private var showingLog = false
     @State private var showingToken = false
+    @State private var photo: PhotosPickerItem?
+    @State private var picking = false
+    @ObservedObject private var custom = AppBackground.shared
 
     var body: some View {
-        Page(title: "Settings", subtitle: "Appearance, patching and information about Voidstrap.") {
+        Page(title: "Settings", subtitle: "Appearance, applying and information about Voidstrap.") {
             SectionTitle(text: "Appearance")
             Card {
                 Row(symbol: "circle.lefthalf.filled", title: "Theme", detail: Loc.t(model.settings.theme.title)) {
@@ -15,6 +19,44 @@ struct SettingsView: View {
                         ForEach(AppTheme.allCases) { Text(loc: $0.title).tag($0) }
                     }
                     .labelsHidden()
+                }
+                RowDivider()
+                Row(symbol: "photo", title: "Background", detail: "Shows your own image behind every page.") {
+                    Menu {
+                        Button { setBackground(false) } label: { choice("None", !custom.enabled) }
+                        Button { picking = true } label: { choice("Custom image", custom.enabled) }
+                    } label: {
+                        Text(loc: custom.enabled ? "Custom image" : "None").font(.system(size: 14, weight: .medium)).foregroundColor(Palette.primary)
+                    }
+                    .accessibilityLabel(Loc.t("Background"))
+                }
+                if custom.enabled {
+                    RowDivider()
+                    Row(symbol: "photo.on.rectangle", title: "Change image", detail: "Pick a different image from your photos.") { Chevron() }
+                        .contentShape(Rectangle())
+                        .onTapGesture { picking = true }
+                    RowDivider()
+                    Row(symbol: "circle.lefthalf.striped.horizontal", title: "Background dim", detail: "Fades the image so text stays easy to read.") {
+                        Slider(value: Binding(get: { Double(custom.dim) }, set: { custom.dim = Int($0.rounded()) }), in: 0...90, step: 5) { editing in
+                            if !editing { model.settings.backgroundDim = custom.dim }
+                        }
+                        .frame(width: 140)
+                        .accessibilityLabel(Loc.t("Background dim"))
+                        Text(verbatim: "\(custom.dim)%").font(.system(size: 13, weight: .medium)).foregroundColor(Palette.textSecondary).frame(width: 40, alignment: .trailing)
+                    }
+                }
+            }
+            .photosPicker(isPresented: $picking, selection: $photo, matching: .images)
+            .onChange(of: photo) { item in
+                guard let item else { return }
+                photo = nil
+                Task { @MainActor in
+                    let data = try? await item.loadTransferable(type: Data.self)
+                    if let data, await custom.install(data) {
+                        setBackground(true)
+                    } else {
+                        model.show("That image could not be used. Pick a JPG, PNG or WEBP photo.", error: true)
+                    }
                 }
             }
 
@@ -27,9 +69,9 @@ struct SettingsView: View {
                 }
             }
 
-            SectionTitle(text: "Patching")
+            SectionTitle(text: "Applying")
             Card {
-                Row(symbol: "externaldrive", title: "Keep the original Roblox IPA", detail: "Patching again is faster, but uses more storage.") {
+                Row(symbol: "externaldrive", title: "Keep the original Roblox IPA", detail: "Applying again is faster, but uses more storage.") {
                     Toggle("", isOn: $model.settings.keepOriginalIpa).labelsHidden().accessibilityLabel("Keep the original Roblox IPA")
                 }
                 RowDivider()
@@ -79,6 +121,18 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showingLog) { LogSheet() }
         .sheet(isPresented: $showingToken) { TokenSheet(token: model.settings.githubToken) { model.settings.githubToken = $0 } }
+    }
+
+    private func choice(_ title: String, _ on: Bool) -> some View {
+        Group {
+            if on { Label(Loc.t(title), systemImage: "checkmark") } else { Text(loc: title) }
+        }
+    }
+
+    private func setBackground(_ on: Bool) {
+        if !on { custom.remove() }
+        model.settings.background = on
+        AppBackground.shared.sync(model.settings)
     }
 }
 

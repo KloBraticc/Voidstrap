@@ -171,7 +171,7 @@ final class AppModel: ObservableObject {
         }
         UIApplication.shared.open(url) { [weak self] opened in
             if !opened {
-                Task { @MainActor in self?.show("Roblox is not installed. Patch it and install the IPA first.", error: true) }
+                Task { @MainActor in self?.show("Roblox is not installed. Apply Roblox and install the IPA first.", error: true) }
             }
         }
     }

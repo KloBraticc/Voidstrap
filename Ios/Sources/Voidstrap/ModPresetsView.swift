@@ -96,7 +96,7 @@ struct ModPresetsView: View {
                 try ModPresets.importFile(url, to: ModPresets.fontFile, maxSize: 32 << 20)
                 model.presets.font = true
             }
-            model.show("Saved, patch Roblox to apply it")
+            model.show("Saved, Apply Roblox to use it")
         } catch {
             model.show(error.localizedDescription, error: true)
         }

@@ -49,10 +49,12 @@ struct RootView: View {
         .id("\(loc.revision)|\(model.settings.theme.rawValue)")
         .onAppear { applyLook() }
         .onChange(of: model.settings.theme) { _ in applyLook() }
+        .onChange(of: model.settings.background) { _ in AppBackground.shared.sync(model.settings) }
         .onChange(of: model.settings.language) { Loc.shared.setLanguage($0) }
     }
 
     private func applyLook() {
+        AppBackground.shared.sync(model.settings)
         Palette.named = model.settings.theme.named
         Loc.shared.setLanguage(model.settings.language)
     }
@@ -198,7 +200,7 @@ struct ActionBar: View {
                         .buttonStyle(StandardButtonStyle())
                     }
                     Button { model.patch() } label: {
-                        Text(model.flagsDirty ? "Save & Patch" : "Patch Roblox").lineLimit(1).minimumScaleFactor(0.7)
+                        Text(model.flagsDirty ? "Save & Apply" : "Apply Roblox").lineLimit(1).minimumScaleFactor(0.7)
                     }
                     .buttonStyle(PrimaryButtonStyle())
                 }
