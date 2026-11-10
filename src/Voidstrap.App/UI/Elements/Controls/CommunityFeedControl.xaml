@@ -9,7 +9,7 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-          <ui:SymbolIcon FontSize="14" Symbol="ThumbLike16" Filled="True" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+          <ui:SymbolIcon FontSize="14" Symbol="ThumbLike16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <TextBlock Margin="5,0,14,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Review.UpCount}" />
           <ui:SymbolIcon FontSize="14" Symbol="ThumbDislike16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Review.DownCount}" />
