@@ -480,7 +480,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private Page? _lastPage;
 
-    private readonly Dictionary<NavigationItem, SymbolRegular> _defaultIcons = new Dictionary<NavigationItem, SymbolRegular>();
 
     private Dictionary<string, SymbolRegular>? _defaultSidebarIcons;
 
@@ -797,7 +796,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         UpdateButtonContent();
         RefreshManageModsStatus();
         InitializeDiscordRPC();
-        RegisterHoverIcons();
         _backgroundSettings = AppearanceViewModel.LoadSettings();
         GlobalBackground.Changed += OnGlobalBackgroundChanged;
         ApplyBackgroundSettings();
@@ -843,46 +841,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _notificationReloadTicks = 0;
             Voidstrap.Utility.AppNotifications.Reload();
-        }
-    }
-
-    private void RegisterHoverIcons()
-    {
-        foreach (NavigationItem item in _defaultIcons.Keys.ToArray())
-        {
-            item.MouseEnter -= NavigationItem_MouseEnter;
-            item.MouseLeave -= NavigationItem_MouseLeave;
-        }
-        _defaultIcons.Clear();
-        Dictionary<string, string> customIcons = App.Settings.Prop.SidebarIcons ??= new Dictionary<string, string>();
-        foreach (
-            NavigationItem item in from i in RootNavigation
-                .Items.OfType<NavigationItem>()
-                .Concat(RootNavigation.Footer.OfType<NavigationItem>())
-                                   where i.Tag != null && i.Image == null && !customIcons.ContainsKey(i.Name)
-                                   select i
-        )
-        {
-            SymbolRegular defaultIcon = item.Icon;
-            _defaultIcons[item] = defaultIcon;
-            item.MouseEnter += NavigationItem_MouseEnter;
-            item.MouseLeave += NavigationItem_MouseLeave;
-        }
-    }
-
-    private void NavigationItem_MouseEnter(object sender, MouseEventArgs e)
-    {
-        if (sender is NavigationItem item && Enum.TryParse<SymbolRegular>(item.Tag?.ToString(), out var result))
-        {
-            item.Icon = result;
-        }
-    }
-
-    private void NavigationItem_MouseLeave(object sender, MouseEventArgs e)
-    {
-        if (sender is NavigationItem item && _defaultIcons.TryGetValue(item, out SymbolRegular defaultIcon))
-        {
-            item.Icon = defaultIcon;
         }
     }
 
@@ -1198,11 +1156,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 .Items.OfType<NavigationItem>()
                 .Concat(RootNavigation.Footer.OfType<NavigationItem>())
                 .FirstOrDefault((NavigationItem i) => i.IsActive);
-        if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
-        {
-            PageBreadcrumb.Icon = value;
-        }
-        else if (navigationItem != null)
+        if (navigationItem != null)
         {
             PageBreadcrumb.Icon = navigationItem.Icon;
         }
@@ -1842,7 +1796,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             RootNavigation.Footer.Insert(footerIndex++, items[definition.Key]);
         }
-        RegisterHoverIcons();
         if (IsLoaded)
         {
             if (RootFrame?.Content is Pages.ModCustomPage activeModPage && !items.ContainsKey(activeModPage.PageKey))
@@ -7843,12 +7796,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         SettingChangeNotifier.Failed -= OnSettingChangeFailed;
         Voidstrap.Utility.LinuxRuntimeChoice.Changed -= OnLinuxRuntimeChanged;
-        foreach (NavigationItem item in _defaultIcons.Keys.ToArray())
-        {
-            item.MouseEnter -= NavigationItem_MouseEnter;
-            item.MouseLeave -= NavigationItem_MouseLeave;
-        }
-        _defaultIcons.Clear();
         _navItemMargins.Clear();
         _navHistoryBack.Clear();
         _navHistoryForward.Clear();
