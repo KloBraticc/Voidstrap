@@ -1267,12 +1267,6 @@ function Publish-IosBuild {
     }
     $iosOut = Join-Path $Out 'iOS'
     $iosIpa = Join-Path $iosOut "Voidstrap-$Version.ipa"
-    $stamp = Join-Path $iosOut '.source-tree'
-    $tree = (& git -C $ciRoot rev-parse 'HEAD^{tree}').Trim()
-    if ((Test-Path -LiteralPath $iosIpa) -and (Test-Path -LiteralPath $stamp) -and (Get-Content -LiteralPath $stamp -Raw).Trim() -eq $tree) {
-        Write-Host "iOS: sources unchanged, reusing $iosIpa" -ForegroundColor Green
-        return
-    }
     & git -C $ciRoot push -q
     if ($LASTEXITCODE -ne 0) { throw 'Pushing the iOS sources failed.' }
 
@@ -1280,12 +1274,13 @@ function Publish-IosBuild {
     & gh repo edit $ciRepo --visibility public --accept-visibility-change-consequences | Out-Null
     try {
         $head = (& git -C $ciRoot rev-parse HEAD).Trim()
+        $before = @(& gh run list -R $ciRepo --workflow ios-build.yml --limit 20 --json databaseId --jq '.[].databaseId')
         & gh workflow run ios-build.yml -R $ciRepo | Out-Null
         if ($LASTEXITCODE -ne 0) { throw 'Starting the iOS build failed.' }
         $runId = $null
         for ($i = 0; $i -lt 120 -and -not $runId; $i++) {
             Start-Sleep -Seconds 1
-            $runId = & gh run list -R $ciRepo --workflow ios-build.yml --commit $head --limit 1 --json databaseId --jq '.[0].databaseId'
+            $runId = @(& gh run list -R $ciRepo --workflow ios-build.yml --commit $head --limit 5 --json databaseId --jq '.[].databaseId') | Where-Object { $_ -and $before -notcontains $_ } | Select-Object -First 1
         }
         if (-not $runId) { throw 'The iOS build run did not appear.' }
         Write-Host "iOS: building on the mac CI, run $runId" -ForegroundColor Cyan
@@ -1302,7 +1297,6 @@ function Publish-IosBuild {
     if (Test-Path -LiteralPath $iosOut) { Remove-Item -LiteralPath $iosOut -Recurse -Force }
     New-Item -ItemType Directory -Force -Path $iosOut | Out-Null
     Copy-Item -LiteralPath $ipa.FullName -Destination $iosIpa -Force
-    Set-Content -LiteralPath $stamp -Value $tree -Encoding ascii
     Remove-Item -LiteralPath $artifacts -Recurse -Force -ErrorAction SilentlyContinue
     Write-Host "iOS: $(Join-Path $iosOut "Voidstrap-$Version.ipa")" -ForegroundColor Green
 }
