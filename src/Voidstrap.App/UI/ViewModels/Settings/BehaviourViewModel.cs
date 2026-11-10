@@ -2110,7 +2110,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
         }
         set
         {
-            if (RobloxFullscreenMode == value)
+            if (value < 0 || value > 2 || RobloxFullscreenMode == value)
                 return;
             if (value == 2)
             {
