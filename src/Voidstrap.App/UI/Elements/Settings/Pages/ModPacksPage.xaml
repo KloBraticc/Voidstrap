@@ -69,7 +69,7 @@
           <ItemsControl ItemsSource="{Binding Mods}" Style="{StaticResource RowList}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
-                <Button Padding="0" Cursor="Hand" Focusable="False" HorizontalContentAlignment="Stretch" Tag="{Binding}" Click="CommunityMod_Click">
+                <Button Padding="0" Cursor="Hand" Focusable="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Tag="{Binding}" Click="CommunityMod_Click">
                   <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                       <Border x:Name="Row" Padding="14,12" SnapsToDevicePixels="True" Background="Transparent" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
