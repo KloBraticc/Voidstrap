@@ -11,8 +11,16 @@ public enum CommunityModInstallTarget
     AssetCache,
 }
 
-public sealed class CommunityModCategory
+public sealed class CommunityModCategory : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
 {
+    private bool _isSelected;
+
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
+    }
+
     public long Id { get; init; }
 
     public string Name { get; init; } = "";
@@ -251,6 +259,18 @@ public sealed class CommunityModEntry
             : StatsDisplay;
 
     public string CategoryDisplay => string.IsNullOrEmpty(SuperCategory) ? Category : SuperCategory + "   " + Category;
+
+    public string DownloadsCompact => Compact(DownloadCount > 0 ? DownloadCount : ViewCount);
+
+    public string UpdatedShort => UpdatedUtc == default ? "" : UpdatedUtc.ToLocalTime().ToString("d");
+
+    private static string Compact(long value) =>
+        value switch
+        {
+            >= 1_000_000 => (value / 1_000_000d).ToString("0.##") + "M",
+            >= 1_000 => (value / 1_000d).ToString("0.#") + "K",
+            _ => value.ToString("N0"),
+        };
 
     public string UpdatedDisplay => UpdatedUtc == default ? "" : "Updated " + UpdatedUtc.ToLocalTime().ToString("d MMM yyyy");
 }

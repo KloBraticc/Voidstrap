@@ -394,12 +394,6 @@ public partial class ModsPage : UiPage
         }
     }
 
-    private void CommunityModPage_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is FrameworkElement { Tag: Voidstrap.Integrations.CommunityMods.CommunityModEntry entry })
-            CommunityModsViewModel.OpenEntryPage(entry);
-    }
-
     private async void CommunityMod_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not FrameworkElement { Tag: Voidstrap.Integrations.CommunityMods.CommunityModEntry entry })
@@ -420,32 +414,38 @@ public partial class ModsPage : UiPage
             ViewModel.CommunityMods.SelectedSource = source;
     }
 
-    private void CommunityGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void CommunityCategoryChip_Click(object sender, RoutedEventArgs e)
     {
-        const double CardWidth = 210;
-        ViewModel.CommunityMods.ModColumns = Math.Max(1, (int)(e.NewSize.Width / CardWidth));
+        if (sender is FrameworkElement { Tag: Voidstrap.Integrations.CommunityMods.CommunityModCategory category })
+            ViewModel.CommunityMods.SetCategorySelected(category, !category.IsSelected);
     }
 
-    private void CommunityCategories_Click(object sender, RoutedEventArgs e)
+    private void CommunityModView_Click(object sender, RoutedEventArgs e)
     {
+        e.Handled = true;
+        CommunityMod_Click(sender, e);
+    }
+
+    private async void CommunityModInstall_Click(object sender, RoutedEventArgs e)
+    {
+        const string LOG_IDENT = "ModsPage::CommunityModInstall";
+        e.Handled = true;
+        if (sender is not FrameworkElement { Tag: Voidstrap.Integrations.CommunityMods.CommunityModEntry entry })
+            return;
         CommunityModsViewModel mods = ViewModel.CommunityMods;
-        System.Windows.Controls.ContextMenu menu = new() { PlacementTarget = (UIElement)sender, Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom };
-        System.Windows.Controls.MenuItem all = new() { Header = Strings.Ui_Mods_AllCategories, Command = mods.ClearCategoryCommand };
-        menu.Items.Add(all);
-        menu.Items.Add(new System.Windows.Controls.Separator());
-        foreach (Voidstrap.Integrations.CommunityMods.CommunityModCategory category in mods.Categories)
+        try
         {
-            System.Windows.Controls.MenuItem row = new() { Header = category.Display, IsCheckable = true, StaysOpenOnClick = true, IsChecked = mods.IsCategorySelected(category), Tag = category };
-            row.Click += CommunityCategoryRow_Click;
-            menu.Items.Add(row);
+            await mods.OpenDetailAsync(entry);
+            if (!mods.CanInstall)
+                return;
+            System.Windows.Input.ICommand install = mods.ManagedInstallVisibility == Visibility.Visible ? mods.InstallCommand : mods.InstallFleasionCommand;
+            if (install.CanExecute(null))
+                install.Execute(null);
         }
-        menu.IsOpen = true;
-    }
-
-    private void CommunityCategoryRow_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is System.Windows.Controls.MenuItem { Tag: Voidstrap.Integrations.CommunityMods.CommunityModCategory category } row)
-            ViewModel.CommunityMods.SetCategorySelected(category, row.IsChecked);
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+        }
     }
 
     private void ManagedModsList_DragOver(object sender, DragEventArgs e)

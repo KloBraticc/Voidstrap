@@ -107,7 +107,9 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
                 return;
             }
             _selectedSource = value;
-            _selectedCategories.Clear();
+            foreach (CommunityModCategory selectedCategory in _selectedCategories)
+            selectedCategory.IsSelected = false;
+        _selectedCategories.Clear();
             _searchText = "";
             _selectedSort = SortOptions[0];
             _suppressRefresh = true;
@@ -206,6 +208,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
         {
             return;
         }
+        category.IsSelected = selected;
         if (selected)
         {
             _selectedCategories.Add(category);
@@ -910,6 +913,8 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
         {
             return;
         }
+        foreach (CommunityModCategory selectedCategory in _selectedCategories)
+            selectedCategory.IsSelected = false;
         _selectedCategories.Clear();
         CategoriesChanged();
     }
