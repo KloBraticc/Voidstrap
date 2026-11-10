@@ -234,6 +234,7 @@ internal static partial class AvatarAssembler
                     log("Accessory " + asset.Id + " (" + asset.TypeName + ") has an unknown layout: " + Outline(bytes, roots));
                     continue;
                 }
+                (frame, scale) = Adjust(asset.MetaJson, frame, scale);
                 GeometryModel3D? model = await BuildPartAsync(handle, frame, scale, Color.FromRgb(0xA3, 0xA2, 0xA5), false, false, null, owner, world[owner], pieces, content, fetchAsset, bounds, token);
                 if (model != null)
                     models.Add(model);
@@ -264,6 +265,38 @@ internal static partial class AvatarAssembler
         group.Freeze();
         AnimationData? animation = await LoadAnimationAsync(state, fetchAsset, log, token);
         return new AvatarScene(group, bounds.ToRect(), 180.0) { Pieces = pieces, Rig = new AvatarRig(RootPart, joints, animation), Effects = effects };
+    }
+
+    private static (RobloxCFrame Frame, Vector3D Scale) Adjust(string? metaJson, RobloxCFrame frame, Vector3D scale)
+    {
+        if (string.IsNullOrEmpty(metaJson))
+            return (frame, scale);
+        try
+        {
+            using JsonDocument doc = JsonDocument.Parse(metaJson);
+            Vector3D position = ReadTriple(doc.RootElement, "position", 0);
+            Vector3D rotation = ReadTriple(doc.RootElement, "rotation", 0);
+            Vector3D size = ReadTriple(doc.RootElement, "scale", 1);
+            const double radians = Math.PI / 180.0;
+            return (
+                frame * RobloxCFrame.FromPosition(position.X, position.Y, position.Z) * RobloxCFrame.Angles(rotation.X * radians, rotation.Y * radians, rotation.Z * radians),
+                new Vector3D(scale.X * size.X, scale.Y * size.Y, scale.Z * size.Z)
+            );
+        }
+        catch (JsonException)
+        {
+            return (frame, scale);
+        }
+    }
+
+    private static Vector3D ReadTriple(JsonElement root, string name, double fallback)
+    {
+        if (!root.TryGetProperty(name, out JsonElement group) || group.ValueKind != JsonValueKind.Object)
+            return new Vector3D(fallback, fallback, fallback);
+        double Read(string axis) =>
+            group.TryGetProperty(axis, out JsonElement value) && value.ValueKind == JsonValueKind.Number && double.IsFinite(value.GetDouble()) ? value.GetDouble() : fallback;
+        Vector3D result = new(Read("X"), Read("Y"), Read("Z"));
+        return name == "scale" && (result.X <= 0 || result.Y <= 0 || result.Z <= 0) ? new Vector3D(1, 1, 1) : result;
     }
 
     private static string? FirstValue(RbxmInstance instance, string[] keys)
