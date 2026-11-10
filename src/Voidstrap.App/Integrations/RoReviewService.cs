@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
@@ -743,7 +743,7 @@ public static class RoReviewService
                             ? cEl.GetString() ?? string.Empty
                             : string.Empty;
                     if (content.Length > 0)
-                        content = WebUtility.HtmlDecode(content).Trim();
+                        content = ProfanityFilter.Clean(WebUtility.HtmlDecode(content).Trim());
 
                     long unixSec = 0;
                     if (r.TryGetProperty("time", out JsonElement timeEl))
@@ -825,7 +825,7 @@ public static class RoReviewService
                         {
                             Id = id,
                             AuthorId = authorId,
-                            AuthorName = authorName,
+                            AuthorName = ProfanityFilter.Clean(authorName),
                             Content = content,
                             CreatedAt = createdAt,
                             UnixTime = unixSec,
@@ -928,7 +928,7 @@ public static class RoReviewService
 
     public static Task<bool> SubmitReviewAsync(long placeId, string content, MutationContext context, CancellationToken ct)
     {
-        string normalizedContent = content?.Trim() ?? string.Empty;
+        string normalizedContent = ProfanityFilter.Clean(content?.Trim());
         if (placeId <= 0 || normalizedContent.Length == 0 || normalizedContent.Length > 500)
             return Task.FromResult(false);
         string url = ApiBase + "/api/roblox/reviews/" + placeId.ToString(CultureInfo.InvariantCulture) + "?game=true";
