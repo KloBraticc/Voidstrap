@@ -5,7 +5,19 @@
         <DataTemplate>
           <StackPanel Orientation="Horizontal">
             <Grid Width="20" Height="20" VerticalAlignment="Center">
-              <ui:SymbolIcon Symbol="PersonCircle24" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              <Border>
+                <Border.Style>
+                  <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding AvatarUrl}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Visible" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </Border.Style>
+                <ui:SymbolIcon Symbol="PersonCircle24" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
               <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding AvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}"><Image.Clip><EllipseGeometry Center="10,10" RadiusX="10" RadiusY="10" /></Image.Clip></Image>
             </Grid>
             <TextBlock Margin="6,0,0,0" Text="{Binding Username}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
@@ -18,7 +30,19 @@
         <DataTemplate>
           <StackPanel Orientation="Horizontal">
             <Grid Width="20" Height="20" VerticalAlignment="Center">
-              <ui:SymbolIcon Symbol="Person24" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              <Border>
+                <Border.Style>
+                  <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding ImageUrl}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Visible" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </Border.Style>
+                <ui:SymbolIcon Symbol="Person24" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
               <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
             </Grid>
             <TextBlock Margin="6,0,0,0" Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
