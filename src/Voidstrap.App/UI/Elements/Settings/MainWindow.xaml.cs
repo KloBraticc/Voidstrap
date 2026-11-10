@@ -6173,10 +6173,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ZoomReset_Click(object sender, RoutedEventArgs e) => SetZoom(100);
 
-    private const double MaximizedDesignWidth = 1280.0;
-    private const double MaximizedDesignHeight = 760.0;
-    private const double MaximizedMaxScale = 1.6;
-
     public void ApplyUiZoom()
     {
         int percent = App.Settings.Prop.UiZoomPercent;
@@ -6201,14 +6197,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (autoFitScale < 0.4)
         {
             autoFitScale = 0.4;
-        }
-        if (WindowState == System.Windows.WindowState.Maximized && currentW > 0 && currentH > 0)
-        {
-            double fillScale = Math.Min(currentW / MaximizedDesignWidth, currentH / MaximizedDesignHeight);
-            if (fillScale > 1.0)
-            {
-                autoFitScale = Math.Min(fillScale, MaximizedMaxScale);
-            }
         }
 
         double finalScale = userScale * autoFitScale;
