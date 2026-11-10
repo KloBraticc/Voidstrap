@@ -32,7 +32,9 @@ public enum RobloxFlags {
         let fm = FileManager.default
         let apps = (try? fm.contentsOfDirectory(atPath: root.appendingPathComponent("Applications").path)) ?? []
         let data = (try? fm.contentsOfDirectory(atPath: root.appendingPathComponent("Data/Application").path)) ?? []
-        return "\(root.path) (apps: \(apps.isEmpty ? "none" : apps.joined(separator: " ")), data folders: \(data.count))"
+        let top = (try? fm.contentsOfDirectory(atPath: root.path)) ?? []
+        let parent = (try? fm.contentsOfDirectory(atPath: root.deletingLastPathComponent().path)) ?? []
+        return "\(root.path) (top: \(top.joined(separator: " ")), parent: \(parent.joined(separator: " ")), apps: \(apps.isEmpty ? "none" : apps.joined(separator: " ")), data folders: \(data.count))"
     }
 
     static var roots: [URL] {
