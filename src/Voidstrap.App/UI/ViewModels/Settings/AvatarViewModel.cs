@@ -93,6 +93,8 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private long _backgroundId;
 
+        private bool _backgroundChosen;
+
         private bool _isR15 = true;
 
         private bool _loading;
@@ -477,7 +479,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             CancellationToken token = _cts.Token;
             try
             {
-                if (_backgroundId == 0)
+                if (_backgroundId == 0 && !_backgroundChosen)
                 {
                     List<AvatarItemRow> owned = await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.BackgroundTypes, cookie, token);
                     if (_backgroundId == 0 && owned.Count > 0)
@@ -628,7 +630,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                 {
                     ok = await RobloxAvatar.SetBackgroundAsync(wasWorn ? 0 : row.Id, cookie, _cts.Token);
                     if (ok)
+                    {
                         _backgroundId = wasWorn ? 0 : row.Id;
+                        _backgroundChosen = true;
+                    }
                 }
                 else
                 {
