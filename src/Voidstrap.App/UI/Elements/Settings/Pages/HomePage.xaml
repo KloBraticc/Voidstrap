@@ -15,74 +15,58 @@
     <Page.Resources>
         <DataTemplate x:Key="StudioProjectCard">
             <Border x:Name="ProjectCard"
-                    Margin="0,0,12,12"
-                    Padding="10"
+                    Margin="0,0,10,14"
+                    Padding="6"
                     CornerRadius="8"
-                    Background="{DynamicResource SubtleFillColorSecondaryBrush}"
-                    BorderThickness="1"
-                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    Background="Transparent"
                     Cursor="Hand"
-                    ToolTip="{Binding Name, StringFormat='Open {0} in Studio'}">
+                    ToolTip="{Binding Name}">
                 <Border.InputBindings>
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding DataContext.OpenStudioProjectCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                   CommandParameter="{Binding}"/>
                 </Border.InputBindings>
                 <StackPanel>
-                    <Border Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" CornerRadius="6" ClipToBounds="True" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
-                        <Image Stretch="UniformToFill"
-                               RenderOptions.BitmapScalingMode="HighQuality"
-                               util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}"/>
-                    </Border>
-                    <Grid Margin="0,10,0,0">
-                        <Border x:Name="PrivacyPill"
-                                HorizontalAlignment="Left"
-                                Padding="8,3"
-                                CornerRadius="11"
-                                Background="{DynamicResource SubtleFillColorSecondaryBrush}"
-                                BorderThickness="1"
-                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-                            <StackPanel Orientation="Horizontal">
-                                <ui:SymbolIcon x:Name="PrivacyIcon" Symbol="{Binding PrivacyIcon}" FontSize="12" Margin="0,0,4,0" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="PrivacyText" Text="{Binding PrivacyLabel}" FontSize="11.5" VerticalAlignment="Center"/>
-                            </StackPanel>
+                    <Grid>
+                        <Border Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" util:RoundedClip.Radius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                            <Image Stretch="UniformToFill"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}"/>
                         </Border>
-                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                            <ui:Button Width="26" Height="26" Padding="0"
-                                       Appearance="Transparent"
+                        <StackPanel x:Name="CardActions" Margin="6" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Opacity="0">
+                            <ui:Button Width="28" Height="28" Padding="0" Margin="0,0,4,0"
+                                       Appearance="Secondary"
                                        Icon="Star24"
                                        IconFilled="{Binding IsFavorite}"
                                        ToolTip="{Binding FavoriteTooltip}"
                                        Command="{Binding DataContext.ToggleStudioFavoriteCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                        CommandParameter="{Binding}"/>
-                            <ui:Button Width="26" Height="26" Padding="0"
-                                       Appearance="Transparent"
+                            <ui:Button Width="28" Height="28" Padding="0"
+                                       Appearance="Secondary"
                                        Icon="MoreVertical24"
                                        ToolTip="{resources:Loc Ui_ModGen_MoreOptions}"
                                        Click="StudioMore_Click"/>
                         </StackPanel>
                     </Grid>
                     <TextBlock Text="{Binding Name}"
-                               Margin="0,6,0,0"
-                               FontSize="13.5"
+                               Margin="2,8,2,0"
+                               FontSize="13"
                                FontWeight="SemiBold"
-                               TextWrapping="Wrap"
-                               Height="38"
                                TextTrimming="CharacterEllipsis"
                                Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                    <TextBlock Text="{Binding ModifiedLabel}" FontSize="11" Margin="0,3,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                    <TextBlock Text="{Binding CreatorName}" FontSize="11" Margin="0,1,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                    <StackPanel Margin="2,3,2,0" Orientation="Horizontal">
+                        <ui:SymbolIcon Symbol="{Binding PrivacyIcon}" ToolTip="{Binding PrivacyLabel}" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                        <TextBlock Text="{Binding ModifiedLabel}" FontSize="11" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    </StackPanel>
                 </StackPanel>
             </Border>
             <DataTemplate.Triggers>
                 <Trigger SourceName="ProjectCard" Property="IsMouseOver" Value="True">
                     <Setter TargetName="ProjectCard" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
+                    <Setter TargetName="CardActions" Property="Opacity" Value="1"/>
                 </Trigger>
-                <DataTrigger Binding="{Binding IsPublic}" Value="True">
-                    <Setter TargetName="PrivacyPill" Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}"/>
-                    <Setter TargetName="PrivacyPill" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}"/>
-                    <Setter TargetName="PrivacyIcon" Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}"/>
-                    <Setter TargetName="PrivacyText" Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}"/>
+                <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                    <Setter TargetName="CardActions" Property="Opacity" Value="1"/>
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -90,13 +74,11 @@
         <DataTemplate x:Key="StudioTemplateCard">
             <Border x:Name="TemplateCard"
                     Margin="0,0,12,12"
-                    Padding="10"
+                    Padding="6"
                     CornerRadius="8"
-                    Background="{DynamicResource SubtleFillColorSecondaryBrush}"
-                    BorderThickness="1"
-                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    Background="Transparent"
                     Cursor="Hand"
-                    ToolTip="{Binding Name, StringFormat='Start from {0}'}">
+                    ToolTip="{Binding Name}">
                 <Border.InputBindings>
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding DataContext.OpenStudioProjectCommand, RelativeSource={RelativeSource AncestorType=Page}}"
@@ -463,8 +445,6 @@
                            IsEnabled="False"
                            Click="UndoLayout_Click"/>
                 <StackPanel Margin="12,0,0,0" Orientation="Horizontal" Visibility="{Binding StudioTabVisibility}">
-                    <ProgressBar Width="120" Height="3" Margin="0,0,12,0" VerticalAlignment="Center" IsIndeterminate="True"
-                                 Visibility="{Binding IsStudioLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <ui:Button Content="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Icon="ArrowSync24" Appearance="Secondary" Command="{Binding RefreshStudioCommand}" />
                     <ui:Button Margin="8,0,0,0" Appearance="Primary" Command="{Binding LaunchStudioCommand}" ToolTip="{resources:Loc LaunchMenu_LaunchRobloxStudio}">
                         <StackPanel Orientation="Horizontal">
@@ -933,6 +913,8 @@
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
             <StackPanel x:Name="StudioSections" Margin="0,0,28,18">
+                <ProgressBar Height="3" Margin="0,4,0,0" IsIndeterminate="True"
+                             Visibility="{Binding IsStudioLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <TextBlock Text="{Binding StudioStatus}"
                            Margin="0,12,0,0"
                            FontSize="13"
@@ -963,7 +945,7 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioFavoritesVisibility}">
-                    <TextBlock Text="{resources:Loc Ui_Home_Favourites}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_Favourites}" FontSize="18" FontWeight="SemiBold" Margin="6,14,0,8" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioFavorites}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
                         </Grid>
@@ -996,7 +978,7 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioRecentVisibility}">
-                    <TextBlock Text="{resources:Loc Ui_Home_MyRecentExperiences}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_MyRecentExperiences}" FontSize="18" FontWeight="SemiBold" Margin="6,14,0,8" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioRecent}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
                         </Grid>
@@ -1029,8 +1011,8 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioOwnedVisibility}">
-                    <TextBlock Text="{resources:Loc Ui_Home_MyExperiences}" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                    <TextBlock Text="{resources:Loc Ui_Home_EveryExperienceOnYourAccountNewest}" FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_MyExperiences}" FontSize="18" FontWeight="SemiBold" Margin="6,14,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_EveryExperienceOnYourAccountNewest}" FontSize="12" Margin="6,0,0,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioOwned}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
                         </Grid>
@@ -1063,7 +1045,7 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioLocalFilesVisibility}">
-                    <TextBlock Text="{resources:Loc Ui_Home_RecentFiles}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_RecentFiles}" FontSize="18" FontWeight="SemiBold" Margin="6,14,0,8" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioLocalFiles}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -1134,8 +1116,8 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioTemplatesVisibility}">
-                    <TextBlock Text="{resources:Loc Ui_Home_OpenATemplate}" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                    <TextBlock Text="{resources:Loc Ui_Home_SeeWhatSPossibleOnRoblox}" FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_OpenATemplate}" FontSize="18" FontWeight="SemiBold" Margin="6,14,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_SeeWhatSPossibleOnRoblox}" FontSize="12" Margin="6,0,0,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioTemplates}" ItemTemplate="{StaticResource StudioTemplateCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
                         </Grid>
