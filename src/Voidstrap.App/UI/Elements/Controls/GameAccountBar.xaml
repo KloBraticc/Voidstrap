@@ -29,7 +29,7 @@
       <ComboBox.ItemTemplate>
         <DataTemplate>
           <StackPanel Orientation="Horizontal">
-            <Grid Width="20" Height="20" VerticalAlignment="Center">
+            <Grid Width="34" Height="34" VerticalAlignment="Center">
               <Border>
                 <Border.Style>
                   <Style TargetType="Border">
