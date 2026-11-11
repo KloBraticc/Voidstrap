@@ -129,6 +129,14 @@ public enum RobloxFlags {
         return out
     }
 
+    static func clearCache(_ container: URL) {
+        let fm = FileManager.default
+        guard let walk = fm.enumerator(at: container.appendingPathComponent("Library", isDirectory: true), includingPropertiesForKeys: nil) else { return }
+        for case let url as URL in walk where url.lastPathComponent.lowercased().hasPrefix("flag_cache") {
+            try? fm.removeItem(at: url)
+        }
+    }
+
     @discardableResult
     public static func apply(_ flags: [FastFlag]) -> Int {
         let data = FlagStore.encode(flags.filter(\.appliesOnIos))
@@ -138,7 +146,10 @@ public enum RobloxFlags {
             let file = container.appendingPathComponent(relative)
             do {
                 Paths.ensure(file.deletingLastPathComponent())
+                chflags(file.path, 0)
                 try data.write(to: file, options: .atomic)
+                chflags(file.path, UInt32(UF_IMMUTABLE))
+                clearCache(container)
                 written += 1
             } catch {
                 Log.error("RobloxFlags::apply", error)
