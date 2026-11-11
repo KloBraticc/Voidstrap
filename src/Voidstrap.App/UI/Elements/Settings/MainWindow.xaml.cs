@@ -2900,13 +2900,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private ModPacksPage? _modPacksPage;
 
-    private ThemeEditorPage? _themeEditorPage;
-
     internal void OpenThemeEditorPage()
     {
-        _themeEditorPage ??= new ThemeEditorPage();
-        if (!ReferenceEquals(RootFrame.Content, _themeEditorPage))
-            RootNavigation.NavigateExternal(_themeEditorPage);
+        if (RootFrame.Content is not ThemeEditorPage)
+            RootNavigation.NavigateExternal(new ThemeEditorPage());
     }
 
     private void TopNavModPacks_Click(object sender, RoutedEventArgs e) => OpenModPacksPage();

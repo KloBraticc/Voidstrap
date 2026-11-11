@@ -110,7 +110,8 @@
             </StackPanel>
           </ui:CardExpander>
           <controls:OptionControl Header="{resources:Loc Menu_Appearance_Global_Theme_Title}" Description="{resources:Loc Ui_Appearance_ThemesDescription}">
-            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+              <ui:Button Margin="0,0,8,0" Appearance="Primary" Icon="Color24" Content="{resources:Loc Ui_Appearance_OpenEditor}" Visibility="{Binding CustomThemeEditorVisibility}" Click="OpenThemeEditor_Click" />
               <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BindableThemes}" SelectedItem="{Binding Theme, Mode=TwoWay}" SelectionChanged="ThemeComboBox_SelectionChanged">
                 <ComboBox.Resources>
                   <platform:ThemeSwatchConverter x:Key="ThemeSwatchConverter" />
@@ -132,9 +133,6 @@
                 </ItemsControl.ItemTemplate>
               </ComboBox>
             </StackPanel>
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Theme_EditorTitle}" Visibility="{Binding CustomThemeEditorVisibility}">
-            <ui:Button Appearance="Primary" Icon="Color24" Content="{resources:Loc Ui_Appearance_OpenEditor}" Click="OpenThemeEditor_Click" />
           </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_Appearance_WindowBackdrop}" Description="{resources:Loc Ui_Appearance_WindowBackdropDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
             <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BackdropOptions}" SelectedItem="{Binding SelectedBackdrop, Mode=OneWay}" SelectionChanged="BackdropComboBox_SelectionChanged">
