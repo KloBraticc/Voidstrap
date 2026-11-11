@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Text.Json;
@@ -18,7 +18,9 @@ public static class RoReviewCommunityFeed
 
     private const int MaxPlaces = 20000;
     private const int MaxReviews = 40000;
-    private const int ReviewConcurrency = 24;
+    private const int ReviewConcurrency = 3;
+    private static readonly long ReviewIntervalTicks = TimeSpan.FromMilliseconds(250).Ticks;
+    private static long _nextReviewSlotTicks;
     private const int SearchConcurrency = 4;
     private const int SearchPages = 8;
     private const long RecheckSeconds = 6 * 60 * 60;
@@ -123,6 +125,22 @@ public static class RoReviewCommunityFeed
         }
     }
 
+    private static async Task WaitForReviewSlotAsync(CancellationToken token)
+    {
+        long now = DateTime.UtcNow.Ticks;
+        long slot;
+        long current;
+        do
+        {
+            current = Interlocked.Read(ref _nextReviewSlotTicks);
+            slot = Math.Max(now, current);
+        }
+        while (Interlocked.CompareExchange(ref _nextReviewSlotTicks, slot + ReviewIntervalTicks, current) != current);
+        long wait = slot - now;
+        if (wait > 0)
+            await Task.Delay(TimeSpan.FromTicks(wait), token).ConfigureAwait(false);
+    }
+
     private static async Task FetchPlaceCountedAsync(long placeId, CommunityGameInfo source, SemaphoreSlim gate, Action<CommunityGameInfo, IReadOnlyList<CommunityReview>> onReviews, Action onDone, CancellationToken token)
     {
         try
@@ -146,6 +164,7 @@ public static class RoReviewCommunityFeed
             for (int attempt = 0; attempt < 4 && data == null; attempt++)
             {
                 await RoReviewService.WaitForCooldownAsync(token).ConfigureAwait(false);
+                await WaitForReviewSlotAsync(token).ConfigureAwait(false);
                 data = await RoReviewService.FetchReviewsAsync(placeId, token).ConfigureAwait(false);
                 if (data == null && RoReviewService.CooldownRemaining == TimeSpan.Zero)
                     break;
