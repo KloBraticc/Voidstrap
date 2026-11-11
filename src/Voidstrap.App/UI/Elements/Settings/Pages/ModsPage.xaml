@@ -203,7 +203,7 @@
               <ui:ToggleSwitch IsChecked="{Binding OldAvatarBackgroundTask.NewState, Mode=TwoWay}" />
             </controls:OptionControl>
             <controls:OptionControl Description="{resources:Loc Menu_Mods_Presets_EmojiType_Description}" Header="{resources:Loc Menu_Mods_Presets_EmojiType_Title}">
-              <ComboBox Width="220" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding EmojiFontTask.Selections, Mode=OneTime}" Text="{Binding EmojiFontTask.NewState, Mode=TwoWay}">
+              <ComboBox Width="220" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding EmojiFontTask.Selections, Mode=OneTime}" SelectedItem="{Binding EmojiFontTask.NewState, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
                     <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />

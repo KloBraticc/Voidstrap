@@ -10,7 +10,7 @@
         </HeaderedContentControl.Header>
         <StackPanel>
           <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#saving-disk-space" Header="{resources:Loc Ui_Bootstrapper_WhenShouldTheFilesGetDeleted}" Description="{resources:Loc Ui_Bootstrapper_FilesOlderThanTheSetAmount}">
-            <ComboBox Padding="10,5,10,5" ItemsSource="{Binding CleanerOptions, Mode=OneTime}" Text="{Binding CleanerOption, Mode=TwoWay}">
+            <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding CleanerOptions, Mode=OneTime}" SelectedItem="{Binding CleanerOption, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
                   <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />

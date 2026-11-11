@@ -45,7 +45,7 @@
               <TextBlock Grid.Row="1" Grid.Column="1" Foreground="{DynamicResource SystemFillColorCriticalBrush}" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=NameError, Mode=OneWay}" Visibility="{Binding Path=NameErrorVisibility, Mode=OneWay}" />
             </Grid>
             <TextBlock Grid.Row="1" Grid.Column="0" MinWidth="100" VerticalAlignment="Center" Text="{resources:Loc Common_Template}" />
-            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=Templates, Mode=OneTime}" Text="{Binding Path=Template, Mode=TwoWay}">
+            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=Templates, Mode=OneTime}" SelectedItem="{Binding Path=Template, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
                   <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
