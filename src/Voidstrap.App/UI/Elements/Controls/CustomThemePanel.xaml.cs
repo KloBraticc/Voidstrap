@@ -65,6 +65,12 @@ public partial class CustomThemePanel : UserControl
 
     private bool _codePending;
 
+    private System.Windows.Controls.Primitives.Popup? _pickerPopup;
+
+    private RinColor.RinColorPicker? _inlinePicker;
+
+    private ThemeColorItem? _pickerTarget;
+
     public CustomThemePanel()
     {
         _applyTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(200) };
@@ -130,6 +136,18 @@ public partial class CustomThemePanel : UserControl
         _applyTimer.Stop();
         _applyTimer.Tick -= ApplyTimer_Tick;
         StopWatching();
+        if (_pickerPopup != null)
+        {
+            _pickerPopup.IsOpen = false;
+            _pickerPopup.Closed -= PickerPopup_Closed;
+            _pickerPopup = null;
+        }
+        if (_inlinePicker != null)
+        {
+            _inlinePicker.ColorChanged -= InlinePicker_ColorChanged;
+            _inlinePicker = null;
+        }
+        _pickerTarget = null;
     }
 
     private void Panel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -567,10 +585,56 @@ public partial class CustomThemePanel : UserControl
 
     private void Swatch_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not FrameworkElement { DataContext: ThemeColorItem item })
+        if (sender is not FrameworkElement { DataContext: ThemeColorItem item } anchor)
             return;
-        if (TryPickColor(item.Color, out Color picked))
-            item.SetColor(picked);
+        EnsureInlinePicker();
+        if (_pickerPopup == null || _inlinePicker == null)
+            return;
+        _pickerTarget = null;
+        _inlinePicker.SelectedColor = item.Color;
+        _inlinePicker.OriginalColor = item.Color;
+        _pickerTarget = item;
+        _pickerPopup.PlacementTarget = anchor;
+        _pickerPopup.IsOpen = true;
+    }
+
+    private void EnsureInlinePicker()
+    {
+        if (_pickerPopup != null)
+            return;
+        ColorPickerSetup.EnsureConfigured();
+        _inlinePicker = new RinColor.RinColorPicker { AlphaEnabled = true };
+        if (TryFindResource("DefaultTextBoxStyle") is Style textBoxStyle && textBoxStyle.TargetType == typeof(TextBox))
+            _inlinePicker.Resources[typeof(TextBox)] = textBoxStyle;
+        _inlinePicker.ColorChanged += InlinePicker_ColorChanged;
+        Border host = new Border
+        {
+            Padding = new Thickness(12),
+            CornerRadius = new CornerRadius(10),
+            BorderThickness = new Thickness(1),
+            Child = _inlinePicker,
+        };
+        host.SetResourceReference(Border.BackgroundProperty, "ApplicationBackgroundBrush");
+        host.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+        _pickerPopup = new System.Windows.Controls.Primitives.Popup
+        {
+            Child = host,
+            StaysOpen = false,
+            AllowsTransparency = true,
+            Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
+            VerticalOffset = 6,
+        };
+        _pickerPopup.Closed += PickerPopup_Closed;
+    }
+
+    private void InlinePicker_ColorChanged(object? sender, Color color)
+    {
+        _pickerTarget?.SetColor(color);
+    }
+
+    private void PickerPopup_Closed(object? sender, EventArgs e)
+    {
+        _pickerTarget = null;
     }
 
     private void ResetColor_Click(object sender, RoutedEventArgs e)
@@ -954,9 +1018,8 @@ public partial class CustomThemePanel : UserControl
         PreviewNav1.Background = subtle;
         PreviewNav2.Background = subtle;
         PreviewNav3.Background = subtle;
-        Brush accent = PreviewBrush("NewTextEditorLink", Colors.DodgerBlue);
-        PreviewNavActive.Background = accent;
-        PreviewButton.Background = accent;
+        PreviewNavActive.SetResourceReference(Border.BackgroundProperty, "SystemAccentColorPrimaryBrush");
+        PreviewButton.SetResourceReference(Border.BackgroundProperty, "SystemAccentColorPrimaryBrush");
     }
 
     private Color PreviewColor(string key, Color fallback)
