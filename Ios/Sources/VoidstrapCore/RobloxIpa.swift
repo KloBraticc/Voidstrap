@@ -146,6 +146,8 @@ public enum RobloxIpa {
         let modFileCount = replacements.count
 
         let applicable = flags.filter(\.appliesOnIos)
+        let flagData = FlagStore.encode(applicable)
+        for rel in RobloxFlags.bundleFiles { replacements[IpaPatcher.appRoot + rel] = flagData }
 
         Paths.ensure(Paths.patched.deletingLastPathComponent())
         try IpaPatcher.patch(ipa: ipa, replacements: replacements, output: Paths.patched, status: status)

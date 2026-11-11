@@ -85,6 +85,17 @@ public enum RobloxFlags {
         return items.filter { dir in markers.contains { fm.fileExists(atPath: dir.appendingPathComponent($0).path) } }
     }
 
+    public static let bundleFiles = ["ClientSettings/ClientAppSettings.json", "Frameworks/RobloxLib.framework/ClientSettings/ClientAppSettings.json"]
+
+    static var bundles: [URL] {
+        roots.flatMap { root -> [URL] in
+            let apps = root.appendingPathComponent("Applications", isDirectory: true)
+            return ((try? FileManager.default.contentsOfDirectory(at: apps, includingPropertiesForKeys: nil)) ?? []).filter {
+                (plist($0.appendingPathComponent("Info.plist"))?["CFBundleIdentifier"] as? String)?.lowercased() == bundleId
+            }
+        }
+    }
+
     public static var containers: [URL] {
         guard Paths.isLiveContainer else { return [] }
         var seen = Set<String>()
@@ -110,6 +121,13 @@ public enum RobloxFlags {
                 written += 1
             } catch {
                 Log.error("RobloxFlags::apply", error)
+            }
+        }
+        for bundle in bundles {
+            for rel in bundleFiles {
+                let file = bundle.appendingPathComponent(rel)
+                Paths.ensure(file.deletingLastPathComponent())
+                try? data.write(to: file, options: .atomic)
             }
         }
         let report = written > 0
