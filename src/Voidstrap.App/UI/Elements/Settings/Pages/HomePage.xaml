@@ -13,6 +13,27 @@
     Title="{resources:Loc Ui_Nav_Home}">
 
     <Page.Resources>
+        <Style x:Key="StudioTileActionButton" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" CornerRadius="15" Background="#73000000" BorderBrush="#40FFFFFF" BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#A6000000"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <DataTemplate x:Key="StudioProjectCard">
             <Border x:Name="ProjectCard"
                     Margin="0,0,10,14"
@@ -33,20 +54,27 @@
                                    RenderOptions.BitmapScalingMode="HighQuality"
                                    util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}"/>
                         </Border>
-                        <StackPanel x:Name="CardActions" Margin="6" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Opacity="0">
-                            <ui:Button Width="28" Height="28" Padding="0" Margin="0,0,4,0"
-                                       Appearance="Secondary"
-                                       Icon="Star24"
-                                       IconFilled="{Binding IsFavorite}"
-                                       ToolTip="{Binding FavoriteTooltip}"
-                                       Command="{Binding DataContext.ToggleStudioFavoriteCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                       CommandParameter="{Binding}"/>
-                            <ui:Button Width="28" Height="28" Padding="0"
-                                       Appearance="Secondary"
-                                       Icon="MoreVertical24"
-                                       ToolTip="{resources:Loc Ui_ModGen_MoreOptions}"
-                                       Click="StudioMore_Click"/>
-                        </StackPanel>
+                        <Border x:Name="CardActions" util:RoundedClip.Radius="6" Opacity="0" IsHitTestVisible="False">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="1,0" EndPoint="0,0.6">
+                                    <GradientStop Color="#66000000" Offset="0"/>
+                                    <GradientStop Color="#00000000" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <StackPanel Margin="0,8,8,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Vertical">
+                                <Button Style="{StaticResource StudioTileActionButton}"
+                                        ToolTip="{Binding FavoriteTooltip}"
+                                        Command="{Binding DataContext.ToggleStudioFavoriteCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                        CommandParameter="{Binding}">
+                                    <ui:SymbolIcon Symbol="Star24" FontSize="14" Filled="{Binding IsFavorite}"/>
+                                </Button>
+                                <Button Style="{StaticResource StudioTileActionButton}"
+                                        ToolTip="{resources:Loc Ui_ModGen_MoreOptions}"
+                                        Click="StudioMore_Click">
+                                    <ui:SymbolIcon Symbol="MoreHorizontal24" FontSize="14"/>
+                                </Button>
+                            </StackPanel>
+                        </Border>
                     </Grid>
                     <TextBlock Text="{Binding Name}"
                                Margin="2,8,2,0"
@@ -64,10 +92,8 @@
                 <Trigger SourceName="ProjectCard" Property="IsMouseOver" Value="True">
                     <Setter TargetName="ProjectCard" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
                     <Setter TargetName="CardActions" Property="Opacity" Value="1"/>
+                    <Setter TargetName="CardActions" Property="IsHitTestVisible" Value="True"/>
                 </Trigger>
-                <DataTrigger Binding="{Binding IsFavorite}" Value="True">
-                    <Setter TargetName="CardActions" Property="Opacity" Value="1"/>
-                </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
 
