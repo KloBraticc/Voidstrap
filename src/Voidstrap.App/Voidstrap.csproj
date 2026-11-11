@@ -200,6 +200,9 @@
 		<PackageReference Include="Jint" Version="4.17.0" />
 		<PackageReference Include="Markdig" Version="1.6.0" />
 		<PackageReference Include="Microsoft.Diagnostics.Runtime" Version="4.2.751201" />
+		<PackageReference Include="Microsoft.Identity.Client" Version="4.83.1" ExcludeAssets="all" />
+		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.83.1" ExcludeAssets="all" />
+		<PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="8.14.0" ExcludeAssets="all" />
 		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.24.4" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4314.35" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
