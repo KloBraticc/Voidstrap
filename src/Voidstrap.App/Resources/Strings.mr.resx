@@ -9914,4 +9914,19 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>लॉग फाइल्स ठेवा</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>रिवाइंड</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>सुरुवात चिन्हांकित करा</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>शेवट चिन्हांकित करा</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0} सेकंदांपूर्वी</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>रिप्ले बफर लोड करता आला नाही</value>
+  </data>
 </root>

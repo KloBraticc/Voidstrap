@@ -9913,4 +9913,19 @@ Oýunçylar: {2}</value>
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>Žurnal faýllaryny sakla</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>Yza aýla</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>Başlangyjy belle</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>Soňuny belle</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0} s öň</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>Gaýtalama buferini ýükläp bolmady</value>
+  </data>
 </root>

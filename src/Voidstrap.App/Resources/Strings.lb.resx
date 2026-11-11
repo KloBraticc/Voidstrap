@@ -9914,4 +9914,19 @@ Spiller: {2}</value>
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>Logdateie behalen</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>Zréckspulen</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>Ufank markéieren</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>Enn markéieren</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>viru {0} s</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>De Widderhuelungspuffer konnt net gelueden ginn</value>
+  </data>
 </root>

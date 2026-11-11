@@ -9913,4 +9913,19 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>Захаваць файлы журнала</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>Пераматаць</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>Пазначыць пачатак</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>Пазначыць канец</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0} с таму</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>Не ўдалося загрузіць буфер паўтору</value>
+  </data>
 </root>

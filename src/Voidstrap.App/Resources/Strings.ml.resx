@@ -9914,4 +9914,19 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>ലോഗ് ഫയലുകൾ സൂക്ഷിക്കുക</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>റിവൈൻഡ്</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>തുടക്കം അടയാളപ്പെടുത്തുക</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>അവസാനം അടയാളപ്പെടുത്തുക</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0} സെക്കൻഡ് മുമ്പ്</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>റീപ്ലേ ബഫർ ലോഡ് ചെയ്യാനായില്ല</value>
+  </data>
 </root>

@@ -10241,4 +10241,19 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>ログファイルを残す</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>巻き戻し</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>開始位置を設定</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>終了位置を設定</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0} 秒前</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>リプレイバッファーを読み込めませんでした</value>
+  </data>
 </root>

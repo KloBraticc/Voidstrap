@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -34,6 +34,12 @@ public partial class SessionClipperPanel : Window
     private bool _recordingShortcut;
     private bool _trimUpdating;
     private ClipListItemViewModel? _activeTrimClip;
+    private readonly DispatcherTimer _rewindFrameTimer;
+    private string? _rewindPath;
+    private long _rewindDurationMs;
+    private long _rewindStartMs;
+    private long _rewindEndMs;
+    private bool _rewindFrameBusy;
 
     public SessionClipperPanel()
     {
@@ -44,6 +50,9 @@ public partial class SessionClipperPanel : Window
         _statusTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
         _statusTimer.Tick += OnStatusTimerTick;
         _statusTimer.Start();
+
+        _rewindFrameTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(180) };
+        _rewindFrameTimer.Tick += OnRewindFrameTick;
 
         ClipperService.ClipSaved += OnClipSaved;
         Closed += OnPanelClosed;
@@ -61,6 +70,9 @@ public partial class SessionClipperPanel : Window
         _statusTimer.Stop();
         _statusTimer.Tick -= OnStatusTimerTick;
         ClipperService.ClipSaved -= OnClipSaved;
+        _rewindFrameTimer.Stop();
+        _rewindFrameTimer.Tick -= OnRewindFrameTick;
+        CloseRewind();
         if (_recordingShortcut)
         {
             _recordingShortcut = false;
@@ -563,6 +575,141 @@ public partial class SessionClipperPanel : Window
         TrimEditorCard.Visibility = Visibility.Collapsed;
         _activeTrimClip = null;
         await RefreshClipsListAsync();
+    }
+
+    private async void RewindButton_Click(object sender, RoutedEventArgs e)
+    {
+        RewindButton.IsEnabled = false;
+        try
+        {
+            CloseRewind();
+            var (ok, path, durationMs, error) = await ClipperService.CaptureRewindAsync();
+            if (!ok)
+            {
+                ShowFeedback(string.IsNullOrWhiteSpace(error) ? Strings.Ui_Clipper_RewindFailed : error);
+                return;
+            }
+            _rewindPath = path;
+            _rewindDurationMs = durationMs;
+            _rewindStartMs = Math.Max(0, durationMs - 10000);
+            _rewindEndMs = durationMs;
+            RewindSlider.Maximum = durationMs;
+            RewindSlider.Value = durationMs;
+            RewindCard.Visibility = Visibility.Visible;
+            UpdateRewindLabels();
+            QueueRewindFrame();
+        }
+        finally
+        {
+            UpdateStatusUi();
+        }
+    }
+
+    private void RewindSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (_rewindPath == null)
+            return;
+        UpdateRewindLabels();
+        QueueRewindFrame();
+    }
+
+    private void RewindStep_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { Tag: string tag } && double.TryParse(tag, NumberStyles.Integer, CultureInfo.InvariantCulture, out double delta))
+            RewindSlider.Value = Math.Clamp(RewindSlider.Value + delta, 0, RewindSlider.Maximum);
+    }
+
+    private void RewindMarkStart_Click(object sender, RoutedEventArgs e)
+    {
+        _rewindStartMs = (long)RewindSlider.Value;
+        if (_rewindEndMs <= _rewindStartMs)
+            _rewindEndMs = Math.Min(_rewindDurationMs, _rewindStartMs + 5000);
+        UpdateRewindLabels();
+    }
+
+    private void RewindMarkEnd_Click(object sender, RoutedEventArgs e)
+    {
+        _rewindEndMs = (long)RewindSlider.Value;
+        if (_rewindStartMs >= _rewindEndMs)
+            _rewindStartMs = Math.Max(0, _rewindEndMs - 5000);
+        UpdateRewindLabels();
+    }
+
+    private async void RewindSave_Click(object sender, RoutedEventArgs e)
+    {
+        if (_rewindPath == null || _rewindEndMs - _rewindStartMs < 500)
+            return;
+        RewindSaveButton.IsEnabled = false;
+        try
+        {
+            var (ok, clip, error) = await ClipperService.SaveRewindRangeAsync(_rewindPath, _rewindStartMs, _rewindEndMs);
+            if (!ok || clip == null)
+            {
+                ShowFeedback(string.IsNullOrWhiteSpace(error) ? Strings.Ui_Clipper_SaveFailed : error);
+                return;
+            }
+            ShowFeedback($"{Strings.Ui_Clipper_TrimSaved}: {clip.FileName} ({clip.FormattedDuration})");
+        }
+        finally
+        {
+            RewindSaveButton.IsEnabled = true;
+        }
+    }
+
+    private void CloseRewind_Click(object sender, RoutedEventArgs e)
+    {
+        CloseRewind();
+    }
+
+    private void CloseRewind()
+    {
+        _rewindFrameTimer.Stop();
+        _rewindPath = null;
+        RewindPreview.Source = null;
+        RewindCard.Visibility = Visibility.Collapsed;
+        ClipperService.DiscardRewind();
+    }
+
+    private void UpdateRewindLabels()
+    {
+        double agoSec = Math.Max(0, (_rewindDurationMs - RewindSlider.Value) / 1000.0);
+        RewindAgoLabel.Text = string.Format(CultureInfo.CurrentCulture, Strings.Ui_Clipper_SecondsAgo, agoSec.ToString("0.0", CultureInfo.CurrentCulture));
+        double startSec = _rewindStartMs / 1000.0;
+        double endSec = _rewindEndMs / 1000.0;
+        RewindRangeLabel.Text = $"{FormatSeconds(startSec)} : {FormatSeconds(endSec)} ({Math.Max(0, endSec - startSec):0.0}s)";
+    }
+
+    private void QueueRewindFrame()
+    {
+        _rewindFrameTimer.Stop();
+        _rewindFrameTimer.Start();
+    }
+
+    private async void OnRewindFrameTick(object? sender, EventArgs e)
+    {
+        _rewindFrameTimer.Stop();
+        if (_rewindFrameBusy || _rewindPath == null)
+        {
+            if (_rewindPath != null)
+                _rewindFrameTimer.Start();
+            return;
+        }
+        _rewindFrameBusy = true;
+        try
+        {
+            string path = _rewindPath;
+            string? frame = await ClipperService.RenderRewindFrameAsync(path, (long)RewindSlider.Value);
+            if (frame == null)
+                return;
+            ImageSource? img = LoadThumbnailSafe(frame);
+            try { File.Delete(frame); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+            if (_rewindPath == path && img != null)
+                RewindPreview.Source = img;
+        }
+        finally
+        {
+            _rewindFrameBusy = false;
+        }
     }
 
     private void ShowFeedback(string message)

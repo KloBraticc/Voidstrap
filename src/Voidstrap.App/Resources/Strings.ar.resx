@@ -10225,4 +10225,19 @@
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>الاحتفاظ بملفات السجل</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>إرجاع</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>تحديد البداية</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>تحديد النهاية</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>قبل {0} ث</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>تعذر تحميل مخزن الإعادة</value>
+  </data>
 </root>

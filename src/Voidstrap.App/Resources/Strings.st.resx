@@ -9913,4 +9913,19 @@ Libapali: {2}</value>
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>Boloka lifaele tsa log</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>Kgutlisetsa morao</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>Tšoaea qalo</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>Tšoaea qetello</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0}s tse fetileng</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>Ha ho a khoneha ho kenya buffer ea ho bapala hape</value>
+  </data>
 </root>

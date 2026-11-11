@@ -10226,4 +10226,19 @@ Jugadores: {2}</value>
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>Conservar los archivos de registro</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>Rebobinar</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>Marcar inicio</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>Marcar final</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>hace {0} s</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>No se pudo cargar el búfer de repetición</value>
+  </data>
 </root>

@@ -9913,4 +9913,19 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>లాగ్ ఫైల్‌లను ఉంచు</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>రివైండ్</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>ప్రారంభం గుర్తించు</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>ముగింపు గుర్తించు</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0} సెకన్ల క్రితం</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>రీప్లే బఫర్‌ను లోడ్ చేయలేకపోయాము</value>
+  </data>
 </root>

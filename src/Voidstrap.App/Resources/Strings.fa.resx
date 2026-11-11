@@ -10228,4 +10228,19 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>نگه داشتن فایل‌های گزارش</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>عقب بردن</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>علامت‌گذاری شروع</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>علامت‌گذاری پایان</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0} ثانیه پیش</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>بارگیری بافر بازپخش ممکن نشد</value>
+  </data>
 </root>

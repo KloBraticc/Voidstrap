@@ -85,6 +85,13 @@
                   <TextBlock x:Name="SaveNowButtonText" Text="{resources:Loc Ui_Clipper_SaveClip}" FontSize="12.5" FontWeight="SemiBold" />
                 </StackPanel>
               </ui:Button>
+              <ui:Button x:Name="RewindButton" Appearance="Secondary" Padding="12,6" Margin="0,0,8,0" Focusable="False" Click="RewindButton_Click"
+                         Visibility="{Binding Visibility, ElementName=SaveNowButton}" IsEnabled="{Binding IsEnabled, ElementName=SaveNowButton}">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="&#xEB9E;" Style="{StaticResource Glyph}" Margin="0,0,7,0" />
+                  <TextBlock Text="{resources:Loc Ui_Clipper_Rewind}" FontSize="12.5" FontWeight="SemiBold" />
+                </StackPanel>
+              </ui:Button>
               <ui:ToggleSwitch x:Name="MasterToggle" VerticalAlignment="Center" Checked="MasterToggle_Changed" Unchecked="MasterToggle_Changed" />
             </StackPanel>
           </Grid>
@@ -230,6 +237,56 @@
               </StackPanel>
             </Grid>
           </Border>
+        </StackPanel>
+      </Border>
+
+      <Border x:Name="RewindCard" Style="{StaticResource Card}" Margin="0,14,0,0" Padding="14,12" Visibility="Collapsed">
+        <StackPanel>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+              <TextBlock Text="{resources:Loc Ui_Clipper_Rewind}" FontSize="13.5" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+              <TextBlock x:Name="RewindRangeLabel" FontSize="12" Margin="0,2,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+            <ui:Button Grid.Column="1" Appearance="Secondary" Padding="8,4" Focusable="False" Click="CloseRewind_Click">
+              <TextBlock Text="{resources:Loc Ui_Clipper_Close}" FontSize="12" />
+            </ui:Button>
+          </Grid>
+
+          <Border Margin="0,12,0,0" CornerRadius="6" Background="#FF000000" Height="200">
+            <Image x:Name="RewindPreview" Stretch="Uniform" />
+          </Border>
+
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="70" />
+            </Grid.ColumnDefinitions>
+            <Slider x:Name="RewindSlider" Minimum="0" Maximum="1000" ValueChanged="RewindSlider_ValueChanged" />
+            <TextBlock x:Name="RewindAgoLabel" Grid.Column="1" FontSize="12" TextAlignment="Right" VerticalAlignment="Center"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          </Grid>
+
+          <Grid Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+              <ui:Button Content="-10s" Tag="-10000" Appearance="Secondary" Padding="10,6" Margin="0,0,6,0" Focusable="False" Click="RewindStep_Click" />
+              <ui:Button Content="-5s" Tag="-5000" Appearance="Secondary" Padding="10,6" Margin="0,0,6,0" Focusable="False" Click="RewindStep_Click" />
+              <ui:Button Content="+5s" Tag="5000" Appearance="Secondary" Padding="10,6" Margin="0,0,6,0" Focusable="False" Click="RewindStep_Click" />
+              <ui:Button Content="+10s" Tag="10000" Appearance="Secondary" Padding="10,6" Focusable="False" Click="RewindStep_Click" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+              <ui:Button Content="{resources:Loc Ui_Clipper_MarkStart}" Appearance="Secondary" Padding="12,6" Margin="0,0,6,0" Focusable="False" Click="RewindMarkStart_Click" />
+              <ui:Button Content="{resources:Loc Ui_Clipper_MarkEnd}" Appearance="Secondary" Padding="12,6" Margin="0,0,6,0" Focusable="False" Click="RewindMarkEnd_Click" />
+              <ui:Button x:Name="RewindSaveButton" Content="{resources:Loc Ui_Clipper_SaveClip}" Appearance="Primary" Padding="12,6" Focusable="False" Click="RewindSave_Click" />
+            </StackPanel>
+          </Grid>
         </StackPanel>
       </Border>
 

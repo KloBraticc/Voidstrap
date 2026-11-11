@@ -9914,4 +9914,19 @@ Mpilalao: {2}</value>
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>Tazomy ireo rakitra firaketana</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>Averina</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>Mariho ny fiandohana</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>Mariho ny farany</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0} s lasa izay</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>Tsy afaka nampiditra ny buffer famerenana</value>
+  </data>
 </root>

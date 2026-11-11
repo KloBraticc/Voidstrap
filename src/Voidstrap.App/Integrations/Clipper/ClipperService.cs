@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -541,6 +541,103 @@ public static class ClipperService
         finally
         {
             OpGate.Release();
+        }
+    }
+
+    private static string RewindDirectory => Path.Combine(GetClipsDirectory(), ".rewind");
+
+    public static async Task<(bool Ok, string Path, long DurationMs, string Error)> CaptureRewindAsync()
+    {
+        const string LOG_IDENT = "ClipperService::CaptureRewindAsync";
+        string? ffmpeg = FfmpegProvisioner.TryFindExisting() ?? await FfmpegProvisioner.EnsureAvailableAsync().ConfigureAwait(false);
+        if (string.IsNullOrEmpty(ffmpeg))
+            return (false, string.Empty, 0, "FFmpeg is not available");
+
+        await OpGate.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            Directory.CreateDirectory(RewindDirectory);
+            string path = Path.Combine(RewindDirectory, $"rewind_{DateTime.Now:HHmmssfff}.mp4");
+            int seconds = Math.Clamp(App.Settings.Prop.ClipperBufferSeconds, 5, 300);
+            string err = string.Empty;
+            bool ok = await Task.Run(() => NativeClipper.Save(path, seconds, out err)).ConfigureAwait(false);
+            if (!ok || !File.Exists(path))
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Rewind snapshot failed: " + err);
+                return (false, string.Empty, 0, err);
+            }
+            long duration = await Task.Run(() => NativeClipper.ProbeDurationMs(ffmpeg, path)).ConfigureAwait(false);
+            if (duration <= 0)
+                return (false, string.Empty, 0, string.Empty);
+            return (true, path, duration, string.Empty);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+            return (false, string.Empty, 0, ex.Message);
+        }
+        finally
+        {
+            OpGate.Release();
+        }
+    }
+
+    public static Task<string?> RenderRewindFrameAsync(string rewindPath, long timeMs)
+    {
+        return Task.Run(() =>
+        {
+            string? ffmpeg = FfmpegProvisioner.TryFindExisting();
+            if (string.IsNullOrEmpty(ffmpeg) || !File.Exists(rewindPath))
+                return null;
+            string frame = Path.Combine(RewindDirectory, $"frame_{Guid.NewGuid():N}.jpg");
+            NativeClipper.CreateThumbnail(ffmpeg, rewindPath, frame, Math.Max(0, timeMs), 480);
+            return File.Exists(frame) ? frame : null;
+        });
+    }
+
+    public static async Task<(bool Ok, SavedClipInfo? Clip, string Error)> SaveRewindRangeAsync(string rewindPath, long startMs, long endMs)
+    {
+        const string LOG_IDENT = "ClipperService::SaveRewindRangeAsync";
+        string? ffmpeg = FfmpegProvisioner.TryFindExisting();
+        if (string.IsNullOrEmpty(ffmpeg) || !File.Exists(rewindPath))
+            return (false, null, "FFmpeg is not available");
+
+        await OpGate.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            string target = AllocateOutputFilePath(null, isFullRecording: false);
+            string err = string.Empty;
+            bool ok = await Task.Run(() => NativeClipper.Trim(ffmpeg, rewindPath, target, startMs, endMs, out err)).ConfigureAwait(false);
+            if (!ok || !File.Exists(target))
+                return (false, null, string.IsNullOrWhiteSpace(err) ? "Trim failed" : err);
+
+            SavedClipInfo info = await Task.Run(() => BuildClipInfo(target, ensureMetadata: true)).ConfigureAwait(false);
+            App.Logger.WriteLine(LOG_IDENT, $"Saved rewind clip {info.FileName} ({info.FormattedDuration})");
+            ClipSaved?.Invoke(info);
+            VoidEditClipHandoff.Add(info);
+            RaiseStateChanged();
+            return (true, info, string.Empty);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+            return (false, null, ex.Message);
+        }
+        finally
+        {
+            OpGate.Release();
+        }
+    }
+
+    public static void DiscardRewind()
+    {
+        try
+        {
+            if (Directory.Exists(RewindDirectory))
+                Directory.Delete(RewindDirectory, recursive: true);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
         }
     }
 

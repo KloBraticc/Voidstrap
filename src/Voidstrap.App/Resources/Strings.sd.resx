@@ -9914,4 +9914,19 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>لاگ فائلون رکو</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>پوئتي ڦيرايو</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>شروعات نشان لڳايو</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>پڇاڙي نشان لڳايو</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0} سيڪنڊ اڳ</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>ري پلي بفر لوڊ نه ٿي سگهيو</value>
+  </data>
 </root>

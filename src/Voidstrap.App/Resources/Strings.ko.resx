@@ -10225,4 +10225,19 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
     <value>로그 파일 유지</value>
   </data>
+  <data name="Ui.Clipper.Rewind" xml:space="preserve">
+    <value>되감기</value>
+  </data>
+  <data name="Ui.Clipper.MarkStart" xml:space="preserve">
+    <value>시작 지점 표시</value>
+  </data>
+  <data name="Ui.Clipper.MarkEnd" xml:space="preserve">
+    <value>끝 지점 표시</value>
+  </data>
+  <data name="Ui.Clipper.SecondsAgo" xml:space="preserve">
+    <value>{0}초 전</value>
+  </data>
+  <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
+    <value>리플레이 버퍼를 불러올 수 없습니다</value>
+  </data>
 </root>

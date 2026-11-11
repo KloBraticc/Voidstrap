@@ -8753,6 +8753,11 @@ namespace Voidstrap.Resources {
         public static string Ui_Clipper_StartRecording => ResourceManager.GetString("Ui.Clipper.StartRecording", resourceCulture);
         public static string Ui_Clipper_StopRecording => ResourceManager.GetString("Ui.Clipper.StopRecording", resourceCulture);
         public static string Ui_Clipper_SaveClip => ResourceManager.GetString("Ui.Clipper.SaveClip", resourceCulture);
+        public static string Ui_Clipper_Rewind => ResourceManager.GetString("Ui.Clipper.Rewind", resourceCulture);
+        public static string Ui_Clipper_MarkStart => ResourceManager.GetString("Ui.Clipper.MarkStart", resourceCulture);
+        public static string Ui_Clipper_MarkEnd => ResourceManager.GetString("Ui.Clipper.MarkEnd", resourceCulture);
+        public static string Ui_Clipper_SecondsAgo => ResourceManager.GetString("Ui.Clipper.SecondsAgo", resourceCulture);
+        public static string Ui_Clipper_RewindFailed => ResourceManager.GetString("Ui.Clipper.RewindFailed", resourceCulture);
         public static string Ui_Clipper_Saving => ResourceManager.GetString("Ui.Clipper.Saving", resourceCulture);
         public static string Ui_Clipper_SaveFailed => ResourceManager.GetString("Ui.Clipper.SaveFailed", resourceCulture);
         public static string Ui_Clipper_DeleteFailed => ResourceManager.GetString("Ui.Clipper.DeleteFailed", resourceCulture);
