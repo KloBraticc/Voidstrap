@@ -983,6 +983,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             || ReferenceEquals(page, _robloxNewsPage)
             || ReferenceEquals(page, _voidstrapModsPage)
             || ReferenceEquals(page, _modPacksPage)
+            || ReferenceEquals(page, _themeEditorPage)
             || ReferenceEquals(page, _friendsPage)
         )
         {
@@ -2900,10 +2901,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private ModPacksPage? _modPacksPage;
 
+    private ThemeEditorPage? _themeEditorPage;
+
     internal void OpenThemeEditorPage()
     {
-        if (RootFrame.Content is not ThemeEditorPage)
-            RootNavigation.NavigateExternal(new ThemeEditorPage());
+        _themeEditorPage ??= new ThemeEditorPage();
+        if (!ReferenceEquals(RootFrame.Content, _themeEditorPage))
+            RootNavigation.NavigateExternal(_themeEditorPage);
     }
 
     private void TopNavModPacks_Click(object sender, RoutedEventArgs e) => OpenModPacksPage();
