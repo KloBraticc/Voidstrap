@@ -630,6 +630,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 case Voidstrap.UI.TaskbarJumpList.LibraryView:
                     TopNavLibrary_Click(this, new RoutedEventArgs());
                     break;
+                case Voidstrap.UI.TaskbarJumpList.ModInstallView:
+                    _voidstrapModsPage ??= new VoidstrapModsPage();
+                    if (!ReferenceEquals(RootFrame.Content, _voidstrapModsPage))
+                        RootNavigation.NavigateExternal(_voidstrapModsPage);
+                    _voidstrapModsPage.RequestPendingInstall();
+                    break;
                 case Voidstrap.UI.TaskbarJumpList.NotificationsView:
                     if (RootFrame.Content is ChannelPage channel && channel.IsLoaded)
                     {
@@ -7045,6 +7051,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     protected override void OnActivated(EventArgs e)
     {
         base.OnActivated(e);
+        if (_introFinished && Voidstrap.Utility.ModInstallLink.HasPending)
+            OpenView(Voidstrap.UI.TaskbarJumpList.ModInstallView);
         UpdateButtonContent();
         RefreshManageModsStatus();
         if (App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)

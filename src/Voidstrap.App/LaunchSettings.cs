@@ -107,6 +107,8 @@ public class LaunchSettings
 
     public string RobloxLaunchArgs { get; set; } = "";
 
+    public string? ModInstallId { get; private set; }
+
     public string[] Args { get; private set; }
 
     public LaunchSettings(string[] args)
@@ -137,6 +139,14 @@ public class LaunchSettings
                     : studio ? LaunchMode.Studio
                     : LaunchMode.Player;
                 RobloxLaunchArgs = directLink.AbsoluteUri;
+                num = 1;
+            }
+            else if (Voidstrap.Utility.ModInstallLink.TryParse(text, out string modId))
+            {
+                App.Logger.WriteLine("LaunchSettings", "Got a mod install link for " + modId);
+                ModInstallId = modId;
+                MenuFlag.Active = true;
+                MenuFlag.Data = Voidstrap.UI.TaskbarJumpList.ModInstallView;
                 num = 1;
             }
         }

@@ -19,6 +19,8 @@ internal static partial class TaskbarJumpList
 
     public const string NotificationsView = "notifications";
 
+    public const string ModInstallView = "modinstall";
+
     private const string LogIdent = "TaskbarJumpList";
 
     private const string WindowMapName = "Local\\Voidstrap.SettingsWindow";
@@ -295,6 +297,7 @@ internal static partial class TaskbarJumpList
         {
             LibraryView => 1,
             NotificationsView => 2,
+            ModInstallView => 3,
             _ => 0
         };
     }
@@ -305,6 +308,7 @@ internal static partial class TaskbarJumpList
         {
             1 => LibraryView,
             2 => NotificationsView,
+            3 => ModInstallView,
             _ => null
         };
     }

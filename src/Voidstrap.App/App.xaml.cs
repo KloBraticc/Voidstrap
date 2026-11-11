@@ -964,6 +964,8 @@ public partial class App : Application
         if (cli)
             Cli.AttachTerminal();
         LaunchSettings = new LaunchSettings(cli ? [] : args);
+        if (LaunchSettings.ModInstallId is string pendingModInstall)
+            Voidstrap.Utility.ModInstallLink.SetPending(pendingModInstall);
         if (
             OperatingSystem.IsWindows()
             && LaunchSettings.MenuFlag.Active
@@ -1204,7 +1206,7 @@ public partial class App : Application
             LinuxUiPerformance.Duration("Installed copy upgrade", upgradeStarted);
         }
         TryStartup("API registration", WindowsRegistry.RegisterApis);
-        TryStartup("Theme protocol cleanup", () => WindowsRegistry.Unregister("voidstrap"));
+        TryStartup("Mod install link registration", () => WindowsRegistry.RegisterProtocol(Voidstrap.Utility.ModInstallLink.Scheme, "Voidstrap", Paths.Application));
         _macOSStartupReady.TrySetResult(true);
         LinuxUiPerformance.Mark("Launch dispatch");
         if (!LaunchSettings.UninstallFlag.Active)

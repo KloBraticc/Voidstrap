@@ -50,6 +50,8 @@ public partial class VoidstrapModsPage : UiPage
         _libraryPoll.Tick -= LibraryPoll_Tick;
         _libraryPoll.Tick += LibraryPoll_Tick;
         _libraryPoll.Start();
+        if (_pendingInstallRequested)
+            _ = RunPendingInstallAsync();
     }
 
     private async void LibraryPoll_Tick(object? sender, EventArgs e)
@@ -1251,8 +1253,54 @@ public partial class VoidstrapModsPage : UiPage
     {
         if (sender is not Wpf.Ui.Controls.Button { Tag: ModLibrary.LibraryMod mod } button || _libraryIndex is not { } index)
             return;
+        await InstallLibraryModAsync(index, mod, button, false);
+    }
+
+    private bool _pendingInstallRequested;
+
+    internal void RequestPendingInstall()
+    {
+        _pendingInstallRequested = true;
+        if (IsLoaded)
+            _ = RunPendingInstallAsync();
+    }
+
+    private async Task RunPendingInstallAsync()
+    {
+        const string LOG_IDENT = "VoidstrapModsPage::RunPendingInstallAsync";
+        _pendingInstallRequested = false;
+        if (Voidstrap.Utility.ModInstallLink.TakePending() is not string id)
+            return;
+        ModTabs.SelectedItem = LibraryTab;
+        ModLibrary.Index index;
+        try
+        {
+            index = _libraryIndex ?? await ModLibrary.GetIndexAsync(false, CancellationToken.None);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The library could not be loaded for " + id + ": " + ex.Message);
+            return;
+        }
+        _libraryIndex ??= index;
+        ModLibrary.LibraryMod? mod = index.Mods.FirstOrDefault(m => string.Equals(m.Id, id, StringComparison.OrdinalIgnoreCase));
+        if (mod == null)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The website asked for " + id + ", which is not in the library");
+            return;
+        }
+        App.Logger.WriteLine(LOG_IDENT, "Opening the website install of " + mod.Id);
+        ShowLibraryDetail(mod);
+        if (ModLibrary.GetState(mod) == ModLibrary.InstallState.Installed)
+            return;
+        await InstallLibraryModAsync(index, mod, DetailInstallButton, true);
+        ApplyInstalledActions(mod);
+    }
+
+    private async Task InstallLibraryModAsync(ModLibrary.Index index, ModLibrary.LibraryMod mod, Wpf.Ui.Controls.Button button, bool alwaysAsk)
+    {
         bool vouched = mod.Verified || mod.Trusted;
-        if (!vouched)
+        if (!vouched || alwaysAsk)
         {
             string network =
                 mod.Network.Count == 0
@@ -1260,8 +1308,14 @@ public partial class VoidstrapModsPage : UiPage
                     : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network));
             if (
                 Frontend.ShowMessageBox(
-                    string.Format(Strings.Ui_VoidstrapMods_LibraryUnverifiedPrompt, mod.Name, mod.Version, mod.Login, network),
-                    MessageBoxImage.Warning,
+                    string.Format(
+                        vouched ? Strings.Ui_VoidstrapMods_LibraryInstallPrompt : Strings.Ui_VoidstrapMods_LibraryUnverifiedPrompt,
+                        mod.Name,
+                        mod.Version,
+                        mod.Login,
+                        network
+                    ),
+                    vouched ? MessageBoxImage.Question : MessageBoxImage.Warning,
                     MessageBoxButton.YesNo,
                     MessageBoxResult.No
                 ) != MessageBoxResult.Yes
