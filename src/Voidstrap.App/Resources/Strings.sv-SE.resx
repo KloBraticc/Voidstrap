@@ -10205,4 +10205,7 @@ Spelare: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Inga communityrecensioner hittades ännu</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Börja från ett inbyggt tema</value>
+  </data>
 </root>

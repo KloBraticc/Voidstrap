@@ -10206,4 +10206,7 @@ Pelaajat: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Yhteisön arvosteluja ei vielä löytynyt</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Aloita valmiista teemasta</value>
+  </data>
 </root>

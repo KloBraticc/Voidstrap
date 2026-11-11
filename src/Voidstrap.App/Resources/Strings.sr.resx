@@ -9893,4 +9893,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Још нису пронађене рецензије заједнице</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Почни од уграђене теме</value>
+  </data>
 </root>

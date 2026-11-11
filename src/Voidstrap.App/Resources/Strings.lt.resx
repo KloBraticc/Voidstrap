@@ -10207,4 +10207,7 @@ Veikimo laikas: {1}
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Bendruomenės atsiliepimų dar nerasta</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Pradėti nuo integruotos temos</value>
+  </data>
 </root>

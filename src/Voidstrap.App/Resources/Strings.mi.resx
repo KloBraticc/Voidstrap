@@ -9893,4 +9893,7 @@ Kaitākaro: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Kāore anō kia kitea he arotake hapori</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Tīmata mai i tētahi kaupapa ā roto</value>
+  </data>
 </root>

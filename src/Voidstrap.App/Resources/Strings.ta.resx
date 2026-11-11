@@ -9892,4 +9892,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>இதுவரை சமூக மதிப்புரைகள் எதுவும் கிடைக்கவில்லை</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>உள்ளமைந்த தீமிலிருந்து தொடங்கவும்</value>
+  </data>
 </root>

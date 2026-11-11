@@ -9893,4 +9893,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ຍັງບໍ່ພົບການລີວິວຈາກຊຸມຊົນ</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ເລີ່ມຈາກທີມທີ່ມີໃນຕົວ</value>
+  </data>
 </root>

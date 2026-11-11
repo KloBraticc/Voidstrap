@@ -9893,4 +9893,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Сè уште не се пронајдени рецензии од заедницата</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Започни од вградена тема</value>
+  </data>
 </root>

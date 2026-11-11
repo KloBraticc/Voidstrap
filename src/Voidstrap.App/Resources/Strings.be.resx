@@ -9892,4 +9892,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Водгукаў супольнасці пакуль не знойдзена</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Пачаць з убудаванай тэмы</value>
+  </data>
 </root>

@@ -9892,4 +9892,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>እስካሁን ምንም የማህበረሰብ ግምገማ አልተገኘም</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ከአብሮ የተሰራ ገጽታ ይጀምሩ</value>
+  </data>
 </root>

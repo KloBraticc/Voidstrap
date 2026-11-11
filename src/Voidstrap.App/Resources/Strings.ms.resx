@@ -10197,4 +10197,7 @@ Pemain: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Belum ada ulasan komuniti ditemui</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Mula daripada tema terbina</value>
+  </data>
 </root>

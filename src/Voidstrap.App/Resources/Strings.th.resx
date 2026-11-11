@@ -10200,4 +10200,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ยังไม่พบรีวิวจากชุมชน</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>เริ่มจากธีมในตัว</value>
+  </data>
 </root>

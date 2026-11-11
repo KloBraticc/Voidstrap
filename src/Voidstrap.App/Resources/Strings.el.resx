@@ -9892,4 +9892,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Δεν βρέθηκαν ακόμη κριτικές της κοινότητας</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Ξεκινήστε από ένα ενσωματωμένο θέμα</value>
+  </data>
 </root>

@@ -9893,4 +9893,7 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Қауымдастық пікірлері әзірге табылмады</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Кірістірілген тақырыптан бастау</value>
+  </data>
 </root>

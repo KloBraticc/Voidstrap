@@ -9893,4 +9893,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>មិនទាន់រកឃើញការវាយតម្លៃពីសហគមន៍នៅឡើយទេ</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ចាប់ផ្តើមពីរូបរាងដែលមានស្រាប់</value>
+  </data>
 </root>

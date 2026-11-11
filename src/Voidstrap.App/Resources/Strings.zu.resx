@@ -9892,4 +9892,7 @@ Abadlali: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Azikatholakali izibuyekezo zomphakathi</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Qala ngetimu eyakhelwe ngaphakathi</value>
+  </data>
 </root>

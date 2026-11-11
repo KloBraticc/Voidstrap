@@ -9892,4 +9892,7 @@ Jugadors: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Encara no s'han trobat ressenyes de la comunitat</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Comença des d'un tema integrat</value>
+  </data>
 </root>

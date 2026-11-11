@@ -9893,4 +9893,7 @@ Abakinnyi: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Nta bitekerezo by'umuryango biraboneka</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Tangirira ku nsanganyamatsiko yubatswemo</value>
+  </data>
 </root>

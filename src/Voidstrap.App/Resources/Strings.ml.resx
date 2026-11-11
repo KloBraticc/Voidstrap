@@ -9893,4 +9893,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ഇതുവരെ കമ്മ്യൂണിറ്റി റിവ്യൂകൾ ഒന്നും കണ്ടെത്തിയില്ല</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ബിൽറ്റ് ഇൻ തീമിൽ നിന്ന് ആരംഭിക്കുക</value>
+  </data>
 </root>

@@ -10208,4 +10208,7 @@ Người chơi: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Chưa tìm thấy đánh giá nào từ cộng đồng</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Bắt đầu từ một chủ đề có sẵn</value>
+  </data>
 </root>

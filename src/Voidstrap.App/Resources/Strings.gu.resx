@@ -9893,4 +9893,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>હજુ સુધી કોઈ સમુદાય સમીક્ષા મળી નથી</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>બિલ્ટ ઇન થીમથી શરૂ કરો</value>
+  </data>
 </root>

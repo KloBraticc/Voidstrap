@@ -9893,4 +9893,7 @@ Igralci: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Ocene skupnosti še niso najdene</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Začni z vgrajeno temo</value>
+  </data>
 </root>

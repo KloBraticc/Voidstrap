@@ -9892,4 +9892,7 @@ Awọn oṣere: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>A kò tíì rí àtúnyẹ̀wò àwùjọ kankan</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Bẹ̀rẹ̀ láti inú àkòrí tí a kọ́ sínú</value>
+  </data>
 </root>

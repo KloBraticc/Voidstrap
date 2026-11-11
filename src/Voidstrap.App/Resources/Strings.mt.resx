@@ -9893,4 +9893,7 @@ Parteċipanti: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Għadu ma nstabu l-ebda reviżjonijiet tal-komunità</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Ibda minn tema integrata</value>
+  </data>
 </root>

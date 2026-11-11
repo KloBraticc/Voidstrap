@@ -10207,4 +10207,7 @@ Jucători: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Încă nu s-au găsit recenzii ale comunității</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Pornește de la o temă integrată</value>
+  </data>
 </root>

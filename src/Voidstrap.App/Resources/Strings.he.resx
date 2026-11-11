@@ -9893,4 +9893,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>עדיין לא נמצאו ביקורות מהקהילה</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>התחל מערכת נושא מובנית</value>
+  </data>
 </root>

@@ -9893,4 +9893,7 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Нийгэмлэгийн сэтгэгдэл одоогоор олдсонгүй</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Суулгасан загвараас эхлэх</value>
+  </data>
 </root>

@@ -10204,4 +10204,7 @@ Joueurs : {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Aucun avis de la communauté trouvé pour l'instant</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Partir d'un thème intégré</value>
+  </data>
 </root>

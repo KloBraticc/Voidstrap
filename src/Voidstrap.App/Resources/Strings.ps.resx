@@ -9893,4 +9893,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>تر اوسه د ټولنې کومه بیاکتنه ونه موندل شوه</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>له جوړ شوي تیم څخه پیل کړئ</value>
+  </data>
 </root>

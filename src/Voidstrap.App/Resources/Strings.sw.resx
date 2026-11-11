@@ -9892,4 +9892,7 @@ Wachezaji: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Bado hakuna maoni ya jumuiya yaliyopatikana</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Anza kutoka kwa mandhari iliyojengewa ndani</value>
+  </data>
 </root>

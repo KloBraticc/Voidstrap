@@ -9893,4 +9893,7 @@ Rannpháirtithe: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Níor aimsíodh léirmheasanna pobail fós</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Tosaigh ó théama ionsuite</value>
+  </data>
 </root>

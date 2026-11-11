@@ -9893,4 +9893,7 @@ Mpilalao: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Mbola tsy nahitana hevitry ny vondrona</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Manomboka amin'ny lohahevitra efa misy</value>
+  </data>
 </root>

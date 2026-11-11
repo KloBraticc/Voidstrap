@@ -10205,4 +10205,7 @@ Játékosok: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Még nem található közösségi értékelés</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Kezdd egy beépített témával</value>
+  </data>
 </root>

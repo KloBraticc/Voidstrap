@@ -9893,4 +9893,7 @@ Hráči: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Zatiaľ sa nenašli žiadne recenzie komunity</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Začať zo vstavanej témy</value>
+  </data>
 </root>

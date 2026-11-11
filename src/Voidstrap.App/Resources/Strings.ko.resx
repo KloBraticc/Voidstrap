@@ -10204,4 +10204,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>아직 커뮤니티 리뷰가 없습니다</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>기본 제공 테마에서 시작</value>
+  </data>
 </root>

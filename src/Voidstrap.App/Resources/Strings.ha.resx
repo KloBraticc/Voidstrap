@@ -9893,4 +9893,7 @@ Uptime: {1}
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Ba a sami sharhin al'umma ba tukuna</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Fara daga jigon da aka gina a ciki</value>
+  </data>
 </root>

@@ -10208,4 +10208,7 @@ Giocatori: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Nessuna recensione della community trovata</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Parti da un tema integrato</value>
+  </data>
 </root>

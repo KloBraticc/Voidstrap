@@ -9892,4 +9892,7 @@ Jokalariak: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Oraindik ez da komunitatearen iritzirik aurkitu</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Hasi gai integratu batetik</value>
+  </data>
 </root>

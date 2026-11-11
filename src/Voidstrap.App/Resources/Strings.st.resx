@@ -9892,4 +9892,7 @@ Libapali: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Ha ho maikutlo a setjhaba a fumanweng hajoale</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Qala ka sehlooho se kentsweng</value>
+  </data>
 </root>

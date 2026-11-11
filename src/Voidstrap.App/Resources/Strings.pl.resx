@@ -10206,4 +10206,7 @@ Gracze: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Nie znaleziono jeszcze recenzji społeczności</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Zacznij od wbudowanego motywu</value>
+  </data>
 </root>

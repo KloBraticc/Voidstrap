@@ -9892,4 +9892,7 @@ Igrači: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Još nisu pronađene recenzije zajednice</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Počni od ugrađene teme</value>
+  </data>
 </root>

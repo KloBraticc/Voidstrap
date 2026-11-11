@@ -9892,4 +9892,7 @@ Oyunçular: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Hələ icma rəyi tapılmadı</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Daxili mövzudan başla</value>
+  </data>
 </root>

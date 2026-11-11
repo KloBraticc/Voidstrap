@@ -10207,4 +10207,7 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>هنوز هیچ نقدی از انجمن پیدا نشد</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>از یک پوسته داخلی شروع کنید</value>
+  </data>
 </root>

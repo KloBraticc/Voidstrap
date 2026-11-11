@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using ICSharpCode.AvalonEdit;
@@ -95,6 +96,7 @@ public partial class CustomThemePanel : UserControl
         CenterXSlider.Value = 50;
         CenterYSlider.Value = 50;
         ProfileBox.ItemsSource = _profiles;
+        PresetList.ItemsSource = BuiltInThemes;
     }
 
     private static void MainFilter(object sender, FilterEventArgs e)
@@ -235,10 +237,12 @@ public partial class CustomThemePanel : UserControl
         {
             _suppress = previous;
         }
+        UpdatePreview();
     }
 
     private void ScheduleApply()
     {
+        UpdatePreview();
         if (_suppress || !_ready)
             return;
         _dirty = true;
@@ -420,6 +424,7 @@ public partial class CustomThemePanel : UserControl
             GradientBrush brush = gradient.ToBrush();
             brush.Freeze();
             GradientBar.Background = brush;
+            UpdatePreview();
         }
         catch (Exception ex)
         {
@@ -906,9 +911,70 @@ public partial class CustomThemePanel : UserControl
         return item;
     }
 
+    private void Preset_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { Tag: string name })
+            StartFrom(name);
+    }
+
     private void StartFromMenu_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not MenuItem { Tag: string name } || !_ready)
+        if (sender is MenuItem { Tag: string name })
+            StartFrom(name);
+    }
+
+    private void HexBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Enter || sender is not TextBox box)
+            return;
+        box.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+        e.Handled = true;
+    }
+
+    private void UpdatePreview()
+    {
+        if (PreviewWindow == null)
+            return;
+        PreviewWindow.Background = GradientToggle.IsChecked == true && GradientBar.Background is GradientBrush gradient
+            ? gradient
+            : PreviewBrush("WindowBackgroundColorPrimary", Colors.Black);
+        PreviewSidebar.Background = PreviewBrush("PrimaryBackgroundColor", Color.FromArgb(0x40, 0, 0, 0));
+        Brush card = PreviewBrush("CardBackgroundFillColorDefaultBrush", PreviewColor("ControlFillColorDefault", Color.FromArgb(0x20, 0xFF, 0xFF, 0xFF)));
+        Brush stroke = PreviewBrush("CardStrokeColorDefaultBrush", Color.FromArgb(0x22, 0xFF, 0xFF, 0xFF));
+        PreviewCard1.Background = card;
+        PreviewCard2.Background = card;
+        PreviewCard1.BorderBrush = stroke;
+        PreviewCard2.BorderBrush = stroke;
+        Brush text = PreviewBrush("TextFillColorPrimaryBrush", Color.FromArgb(0xE6, 0xFF, 0xFF, 0xFF));
+        Brush subtle = PreviewBrush("TextFillColorTertiaryBrush", Color.FromArgb(0x80, 0xFF, 0xFF, 0xFF));
+        PreviewTitle.Background = text;
+        PreviewLine1.Background = text;
+        PreviewLine2.Background = text;
+        PreviewSubLine1.Background = subtle;
+        PreviewNav1.Background = subtle;
+        PreviewNav2.Background = subtle;
+        PreviewNav3.Background = subtle;
+        Brush accent = PreviewBrush("NewTextEditorLink", Colors.DodgerBlue);
+        PreviewNavActive.Background = accent;
+        PreviewButton.Background = accent;
+    }
+
+    private Color PreviewColor(string key, Color fallback)
+    {
+        ThemeColorItem? item = _items.FirstOrDefault(i => i.Key == key);
+        return item is { IsSet: true } ? item.Color : fallback;
+    }
+
+    private Brush PreviewBrush(string key, Color fallback)
+    {
+        SolidColorBrush brush = new(PreviewColor(key, fallback));
+        brush.Freeze();
+        return brush;
+    }
+
+    private void StartFrom(string name)
+    {
+        if (!_ready)
             return;
         if (!ConfirmDiscard())
             return;

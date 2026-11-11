@@ -9892,4 +9892,7 @@ Abadlali: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Akukafunyanwa luphononongo loluntu</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Qala kumxholo owakhelwe ngaphakathi</value>
+  </data>
 </root>

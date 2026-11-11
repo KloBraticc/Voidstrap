@@ -9892,4 +9892,7 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ابھی تک کمیونٹی کے کوئی تبصرے نہیں ملے</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>بلٹ ان تھیم سے شروع کریں</value>
+  </data>
 </root>

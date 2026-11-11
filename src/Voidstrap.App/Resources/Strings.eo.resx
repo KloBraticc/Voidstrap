@@ -9892,4 +9892,7 @@ Ludantoj: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Ankoraŭ neniuj komunumaj recenzoj trovitaj</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Komenci de enkonstruita etoso</value>
+  </data>
 </root>

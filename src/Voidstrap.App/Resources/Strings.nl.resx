@@ -10207,4 +10207,7 @@ Spelers: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Nog geen communityreviews gevonden</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Begin met een ingebouwd thema</value>
+  </data>
 </root>

@@ -10205,4 +10205,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Отзывы сообщества пока не найдены</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Начать со встроенной темы</value>
+  </data>
 </root>

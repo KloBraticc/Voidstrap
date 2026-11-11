@@ -9893,4 +9893,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>اڃا تائين ڪميونٽي جا تبصرا نه مليا</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>بلٽ ان ٿيم مان شروع ڪريو</value>
+  </data>
 </root>

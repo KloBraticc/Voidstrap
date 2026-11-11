@@ -10203,4 +10203,7 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Відгуків спільноти поки не знайдено</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Почати з вбудованої теми</value>
+  </data>
 </root>

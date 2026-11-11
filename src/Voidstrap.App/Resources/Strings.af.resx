@@ -9892,4 +9892,7 @@ Spelers: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Nog geen gemeenskapsresensies gevind nie</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Begin met 'n ingeboude tema</value>
+  </data>
 </root>

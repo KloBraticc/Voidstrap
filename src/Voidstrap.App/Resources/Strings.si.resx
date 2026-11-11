@@ -9893,4 +9893,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>තවම ප්‍රජා සමාලෝචන හමු නොවීය</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ගොඩනඟන ලද තේමාවකින් අරඹන්න</value>
+  </data>
 </root>

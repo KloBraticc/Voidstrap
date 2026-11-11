@@ -9893,4 +9893,7 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ਅਜੇ ਤੱਕ ਕੋਈ ਭਾਈਚਾਰਕ ਸਮੀਖਿਆ ਨਹੀਂ ਮਿਲੀ</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ਬਿਲਟ ਇਨ ਥੀਮ ਤੋਂ ਸ਼ੁਰੂ ਕਰੋ</value>
+  </data>
 </root>

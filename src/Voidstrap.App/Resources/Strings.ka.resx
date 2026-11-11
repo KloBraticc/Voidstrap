@@ -9893,4 +9893,7 @@ Uptime: {1}
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>საზოგადოების მიმოხილვები ჯერ ვერ მოიძებნა</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ჩაშენებული თემიდან დაწყება</value>
+  </data>
 </root>

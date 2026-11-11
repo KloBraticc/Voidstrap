@@ -9892,4 +9892,7 @@ Uptime: {1}
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>تېخى جەمئىيەت باھاسى تېپىلمىدى</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ئىچكى تېمىدىن باشلاش</value>
+  </data>
 </root>

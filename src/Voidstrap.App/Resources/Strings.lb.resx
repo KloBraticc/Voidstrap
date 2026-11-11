@@ -9893,4 +9893,7 @@ Spiller: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Nach keng Bewäertunge vun der Communautéit fonnt</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Mat engem integréierten Design ufänken</value>
+  </data>
 </root>

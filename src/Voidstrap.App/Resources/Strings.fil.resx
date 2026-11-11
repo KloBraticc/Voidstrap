@@ -10203,4 +10203,7 @@ Mga player: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Wala pang nahanap na review mula sa komunidad</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Magsimula sa isang built in na tema</value>
+  </data>
 </root>

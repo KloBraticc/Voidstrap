@@ -9893,4 +9893,7 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Коомчулуктун сын пикирлери азырынча табылган жок</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Камтылган темадан баштоо</value>
+  </data>
 </root>

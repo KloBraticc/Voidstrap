@@ -9893,4 +9893,7 @@ Lojtarët: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Ende nuk u gjetën vlerësime të komunitetit</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Fillo nga një temë e integruar</value>
+  </data>
 </root>

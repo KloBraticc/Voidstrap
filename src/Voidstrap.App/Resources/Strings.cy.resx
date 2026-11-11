@@ -9892,4 +9892,7 @@ Chwaraewyr: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Heb ddod o hyd i adolygiadau cymuned eto</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Dechrau o thema adeiledig</value>
+  </data>
 </root>

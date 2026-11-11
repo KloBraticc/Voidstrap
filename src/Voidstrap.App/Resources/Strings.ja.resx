@@ -10220,4 +10220,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>コミュニティのレビューはまだ見つかりません</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>組み込みテーマから始める</value>
+  </data>
 </root>

@@ -9892,4 +9892,7 @@ Oýunçylar: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Heniz jemgyýetiň syny tapylmady</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Içerki temadan başla</value>
+  </data>
 </root>

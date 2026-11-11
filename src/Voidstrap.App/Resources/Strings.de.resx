@@ -10205,4 +10205,7 @@ Spieler: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Noch keine Community Bewertungen gefunden</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Mit einem integrierten Design beginnen</value>
+  </data>
 </root>

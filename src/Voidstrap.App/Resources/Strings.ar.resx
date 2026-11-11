@@ -10204,4 +10204,7 @@
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>لم يتم العثور على مراجعات من المجتمع بعد</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ابدأ من سمة مدمجة</value>
+  </data>
 </root>

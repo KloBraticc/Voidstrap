@@ -9893,4 +9893,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ସମୁଦାୟ ସମୀକ୍ଷା ମିଳିନାହିଁ</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ବିଲ୍ଟ ଇନ ଥିମରୁ ଆରମ୍ଭ କରନ୍ତୁ</value>
+  </data>
 </root>

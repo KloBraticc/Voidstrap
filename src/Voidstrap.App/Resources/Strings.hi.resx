@@ -9893,4 +9893,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>अभी तक कोई समुदाय समीक्षा नहीं मिली</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>बिल्ट इन थीम से शुरू करें</value>
+  </data>
 </root>

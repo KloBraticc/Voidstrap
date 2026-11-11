@@ -9893,4 +9893,7 @@ Spēlētāji: {2}</value>
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>Kopienas atsauksmes vēl nav atrastas</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>Sākt no iebūvētas tēmas</value>
+  </data>
 </root>

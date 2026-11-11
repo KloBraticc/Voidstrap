@@ -9893,4 +9893,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>अहिलेसम्म कुनै समुदाय समीक्षा भेटिएन</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>बिल्ट इन थिमबाट सुरु गर्नुहोस्</value>
+  </data>
 </root>

@@ -9892,4 +9892,7 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Library.CommunityEmpty" xml:space="preserve">
     <value>အသိုင်းအဝိုင်း သုံးသပ်ချက် မတွေ့ရသေးပါ</value>
   </data>
+  <data name="Ui.Theme.StartFrom" xml:space="preserve">
+    <value>ပါဝင်ပြီးသား အပြင်အဆင်မှ စတင်ပါ</value>
+  </data>
 </root>
