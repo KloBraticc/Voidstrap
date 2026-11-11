@@ -7,7 +7,7 @@ struct VoidstrapApp: App {
 
     init() {
         Paths.ensure(Paths.documents)
-        for name in ["Tweaks", "voidstrap-regmap.bin"] {
+        for name in ["voidstrap-regmap.bin"] {
             try? FileManager.default.removeItem(at: Paths.shared.appendingPathComponent(name))
         }
         Log.write("App::Init", "Voidstrap \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "") started, LiveContainer \(Paths.isLiveContainer)")
