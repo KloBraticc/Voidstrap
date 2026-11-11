@@ -7,6 +7,7 @@ struct VoidstrapApp: App {
 
     init() {
         Paths.ensure(Paths.documents)
+        for line in RobloxFlags.robloxLogLines() { Log.write("RobloxFlags::robloxLog", line) }
         for name in ["voidstrap-regmap.bin"] {
             try? FileManager.default.removeItem(at: Paths.shared.appendingPathComponent(name))
         }

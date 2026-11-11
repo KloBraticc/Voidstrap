@@ -108,6 +108,27 @@ public enum RobloxFlags {
         return out
     }
 
+    public static func robloxLogLines() -> [String] {
+        let fm = FileManager.default
+        var out: [String] = []
+        for container in containers {
+            let lib = container.appendingPathComponent("Library", isDirectory: true)
+            guard let walk = fm.enumerator(at: lib, includingPropertiesForKeys: [.contentModificationDateKey]) else { continue }
+            var logs: [(URL, Date)] = []
+            for case let url as URL in walk where ["log", "txt"].contains(url.pathExtension.lowercased()) || url.lastPathComponent.lowercased().contains("log") {
+                let date = (try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate) ?? .distantPast
+                logs.append((url, date))
+            }
+            out.append("Roblox log files: " + logs.map { $0.0.path.replacingOccurrences(of: lib.path, with: "") }.joined(separator: " "))
+            for (url, _) in logs.sorted(by: { $0.1 > $1.1 }).prefix(2) {
+                guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
+                let hits = text.split(separator: "\n").filter { $0.contains("ClientSettings") || $0.contains("ClientAppSettings") || $0.contains("LocalSettings") }
+                out.append("\(url.lastPathComponent): " + hits.prefix(30).joined(separator: " | "))
+            }
+        }
+        return out
+    }
+
     @discardableResult
     public static func apply(_ flags: [FastFlag]) -> Int {
         let data = FlagStore.encode(flags.filter(\.appliesOnIos))
