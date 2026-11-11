@@ -9898,4 +9898,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>থিম এডিটর</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>লঞ্চ, পরিষ্কার এবং পারফরম্যান্সের আরও বিকল্প।</value>
+  </data>
 </root>

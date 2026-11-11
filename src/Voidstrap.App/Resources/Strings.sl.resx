@@ -9899,4 +9899,7 @@ Igralci: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Urejevalnik teme</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Več možnosti za zagon, čiščenje in zmogljivost.</value>
+  </data>
 </root>

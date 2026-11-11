@@ -9899,4 +9899,7 @@ Leikmenn: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Þemaritill</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Fleiri valkostir fyrir ræsingu, hreinsun og afköst.</value>
+  </data>
 </root>

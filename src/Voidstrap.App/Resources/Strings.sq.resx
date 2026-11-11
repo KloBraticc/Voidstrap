@@ -9899,4 +9899,7 @@ Lojtarët: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Redaktori i temës</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Më shumë opsione për nisjen, pastrimin dhe performancën.</value>
+  </data>
 </root>

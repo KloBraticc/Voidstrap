@@ -10206,4 +10206,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>ตัวแก้ไขธีม</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>ตัวเลือกเพิ่มเติมสำหรับการเปิด การล้างข้อมูล และประสิทธิภาพ</value>
+  </data>
 </root>

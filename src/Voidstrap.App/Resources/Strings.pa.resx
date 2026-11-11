@@ -9899,4 +9899,7 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>ਥੀਮ ਸੰਪਾਦਕ</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>ਲਾਂਚ, ਸਫ਼ਾਈ ਅਤੇ ਕਾਰਗੁਜ਼ਾਰੀ ਲਈ ਹੋਰ ਵਿਕਲਪ।</value>
+  </data>
 </root>

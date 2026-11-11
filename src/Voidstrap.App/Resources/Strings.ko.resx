@@ -10210,4 +10210,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>테마 편집기</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>실행, 정리 및 성능 관련 추가 옵션입니다.</value>
+  </data>
 </root>

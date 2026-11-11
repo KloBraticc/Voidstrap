@@ -9899,4 +9899,7 @@ Abakinnyi: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Muhinduzi w'insanganyamatsiko</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Andi mahitamo yo gutangiza, gusukura n'imikorere.</value>
+  </data>
 </root>

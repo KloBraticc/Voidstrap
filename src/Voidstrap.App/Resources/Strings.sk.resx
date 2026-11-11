@@ -9899,4 +9899,7 @@ Hráči: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Editor témy</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Ďalšie možnosti spúšťania, čistenia a výkonu.</value>
+  </data>
 </root>

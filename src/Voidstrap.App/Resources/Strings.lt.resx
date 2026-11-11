@@ -10213,4 +10213,7 @@ Veikimo laikas: {1}
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Temos redaktorius</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Daugiau paleidimo, valymo ir našumo parinkčių.</value>
+  </data>
 </root>

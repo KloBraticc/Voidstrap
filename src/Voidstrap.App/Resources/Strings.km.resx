@@ -9899,4 +9899,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>កម្មវិធីកែរូបរាង</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>ជម្រើសបន្ថែមសម្រាប់ការបើក ការសម្អាត និងដំណើរការ។</value>
+  </data>
 </root>

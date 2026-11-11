@@ -9898,4 +9898,7 @@ Ludantoj: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Etosa redaktilo</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Pliaj opcioj pri lanĉo, purigado kaj rendimento.</value>
+  </data>
 </root>

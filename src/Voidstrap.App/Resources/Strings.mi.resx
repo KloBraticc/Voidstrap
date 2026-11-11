@@ -9899,4 +9899,7 @@ Kaitākaro: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Ētita kaupapa</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Ētahi atu kōwhiringa whakarewa, horoi me te mahinga.</value>
+  </data>
 </root>

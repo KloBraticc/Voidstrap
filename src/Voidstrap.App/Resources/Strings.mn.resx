@@ -9899,4 +9899,7 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Загвар засварлагч</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Эхлүүлэх, цэвэрлэх болон гүйцэтгэлийн нэмэлт тохиргоо.</value>
+  </data>
 </root>

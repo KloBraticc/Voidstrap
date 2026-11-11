@@ -10209,4 +10209,7 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Редактор теми</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Більше параметрів запуску, очищення та продуктивності.</value>
+  </data>
 </root>

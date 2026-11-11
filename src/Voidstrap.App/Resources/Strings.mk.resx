@@ -9899,4 +9899,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Уредувач на теми</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Повеќе опции за стартување, чистење и перформанси.</value>
+  </data>
 </root>

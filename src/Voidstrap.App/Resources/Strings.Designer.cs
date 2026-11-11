@@ -1581,6 +1581,7 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Gbs_VignetteInVR => ResourceManager.GetString("Ui.Gbs.VignetteInVR", resourceCulture);
         public static string Ui_Theme_EditorTitle => ResourceManager.GetString("Ui.Theme.EditorTitle", resourceCulture);
+        public static string Ui_Bootstrapper_AdvancedGeneralCard => ResourceManager.GetString("Ui.Bootstrapper.AdvancedGeneralCard", resourceCulture);
         public static string Ui_Theme_StartFrom => ResourceManager.GetString("Ui.Theme.StartFrom", resourceCulture);
 
         public static string Ui_Gbs_EnableVignetteForMotionSicknessReduction => ResourceManager.GetString("Ui.Gbs.EnableVignetteForMotionSicknessReduction", resourceCulture);

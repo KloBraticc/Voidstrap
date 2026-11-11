@@ -10214,4 +10214,7 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>主題編輯器</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>更多啟動、清理與效能選項。</value>
+  </data>
 </root>

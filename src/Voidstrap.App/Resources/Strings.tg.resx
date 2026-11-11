@@ -9898,4 +9898,7 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Муҳаррири мавзӯъ</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Имконоти бештари оғоз, тозакунӣ ва самаранокӣ.</value>
+  </data>
 </root>

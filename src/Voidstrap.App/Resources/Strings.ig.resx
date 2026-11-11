@@ -9899,4 +9899,7 @@ Ndị egwuregwu: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Onye ndezi isiokwu</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Nhọrọ ndị ọzọ maka mmalite, nhicha na arụmọrụ.</value>
+  </data>
 </root>

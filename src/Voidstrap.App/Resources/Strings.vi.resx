@@ -10214,4 +10214,7 @@ Người chơi: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Trình chỉnh sửa chủ đề</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Thêm tùy chọn khởi chạy, dọn dẹp và hiệu suất.</value>
+  </data>
 </root>

@@ -9898,4 +9898,7 @@ Awọn oṣere: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Olùṣàtúnṣe àkòrí</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Àwọn àṣàyàn míì fún ìbẹ̀rẹ̀, ìfọ̀mọ́ àti iṣẹ́.</value>
+  </data>
 </root>

@@ -9898,4 +9898,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Рэдактар тэм</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Больш параметраў запуску, ачысткі і прадукцыйнасці.</value>
+  </data>
 </root>

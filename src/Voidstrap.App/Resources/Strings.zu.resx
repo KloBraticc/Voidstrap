@@ -9898,4 +9898,7 @@ Abadlali: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Umhleli wetimu</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Ezinye izinketho zokuqalisa, ukuhlanza nokusebenza.</value>
+  </data>
 </root>

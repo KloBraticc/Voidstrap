@@ -9898,4 +9898,7 @@ Jokalariak: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Gai editorea</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Abiarazte, garbiketa eta errendimendu aukera gehiago.</value>
+  </data>
 </root>

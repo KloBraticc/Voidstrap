@@ -9898,4 +9898,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>የገጽታ አርታዒ</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>ተጨማሪ የማስጀመሪያ፣ የማጽዳት እና የአፈጻጸም አማራጮች።</value>
+  </data>
 </root>

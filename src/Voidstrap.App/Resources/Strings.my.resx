@@ -9898,4 +9898,7 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>အပြင်အဆင် တည်းဖြတ်ကိရိယာ</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>စတင်ခြင်း၊ ရှင်းလင်းခြင်းနှင့် စွမ်းဆောင်ရည်အတွက် နောက်ထပ်ရွေးချယ်စရာများ။</value>
+  </data>
 </root>

@@ -9898,4 +9898,7 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>థీమ్ ఎడిటర్</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>ప్రారంభం, శుభ్రపరచడం మరియు పనితీరు కోసం మరిన్ని ఎంపికలు.</value>
+  </data>
 </root>

@@ -9898,4 +9898,7 @@ Mängijad: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Teemaredaktor</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Rohkem käivitamise, puhastuse ja jõudluse valikuid.</value>
+  </data>
 </root>

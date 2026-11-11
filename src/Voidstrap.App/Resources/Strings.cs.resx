@@ -10212,4 +10212,7 @@ Hráči: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Editor motivu</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Další možnosti spouštění, čištění a výkonu.</value>
+  </data>
 </root>

@@ -9899,4 +9899,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>තේමා සංස්කාරකය</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>දියත් කිරීම, පිරිසිදු කිරීම සහ කාර්ය සාධනය සඳහා තවත් විකල්ප.</value>
+  </data>
 </root>

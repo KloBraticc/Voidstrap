@@ -9899,4 +9899,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Уређивач теме</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Више опција за покретање, чишћење и перформансе.</value>
+  </data>
 </root>

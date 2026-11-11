@@ -10212,4 +10212,7 @@ Players: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Theme editor</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>More launch, cleanup and performance options.</value>
+  </data>
 </root>

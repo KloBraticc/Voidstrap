@@ -9899,4 +9899,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>ٿيم ايڊيٽر</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>لانچ، صفائي ۽ ڪارڪردگي جا وڌيڪ اختيار.</value>
+  </data>
 </root>

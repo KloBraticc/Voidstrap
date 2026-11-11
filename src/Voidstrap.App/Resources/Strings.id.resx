@@ -10214,4 +10214,7 @@ Pemain: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Editor tema</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Opsi peluncuran, pembersihan, dan performa lainnya.</value>
+  </data>
 </root>

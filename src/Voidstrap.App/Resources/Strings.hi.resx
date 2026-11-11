@@ -9899,4 +9899,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>थीम एडिटर</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>लॉन्च, सफाई और प्रदर्शन के और विकल्प।</value>
+  </data>
 </root>

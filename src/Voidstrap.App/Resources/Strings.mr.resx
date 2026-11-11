@@ -9899,4 +9899,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>थीम संपादक</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>लाँच, साफसफाई आणि कामगिरीचे अधिक पर्याय.</value>
+  </data>
 </root>

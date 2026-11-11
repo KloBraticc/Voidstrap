@@ -9899,4 +9899,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>ຕົວແກ້ໄຂທີມ</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>ຕົວເລືອກເພີ່ມເຕີມສຳລັບການເປີດ, ການລ້າງ ແລະ ປະສິດທິພາບ.</value>
+  </data>
 </root>

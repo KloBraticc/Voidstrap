@@ -9898,4 +9898,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>טעמע רעדאַקטאָר</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>מער אָפּציעס פֿאַר אָנהייבן, רייניקן און פֿאָרשטעלונג.</value>
+  </data>
 </root>

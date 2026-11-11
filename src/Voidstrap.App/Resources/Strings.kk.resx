@@ -9899,4 +9899,7 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Тақырып өңдегіші</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Іске қосу, тазалау және өнімділік бойынша қосымша параметрлер.</value>
+  </data>
 </root>

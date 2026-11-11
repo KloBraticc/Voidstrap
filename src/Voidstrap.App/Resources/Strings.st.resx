@@ -9898,4 +9898,7 @@ Libapali: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Mohlophisi oa sehlooho</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Dikgetho tse ding tsa ho qala, ho hloekisa le tshebetso.</value>
+  </data>
 </root>

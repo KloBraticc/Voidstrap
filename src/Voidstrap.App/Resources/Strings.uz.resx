@@ -9898,4 +9898,7 @@ O'yinchilar: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Mavzu muharriri</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Ishga tushirish, tozalash va unumdorlik uchun qoʻshimcha sozlamalar.</value>
+  </data>
 </root>

@@ -9899,4 +9899,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>ଥିମ ସମ୍ପାଦକ</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>ଆରମ୍ଭ, ସଫେଇ ଏବଂ କାର୍ଯ୍ୟଦକ୍ଷତାର ଅଧିକ ବିକଳ୍ପ।</value>
+  </data>
 </root>

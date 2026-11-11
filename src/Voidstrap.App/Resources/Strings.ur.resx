@@ -9898,4 +9898,7 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>تھیم ایڈیٹر</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>لانچ، صفائی اور کارکردگی کے مزید اختیارات۔</value>
+  </data>
 </root>

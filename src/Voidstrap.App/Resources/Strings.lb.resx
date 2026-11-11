@@ -9899,4 +9899,7 @@ Spiller: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Design Editor</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Méi Optiounen fir Start, Botzen a Leeschtung.</value>
+  </data>
 </root>

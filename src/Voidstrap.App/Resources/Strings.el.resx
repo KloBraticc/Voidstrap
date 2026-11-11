@@ -9898,4 +9898,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Επεξεργαστής θέματος</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Περισσότερες επιλογές εκκίνησης, καθαρισμού και απόδοσης.</value>
+  </data>
 </root>

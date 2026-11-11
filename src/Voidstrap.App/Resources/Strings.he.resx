@@ -9899,4 +9899,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>עורך ערכות נושא</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>אפשרויות נוספות להפעלה, ניקוי וביצועים.</value>
+  </data>
 </root>

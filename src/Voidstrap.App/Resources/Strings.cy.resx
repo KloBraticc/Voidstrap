@@ -9898,4 +9898,7 @@ Chwaraewyr: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Golygydd thema</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Rhagor o opsiynau lansio, glanhau a pherfformiad.</value>
+  </data>
 </root>

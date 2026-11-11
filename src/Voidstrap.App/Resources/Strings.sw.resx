@@ -9898,4 +9898,7 @@ Wachezaji: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Kihariri cha mandhari</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Chaguo zaidi za kuanzisha, kusafisha na utendaji.</value>
+  </data>
 </root>

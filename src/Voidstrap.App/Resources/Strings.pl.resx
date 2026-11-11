@@ -10212,4 +10212,7 @@ Gracze: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Edytor motywu</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Więcej opcji uruchamiania, czyszczenia i wydajności.</value>
+  </data>
 </root>

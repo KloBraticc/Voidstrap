@@ -10226,4 +10226,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>テーマエディター</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>起動、クリーンアップ、パフォーマンスのその他のオプション。</value>
+  </data>
 </root>

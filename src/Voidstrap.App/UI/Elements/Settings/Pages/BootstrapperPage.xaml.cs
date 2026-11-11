@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -34,6 +34,12 @@ public partial class BehaviourPage : UiPage
             viewModel.SelectedCustomIntegration = (CustomIntegration)((ListBox)sender).SelectedItem;
             viewModel.OnPropertyChanged("SelectedCustomIntegration");
         }
+    }
+
+    private void OpenAdvancedGeneral_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is BehaviourViewModel viewModel)
+            NavigationService?.Navigate(new AdvancedGeneralPage(viewModel));
     }
 
     private void OnPageLoaded(object sender, RoutedEventArgs e)

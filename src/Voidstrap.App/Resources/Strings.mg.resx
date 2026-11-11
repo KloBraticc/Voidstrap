@@ -9899,4 +9899,7 @@ Mpilalao: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Fanovana lohahevitra</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Safidy fanampiny momba ny fanombohana, fanadiovana ary fahombiazana.</value>
+  </data>
 </root>

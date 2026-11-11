@@ -10214,4 +10214,7 @@ Giocatori: {2}</value>
   <data name="Ui.Theme.EditorTitle" xml:space="preserve">
     <value>Editor dei temi</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
+    <value>Altre opzioni di avvio, pulizia e prestazioni.</value>
+  </data>
 </root>
