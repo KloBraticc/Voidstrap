@@ -1,6 +1,0 @@
-.build/
-.swiftpm/
-xtool/
-Sources/Voidstrap/Resources/
-*.ipa
-.sourcekit-lsp/

@@ -70,7 +70,7 @@ trap {
     Exit-Script 1
 }
 
-$validOnly = @('windows', 'linux-x64', 'linux-arm64', 'linux-musl-x64', 'linux-musl-arm64', 'osx-x64', 'osx-arm64', 'android', 'ios', 'nix', 'all')
+$validOnly = @('windows', 'linux-x64', 'linux-arm64', 'linux-musl-x64', 'linux-musl-arm64', 'osx-x64', 'osx-arm64', 'android', 'nix', 'all')
 $Only = @($Only | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim().ToLowerInvariant() } | Where-Object { $_ })
 $invalidOnly = @($Only | Where-Object { $validOnly -notcontains $_ })
 if ($Only.Count -eq 0 -or $invalidOnly.Count -gt 0) {
@@ -1237,70 +1237,6 @@ function Show-PublishFailure {
     Write-Host ''
 }
 
-function Publish-IosBuild {
-    param([string]$Version)
-
-    $ciRepo = 'KloBraticc/voidstrap-mac-ci'
-    $ciRoot = Join-Path (Split-Path -Parent $Root) 'voidstrap-mac-ci'
-    if (-not (Test-Path -LiteralPath $ciRoot -PathType Container)) {
-        throw "The mac CI clone was not found: $ciRoot"
-    }
-    if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
-        throw 'The GitHub CLI is needed to build iOS.'
-    }
-
-    Write-Host "iOS: syncing sources to $ciRepo" -ForegroundColor Cyan
-    $iosTarget = Join-Path $ciRoot 'ios'
-    $iosSources = Join-Path $iosTarget 'Ios'
-    if (Test-Path -LiteralPath $iosSources) { Remove-Item -LiteralPath $iosSources -Recurse -Force }
-    New-Item -ItemType Directory -Force -Path $iosTarget | Out-Null
-    & robocopy (Join-Path $Root 'Ios') $iosSources /E /XD .build .swiftpm xtool .sourcekit-lsp /NFL /NDL /NJH /NJS /NP | Out-Null
-    if ($LASTEXITCODE -ge 8) { throw "Copying the iOS sources failed with code $LASTEXITCODE" }
-    Copy-Item -LiteralPath (Join-Path $Root 'Directory.Build.props') -Destination $iosTarget -Force
-
-    $identity = @('-c', 'user.name=KloBratic', '-c', 'user.email=195697851+KloBraticc@users.noreply.github.com')
-    & git -C $ciRoot add -A
-    & git -C $ciRoot diff --cached --quiet
-    if ($LASTEXITCODE -ne 0) {
-        & git -C $ciRoot @identity commit -q -m "build: sync iOS sources for $Version"
-        if ($LASTEXITCODE -ne 0) { throw 'Committing the iOS sources failed.' }
-    }
-    $iosOut = Join-Path $Out 'iOS'
-    $iosIpa = Join-Path $iosOut "Voidstrap-$Version.ipa"
-    & git -C $ciRoot push -q
-    if ($LASTEXITCODE -ne 0) { throw 'Pushing the iOS sources failed.' }
-
-    $artifacts = Join-Path ([System.IO.Path]::GetTempPath()) "voidstrap-ios-$([guid]::NewGuid().ToString('N'))"
-    & gh repo edit $ciRepo --visibility public --accept-visibility-change-consequences | Out-Null
-    try {
-        $head = (& git -C $ciRoot rev-parse HEAD).Trim()
-        $before = @(& gh run list -R $ciRepo --workflow ios-build.yml --limit 20 --json databaseId --jq '.[].databaseId')
-        & gh workflow run ios-build.yml -R $ciRepo | Out-Null
-        if ($LASTEXITCODE -ne 0) { throw 'Starting the iOS build failed.' }
-        $runId = $null
-        for ($i = 0; $i -lt 120 -and -not $runId; $i++) {
-            Start-Sleep -Seconds 1
-            $runId = @(& gh run list -R $ciRepo --workflow ios-build.yml --commit $head --limit 5 --json databaseId --jq '.[].databaseId') | Where-Object { $_ -and $before -notcontains $_ } | Select-Object -First 1
-        }
-        if (-not $runId) { throw 'The iOS build run did not appear.' }
-        Write-Host "iOS: building on the mac CI, run $runId" -ForegroundColor Cyan
-        & gh run watch $runId -R $ciRepo --exit-status --interval 2 | Out-Null
-        if ($LASTEXITCODE -ne 0) { throw "The iOS build failed, see run $runId" }
-        & gh run download $runId -R $ciRepo -n voidstrap-ios -D $artifacts
-        if ($LASTEXITCODE -ne 0) { throw 'Downloading the iOS build failed.' }
-    } finally {
-        & gh repo edit $ciRepo --visibility private --accept-visibility-change-consequences | Out-Null
-    }
-
-    $ipa = Get-ChildItem -LiteralPath $artifacts -Recurse -Filter 'Voidstrap.ipa' | Select-Object -First 1
-    if (-not $ipa) { throw 'The iOS build produced no IPA.' }
-    if (Test-Path -LiteralPath $iosOut) { Remove-Item -LiteralPath $iosOut -Recurse -Force }
-    New-Item -ItemType Directory -Force -Path $iosOut | Out-Null
-    Copy-Item -LiteralPath $ipa.FullName -Destination $iosIpa -Force
-    Remove-Item -LiteralPath $artifacts -Recurse -Force -ErrorAction SilentlyContinue
-    Write-Host "iOS: $(Join-Path $iosOut "Voidstrap-$Version.ipa")" -ForegroundColor Green
-}
-
 function Get-VoidstrapVersion {
     $props = Join-Path $Root 'Directory.Build.props'
     if (-not (Test-Path -LiteralPath $props -PathType Leaf)) {
@@ -1776,7 +1712,6 @@ if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Ob
 
 $AndroidExplicit = $Only -contains 'android'
 $BuildAndroid = $AndroidExplicit -or $RequestedAll
-$BuildIos = ($Only -contains 'ios') -or $RequestedAll
 $PackageNotes = [System.Collections.Generic.List[string]]::new()
 
 if (@($Only | Where-Object { $_ -ne 'nix' }).Count -eq 0) {
@@ -1787,7 +1722,7 @@ if (@($Only | Where-Object { $_ -ne 'nix' }).Count -eq 0) {
     Exit-Script ([int]($PackageNotes.Count -gt 0))
 }
 
-if ($Targets.Count -eq 0 -and -not $BuildAndroid -and -not $BuildIos) {
+if ($Targets.Count -eq 0 -and -not $BuildAndroid) {
     throw "Nothing matches -Only $($Only -join ', ')"
 }
 
@@ -1796,7 +1731,7 @@ if (-not $IsWindowsHost -and @($Targets | Where-Object { $_.Key -eq 'windows' })
     $SkippedHostTargets = @($Targets | Where-Object { $_.Key -eq 'windows' })
     $Targets = @($Targets | Where-Object { $_.Key -ne 'windows' })
 
-    if ($Targets.Count -eq 0 -and -not $BuildAndroid -and -not $BuildIos) {
+    if ($Targets.Count -eq 0 -and -not $BuildAndroid) {
         throw @"
 The Windows Voidstrap project cannot be built on this host.
 Microsoft.Windows.CsWinRT invokes cswinrt.exe during the WPF build, and that
@@ -1907,7 +1842,6 @@ if ($BuildSolution -and $Targets.Count -gt 0) {
 
 $buildNames = @($Targets | ForEach-Object { $_.Name })
 if ($BuildAndroid) { $buildNames += 'Android' }
-if ($BuildIos) { $buildNames += 'iOS' }
 if ($UseParallel) {
     Write-Host "Building $($buildNames -join ', '), up to $MaxParallel at once" -ForegroundColor Cyan
 } else {
@@ -1936,7 +1870,6 @@ if (@($Targets | Where-Object { $_.Rid.StartsWith('osx-', [System.StringComparis
     $plannedPackages.Add($(if ($macDiskImagesAvailable) { 'macOS: Voidstrap.app disk images and archives' } elseif ($packagingShell) { 'macOS: Voidstrap.app archives' } else { 'macOS: plain executables' }))
 }
 if ($BuildAndroid) { $plannedPackages.Add('Android: play and direct APKs') }
-if ($BuildIos) { $plannedPackages.Add("iOS: Voidstrap-$(Get-VoidstrapVersion).ipa built on the mac CI") }
 Write-Host 'Packages:' -ForegroundColor Cyan
 foreach ($planned in $plannedPackages) {
     Write-Host "  $planned" -ForegroundColor Cyan
@@ -2166,9 +2099,6 @@ $packageFailure = $null
 try {
     if ($script:AndroidBuild) {
         Complete-AndroidPublish (Get-VoidstrapVersion)
-    }
-    if ($BuildIos) {
-        Publish-IosBuild (Get-VoidstrapVersion)
     }
 
     foreach ($job in $jobs) {
