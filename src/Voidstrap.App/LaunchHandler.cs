@@ -410,7 +410,7 @@ public static class LaunchHandler
                     "The taskbar jump list took " + jumpList.ElapsedMilliseconds + " ms to apply"
                 );
         }
-        using InterProcessLock interProcessLock = new InterProcessLock("Settings");
+        using InterProcessLock interProcessLock = AcquireSettingsLock();
         if (interProcessLock.IsAcquired)
         {
             App.Logger.WriteLine("LaunchHandler::LaunchSettings", "Creating the settings window");
@@ -497,6 +497,58 @@ public static class LaunchHandler
             }
         }
         App.Terminate();
+    }
+
+    private static InterProcessLock AcquireSettingsLock()
+    {
+        const string LOG_IDENT = "LaunchHandler::AcquireSettingsLock";
+        InterProcessLock settingsLock = new InterProcessLock("Settings");
+        if (settingsLock.IsAcquired || !OperatingSystem.IsWindows())
+            return settingsLock;
+        Stopwatch waited = Stopwatch.StartNew();
+        while (waited.Elapsed < TimeSpan.FromSeconds(20))
+        {
+            if (FindVisibleSettingsWindow())
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Another Voidstrap holds the settings window");
+                return settingsLock;
+            }
+            settingsLock.Dispose();
+            settingsLock = new InterProcessLock("Settings", TimeSpan.FromMilliseconds(500));
+            if (settingsLock.IsAcquired)
+            {
+                App.Logger.WriteLine(LOG_IDENT, $"Took over the settings lock after {waited.ElapsedMilliseconds} ms from a closing instance");
+                return settingsLock;
+            }
+        }
+        App.Logger.WriteLine(LOG_IDENT, "The settings lock is held by an instance with no visible window");
+        return settingsLock;
+    }
+
+    private static bool FindVisibleSettingsWindow()
+    {
+        using Process self = Process.GetCurrentProcess();
+        Process[] processes = Process.GetProcessesByName(self.ProcessName);
+        try
+        {
+            foreach (Process process in processes)
+            {
+                try
+                {
+                    if (process.Id != self.Id && process.MainWindowHandle != IntPtr.Zero && process.MainWindowTitle == Strings.Menu_Title)
+                        return true;
+                }
+                catch (InvalidOperationException)
+                {
+                }
+            }
+            return false;
+        }
+        finally
+        {
+            foreach (Process process in processes)
+                process.Dispose();
+        }
     }
 
     private static void WaitForElevationPredecessor()
