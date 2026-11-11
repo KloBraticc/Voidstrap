@@ -10212,4 +10212,10 @@ Oyuncular: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Başlatma, temizleme ve performans için daha fazla seçenek.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Spotify'ı panelin üstünde göster</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify'da çalan şarkıyı panelin üstünde gösterir. Bir panel penceresi açıkken gizlenir.</value>
+  </data>
 </root>

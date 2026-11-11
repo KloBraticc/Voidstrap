@@ -9902,4 +9902,10 @@ Uptime: {1}
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Ƙarin zaɓuɓɓukan farawa, tsaftacewa da aiki.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Nuna Spotify a saman doki</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Yana nuna waƙar da ke kunnawa a Spotify a saman doki. Yana ɓoyewa yayin da allon doki ke buɗe.</value>
+  </data>
 </root>

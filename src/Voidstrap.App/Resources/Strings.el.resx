@@ -9901,4 +9901,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Περισσότερες επιλογές εκκίνησης, καθαρισμού και απόδοσης.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Εμφάνιση Spotify πάνω από τη γραμμή</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Εμφανίζει το τραγούδι που παίζει στο Spotify πάνω από τη γραμμή. Κρύβεται όσο είναι ανοιχτό ένα πάνελ της γραμμής.</value>
+  </data>
 </root>

@@ -9901,4 +9901,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>লঞ্চ, পরিষ্কার এবং পারফরম্যান্সের আরও বিকল্প।</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>ডকের উপরে Spotify দেখান</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify তে চলা গানটি ডকের উপরে দেখায়। ডকের কোনো প্যানেল খোলা থাকলে এটি লুকিয়ে যায়।</value>
+  </data>
 </root>

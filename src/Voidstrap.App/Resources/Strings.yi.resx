@@ -9901,4 +9901,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>מער אָפּציעס פֿאַר אָנהייבן, רייניקן און פֿאָרשטעלונג.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>ווייַזן Spotify איבער דעם דאָק</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>ווייַזט דאָס ליד וואָס שפּילט אויף Spotify איבער דעם דאָק. עס באַהאַלט זיך ווען אַ דאָק טאַפֿל איז אָפֿן.</value>
+  </data>
 </root>

@@ -9902,4 +9902,10 @@ Ciyaartoyda: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Doorashooyin dheeraad ah oo bilaabid, nadiifin iyo waxqabad.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Ku muuji Spotify dushiisa doogga</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Waxay ku muujisaa heesta ka socota Spotify dushiisa doogga. Way qarsoomaysaa inta guddi doog furan yahay.</value>
+  </data>
 </root>

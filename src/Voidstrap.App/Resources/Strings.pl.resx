@@ -10215,4 +10215,10 @@ Gracze: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Więcej opcji uruchamiania, czyszczenia i wydajności.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Pokazuj Spotify nad dokiem</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Pokazuje utwór odtwarzany w Spotify nad dokiem. Ukrywa się, gdy otwarty jest panel doku.</value>
+  </data>
 </root>

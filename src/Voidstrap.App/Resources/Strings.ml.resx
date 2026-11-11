@@ -9902,4 +9902,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ലോഞ്ച്, ക്ലീനപ്പ്, പ്രകടനം എന്നിവയ്ക്കുള്ള കൂടുതൽ ഓപ്ഷനുകൾ.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>ഡോക്കിന് മുകളിൽ Spotify കാണിക്കുക</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify യിൽ പ്ലേ ചെയ്യുന്ന ഗാനം ഡോക്കിന് മുകളിൽ കാണിക്കുന്നു. ഡോക്ക് പാനൽ തുറന്നിരിക്കുമ്പോൾ ഇത് മറയുന്നു.</value>
+  </data>
 </root>

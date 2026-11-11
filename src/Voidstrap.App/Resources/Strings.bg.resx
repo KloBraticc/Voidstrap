@@ -10214,4 +10214,10 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Още опции за стартиране, почистване и производителност.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Показване на Spotify над панела</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Показва песента, която свири в Spotify, над панела. Скрива се, докато е отворен прозорец от панела.</value>
+  </data>
 </root>

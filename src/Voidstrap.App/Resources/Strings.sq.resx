@@ -9902,4 +9902,10 @@ Lojtarët: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Më shumë opsione për nisjen, pastrimin dhe performancën.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Shfaq Spotify mbi shiritin</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Shfaq këngën që luhet në Spotify mbi shiritin. Fshihet kur një panel i shiritit është i hapur.</value>
+  </data>
 </root>

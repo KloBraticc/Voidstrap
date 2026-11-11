@@ -10214,4 +10214,10 @@ Jugadores: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Más opciones de inicio, limpieza y rendimiento.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Mostrar Spotify sobre la barra</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Muestra la canción que suena en Spotify sobre la barra. Se oculta mientras hay un panel de la barra abierto.</value>
+  </data>
 </root>

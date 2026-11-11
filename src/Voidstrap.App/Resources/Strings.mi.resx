@@ -9902,4 +9902,10 @@ Kaitākaro: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Ētahi atu kōwhiringa whakarewa, horoi me te mahinga.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Whakaaturia a Spotify ki runga i te tauranga</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Ka whakaatu i te waiata e whakatangihia ana i Spotify ki runga i te tauranga. Ka huna i te wā e tuwhera ana tētahi papa tauranga.</value>
+  </data>
 </root>

@@ -10216,4 +10216,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>گزینه‌های بیشتر برای اجرا، پاک‌سازی و کارایی.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>نمایش Spotify بالای نوار</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>آهنگی را که در Spotify پخش می‌شود بالای نوار نشان می‌دهد. وقتی یک پنل نوار باز است پنهان می‌شود.</value>
+  </data>
 </root>

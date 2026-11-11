@@ -9902,4 +9902,10 @@ Xogadores: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Máis opcións de inicio, limpeza e rendemento.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Amosar Spotify sobre a barra</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Amosa a canción que soa en Spotify sobre a barra. Agóchase mentres hai un panel da barra aberto.</value>
+  </data>
 </root>

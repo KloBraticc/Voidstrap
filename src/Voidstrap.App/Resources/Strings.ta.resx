@@ -9901,4 +9901,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>தொடக்கம், சுத்தம் மற்றும் செயல்திறனுக்கான கூடுதல் விருப்பங்கள்.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>டாக்கிற்கு மேலே Spotify ஐக் காட்டு</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify இல் இயங்கும் பாடலை டாக்கிற்கு மேலே காட்டுகிறது. டாக் பேனல் திறந்திருக்கும்போது மறைந்துவிடும்.</value>
+  </data>
 </root>

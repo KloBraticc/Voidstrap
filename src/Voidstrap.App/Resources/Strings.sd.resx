@@ -9902,4 +9902,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>لانچ، صفائي ۽ ڪارڪردگي جا وڌيڪ اختيار.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>ڊاڪ مٿان Spotify ڏيکاريو</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify تي هلندڙ گانو ڊاڪ مٿان ڏيکاري ٿو. جڏهن ڊاڪ پينل کليل هجي ته لڪي وڃي ٿو.</value>
+  </data>
 </root>

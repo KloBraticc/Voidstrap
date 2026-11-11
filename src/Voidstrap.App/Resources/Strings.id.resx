@@ -10217,4 +10217,10 @@ Pemain: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Opsi peluncuran, pembersihan, dan performa lainnya.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Tampilkan Spotify di atas dok</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Menampilkan lagu yang diputar di Spotify di atas dok. Disembunyikan saat panel dok terbuka.</value>
+  </data>
 </root>

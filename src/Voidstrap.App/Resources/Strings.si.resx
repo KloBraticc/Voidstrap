@@ -9902,4 +9902,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>දියත් කිරීම, පිරිසිදු කිරීම සහ කාර්ය සාධනය සඳහා තවත් විකල්ප.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>ඩොක් එකට ඉහළින් Spotify පෙන්වන්න</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify හි වාදනය වන ගීතය ඩොක් එකට ඉහළින් පෙන්වයි. ඩොක් පැනලයක් විවෘතව ඇති විට එය සැඟවේ.</value>
+  </data>
 </root>

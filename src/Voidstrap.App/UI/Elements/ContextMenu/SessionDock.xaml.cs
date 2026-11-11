@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -203,6 +204,7 @@ public partial class SessionDock : Window
         Loaded += OnDockLoaded;
         Closing += OnClosing;
         Closed += OnClosed;
+        LocationChanged += OnDockMoved;
         Pill.SizeChanged += OnPillSizeChanged;
         ProfileCard.SizeChanged += OnPillSizeChanged;
         GameCard.SizeChanged += OnPillSizeChanged;
@@ -367,10 +369,109 @@ public partial class SessionDock : Window
         };
 
     // A dock button whose panel is open is filled with the accent colour, like a selected tab
+    private readonly DispatcherTimer _nowPlayingTimer = new(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(2) };
+
+    private SpotifyDesktopTrack? _nowPlaying;
+
+    private string? _nowPlayingTitle;
+
+    private bool _nowPlayingPolling;
+
+    public void RefreshNowPlaying()
+    {
+        if (_closed)
+            return;
+        bool wanted = _opened && App.Settings.Prop.SessionDockSpotify;
+        if (wanted && !_nowPlayingTimer.IsEnabled)
+        {
+            _nowPlayingTimer.Tick -= OnNowPlayingTick;
+            _nowPlayingTimer.Tick += OnNowPlayingTick;
+            _nowPlayingTimer.Start();
+            OnNowPlayingTick(null, EventArgs.Empty);
+        }
+        else if (!wanted && _nowPlayingTimer.IsEnabled)
+        {
+            _nowPlayingTimer.Stop();
+            _nowPlayingTimer.Tick -= OnNowPlayingTick;
+            _nowPlaying = null;
+        }
+        UpdateNowPlayingVisibility();
+    }
+
+    private async void OnNowPlayingTick(object? sender, EventArgs e)
+    {
+        if (_nowPlayingPolling || _closed)
+            return;
+        _nowPlayingPolling = true;
+        SpotifyDesktopTrack? track = await SpotifyDesktopSession.ReadAsync(_nowPlayingTitle);
+        _nowPlayingPolling = false;
+        if (_closed || !_nowPlayingTimer.IsEnabled)
+            return;
+        _nowPlaying = track is { Playing: true } ? track : null;
+        if (_nowPlaying != null)
+        {
+            if (_nowPlaying.Title != _nowPlayingTitle)
+                NowPlayingCover.Source = null;
+            _nowPlayingTitle = _nowPlaying.Title;
+            NowPlayingTitle.Text = _nowPlaying.Title;
+            NowPlayingArtist.Text = _nowPlaying.Artist;
+            NowPlayingArtist.Visibility = _nowPlaying.Artist.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+            if (_nowPlaying.Cover != null)
+                NowPlayingCover.Source = LoadNowPlayingCover(_nowPlaying.Cover);
+        }
+        UpdateNowPlayingVisibility();
+    }
+
+    private void OnDockMoved(object? sender, EventArgs e)
+    {
+        if (NowPlayingPopup.IsOpen)
+            UpdateNowPlayingVisibility();
+    }
+
+    private void UpdateNowPlayingVisibility()
+    {
+        bool busy = PopoutOpen || _panels.Any(static entry => entry.Key != HubKey && entry.Value.IsRequested);
+        bool show = _opened && !_closed && _nowPlaying != null && !busy && App.Settings.Prop.SessionDockSpotify;
+        if (show)
+        {
+            NowPlayingPopup.CustomPopupPlacementCallback ??= PlaceNowPlaying;
+            NowPlayingPopup.IsOpen = true;
+            NowPlayingPopup.HorizontalOffset = NowPlayingPopup.HorizontalOffset == 0 ? 0.01 : 0;
+        }
+        else
+        {
+            NowPlayingPopup.IsOpen = false;
+        }
+    }
+
+    private static CustomPopupPlacement[] PlaceNowPlaying(Size popupSize, Size targetSize, Point offset) =>
+        [new CustomPopupPlacement(new Point((targetSize.Width - popupSize.Width) / 2, -popupSize.Height - 8), PopupPrimaryAxis.None)];
+
+    private static System.Windows.Media.Imaging.BitmapImage? LoadNowPlayingCover(byte[] bytes)
+    {
+        try
+        {
+            System.Windows.Media.Imaging.BitmapImage image = new();
+            using System.IO.MemoryStream stream = new(bytes);
+            image.BeginInit();
+            image.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+            image.DecodePixelWidth = 44;
+            image.StreamSource = stream;
+            image.EndInit();
+            image.Freeze();
+            return image;
+        }
+        catch (Exception ex) when (ex is NotSupportedException or System.IO.IOException or ArgumentException)
+        {
+            return null;
+        }
+    }
+
     private void UpdateActiveButtons()
     {
         if (_closed)
             return;
+        UpdateNowPlayingVisibility();
         foreach (object child in ActionButtons.Children)
         {
             if (child is not Wpf.Ui.Controls.Button { Tag: string action } button)
@@ -514,6 +615,7 @@ public partial class SessionDock : Window
             App.Logger.WriteLine("SessionDock", "Hiding the dock, called from " + string.Join(" < ", callers));
         }
         _opened = false;
+        RefreshNowPlaying();
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
         bool linuxSlide = animate && Voidstrap.Utility.Platform.IsLinux && IsVisible;
@@ -633,6 +735,7 @@ public partial class SessionDock : Window
         RobloxWindowTracker.Refresh();
         _opened = true;
         UpdateClipperVisibility();
+        RefreshNowPlaying();
         UpdateReadout();
         ShowDimmer();
         _anchor ??= new RobloxOverlayAnchor(
@@ -1816,6 +1919,7 @@ public partial class SessionDock : Window
             return;
         }
         PlacePopout();
+        UpdateNowPlayingVisibility();
         RaiseAboveDimmer();
         if (profile)
         {
@@ -2019,6 +2123,7 @@ public partial class SessionDock : Window
         ProfileChevron.Text = "\uE70E";
         if (_popout is { IsVisible: true } popout)
             popout.Hide();
+        UpdateNowPlayingVisibility();
     }
 
     private void OnPopoutPointerDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -2301,6 +2406,10 @@ public partial class SessionDock : Window
         _closed = true;
         _opened = false;
         Closing -= OnClosing;
+        LocationChanged -= OnDockMoved;
+        _nowPlayingTimer.Stop();
+        _nowPlayingTimer.Tick -= OnNowPlayingTick;
+        NowPlayingPopup.IsOpen = false;
         Voidstrap.Integrations.Clipper.ClipperService.StateChanged -= OnClipperStateChanged;
         RobloxWindowTracker.Changed -= OnTrackerChanged;
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())

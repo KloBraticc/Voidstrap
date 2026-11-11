@@ -9902,4 +9902,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ಪ್ರಾರಂಭ, ಸ್ವಚ್ಛಗೊಳಿಸುವಿಕೆ ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆಯ ಹೆಚ್ಚಿನ ಆಯ್ಕೆಗಳು.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>ಡಾಕ್ ಮೇಲೆ Spotify ತೋರಿಸಿ</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify ನಲ್ಲಿ ಪ್ಲೇ ಆಗುತ್ತಿರುವ ಹಾಡನ್ನು ಡಾಕ್ ಮೇಲೆ ತೋರಿಸುತ್ತದೆ. ಡಾಕ್ ಪ್ಯಾನೆಲ್ ತೆರೆದಿರುವಾಗ ಅದು ಮರೆಯಾಗುತ್ತದೆ.</value>
+  </data>
 </root>

@@ -10214,4 +10214,10 @@ Igrači: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Više opcija za pokretanje, čišćenje i performanse.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Prikaži Spotify iznad trake</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Prikazuje pjesmu koja svira na Spotifyju iznad trake. Skriva se dok je otvoren panel trake.</value>
+  </data>
 </root>

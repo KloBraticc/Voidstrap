@@ -9902,4 +9902,10 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Іске қосу, тазалау және өнімділік бойынша қосымша параметрлер.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Spotify-ды док үстінде көрсету</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify-да ойнап тұрған әнді док үстінде көрсетеді. Док панелі ашық кезде жасырылады.</value>
+  </data>
 </root>

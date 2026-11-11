@@ -326,6 +326,8 @@ namespace Voidstrap.Models.Persistable
 
         public bool SessionDockEnabled { get; set; } = true;
 
+        public bool SessionDockSpotify { get; set; } = true;
+
         public bool ScreenshotNotifications { get; set; } = true;
 
         public NotificationAppearance NotificationAppearance { get; set; } = new();

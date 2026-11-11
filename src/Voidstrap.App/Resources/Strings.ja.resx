@@ -10229,4 +10229,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>起動、クリーンアップ、パフォーマンスのその他のオプション。</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>ドックの上に Spotify を表示</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify で再生中の曲をドックの上に表示します。ドックのパネルが開いている間は非表示になります。</value>
+  </data>
 </root>

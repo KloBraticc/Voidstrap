@@ -9902,4 +9902,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ຕົວເລືອກເພີ່ມເຕີມສຳລັບການເປີດ, ການລ້າງ ແລະ ປະສິດທິພາບ.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>ສະແດງ Spotify ເທິງແຖບ</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>ສະແດງເພງທີ່ກຳລັງຫຼິ້ນໃນ Spotify ເທິງແຖບ. ມັນຈະເຊື່ອງໃນຂະນະທີ່ແຜງຂອງແຖບເປີດຢູ່.</value>
+  </data>
 </root>

@@ -10215,4 +10215,10 @@ Pelaajat: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Lisää käynnistys, siivous ja suorituskykyasetuksia.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Näytä Spotify telakan yläpuolella</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Näyttää Spotifyssa soivan kappaleen telakan yläpuolella. Piiloutuu, kun telakan paneeli on auki.</value>
+  </data>
 </root>

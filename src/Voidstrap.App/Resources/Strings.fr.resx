@@ -10213,4 +10213,10 @@ Joueurs : {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Plus d'options de lancement, de nettoyage et de performances.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Afficher Spotify au dessus du dock</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Affiche le morceau en cours sur Spotify au dessus du dock. Il se masque lorsqu'un panneau du dock est ouvert.</value>
+  </data>
 </root>

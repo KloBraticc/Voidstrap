@@ -9902,4 +9902,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>सुरु, सफाइ र कार्यसम्पादनका थप विकल्पहरू।</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>डकमाथि Spotify देखाउनुहोस्</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotify मा बजिरहेको गीत डकमाथि देखाउँछ। डक प्यानल खुला हुँदा यो लुक्छ।</value>
+  </data>
 </root>

@@ -1162,6 +1162,20 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public bool SessionDockSpotify
+    {
+        get => App.Settings.Prop.SessionDockSpotify;
+        set
+        {
+            if (App.Settings.Prop.SessionDockSpotify == value)
+                return;
+            App.Settings.Prop.SessionDockSpotify = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(SessionDockSpotify));
+            Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.RefreshNowPlaying();
+        }
+    }
+
     public bool SessionDockEnabled
     {
         get => App.Settings.Prop.SessionDockEnabled;

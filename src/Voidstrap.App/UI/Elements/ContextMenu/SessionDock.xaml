@@ -396,5 +396,22 @@
       </Grid>
     </Border>
     </Grid>
+    <Popup x:Name="NowPlayingPopup" Grid.Row="1" PlacementTarget="{Binding ElementName=Pill}" Placement="Custom" AllowsTransparency="True" Focusable="False" StaysOpen="True" IsHitTestVisible="False">
+      <Border Padding="6,5,14,5" CornerRadius="16" MaxWidth="420" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+        <StackPanel Orientation="Horizontal">
+          <Border x:Name="NowPlayingCoverHost" Width="22" Height="22" CornerRadius="5" Background="#1ED760">
+            <Border.Clip>
+              <RectangleGeometry Rect="0,0,22,22" RadiusX="5" RadiusY="5" />
+            </Border.Clip>
+            <Grid>
+              <TextBlock Style="{StaticResource DockGlyph}" FontSize="12" Foreground="Black" Text="&#xEC4F;" />
+              <Image x:Name="NowPlayingCover" Stretch="UniformToFill" />
+            </Grid>
+          </Border>
+          <TextBlock x:Name="NowPlayingTitle" Margin="9,0,0,0" MaxWidth="220" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock x:Name="NowPlayingArtist" Margin="6,0,0,0" MaxWidth="150" VerticalAlignment="Center" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+      </Border>
+    </Popup>
   </Grid>
 </Window>

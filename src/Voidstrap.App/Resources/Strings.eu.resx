@@ -9901,4 +9901,10 @@ Jokalariak: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Abiarazte, garbiketa eta errendimendu aukera gehiago.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
+    <value>Erakutsi Spotify barraren gainean</value>
+  </data>
+  <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
+    <value>Spotifyn jotzen ari den abestia barraren gainean erakusten du. Barrako panel bat irekita dagoenean ezkutatzen da.</value>
+  </data>
 </root>

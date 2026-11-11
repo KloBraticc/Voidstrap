@@ -9,12 +9,27 @@
   <StackPanel Margin="0,0,14,14">
     <StackPanel Margin="0" Height="Auto">
 
-      <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/overlays/#session-dock-and-overlay-studio" Header="{resources:Loc Ui_Mods_SessionDock}" Description="{Binding SessionDockDescription}">
-        <StackPanel Orientation="Horizontal">
-          <Button Margin="0,0,12,0" VerticalAlignment="Center" Content="{resources:Loc Ui_Mods_ResetShortcut}" Command="{Binding ResetSessionDockShortcutCommand}" IsEnabled="{Binding CanResetSessionDockShortcut}" />
-          <ui:ToggleSwitch VerticalAlignment="Center" IsChecked="{Binding SessionDockEnabled, Mode=TwoWay}" />
-        </StackPanel>
-      </controls:OptionControl>
+      <ui:CardExpander IsExpanded="False">
+        <HeaderedContentControl.Header>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_SessionDock}" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Text="{Binding SessionDockDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="12,0,12,0" Orientation="Horizontal">
+              <Button Margin="0,0,12,0" VerticalAlignment="Center" Content="{resources:Loc Ui_Mods_ResetShortcut}" Command="{Binding ResetSessionDockShortcutCommand}" IsEnabled="{Binding CanResetSessionDockShortcut}" />
+              <ui:ToggleSwitch VerticalAlignment="Center" IsChecked="{Binding SessionDockEnabled, Mode=TwoWay}" />
+            </StackPanel>
+          </Grid>
+        </HeaderedContentControl.Header>
+        <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_Mods_SessionDockSpotify_Title}" Description="{resources:Loc Ui_Mods_SessionDockSpotify_Description}" IsEnabled="{Binding SessionDockEnabled}">
+          <ui:ToggleSwitch IsChecked="{Binding SessionDockSpotify, Mode=TwoWay}" />
+        </controls:OptionControl>
+      </ui:CardExpander>
 
       <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/overlays/#notifications" Header="{resources:Loc Ui_Mods_ScreenshotNotify_Title}" Description="{resources:Loc Ui_Mods_ScreenshotNotify_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
         <ui:ToggleSwitch IsChecked="{Binding ScreenshotNotifications, Mode=TwoWay}" />
