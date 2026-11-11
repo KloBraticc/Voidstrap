@@ -180,9 +180,9 @@ public partial class ActivityWatcher : IDisposable
     private FileSystemWatcher? _logWatcher;
 
     public static bool PlayerLoggingEnabled =>
-        App.FastFlags.GetPreset("Players.EventLog") == "7"
-        || App.FastFlags.GetPreset("Players.LogLevel") == "trace"
-            && App.FastFlags.GetPreset("Players.LogPattern") == "ExpChat/mountClientApp";
+        App.FastFlags.GetValue("DFLogSocialCounterpartyManager") == "7"
+        || App.FastFlags.GetValue("FStringDebugLuaLogLevel") == "trace"
+            && App.FastFlags.GetValue("FStringDebugLuaLogPattern") == "ExpChat/mountClientApp";
 
     public ActivityData Data { get; private set; } = new ActivityData();
 

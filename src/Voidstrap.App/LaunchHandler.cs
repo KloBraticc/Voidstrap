@@ -1298,7 +1298,6 @@ public static class LaunchHandler
         {
             if (player)
             {
-                App.FastFlags.MigratePlayerLoggingPreset();
                 App.FastFlags.RestoreAssetWarpPreloadFlags();
                 try
                 {
@@ -1749,7 +1748,6 @@ public static class LaunchHandler
                 {
                     if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
                     {
-                        App.FastFlags.MigratePlayerLoggingPreset();
                         App.FastFlags.RestoreAssetWarpPreloadFlags();
                         if (!File.Exists(App.GlobalSettings.FileLocation))
                         {

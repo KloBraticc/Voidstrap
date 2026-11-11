@@ -38,7 +38,6 @@ namespace Voidstrap.Integrations.FrameGeneration
                 App.Settings.Prop.FrameGenTargetFps = target;
                 App.Settings.SaveDeferred();
             }
-            RemoveFrameGenFastFlag(target);
             if (FrameGenSettings.ModeIndex > 0)
                 PreparePipeline();
             if (FrameGenSettings.ModeIndex > 0 && target > 0)
@@ -64,21 +63,6 @@ namespace Voidstrap.Integrations.FrameGeneration
                 App.GlobalSettings.Save();
             }
             RobloxFpsCap.ReloadNow();
-        }
-
-        private static void RemoveFrameGenFastFlag(int target)
-        {
-            if (
-                target <= 0
-                || App.FastFlags.GetPreset("Rendering.Framerate") != target.ToString(System.Globalization.CultureInfo.InvariantCulture)
-            )
-                return;
-            App.FastFlags.SetPreset("Rendering.Framerate", null);
-            App.FastFlags.SaveDeferred();
-            App.Logger.WriteLine(
-                "FrameGen",
-                "Removed the DFIntTaskSchedulerTargetFps FastFlag that frame generation used to write, its FPS cap now lives only in GlobalBasicSettings"
-            );
         }
 
         private static int NormalizeTargetCap(int fps) =>

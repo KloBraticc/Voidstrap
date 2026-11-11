@@ -97,7 +97,6 @@ public partial class Bootstrapper
                 }
             }
 
-            App.FastFlags.MigratePlayerLoggingPreset();
             App.FastFlags.Save();
         }
         catch (Exception ex)

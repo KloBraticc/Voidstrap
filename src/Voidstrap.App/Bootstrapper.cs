@@ -753,7 +753,6 @@ public partial class Bootstrapper
             }
             if (_launchMode == LaunchMode.Player)
             {
-                App.FastFlags.MigratePlayerLoggingPreset();
                 App.FastFlags.RestoreAssetWarpPreloadFlags();
                 App.FastFlags.SaveDeferred();
             }
