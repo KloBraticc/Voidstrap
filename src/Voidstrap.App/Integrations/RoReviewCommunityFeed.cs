@@ -69,6 +69,7 @@ public static class RoReviewCommunityFeed
         {
             return;
         }
+        using SemaphoreSlim gate = new(ReviewConcurrency, ReviewConcurrency);
         List<Task> work = new();
         try
         {
@@ -78,7 +79,6 @@ public static class RoReviewCommunityFeed
             Task search = AddSearchPlacesAsync(places, token);
             HashSet<long> queued = new();
             int done = 0;
-            using SemaphoreSlim gate = new(ReviewConcurrency, ReviewConcurrency);
             bool sourcesDone = false;
             while (true)
             {
