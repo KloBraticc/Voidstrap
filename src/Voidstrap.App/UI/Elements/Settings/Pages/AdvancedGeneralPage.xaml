@@ -65,7 +65,7 @@
       </ui:CardExpander>
       <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
         <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_RobloxCPULimit}" Description="{Binding CpuSummary}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
-          <ComboBox Grid.Column="1" Padding="10,5,10,5" ItemsSource="{Binding CpuOptions}" SelectedItem="{Binding SelectedCpuPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding CpuOptions}" SelectedItem="{Binding SelectedCpuPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </controls:OptionControl>
         <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_TrimMemoryWhenRobloxIsUnfocused}" Description="{resources:Loc Ui_Bootstrapper_AfterRobloxRemainsUnfocusedUnusedWorking}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
           <ui:ToggleSwitch IsChecked="{Binding MultiAccount, Mode=TwoWay}" />
