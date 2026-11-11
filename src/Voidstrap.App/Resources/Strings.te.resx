@@ -9895,4 +9895,7 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>అంతర్నిర్మిత థీమ్ నుండి ప్రారంభించండి</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>థీమ్ ఎడిటర్</value>
+  </data>
 </root>

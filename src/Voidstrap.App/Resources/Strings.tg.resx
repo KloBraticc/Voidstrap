@@ -9895,4 +9895,7 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Аз мавзӯи дарунсохт оғоз кунед</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Муҳаррири мавзӯъ</value>
+  </data>
 </root>

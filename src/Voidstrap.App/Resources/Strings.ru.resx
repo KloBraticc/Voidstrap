@@ -10208,4 +10208,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Начать со встроенной темы</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Редактор темы</value>
+  </data>
 </root>

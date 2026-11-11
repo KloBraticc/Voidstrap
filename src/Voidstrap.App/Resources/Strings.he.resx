@@ -9896,4 +9896,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>התחל מערכת נושא מובנית</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>עורך ערכות נושא</value>
+  </data>
 </root>

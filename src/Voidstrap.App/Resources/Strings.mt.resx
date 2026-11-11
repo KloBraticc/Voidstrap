@@ -9896,4 +9896,7 @@ Parteċipanti: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Ibda minn tema integrata</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Editur tat tema</value>
+  </data>
 </root>

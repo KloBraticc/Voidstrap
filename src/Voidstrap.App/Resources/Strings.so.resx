@@ -9896,4 +9896,7 @@ Ciyaartoyda: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Ka bilow mawduuc horay ugu jiray</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Tafatiraha mawduuca</value>
+  </data>
 </root>

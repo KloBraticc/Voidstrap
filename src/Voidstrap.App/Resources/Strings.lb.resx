@@ -9896,4 +9896,7 @@ Spiller: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Mat engem integréierten Design ufänken</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Design Editor</value>
+  </data>
 </root>

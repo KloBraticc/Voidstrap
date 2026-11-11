@@ -10209,4 +10209,7 @@ Hráči: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Začít z vestavěného motivu</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Editor motivu</value>
+  </data>
 </root>

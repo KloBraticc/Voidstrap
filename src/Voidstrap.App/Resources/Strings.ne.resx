@@ -9896,4 +9896,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>बिल्ट इन थिमबाट सुरु गर्नुहोस्</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>थिम सम्पादक</value>
+  </data>
 </root>

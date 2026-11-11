@@ -9896,4 +9896,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ബിൽറ്റ് ഇൻ തീമിൽ നിന്ന് ആരംഭിക്കുക</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>തീം എഡിറ്റർ</value>
+  </data>
 </root>

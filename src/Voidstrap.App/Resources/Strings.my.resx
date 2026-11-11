@@ -9895,4 +9895,7 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ပါဝင်ပြီးသား အပြင်အဆင်မှ စတင်ပါ</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>အပြင်အဆင် တည်းဖြတ်ကိရိယာ</value>
+  </data>
 </root>

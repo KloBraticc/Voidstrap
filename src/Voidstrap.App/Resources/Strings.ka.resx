@@ -9896,4 +9896,7 @@ Uptime: {1}
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ჩაშენებული თემიდან დაწყება</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>თემის რედაქტორი</value>
+  </data>
 </root>

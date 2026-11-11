@@ -9896,4 +9896,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ගොඩනඟන ලද තේමාවකින් අරඹන්න</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>තේමා සංස්කාරකය</value>
+  </data>
 </root>

@@ -9895,4 +9895,7 @@ Uptime: {1}
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ئىچكى تېمىدىن باشلاش</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>تېما تەھرىرلىگۈچ</value>
+  </data>
 </root>

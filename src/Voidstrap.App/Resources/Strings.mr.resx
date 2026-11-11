@@ -9896,4 +9896,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>अंगभूत थीमपासून सुरू करा</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>थीम संपादक</value>
+  </data>
 </root>

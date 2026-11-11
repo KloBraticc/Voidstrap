@@ -9895,4 +9895,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>אָנהייבן פֿון אַן איינגעבויטע טעמע</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>טעמע רעדאַקטאָר</value>
+  </data>
 </root>

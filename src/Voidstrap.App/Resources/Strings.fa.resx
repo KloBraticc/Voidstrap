@@ -10210,4 +10210,7 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>از یک پوسته داخلی شروع کنید</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>ویرایشگر پوسته</value>
+  </data>
 </root>

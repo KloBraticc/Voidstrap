@@ -9896,4 +9896,7 @@ Uptime: {1}
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Fara daga jigon da aka gina a ciki</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Editan jigo</value>
+  </data>
 </root>

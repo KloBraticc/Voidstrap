@@ -10232,4 +10232,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>从内置主题开始</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>主题编辑器</value>
+  </data>
 </root>

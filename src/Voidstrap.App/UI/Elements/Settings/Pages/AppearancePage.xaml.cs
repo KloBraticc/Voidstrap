@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -229,5 +229,11 @@ public partial class AppearancePage : UiPage
         {
             Frontend.ShowMessageBox("Failed to download custom theme:\n" + ex.Message, MessageBoxImage.Exclamation);
         }
+    }
+
+    private void OpenThemeEditor_Click(object sender, RoutedEventArgs e)
+    {
+        if (Window.GetWindow(this) is MainWindow mainWindow)
+            mainWindow.OpenThemeEditorPage();
     }
 }

@@ -9896,4 +9896,7 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Камтылган темадан баштоо</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Тема редактору</value>
+  </data>
 </root>

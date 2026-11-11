@@ -9896,4 +9896,7 @@ Lojtarët: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Fillo nga një temë e integruar</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Redaktori i temës</value>
+  </data>
 </root>

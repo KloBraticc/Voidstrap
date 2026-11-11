@@ -9895,4 +9895,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>உள்ளமைந்த தீமிலிருந்து தொடங்கவும்</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>தீம் திருத்தி</value>
+  </data>
 </root>

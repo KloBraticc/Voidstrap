@@ -9895,4 +9895,7 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>بلٹ ان تھیم سے شروع کریں</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>تھیم ایڈیٹر</value>
+  </data>
 </root>

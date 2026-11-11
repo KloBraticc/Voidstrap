@@ -10208,4 +10208,7 @@ Spelare: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Börja från ett inbyggt tema</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Temaredigerare</value>
+  </data>
 </root>

@@ -10211,4 +10211,7 @@ Giocatori: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Parti da un tema integrato</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Editor dei temi</value>
+  </data>
 </root>

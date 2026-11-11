@@ -10208,4 +10208,7 @@ Spieler: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Mit einem integrierten Design beginnen</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Design Editor</value>
+  </data>
 </root>

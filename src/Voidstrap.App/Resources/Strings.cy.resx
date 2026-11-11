@@ -9895,4 +9895,7 @@ Chwaraewyr: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Dechrau o thema adeiledig</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Golygydd thema</value>
+  </data>
 </root>

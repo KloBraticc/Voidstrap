@@ -9896,4 +9896,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>बिल्ट इन थीम से शुरू करें</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>थीम एडिटर</value>
+  </data>
 </root>

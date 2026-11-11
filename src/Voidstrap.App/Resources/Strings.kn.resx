@@ -9896,4 +9896,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ಅಂತರ್ನಿರ್ಮಿತ ಥೀಮ್‌ನಿಂದ ಪ್ರಾರಂಭಿಸಿ</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>ಥೀಮ್ ಸಂಪಾದಕ</value>
+  </data>
 </root>

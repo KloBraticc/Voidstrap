@@ -9896,4 +9896,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ចាប់ផ្តើមពីរូបរាងដែលមានស្រាប់</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>កម្មវិធីកែរូបរាង</value>
+  </data>
 </root>

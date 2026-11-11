@@ -9896,4 +9896,7 @@ Abakinnyi: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Tangirira ku nsanganyamatsiko yubatswemo</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Muhinduzi w'insanganyamatsiko</value>
+  </data>
 </root>

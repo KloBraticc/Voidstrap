@@ -9895,4 +9895,7 @@ Mängijad: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Alusta sisseehitatud teemast</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Teemaredaktor</value>
+  </data>
 </root>

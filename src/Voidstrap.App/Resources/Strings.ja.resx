@@ -10223,4 +10223,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>組み込みテーマから始める</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>テーマエディター</value>
+  </data>
 </root>

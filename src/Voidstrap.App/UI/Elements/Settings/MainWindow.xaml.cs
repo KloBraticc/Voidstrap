@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1127,7 +1127,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BreadcrumbPanel.Visibility = Visibility.Visible;
         }
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
-        bool hidesSidebar = content is VoidstrapModsPage or ModPacksPage or DownloadsPage or ExtensionPage or FriendsPage or AvatarPage;
+        bool hidesSidebar = content is VoidstrapModsPage or ModPacksPage or DownloadsPage or ExtensionPage or FriendsPage or AvatarPage or ThemeEditorPage;
         SetRootNavigationShown(!hasOwnSidebar && !hidesSidebar);
         SidebarToggle.Visibility = hidesSidebar ? Visibility.Collapsed : Visibility.Visible;
         SynchronizeSidebarSelection(content);
@@ -2899,6 +2899,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private VoidstrapModsPage? _voidstrapModsPage;
 
     private ModPacksPage? _modPacksPage;
+
+    private ThemeEditorPage? _themeEditorPage;
+
+    internal void OpenThemeEditorPage()
+    {
+        _themeEditorPage ??= new ThemeEditorPage();
+        if (!ReferenceEquals(RootFrame.Content, _themeEditorPage))
+            RootNavigation.NavigateExternal(_themeEditorPage);
+    }
 
     private void TopNavModPacks_Click(object sender, RoutedEventArgs e) => OpenModPacksPage();
 

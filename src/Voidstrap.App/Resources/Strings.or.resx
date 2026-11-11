@@ -9896,4 +9896,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ବିଲ୍ଟ ଇନ ଥିମରୁ ଆରମ୍ଭ କରନ୍ତୁ</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>ଥିମ ସମ୍ପାଦକ</value>
+  </data>
 </root>

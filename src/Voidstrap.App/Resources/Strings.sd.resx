@@ -9896,4 +9896,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>بلٽ ان ٿيم مان شروع ڪريو</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>ٿيم ايڊيٽر</value>
+  </data>
 </root>

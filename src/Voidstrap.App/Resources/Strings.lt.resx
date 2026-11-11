@@ -10210,4 +10210,7 @@ Veikimo laikas: {1}
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Pradėti nuo integruotos temos</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Temos redaktorius</value>
+  </data>
 </root>

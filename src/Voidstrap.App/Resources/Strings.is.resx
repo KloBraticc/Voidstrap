@@ -9896,4 +9896,7 @@ Leikmenn: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Byrja á innbyggðu þema</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Þemaritill</value>
+  </data>
 </root>

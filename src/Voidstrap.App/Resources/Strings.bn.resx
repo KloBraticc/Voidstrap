@@ -9895,4 +9895,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>বিল্ট ইন থিম থেকে শুরু করুন</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>থিম এডিটর</value>
+  </data>
 </root>

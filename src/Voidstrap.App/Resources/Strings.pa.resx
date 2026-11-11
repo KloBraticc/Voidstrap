@@ -9896,4 +9896,7 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ਬਿਲਟ ਇਨ ਥੀਮ ਤੋਂ ਸ਼ੁਰੂ ਕਰੋ</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>ਥੀਮ ਸੰਪਾਦਕ</value>
+  </data>
 </root>

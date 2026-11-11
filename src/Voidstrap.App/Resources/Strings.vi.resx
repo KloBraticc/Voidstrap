@@ -10211,4 +10211,7 @@ Người chơi: {2}</value>
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Bắt đầu từ một chủ đề có sẵn</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Trình chỉnh sửa chủ đề</value>
+  </data>
 </root>

@@ -9895,4 +9895,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Ξεκινήστε από ένα ενσωματωμένο θέμα</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Επεξεργαστής θέματος</value>
+  </data>
 </root>

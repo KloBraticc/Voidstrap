@@ -9895,4 +9895,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>Пачаць з убудаванай тэмы</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>Рэдактар тэм</value>
+  </data>
 </root>

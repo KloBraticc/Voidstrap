@@ -10207,4 +10207,7 @@
   <data name="Ui.Theme.StartFrom" xml:space="preserve">
     <value>ابدأ من سمة مدمجة</value>
   </data>
+  <data name="Ui.Theme.EditorTitle" xml:space="preserve">
+    <value>محرر السمات</value>
+  </data>
 </root>
