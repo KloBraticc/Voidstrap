@@ -9908,4 +9908,10 @@ Xogadores: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Amosa a canción que soa en Spotify sobre a barra. Agóchase mentres hai un panel da barra aberto.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Conservar as versións de Roblox descargadas</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Conservar os ficheiros de rexistro</value>
+  </data>
 </root>

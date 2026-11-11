@@ -9908,4 +9908,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>מציג את השיר שמתנגן ב Spotify מעל הסרגל. מוסתר כשחלונית של הסרגל פתוחה.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>שמור את גרסאות Roblox שהורדו</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>שמור את קובצי היומן</value>
+  </data>
 </root>

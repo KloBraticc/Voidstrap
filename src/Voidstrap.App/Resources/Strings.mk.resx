@@ -9908,4 +9908,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Ја прикажува песната што свири на Spotify над лентата. Се крие додека е отворен панел од лентата.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Задржи ги преземените верзии на Roblox</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Задржи ги датотеките со дневници</value>
+  </data>
 </root>

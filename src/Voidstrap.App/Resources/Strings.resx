@@ -9907,4 +9907,10 @@ Players: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Shows the song playing on Spotify above the dock. It hides while a dock panel is open.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Keep downloaded Roblox versions</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Keep log files</value>
+  </data>
 </root>

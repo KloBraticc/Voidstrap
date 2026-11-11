@@ -9907,4 +9907,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify တွင် ဖွင့်နေသော သီချင်းကို Dock အပေါ်တွင် ပြသည်။ Dock panel ဖွင့်ထားစဉ် ဖျောက်ထားသည်။</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>ဒေါင်းလုဒ်လုပ်ထားသော Roblox ဗားရှင်းများကို ထားရှိမည်</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>မှတ်တမ်းဖိုင်များကို ထားရှိမည်</value>
+  </data>
 </root>

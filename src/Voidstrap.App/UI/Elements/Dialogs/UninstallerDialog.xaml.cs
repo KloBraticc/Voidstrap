@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ public partial class UninstallerDialog : WpfUiWindow
 
     public bool Confirmed { get; private set; }
 
-    public bool KeepData { get; private set; } = true;
+    public UninstallOptions Options { get; private set; } = UninstallOptions.Default;
 
     public UninstallerDialog()
     {
@@ -29,7 +29,7 @@ public partial class UninstallerDialog : WpfUiWindow
     private void OnConfirmUninstallRequest(object? sender, EventArgs e)
     {
         Confirmed = true;
-        KeepData = _viewModel.KeepData;
+        Options = new UninstallOptions(_viewModel.KeepData, _viewModel.KeepVersions, _viewModel.KeepLogs);
         Close();
     }
 

@@ -9908,4 +9908,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>បង្ហាញបទចម្រៀងដែលកំពុងចាក់លើ Spotify ពីលើរបារ។ វាលាក់ខ្លួនពេលផ្ទាំងរបារបើក។</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>រក្សាកំណែ Roblox ដែលបានទាញយក</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>រក្សាឯកសារកំណត់ហេតុ</value>
+  </data>
 </root>

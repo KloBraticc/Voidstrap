@@ -9908,4 +9908,10 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify дээр тоглож буй дууг докын дээр харуулна. Докын самбар нээлттэй үед нуугдана.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Татсан Roblox хувилбаруудыг хадгалах</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Бүртгэлийн файлуудыг хадгалах</value>
+  </data>
 </root>

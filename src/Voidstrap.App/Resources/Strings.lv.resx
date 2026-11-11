@@ -9908,4 +9908,10 @@ Spēlētāji: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Rāda Spotify atskaņoto dziesmu virs paneļa. Tā paslēpjas, kamēr ir atvērts paneļa logs.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Saglabāt lejupielādētās Roblox versijas</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Saglabāt žurnāla failus</value>
+  </data>
 </root>

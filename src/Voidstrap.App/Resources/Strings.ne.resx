@@ -9908,4 +9908,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify मा बजिरहेको गीत डकमाथि देखाउँछ। डक प्यानल खुला हुँदा यो लुक्छ।</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>डाउनलोड गरिएका Roblox संस्करणहरू राख्नुहोस्</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>लग फाइलहरू राख्नुहोस्</value>
+  </data>
 </root>

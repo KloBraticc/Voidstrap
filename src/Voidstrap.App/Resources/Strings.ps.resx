@@ -9908,4 +9908,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>هغه سندره چې په Spotify کې غږیږي د ډاک پر سر ښیي. کله چې د ډاک پاڼه خلاصه وي پټیږي.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>ښکته شوې Roblox نسخې وساتئ</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>د لاګ فایلونه وساتئ</value>
+  </data>
 </root>

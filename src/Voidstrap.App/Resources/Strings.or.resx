@@ -9908,4 +9908,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify ରେ ବାଜୁଥିବା ଗୀତକୁ ଡକ୍ ଉପରେ ଦେଖାଏ। ଡକ୍ ପ୍ୟାନେଲ୍ ଖୋଲା ଥିବା ବେଳେ ଏହା ଲୁଚିଯାଏ।</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>ଡାଉନଲୋଡ୍ ହୋଇଥିବା Roblox ସଂସ୍କରଣ ରଖନ୍ତୁ</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>ଲଗ୍ ଫାଇଲ୍ ରଖନ୍ତୁ</value>
+  </data>
 </root>

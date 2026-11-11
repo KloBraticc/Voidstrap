@@ -8186,6 +8186,18 @@ namespace Voidstrap.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Keep my settings and mods.
         /// </summary>
+        public static string Uninstaller_KeepVersions_Label {
+            get {
+                return ResourceManager.GetString("Uninstaller.KeepVersions.Label", resourceCulture);
+            }
+        }
+        
+        public static string Uninstaller_KeepLogs_Label {
+            get {
+                return ResourceManager.GetString("Uninstaller.KeepLogs.Label", resourceCulture);
+            }
+        }
+        
         public static string Uninstaller_KeepData_Label {
             get {
                 return ResourceManager.GetString("Uninstaller.KeepData.Label", resourceCulture);

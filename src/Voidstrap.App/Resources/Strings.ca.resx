@@ -9907,4 +9907,10 @@ Jugadors: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Mostra la cançó que sona a Spotify sobre la barra. S'amaga mentre hi ha un panell de la barra obert.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Conserva les versions de Roblox baixades</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Conserva els fitxers de registre</value>
+  </data>
 </root>

@@ -10215,4 +10215,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>แสดงเพลงที่กำลังเล่นใน Spotify เหนือแถบ จะซ่อนขณะที่แผงของแถบเปิดอยู่</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>เก็บเวอร์ชัน Roblox ที่ดาวน์โหลดไว้</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>เก็บไฟล์บันทึกไว้</value>
+  </data>
 </root>

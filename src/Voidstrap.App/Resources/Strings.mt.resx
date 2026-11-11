@@ -9908,4 +9908,10 @@ Parteċipanti: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Juri l-kanzunetta li qed tindaqq fuq Spotify fuq id-dock. Jinħeba waqt li jkun miftuħ panel tad-dock.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Żomm il-verżjonijiet ta' Roblox imniżżla</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Żomm il-fajls tar-reġistru</value>
+  </data>
 </root>

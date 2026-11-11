@@ -9907,4 +9907,10 @@ Jokalariak: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotifyn jotzen ari den abestia barraren gainean erakusten du. Barrako panel bat irekita dagoenean ezkutatzen da.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Gorde deskargatutako Roblox bertsioak</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Gorde erregistro fitxategiak</value>
+  </data>
 </root>

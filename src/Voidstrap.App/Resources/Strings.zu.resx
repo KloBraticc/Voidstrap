@@ -9907,4 +9907,10 @@ Abadlali: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Ibonisa ingoma edlalayo ku Spotify ngaphezu kwedokhi. Iyacasha uma iphaneli yedokhi ivuliwe.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Gcina izinguqulo ze-Roblox ezilandiwe</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Gcina amafayela welogi</value>
+  </data>
 </root>

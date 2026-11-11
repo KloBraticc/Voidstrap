@@ -10222,4 +10222,10 @@ Jucători: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Arată melodia care rulează pe Spotify deasupra barei. Se ascunde cât timp un panou al barei este deschis.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Păstrează versiunile Roblox descărcate</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Păstrează fișierele jurnal</value>
+  </data>
 </root>

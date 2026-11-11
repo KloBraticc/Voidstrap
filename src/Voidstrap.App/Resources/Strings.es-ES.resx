@@ -10220,4 +10220,10 @@ Jugadores: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Muestra la canción que suena en Spotify sobre la barra. Se oculta mientras hay un panel de la barra abierto.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Conservar las versiones de Roblox descargadas</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Conservar los archivos de registro</value>
+  </data>
 </root>

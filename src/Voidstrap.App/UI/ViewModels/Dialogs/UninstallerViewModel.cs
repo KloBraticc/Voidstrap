@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Voidstrap.Resources;
@@ -10,6 +10,10 @@ public class UninstallerViewModel
     public string Text => string.Format(Strings.Uninstaller_Text, App.ProjectIssuesLink, Paths.Base);
 
     public bool KeepData { get; set; } = true;
+
+    public bool KeepVersions { get; set; }
+
+    public bool KeepLogs { get; set; }
 
     public ICommand ConfirmUninstallCommand => new RelayCommand(ConfirmUninstall);
 

@@ -10212,4 +10212,10 @@ Pemain: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Menunjukkan lagu yang dimainkan di Spotify di atas dok. Ia disembunyikan semasa panel dok dibuka.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Simpan versi Roblox yang telah dimuat turun</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Simpan fail log</value>
+  </data>
 </root>

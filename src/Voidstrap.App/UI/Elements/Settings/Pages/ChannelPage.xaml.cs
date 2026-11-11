@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -333,7 +333,7 @@ public partial class ChannelPage : UiPage
                 UIElement? button = sender as UIElement;
                 if (button != null)
                     button.IsEnabled = false;
-                if (!await Voidstrap.Installer.DoUninstallAsync(uninstallerDialog.KeepData))
+                if (!await Voidstrap.Installer.DoUninstallAsync(uninstallerDialog.Options))
                 {
                     if (button != null)
                         button.IsEnabled = true;

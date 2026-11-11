@@ -9908,4 +9908,10 @@ Ndị egwuregwu: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Na-egosi abụ na-akpọ na Spotify n'elu dock. Ọ na-ezo onwe ya mgbe panel dock mepere.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Debe ụdị Roblox ndị ebudatara</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Debe faịlụ ndekọ</value>
+  </data>
 </root>

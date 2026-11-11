@@ -9907,4 +9907,10 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify پر چلنے والا گانا ڈاک کے اوپر دکھاتا ہے۔ ڈاک پینل کھلا ہونے پر یہ چھپ جاتا ہے۔</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>ڈاؤن لوڈ کردہ Roblox ورژن رکھیں</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>لاگ فائلیں رکھیں</value>
+  </data>
 </root>

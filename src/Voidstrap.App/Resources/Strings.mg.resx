@@ -9908,4 +9908,10 @@ Mpilalao: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Mampiseho ny hira mandeha amin'ny Spotify eo ambonin'ny dock. Miafina izy raha misokatra ny takelaka dock.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Tazomy ireo dikan'ny Roblox efa nalaina</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Tazomy ireo rakitra firaketana</value>
+  </data>
 </root>

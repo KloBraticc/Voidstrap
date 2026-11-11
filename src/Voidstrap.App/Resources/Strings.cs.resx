@@ -10221,4 +10221,10 @@ Hráči: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Zobrazuje skladbu hrající na Spotify nad panelem. Skryje se, když je otevřen panel.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Ponechat stažené verze Robloxu</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Ponechat soubory protokolu</value>
+  </data>
 </root>

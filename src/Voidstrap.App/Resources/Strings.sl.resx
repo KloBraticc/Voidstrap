@@ -9908,4 +9908,10 @@ Igralci: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Prikaže skladbo, ki se predvaja v Spotify, nad vrstico. Skrije se, ko je odprta plošča vrstice.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Obdrži prenesene različice Robloxa</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Obdrži dnevniške datoteke</value>
+  </data>
 </root>

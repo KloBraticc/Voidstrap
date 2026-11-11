@@ -9907,4 +9907,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify இல் இயங்கும் பாடலை டாக்கிற்கு மேலே காட்டுகிறது. டாக் பேனல் திறந்திருக்கும்போது மறைந்துவிடும்.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>பதிவிறக்கிய Roblox பதிப்புகளை வைத்திரு</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>பதிவுக் கோப்புகளை வைத்திரு</value>
+  </data>
 </root>

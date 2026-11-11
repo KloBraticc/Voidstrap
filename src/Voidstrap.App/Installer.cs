@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -551,11 +551,11 @@ internal sealed partial class Installer
         catch { }
     }
 
-    public static async Task<bool> DoUninstallAsync(bool keepData)
+    public static async Task<bool> DoUninstallAsync(UninstallOptions options)
     {
         try
         {
-            return await DoUninstallCoreAsync(keepData);
+            return await DoUninstallCoreAsync(options);
         }
         catch (Exception ex)
         {
@@ -616,8 +616,11 @@ internal sealed partial class Installer
         }
     }
 
-    private static async Task<bool> DoUninstallCoreAsync(bool keepData)
+    private static async Task<bool> DoUninstallCoreAsync(UninstallOptions options)
     {
+        const string LOG_IDENT = "Installer::DoUninstall";
+        bool keepData = options.KeepData;
+        App.Logger.WriteLine(LOG_IDENT, $"Uninstalling, keep data: {options.KeepData}, keep versions: {options.KeepVersions}, keep logs: {options.KeepLogs}");
         if (Voidstrap.Utility.Platform.IsWindows && !CloseManagedRobloxProcesses())
             return false;
         List<Process> list = [];
@@ -663,8 +666,16 @@ internal sealed partial class Installer
                 item.Dispose();
             }
         }
-        Voidstrap.Integrations.Nvidia.NvidiaApplyResult cleanup =
-            await Voidstrap.Integrations.NvidiaProfileManager.RestoreForUninstallAsync();
+        Voidstrap.Integrations.Nvidia.NvidiaApplyResult cleanup;
+        try
+        {
+            cleanup = await Voidstrap.Integrations.NvidiaProfileManager.RestoreForUninstallAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+            cleanup = new Voidstrap.Integrations.Nvidia.NvidiaApplyResult { Ok = false, Message = ex.Message };
+        }
         if (!cleanup.Ok)
         {
             if (
@@ -678,61 +689,37 @@ internal sealed partial class Installer
                 return false;
             App.Logger.WriteLine("Installer::DoUninstall", "Continuing uninstall without NVIDIA cleanup");
         }
-        Voidstrap.Integrations.AssetProxy.AssetWarpLegacyCleanup.Run();
-        Voidstrap.Utility.LinuxDesktopEntry.Remove();
-        Voidstrap.Utility.InstallRecord.Delete();
+        TrySafe("AssetWarp cleanup", Voidstrap.Integrations.AssetProxy.AssetWarpLegacyCleanup.Run);
+        TrySafe("desktop entry", Voidstrap.Utility.LinuxDesktopEntry.Remove);
+        TrySafe("install record", Voidstrap.Utility.InstallRecord.Delete);
         if (Voidstrap.Utility.Platform.IsLinux)
         {
             if (keepData)
             {
                 ForceDeleteDirectory(Paths.Cache);
-                ForceDeleteDirectory(Paths.Logs);
+                if (!options.KeepLogs)
+                    ForceDeleteDirectory(Paths.Logs);
                 ForceDeleteDirectory(Paths.Temp);
             }
             else
             {
-                Paths.ResetUserData();
+                string? savedLogs = options.KeepLogs ? MoveAside(Paths.Logs) : null;
+                TrySafe("reset user data", Paths.ResetUserData);
+                if (savedLogs != null)
+                    TrySafe("restore logs", () => Directory.Move(savedLogs, Paths.Logs));
             }
             return true;
         }
         if (Voidstrap.Utility.Platform.IsWindows)
         {
             string basePath = Path.GetFullPath(Paths.Base).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            Paths.DeleteOwnedDirectory(Paths.Versions, basePath);
-            Paths.DeleteOwnedDirectory(Paths.RobloxClients, basePath);
+            if (!options.KeepVersions)
+            {
+                TrySafe("versions", () => Paths.DeleteOwnedDirectory(Paths.Versions, basePath));
+                TrySafe("Roblox clients", () => Paths.DeleteOwnedDirectory(Paths.RobloxClients, basePath));
+            }
             TrySafe("MuMuRoblox", Voidstrap.Integrations.MuMu.MuMuRoblox.Uninstall);
-            WindowsRegistry.Unregister("voidstrap");
-            using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey(
-                "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-player"
-            );
-            object? obj = registryKey?.GetValue("InstallLocation");
-            if (registryKey == null || obj is not string)
-            {
-                WindowsRegistry.Unregister("roblox");
-                WindowsRegistry.Unregister("roblox-player");
-            }
-            else
-            {
-                WindowsRegistry.RegisterPlayer(Path.Combine((string)obj, "RobloxPlayerBeta.exe"), "%1");
-            }
-            using RegistryKey? registryKey2 = Registry.CurrentUser.OpenSubKey(
-                "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-studio"
-            );
-            object? obj2 = registryKey2?.GetValue("InstallLocation");
-            if (registryKey2 == null || obj2 is not string)
-            {
-                WindowsRegistry.Unregister("roblox-studio");
-                WindowsRegistry.Unregister("roblox-studio-auth");
-                WindowsRegistry.Unregister("Roblox.Place");
-                WindowsRegistry.Unregister(".rbxl");
-                WindowsRegistry.Unregister(".rbxlx");
-            }
-            else
-            {
-                string handler = Path.Combine((string)obj2, "RobloxStudioBeta.exe");
-                WindowsRegistry.RegisterStudioProtocol(handler, "%1");
-                WindowsRegistry.RegisterStudioFileClass(handler, "-ide \"%1\"");
-            }
+            TrySafe("protocol handlers", RestoreRobloxHandlers);
             TrySafe(
                 "registry Software\\Voidstrap",
                 delegate
@@ -741,21 +728,82 @@ internal sealed partial class Installer
                 }
             );
         }
+        return await RunCleanupAsync(options);
+    }
+
+    private static string? MoveAside(string path)
+    {
+        try
+        {
+            if (!Directory.Exists(path))
+                return null;
+            string aside = Path.Combine(Path.GetTempPath(), "VoidstrapLogs" + Environment.ProcessId);
+            if (Directory.Exists(aside))
+                Directory.Delete(aside, recursive: true);
+            Directory.Move(path, aside);
+            return aside;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return null;
+        }
+    }
+
+    private static void RestoreRobloxHandlers()
+    {
+        WindowsRegistry.Unregister("voidstrap");
+        using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey(
+            "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-player"
+        );
+        object? obj = registryKey?.GetValue("InstallLocation");
+        if (registryKey == null || obj is not string)
+        {
+            WindowsRegistry.Unregister("roblox");
+            WindowsRegistry.Unregister("roblox-player");
+        }
+        else
+        {
+            WindowsRegistry.RegisterPlayer(Path.Combine((string)obj, "RobloxPlayerBeta.exe"), "%1");
+        }
+        using RegistryKey? registryKey2 = Registry.CurrentUser.OpenSubKey(
+            "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-studio"
+        );
+        object? obj2 = registryKey2?.GetValue("InstallLocation");
+        if (registryKey2 == null || obj2 is not string)
+        {
+            WindowsRegistry.Unregister("roblox-studio");
+            WindowsRegistry.Unregister("roblox-studio-auth");
+            WindowsRegistry.Unregister("Roblox.Place");
+            WindowsRegistry.Unregister(".rbxl");
+            WindowsRegistry.Unregister(".rbxlx");
+        }
+        else
+        {
+            string handler = Path.Combine((string)obj2, "RobloxStudioBeta.exe");
+            WindowsRegistry.RegisterStudioProtocol(handler, "%1");
+            WindowsRegistry.RegisterStudioFileClass(handler, "-ide \"%1\"");
+        }
+    }
+
+    private static async Task<bool> RunCleanupAsync(UninstallOptions options)
+    {
+        bool keepData = options.KeepData;
         List<Action> list2 =
         [
             delegate
             {
                 if (!Voidstrap.Utility.Platform.IsWindows)
                     return;
-                foreach (
-                    string item2 in from x in Directory.GetFiles(Paths.Desktop)
-                    where x.EndsWith("lnk", StringComparison.Ordinal)
-                    select x
-                )
+                foreach (string item2 in Directory.EnumerateFiles(Paths.Desktop, "*.lnk"))
                 {
-                    if (ShellLink.Shortcut.ReadFromFile(item2).ExtraData.EnvironmentVariableDataBlock?.TargetUnicode == Paths.Application)
+                    try
                     {
-                        File.Delete(item2);
+                        if (string.Equals(ShellLink.Shortcut.ReadFromFile(item2).ExtraData.EnvironmentVariableDataBlock?.TargetUnicode, Paths.Application, StringComparison.OrdinalIgnoreCase))
+                            File.Delete(item2);
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine("Installer::DoUninstall", "Skipped shortcut " + Path.GetFileName(item2) + ": " + ex.Message);
                     }
                 }
             },
@@ -779,7 +827,7 @@ internal sealed partial class Installer
             },
             delegate
             {
-                if (Paths.Roblox == Path.Combine(Paths.Base, "Roblox"))
+                if (!options.KeepVersions && Paths.Roblox == Path.Combine(Paths.Base, "Roblox"))
                 {
                     ForceDeleteDirectory(Paths.Roblox);
                 }
@@ -794,15 +842,11 @@ internal sealed partial class Installer
                 },
                 delegate
                 {
-                    ForceDeleteDirectory(Paths.Logs);
-                },
-                delegate
-                {
                     File.Delete(App.Settings.FileLocation);
                 },
             ]);
         }
-        bool flag3 = !keepData && Directory.Exists(Paths.Base) && Directory.GetFiles(Paths.Base).Length <= 3;
+        bool flag3 = !keepData && !options.KeepVersions && !options.KeepLogs && CountFiles(Paths.Base) <= 3;
         if (flag3)
         {
             list2.Add(
@@ -820,6 +864,14 @@ internal sealed partial class Installer
             {
                 continue;
             }
+            if (options.KeepVersions && IsSameFolder(target, Paths.Versions, Paths.RobloxClients, Paths.Roblox))
+            {
+                continue;
+            }
+            if (options.KeepLogs && IsSameFolder(target, Paths.Logs))
+            {
+                continue;
+            }
 
             list2.Add(
                 delegate
@@ -829,12 +881,15 @@ internal sealed partial class Installer
             );
         }
 
-        list2.Add(
-            delegate
-            {
-                ForceDeleteDirectory(Paths.Logs);
-            }
-        );
+        if (!options.KeepLogs)
+        {
+            list2.Add(
+                delegate
+                {
+                    ForceDeleteDirectory(Paths.Logs);
+                }
+            );
+        }
 
         list2.Add(
             delegate
@@ -877,6 +932,31 @@ internal sealed partial class Installer
             ScheduleDeferredCleanup(Paths.Base, Paths.Application, flag3);
         }
         return true;
+    }
+
+    private static int CountFiles(string path)
+    {
+        try
+        {
+            return Directory.Exists(path) ? Directory.GetFiles(path).Length : 0;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return int.MaxValue;
+        }
+    }
+
+    private static bool IsSameFolder(string path, params string[] candidates)
+    {
+        string full = Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        foreach (string candidate in candidates)
+        {
+            if (string.IsNullOrEmpty(candidate))
+                continue;
+            if (string.Equals(full, Path.GetFullPath(candidate).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+        return false;
     }
 
     private static void ScheduleDeferredCleanup(string basePath, string appPath, bool deleteFolder)

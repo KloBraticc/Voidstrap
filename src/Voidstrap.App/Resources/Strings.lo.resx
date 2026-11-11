@@ -9908,4 +9908,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>ສະແດງເພງທີ່ກຳລັງຫຼິ້ນໃນ Spotify ເທິງແຖບ. ມັນຈະເຊື່ອງໃນຂະນະທີ່ແຜງຂອງແຖບເປີດຢູ່.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>ເກັບລຸ້ນ Roblox ທີ່ດາວໂຫຼດແລ້ວໄວ້</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>ເກັບໄຟລ໌ບັນທຶກໄວ້</value>
+  </data>
 </root>

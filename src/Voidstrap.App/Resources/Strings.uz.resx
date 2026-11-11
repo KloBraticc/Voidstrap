@@ -9907,4 +9907,10 @@ O'yinchilar: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify'da ijro etilayotgan qo'shiqni dok ustida ko'rsatadi. Dok paneli ochiq bo'lganda yashirinadi.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Yuklab olingan Roblox versiyalarini saqlash</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Jurnal fayllarini saqlash</value>
+  </data>
 </root>

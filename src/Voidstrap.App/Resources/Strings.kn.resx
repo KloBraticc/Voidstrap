@@ -9908,4 +9908,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify ನಲ್ಲಿ ಪ್ಲೇ ಆಗುತ್ತಿರುವ ಹಾಡನ್ನು ಡಾಕ್ ಮೇಲೆ ತೋರಿಸುತ್ತದೆ. ಡಾಕ್ ಪ್ಯಾನೆಲ್ ತೆರೆದಿರುವಾಗ ಅದು ಮರೆಯಾಗುತ್ತದೆ.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ Roblox ಆವೃತ್ತಿಗಳನ್ನು ಇರಿಸಿ</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>ಲಾಗ್ ಫೈಲ್‌ಗಳನ್ನು ಇರಿಸಿ</value>
+  </data>
 </root>

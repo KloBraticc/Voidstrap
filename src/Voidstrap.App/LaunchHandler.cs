@@ -363,7 +363,7 @@ public static class LaunchHandler
                 App.Terminate();
                 return;
             }
-            bool keepData = true;
+            UninstallOptions options = UninstallOptions.Default;
             bool flag;
             if (App.LaunchSettings.QuietFlag.Active)
             {
@@ -374,14 +374,14 @@ public static class LaunchHandler
                 UninstallerDialog uninstallerDialog = new UninstallerDialog();
                 uninstallerDialog.ShowTopLevelDialog();
                 flag = uninstallerDialog.Confirmed;
-                keepData = uninstallerDialog.KeepData;
+                options = uninstallerDialog.Options;
             }
             if (!flag)
             {
                 App.Terminate();
                 return;
             }
-            if (!await Installer.DoUninstallAsync(keepData))
+            if (!await Installer.DoUninstallAsync(options))
             {
                 App.Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
                 return;

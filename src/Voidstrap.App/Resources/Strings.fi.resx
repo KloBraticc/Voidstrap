@@ -10221,4 +10221,10 @@ Pelaajat: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Näyttää Spotifyssa soivan kappaleen telakan yläpuolella. Piiloutuu, kun telakan paneeli on auki.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Säilytä ladatut Roblox-versiot</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Säilytä lokitiedostot</value>
+  </data>
 </root>

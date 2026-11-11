@@ -9908,4 +9908,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify वर वाजणारे गाणे डॉकच्या वर दाखवते. डॉक पॅनेल उघडे असताना ते लपते.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>डाउनलोड केलेल्या Roblox आवृत्त्या ठेवा</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>लॉग फाइल्स ठेवा</value>
+  </data>
 </root>

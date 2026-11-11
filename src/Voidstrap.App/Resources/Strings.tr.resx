@@ -10218,4 +10218,10 @@ Oyuncular: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify'da çalan şarkıyı panelin üstünde gösterir. Bir panel penceresi açıkken gizlenir.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>İndirilen Roblox sürümlerini sakla</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Günlük dosyalarını sakla</value>
+  </data>
 </root>

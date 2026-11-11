@@ -9908,4 +9908,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Приказује песму која свира на Spotify изнад траке. Скрива се док је отворен панел траке.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Задржи преузете верзије Roblox-а</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Задржи датотеке евиденције</value>
+  </data>
 </root>

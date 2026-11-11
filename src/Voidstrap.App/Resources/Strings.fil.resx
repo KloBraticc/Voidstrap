@@ -10218,4 +10218,10 @@ Mga player: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Ipinapakita ang kantang tumutugtog sa Spotify sa itaas ng dock. Nagtatago ito habang may bukas na panel ng dock.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Panatilihin ang mga na-download na bersyon ng Roblox</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Panatilihin ang mga log file</value>
+  </data>
 </root>

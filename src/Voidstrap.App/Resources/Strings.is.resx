@@ -9908,4 +9908,10 @@ Leikmenn: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Sýnir lagið sem spilast á Spotify fyrir ofan stikuna. Það felur sig á meðan spjald stikunnar er opið.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Halda niðurhaluðum Roblox-útgáfum</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Halda annálaskrám</value>
+  </data>
 </root>

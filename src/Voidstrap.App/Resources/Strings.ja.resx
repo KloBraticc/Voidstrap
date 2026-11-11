@@ -10235,4 +10235,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify で再生中の曲をドックの上に表示します。ドックのパネルが開いている間は非表示になります。</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>ダウンロード済みの Roblox バージョンを残す</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>ログファイルを残す</value>
+  </data>
 </root>

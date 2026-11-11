@@ -10219,4 +10219,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify에서 재생 중인 곡을 도크 위에 표시합니다. 도크 패널이 열려 있는 동안에는 숨겨집니다.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>다운로드한 Roblox 버전 유지</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>로그 파일 유지</value>
+  </data>
 </root>

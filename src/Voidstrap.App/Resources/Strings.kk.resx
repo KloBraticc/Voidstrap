@@ -9908,4 +9908,10 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify-да ойнап тұрған әнді док үстінде көрсетеді. Док панелі ашық кезде жасырылады.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Жүктелген Roblox нұсқаларын сақтау</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Журнал файлдарын сақтау</value>
+  </data>
 </root>

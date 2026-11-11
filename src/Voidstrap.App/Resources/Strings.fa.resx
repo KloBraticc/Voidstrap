@@ -10222,4 +10222,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>آهنگی را که در Spotify پخش می‌شود بالای نوار نشان می‌دهد. وقتی یک پنل نوار باز است پنهان می‌شود.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>نگه داشتن نسخه‌های دانلودشده Roblox</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>نگه داشتن فایل‌های گزارش</value>
+  </data>
 </root>

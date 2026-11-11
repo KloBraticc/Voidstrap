@@ -9907,4 +9907,10 @@ Ludantoj: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Montras la kanton ludantan en Spotify super la doko. Ĝi kaŝiĝas dum doka panelo estas malfermita.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Konservi elŝutitajn versiojn de Roblox</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Konservi protokolajn dosierojn</value>
+  </data>
 </root>

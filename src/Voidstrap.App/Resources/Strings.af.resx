@@ -9907,4 +9907,10 @@ Spelers: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Wys die liedjie wat op Spotify speel bo die dok. Dit verdwyn terwyl 'n dokpaneel oop is.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Hou afgelaaide Roblox-weergawes</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Hou loglêers</value>
+  </data>
 </root>

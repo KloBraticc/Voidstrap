@@ -10220,4 +10220,10 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Показва песента, която свири в Spotify, над панела. Скрива се, докато е отворен прозорец от панела.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Запазване на изтеглените версии на Roblox</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Запазване на файловете с логове</value>
+  </data>
 </root>

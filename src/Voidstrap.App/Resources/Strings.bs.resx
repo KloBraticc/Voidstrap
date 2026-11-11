@@ -9907,4 +9907,10 @@ Igrači: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Prikazuje pjesmu koja svira na Spotifyju iznad trake. Sakriva se dok je otvoren panel trake.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Zadrži preuzete verzije Robloxa</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Zadrži log datoteke</value>
+  </data>
 </root>

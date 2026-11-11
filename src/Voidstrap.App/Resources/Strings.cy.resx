@@ -9907,4 +9907,10 @@ Chwaraewyr: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Yn dangos y gân sy'n chwarae ar Spotify uwchben y doc. Mae'n cuddio tra bod panel doc ar agor.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Cadw fersiynau Roblox a lwythwyd i lawr</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Cadw ffeiliau log</value>
+  </data>
 </root>

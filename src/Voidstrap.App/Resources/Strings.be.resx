@@ -9907,4 +9907,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Паказвае песню, якая грае ў Spotify, над докам. Хаваецца, калі адкрыта панэль дока.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Захаваць спампаваныя версіі Roblox</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Захаваць файлы журнала</value>
+  </data>
 </root>

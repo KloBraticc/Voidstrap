@@ -9907,4 +9907,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Εμφανίζει το τραγούδι που παίζει στο Spotify πάνω από τη γραμμή. Κρύβεται όσο είναι ανοιχτό ένα πάνελ της γραμμής.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Διατήρηση των εκδόσεων Roblox που έχουν ληφθεί</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Διατήρηση αρχείων καταγραφής</value>
+  </data>
 </root>

@@ -9908,4 +9908,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify හි වාදනය වන ගීතය ඩොක් එකට ඉහළින් පෙන්වයි. ඩොක් පැනලයක් විවෘතව ඇති විට එය සැඟවේ.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>බාගත කළ Roblox අනුවාද තබා ගන්න</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>ලොග් ගොනු තබා ගන්න</value>
+  </data>
 </root>

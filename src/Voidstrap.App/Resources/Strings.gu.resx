@@ -9908,4 +9908,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify પર વાગતું ગીત ડોકની ઉપર બતાવે છે. ડોક પેનલ ખુલ્લી હોય ત્યારે તે છુપાઈ જાય છે.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>ડાઉનલોડ કરેલા Roblox સંસ્કરણો રાખો</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>લોગ ફાઇલો રાખો</value>
+  </data>
 </root>

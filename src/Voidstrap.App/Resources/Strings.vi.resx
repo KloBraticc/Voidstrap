@@ -10223,4 +10223,10 @@ Người chơi: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Hiện bài hát đang phát trên Spotify phía trên thanh. Nó sẽ ẩn khi một bảng của thanh đang mở.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Giữ lại các phiên bản Roblox đã tải xuống</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Giữ lại các tệp nhật ký</value>
+  </data>
 </root>

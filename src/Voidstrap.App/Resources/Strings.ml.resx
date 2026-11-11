@@ -9908,4 +9908,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Spotify യിൽ പ്ലേ ചെയ്യുന്ന ഗാനം ഡോക്കിന് മുകളിൽ കാണിക്കുന്നു. ഡോക്ക് പാനൽ തുറന്നിരിക്കുമ്പോൾ ഇത് മറയുന്നു.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>ഡൗൺലോഡ് ചെയ്ത Roblox പതിപ്പുകൾ സൂക്ഷിക്കുക</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>ലോഗ് ഫയലുകൾ സൂക്ഷിക്കുക</value>
+  </data>
 </root>

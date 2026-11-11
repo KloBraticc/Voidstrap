@@ -9907,4 +9907,10 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Суруди дар Spotify навохташавандаро дар болои док нишон медиҳад. Ҳангоми кушода будани панели док пинҳон мешавад.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Нигоҳ доштани версияҳои боргиришудаи Roblox</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Нигоҳ доштани файлҳои қайд</value>
+  </data>
 </root>

@@ -9908,4 +9908,10 @@ Spillere: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Viser sangen som spilles på Spotify over dokken. Den skjules mens et dokkpanel er åpent.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Behold nedlastede Roblox-versjoner</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Behold loggfiler</value>
+  </data>
 </root>

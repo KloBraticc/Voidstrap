@@ -10223,4 +10223,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>在停駐列上方顯示 Spotify 正在播放的歌曲。停駐列面板開啟時會自動隱藏。</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>保留已下載的 Roblox 版本</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>保留記錄檔</value>
+  </data>
 </root>

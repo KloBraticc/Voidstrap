@@ -9908,4 +9908,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Ցույց է տալիս Spotify-ում հնչող երգը վահանակի վերևում։ Թաքնվում է, երբ վահանակի պատուհան է բաց։</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Պահել ներբեռնված Roblox տարբերակները</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Պահել մատյանի ֆայլերը</value>
+  </data>
 </root>

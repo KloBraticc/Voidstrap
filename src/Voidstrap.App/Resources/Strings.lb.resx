@@ -9908,4 +9908,10 @@ Spiller: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Weist de Song, deen op Spotify leeft, iwwer dem Dock. Gëtt verstoppt, soulaang eng Dockfënster op ass.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Erofgeluede Roblox-Versioune behalen</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Logdateie behalen</value>
+  </data>
 </root>

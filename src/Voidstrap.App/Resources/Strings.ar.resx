@@ -10219,4 +10219,10 @@
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>يعرض الأغنية التي تعمل على Spotify فوق الشريط. يختفي أثناء فتح لوحة من الشريط.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>الاحتفاظ بإصدارات Roblox التي تم تنزيلها</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>الاحتفاظ بملفات السجل</value>
+  </data>
 </root>

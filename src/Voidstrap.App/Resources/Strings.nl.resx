@@ -10222,4 +10222,10 @@ Spelers: {2}</value>
   <data name="Ui.Mods.SessionDockSpotify.Description" xml:space="preserve">
     <value>Toont het nummer dat op Spotify speelt boven het dock. Verbergt zich zolang er een dockpaneel open is.</value>
   </data>
+  <data name="Uninstaller.KeepVersions.Label" xml:space="preserve">
+    <value>Gedownloade Roblox-versies bewaren</value>
+  </data>
+  <data name="Uninstaller.KeepLogs.Label" xml:space="preserve">
+    <value>Logbestanden bewaren</value>
+  </data>
 </root>
