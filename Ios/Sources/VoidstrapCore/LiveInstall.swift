@@ -7,62 +7,9 @@ public enum LiveInstall {
         RobloxFlags.roots.first { FileManager.default.fileExists(atPath: $0.appendingPathComponent("Applications").path) }
     }
 
-    public static var opened: Bool {
-        guard let root, let info = RobloxFlags.plist(root.appendingPathComponent("Applications/\(folder)/LCAppInfo.plist")),
-              let id = info["LCDataUUID"] as? String else { return false }
-        let home = root.appendingPathComponent("Data/Application/\(id)")
-        return RobloxFlags.markers.dropLast(2).contains { FileManager.default.fileExists(atPath: home.appendingPathComponent($0).path) }
-    }
-
-    static func patchExec(_ url: URL) throws {
-        let handle = try FileHandle(forUpdating: url)
-        defer { try? handle.close() }
-        var head = try ZipReader.read(handle, 0, 32 + 72)
-        guard head.le32(0) == 0xFEEDFACF else { return }
-        if head.le32(12) == 6 { try addIdDylib(handle, name: "@executable_path/" + url.lastPathComponent); return }
-        func put(_ offset: Int, _ value: UInt64, _ size: Int) {
-            for i in 0..<size { head[offset + i] = UInt8(value >> (8 * UInt64(i)) & 0xFF) }
-        }
-        put(12, 6, 4)
-        put(24, UInt64((head.le32(24) | 0x100000) & ~0x200000), 4)
-        let vmaddr = UInt64(head.le32(56)) | UInt64(head.le32(60)) << 32
-        if head.le32(32) == 0x19, vmaddr == 0 {
-            put(56, 0x1_0000_0000 - 0x4000, 8)
-            put(64, 0x4000, 8)
-        }
-        try handle.seek(toOffset: 0)
-        try handle.write(contentsOf: head)
-        try addIdDylib(handle, name: "@executable_path/" + url.lastPathComponent)
-    }
-
-    static func addIdDylib(_ handle: FileHandle, name: String) throws {
-        let header = try ZipReader.read(handle, 0, 32)
-        let count = header.le32(16)
-        let size = header.le32(20)
-        let commands = try ZipReader.read(handle, 32, size)
-        var p = 0
-        for _ in 0..<count {
-            if commands.le32(p) == 0xD { return }
-            p += commands.le32(p + 4)
-        }
-        var bytes = Array(name.utf8) + [0]
-        while (24 + bytes.count) % 8 != 0 { bytes.append(0) }
-        let length = 24 + bytes.count
-        let free = try ZipReader.read(handle, 32 + size, length)
-        guard free.allSatisfy({ $0 == 0 }) else { throw ZipError("The Roblox executable has no room for LiveContainer.") }
-        var command = le32(0xD) + le32(length) + le32(24) + le32(0) + le32(0x10000) + le32(0x10000)
-        command.append(contentsOf: bytes)
-        try handle.seek(toOffset: UInt64(32 + size))
-        try handle.write(contentsOf: command)
-        try handle.seek(toOffset: 16)
-        try handle.write(contentsOf: le32(count + 1) + le32(size + length))
-    }
-
-    public static func repair() throws {
-        guard let root else { return }
-        let app = root.appendingPathComponent("Applications/\(folder)")
-        guard let exec = RobloxFlags.plist(app.appendingPathComponent("Info.plist"))?["CFBundleExecutable"] as? String else { return }
-        try patchExec(app.appendingPathComponent(exec))
+    public static var ready: Bool {
+        guard let root, let info = RobloxFlags.plist(root.appendingPathComponent("Applications/\(folder)/LCAppInfo.plist")) else { return false }
+        return (info["LCPatchRevision"] as? Int ?? 0) > 0
     }
 
     public static var installed: Bool {
@@ -103,11 +50,9 @@ public enum LiveInstall {
                 done += 1
                 if done % 200 == 0 { status("Installing Roblox in LiveContainer", Double(done) / Double(files.count)) }
             }
-            if let exec = RobloxFlags.plist(staging.appendingPathComponent("Info.plist"))?["CFBundleExecutable"] as? String {
-                try patchExec(staging.appendingPathComponent(exec))
-            }
             var info = RobloxFlags.plist(target.appendingPathComponent("LCAppInfo.plist")) ?? [:]
             if info["LCDataUUID"] == nil { info["LCDataUUID"] = UUID().uuidString }
+            info["LCPatchRevision"] = -1
             let data = try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
             try data.write(to: staging.appendingPathComponent("LCAppInfo.plist"))
             try? fm.removeItem(at: target)
