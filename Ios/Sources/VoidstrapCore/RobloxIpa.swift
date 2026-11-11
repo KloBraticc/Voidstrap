@@ -150,7 +150,7 @@ public enum RobloxIpa {
         Paths.ensure(Paths.patched.deletingLastPathComponent())
         try IpaPatcher.patch(ipa: ipa, replacements: replacements, output: Paths.patched, status: status)
         if !settings.keepOriginalIpa { try? FileManager.default.removeItem(at: ipa) }
-        Log.write(ident, "Patched Roblox \(version) with \(modFileCount) mod files in \(String(format: "%.1f", Date().timeIntervalSince(started))) seconds")
+        Log.write(ident, "Patched Roblox \(version) with \(modFileCount) mod files from \(mods.count) enabled mod packs, \(applicable.count) of \(flags.count) FastFlags apply on iOS, in \(String(format: "%.1f", Date().timeIntervalSince(started))) seconds")
         return PatchResult(output: Paths.patched, modFiles: modFileCount, flagCount: applicable.count, robloxVersion: version)
     }
 }

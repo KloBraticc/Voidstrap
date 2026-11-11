@@ -113,7 +113,7 @@ public enum RobloxFlags {
             }
         }
         let report = written > 0
-            ? "Wrote FastFlags to \(written) Roblox data folders"
+            ? "Wrote \(flags.filter(\.appliesOnIos).count) FastFlags to \(found.map { $0.lastPathComponent + " (" + (((try? FileManager.default.contentsOfDirectory(atPath: $0.appendingPathComponent("Library").path)) ?? []).joined(separator: " ")) + ")" }.joined(separator: ", "))"
             : "No Roblox data folder found, searched \(roots.map(describe).joined(separator: ", ")), groups \(groups.joined(separator: " "))"
         if report != lastReport {
             lastReport = report
