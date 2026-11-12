@@ -194,7 +194,7 @@ public class ActivityData : INotifyPropertyChanged
 
     public string GetInviteDeeplink(bool launchData = true)
     {
-        string text = $"https://www.roblox.com/games/start?placeId={PlaceId}";
+        string text = $"{App.ProjectWebsite}/join?placeId={PlaceId}";
         text = (
             (ServerType != ServerType.Private)
                 ? (text + "&gameInstanceId=" + Uri.EscapeDataString(JobId ?? string.Empty))
