@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -1472,6 +1472,11 @@ public partial class DiscordRichPresence : IDisposable
                 _currentPresence.Buttons = Array.Empty<Button>();
                 _currentPresence.Timestamps = new Timestamps { Start = _sessionStart };
             }
+            _currentPresence.Party = null;
+            _currentPresence.Secrets = null;
+            _partyJobId = string.Empty;
+            _partyPlaying = 0;
+            _partyMax = 0;
             _currentPresence.StatusDisplay = StatusDisplayType.Name;
             _originalSnapshot = new OriginalSnapshot
             {
