@@ -47,6 +47,7 @@ internal static partial class WindowsColorEmoji
         public EmojiAdorner? Adorner;
         public TextEffectCollection? Effects;
         public bool Pending;
+        public string? Snapshot;
     }
 
     public static void Install()
@@ -63,7 +64,10 @@ internal static partial class WindowsColorEmoji
             return;
         if (Trackers.TryGetValue(block, out Tracker? tracker))
         {
-            tracker.Adorner?.InvalidateVisual();
+            if (!string.Equals(block.Text, tracker.Snapshot, StringComparison.Ordinal))
+                QueueApply(block);
+            else
+                tracker.Adorner?.InvalidateVisual();
             return;
         }
         if (!Hooked.TryGetValue(block, out _))
@@ -99,7 +103,13 @@ internal static partial class WindowsColorEmoji
 
     private static void OnTextChanged(object? sender, EventArgs e)
     {
-        if (sender is not TextBlock block || !Trackers.TryGetValue(block, out Tracker? tracker) || tracker.Pending)
+        if (sender is TextBlock block)
+            QueueApply(block);
+    }
+
+    private static void QueueApply(TextBlock block)
+    {
+        if (!Trackers.TryGetValue(block, out Tracker? tracker) || tracker.Pending)
             return;
         tracker.Pending = true;
         block.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, ApplyPending, block);
@@ -123,6 +133,7 @@ internal static partial class WindowsColorEmoji
         if (!Trackers.TryGetValue(block, out Tracker? tracker))
             return;
         string text = block.Text;
+        tracker.Snapshot = text;
         if (!MayContainEmoji(text) || !EnsureFont())
         {
             Clear(block, tracker);
@@ -157,7 +168,7 @@ internal static partial class WindowsColorEmoji
             tracker.Adorner = new EmojiAdorner(block);
             layer.Add(tracker.Adorner);
         }
-        tracker.Adorner.SetItems(found);
+        tracker.Adorner.SetItems(found, text);
     }
 
     private static void Clear(TextBlock block, Tracker tracker)
@@ -477,6 +488,7 @@ internal static partial class WindowsColorEmoji
         private const int MaxRenderRetries = 3;
         private List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> _items = new();
         private int _retries;
+        private string? _snapshot;
 
         public EmojiAdorner(TextBlock block)
             : base(block)
@@ -486,9 +498,10 @@ internal static partial class WindowsColorEmoji
             _block.IsVisibleChanged += OnBlockVisibilityChanged;
         }
 
-        public void SetItems(List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> items)
+        public void SetItems(List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> items, string snapshot)
         {
             _items = items;
+            _snapshot = snapshot;
             _retries = 0;
             InvalidateVisual();
         }
@@ -513,6 +526,11 @@ internal static partial class WindowsColorEmoji
         {
             if (!_block.IsVisible || _items.Count == 0)
                 return;
+            if (!string.Equals(_block.Text, _snapshot, StringComparison.Ordinal))
+            {
+                QueueApply(_block);
+                return;
+            }
             Brush foreground = _block.Foreground ?? Brushes.White;
             double scale = _block.FontSize / OutlineEmSize;
             dc.PushClip(new RectangleGeometry(new Rect(_block.RenderSize)));
