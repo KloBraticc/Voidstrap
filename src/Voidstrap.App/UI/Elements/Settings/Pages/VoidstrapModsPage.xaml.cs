@@ -1393,10 +1393,11 @@ public partial class VoidstrapModsPage : UiPage
     private void RenderVersions(ModLibrary.LibraryMod mod, IReadOnlyList<ModLibrary.ModVersion> versions)
     {
         VersionsHost.Children.Clear();
-        Grid header = VersionGrid();
-        header.SetResourceReference(BackgroundProperty, "ControlFillColorDefaultBrush");
-        AddVersionCell(header, StyledText("SideValue", Strings.Common_Version), 0);
-        AddVersionCell(header, StyledText("SideValue", Strings.Ui_Pages_Updated), 1);
+        Grid headerRow = VersionGrid();
+        AddVersionCell(headerRow, StyledText("SideValue", Strings.Common_Version), 0);
+        AddVersionCell(headerRow, StyledText("SideValue", Strings.Ui_Pages_Updated), 1);
+        Border header = new() { CornerRadius = new CornerRadius(9, 9, 0, 0), Child = headerRow };
+        header.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
         VersionsHost.Children.Add(header);
         if (versions.Count == 0)
         {
