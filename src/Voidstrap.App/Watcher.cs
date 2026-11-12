@@ -23,7 +23,7 @@ public partial class Watcher : IDisposable
 
     private readonly InterProcessLock _lock = new InterProcessLock(
         "Watcher",
-        App.LaunchSettings.MatchmakerRejoinFlag.Active ? TimeSpan.FromSeconds(15) : TimeSpan.FromSeconds(5)
+        App.LaunchSettings.MatchmakerRejoinFlag.Active ? TimeSpan.FromSeconds(90) : TimeSpan.FromSeconds(5)
     );
 
     private readonly WatcherData? _watcherData;
@@ -975,6 +975,11 @@ public partial class Watcher : IDisposable
         {
             return;
         }
+        if (AnotherRobloxRunning(_watcherData.ProcessId))
+        {
+            App.Logger.WriteLine("Watcher::Run", "Another Roblox took over this session, handing the watcher to it");
+            return;
+        }
         if (DateTime.UtcNow - sessionStartedUtc < TimeSpan.FromSeconds(StartupCrashSeconds))
         {
             await Task.WhenAny(crashMonitor, Task.Delay(5000)).ConfigureAwait(false);
@@ -988,6 +993,19 @@ public partial class Watcher : IDisposable
         }
         ReopenSettingsForTestMode();
         await Bootstrapper.CompressInstallsAfterExitAsync().ConfigureAwait(false);
+    }
+
+    private static bool AnotherRobloxRunning(int exitedProcessId)
+    {
+        Process[] processes = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName);
+        bool found = false;
+        foreach (Process process in processes)
+        {
+            if (process.Id != exitedProcessId)
+                found = true;
+            process.Dispose();
+        }
+        return found;
     }
 
     private const int ExitPollMilliseconds = 1000;
