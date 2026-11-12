@@ -59,7 +59,6 @@ public partial class VoidstrapModsPage : UiPage
 
     private async void LibraryPoll_Tick(object? sender, EventArgs e)
     {
-        _ = ModVotes.RefreshAsync(CancellationToken.None);
         try
         {
             ModLibrary.Index fresh = await ModLibrary.GetIndexAsync(false, CancellationToken.None);
@@ -1217,7 +1216,7 @@ public partial class VoidstrapModsPage : UiPage
         foreach (int seconds in VoteBrowserRefreshSeconds)
         {
             await Task.Delay(TimeSpan.FromSeconds(seconds));
-            await ModVotes.RefreshAsync(CancellationToken.None);
+            await ModVotes.RefreshAsync(CancellationToken.None, true);
         }
     }
 

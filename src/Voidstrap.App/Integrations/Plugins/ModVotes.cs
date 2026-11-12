@@ -14,6 +14,10 @@ internal static class ModVotes
 
     private static readonly Uri Website = new(App.ProjectWebsite);
 
+    private static readonly TimeSpan RefreshInterval = TimeSpan.FromMinutes(10);
+
+    private static DateTime _lastRefresh = DateTime.MinValue;
+
     public static event Action? Changed;
 
     private static HttpClient CreateClient()
@@ -41,9 +45,15 @@ internal static class ModVotes
             return Tallies.TryGetValue(modId, out Tally? tally) ? tally : new Tally(0, 0, 0);
     }
 
-    public static async Task RefreshAsync(CancellationToken token)
+    public static async Task RefreshAsync(CancellationToken token, bool force = false)
     {
         const string LOG_IDENT = "ModVotes::RefreshAsync";
+        lock (Tallies)
+        {
+            if (!force && DateTime.UtcNow - _lastRefresh < RefreshInterval)
+                return;
+            _lastRefresh = DateTime.UtcNow;
+        }
         try
         {
             byte[] bytes = await Client.GetByteArrayAsync(App.ProjectWebsite + "/api/mod-votes", token).ConfigureAwait(false);
