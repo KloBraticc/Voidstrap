@@ -145,6 +145,8 @@ namespace Voidstrap.Utility
 
         private static void TrimIfIdle()
         {
+            if (Volatile.Read(ref _gameplayActive) != 0)
+                return;
             long now = Environment.TickCount64;
             if (now - Volatile.Read(ref _lastTrimTicks) < TrimMinIntervalMs)
                 return;

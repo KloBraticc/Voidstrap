@@ -53,7 +53,7 @@ namespace Voidstrap.Utility
         private const uint PROCESS_MODE_BACKGROUND_BEGIN = 1048576u;
         private const uint PROCESS_MODE_BACKGROUND_END = 2097152u;
 
-        private const uint IDLE_PRIORITY_CLASS = 0x40u;
+        private const uint BELOW_NORMAL_PRIORITY_CLASS = 0x4000u;
         private const uint NORMAL_PRIORITY_CLASS = 0x20u;
 
         private const int ProcessPowerThrottling = 4;
@@ -79,7 +79,7 @@ namespace Voidstrap.Utility
         private static Task? _loopTask;
         private static int _gameplayActive;
         private static bool _efficiencyModeSet;
-        private static bool _idlePrioritySet;
+        private static bool _lowPrioritySet;
         private static bool _lowMemoryPrioritySet;
 
         private static int _windowActive = 1;
@@ -125,7 +125,7 @@ namespace Voidstrap.Utility
             SetEfficiencyMode(false);
             SetLowMemoryPriority(false);
             EndBackgroundMode();
-            SetIdlePriority(false);
+            SetLowPriority(false);
             _currentTier = MemoryTier.Active;
         }
 
@@ -142,7 +142,7 @@ namespace Voidstrap.Utility
                 EndBackgroundMode();
             }
 
-            SetIdlePriority(false);
+            SetLowPriority(false);
 
             if (_currentTier == MemoryTier.Active)
                 return;
@@ -168,7 +168,7 @@ namespace Voidstrap.Utility
         {
             CancelEscalation();
             EndBackgroundMode();
-            SetIdlePriority(true);
+            SetLowPriority(true);
             SetLowMemoryPriority(true);
             SetEfficiencyMode(true);
             if (_currentTier != MemoryTier.Deep)
@@ -285,16 +285,16 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static void SetIdlePriority(bool enabled)
+        private static void SetLowPriority(bool enabled)
         {
-            if (_idlePrioritySet == enabled || !Platform.IsWindows || _bgModeSet)
+            if (_lowPrioritySet == enabled || !Platform.IsWindows || _bgModeSet)
                 return;
             try
             {
                 using Process self = Process.GetCurrentProcess();
-                if (SetPriorityClass(self.Handle, enabled ? IDLE_PRIORITY_CLASS : NORMAL_PRIORITY_CLASS))
+                if (SetPriorityClass(self.Handle, enabled ? BELOW_NORMAL_PRIORITY_CLASS : NORMAL_PRIORITY_CLASS))
                 {
-                    _idlePrioritySet = enabled;
+                    _lowPrioritySet = enabled;
                 }
             }
             catch
@@ -393,7 +393,7 @@ namespace Voidstrap.Utility
                 {
                     if (IsAppForeground())
                     {
-                        if (_currentTier != MemoryTier.Active || _bgModeSet || _efficiencyModeSet || _idlePrioritySet || _lowMemoryPrioritySet)
+                        if (_currentTier != MemoryTier.Active || _bgModeSet || _efficiencyModeSet || _lowPrioritySet || _lowMemoryPrioritySet)
                             SetActive();
                     }
                     else if (gameplay)
