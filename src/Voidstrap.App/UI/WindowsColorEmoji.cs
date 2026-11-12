@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace Voidstrap.UI;
 
-internal static class WindowsColorEmoji
+internal static partial class WindowsColorEmoji
 {
     private const string LOG_IDENT = "WindowsColorEmoji";
     private const string FontFileName = "seguiemj.ttf";
@@ -29,6 +29,7 @@ internal static class WindowsColorEmoji
     private static readonly ConditionalWeakTable<TextBlock, object> Hooked = new();
     private static readonly object Gate = new();
     private static readonly Dictionary<ushort, Layer[]?> LayerCache = new();
+    private static readonly ConditionalWeakTable<ushort[], Layer[]?> SequenceCache = new();
 
     private static bool _installed;
     private static bool _loadAttempted;
@@ -39,7 +40,7 @@ internal static class WindowsColorEmoji
 
     private readonly record struct Layer(Geometry Geometry, Brush? Fill);
 
-    private readonly record struct Emoji(int Offset, int Length, ushort Glyph);
+    private readonly record struct Emoji(int Offset, int Length, ushort[] Glyphs);
 
     private sealed class Tracker
     {
@@ -127,7 +128,7 @@ internal static class WindowsColorEmoji
             Clear(block, tracker);
             return;
         }
-        List<(TextPointer Start, TextPointer End, ushort Glyph)> found = FindEmoji(block);
+        List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> found = FindEmoji(block);
         if (found.Count == 0)
         {
             Clear(block, tracker);
@@ -187,9 +188,9 @@ internal static class WindowsColorEmoji
         return false;
     }
 
-    private static List<(TextPointer Start, TextPointer End, ushort Glyph)> FindEmoji(TextBlock block)
+    private static List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> FindEmoji(TextBlock block)
     {
-        List<(TextPointer, TextPointer, ushort)> result = new();
+        List<(TextPointer, TextPointer, ushort[])> result = new();
         TextPointer? pointer = block.ContentStart;
         while (pointer != null)
         {
@@ -201,7 +202,7 @@ internal static class WindowsColorEmoji
                     TextPointer? start = pointer.GetPositionAtOffset(emoji.Offset);
                     TextPointer? end = pointer.GetPositionAtOffset(emoji.Offset + emoji.Length);
                     if (start != null && end != null)
-                        result.Add((start, end, emoji.Glyph));
+                        result.Add((start, end, emoji.Glyphs));
                 }
             }
             pointer = pointer.GetNextContextPosition(LogicalDirection.Forward);
@@ -211,53 +212,67 @@ internal static class WindowsColorEmoji
 
     private static IEnumerable<Emoji> Scan(string text)
     {
+        List<int> codePoints = new();
         int index = 0;
         while (index < text.Length)
         {
-            if (Rune.DecodeFromUtf16(text.AsSpan(index), out Rune rune, out int consumed) != System.Buffers.OperationStatus.Done)
+            int start = index;
+            int first = PeekRune(text, index, out int firstLength);
+            if (first < 0)
             {
                 index++;
                 continue;
             }
-            int start = index;
-            index += consumed;
-            int next = PeekRune(text, index, out int nextLength);
-            bool presentation = next == VariationSelectorEmoji;
-            if (next == VariationSelectorEmoji || next == VariationSelectorText)
+            index += firstLength;
+            codePoints.Clear();
+            codePoints.Add(first);
+            bool presentation = false;
+            bool sequence = false;
+            if (IsRegionalIndicator(first))
             {
-                index += nextLength;
-                next = PeekRune(text, index, out nextLength);
-            }
-            if (next == ZeroWidthJoiner || next == KeycapCombiner || IsSkinTone(next) || IsRegionalIndicator(rune.Value))
-            {
-                index = SkipSequence(text, index);
-                continue;
-            }
-            if (!IsEmojiCodePoint(rune.Value, presentation))
-                continue;
-            if (TryGetColorGlyph(rune.Value, out ushort glyph))
-                yield return new Emoji(start, index - start, glyph);
-        }
-    }
-
-    private static int SkipSequence(string text, int index)
-    {
-        while (index < text.Length)
-        {
-            int value = PeekRune(text, index, out int length);
-            if (value == ZeroWidthJoiner || value == KeycapCombiner || value == VariationSelectorEmoji || IsSkinTone(value) || IsRegionalIndicator(value))
-            {
-                index += length;
-                if (value == ZeroWidthJoiner && index < text.Length)
+                int pair = PeekRune(text, index, out int pairLength);
+                if (IsRegionalIndicator(pair))
                 {
-                    PeekRune(text, index, out int joinedLength);
-                    index += joinedLength;
+                    codePoints.Add(pair);
+                    index += pairLength;
                 }
-                continue;
+                sequence = true;
             }
-            break;
+            while (index < text.Length)
+            {
+                int value = PeekRune(text, index, out int valueLength);
+                if (value == VariationSelectorEmoji || value == VariationSelectorText)
+                {
+                    presentation |= value == VariationSelectorEmoji;
+                    index += valueLength;
+                    continue;
+                }
+                if (IsSkinTone(value) || value == KeycapCombiner || IsTag(value))
+                {
+                    codePoints.Add(value);
+                    index += valueLength;
+                    sequence = true;
+                    continue;
+                }
+                if (value == ZeroWidthJoiner)
+                {
+                    int joined = PeekRune(text, index + valueLength, out int joinedLength);
+                    if (joined < 0)
+                        break;
+                    codePoints.Add(value);
+                    codePoints.Add(joined);
+                    index += valueLength + joinedLength;
+                    sequence = true;
+                    continue;
+                }
+                break;
+            }
+            if (!sequence && !IsEmojiCodePoint(first, presentation))
+                continue;
+            ushort[]? glyphs = Shape(codePoints);
+            if (glyphs != null)
+                yield return new Emoji(start, index - start, glyphs);
         }
-        return index;
     }
 
     private static int PeekRune(string text, int index, out int length)
@@ -272,6 +287,8 @@ internal static class WindowsColorEmoji
 
     private static bool IsRegionalIndicator(int value) => value is >= 0x1F1E6 and <= 0x1F1FF;
 
+    private static bool IsTag(int value) => value is >= 0xE0020 and <= 0xE007F;
+
     private static bool IsEmojiCodePoint(int value, bool presentation)
     {
         if (value >= 0x1F000)
@@ -279,15 +296,6 @@ internal static class WindowsColorEmoji
         if (value is >= 0x2600 and <= 0x27BF or >= 0x2B00 and <= 0x2BFF)
             return true;
         return presentation && value >= 0xA9;
-    }
-
-    private static bool TryGetColorGlyph(int codePoint, out ushort glyph)
-    {
-        glyph = 0;
-        return _typeface != null
-            && _baseGlyphs != null
-            && _typeface.CharacterToGlyphMap.TryGetValue(codePoint, out glyph)
-            && _baseGlyphs.ContainsKey(glyph);
     }
 
     private static bool EnsureFont()
@@ -307,6 +315,8 @@ internal static class WindowsColorEmoji
                 byte[]? cpal = ReadTable(stream, "CPAL");
                 if (colr == null || cpal == null || !ParseColr(colr) || !ParseCpal(cpal))
                     return false;
+                if (ReadTable(stream, "GSUB") is { } gsub)
+                    ParseGsub(gsub);
                 _typeface = new GlyphTypeface(new Uri(path));
                 return true;
             }
@@ -425,11 +435,47 @@ internal static class WindowsColorEmoji
         }
     }
 
+    private static Layer[]? GetLayers(ushort[] glyphs)
+    {
+        if (glyphs.Length == 1)
+            return GetLayers(glyphs[0]);
+        lock (Gate)
+        {
+            if (SequenceCache.TryGetValue(glyphs, out Layer[]? cached))
+                return cached;
+        }
+        List<Layer> combined = new();
+        double advance = 0;
+        foreach (ushort glyph in glyphs)
+        {
+            Layer[]? layers = GetLayers(glyph);
+            if (layers == null || _typeface == null)
+            {
+                combined.Clear();
+                break;
+            }
+            TranslateTransform shift = new TranslateTransform(advance, 0);
+            shift.Freeze();
+            foreach (Layer layer in layers)
+            {
+                Geometry moved = layer.Geometry.Clone();
+                moved.Transform = shift;
+                moved.Freeze();
+                combined.Add(new Layer(moved, layer.Fill));
+            }
+            advance += _typeface.AdvanceWidths.TryGetValue(glyph, out double width) ? width * OutlineEmSize : OutlineEmSize;
+        }
+        Layer[]? built = combined.Count == 0 ? null : combined.ToArray();
+        lock (Gate)
+            SequenceCache.AddOrUpdate(glyphs, built);
+        return built;
+    }
+
     private sealed class EmojiAdorner : Adorner
     {
         private readonly TextBlock _block;
         private const int MaxRenderRetries = 3;
-        private List<(TextPointer Start, TextPointer End, ushort Glyph)> _items = new();
+        private List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> _items = new();
         private int _retries;
 
         public EmojiAdorner(TextBlock block)
@@ -440,7 +486,7 @@ internal static class WindowsColorEmoji
             _block.IsVisibleChanged += OnBlockVisibilityChanged;
         }
 
-        public void SetItems(List<(TextPointer Start, TextPointer End, ushort Glyph)> items)
+        public void SetItems(List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> items)
         {
             _items = items;
             _retries = 0;
@@ -471,11 +517,11 @@ internal static class WindowsColorEmoji
             double scale = _block.FontSize / OutlineEmSize;
             dc.PushClip(new RectangleGeometry(new Rect(_block.RenderSize)));
             dc.PushOpacity(_block.Opacity);
-            foreach ((TextPointer start, TextPointer end, ushort glyph) in _items)
+            foreach ((TextPointer start, TextPointer end, ushort[] glyphs) in _items)
             {
                 if (!start.IsInSameDocument(_block.ContentStart))
                     continue;
-                Layer[]? layers = GetLayers(glyph);
+                Layer[]? layers = GetLayers(glyphs);
                 if (layers == null || layers.Length == 0)
                     continue;
                 Rect from = start.GetCharacterRect(LogicalDirection.Forward);
