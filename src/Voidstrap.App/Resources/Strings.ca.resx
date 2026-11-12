@@ -9946,4 +9946,13 @@ Jugadors: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>per {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>S'està unint a {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Utilitza la icona del joc en unir-te</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Mostra la icona del joc al qual t'uneixes a la finestra d'inici en lloc de la icona de Voidstrap.</value>
+  </data>
 </root>

@@ -9947,4 +9947,13 @@ Uptime: {1}
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>ავტორი {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0}-ში შესვლა...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>შესვლისას თამაშის ხატულის გამოყენება</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>გაშვების ფანჯარაში Voidstrap-ის ხატულის ნაცვლად აჩვენეთ იმ თამაშის ხატულა, რომელშიც შედიხართ.</value>
+  </data>
 </root>

@@ -9947,4 +9947,13 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} દ્વારા</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} માં જોડાઈ રહ્યા છીએ...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>જોડાતી વખતે ગેમના આઇકનનો ઉપયોગ કરો</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>લોન્ચ વિન્ડોમાં Voidstrap આઇકનને બદલે તમે જે ગેમમાં જોડાઈ રહ્યા છો તેનો આઇકન બતાવો.</value>
+  </data>
 </root>

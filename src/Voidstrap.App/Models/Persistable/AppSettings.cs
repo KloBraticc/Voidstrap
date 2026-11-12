@@ -23,6 +23,7 @@ namespace Voidstrap.Models.Persistable
         public BootstrapperScale BootstrapperScale { get; set; } = BootstrapperScale.Normal;
         public BootstrapperIcon BootstrapperIcon { get; set; } = BootstrapperIcon.IconVoidstrap;
         public BootstrapperIcon StudioBootstrapperIcon { get; set; }
+        public bool LaunchGameIcon { get; set; } = true;
         public bool RiShadeEnabled { get; set; } = false;
         public string RiShadeDepthModel { get; set; } = "RiDepth";
         public bool RiShadePerformancePromptShown { get; set; }

@@ -109,6 +109,19 @@ public class BootstrapperDialogViewModel : NotifyPropertyChangedViewModel
         _iconFrames = [];
     }
 
+    public void ShowGameIcon(ImageSource icon)
+    {
+        if (_iconTimer != null)
+        {
+            _iconTimer.Stop();
+            _iconTimer.Tick -= OnIconTick;
+            _iconTimer = null;
+        }
+        _iconFrames = [];
+        Icon = icon;
+        OnPropertyChanged(nameof(Icon));
+    }
+
     private void CancelInstall()
     {
         if (_dialog == null) return;

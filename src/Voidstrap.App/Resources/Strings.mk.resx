@@ -9947,4 +9947,13 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>од {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Се приклучува кон {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Користи ја иконата на играта при приклучување</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Прикажи ја иконата на играта кон која се приклучуваш во прозорецот за стартување наместо иконата на Voidstrap.</value>
+  </data>
 </root>

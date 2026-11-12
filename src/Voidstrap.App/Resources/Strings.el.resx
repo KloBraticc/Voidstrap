@@ -9946,4 +9946,13 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>από {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Συμμετοχή στο {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Χρήση του εικονιδίου του παιχνιδιού κατά τη συμμετοχή</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Εμφάνιση του εικονιδίου του παιχνιδιού στο οποίο συμμετέχετε στο παράθυρο εκκίνησης αντί για το εικονίδιο του Voidstrap.</value>
+  </data>
 </root>

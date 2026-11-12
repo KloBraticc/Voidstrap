@@ -9947,4 +9947,13 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} бүтээсэн</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} тоглоомд нэгдэж байна...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Нэгдэх үед тоглоомын дүрс тэмдгийг ашиглах</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Эхлүүлэх цонхонд Voidstrap дүрс тэмдгийн оронд нэгдэж буй тоглоомын дүрс тэмдгийг харуулна.</value>
+  </data>
 </root>

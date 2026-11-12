@@ -9946,4 +9946,13 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} မှ</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} သို့ ဝင်ရောက်နေသည်...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>ဝင်ရောက်သည့်အခါ ဂိမ်း၏ အိုင်ကွန်ကို အသုံးပြုရန်</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>စတင်ဝင်းဒိုးတွင် Voidstrap အိုင်ကွန်အစား သင်ဝင်ရောက်နေသော ဂိမ်း၏ အိုင်ကွန်ကို ပြသရန်။</value>
+  </data>
 </root>

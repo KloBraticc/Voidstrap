@@ -9946,4 +9946,13 @@ O'yinchilar: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>muallif {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} o'yiniga qo'shilmoqda...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Qo'shilganda o'yin belgisidan foydalanish</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Ishga tushirish oynasida Voidstrap belgisi o'rniga qo'shilayotgan o'yiningiz belgisini ko'rsatish.</value>
+  </data>
 </root>

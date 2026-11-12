@@ -10258,4 +10258,13 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>제작자 {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0}에 참가하는 중...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>참가할 때 게임 아이콘 사용</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>실행 창에 Voidstrap 아이콘 대신 참가하는 게임의 아이콘을 표시합니다.</value>
+  </data>
 </root>

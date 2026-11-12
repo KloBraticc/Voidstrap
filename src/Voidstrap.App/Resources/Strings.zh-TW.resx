@@ -10262,4 +10262,13 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>作者 {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>正在加入 {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>加入時使用遊戲圖示</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>在啟動視窗中顯示你要加入的遊戲圖示，而不是 Voidstrap 圖示。</value>
+  </data>
 </root>

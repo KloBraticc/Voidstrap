@@ -9946,4 +9946,13 @@ Jokalariak: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>egilea: {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} jokora batzen...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Erabili jokoaren ikonoa batzean</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Erakutsi batzen ari zaren jokoaren ikonoa abiarazte leihoan, Voidstrap ikonoaren ordez.</value>
+  </data>
 </root>

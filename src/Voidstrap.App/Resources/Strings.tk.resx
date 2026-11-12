@@ -9946,4 +9946,13 @@ Oýunçylar: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>awtory {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} oýnuna goşulýar...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Goşulanyňda oýnuň nyşanyny ulan</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Başlatma penjiresinde Voidstrap nyşanynyň ýerine goşulýan oýnuňyzyň nyşanyny görkez.</value>
+  </data>
 </root>

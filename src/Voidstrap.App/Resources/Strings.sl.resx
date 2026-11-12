@@ -9947,4 +9947,13 @@ Igralci: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>avtor {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Pridruževanje igri {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Pri pridruževanju uporabi ikono igre</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>V oknu za zagon prikaži ikono igre, ki se ji pridružuješ, namesto ikone Voidstrap.</value>
+  </data>
 </root>

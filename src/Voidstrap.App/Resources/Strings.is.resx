@@ -9947,4 +9947,13 @@ Leikmenn: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>eftir {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Tengist {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Nota tákn leiksins þegar tengst er</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Sýna tákn leiksins sem þú ert að tengjast í ræsiglugganum í stað Voidstrap táknsins.</value>
+  </data>
 </root>

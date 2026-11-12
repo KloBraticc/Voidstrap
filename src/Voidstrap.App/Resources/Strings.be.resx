@@ -9946,4 +9946,13 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>ад {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Далучэнне да {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Выкарыстоўваць значок гульні пры далучэнні</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Паказваць у акне запуску значок гульні, да якой вы далучаецеся, замест значка Voidstrap.</value>
+  </data>
 </root>

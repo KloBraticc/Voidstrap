@@ -9946,4 +9946,13 @@ Libapali: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>ka {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>E kena ho {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Sebelisa letshwao la papadi ha o kena</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Bontsha letshwao la papadi eo o kenang ho yona fensetereng ya ho qala sebakeng sa letshwao la Voidstrap.</value>
+  </data>
 </root>

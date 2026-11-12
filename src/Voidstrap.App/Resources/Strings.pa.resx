@@ -9947,4 +9947,13 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} ਵੱਲੋਂ</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} ਵਿੱਚ ਸ਼ਾਮਲ ਹੋ ਰਹੇ ਹਾਂ...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>ਸ਼ਾਮਲ ਹੋਣ ਵੇਲੇ ਗੇਮ ਦਾ ਆਈਕਨ ਵਰਤੋ</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>ਲਾਂਚ ਵਿੰਡੋ ਵਿੱਚ Voidstrap ਆਈਕਨ ਦੀ ਥਾਂ ਉਸ ਗੇਮ ਦਾ ਆਈਕਨ ਦਿਖਾਓ ਜਿਸ ਵਿੱਚ ਤੁਸੀਂ ਸ਼ਾਮਲ ਹੋ ਰਹੇ ਹੋ।</value>
+  </data>
 </root>

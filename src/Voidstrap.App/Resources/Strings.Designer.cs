@@ -10275,5 +10275,8 @@ namespace Voidstrap.Resources {
 
         public static string Discord_Invites_JoinFailed => ResourceManager.GetString("Discord.Invites.JoinFailed", resourceCulture);
 
+        public static string Bootstrapper_Status_JoiningGame => ResourceManager.GetString("Bootstrapper.Status.JoiningGame", resourceCulture);
+        public static string Menu_Appearance_LaunchGameIcon_Title => ResourceManager.GetString("Menu.Appearance.LaunchGameIcon.Title", resourceCulture);
+        public static string Menu_Appearance_LaunchGameIcon_Description => ResourceManager.GetString("Menu.Appearance.LaunchGameIcon.Description", resourceCulture);
     }
 }

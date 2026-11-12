@@ -9947,4 +9947,13 @@ Kaitākaro: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>nā {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Kei te hono ki {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Whakamahia te tohu o te kēmu i te wā e hono ana</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Whakaaturia te tohu o te kēmu e hono ana koe ki te matapihi whakarewa, kaua ko te tohu Voidstrap.</value>
+  </data>
 </root>

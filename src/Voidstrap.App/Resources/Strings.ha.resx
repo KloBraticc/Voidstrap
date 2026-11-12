@@ -9947,4 +9947,13 @@ Uptime: {1}
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>daga {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Ana shiga {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Yi amfani da alamar wasan lokacin shiga</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Nuna alamar wasan da kake shiga a tagar farawa maimakon alamar Voidstrap.</value>
+  </data>
 </root>

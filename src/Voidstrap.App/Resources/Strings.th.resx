@@ -10254,4 +10254,13 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>โดย {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>กำลังเข้าร่วม {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>ใช้ไอคอนของเกมเมื่อเข้าร่วม</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>แสดงไอคอนของเกมที่คุณกำลังเข้าร่วมในหน้าต่างเริ่มต้นแทนไอคอน Voidstrap</value>
+  </data>
 </root>

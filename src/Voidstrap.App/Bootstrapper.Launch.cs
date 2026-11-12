@@ -1,6 +1,9 @@
 using System.ComponentModel;
 using System.Net.Sockets;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Voidstrap.UI.ViewModels.Bootstrapper;
 using Voidstrap.Core;
 using Voidstrap.Integrations;
 using Voidstrap.Integrations.AssetProxy;
@@ -244,17 +247,79 @@ public partial class Bootstrapper
 
     private async Task MaybeApplyVoidstrapMatchmakerAsync(CancellationToken ct)
     {
+        string? gameName = await ShowLaunchGameAsync(ct);
         string rewritten = await RewriteVoidstrapMatchmakerBeforeDispatchAsync(
             _launchCommandLine,
             _launchMode,
             ct,
-            () => SetStatus("Finding closest server...")
+            () => SetStatus(string.Format(Strings.Bootstrapper_Status_JoiningGame, gameName ?? "Roblox"))
         );
         if (!string.Equals(rewritten, _launchCommandLine, StringComparison.Ordinal))
         {
             _launchCommandLine = rewritten;
             App.LaunchSettings.RobloxLaunchArgs = rewritten;
         }
+    }
+
+    private async Task<string?> ShowLaunchGameAsync(CancellationToken ct)
+    {
+        const string LOG_IDENT = "Bootstrapper::ShowLaunchGameAsync";
+
+        if (_launchMode != LaunchMode.Player || string.IsNullOrWhiteSpace(_launchCommandLine))
+            return null;
+        long placeId = LaunchInterceptor.ExtractPlaceId(_launchCommandLine);
+        if (placeId <= 0)
+            return null;
+        try
+        {
+            using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
+            timeout.CancelAfter(TimeSpan.FromSeconds(3));
+            await UniverseDetails.ResolvePlacesToUniversesAsync([placeId], timeout.Token).ConfigureAwait(false);
+            if (!UniverseDetails.TryGetUniverseForPlace(placeId, out long universeId))
+                return null;
+            if (UniverseDetails.LoadFromCache(universeId) == null)
+                await UniverseDetails.FetchSingle(universeId, timeout.Token).ConfigureAwait(false);
+            UniverseDetails? details = UniverseDetails.LoadFromCache(universeId);
+            string? name = details?.Data?.Name?.Trim();
+            if (string.IsNullOrEmpty(name))
+                name = null;
+            if (name != null)
+                SetStatus(string.Format(Strings.Bootstrapper_Status_JoiningGame, name));
+            if (App.Settings.Prop.LaunchGameIcon && details?.Thumbnail?.ImageUrl is { Length: > 0 } url)
+            {
+                BitmapSource? icon = await SafeImaging.FromHttpAsync(url, 256, timeout.Token).ConfigureAwait(false);
+                if (icon != null)
+                {
+                    ImageSource rounded = RoundedIcon(icon);
+                    PostToDialog(() =>
+                    {
+                        if (Dialog is FrameworkElement { DataContext: BootstrapperDialogViewModel viewModel })
+                            viewModel.ShowGameIcon(rounded);
+                    });
+                }
+            }
+            return name;
+        }
+        catch (OperationCanceledException) when (!ct.IsCancellationRequested)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Game details took too long, keeping the default launch window");
+            return null;
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Game details could not be loaded: " + ex.Message);
+            return null;
+        }
+    }
+
+    private static ImageSource RoundedIcon(BitmapSource icon)
+    {
+        Rect bounds = new Rect(0, 0, 256, 256);
+        DrawingGroup group = new DrawingGroup { ClipGeometry = new RectangleGeometry(bounds, 52, 52) };
+        group.Children.Add(new ImageDrawing(icon, bounds));
+        DrawingImage image = new DrawingImage(group);
+        image.Freeze();
+        return image;
     }
 
     internal static async Task<string> RewriteVoidstrapMatchmakerBeforeDispatchAsync(

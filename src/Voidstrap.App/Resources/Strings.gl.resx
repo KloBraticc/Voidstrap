@@ -9947,4 +9947,13 @@ Xogadores: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>por {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Uníndote a {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Usar a icona do xogo ao unirte</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Mostra a icona do xogo ao que te unes na xanela de inicio en lugar da icona de Voidstrap.</value>
+  </data>
 </root>

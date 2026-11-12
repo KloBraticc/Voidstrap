@@ -9947,4 +9947,13 @@ Rannpháirtithe: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>le {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Ag dul isteach i {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Úsáid deilbhín an chluiche agus tú ag dul isteach</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Taispeáin deilbhín an chluiche a bhfuil tú ag dul isteach ann san fhuinneog tosaithe in ionad dheilbhín Voidstrap.</value>
+  </data>
 </root>

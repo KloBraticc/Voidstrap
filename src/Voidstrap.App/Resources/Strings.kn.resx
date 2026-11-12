@@ -9947,4 +9947,13 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} ಅವರಿಂದ</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} ಗೆ ಸೇರುತ್ತಿದೆ...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>ಸೇರುವಾಗ ಆಟದ ಐಕಾನ್ ಬಳಸಿ</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>ಲಾಂಚ್ ವಿಂಡೋದಲ್ಲಿ Voidstrap ಐಕಾನ್ ಬದಲಿಗೆ ನೀವು ಸೇರುತ್ತಿರುವ ಆಟದ ಐಕಾನ್ ತೋರಿಸಿ.</value>
+  </data>
 </root>

@@ -9947,4 +9947,13 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} यांनी</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} मध्ये सामील होत आहे...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>सामील होताना गेमचा आयकॉन वापरा</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>लाँच विंडोमध्ये Voidstrap आयकॉनऐवजी तुम्ही ज्या गेममध्ये सामील होत आहात त्याचा आयकॉन दाखवा.</value>
+  </data>
 </root>

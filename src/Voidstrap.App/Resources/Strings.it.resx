@@ -10262,4 +10262,13 @@ Giocatori: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>di {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Accesso a {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Usa l'icona del gioco durante l'accesso</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Mostra l'icona del gioco a cui stai accedendo nella finestra di avvio al posto dell'icona di Voidstrap.</value>
+  </data>
 </root>

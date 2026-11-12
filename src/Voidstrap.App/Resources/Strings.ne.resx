@@ -9947,4 +9947,13 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} द्वारा</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} मा सामेल हुँदै...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>सामेल हुँदा खेलको आइकन प्रयोग गर्नुहोस्</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>सुरु विन्डोमा Voidstrap आइकनको सट्टा तपाईं सामेल हुँदै गरेको खेलको आइकन देखाउनुहोस्।</value>
+  </data>
 </root>

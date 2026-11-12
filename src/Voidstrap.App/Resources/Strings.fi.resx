@@ -10260,4 +10260,13 @@ Pelaajat: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>tekijä {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Liitytään peliin {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Käytä pelin kuvaketta liittyessä</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Näytä käynnistysikkunassa sen pelin kuvake, johon liityt, Voidstrapin kuvakkeen sijaan.</value>
+  </data>
 </root>

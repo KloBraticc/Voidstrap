@@ -10261,4 +10261,13 @@ Jucători: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>de {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Te alături jocului {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Folosește pictograma jocului la alăturare</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Afișează în fereastra de lansare pictograma jocului la care te alături în locul pictogramei Voidstrap.</value>
+  </data>
 </root>

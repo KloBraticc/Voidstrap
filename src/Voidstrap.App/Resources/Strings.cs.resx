@@ -10260,4 +10260,13 @@ Hráči: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>od {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Připojování ke hře {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Použít ikonu hry při připojování</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Zobrazí v okně spuštění ikonu hry, ke které se připojujete, místo ikony Voidstrap.</value>
+  </data>
 </root>

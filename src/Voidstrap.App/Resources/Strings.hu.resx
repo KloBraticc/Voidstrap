@@ -10259,4 +10259,13 @@ Játékosok: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>készítette: {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Csatlakozás ehhez: {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>A játék ikonjának használata csatlakozáskor</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Az indítóablakban a Voidstrap ikonja helyett annak a játéknak az ikonját mutatja, amelyhez csatlakozol.</value>
+  </data>
 </root>

@@ -9947,4 +9947,13 @@ Abakinnyi: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>na {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Kwinjira muri {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Koresha ikirango cy'umukino igihe winjira</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Erekana ikirango cy'umukino urimo kwinjiramo mu idirishya ryo gutangiza aho kwerekana ikirango cya Voidstrap.</value>
+  </data>
 </root>

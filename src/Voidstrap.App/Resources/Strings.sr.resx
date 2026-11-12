@@ -9947,4 +9947,13 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>аутор {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Придруживање игри {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Користи икону игре при придруживању</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Прикажи икону игре којој се придружујеш у прозору за покретање уместо иконе Voidstrap.</value>
+  </data>
 </root>

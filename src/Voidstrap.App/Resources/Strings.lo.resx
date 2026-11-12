@@ -9947,4 +9947,13 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>ໂດຍ {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>ກຳລັງເຂົ້າຮ່ວມ {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>ໃຊ້ໄອຄອນຂອງເກມເມື່ອເຂົ້າຮ່ວມ</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>ສະແດງໄອຄອນຂອງເກມທີ່ທ່ານກຳລັງເຂົ້າຮ່ວມໃນໜ້າຕ່າງເລີ່ມຕົ້ນແທນໄອຄອນ Voidstrap.</value>
+  </data>
 </root>

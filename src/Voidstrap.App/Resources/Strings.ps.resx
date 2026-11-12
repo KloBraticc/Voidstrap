@@ -9947,4 +9947,13 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>د {0} لخوا</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} ته ورګډېږي...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>د ګډون پر مهال د لوبې نښه وکاروئ</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>د پیل په کړکۍ کې د Voidstrap نښې پر ځای د هغې لوبې نښه وښایاست چې تاسو ورسره یوځای کېږئ.</value>
+  </data>
 </root>

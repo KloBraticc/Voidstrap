@@ -9946,4 +9946,13 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} দ্বারা</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} এ যোগ দেওয়া হচ্ছে...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>যোগ দেওয়ার সময় গেমের আইকন ব্যবহার করুন</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>লঞ্চ উইন্ডোতে Voidstrap আইকনের বদলে আপনি যে গেমে যোগ দিচ্ছেন তার আইকন দেখান।</value>
+  </data>
 </root>

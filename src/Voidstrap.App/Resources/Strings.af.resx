@@ -9946,4 +9946,13 @@ Spelers: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>deur {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Sluit aan by {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Gebruik die speletjie se ikoon wanneer jy aansluit</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Wys die ikoon van die speletjie waarby jy aansluit in die beginvenster in plaas van die Voidstrap-ikoon.</value>
+  </data>
 </root>

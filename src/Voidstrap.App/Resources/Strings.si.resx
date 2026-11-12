@@ -9947,4 +9947,13 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} විසින්</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} වෙත සම්බන්ධ වෙමින්...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>සම්බන්ධ වන විට ක්‍රීඩාවේ අයිකනය භාවිත කරන්න</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>ආරම්භක කවුළුවේ Voidstrap අයිකනය වෙනුවට ඔබ සම්බන්ධ වන ක්‍රීඩාවේ අයිකනය පෙන්වන්න.</value>
+  </data>
 </root>

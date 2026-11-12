@@ -9946,4 +9946,13 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} کی جانب سے</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} میں شامل ہو رہے ہیں...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>شامل ہوتے وقت گیم کا آئیکن استعمال کریں</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>لانچ ونڈو میں Voidstrap آئیکن کی بجائے اس گیم کا آئیکن دکھائیں جس میں آپ شامل ہو رہے ہیں۔</value>
+  </data>
 </root>

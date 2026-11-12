@@ -9947,4 +9947,13 @@ Spēlētāji: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>autors {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Pievienošanās spēlei {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Pievienojoties izmantot spēles ikonu</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Palaišanas logā Voidstrap ikonas vietā rādīt tās spēles ikonu, kurai pievienojaties.</value>
+  </data>
 </root>

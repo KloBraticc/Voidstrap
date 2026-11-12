@@ -9946,4 +9946,13 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} உருவாக்கியது</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} இல் இணைகிறது...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>இணையும்போது விளையாட்டின் ஐகானைப் பயன்படுத்து</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>தொடக்கச் சாளரத்தில் Voidstrap ஐகானுக்குப் பதிலாக நீங்கள் இணையும் விளையாட்டின் ஐகானைக் காட்டு.</value>
+  </data>
 </root>

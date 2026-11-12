@@ -9946,4 +9946,13 @@ Oyunçular: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} tərəfindən</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} oyununa qoşulur...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Qoşularkən oyunun ikonundan istifadə et</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Başlatma pəncərəsində Voidstrap ikonu əvəzinə qoşulduğunuz oyunun ikonunu göstər.</value>
+  </data>
 </root>

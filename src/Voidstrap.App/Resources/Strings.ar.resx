@@ -10258,4 +10258,13 @@
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>بواسطة {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>جارٍ الانضمام إلى {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>استخدم أيقونة اللعبة عند الانضمام</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>اعرض أيقونة اللعبة التي تنضم إليها في نافذة التشغيل بدلاً من أيقونة Voidstrap.</value>
+  </data>
 </root>

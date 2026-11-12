@@ -9946,4 +9946,13 @@ Uptime: {1}
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} تەرىپىدىن</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} غا قېتىلىۋاتىدۇ...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>قېتىلغاندا ئويۇننىڭ سىنبەلگىسىنى ئىشلىتىش</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>قوزغىتىش كۆزنىكىدە Voidstrap سىنبەلگىسىنىڭ ئورنىغا قېتىلىۋاتقان ئويۇننىڭ سىنبەلگىسىنى كۆرسىتىش.</value>
+  </data>
 </root>

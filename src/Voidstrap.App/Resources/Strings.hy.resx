@@ -9947,4 +9947,13 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>հեղինակ՝ {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Միանում ենք {0}-ին...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Միանալիս օգտագործել խաղի պատկերակը</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Գործարկման պատուհանում Voidstrap-ի պատկերակի փոխարեն ցույց տալ այն խաղի պատկերակը, որին միանում եք։</value>
+  </data>
 </root>

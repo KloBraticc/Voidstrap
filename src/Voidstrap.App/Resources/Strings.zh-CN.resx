@@ -10283,4 +10283,13 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>作者 {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>正在加入 {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>加入时使用游戏图标</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>在启动窗口中显示您要加入的游戏图标，而不是 Voidstrap 图标。</value>
+  </data>
 </root>

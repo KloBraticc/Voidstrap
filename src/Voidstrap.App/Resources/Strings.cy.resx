@@ -9946,4 +9946,13 @@ Chwaraewyr: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>gan {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Yn ymuno â {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Defnyddio eicon y gêm wrth ymuno</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Dangos eicon y gêm rydych chi'n ymuno â hi yn y ffenestr lansio yn lle eicon Voidstrap.</value>
+  </data>
 </root>

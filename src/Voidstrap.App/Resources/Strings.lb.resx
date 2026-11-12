@@ -9947,4 +9947,13 @@ Spiller: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>vum {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Bäitrëtt zu {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>D'Spillikon beim Bäitrëtt benotzen</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Weist an der Startfënster d'Ikon vum Spill, deem s du bäitrëtts, amplaz vum Voidstrap-Ikon.</value>
+  </data>
 </root>

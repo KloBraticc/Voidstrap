@@ -10262,4 +10262,13 @@ Người chơi: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>bởi {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Đang tham gia {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Dùng biểu tượng của trò chơi khi tham gia</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Hiển thị biểu tượng của trò chơi bạn đang tham gia trong cửa sổ khởi chạy thay cho biểu tượng Voidstrap.</value>
+  </data>
 </root>

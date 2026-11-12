@@ -959,6 +959,12 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public bool IsCustomIcon => Icon == BootstrapperIcon.IconCustom;
 
+    public bool LaunchGameIcon
+    {
+        get => App.Settings.Prop.LaunchGameIcon;
+        set => App.Settings.Prop.LaunchGameIcon = value;
+    }
+
     public ObservableCollection<CustomIconChoice> CustomIconChoices { get; } = new();
 
     public ICommand SelectCustomIconCommand => new RelayCommand<string>(SelectCustomIcon);

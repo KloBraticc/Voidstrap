@@ -9946,4 +9946,13 @@ Igrači: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>autor {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Pridruživanje igri {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Koristi ikonu igre pri pridruživanju</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Prikaži ikonu igre kojoj se pridružuješ u prozoru za pokretanje umjesto ikone Voidstrap.</value>
+  </data>
 </root>

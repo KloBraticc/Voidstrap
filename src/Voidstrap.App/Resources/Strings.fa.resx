@@ -10261,4 +10261,13 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>توسط {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>در حال پیوستن به {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>استفاده از نماد بازی هنگام پیوستن</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>نماد بازی‌ای را که به آن می‌پیوندید به‌جای نماد Voidstrap در پنجره اجرا نشان دهید.</value>
+  </data>
 </root>

@@ -9947,4 +9947,13 @@ Ndị egwuregwu: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>site n'aka {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Na-esonye {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Jiri akara egwuregwu ahụ mgbe ị na-esonye</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Gosi akara egwuregwu ị na-esonye na windo mmalite kama akara Voidstrap.</value>
+  </data>
 </root>

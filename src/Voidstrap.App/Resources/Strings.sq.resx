@@ -9947,4 +9947,13 @@ Lojtarët: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>nga {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Duke u bashkuar me {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Përdor ikonën e lojës gjatë bashkimit</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Shfaq ikonën e lojës me të cilën po bashkohesh në dritaren e nisjes në vend të ikonës së Voidstrap.</value>
+  </data>
 </root>

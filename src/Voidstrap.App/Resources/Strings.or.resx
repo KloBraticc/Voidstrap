@@ -9947,4 +9947,13 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} ଦ୍ୱାରା</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} ରେ ଯୋଗ ଦେଉଛି...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>ଯୋଗ ଦେବା ସମୟରେ ଖେଳର ଆଇକନ୍ ବ୍ୟବହାର କରନ୍ତୁ</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>ଲଞ୍ଚ ୱିଣ୍ଡୋରେ Voidstrap ଆଇକନ୍ ବଦଳରେ ଆପଣ ଯୋଗ ଦେଉଥିବା ଖେଳର ଆଇକନ୍ ଦେଖାନ୍ତୁ।</value>
+  </data>
 </root>

@@ -9947,4 +9947,13 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} നിർമ്മിച്ചത്</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} ൽ ചേരുന്നു...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>ചേരുമ്പോൾ ഗെയിമിന്റെ ഐക്കൺ ഉപയോഗിക്കുക</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>ലോഞ്ച് വിൻഡോയിൽ Voidstrap ഐക്കണിന് പകരം നിങ്ങൾ ചേരുന്ന ഗെയിമിന്റെ ഐക്കൺ കാണിക്കുക.</value>
+  </data>
 </root>

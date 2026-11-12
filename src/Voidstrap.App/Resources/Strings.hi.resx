@@ -9947,4 +9947,13 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} द्वारा</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} में शामिल हो रहे हैं...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>जुड़ते समय गेम का आइकन इस्तेमाल करें</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>लॉन्च विंडो में Voidstrap आइकन की जगह उस गेम का आइकन दिखाएं जिसमें आप शामिल हो रहे हैं।</value>
+  </data>
 </root>

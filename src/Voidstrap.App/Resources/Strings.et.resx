@@ -9946,4 +9946,13 @@ Mängijad: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>autor {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Liitumine mänguga {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Kasuta liitumisel mängu ikooni</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Näita käivitusaknas Voidstrapi ikooni asemel selle mängu ikooni, millega liitud.</value>
+  </data>
 </root>

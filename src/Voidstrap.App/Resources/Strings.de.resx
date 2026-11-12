@@ -10259,4 +10259,13 @@ Spieler: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>von {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Trete {0} bei...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Spielsymbol beim Beitreten verwenden</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Zeigt im Startfenster das Symbol des Spiels, dem du beitrittst, statt des Voidstrap-Symbols.</value>
+  </data>
 </root>

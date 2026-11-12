@@ -9947,4 +9947,13 @@ Parteċipanti: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>minn {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Qed tingħaqad ma' {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Uża l-ikona tal-logħba meta tingħaqad</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Uri l-ikona tal-logħba li qed tingħaqad magħha fit-tieqa tat-tnedija minflok l-ikona ta' Voidstrap.</value>
+  </data>
 </root>

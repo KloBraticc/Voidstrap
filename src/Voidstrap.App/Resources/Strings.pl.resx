@@ -10260,4 +10260,13 @@ Gracze: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>autor {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Dołączanie do {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Używaj ikony gry podczas dołączania</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Pokazuj w oknie uruchamiania ikonę gry, do której dołączasz, zamiast ikony Voidstrap.</value>
+  </data>
 </root>

@@ -9947,4 +9947,13 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>автору {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} оюнуна кошулууда...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Кошулганда оюндун сөлөкөтүн колдонуу</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Ишке киргизүү терезесинде Voidstrap сөлөкөтүнүн ордуна кошулуп жаткан оюндун сөлөкөтүн көрсөтүү.</value>
+  </data>
 </root>

@@ -9946,4 +9946,13 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>פֿון {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>פארבינדט זיך מיט {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>ניצן דעם שפּיל־בילדל ביים פארבינדן</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>ווייזן אין דעם אנהייב־פענצטער דעם בילדל פון דעם שפּיל וואס איר פארבינדט זיך מיט אנשטאט דעם Voidstrap בילדל.</value>
+  </data>
 </root>

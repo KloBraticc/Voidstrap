@@ -10259,4 +10259,13 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>автор {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Подключение к {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Использовать значок игры при подключении</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Показывать в окне запуска значок игры, к которой Вы подключаетесь, вместо значка Voidstrap.</value>
+  </data>
 </root>

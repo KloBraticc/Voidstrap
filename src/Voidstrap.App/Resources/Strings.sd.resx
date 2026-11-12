@@ -9947,4 +9947,13 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>{0} پاران</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>{0} ۾ شامل ٿي رهيا آهيون...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>شامل ٿيڻ وقت راند جو آئڪن استعمال ڪريو</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>لانچ ونڊو ۾ Voidstrap آئڪن بدران ان راند جو آئڪن ڏيکاريو جنهن ۾ توهان شامل ٿي رهيا آهيو.</value>
+  </data>
 </root>

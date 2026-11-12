@@ -9947,4 +9947,13 @@ Ciyaartoyda: {2}</value>
   <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
     <value>waxaa sameeyay {0}</value>
   </data>
+  <data name="Bootstrapper.Status.JoiningGame" xml:space="preserve">
+    <value>Ku biiraya {0}...</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Title" xml:space="preserve">
+    <value>Isticmaal astaanta ciyaarta marka aad ku biirayso</value>
+  </data>
+  <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
+    <value>Ku tus daaqadda bilowga astaanta ciyaarta aad ku biirayso halkii aad ka tusi lahayd astaanta Voidstrap.</value>
+  </data>
 </root>
