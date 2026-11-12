@@ -10248,4 +10248,16 @@ Pelaajat: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Ääniä on juuri nyt liikaa, yritä uudelleen muutaman minuutin kuluttua.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Muutosloki</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Modin tiedot</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Luotettavuus</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>tekijä {0}</value>
+  </data>
 </root>

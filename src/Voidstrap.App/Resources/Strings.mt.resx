@@ -9935,4 +9935,16 @@ Parteċipanti: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Hemm wisq voti bħalissa, erġa' pprova fi ftit minuti.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Reġistru tal bidliet</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Informazzjoni dwar il mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Fiduċja</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>minn {0}</value>
+  </data>
 </root>

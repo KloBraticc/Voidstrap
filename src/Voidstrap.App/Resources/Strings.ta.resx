@@ -9934,4 +9934,16 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>இப்போது அதிகமான வாக்குகள் உள்ளன, சில நிமிடங்களில் மீண்டும் முயற்சிக்கவும்.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>மாற்றப் பதிவு</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>மோட் தகவல்</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>நம்பகத்தன்மை</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} உருவாக்கியது</value>
+  </data>
 </root>

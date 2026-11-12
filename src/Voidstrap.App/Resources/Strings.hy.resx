@@ -9935,4 +9935,16 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Այս պահին չափազանց շատ ձայներ կան, փորձեք կրկին մի քանի րոպեից։</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Փոփոխությունների մատյան</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Մոդի տեղեկություններ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Վստահություն</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>հեղինակ՝ {0}</value>
+  </data>
 </root>

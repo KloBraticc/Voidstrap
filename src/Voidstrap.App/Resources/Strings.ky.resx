@@ -9935,4 +9935,16 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Азыр добуштар өтө көп, бир нече мүнөттөн кийин кайра аракет кылыңыз.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Өзгөрүүлөр журналы</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Мод тууралуу маалымат</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Ишеним</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>автору {0}</value>
+  </data>
 </root>

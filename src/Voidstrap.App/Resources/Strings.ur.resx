@@ -9934,4 +9934,16 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>اس وقت بہت زیادہ ووٹ ہیں، چند منٹ بعد دوبارہ کوشش کریں۔</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>تبدیلیوں کی فہرست</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>موڈ کی معلومات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>اعتماد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} کی جانب سے</value>
+  </data>
 </root>

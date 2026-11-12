@@ -10250,4 +10250,16 @@ Pemain: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Terlalu banyak suara saat ini, coba lagi dalam beberapa menit.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Log perubahan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Informasi mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Kepercayaan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>oleh {0}</value>
+  </data>
 </root>

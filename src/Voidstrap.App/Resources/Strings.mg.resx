@@ -9935,4 +9935,16 @@ Mpilalao: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Be loatra ny latsa-bato amin'izao fotoana izao, andramo indray afaka minitra vitsy.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Tantaran'ny fanovana</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Mombamomba ny mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Fitokisana</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>nataon'i {0}</value>
+  </data>
 </root>

@@ -10245,4 +10245,16 @@ Oyuncular: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Şu anda çok fazla oy var, birkaç dakika sonra tekrar deneyin.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Değişiklik günlüğü</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Mod bilgileri</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Güven</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} tarafından</value>
+  </data>
 </root>

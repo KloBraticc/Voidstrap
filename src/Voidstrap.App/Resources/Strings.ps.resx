@@ -9935,4 +9935,16 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>اوس ډېرې رایې دي، څو دقیقې وروسته بیا هڅه وکړئ.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>د بدلونونو لړلیک</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>د موډ معلومات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>باور</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>د {0} لخوا</value>
+  </data>
 </root>

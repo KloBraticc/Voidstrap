@@ -9935,4 +9935,16 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>ਇਸ ਵੇਲੇ ਬਹੁਤ ਜ਼ਿਆਦਾ ਵੋਟਾਂ ਹਨ, ਕੁਝ ਮਿੰਟਾਂ ਬਾਅਦ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>ਬਦਲਾਅ ਸੂਚੀ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>ਮੋਡ ਜਾਣਕਾਰੀ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ਭਰੋਸਾ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} ਵੱਲੋਂ</value>
+  </data>
 </root>

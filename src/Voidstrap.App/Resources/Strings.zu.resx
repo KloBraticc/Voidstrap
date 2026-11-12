@@ -9934,4 +9934,16 @@ Abadlali: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Kunamavoti amaningi kakhulu manje, zama futhi ngemva kwemizuzu embalwa.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Uhlu lwezinguquko</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Imininingwane ye mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Ukwethembeka</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>ngu {0}</value>
+  </data>
 </root>

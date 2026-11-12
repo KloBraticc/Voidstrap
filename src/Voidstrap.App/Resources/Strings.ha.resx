@@ -9935,4 +9935,16 @@ Uptime: {1}
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Akwai ƙuri'u da yawa a yanzu, sake gwadawa bayan 'yan mintuna.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Jerin canje canje</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Bayanan mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Amana</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>daga {0}</value>
+  </data>
 </root>

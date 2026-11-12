@@ -9935,4 +9935,16 @@ Uptime: {1}
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>ახლა ძალიან ბევრი ხმაა, სცადეთ ხელახლა რამდენიმე წუთში.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>ცვლილებების ჟურნალი</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>მოდის ინფორმაცია</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ნდობა</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>ავტორი {0}</value>
+  </data>
 </root>

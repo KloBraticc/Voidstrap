@@ -9934,4 +9934,16 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Зараз занадта шмат галасоў, паспрабуйце зноў праз некалькі хвілін.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Журнал змен</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Звесткі пра мод</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Давер</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>ад {0}</value>
+  </data>
 </root>

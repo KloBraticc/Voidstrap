@@ -10262,4 +10262,16 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>現在投票が多すぎます。数分後にもう一度お試しください。</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>変更履歴</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Mod の情報</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>信頼性</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>作成者 {0}</value>
+  </data>
 </root>

@@ -9935,4 +9935,16 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>יש יותר מדי הצבעות כרגע, נסה שוב בעוד כמה דקות.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>יומן שינויים</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>מידע על המוד</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>אמינות</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>מאת {0}</value>
+  </data>
 </root>

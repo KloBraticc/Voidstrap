@@ -9935,4 +9935,16 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>ಈಗ ತುಂಬಾ ಮತಗಳಿವೆ, ಕೆಲವು ನಿಮಿಷಗಳ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>ಬದಲಾವಣೆ ದಾಖಲೆ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>ಮಾಡ್ ಮಾಹಿತಿ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ವಿಶ್ವಾಸ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} ಅವರಿಂದ</value>
+  </data>
 </root>

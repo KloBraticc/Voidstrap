@@ -9935,4 +9935,16 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>ഇപ്പോൾ വളരെയധികം വോട്ടുകളുണ്ട്, കുറച്ച് മിനിറ്റുകൾക്ക് ശേഷം വീണ്ടും ശ്രമിക്കുക.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>മാറ്റങ്ങളുടെ ലോഗ്</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>മോഡ് വിവരങ്ങൾ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>വിശ്വാസ്യത</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} നിർമ്മിച്ചത്</value>
+  </data>
 </root>

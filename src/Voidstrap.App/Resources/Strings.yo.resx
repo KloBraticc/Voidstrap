@@ -9934,4 +9934,16 @@ Awọn oṣere: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Ìbò ti pọ̀ jù báyìí, gbìyànjú lẹ́ẹ̀kan sí i lẹ́yìn ìṣẹ́jú díẹ̀.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Àkọsílẹ̀ àyípadà</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Ìwífún nípa mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Ìgbẹ́kẹ̀lé</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>láti ọwọ́ {0}</value>
+  </data>
 </root>

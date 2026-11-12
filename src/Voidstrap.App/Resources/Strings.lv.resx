@@ -9935,4 +9935,16 @@ Spēlētāji: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Pašlaik ir pārāk daudz balsu, mēģiniet vēlreiz pēc dažām minūtēm.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Izmaiņu žurnāls</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Moda informācija</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Uzticamība</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>autors {0}</value>
+  </data>
 </root>

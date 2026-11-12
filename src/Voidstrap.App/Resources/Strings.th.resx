@@ -10242,4 +10242,16 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>ขณะนี้มีการโหวตมากเกินไป โปรดลองอีกครั้งในอีกไม่กี่นาที</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>บันทึกการเปลี่ยนแปลง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>ข้อมูลม็อด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ความน่าเชื่อถือ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>โดย {0}</value>
+  </data>
 </root>

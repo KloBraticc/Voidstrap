@@ -10245,4 +10245,16 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Зараз забагато голосів, спробуйте знову за кілька хвилин.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Список змін</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Інформація про мод</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Довіра</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>автор {0}</value>
+  </data>
 </root>

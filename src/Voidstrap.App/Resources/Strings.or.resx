@@ -9935,4 +9935,16 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>ବର୍ତ୍ତମାନ ବହୁତ ଅଧିକ ଭୋଟ୍ ଅଛି, କିଛି ମିନିଟ୍ ପରେ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>ପରିବର୍ତ୍ତନ ତାଲିକା</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>ମୋଡ୍ ସୂଚନା</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ବିଶ୍ୱାସ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} ଦ୍ୱାରା</value>
+  </data>
 </root>

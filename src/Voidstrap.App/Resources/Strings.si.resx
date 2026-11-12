@@ -9935,4 +9935,16 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>දැන් ඡන්ද වැඩියි, මිනිත්තු කිහිපයකින් නැවත උත්සාහ කරන්න.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>වෙනස්කම් ලොගය</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>mod තොරතුරු</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>විශ්වාසය</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} විසින්</value>
+  </data>
 </root>

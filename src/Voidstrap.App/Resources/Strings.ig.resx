@@ -9935,4 +9935,16 @@ Ndị egwuregwu: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Votu dị ukwuu ugbu a, nwaa ọzọ n'ime nkeji ole na ole.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Ndekọ mgbanwe</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Ozi gbasara mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Ntụkwasị obi</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>site n'aka {0}</value>
+  </data>
 </root>

@@ -9934,4 +9934,16 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Ҳоло овозҳо хеле зиёданд, пас аз чанд дақиқа дубора кӯшиш кунед.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Сабти тағйирот</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Маълумот дар бораи мод</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Эътимод</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>аз ҷониби {0}</value>
+  </data>
 </root>

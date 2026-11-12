@@ -1230,9 +1230,12 @@ public partial class VoidstrapModsPage : UiPage
 
     private void ShowLibraryDetail(ModLibrary.LibraryMod mod)
     {
+        bool sameMod = _detailMod?.Id == mod.Id && LibraryDetail.Visibility == Visibility.Visible;
         _detailMod = mod;
         DetailName.Text = mod.Name;
         DetailSummary.Text = mod.Description;
+        DetailAuthor.Text = string.Format(Strings.Ui_VoidstrapMods_ByAuthor, "@" + mod.Login);
+        DetailVotes.Content = BuildVoteButtons(mod);
         DetailBadges.Children.Clear();
         AddTrustBadges(DetailBadges, mod);
         if (DetailBadges.Children.Count > 0 && DetailBadges.Children[0] is FrameworkElement first)
@@ -1243,7 +1246,6 @@ public partial class VoidstrapModsPage : UiPage
         DetailNetwork.Text =
             (mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Join(Environment.NewLine, mod.Network))
             + (mod.UsesRobloxAccount ? Environment.NewLine + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : "");
-        DetailFiles.Text = string.Join(Environment.NewLine, mod.Files.Select(f => f.Path + "   " + FormatSize(f.Size)));
         DetailVersion.Text = mod.Version;
         DetailUpdated.Text = (mod.Updated ?? mod.Created)?.ToLocalTime().ToString("d") ?? "";
         DetailCreator.Text = "@" + mod.Login;
@@ -1256,6 +1258,199 @@ public partial class VoidstrapModsPage : UiPage
         ApplyInstalledActions(mod);
         LibraryBrowse.Visibility = Visibility.Collapsed;
         LibraryDetail.Visibility = Visibility.Visible;
+        if (!sameMod)
+            SelectDetailTab(false, false);
+        _ = LoadDetailHistoryAsync(mod);
+    }
+
+    private bool _versionsTab;
+
+    private void DetailTab_Click(object sender, RoutedEventArgs e) => SelectDetailTab(sender == VersionsTabButton, true);
+
+    private void SelectDetailTab(bool versions, bool animate)
+    {
+        if (animate && versions == _versionsTab)
+            return;
+        _versionsTab = versions;
+        ChangelogTabButton.SetResourceReference(ForegroundProperty, versions ? "TextFillColorPrimaryBrush" : "SystemAccentColorSecondaryBrush");
+        VersionsTabButton.SetResourceReference(ForegroundProperty, versions ? "SystemAccentColorSecondaryBrush" : "TextFillColorPrimaryBrush");
+        FrameworkElement shown = versions ? VersionsPanel : ChangelogPanel;
+        FrameworkElement hidden = versions ? ChangelogPanel : VersionsPanel;
+        hidden.Visibility = Visibility.Collapsed;
+        shown.Visibility = Visibility.Visible;
+        double target = versions ? ChangelogTabButton.ActualWidth : 0.0;
+        TranslateTransform pill = (TranslateTransform)DetailTabHighlight.RenderTransform;
+        TranslateTransform panel = (TranslateTransform)shown.RenderTransform;
+        if (!animate)
+        {
+            pill.BeginAnimation(TranslateTransform.XProperty, null);
+            pill.X = target;
+            panel.BeginAnimation(TranslateTransform.XProperty, null);
+            panel.X = 0;
+            shown.BeginAnimation(OpacityProperty, null);
+            shown.Opacity = 1;
+            return;
+        }
+        CubicEase ease = new() { EasingMode = EasingMode.EaseOut };
+        TimeSpan duration = TimeSpan.FromMilliseconds(260);
+        pill.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(target, duration) { EasingFunction = ease });
+        panel.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(versions ? 36 : -36, 0, duration) { EasingFunction = ease });
+        shown.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, duration) { EasingFunction = ease });
+    }
+
+    private async Task LoadDetailHistoryAsync(ModLibrary.LibraryMod mod)
+    {
+        const string LOG_IDENT = "VoidstrapModsPage::LoadDetailHistoryAsync";
+        if (_libraryIndex is not { } index)
+            return;
+        Task<ModLibrary.History> task = ModLibrary.GetHistoryAsync(index, mod);
+        if (!task.IsCompleted)
+        {
+            ShowHistoryMessage(ChangelogHost, Strings.Ui_Misc2_Loading, false);
+            ShowHistoryMessage(VersionsHost, Strings.Ui_Misc2_Loading, true);
+        }
+        ModLibrary.History history;
+        try
+        {
+            history = await task;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The history of " + mod.Id + " could not be loaded: " + ex.Message);
+            if (_detailMod?.Id != mod.Id)
+                return;
+            ShowHistoryMessage(ChangelogHost, Strings.ContextMenu_GameHistory_LoadFailed, false);
+            ShowHistoryMessage(VersionsHost, Strings.ContextMenu_GameHistory_LoadFailed, true);
+            return;
+        }
+        if (_detailMod?.Id != mod.Id)
+            return;
+        RenderChangelog(history.Changes);
+        RenderVersions(_detailMod, history.Versions);
+    }
+
+    private static void ShowHistoryMessage(StackPanel host, string text, bool padded)
+    {
+        host.Children.Clear();
+        System.Windows.Controls.TextBlock block = StyledText("SideValue", text);
+        if (padded)
+            block.Margin = new Thickness(16);
+        host.Children.Add(block);
+    }
+
+    private static string FormatDate(DateTime date) => date.ToLocalTime().ToString("d", CultureInfo.CurrentCulture);
+
+    private void RenderChangelog(IReadOnlyList<ModLibrary.Change> changes)
+    {
+        ChangelogHost.Children.Clear();
+        if (changes.Count == 0)
+        {
+            ShowHistoryMessage(ChangelogHost, Strings.Ui_Session_HubEmpty, false);
+            return;
+        }
+        for (int i = 0; i < changes.Count; i++)
+        {
+            ModLibrary.Change change = changes[i];
+            bool last = i == changes.Count - 1;
+            Grid row = new();
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(11) });
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            System.Windows.Shapes.Rectangle line = new() { Width = 3, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, i == 0 ? 6 : 0, 0, 0) };
+            line.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "SystemAccentColorSecondaryBrush");
+            System.Windows.Shapes.Ellipse dot = new() { Width = 11, Height = 11, VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 4, 0, 0) };
+            dot.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "SystemAccentColorSecondaryBrush");
+            if (last)
+                line.VerticalAlignment = VerticalAlignment.Top;
+            if (last)
+                line.Height = 10;
+            row.Children.Add(line);
+            row.Children.Add(dot);
+            StackPanel body = new() { Margin = new Thickness(16, 0, 0, last ? 0 : 22) };
+            Grid.SetColumn(body, 1);
+            WrapPanel heading = new();
+            System.Windows.Controls.TextBlock title = new()
+            {
+                Text = change.Title,
+                FontSize = 14,
+                FontWeight = FontWeights.Bold,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(0, 0, 10, 0),
+            };
+            heading.Children.Add(title);
+            heading.Children.Add(StyledText("SideValue", FormatDate(change.Date)));
+            body.Children.Add(heading);
+            if (change.Body.Length > 0)
+            {
+                System.Windows.Controls.TextBlock text = StyledText("SideValue", change.Body);
+                text.Margin = new Thickness(0, 8, 0, 0);
+                body.Children.Add(text);
+            }
+            row.Children.Add(body);
+            ChangelogHost.Children.Add(row);
+        }
+    }
+
+    private void RenderVersions(ModLibrary.LibraryMod mod, IReadOnlyList<ModLibrary.ModVersion> versions)
+    {
+        VersionsHost.Children.Clear();
+        Grid header = VersionGrid();
+        header.SetResourceReference(BackgroundProperty, "ControlFillColorDefaultBrush");
+        AddVersionCell(header, StyledText("SideValue", Strings.Common_Version), 0);
+        AddVersionCell(header, StyledText("SideValue", Strings.Ui_Pages_Updated), 1);
+        VersionsHost.Children.Add(header);
+        if (versions.Count == 0)
+        {
+            ShowHistoryMessage(VersionsHost, Strings.Ui_Session_HubEmpty, true);
+            VersionsHost.Children.Insert(0, header);
+            return;
+        }
+        foreach (ModLibrary.ModVersion version in versions)
+        {
+            Grid row = VersionGrid();
+            Border divider = new() { BorderThickness = new Thickness(0, 1, 0, 0), Child = row };
+            divider.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+            AddVersionCell(row, new System.Windows.Controls.TextBlock { Text = version.Version, FontSize = 15, FontWeight = FontWeights.Bold }, 0);
+            AddVersionCell(row, StyledText("SideValue", FormatDate(version.Date)), 1);
+            Wpf.Ui.Controls.Button action = new() { Height = 32, Padding = new Thickness(12, 0, 12, 0) };
+            if (version.Version == mod.Version)
+            {
+                ApplyInstallButton(action, mod);
+                action.Click += LibraryInstall_Click;
+            }
+            else
+            {
+                action.Content = Strings.Ui_Pages_OpenOnGitHub;
+                action.Icon = SymbolRegular.Open24;
+                action.Appearance = ControlAppearance.Secondary;
+                action.Tag = ModLibrary.RepositoryUrl + "/tree/" + version.Sha + "/mods/" + Uri.EscapeDataString(mod.Name);
+                action.Click += VersionSource_Click;
+            }
+            AddVersionCell(row, action, 2);
+            VersionsHost.Children.Add(divider);
+        }
+    }
+
+    private static Grid VersionGrid()
+    {
+        Grid grid = new() { Margin = new Thickness(0) };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        return grid;
+    }
+
+    private static void AddVersionCell(Grid grid, FrameworkElement cell, int column)
+    {
+        cell.VerticalAlignment = VerticalAlignment.Center;
+        cell.Margin = new Thickness(16, 12, 16, 12);
+        Grid.SetColumn(cell, column);
+        grid.Children.Add(cell);
+    }
+
+    private void VersionSource_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { Tag: string url })
+            Utilities.OpenWebLink(url);
     }
 
     private static bool IsModOn(string name) => PluginHost.ListMods().FirstOrDefault(m => m.Name == name)?.Consent == "on";
@@ -1328,14 +1523,12 @@ public partial class VoidstrapModsPage : UiPage
         if (compact == _compactDetail)
             return;
         _compactDetail = compact;
-        LibraryDetailSideColumn.Width = new GridLength(compact ? 0.0 : 280.0);
+        LibraryDetailSideColumn.Width = new GridLength(compact ? 0.0 : 300.0);
         Grid.SetRow(LibraryDetailSidebar, compact ? 1 : 0);
         Grid.SetColumn(LibraryDetailSidebar, compact ? 0 : 1);
-        LibraryDetailMain.Margin = compact ? new Thickness(0.0) : new Thickness(0.0, 0.0, 20.0, 0.0);
-        LibraryDetailSidebar.Margin = compact ? new Thickness(0.0, 20.0, 0.0, 0.0) : new Thickness(0.0, 38.0, 0.0, 0.0);
+        LibraryDetailMain.Margin = compact ? new Thickness(0.0, 16.0, 0.0, 0.0) : new Thickness(0.0, 16.0, 18.0, 0.0);
     }
 
-    private static string FormatSize(long bytes) => bytes < 1024 ? bytes + " B" : (bytes / 1024.0).ToString("0.#") + " KB";
 
     private void LibraryBack_Click(object sender, RoutedEventArgs e)
     {

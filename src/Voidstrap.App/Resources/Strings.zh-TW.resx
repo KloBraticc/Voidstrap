@@ -10250,4 +10250,16 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>目前投票數過多，請幾分鐘後再試一次。</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>更新紀錄</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>模組資訊</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>可信度</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>作者 {0}</value>
+  </data>
 </root>

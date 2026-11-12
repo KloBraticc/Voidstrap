@@ -9934,4 +9934,16 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>צו פֿיל שטימען איצט, פּרוּוו ווידער אין עטלעכע מינוט.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>ענדערונגען לאָג</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>מאָד אינפֿאָרמאַציע</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>צוטרוי</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>פֿון {0}</value>
+  </data>
 </root>

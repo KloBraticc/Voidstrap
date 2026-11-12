@@ -10249,4 +10249,16 @@ Veikimo laikas: {1}
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Šiuo metu per daug balsų, bandykite dar kartą po kelių minučių.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Pakeitimų žurnalas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Modo informacija</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Patikimumas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>autorius {0}</value>
+  </data>
 </root>

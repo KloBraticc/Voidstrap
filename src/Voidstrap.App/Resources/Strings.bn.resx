@@ -9934,4 +9934,16 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>এখন অনেক বেশি ভোট পড়ছে, কয়েক মিনিট পরে আবার চেষ্টা করুন।</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>পরিবর্তনের তালিকা</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>মডের তথ্য</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>বিশ্বাসযোগ্যতা</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} দ্বারা</value>
+  </data>
 </root>

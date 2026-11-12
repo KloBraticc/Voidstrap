@@ -9935,4 +9935,16 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>هن وقت تمام گهڻا ووٽ آهن، ڪجهه منٽن کانپوءِ ٻيهر ڪوشش ڪريو.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>تبديلين جي فهرست</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>موڊ جي معلومات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ڀروسو</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} پاران</value>
+  </data>
 </root>

@@ -9935,4 +9935,16 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Тренутно има превише гласова, покушајте поново за неколико минута.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Списак измена</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Информације о моду</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Поверење</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>аутор {0}</value>
+  </data>
 </root>

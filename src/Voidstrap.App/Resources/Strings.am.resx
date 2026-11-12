@@ -9934,4 +9934,16 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>በአሁኑ ጊዜ በጣም ብዙ ድምጾች አሉ፣ ከጥቂት ደቂቃዎች በኋላ እንደገና ይሞክሩ።</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>የለውጥ መዝገብ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>የሞድ መረጃ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>እምነት</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>በ{0}</value>
+  </data>
 </root>

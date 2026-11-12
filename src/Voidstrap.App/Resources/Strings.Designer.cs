@@ -9444,6 +9444,11 @@ namespace Voidstrap.Resources {
         public static string Ui_VoidstrapMods_VoteBlocked => ResourceManager.GetString("Ui.VoidstrapMods.VoteBlocked", resourceCulture);
 
         public static string Ui_VoidstrapMods_VoteBusy => ResourceManager.GetString("Ui.VoidstrapMods.VoteBusy", resourceCulture);
+        public static string Ui_VoidstrapMods_Changelog => ResourceManager.GetString("Ui.VoidstrapMods.Changelog", resourceCulture);
+        public static string Ui_VoidstrapMods_ModInformation => ResourceManager.GetString("Ui.VoidstrapMods.ModInformation", resourceCulture);
+        public static string Ui_VoidstrapMods_Trust => ResourceManager.GetString("Ui.VoidstrapMods.Trust", resourceCulture);
+        public static string Ui_VoidstrapMods_ByAuthor => ResourceManager.GetString("Ui.VoidstrapMods.ByAuthor", resourceCulture);
+        public static string ContextMenu_GameHistory_LoadFailed => ResourceManager.GetString("ContextMenu.GameHistory.LoadFailed", resourceCulture);
 
         public static string Ui_VoidstrapMods_LibraryInstall {
             get {

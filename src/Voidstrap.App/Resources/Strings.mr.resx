@@ -9935,4 +9935,16 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>सध्या खूप मते येत आहेत, काही मिनिटांनी पुन्हा प्रयत्न करा.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>बदल नोंद</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>मॉड माहिती</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>विश्वास</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} यांनी</value>
+  </data>
 </root>

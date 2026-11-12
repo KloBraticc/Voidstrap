@@ -9935,4 +9935,16 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>ມີການໂຫວດຫຼາຍເກີນໄປໃນຕອນນີ້, ລອງໃໝ່ອີກຄັ້ງໃນອີກສອງສາມນາທີ.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>ບັນທຶກການປ່ຽນແປງ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>ຂໍ້ມູນ mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ຄວາມໜ້າເຊື່ອຖື</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>ໂດຍ {0}</value>
+  </data>
 </root>

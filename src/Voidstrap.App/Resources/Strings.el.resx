@@ -9934,4 +9934,16 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Υπάρχουν πάρα πολλές ψήφοι αυτή τη στιγμή, δοκιμάστε ξανά σε λίγα λεπτά.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Αρχείο αλλαγών</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Πληροφορίες mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Αξιοπιστία</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>από {0}</value>
+  </data>
 </root>

@@ -9935,4 +9935,16 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Моментално има премногу гласови, обидете се повторно за неколку минути.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Дневник на промени</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Информации за модот</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Доверба</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>од {0}</value>
+  </data>
 </root>

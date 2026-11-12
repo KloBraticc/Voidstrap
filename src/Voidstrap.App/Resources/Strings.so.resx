@@ -9935,4 +9935,16 @@ Ciyaartoyda: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Codad aad u badan ayaa jira hadda, isku day mar kale dhowr daqiiqo kadib.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Diiwaanka isbeddellada</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Macluumaadka mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Kalsooni</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>waxaa sameeyay {0}</value>
+  </data>
 </root>

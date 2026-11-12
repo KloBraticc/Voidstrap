@@ -9934,4 +9934,16 @@ O'yinchilar: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Hozir ovozlar juda ko'p, bir necha daqiqadan so'ng qayta urinib ko'ring.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Oʻzgarishlar jurnali</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Mod haqida maʼlumot</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Ishonch</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>muallif {0}</value>
+  </data>
 </root>

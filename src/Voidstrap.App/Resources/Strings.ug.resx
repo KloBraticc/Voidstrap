@@ -9934,4 +9934,16 @@ Uptime: {1}
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>ھازىر ئاۋاز بەك كۆپ، بىر نەچچە مىنۇتتىن كېيىن قايتا سىناڭ.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>ئۆزگىرىش خاتىرىسى</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>مود ئۇچۇرى</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ئىشەنچ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} تەرىپىدىن</value>
+  </data>
 </root>

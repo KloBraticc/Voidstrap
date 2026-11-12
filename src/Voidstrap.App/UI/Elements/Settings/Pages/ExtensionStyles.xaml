@@ -71,6 +71,35 @@
       <Setter Property="FontSize" Value="12" />
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
     </Style>
+    <Style x:Key="SideLabel" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Margin" Value="0,10,0,3" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
+    </Style>
+    <Style x:Key="SideValue" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="LineHeight" Value="19" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+    <Style x:Key="PillTab" TargetType="Button">
+      <Setter Property="Padding" Value="18,7" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="16">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
     <Style x:Key="DetailLabel" TargetType="TextBlock">
       <Setter Property="FontSize" Value="13" />
       <Setter Property="FontWeight" Value="SemiBold" />

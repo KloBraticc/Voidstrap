@@ -10246,4 +10246,16 @@
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>هناك عدد كبير جدًا من الأصوات الآن، حاول مرة أخرى بعد بضع دقائق.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>سجل التغييرات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>معلومات التعديل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>الثقة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>بواسطة {0}</value>
+  </data>
 </root>

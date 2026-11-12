@@ -10247,4 +10247,16 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>В момента има твърде много гласове, опитайте отново след няколко минути.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Списък с промени</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Информация за мода</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Доверие</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>от {0}</value>
+  </data>
 </root>

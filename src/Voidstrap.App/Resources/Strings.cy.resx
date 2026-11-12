@@ -9934,4 +9934,16 @@ Chwaraewyr: {2}</value>
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Gormod o bleidleisiau ar hyn o bryd, rhowch gynnig arall arni ymhen ychydig funudau.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Log newidiadau</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Gwybodaeth y mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Ymddiriedaeth</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>gan {0}</value>
+  </data>
 </root>

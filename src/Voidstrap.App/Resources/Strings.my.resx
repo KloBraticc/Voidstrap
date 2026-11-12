@@ -9934,4 +9934,16 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>ယခု မဲအလွန်များနေသည်၊ မိနစ်အနည်းငယ်အကြာတွင် ထပ်စမ်းကြည့်ပါ။</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>ပြောင်းလဲမှုမှတ်တမ်း</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>mod အချက်အလက်</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ယုံကြည်မှု</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} မှ</value>
+  </data>
 </root>

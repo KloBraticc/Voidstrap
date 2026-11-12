@@ -41,64 +41,101 @@
         </StackPanel>
 
         <Grid x:Name="LibraryDetail" Visibility="Collapsed" SizeChanged="LibraryDetail_SizeChanged">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition x:Name="LibraryDetailSideColumn" Width="280" />
-          </Grid.ColumnDefinitions>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
-          <StackPanel x:Name="LibraryDetailMain" Grid.Column="0" Margin="0,0,20,0">
-            <ui:Button HorizontalAlignment="Left" Appearance="Transparent" Icon="ArrowLeft24" Padding="8,4,12,4" Margin="0,0,0,10" Content="{resources:Loc Ui_VoidstrapMods_LibraryBack}" Click="LibraryBack_Click" />
-            <Grid>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-              </Grid.ColumnDefinitions>
-              <Border Style="{StaticResource RowIcon}" Width="96" Height="96">
-                <Grid>
-                  <ui:SymbolIcon x:Name="DetailIconFallback" Symbol="PuzzlePiece24" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                  <Image x:Name="DetailIcon" Stretch="Uniform" Margin="12" RenderOptions.BitmapScalingMode="HighQuality" />
+          <ui:Button Grid.Row="0" HorizontalAlignment="Left" Appearance="Transparent" Icon="ChevronLeft24" Padding="6,4,12,4" Margin="-6,0,0,14" Content="{resources:Loc Ui_VoidstrapMods_LibraryBack}" Click="LibraryBack_Click" />
+          <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource RowIcon}" Width="96" Height="96" VerticalAlignment="Top">
+              <Grid>
+                <ui:SymbolIcon x:Name="DetailIconFallback" Symbol="PuzzlePiece24" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Image x:Name="DetailIcon" Stretch="Uniform" Margin="12" RenderOptions.BitmapScalingMode="HighQuality" />
+              </Grid>
+            </Border>
+            <StackPanel Grid.Column="1" Margin="16,0,16,0">
+              <TextBlock x:Name="DetailName" FontSize="28" FontWeight="Bold" TextTrimming="CharacterEllipsis" />
+              <TextBlock x:Name="DetailSummary" Margin="0,2,0,6" FontSize="14" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              <WrapPanel>
+                <TextBlock x:Name="DetailAuthor" Margin="0,0,8,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <WrapPanel x:Name="DetailBadges" VerticalAlignment="Center" />
+              </WrapPanel>
+              <ContentControl x:Name="DetailVotes" Margin="-6,8,0,0" HorizontalAlignment="Left" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Top">
+              <ui:Button x:Name="DetailInstallButton" MinWidth="130" HorizontalAlignment="Right" Height="40" Appearance="Primary" Icon="ArrowDownload24" Click="LibraryInstall_Click" />
+              <StackPanel x:Name="DetailInstalledActions" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                <ui:Button x:Name="DetailToggleButton" Height="36" Appearance="Secondary" Click="LibraryToggle_Click" />
+                <ui:Button x:Name="DetailUninstallButton" Height="36" Margin="8,0,0,0" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Ui_VoidstrapMods_LibraryUninstall}" Click="LibraryUninstall_Click" />
+              </StackPanel>
+            </StackPanel>
+          </Grid>
+          <Grid Grid.Row="2" Margin="0,18,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition x:Name="LibraryDetailSideColumn" Width="300" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Rectangle Grid.ColumnSpan="2" Height="1" VerticalAlignment="Top" Fill="{DynamicResource CardStrokeColorDefaultBrush}" />
+            <StackPanel x:Name="LibraryDetailMain" Grid.Column="0" Margin="0,16,18,0">
+              <Border HorizontalAlignment="Left" Padding="4" Margin="0,0,0,14" CornerRadius="20" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundBrush}">
+                <Grid Grid.IsSharedSizeScope="True">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DetailTab" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DetailTab" />
+                  </Grid.ColumnDefinitions>
+                  <Border x:Name="DetailTabHighlight" Grid.Column="0" CornerRadius="16" Opacity="0.3" Background="{DynamicResource SystemAccentColorSecondaryBrush}">
+                    <Border.RenderTransform>
+                      <TranslateTransform />
+                    </Border.RenderTransform>
+                  </Border>
+                  <Button x:Name="ChangelogTabButton" Grid.Column="0" Style="{StaticResource PillTab}" Content="{resources:Loc Ui_VoidstrapMods_Changelog}" Click="DetailTab_Click" />
+                  <Button x:Name="VersionsTabButton" Grid.Column="1" Style="{StaticResource PillTab}" Content="{resources:Loc Ui_Pages_Versions}" Click="DetailTab_Click" />
                 </Grid>
               </Border>
-              <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
-                <TextBlock x:Name="DetailName" FontSize="24" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                <WrapPanel x:Name="DetailBadges" Margin="0,4,0,0" />
-                <TextBlock x:Name="DetailSummary" Margin="0,6,0,0" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-              </StackPanel>
-            </Grid>
-            <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_VoidstrapMods_LibraryWebsites}" />
-            <TextBlock x:Name="DetailNetwork" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_VoidstrapMods_LibraryFiles}" />
-            <Border Style="{StaticResource PanelCard}" Padding="12">
-              <TextBlock x:Name="DetailFiles" FontFamily="Cascadia Mono, Consolas" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            </Border>
-          </StackPanel>
-          <StackPanel x:Name="LibraryDetailSidebar" Grid.Column="1" Margin="0,38,0,0">
-            <ui:Button x:Name="DetailInstallButton" HorizontalAlignment="Stretch" Height="40" Appearance="Primary" Icon="ArrowDownload24" Click="LibraryInstall_Click" />
-            <Grid x:Name="DetailInstalledActions" Margin="0,8,0,0">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="8" />
-                <ColumnDefinition Width="*" />
-              </Grid.ColumnDefinitions>
-              <ui:Button x:Name="DetailToggleButton" Grid.Column="0" HorizontalAlignment="Stretch" Height="36" Appearance="Secondary" Click="LibraryToggle_Click" />
-              <ui:Button x:Name="DetailUninstallButton" Grid.Column="2" HorizontalAlignment="Stretch" Height="36" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Ui_VoidstrapMods_LibraryUninstall}" Click="LibraryUninstall_Click" />
-            </Grid>
-            <ui:Button HorizontalAlignment="Stretch" Height="36" Margin="0,8,0,0" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Ui_Pages_OpenOnGitHub}" Click="DetailGitHub_Click" />
-            <Border Style="{StaticResource PanelCard}" Margin="0,14,0,0" Padding="12">
-              <StackPanel>
-                <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Common_Version}" />
-                <TextBlock x:Name="DetailVersion" Margin="0,4,0,0" FontSize="13" />
-                <TextBlock FontSize="12" Margin="0,10,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_Updated}" />
-                <TextBlock x:Name="DetailUpdated" Margin="0,4,0,0" FontSize="13" />
-                <TextBlock FontSize="12" Margin="0,10,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_Creators}" />
-                <TextBlock x:Name="DetailCreator" Margin="0,4,0,0" FontSize="13" />
-              </StackPanel>
-            </Border>
-            <TextBlock x:Name="DetailTrust" Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-          </StackPanel>
+              <Grid ClipToBounds="True">
+                <Border x:Name="ChangelogPanel" Style="{StaticResource PanelCard}" Padding="20" Margin="0">
+                  <Border.RenderTransform>
+                    <TranslateTransform />
+                  </Border.RenderTransform>
+                  <StackPanel x:Name="ChangelogHost" />
+                </Border>
+                <Border x:Name="VersionsPanel" Style="{StaticResource PanelCard}" Padding="0" Margin="0" Visibility="Collapsed">
+                  <Border.RenderTransform>
+                    <TranslateTransform />
+                  </Border.RenderTransform>
+                  <StackPanel x:Name="VersionsHost" />
+                </Border>
+              </Grid>
+            </StackPanel>
+            <StackPanel x:Name="LibraryDetailSidebar" Grid.Column="1" Margin="0,16,0,0">
+              <Border Style="{StaticResource PanelCard}" Padding="16">
+                <StackPanel>
+                  <TextBlock FontSize="15" FontWeight="Bold" Margin="0,0,0,2" Text="{resources:Loc Ui_VoidstrapMods_ModInformation}" />
+                  <TextBlock Style="{StaticResource SideLabel}" Text="{resources:Loc Ui_Integrations_Creator}" />
+                  <TextBlock x:Name="DetailCreator" FontSize="13" FontWeight="SemiBold" />
+                  <TextBlock Style="{StaticResource SideLabel}" Text="{resources:Loc Ui_VoidstrapMods_Trust}" />
+                  <TextBlock x:Name="DetailTrust" Style="{StaticResource SideValue}" />
+                  <TextBlock Style="{StaticResource SideLabel}" Text="{resources:Loc Ui_VoidstrapMods_LibraryWebsites}" />
+                  <TextBlock x:Name="DetailNetwork" Style="{StaticResource SideValue}" />
+                  <TextBlock Style="{StaticResource SideLabel}" Text="{resources:Loc Common_Version}" />
+                  <TextBlock x:Name="DetailVersion" Style="{StaticResource SideValue}" />
+                  <TextBlock Style="{StaticResource SideLabel}" Text="{resources:Loc Ui_Pages_Updated}" />
+                  <TextBlock x:Name="DetailUpdated" Style="{StaticResource SideValue}" />
+                </StackPanel>
+              </Border>
+              <ui:Button HorizontalAlignment="Stretch" Height="36" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Ui_Pages_OpenOnGitHub}" Click="DetailGitHub_Click" />
+            </StackPanel>
+          </Grid>
         </Grid>
       </Grid>
     </TabItem>

@@ -9935,4 +9935,16 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>មានការបោះឆ្នោតច្រើនពេកនៅពេលនេះ សូមព្យាយាមម្ដងទៀតក្នុងរយៈពេលពីរបីនាទី។</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>កំណត់ត្រាការផ្លាស់ប្តូរ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>ព័ត៌មាន mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>ការទុកចិត្ត</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>ដោយ {0}</value>
+  </data>
 </root>

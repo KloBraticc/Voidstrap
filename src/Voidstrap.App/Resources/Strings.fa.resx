@@ -10249,4 +10249,16 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>در حال حاضر تعداد رأی‌ها بیش از حد است، چند دقیقه دیگر دوباره امتحان کنید.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>تغییرات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>اطلاعات ماد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>اعتماد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>توسط {0}</value>
+  </data>
 </root>

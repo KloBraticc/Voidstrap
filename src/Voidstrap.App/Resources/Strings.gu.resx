@@ -9935,4 +9935,16 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>અત્યારે ઘણા બધા મત છે, થોડી મિનિટોમાં ફરી પ્રયાસ કરો.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>ફેરફાર લોગ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>મોડ માહિતી</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>વિશ્વાસ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} દ્વારા</value>
+  </data>
 </root>

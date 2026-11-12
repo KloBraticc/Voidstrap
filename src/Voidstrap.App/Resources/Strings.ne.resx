@@ -9935,4 +9935,16 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>अहिले धेरै मतहरू छन्, केही मिनेटपछि फेरि प्रयास गर्नुहोस्।</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>परिवर्तन सूची</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>मोड जानकारी</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>विश्वास</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} द्वारा</value>
+  </data>
 </root>

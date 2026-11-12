@@ -9935,4 +9935,16 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>Одоогоор хэт олон санал байна, хэдэн минутын дараа дахин оролдоно уу.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>Өөрчлөлтийн бүртгэл</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>Модын мэдээлэл</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>Итгэл</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>{0} бүтээсэн</value>
+  </data>
 </root>

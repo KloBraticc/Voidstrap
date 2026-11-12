@@ -10246,4 +10246,16 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
     <value>지금은 투표가 너무 많습니다. 몇 분 후에 다시 시도하십시오.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Changelog" xml:space="preserve">
+    <value>변경 내역</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModInformation" xml:space="preserve">
+    <value>모드 정보</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Trust" xml:space="preserve">
+    <value>신뢰도</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ByAuthor" xml:space="preserve">
+    <value>제작자 {0}</value>
+  </data>
 </root>
