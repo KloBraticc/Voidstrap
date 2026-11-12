@@ -664,7 +664,7 @@
               <ui:Button Width="64" Height="64" Margin="0,0,8,8" Padding="0" Icon="ImageAdd24" ToolTip="{resources:Loc Ui_Mods_Skybox_ChooseImage}" Command="{Binding BrowseCustomIconLocationCommand}" />
             </WrapPanel>
           </ui:CardExpander>
-          <controls:OptionControl Margin="0,8,0,0" Header="{resources:Loc Menu_Appearance_LaunchGameIcon_Title}" Description="{resources:Loc Menu_Appearance_LaunchGameIcon_Description}">
+          <controls:OptionControl Header="{resources:Loc Menu_Appearance_LaunchGameIcon_Title}" Description="{resources:Loc Menu_Appearance_LaunchGameIcon_Description}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding LaunchGameIcon, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl x:Name="StudioIconSelector" Header="{resources:Loc Ui_Appearance_StudioIcon}" Description="{resources:Loc Ui_Appearance_StudioIconDescription}" Visibility="{Binding StudioIconVisibility, Mode=OneWay}">
