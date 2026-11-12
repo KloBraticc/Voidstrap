@@ -10242,4 +10242,10 @@ Pelaajat: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Uusintapuskuria ei voitu ladata</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Ääntäsi ei voitu vahvistaa. VPN-, välityspalvelin- tai hosting-verkoista annettuja ääniä ei hyväksytä.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Ääniä on juuri nyt liikaa, yritä uudelleen muutaman minuutin kuluttua.</value>
+  </data>
 </root>

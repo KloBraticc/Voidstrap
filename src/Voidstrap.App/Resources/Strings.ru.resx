@@ -10241,4 +10241,10 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Не удалось загрузить буфер повтора</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Не удалось подтвердить Ваш голос. Голоса из сетей VPN, прокси или хостинга не принимаются.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Сейчас слишком много голосов, попробуйте снова через несколько минут.</value>
+  </data>
 </root>

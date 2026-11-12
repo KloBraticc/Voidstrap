@@ -9928,4 +9928,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Не ўдалося загрузіць буфер паўтору</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Не ўдалося праверыць ваш голас. Галасы з VPN, проксі або сетак хостынгу не прымаюцца.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Зараз занадта шмат галасоў, паспрабуйце зноў праз некалькі хвілін.</value>
+  </data>
 </root>

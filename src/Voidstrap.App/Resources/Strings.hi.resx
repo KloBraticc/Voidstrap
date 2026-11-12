@@ -9929,4 +9929,10 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>रीप्ले बफ़र लोड नहीं हो सका</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>आपका वोट सत्यापित नहीं हो सका। VPN, प्रॉक्सी या होस्टिंग नेटवर्क से आने वाले वोट स्वीकार नहीं किए जाते।</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>अभी बहुत अधिक वोट हैं, कुछ मिनट बाद फिर से कोशिश करें।</value>
+  </data>
 </root>

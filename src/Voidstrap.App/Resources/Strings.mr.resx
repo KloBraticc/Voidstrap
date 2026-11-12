@@ -9929,4 +9929,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>रिप्ले बफर लोड करता आला नाही</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>तुमचे मत सत्यापित होऊ शकले नाही. VPN, प्रॉक्सी किंवा होस्टिंग नेटवर्कवरून येणारी मते स्वीकारली जात नाहीत.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>सध्या खूप मते येत आहेत, काही मिनिटांनी पुन्हा प्रयत्न करा.</value>
+  </data>
 </root>

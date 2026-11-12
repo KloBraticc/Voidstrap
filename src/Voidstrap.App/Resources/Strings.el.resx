@@ -9928,4 +9928,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Δεν ήταν δυνατή η φόρτωση της προσωρινής μνήμης επανάληψης</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Η ψήφος σας δεν ήταν δυνατό να επαληθευτεί. Δεν γίνονται δεκτές ψήφοι από δίκτυα VPN, διακομιστή μεσολάβησης ή φιλοξενίας.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Υπάρχουν πάρα πολλές ψήφοι αυτή τη στιγμή, δοκιμάστε ξανά σε λίγα λεπτά.</value>
+  </data>
 </root>

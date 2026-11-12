@@ -9928,4 +9928,10 @@ Oyunçular: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Təkrar bufer yüklənə bilmədi</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Səsiniz təsdiqlənə bilmədi. VPN, proksi və ya hostinq şəbəkələrindən gələn səslər qəbul edilmir.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Hazırda çox səs var, bir neçə dəqiqədən sonra yenidən cəhd edin.</value>
+  </data>
 </root>

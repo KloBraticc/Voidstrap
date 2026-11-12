@@ -9928,4 +9928,10 @@ Spelers: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Kon nie die herspeelbuffer laai nie</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Jou stem kon nie geverifieer word nie. Stemme van VPN, proxy of hostingnetwerke word nie aanvaar nie.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Te veel stemme op die oomblik, probeer oor 'n paar minute weer.</value>
+  </data>
 </root>

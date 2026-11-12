@@ -10243,4 +10243,10 @@ Jucători: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Bufferul de reluare nu a putut fi încărcat</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Votul tău nu a putut fi verificat. Voturile din rețele VPN, proxy sau de găzduire nu sunt acceptate.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Prea multe voturi în acest moment, încearcă din nou peste câteva minute.</value>
+  </data>
 </root>

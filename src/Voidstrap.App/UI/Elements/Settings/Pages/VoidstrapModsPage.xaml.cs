@@ -47,6 +47,9 @@ public partial class VoidstrapModsPage : UiPage
         RenderStatus();
         RenderAccount();
         _ = LoadLibraryAsync(false);
+        ModVotes.Changed -= OnVotesChanged;
+        ModVotes.Changed += OnVotesChanged;
+        _ = ModVotes.RefreshAsync(CancellationToken.None);
         _libraryPoll.Tick -= LibraryPoll_Tick;
         _libraryPoll.Tick += LibraryPoll_Tick;
         _libraryPoll.Start();
@@ -56,6 +59,7 @@ public partial class VoidstrapModsPage : UiPage
 
     private async void LibraryPoll_Tick(object? sender, EventArgs e)
     {
+        _ = ModVotes.RefreshAsync(CancellationToken.None);
         try
         {
             ModLibrary.Index fresh = await ModLibrary.GetIndexAsync(false, CancellationToken.None);
@@ -72,6 +76,7 @@ public partial class VoidstrapModsPage : UiPage
     {
         _libraryPoll.Stop();
         _libraryPoll.Tick -= LibraryPoll_Tick;
+        ModVotes.Changed -= OnVotesChanged;
         _renderGeneration++;
         PluginHost.PanesChanged -= OnPanesChanged;
         PluginHost.PaneInvalidated -= OnPaneInvalidated;
@@ -89,6 +94,8 @@ public partial class VoidstrapModsPage : UiPage
     }
 
     private void OnModsChanged() => Dispatcher.BeginInvoke(new Action(RenderMods));
+
+    private void OnVotesChanged() => Dispatcher.BeginInvoke(new Action(RenderLibrary));
 
     private System.Windows.Threading.DispatcherTimer? _renderTimer;
 
@@ -1081,6 +1088,7 @@ public partial class VoidstrapModsPage : UiPage
         versionText.Margin = new Thickness(5, 0, 0, 0);
         version.Children.Add(versionText);
         side.Children.Add(version);
+        side.Children.Add(BuildVoteButtons(mod));
         StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
         Wpf.Ui.Controls.Button view = new()
         {
@@ -1120,6 +1128,100 @@ public partial class VoidstrapModsPage : UiPage
         card.SetResourceReference(StyleProperty, "RowCard");
         return card;
     }
+
+    private readonly HashSet<string> _votePending = new(StringComparer.Ordinal);
+
+    private StackPanel BuildVoteButtons(ModLibrary.LibraryMod mod)
+    {
+        ModVotes.Tally tally = ModVotes.Get(mod.Id);
+        StackPanel panel = new()
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            Margin = new Thickness(0, -6, 0, 6),
+        };
+        panel.Children.Add(MakeVoteButton(mod, 1, tally.Likes, tally.Mine == 1));
+        panel.Children.Add(MakeVoteButton(mod, -1, tally.Dislikes, tally.Mine == -1));
+        return panel;
+    }
+
+    private Wpf.Ui.Controls.Button MakeVoteButton(ModLibrary.LibraryMod mod, int value, int count, bool active)
+    {
+        SymbolIcon icon = new()
+        {
+            Symbol = value > 0 ? SymbolRegular.ThumbLike24 : SymbolRegular.ThumbDislike24,
+            FontSize = 14,
+            Filled = active,
+            VerticalAlignment = VerticalAlignment.Center,
+        };
+        if (active)
+            icon.SetResourceReference(SymbolIcon.ForegroundProperty, "SystemAccentColorSecondaryBrush");
+        else
+            icon.SetResourceReference(SymbolIcon.ForegroundProperty, "TextFillColorSecondaryBrush");
+        System.Windows.Controls.TextBlock text = StyledText("RowMeta", count.ToString("N0", System.Globalization.CultureInfo.CurrentCulture));
+        text.Margin = new Thickness(5, 0, 0, 0);
+        text.VerticalAlignment = VerticalAlignment.Center;
+        StackPanel content = new() { Orientation = Orientation.Horizontal };
+        content.Children.Add(icon);
+        content.Children.Add(text);
+        string label = value > 0 ? Strings.Library_Vote_Like : Strings.Library_Vote_Dislike;
+        Wpf.Ui.Controls.Button button = new()
+        {
+            Content = content,
+            Appearance = ControlAppearance.Transparent,
+            Padding = new Thickness(6, 3, 6, 3),
+            Margin = new Thickness(value > 0 ? 0 : 2, 0, 0, 0),
+            ToolTip = label,
+            Tag = new VoteTarget(mod.Id, value),
+            IsEnabled = !_votePending.Contains(mod.Id),
+        };
+        System.Windows.Automation.AutomationProperties.SetName(button, label);
+        button.Click += LibraryVote_Click;
+        return button;
+    }
+
+    private sealed record VoteTarget(string ModId, int Value);
+
+    private void LibraryVote_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement { Tag: VoteTarget target } || !_votePending.Add(target.ModId))
+            return;
+        int vote = ModVotes.Get(target.ModId).Mine == target.Value ? 0 : target.Value;
+        RenderLibrary();
+        ModVoteWindow.Show(target.ModId, vote, (tally, error) => OnVoteFinished(target.ModId, tally, error));
+    }
+
+    private void OnVoteFinished(string modId, ModVotes.Tally? tally, int error)
+    {
+        _votePending.Remove(modId);
+        if (tally != null)
+            ModVotes.Apply(modId, tally);
+        else
+            RenderLibrary();
+        if (error < 0)
+        {
+            _ = RefreshVotesLaterAsync();
+            return;
+        }
+        if (error > 0)
+            Frontend.ShowMessageBox(
+                error == 403 ? Strings.Ui_VoidstrapMods_VoteBlocked
+                    : error == 429 ? Strings.Ui_VoidstrapMods_VoteBusy
+                    : Strings.Library_Vote_Failed,
+                MessageBoxImage.Warning
+            );
+    }
+
+    private static async Task RefreshVotesLaterAsync()
+    {
+        foreach (int seconds in VoteBrowserRefreshSeconds)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(seconds));
+            await ModVotes.RefreshAsync(CancellationToken.None);
+        }
+    }
+
+    private static readonly int[] VoteBrowserRefreshSeconds = [15, 30, 60];
 
     private void LibraryView_Click(object sender, RoutedEventArgs e)
     {

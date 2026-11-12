@@ -10241,4 +10241,10 @@ Játékosok: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Nem sikerült betölteni a visszajátszási puffert</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Nem sikerült ellenőrizni a szavazatodat. VPN, proxy vagy tárhelyszolgáltatói hálózatokról érkező szavazatokat nem fogadunk el.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Most túl sok a szavazat, próbáld újra néhány perc múlva.</value>
+  </data>
 </root>

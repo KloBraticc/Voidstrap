@@ -9928,4 +9928,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>ပြန်ဖွင့် ဘဖာကို မဖွင့်နိုင်ပါ</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>သင့်မဲကို အတည်ပြု၍မရပါ။ VPN၊ proxy သို့မဟုတ် hosting ကွန်ရက်များမှ မဲများကို လက်မခံပါ။</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>ယခု မဲအလွန်များနေသည်၊ မိနစ်အနည်းငယ်အကြာတွင် ထပ်စမ်းကြည့်ပါ။</value>
+  </data>
 </root>

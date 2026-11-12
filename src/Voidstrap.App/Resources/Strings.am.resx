@@ -9928,4 +9928,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>የድጋሚ ማጫወቻ ቋቱን መጫን አልተቻለም</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>ድምጽዎ ሊረጋገጥ አልቻለም። ከVPN፣ ከፕሮክሲ ወይም ከሆስቲንግ አውታረ መረቦች የሚመጡ ድምጾች ተቀባይነት የላቸውም።</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>በአሁኑ ጊዜ በጣም ብዙ ድምጾች አሉ፣ ከጥቂት ደቂቃዎች በኋላ እንደገና ይሞክሩ።</value>
+  </data>
 </root>

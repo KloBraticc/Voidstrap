@@ -10240,4 +10240,10 @@
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>تعذر تحميل مخزن الإعادة</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>تعذّر التحقق من تصويتك. لا تُقبل الأصوات من شبكات VPN أو الوكيل أو الاستضافة.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>هناك عدد كبير جدًا من الأصوات الآن، حاول مرة أخرى بعد بضع دقائق.</value>
+  </data>
 </root>

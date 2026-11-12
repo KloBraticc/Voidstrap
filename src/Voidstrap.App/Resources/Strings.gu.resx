@@ -9929,4 +9929,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>રિપ્લે બફર લોડ કરી શકાયું નહીં</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>તમારો મત ચકાસી શકાયો નહીં. VPN, પ્રોક્સી અથવા હોસ્ટિંગ નેટવર્કમાંથી આવતા મત સ્વીકારવામાં આવતા નથી.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>અત્યારે ઘણા બધા મત છે, થોડી મિનિટોમાં ફરી પ્રયાસ કરો.</value>
+  </data>
 </root>

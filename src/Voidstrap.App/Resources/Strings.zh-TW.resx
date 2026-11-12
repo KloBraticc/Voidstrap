@@ -10244,4 +10244,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>無法載入重播緩衝區</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>無法驗證你的投票。不接受來自 VPN、代理伺服器或主機代管網路的投票。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>目前投票數過多，請幾分鐘後再試一次。</value>
+  </data>
 </root>

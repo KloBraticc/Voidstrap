@@ -10243,4 +10243,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>بارگیری بافر بازپخش ممکن نشد</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>رأی شما تأیید نشد. رأی‌های ارسال‌شده از شبکه‌های VPN، پراکسی یا میزبانی پذیرفته نمی‌شوند.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>در حال حاضر تعداد رأی‌ها بیش از حد است، چند دقیقه دیگر دوباره امتحان کنید.</value>
+  </data>
 </root>

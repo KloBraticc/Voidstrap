@@ -10241,4 +10241,10 @@ Jugadores: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>No se pudo cargar el búfer de repetición</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>No se ha podido verificar tu voto. No se aceptan votos desde redes VPN, proxy o de alojamiento.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Hay demasiados votos ahora mismo, inténtalo de nuevo en unos minutos.</value>
+  </data>
 </root>

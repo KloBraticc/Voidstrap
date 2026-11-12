@@ -79,6 +79,8 @@ public partial class App : Application
 
     public const string ProjectHelpLink = "https://github.com/KloBraticc/Voidstrap";
 
+    public const string ProjectWebsite = "https://voidstrapp.pages.dev";
+
     public const string ProjectDonateLink = "https://github.com/sponsors/KloBraticc";
 
     public const string ProjectLogoUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/src/Voidstrap.App/Voidstrap.png";

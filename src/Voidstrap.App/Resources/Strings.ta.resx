@@ -9928,4 +9928,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>ரீப்ளே இடையகத்தை ஏற்ற முடியவில்லை</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>உங்கள் வாக்கைச் சரிபார்க்க முடியவில்லை. VPN, ப்ராக்ஸி அல்லது ஹோஸ்டிங் நெட்வொர்க்குகளிலிருந்து வரும் வாக்குகள் ஏற்கப்படாது.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>இப்போது அதிகமான வாக்குகள் உள்ளன, சில நிமிடங்களில் மீண்டும் முயற்சிக்கவும்.</value>
+  </data>
 </root>

@@ -9929,4 +9929,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Није могуће учитати бафер снимка</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Ваш глас није могуће потврдити. Гласови са VPN, прокси или хостинг мрежа се не прихватају.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Тренутно има превише гласова, покушајте поново за неколико минута.</value>
+  </data>
 </root>

@@ -9928,4 +9928,10 @@ Mängijad: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Kordusepuhvrit ei õnnestunud laadida</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Sinu häält ei õnnestunud kinnitada. VPN-, puhverserveri- või majutusvõrkudest antud hääli ei aktsepteerita.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Praegu on liiga palju hääli, proovi mõne minuti pärast uuesti.</value>
+  </data>
 </root>

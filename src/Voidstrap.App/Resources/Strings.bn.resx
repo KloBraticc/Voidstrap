@@ -9928,4 +9928,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>রিপ্লে বাফার লোড করা যায়নি</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>আপনার ভোট যাচাই করা যায়নি। VPN, প্রক্সি বা হোস্টিং নেটওয়ার্ক থেকে ভোট গ্রহণ করা হয় না।</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>এখন অনেক বেশি ভোট পড়ছে, কয়েক মিনিট পরে আবার চেষ্টা করুন।</value>
+  </data>
 </root>

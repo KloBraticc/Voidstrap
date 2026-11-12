@@ -10265,4 +10265,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>无法加载回放缓冲区</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>无法验证您的投票。不接受来自 VPN、代理或托管网络的投票。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>当前投票过多，请几分钟后再试。</value>
+  </data>
 </root>

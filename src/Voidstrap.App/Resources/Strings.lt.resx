@@ -10243,4 +10243,10 @@ Veikimo laikas: {1}
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Nepavyko įkelti pakartojimo buferio</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Jūsų balso nepavyko patvirtinti. Balsai iš VPN, tarpinio serverio ar prieglobos tinklų nepriimami.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Šiuo metu per daug balsų, bandykite dar kartą po kelių minučių.</value>
+  </data>
 </root>

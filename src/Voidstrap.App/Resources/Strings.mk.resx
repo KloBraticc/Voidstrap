@@ -9929,4 +9929,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Не може да се вчита баферот за повторување</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Вашиот глас не можеше да се потврди. Гласови од VPN, прокси или хостинг мрежи не се прифаќаат.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Моментално има премногу гласови, обидете се повторно за неколку минути.</value>
+  </data>
 </root>

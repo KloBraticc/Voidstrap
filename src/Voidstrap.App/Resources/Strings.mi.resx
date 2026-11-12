@@ -9929,4 +9929,10 @@ Kaitākaro: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Kāore i taea te uta i te pūrei anō</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Kāore i taea te manatoko i tō pōti. Kāore e whakaaetia ngā pōti mai i ngā whatunga VPN, takawaenga, manaaki rānei.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>He nui rawa ngā pōti ināianei, whakamātau anō ā ngā meneti torutoru.</value>
+  </data>
 </root>

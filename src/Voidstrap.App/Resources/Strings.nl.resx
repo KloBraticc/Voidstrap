@@ -10243,4 +10243,10 @@ Spelers: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Kan de herhalingsbuffer niet laden</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Je stem kon niet worden geverifieerd. Stemmen vanaf VPN-, proxy- of hostingnetwerken worden niet geaccepteerd.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Er zijn nu te veel stemmen, probeer het over een paar minuten opnieuw.</value>
+  </data>
 </root>

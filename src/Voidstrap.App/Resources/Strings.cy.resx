@@ -9928,4 +9928,10 @@ Chwaraewyr: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Methu llwytho’r byffer ailchwarae</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Nid oedd modd gwirio eich pleidlais. Nid yw pleidleisiau o rwydweithiau VPN, dirprwy na lletya yn cael eu derbyn.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Gormod o bleidleisiau ar hyn o bryd, rhowch gynnig arall arni ymhen ychydig funudau.</value>
+  </data>
 </root>

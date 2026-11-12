@@ -9928,4 +9928,10 @@ Abadlali: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Ayikwazanga ukulayisha i-buffer yokudlala kabusha</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Ivoti lakho alikwazanga ukuqinisekiswa. Amavoti avela kumanethiwekhi e VPN, proxy noma e hosting awamukelwa.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Kunamavoti amaningi kakhulu manje, zama futhi ngemva kwemizuzu embalwa.</value>
+  </data>
 </root>

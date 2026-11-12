@@ -9929,4 +9929,10 @@ Rannpháirtithe: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Níorbh fhéidir an maolán athsheinnte a lódáil</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Níorbh fhéidir do vóta a fhíorú. Ní ghlactar le vótaí ó líonraí VPN, seachfhreastalaí ná óstála.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>An iomarca vótaí faoi láthair, bain triail eile as i gceann cúpla nóiméad.</value>
+  </data>
 </root>

@@ -9929,4 +9929,10 @@ Ciyaartoyda: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Lama soo shubi karin kaydka dib u ciyaarka</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Codkaaga lama xaqiijin karin. Codadka ka yimaada shabakadaha VPN, proxy ama hosting lama aqbalo.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Codad aad u badan ayaa jira hadda, isku day mar kale dhowr daqiiqo kadib.</value>
+  </data>
 </root>

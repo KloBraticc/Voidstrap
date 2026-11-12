@@ -9928,4 +9928,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>קען נישט לאָדן דעם ווידערשפּיל באַפער</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>מען האָט נישט געקענט באַשטעטיקן דיין שטים. שטימען פֿון VPN, פּראָקסי אָדער האָסטינג נעצן ווערן נישט אָנגענומען.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>צו פֿיל שטימען איצט, פּרוּוו ווידער אין עטלעכע מינוט.</value>
+  </data>
 </root>

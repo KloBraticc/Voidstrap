@@ -10233,4 +10233,10 @@ Pemain: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Tidak dapat memuatkan penimbal main semula</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Undian anda tidak dapat disahkan. Undian daripada rangkaian VPN, proksi atau pengehosan tidak diterima.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Terlalu banyak undian sekarang, cuba lagi dalam beberapa minit.</value>
+  </data>
 </root>

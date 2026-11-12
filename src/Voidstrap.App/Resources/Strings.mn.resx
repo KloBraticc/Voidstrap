@@ -9929,4 +9929,10 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Давталтын буферийг ачаалж чадсангүй</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Таны саналыг баталгаажуулж чадсангүй. VPN, прокси эсвэл хостингийн сүлжээнээс ирсэн саналыг хүлээн авахгүй.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Одоогоор хэт олон санал байна, хэдэн минутын дараа дахин оролдоно уу.</value>
+  </data>
 </root>

@@ -9928,4 +9928,10 @@ Igrači: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Nije moguće učitati bafer snimka</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Vaš glas nije moguće potvrditi. Glasovi s VPN, proxy ili hosting mreža se ne prihvataju.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Trenutno ima previše glasova, pokušajte ponovo za nekoliko minuta.</value>
+  </data>
 </root>

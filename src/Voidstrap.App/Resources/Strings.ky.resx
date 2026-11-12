@@ -9929,4 +9929,10 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Кайталоо буферин жүктөө мүмкүн болгон жок</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Добушуңузду текшерүү мүмкүн болгон жок. VPN, прокси же хостинг тармактарынан берилген добуштар кабыл алынбайт.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Азыр добуштар өтө көп, бир нече мүнөттөн кийин кайра аракет кылыңыз.</value>
+  </data>
 </root>

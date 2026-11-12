@@ -9929,4 +9929,10 @@ Abakinnyi: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Ntibyashobotse gufungura ububiko bwo gusubiramo</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Ijwi ryawe ntiryashoboye kwemezwa. Amajwi aturuka ku miyoboro ya VPN, proxy cyangwa hosting ntiyemerwa.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Hari amajwi menshi cyane ubu, ongera ugerageze nyuma y'iminota mike.</value>
+  </data>
 </root>

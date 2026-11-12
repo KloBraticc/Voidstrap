@@ -9929,4 +9929,10 @@ Lojtarët: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Buferi i riluajtjes nuk mund të ngarkohej</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Vota jote nuk mund të verifikohej. Votat nga rrjetet VPN, proxy ose të strehimit nuk pranohen.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Ka shumë vota tani, provo përsëri pas disa minutash.</value>
+  </data>
 </root>

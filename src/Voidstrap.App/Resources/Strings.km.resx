@@ -9929,4 +9929,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>មិនអាចផ្ទុកបណ្ដោះអាសន្នចាក់ឡើងវិញបានទេ</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>មិនអាចផ្ទៀងផ្ទាត់ការបោះឆ្នោតរបស់អ្នកបានទេ។ ការបោះឆ្នោតពីបណ្ដាញ VPN ប្រូកស៊ី ឬបណ្ដាញ hosting មិនត្រូវបានទទួលយកទេ។</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>មានការបោះឆ្នោតច្រើនពេកនៅពេលនេះ សូមព្យាយាមម្ដងទៀតក្នុងរយៈពេលពីរបីនាទី។</value>
+  </data>
 </root>

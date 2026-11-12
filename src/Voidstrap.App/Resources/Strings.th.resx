@@ -10236,4 +10236,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>ไม่สามารถโหลดบัฟเฟอร์รีเพลย์ได้</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>ไม่สามารถยืนยันการโหวตของคุณได้ ไม่รับการโหวตจากเครือข่าย VPN พร็อกซี หรือโฮสติ้ง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>ขณะนี้มีการโหวตมากเกินไป โปรดลองอีกครั้งในอีกไม่กี่นาที</value>
+  </data>
 </root>

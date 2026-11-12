@@ -9929,4 +9929,10 @@ Uptime: {1}
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Ba a iya loda ma’ajiyar maimaitawa ba</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Ba a iya tabbatar da ƙuri'arka ba. Ba a karɓar ƙuri'u daga hanyoyin sadarwa na VPN, proxy ko hosting.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Akwai ƙuri'u da yawa a yanzu, sake gwadawa bayan 'yan mintuna.</value>
+  </data>
 </root>

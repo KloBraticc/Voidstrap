@@ -9929,4 +9929,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>ບໍ່ສາມາດໂຫຼດບັບເຟີການຫຼິ້ນຄືນໄດ້</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>ບໍ່ສາມາດຢືນຢັນການໂຫວດຂອງທ່ານໄດ້. ບໍ່ຮັບການໂຫວດຈາກເຄືອຂ່າຍ VPN, ພຣັອກຊີ ຫຼື ໂຮສຕິ້ງ.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>ມີການໂຫວດຫຼາຍເກີນໄປໃນຕອນນີ້, ລອງໃໝ່ອີກຄັ້ງໃນອີກສອງສາມນາທີ.</value>
+  </data>
 </root>

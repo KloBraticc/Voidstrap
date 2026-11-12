@@ -9929,4 +9929,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>ري پلي بفر لوڊ نه ٿي سگهيو</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>توهان جو ووٽ تصديق نه ٿي سگهيو. VPN، پراڪسي يا هوسٽنگ نيٽ ورڪن مان آيل ووٽ قبول نه ڪيا ويندا آهن.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>هن وقت تمام گهڻا ووٽ آهن، ڪجهه منٽن کانپوءِ ٻيهر ڪوشش ڪريو.</value>
+  </data>
 </root>

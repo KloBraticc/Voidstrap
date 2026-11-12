@@ -10256,4 +10256,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>リプレイバッファーを読み込めませんでした</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>投票を確認できませんでした。VPN、プロキシ、ホスティングのネットワークからの投票は受け付けていません。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>現在投票が多すぎます。数分後にもう一度お試しください。</value>
+  </data>
 </root>

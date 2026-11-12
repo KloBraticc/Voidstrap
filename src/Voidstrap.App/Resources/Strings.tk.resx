@@ -9928,4 +9928,10 @@ Oýunçylar: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Gaýtalama buferini ýükläp bolmady</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Sesiňizi tassyklap bolmady. VPN, proksi ýa-da hosting ulgamlaryndan berlen sesler kabul edilmeýär.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Häzir sesler gaty köp, birnäçe minutdan soň gaýtadan synanyşyň.</value>
+  </data>
 </root>

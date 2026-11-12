@@ -9441,6 +9441,10 @@ namespace Voidstrap.Resources {
             }
         }
 
+        public static string Ui_VoidstrapMods_VoteBlocked => ResourceManager.GetString("Ui.VoidstrapMods.VoteBlocked", resourceCulture);
+
+        public static string Ui_VoidstrapMods_VoteBusy => ResourceManager.GetString("Ui.VoidstrapMods.VoteBusy", resourceCulture);
+
         public static string Ui_VoidstrapMods_LibraryInstall {
             get {
                 return ResourceManager.GetString("Ui.VoidstrapMods.LibraryInstall", resourceCulture);

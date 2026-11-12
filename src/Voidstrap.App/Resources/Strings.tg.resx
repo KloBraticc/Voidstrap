@@ -9928,4 +9928,10 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Буфери такрор бор нашуд</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Овози шуморо тасдиқ кардан нашуд. Овозҳо аз шабакаҳои VPN, прокси ё хостинг қабул карда намешаванд.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Ҳоло овозҳо хеле зиёданд, пас аз чанд дақиқа дубора кӯшиш кунед.</value>
+  </data>
 </root>

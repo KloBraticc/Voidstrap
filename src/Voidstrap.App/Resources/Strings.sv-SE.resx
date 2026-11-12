@@ -10241,4 +10241,10 @@ Spelare: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Det gick inte att läsa in reprisbufferten</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Din röst kunde inte verifieras. Röster från VPN-, proxy- eller hostingnätverk godtas inte.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>För många röster just nu, försök igen om några minuter.</value>
+  </data>
 </root>

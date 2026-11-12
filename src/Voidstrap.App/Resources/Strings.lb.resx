@@ -9929,4 +9929,10 @@ Spiller: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>De Widderhuelungspuffer konnt net gelueden ginn</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Är Stëmm konnt net iwwerpréift ginn. Stëmme vu VPN, Proxy oder Hosting Netzwierker ginn net akzeptéiert.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Ze vill Stëmmen am Moment, probéiert et an e puer Minutten nach eng Kéier.</value>
+  </data>
 </root>

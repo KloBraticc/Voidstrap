@@ -9928,4 +9928,10 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>ری پلے بفر لوڈ نہیں ہو سکا</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>آپ کے ووٹ کی تصدیق نہیں ہو سکی۔ VPN، پراکسی یا ہوسٹنگ نیٹ ورکس سے آنے والے ووٹ قبول نہیں کیے جاتے۔</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>اس وقت بہت زیادہ ووٹ ہیں، چند منٹ بعد دوبارہ کوشش کریں۔</value>
+  </data>
 </root>

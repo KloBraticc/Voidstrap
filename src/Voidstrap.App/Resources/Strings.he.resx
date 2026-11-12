@@ -9929,4 +9929,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>לא ניתן לטעון את מאגר ההפעלה החוזרת</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>לא ניתן היה לאמת את ההצבעה שלך. הצבעות מרשתות VPN, פרוקסי או אירוח אינן מתקבלות.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>יש יותר מדי הצבעות כרגע, נסה שוב בעוד כמה דקות.</value>
+  </data>
 </root>

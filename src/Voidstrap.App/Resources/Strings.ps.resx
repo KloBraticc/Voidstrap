@@ -9929,4 +9929,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>د بیا غږونې بفر نه شو بار کېدای</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>ستاسو رایه تایید نه شوه. د VPN، پراکسي یا کوربه توب شبکو څخه رایې نه منل کېږي.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>اوس ډېرې رایې دي، څو دقیقې وروسته بیا هڅه وکړئ.</value>
+  </data>
 </root>

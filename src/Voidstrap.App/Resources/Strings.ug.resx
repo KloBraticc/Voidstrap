@@ -9928,4 +9928,10 @@ Uptime: {1}
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>قايتا قويۇش بۇففېرىنى يۈكلىگىلى بولمىدى</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>ئاۋازىڭىزنى دەلىللىگىلى بولمىدى. VPN، ۋاكالەتچى ياكى ساھىبخانا تورلىرىدىن كەلگەن ئاۋازلار قوبۇل قىلىنمايدۇ.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>ھازىر ئاۋاز بەك كۆپ، بىر نەچچە مىنۇتتىن كېيىن قايتا سىناڭ.</value>
+  </data>
 </root>

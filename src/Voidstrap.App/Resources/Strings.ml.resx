@@ -9929,4 +9929,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>റീപ്ലേ ബഫർ ലോഡ് ചെയ്യാനായില്ല</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>നിങ്ങളുടെ വോട്ട് സ്ഥിരീകരിക്കാനായില്ല. VPN, പ്രോക്സി അല്ലെങ്കിൽ ഹോസ്റ്റിംഗ് നെറ്റ്‌വർക്കുകളിൽ നിന്നുള്ള വോട്ടുകൾ സ്വീകരിക്കില്ല.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>ഇപ്പോൾ വളരെയധികം വോട്ടുകളുണ്ട്, കുറച്ച് മിനിറ്റുകൾക്ക് ശേഷം വീണ്ടും ശ്രമിക്കുക.</value>
+  </data>
 </root>

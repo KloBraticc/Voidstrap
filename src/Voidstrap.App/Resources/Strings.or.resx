@@ -9929,4 +9929,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>ରିପ୍ଲେ ବଫର ଲୋଡ କରିହେଲା ନାହିଁ</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>ଆପଣଙ୍କ ଭୋଟ୍ ଯାଞ୍ଚ କରାଯାଇପାରିଲା ନାହିଁ। VPN, ପ୍ରକ୍ସି କିମ୍ବା ହୋଷ୍ଟିଂ ନେଟୱାର୍କରୁ ଆସୁଥିବା ଭୋଟ୍ ଗ୍ରହଣ କରାଯାଏ ନାହିଁ।</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>ବର୍ତ୍ତମାନ ବହୁତ ଅଧିକ ଭୋଟ୍ ଅଛି, କିଛି ମିନିଟ୍ ପରେ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।</value>
+  </data>
 </root>

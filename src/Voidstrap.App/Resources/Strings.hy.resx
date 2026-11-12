@@ -9929,4 +9929,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Չհաջողվեց բեռնել կրկնարտադրման բուֆերը</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Ձեր ձայնը հնարավոր չեղավ ստուգել։ VPN, պրոքսի կամ հոսթինգի ցանցերից ձայները չեն ընդունվում։</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Այս պահին չափազանց շատ ձայներ կան, փորձեք կրկին մի քանի րոպեից։</value>
+  </data>
 </root>

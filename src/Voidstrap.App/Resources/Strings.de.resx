@@ -10241,4 +10241,10 @@ Spieler: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Der Wiederholungspuffer konnte nicht geladen werden</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Deine Stimme konnte nicht bestätigt werden. Stimmen aus VPN-, Proxy- oder Hosting-Netzwerken werden nicht angenommen.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Gerade gibt es zu viele Stimmen, versuche es in ein paar Minuten erneut.</value>
+  </data>
 </root>

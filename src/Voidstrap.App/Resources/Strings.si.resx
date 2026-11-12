@@ -9929,4 +9929,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>නැවත ධාවන බෆරය පූරණය කළ නොහැකි විය</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>ඔබගේ ඡන්දය තහවුරු කළ නොහැකි විය. VPN, ප්‍රොක්සි හෝ සත්කාරක ජාලවලින් ලැබෙන ඡන්ද පිළිගනු නොලැබේ.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>දැන් ඡන්ද වැඩියි, මිනිත්තු කිහිපයකින් නැවත උත්සාහ කරන්න.</value>
+  </data>
 </root>

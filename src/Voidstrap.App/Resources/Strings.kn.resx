@@ -9929,4 +9929,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>ರಿಪ್ಲೇ ಬಫರ್ ಲೋಡ್ ಮಾಡಲಾಗಲಿಲ್ಲ</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>ನಿಮ್ಮ ಮತವನ್ನು ಪರಿಶೀಲಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. VPN, ಪ್ರಾಕ್ಸಿ ಅಥವಾ ಹೋಸ್ಟಿಂಗ್ ನೆಟ್‌ವರ್ಕ್‌ಗಳಿಂದ ಬರುವ ಮತಗಳನ್ನು ಸ್ವೀಕರಿಸಲಾಗುವುದಿಲ್ಲ.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>ಈಗ ತುಂಬಾ ಮತಗಳಿವೆ, ಕೆಲವು ನಿಮಿಷಗಳ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</value>
+  </data>
 </root>

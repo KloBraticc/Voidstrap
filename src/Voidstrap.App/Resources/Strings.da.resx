@@ -9928,4 +9928,10 @@ Spillere: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Kunne ikke indlæse genafspilningsbufferen</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Din stemme kunne ikke bekræftes. Stemmer fra VPN, proxy eller hostingnetværk accepteres ikke.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>For mange stemmer lige nu, prøv igen om et par minutter.</value>
+  </data>
 </root>

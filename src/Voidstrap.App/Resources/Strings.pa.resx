@@ -9929,4 +9929,10 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>ਰੀਪਲੇਅ ਬਫ਼ਰ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕਿਆ</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>ਤੁਹਾਡੀ ਵੋਟ ਦੀ ਪੁਸ਼ਟੀ ਨਹੀਂ ਹੋ ਸਕੀ। VPN, ਪ੍ਰੌਕਸੀ ਜਾਂ ਹੋਸਟਿੰਗ ਨੈੱਟਵਰਕਾਂ ਤੋਂ ਆਈਆਂ ਵੋਟਾਂ ਸਵੀਕਾਰ ਨਹੀਂ ਕੀਤੀਆਂ ਜਾਂਦੀਆਂ।</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>ਇਸ ਵੇਲੇ ਬਹੁਤ ਜ਼ਿਆਦਾ ਵੋਟਾਂ ਹਨ, ਕੁਝ ਮਿੰਟਾਂ ਬਾਅਦ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</value>
+  </data>
 </root>

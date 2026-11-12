@@ -9929,4 +9929,10 @@ Uptime: {1}
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>გამეორების ბუფერის ჩატვირთვა ვერ მოხერხდა</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>თქვენი ხმის დადასტურება ვერ მოხერხდა. VPN, პროქსი ან ჰოსტინგის ქსელებიდან ხმები არ მიიღება.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>ახლა ძალიან ბევრი ხმაა, სცადეთ ხელახლა რამდენიმე წუთში.</value>
+  </data>
 </root>

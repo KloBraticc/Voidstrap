@@ -9929,4 +9929,10 @@ Leikmenn: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Ekki tókst að hlaða endurspilunarbiðminni</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Ekki tókst að staðfesta atkvæðið þitt. Atkvæði frá VPN, proxy eða hýsingarnetum eru ekki tekin gild.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Of mörg atkvæði núna, reyndu aftur eftir nokkrar mínútur.</value>
+  </data>
 </root>

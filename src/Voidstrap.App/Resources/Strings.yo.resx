@@ -9928,4 +9928,10 @@ Awọn oṣere: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Kò lè gbé ibi ìpamọ́ àtúnṣe jáde</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>A kò lè jẹ́rìí ìbò rẹ. A kì í gba ìbò láti inú nẹ́tíwọ̀ọ̀kì VPN, proxy tàbí hosting.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Ìbò ti pọ̀ jù báyìí, gbìyànjú lẹ́ẹ̀kan sí i lẹ́yìn ìṣẹ́jú díẹ̀.</value>
+  </data>
 </root>

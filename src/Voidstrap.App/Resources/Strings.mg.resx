@@ -9929,4 +9929,10 @@ Mpilalao: {2}</value>
   <data name="Ui.Clipper.RewindFailed" xml:space="preserve">
     <value>Tsy afaka nampiditra ny buffer famerenana</value>
   </data>
+  <data name="Ui.VoidstrapMods.VoteBlocked" xml:space="preserve">
+    <value>Tsy voamarina ny latsa-baton'ao. Tsy ekena ny latsa-bato avy amin'ny tambajotra VPN, proxy na hosting.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.VoteBusy" xml:space="preserve">
+    <value>Be loatra ny latsa-bato amin'izao fotoana izao, andramo indray afaka minitra vitsy.</value>
+  </data>
 </root>
