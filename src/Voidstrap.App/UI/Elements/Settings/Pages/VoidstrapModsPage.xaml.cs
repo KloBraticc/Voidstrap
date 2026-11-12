@@ -73,6 +73,7 @@ public partial class VoidstrapModsPage : UiPage
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
+        Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(VoidstrapModsPage));
         _libraryPoll.Stop();
         _libraryPoll.Tick -= LibraryPoll_Tick;
         ModVotes.Changed -= OnVotesChanged;
@@ -94,7 +95,7 @@ public partial class VoidstrapModsPage : UiPage
 
     private void OnModsChanged() => Dispatcher.BeginInvoke(new Action(RenderMods));
 
-    private void OnVotesChanged() => Dispatcher.BeginInvoke(new Action(RenderLibrary));
+    private void OnVotesChanged() => Dispatcher.BeginInvoke(new Action(RefreshVoteButtons));
 
     private System.Windows.Threading.DispatcherTimer? _renderTimer;
 
@@ -656,6 +657,23 @@ public partial class VoidstrapModsPage : UiPage
 
     private readonly Dictionary<string, Border> _libraryIconHosts = new(StringComparer.Ordinal);
 
+    private readonly List<(ContentControl Host, ModLibrary.LibraryMod Mod)> _libraryVoteHosts = [];
+
+    private ContentControl VoteHost(ModLibrary.LibraryMod mod)
+    {
+        ContentControl host = new() { Content = BuildVoteButtons(mod), HorizontalAlignment = HorizontalAlignment.Right };
+        _libraryVoteHosts.Add((host, mod));
+        return host;
+    }
+
+    private void RefreshVoteButtons()
+    {
+        foreach ((ContentControl host, ModLibrary.LibraryMod mod) in _libraryVoteHosts)
+            host.Content = BuildVoteButtons(mod);
+        if (_detailMod != null && LibraryDetail.Visibility == Visibility.Visible)
+            DetailVotes.Content = BuildVoteButtons(_detailMod);
+    }
+
     private static readonly Dictionary<string, BitmapSource?> _libraryIcons = new(StringComparer.Ordinal);
 
     private ModLibrary.LibraryMod? _detailMod;
@@ -926,6 +944,7 @@ public partial class VoidstrapModsPage : UiPage
             return;
         LibraryHost.Items.Clear();
         _libraryIconHosts.Clear();
+        _libraryVoteHosts.Clear();
         List<ModLibrary.LibraryMod> mods = ModLibrarySearch.Run(_libraryIndex.Mods, LibraryQuery(), null, SelectedSort);
         LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryEmpty;
         LibraryEmpty.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -1087,7 +1106,7 @@ public partial class VoidstrapModsPage : UiPage
         versionText.Margin = new Thickness(5, 0, 0, 0);
         version.Children.Add(versionText);
         side.Children.Add(version);
-        side.Children.Add(BuildVoteButtons(mod));
+        side.Children.Add(VoteHost(mod));
         StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
         Wpf.Ui.Controls.Button view = new()
         {
@@ -1186,17 +1205,19 @@ public partial class VoidstrapModsPage : UiPage
         if (sender is not FrameworkElement { Tag: VoteTarget target } || !_votePending.Add(target.ModId))
             return;
         int vote = ModVotes.Get(target.ModId).Mine == target.Value ? 0 : target.Value;
-        RenderLibrary();
+        RefreshVoteButtons();
         ModVoteWindow.Show(target.ModId, vote, (tally, error) => OnVoteFinished(target.ModId, tally, error));
     }
 
     private void OnVoteFinished(string modId, ModVotes.Tally? tally, int error)
     {
+        const string LOG_IDENT = "VoidstrapModsPage::OnVoteFinished";
+        App.Logger.WriteLine(LOG_IDENT, tally != null ? "Saved the vote on " + modId : error == 0 ? "The vote window for " + modId + " was closed" : error < 0 ? "Opened the vote for " + modId + " in the browser" : "The vote on " + modId + " failed with status " + error);
         _votePending.Remove(modId);
         if (tally != null)
             ModVotes.Apply(modId, tally);
         else
-            RenderLibrary();
+            RefreshVoteButtons();
         if (error < 0)
         {
             _ = RefreshVotesLaterAsync();
@@ -1261,6 +1282,23 @@ public partial class VoidstrapModsPage : UiPage
         if (!sameMod)
             SelectDetailTab(false, false);
         _ = LoadDetailHistoryAsync(mod);
+        ShowModPresence(mod);
+    }
+
+    private void ShowModPresence(ModLibrary.LibraryMod mod)
+    {
+        string image = _libraryIndex is { } index ? ModLibrary.IconImageUrl(index, mod) : "";
+        Voidstrap.Integrations.VoidstrapPresence.Set(
+            new Voidstrap.Integrations.VoidstrapPresenceContext(
+                nameof(VoidstrapModsPage),
+                RpcText.Mark("Viewing") + " " + mod.Name,
+                RpcText.Mark("Voidstrap mod") + " " + RpcText.Mark("by") + " @" + mod.Login,
+                image.Length > 0 ? image : Branding.RpcLogoUrl,
+                mod.Name + " " + RpcText.Mark("by") + " @" + mod.Login,
+                RpcText.Mark("View mod"),
+                App.ProjectWebsite + "/mods?mod=" + Uri.EscapeDataString(mod.Id)
+            )
+        );
     }
 
     private bool _versionsTab;
@@ -1534,6 +1572,7 @@ public partial class VoidstrapModsPage : UiPage
     private void LibraryBack_Click(object sender, RoutedEventArgs e)
     {
         _detailMod = null;
+        Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(VoidstrapModsPage));
         LibraryDetail.Visibility = Visibility.Collapsed;
         LibraryBrowse.Visibility = Visibility.Visible;
     }
