@@ -81,6 +81,8 @@ public partial class App : Application
 
     public const string ProjectWebsite = "https://voidstrapp.pages.dev";
 
+    public static string GameInviteLink(object placeId) => $"{ProjectWebsite}/join?placeId={placeId}";
+
     public const string ProjectDonateLink = "https://github.com/sponsors/KloBraticc";
 
     public const string ProjectLogoUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/src/Voidstrap.App/Voidstrap.png";

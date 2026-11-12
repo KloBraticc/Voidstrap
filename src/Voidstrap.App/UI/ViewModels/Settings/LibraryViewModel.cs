@@ -2204,7 +2204,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             return;
         try
         {
-            Clipboard.SetText(GameUrl(game));
+            Clipboard.SetText(App.GameInviteLink(game.PlaceId));
         }
         catch (Exception ex)
         {

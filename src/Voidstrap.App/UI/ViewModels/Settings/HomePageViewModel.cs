@@ -1378,7 +1378,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 return;
             try
             {
-                Voidstrap.Utility.ClipboardService.SetText($"https://www.roblox.com/games/{entry.PlaceId}");
+                Voidstrap.Utility.ClipboardService.SetText(App.GameInviteLink(entry.PlaceId));
             }
             catch (Exception ex)
             {

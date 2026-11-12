@@ -329,7 +329,7 @@ namespace Voidstrap.UI.Elements.Controls
                     Favorite_Click(sender, e);
                     break;
                 case "link":
-                    ClipboardService.SetDataObject(url, true);
+                    ClipboardService.SetDataObject(App.GameInviteLink(game.PlaceId), true);
                     break;
                 case "id":
                     ClipboardService.SetDataObject(game.PlaceId.ToString(CultureInfo.InvariantCulture), true);

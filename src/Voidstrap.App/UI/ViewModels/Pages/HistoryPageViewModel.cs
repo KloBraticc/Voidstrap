@@ -427,7 +427,7 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
         }
         try
         {
-            Voidstrap.Utility.ClipboardService.SetText($"{App.ProjectWebsite}/join?placeId={entry.PlaceId}");
+            Voidstrap.Utility.ClipboardService.SetText(App.GameInviteLink(entry.PlaceId));
         }
         catch (Exception ex)
         {
