@@ -170,6 +170,10 @@ internal static partial class HiddenErrorLog
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
             _uiThreadId = Environment.CurrentManagedThreadId;
+#if !CROSSPLAT
+            if (OperatingSystem.IsWindows())
+                NativeStack.RememberCurrentThread();
+#endif
             _dispatcher.Hooks.OperationStarted += OnOperationStarted;
             _dispatcher.Hooks.OperationCompleted += OnOperationFinished;
             _dispatcher.Hooks.OperationAborted += OnOperationFinished;
@@ -438,13 +442,16 @@ internal static partial class HiddenErrorLog
         if (!OperatingSystem.IsWindows() || Interlocked.Increment(ref _stackCaptures) > MaxStackCaptures)
             return "";
 #if !CROSSPLAT
+        bool wasInside = _inside;
+        _inside = true;
+        string native = NativeStack.Capture();
         try
         {
             using Microsoft.Diagnostics.Runtime.DataTarget target = Microsoft.Diagnostics.Runtime.DataTarget.CreateSnapshotAndAttach(Environment.ProcessId);
             using Microsoft.Diagnostics.Runtime.ClrRuntime runtime = target.ClrVersions[0].CreateRuntime();
             Microsoft.Diagnostics.Runtime.ClrThread? thread = runtime.Threads.FirstOrDefault(t => t.ManagedThreadId == _uiThreadId);
             if (thread == null)
-                return "\n  UI thread stack: not found";
+                return native + "\n  UI thread stack: not found";
             System.Text.StringBuilder builder = new("\n  UI thread stack at the freeze:");
             int frames = 0;
             foreach (Microsoft.Diagnostics.Runtime.ClrStackFrame frame in thread.EnumerateStackTrace())
@@ -461,11 +468,15 @@ internal static partial class HiddenErrorLog
             }
             if (thread.CurrentException is { } exception)
                 builder.Append("\n  UI thread is handling ").Append(exception.Type?.Name).Append(": ").Append(exception.Message);
-            return builder.ToString();
+            return native + builder.ToString();
         }
         catch (Exception ex)
         {
-            return "\n  UI thread stack unavailable: " + ex.GetType().Name + " " + ex.Message;
+            return native + "\n  UI thread stack unavailable: " + ex.GetType().Name + " " + ex.Message;
+        }
+        finally
+        {
+            _inside = wasInside;
         }
 #else
         return "";
