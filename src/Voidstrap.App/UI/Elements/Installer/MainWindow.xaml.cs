@@ -265,6 +265,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             layer.Children.Add(art.Front);
         foreach (FrameworkElement part in Parts(art))
             Rig(part);
+        if (!animate)
+            art.Motion?.Invoke(-180);
         Rig(art.Badge).Rotate.Angle = art.BadgeAngle;
         ArtStage.Children.Add(layer);
         if (animate)
@@ -310,6 +312,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Play(rig.Move, TranslateTransform.YProperty, 14, 0, 460, d, pop);
             Play(part, OpacityProperty, 0, 1, 300, d);
         }
+        art.Motion?.Invoke(d);
         var badge = Rig(art.Badge);
         double bd = d + 220;
         BackEase spring = new() { Amplitude = 0.45, EasingMode = EasingMode.EaseOut };

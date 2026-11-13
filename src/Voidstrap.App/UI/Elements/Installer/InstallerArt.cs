@@ -1,6 +1,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
 using Voidstrap.UI.Elements.Installer.Pages;
 using Wpf.Ui.Common;
@@ -20,6 +22,8 @@ internal sealed class InstallerArt
 
     public double BadgeRise { get; init; } = 40;
 
+    public Action<double>? Motion { get; init; }
+
     public static InstallerArt For(Type pageType)
     {
         if (pageType == typeof(InstallPage))
@@ -34,11 +38,44 @@ internal sealed class InstallerArt
             return Glyph(SymbolRegular.Apps24, "#3FB6FF", "#2F6BFF", SymbolRegular.ArrowDownload24, "#3DDC84", "#16A35A");
         if (pageType == typeof(Voidstrap.UI.Elements.Settings.Pages.ExtensionPage))
             return Glyph(SymbolRegular.PuzzlePiece24, "#2FD8C4", "#2C9BFF", SymbolRegular.Add24, "#B07BFF", "#6A3DFF");
-        return Glyph(SymbolRegular.CheckmarkCircle24, "#4BE38A", "#13A86A", SymbolRegular.Star24, "#FFD54A", "#FF9F1A");
+        return Check();
     }
 
     private static LinearGradientBrush Gradient(string top, string bottom) =>
         new((Color)ColorConverter.ConvertFromString(top), (Color)ColorConverter.ConvertFromString(bottom), new Point(0, 0), new Point(1, 1));
+
+    private static InstallerArt Check()
+    {
+        System.Windows.Shapes.Path tick = new()
+        {
+            Data = Geometry.Parse("M 52,86 L 74,108 L 116,62"),
+            Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1F2A24")),
+            StrokeThickness = 14,
+            StrokeStartLineCap = PenLineCap.Round,
+            StrokeEndLineCap = PenLineCap.Round,
+            StrokeLineJoin = PenLineJoin.Round,
+            StrokeDashArray = new DoubleCollection { 7, 7 },
+            StrokeDashOffset = 7,
+        };
+        Grid back = new() { Width = 168, Height = 168, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+        back.Children.Add(new Ellipse { Fill = Gradient("#4BE38A", "#13A86A") });
+        back.Children.Add(tick);
+        InstallerArt art = Glyph(SymbolRegular.Star24, "#4BE38A", "#13A86A", SymbolRegular.Star24, "#FFD54A", "#FF9F1A");
+        return new InstallerArt
+        {
+            Back = back,
+            Badge = art.Badge,
+            BadgeAngle = art.BadgeAngle,
+            Motion = delay =>
+            {
+                tick.BeginAnimation(Shape.StrokeDashOffsetProperty, new DoubleAnimation(7, 0, TimeSpan.FromMilliseconds(520))
+                {
+                    BeginTime = TimeSpan.FromMilliseconds(delay + 180),
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut },
+                });
+            },
+        };
+    }
 
     private static InstallerArt Folder()
     {
