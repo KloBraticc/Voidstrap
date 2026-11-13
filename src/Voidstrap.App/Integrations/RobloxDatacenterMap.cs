@@ -192,7 +192,88 @@ public static class RobloxDatacenterMap
 
     private static List<SeedCidrEntry> BuildSeedEntries()
     {
-        return new List<SeedCidrEntry>();
+        List<SeedCidrEntry> entries = new List<SeedCidrEntry>();
+
+        AddCitySeeds(entries, "Ashburn", "Virginia", "United States", 39.0438, -77.4874,
+            "128.116.102.0/24", "128.116.53.0/24", "107.180.197.0/24", "128.116.56.0/24");
+        AddCitySeeds(entries, "Atlanta", "Georgia", "United States", 33.7490, -84.3880,
+            "128.116.2.0/24");
+        AddCitySeeds(entries, "Chicago", "Illinois", "United States", 41.8781, -87.6298,
+            "128.116.48.0/24", "128.116.84.0/24");
+        AddCitySeeds(entries, "Dallas", "Texas", "United States", 32.7767, -96.7970,
+            "128.116.14.0/24", "128.116.95.0/24");
+        AddCitySeeds(entries, "Los Angeles", "California", "United States", 34.0522, -118.2437,
+            "128.116.116.0/24", "128.116.1.0/24", "128.116.63.0/24");
+        AddCitySeeds(entries, "Miami", "Florida", "United States", 25.7617, -80.1918,
+            "128.116.45.0/24", "128.116.127.0/24");
+        AddCitySeeds(entries, "New York City", "New York", "United States", 40.7128, -74.0060,
+            "128.116.32.0/24", "128.116.30.3/32");
+        AddCitySeeds(entries, "San Jose", "California", "United States", 37.3382, -121.8863,
+            "128.116.117.0/24", "128.116.67.0/24", "209.206.42.0/24", "209.206.43.0/24");
+        AddCitySeeds(entries, "Seattle", "Washington", "United States", 47.6062, -122.3321,
+            "128.116.115.0/24");
+
+        AddCitySeeds(entries, "Sydney", "New South Wales", "Australia", -33.8688, 151.2093,
+            "128.116.51.0/24");
+        AddCitySeeds(entries, "Sao Paulo", "Sao Paulo", "Brazil", -23.5505, -46.6333,
+            "128.116.86.0/24");
+        AddCitySeeds(entries, "Paris", "Ile-de-France", "France", 48.8566, 2.3522,
+            "128.116.13.0/24");
+        AddCitySeeds(entries, "Frankfurt", "Hesse", "Germany", 50.1109, 8.6821,
+            "128.116.5.0/24", "128.116.44.0/24");
+        AddCitySeeds(entries, "Mumbai", "Maharashtra", "India", 19.0760, 72.8777,
+            "128.116.47.0/24");
+        AddCitySeeds(entries, "Tokyo", "Tokyo", "Japan", 35.6762, 139.6503,
+            "128.116.55.0/24", "128.116.120.0/24");
+        AddCitySeeds(entries, "Amsterdam", "North Holland", "Netherlands", 52.3676, 4.9041,
+            "128.116.21.0/24");
+        AddCitySeeds(entries, "Singapore", "Singapore", "Singapore", 1.3521, 103.8198,
+            "128.116.46.0/24", "128.116.50.0/24", "128.116.54.0/24", "128.116.97.0/24");
+        AddCitySeeds(entries, "London", "England", "United Kingdom", 51.5072, -0.1276,
+            "128.116.31.0/24");
+
+        return entries;
+    }
+
+    private static void AddCitySeeds(
+        List<SeedCidrEntry> entries,
+        string city,
+        string region,
+        string country,
+        double lat,
+        double lon,
+        params string[] cidrs
+    )
+    {
+        foreach (string cidr in cidrs)
+        {
+            entries.Add(new SeedCidrEntry
+            {
+                Cidr = cidr,
+                City = city,
+                Region = region,
+                Country = country,
+                PingIp = GetSeedPingIp(cidr),
+                Lat = lat,
+                Lon = lon,
+            });
+        }
+    }
+
+    private static string GetSeedPingIp(string cidr)
+    {
+        string[] parts = cidr.Split('/');
+        if (parts.Length != 2 || !IPAddress.TryParse(parts[0], out IPAddress? address)
+            || address.AddressFamily != AddressFamily.InterNetwork
+            || !int.TryParse(parts[1], out int prefix))
+            return "";
+
+        byte[] bytes = address.GetAddressBytes();
+        if (prefix == 24 && bytes[3] == 0)
+            return $"{bytes[0]}.{bytes[1]}.{bytes[2]}.3";
+        if (prefix == 32 && bytes[3] == 3)
+            return address.ToString();
+        return "";
     }
 
     private static List<CidrEntry> BuildCidrEntries()
