@@ -8,7 +8,7 @@ namespace Voidstrap.Integrations.Fullscreen
 {
     public static unsafe partial class RobloxTitleBarGuard
     {
-        private const int GuardPixels = 1;
+        private const int GuardPixels = 2;
 
         private const int WH_MOUSE_LL = 14;
 
