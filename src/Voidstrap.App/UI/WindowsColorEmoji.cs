@@ -65,8 +65,8 @@ internal static partial class WindowsColorEmoji
             return;
         if (Trackers.TryGetValue(block, out Tracker? tracker))
         {
-            if (!string.Equals(block.Text, tracker.Snapshot, StringComparison.Ordinal))
-                QueueApply(block);
+            if (!string.Equals(block.Text, tracker.Snapshot, StringComparison.Ordinal) || IsHiddenDetached(block))
+                Apply(block);
             else
                 tracker.Adorner?.InvalidateVisual();
             return;
@@ -104,8 +104,8 @@ internal static partial class WindowsColorEmoji
 
     private static void OnTextChanged(object? sender, EventArgs e)
     {
-        if (sender is TextBlock block && !(Trackers.TryGetValue(block, out Tracker? tracker) && tracker.Hiding))
-            QueueApply(block);
+        if (sender is TextBlock block && Trackers.TryGetValue(block, out Tracker? tracker) && !tracker.Hiding)
+            Apply(block);
     }
 
     private static void QueueApply(TextBlock block)
@@ -150,6 +150,7 @@ internal static partial class WindowsColorEmoji
         if (layer == null)
         {
             Clear(block, tracker);
+            tracker.Snapshot = null;
             return;
         }
         found = Hide(block, tracker);
@@ -213,6 +214,8 @@ internal static partial class WindowsColorEmoji
         {
             tracker.Hiding = false;
         }
+        if (effects.Count > 0)
+            Refresh(block);
         return hidden;
     }
 
@@ -256,6 +259,14 @@ internal static partial class WindowsColorEmoji
             tracker.Hiding = false;
             tracker.Hidden.Clear();
         }
+        Refresh(block);
+    }
+
+    private static void Refresh(TextBlock block)
+    {
+        block.InvalidateMeasure();
+        block.InvalidateArrange();
+        block.InvalidateVisual();
     }
 
     private static bool IsHiddenDetached(TextBlock block)
