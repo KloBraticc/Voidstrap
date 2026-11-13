@@ -244,7 +244,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ApplyChrome(Type pageType)
     {
-        bool animate = IsLoaded && !(Voidstrap.Utility.Platform.IsLinux && Voidstrap.UI.LinuxUiPerformance.ReducedMotion);
+        bool animate = IsLoaded;
         foreach (UIElement old in ArtStage.Children.Cast<UIElement>().ToList())
         {
             if (!animate || old is not Grid oldLayer || oldLayer.Tag is not InstallerArt oldArt)
