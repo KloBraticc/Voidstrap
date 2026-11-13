@@ -71,7 +71,6 @@ public static class RobloxDatacenterMap
                         || !double.IsFinite(entry.Lon)
                         || entry.Lat is < -90.0 or > 90.0
                         || entry.Lon is < -180.0 or > 180.0
-                        || entry.Lat == 0.0 && entry.Lon == 0.0
                     )
                         continue;
                     string[] array = entry.Cidr.Split('/');
