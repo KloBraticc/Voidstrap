@@ -614,6 +614,10 @@ internal static partial class WindowsColorEmoji
         private int _retries;
         private string? _snapshot;
         private DrawingGroup? _last;
+        private const long FollowWindowMs = 1200;
+        private bool _following;
+        private long _followUntil;
+        private Matrix _lastTransform;
 
         public EmojiAdorner(TextBlock block)
             : base(block)
@@ -629,6 +633,52 @@ internal static partial class WindowsColorEmoji
             _snapshot = snapshot;
             _retries = 0;
             InvalidateVisual();
+            Follow();
+        }
+
+        private void Follow()
+        {
+            _followUntil = Environment.TickCount64 + FollowWindowMs;
+            if (_following)
+                return;
+            _following = true;
+            _lastTransform = CurrentTransform() ?? Matrix.Identity;
+            CompositionTarget.Rendering += OnRendering;
+        }
+
+        private void StopFollowing()
+        {
+            if (!_following)
+                return;
+            _following = false;
+            CompositionTarget.Rendering -= OnRendering;
+        }
+
+        private Matrix? CurrentTransform()
+        {
+            if (VisualTreeHelper.GetParent(this) is not AdornerLayer layer || layer.FindCommonVisualAncestor(_block) == null)
+                return null;
+            return _block.TransformToVisual(layer) is Transform transform ? transform.Value : null;
+        }
+
+        private void OnRendering(object? sender, EventArgs e)
+        {
+            Matrix? current = _block.IsVisible && _items.Count > 0 ? CurrentTransform() : null;
+            if (current == null)
+            {
+                StopFollowing();
+                return;
+            }
+            if (current.Value != _lastTransform)
+            {
+                _lastTransform = current.Value;
+                _followUntil = Environment.TickCount64 + FollowWindowMs;
+                (VisualTreeHelper.GetParent(this) as AdornerLayer)?.Update(_block);
+            }
+            else if (Environment.TickCount64 > _followUntil)
+            {
+                StopFollowing();
+            }
         }
 
         private void RetryRender()
@@ -642,11 +692,17 @@ internal static partial class WindowsColorEmoji
         public void Detach()
         {
             _block.IsVisibleChanged -= OnBlockVisibilityChanged;
+            StopFollowing();
             _items = new();
             _last = null;
         }
 
-        private void OnBlockVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e) => InvalidateVisual();
+        private void OnBlockVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            InvalidateVisual();
+            if (_block.IsVisible)
+                Follow();
+        }
 
         protected override void OnRender(DrawingContext dc)
         {
