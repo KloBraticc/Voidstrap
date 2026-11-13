@@ -1661,7 +1661,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                     .Select(x => x.PingIp)
                     .Where(IsUsablePingIp)
                     .Distinct<string>(StringComparer.OrdinalIgnoreCase)
-                    .Take(3)
+                    .Take(1)
                     .ToList();
                 List<string> cidrRanges = (from x in value2 select x.Cidr into x where !string.IsNullOrWhiteSpace(x) select x)
                     .Distinct<string>(StringComparer.OrdinalIgnoreCase)
