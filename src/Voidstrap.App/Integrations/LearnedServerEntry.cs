@@ -15,6 +15,8 @@ public sealed class LearnedServerEntry
 
     public string Country { get; set; } = "";
 
+    public string PingIp { get; set; } = "";
+
     public double Lat { get; set; }
 
     public double Lon { get; set; }
