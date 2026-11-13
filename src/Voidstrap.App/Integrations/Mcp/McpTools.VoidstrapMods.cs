@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
@@ -224,6 +224,17 @@ public static partial class McpTools
 		Library rules: readable code only (no eval, Function, encoded or minified code), nothing that touches Roblox logins or cheats, every contacted host listed in plugin.json network. Only the account that first published a mod can update it. Read get_guide topic library_pr for the full red X checklist.
 		""";
 
+    private static string DescribeStatus(PluginHost.ModInfo info)
+    {
+        if (info.Loaded)
+            return "running";
+        if (info.Consent != "on")
+            return "not running because its state is " + info.Consent + ", use enable to turn it on";
+        if (info.Problems.Count > 0)
+            return "turned on but not running, the latest problem explains why: " + info.Problems[^1];
+        return "turned on but not running: a powerful mod waits for the user to approve it in Voidstrap, or the files changed and no reload has run yet. Call reload, then list again";
+    }
+
     public static async Task<McpToolResult> ManageVoidstrapMods(JsonObject args)
     {
         string action = McpArgs.Trimmed(args, "action", "list").ToLowerInvariant();
@@ -243,6 +254,7 @@ public static partial class McpTools
                                 ["description"] = info.Description,
                                 ["state"] = info.Consent,
                                 ["loaded"] = info.Loaded,
+                                ["status"] = DescribeStatus(info),
                                 ["hooks"] = new JsonArray(info.Hooks.Select(hook => (JsonNode?)hook).ToArray()),
                                 ["problems"] = new JsonArray(info.Problems.TakeLast(10).Select(problem => (JsonNode?)problem).ToArray()),
                             }

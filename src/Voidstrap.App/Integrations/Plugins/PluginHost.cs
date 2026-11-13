@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -480,22 +480,20 @@ public static class PluginHost
                 }
                 foreach (PluginManifest manifest in manifests)
                 {
-                    if (!PluginConsent.IsAllowed(manifest))
-                    {
+                    LoadedPlugin? kept = old.FirstOrDefault(plugin =>
+                        plugin.Name == manifest.Name && plugin.SourceSignature == GetReloadSignature(manifest.Directory, manifest.Name)
+                    );
+                    if (kept == null || restarts.Contains(manifest.Name))
                         ClearProblems(manifest.Name);
+                    if (!PluginConsent.IsAllowed(manifest))
                         continue;
-                    }
                     try
                     {
-                        LoadedPlugin? unchanged = old.FirstOrDefault(plugin =>
-                            plugin.Name == manifest.Name && plugin.SourceSignature == GetReloadSignature(manifest.Directory, manifest.Name)
-                        );
-                        if (unchanged != null && !restarts.Contains(manifest.Name))
+                        if (kept != null && !restarts.Contains(manifest.Name))
                         {
-                            fresh.Add(unchanged);
+                            fresh.Add(kept);
                             continue;
                         }
-                        ClearProblems(manifest.Name);
                         fresh.Add(LoadedPlugin.Load(manifest));
                         App.Logger.WriteLine(LogIdent, manifest.Name + ": loaded " + manifest.Version);
                     }

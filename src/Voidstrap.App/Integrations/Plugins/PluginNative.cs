@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -229,11 +229,33 @@ internal static partial class PluginNative
                 return Path.GetFileName(file) + " is a program, which powerful mods can never include";
             if (Path.GetFileName(file).Equals("owner.json", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(file).ToLowerInvariant() is not (".ts" or ".tsx" or ".js" or ".jsx" or ".mjs" or ".json"))
                 continue;
-            Match match = RefusedSource().Match(Encoding.UTF8.GetString(HashableContent(file)));
-            if (match.Success)
-                return Path.GetFileName(file) + " contains \"" + match.Value + "\", which powerful mods cannot use";
+            if (RefusedMatch(Encoding.UTF8.GetString(HashableContent(file))) is { } refused)
+                return Path.GetFileName(file) + " contains \"" + refused + "\", which powerful mods cannot use";
         }
         return null;
+    }
+
+    private static string? RefusedMatch(string text)
+    {
+        foreach (Match match in RefusedSource().Matches(text))
+            if (!IsIconName(text, match))
+                return match.Value;
+        return null;
+    }
+
+    private static bool IsIconName(string text, Match match)
+    {
+        int start = match.Index;
+        int end = match.Index + match.Length;
+        while (start > 0 && char.IsAsciiLetterOrDigit(text[start - 1]))
+            start--;
+        while (end < text.Length && char.IsAsciiLetterOrDigit(text[end]))
+            end++;
+        string word = text[start..end];
+        return word.Length > 0
+            && char.IsAsciiLetterUpper(word[0])
+            && char.IsAsciiDigit(word[^1])
+            && (Enum.IsDefined(typeof(Wpf.Ui.Common.SymbolRegular), word) || Enum.IsDefined(typeof(Wpf.Ui.Common.SymbolFilled), word));
     }
 
     private static bool IsGeneratedType(string file)

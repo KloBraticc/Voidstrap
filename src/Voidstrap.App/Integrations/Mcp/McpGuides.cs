@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -328,6 +328,7 @@ public static class McpGuides
 		  Protections every powerful mod must pass, or it stays off with the reason under problems:
 		    native cannot be combined with web or network hosts. None of the three can be combined with roblox-account.
 		    Source may not contain password, cookie, login, sign in, 2fa and similar words, nor eval, Function, atob, fromCharCode or escaped characters.
+		    Exact Fluent icon names such as Password24 or CreditCardPerson20 are allowed, since they name icons, not credentials. Any other match, even inside a string, a comment or a test file, refuses the whole mod, and list shows the file and the word under status and problems.
 		    Program files may not be included.
 		  Reach existing UI only with $.native.find(target). Windows, the application, frames, tree helpers, Parent, text boxes and keyboard input are blocked.
 		  No mod can see or press message boxes, the Mods page or the Accounts page, and rules cannot show text asking for logins.
