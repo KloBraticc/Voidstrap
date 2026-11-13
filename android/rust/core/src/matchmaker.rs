@@ -10,7 +10,7 @@ use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
 
 const TAG: &str = "VoidstrapMatchmaker";
-const REMOTE_URL: &str = "https://raw.githubusercontent.com/KloBraticc/Voidstrap-Resources/main/ServerLocations.json";
+const REMOTE_URL: &str = "https://maneetbal.github.io/roblox-server-locations/api/v1/database.json";
 pub const MIN_CANDIDATES: i64 = 8;
 pub const MAX_CANDIDATES: i64 = 64;
 const FILTERED_CEILING: i64 = 80;
@@ -278,6 +278,30 @@ pub fn setup(builtin: &str, cache: PathBuf, files: PathBuf, agent: &str) {
     }
     let client = net::Client { agent: agent.to_string() };
     match client.cached_json(&cache, REMOTE_URL, 24 * 3600_000) {
+        Some(Value::Array(entries)) => {
+            let list: Vec<Value> = entries
+                .iter()
+                .filter(|entry| entry.is_object())
+                .filter_map(|entry| {
+                    let loc = java::opt_str(entry, "loc", "");
+                    let coordinates: Vec<&str> = loc.split(',').collect();
+                    if coordinates.len() != 2 {
+                        return None;
+                    }
+                    let lat = coordinates[0].trim().parse::<f64>().ok()?;
+                    let lon = coordinates[1].trim().parse::<f64>().ok()?;
+                    let mut o = Map::new();
+                    o.insert("cidr".into(), java::opt_str(entry, "ip", "").into());
+                    o.insert("city".into(), java::opt_str(entry, "city", "").into());
+                    o.insert("region".into(), java::opt_str(entry, "region", "").into());
+                    o.insert("country".into(), java::opt_str(entry, "country", "").into());
+                    o.insert("lat".into(), json!(lat));
+                    o.insert("lon".into(), json!(lon));
+                    Some(Value::Object(o))
+                })
+                .collect();
+            add_entries(&mut t, &list, true);
+        }
         Some(remote) => {
             if let Some(servers) = remote.get("Servers").and_then(Value::as_object) {
                 let list: Vec<Value> = servers
@@ -294,10 +318,10 @@ pub fn setup(builtin: &str, cache: PathBuf, files: PathBuf, agent: &str) {
                         Value::Object(o)
                     })
                     .collect();
-                add_entries(&mut t, &list, false);
+                add_entries(&mut t, &list, true);
             }
         }
-        None => net::warn(TAG, "Server locations list could not be downloaded, using the built in list"),
+        None => net::warn(TAG, "Roblox GeoAPI location database could not be downloaded"),
     }
     if let Ok(text) = std::fs::read(files.join("matchmaker_learned.json"))
         && let Ok(Value::Array(a)) = serde_json::from_slice::<Value>(&text)
