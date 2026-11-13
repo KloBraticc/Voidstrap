@@ -1657,6 +1657,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                     .Distinct<string>(StringComparer.OrdinalIgnoreCase)
                     .ToList();
                 List<string> pingIps = value2
+                    .OrderBy(x => x.Cidr, StringComparer.OrdinalIgnoreCase)
                     .Select(x => x.PingIp)
                     .Where(IsUsablePingIp)
                     .Distinct<string>(StringComparer.OrdinalIgnoreCase)
@@ -1895,7 +1896,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
         try
         {
             await Task.WhenAll(tasks).ConfigureAwait(false);
-            await Application.Current.Dispatcher.InvokeAsync(RefreshPreferredDatacenterOptions);
+            await Application.Current.Dispatcher.InvokeAsync(
+                delegate
+                {
+                    RefreshPreferredDatacenterOptions();
+                    OnPropertyChanged(nameof(UserLocationText));
+                }
+            );
         }
         catch { }
     }
