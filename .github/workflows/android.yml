@@ -5,6 +5,10 @@ on:
     paths: &android-paths
       - "android/**"
       - ".github/workflows/android.yml"
+      # Build Android test packages alongside the shared datacenter integration updates.
+      - "src/Voidstrap.App/Integrations/**"
+      - "src/Voidstrap.App/Utility/RemoteData.cs"
+      - "src/Voidstrap.App/UI/ViewModels/Settings/BehaviourViewModel.cs"
   pull_request:
     paths: *android-paths
   workflow_dispatch:
