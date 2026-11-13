@@ -10,6 +10,8 @@ public sealed class SeedCidrEntry
 
     public string Country { get; init; } = "";
 
+    public string PingIp { get; init; } = "";
+
     public double Lat { get; init; }
 
     public double Lon { get; init; }
