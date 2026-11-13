@@ -618,6 +618,9 @@ internal static partial class WindowsColorEmoji
         private bool _following;
         private long _followUntil;
         private Matrix _lastTransform;
+        private double _lastOpacity = 1.0;
+        private static readonly ConditionalWeakTable<EmojiAdorner, object> Active = new();
+        private static bool _transitionsHooked;
 
         public EmojiAdorner(TextBlock block)
             : base(block)
@@ -625,6 +628,21 @@ internal static partial class WindowsColorEmoji
             _block = block;
             IsHitTestVisible = false;
             _block.IsVisibleChanged += OnBlockVisibilityChanged;
+            Active.AddOrUpdate(this, Active);
+            if (!_transitionsHooked)
+            {
+                _transitionsHooked = true;
+                Wpf.Ui.Animations.Transitions.AnimationStarted += OnAnimationStarted;
+            }
+        }
+
+        private static void OnAnimationStarted(object? sender, EventArgs e)
+        {
+            foreach (KeyValuePair<EmojiAdorner, object> entry in Active)
+            {
+                if (entry.Key._block.IsVisible)
+                    entry.Key.Follow();
+            }
         }
 
         public void SetItems(List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> items, string snapshot)
@@ -643,6 +661,7 @@ internal static partial class WindowsColorEmoji
                 return;
             _following = true;
             _lastTransform = CurrentTransform() ?? Matrix.Identity;
+            _lastOpacity = CumulativeOpacity();
             CompositionTarget.Rendering += OnRendering;
         }
 
@@ -661,6 +680,20 @@ internal static partial class WindowsColorEmoji
             return _block.TransformToVisual(layer) is Transform transform ? transform.Value : null;
         }
 
+        private double CumulativeOpacity()
+        {
+            double opacity = 1.0;
+            DependencyObject? stop = VisualTreeHelper.GetParent(this) is Visual layer ? VisualTreeHelper.GetParent(layer) : null;
+            DependencyObject? current = _block;
+            while (current != null && !ReferenceEquals(current, stop))
+            {
+                if (current is UIElement element)
+                    opacity *= element.Opacity;
+                current = VisualTreeHelper.GetParent(current);
+            }
+            return opacity;
+        }
+
         private void OnRendering(object? sender, EventArgs e)
         {
             Matrix? current = _block.IsVisible && _items.Count > 0 ? CurrentTransform() : null;
@@ -669,12 +702,22 @@ internal static partial class WindowsColorEmoji
                 StopFollowing();
                 return;
             }
+            bool changed = false;
             if (current.Value != _lastTransform)
             {
                 _lastTransform = current.Value;
-                _followUntil = Environment.TickCount64 + FollowWindowMs;
+                changed = true;
                 (VisualTreeHelper.GetParent(this) as AdornerLayer)?.Update(_block);
             }
+            double opacity = CumulativeOpacity();
+            if (Math.Abs(opacity - _lastOpacity) > 0.001)
+            {
+                _lastOpacity = opacity;
+                changed = true;
+                InvalidateVisual();
+            }
+            if (changed)
+                _followUntil = Environment.TickCount64 + FollowWindowMs;
             else if (Environment.TickCount64 > _followUntil)
             {
                 StopFollowing();
@@ -692,6 +735,7 @@ internal static partial class WindowsColorEmoji
         public void Detach()
         {
             _block.IsVisibleChanged -= OnBlockVisibilityChanged;
+            Active.Remove(this);
             StopFollowing();
             _items = new();
             _last = null;
@@ -729,7 +773,7 @@ internal static partial class WindowsColorEmoji
             Brush foreground = _block.Foreground ?? Brushes.White;
             double scale = _block.FontSize / OutlineEmSize;
             dc.PushClip(new RectangleGeometry(new Rect(_block.RenderSize)));
-            dc.PushOpacity(_block.Opacity);
+            dc.PushOpacity(CumulativeOpacity());
             foreach ((TextPointer start, TextPointer end, ushort[] glyphs) in _items)
             {
                 if (!start.IsInSameDocument(_block.ContentStart))
