@@ -283,6 +283,7 @@ public static class ServerFetchStore
         ServerFetchData data = new ServerFetchData();
         string country = "";
         string city = "";
+        string regionHint = "";
         SeedCidrEntry[] locations = RobloxDatacenterMap.AllSeedEntries().ToArray();
 
         foreach (string line in text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
@@ -294,7 +295,10 @@ public static class ServerFetchStore
             bool indented = char.IsWhiteSpace(line[0]);
             if (!indented && trimmed.StartsWith("- ", StringComparison.Ordinal))
             {
-                city = trimmed.Substring(2).Split(',')[0].Replace("(Reserved)", "").Trim();
+                string cityHeading = trimmed.Substring(2).Replace("(Reserved)", "").Trim();
+                string[] cityParts = cityHeading.Split(',', 2);
+                city = cityParts[0].Trim();
+                regionHint = cityParts.Length > 1 ? cityParts[1].Trim() : "";
                 continue;
             }
 
@@ -314,17 +318,14 @@ public static class ServerFetchStore
                     string.Equals(entry.City, city, StringComparison.OrdinalIgnoreCase)
                     && string.Equals(entry.Country, country, StringComparison.OrdinalIgnoreCase)
                 );
-                if (location == null)
-                    continue;
-
                 data.Servers[cidr] = new LearnedServerEntry
                 {
                     Cidr = cidr,
-                    City = location.City,
-                    Region = location.Region,
-                    Country = location.Country,
-                    Lat = location.Lat,
-                    Lon = location.Lon,
+                    City = location?.City ?? city,
+                    Region = location?.Region ?? regionHint,
+                    Country = location?.Country ?? country,
+                    Lat = location?.Lat ?? 0.0,
+                    Lon = location?.Lon ?? 0.0,
                     PingIp = ApiPingIp(cidr, "AS22697 Roblox"),
                 };
                 continue;
