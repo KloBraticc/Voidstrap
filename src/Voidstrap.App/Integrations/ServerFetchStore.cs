@@ -65,6 +65,7 @@ public static class ServerFetchStore
                         City = item.Value.City,
                         Region = item.Value.Region,
                         Country = item.Value.Country,
+                        PingIp = item.Value.PingIp,
                         Lat = item.Value.Lat,
                         Lon = item.Value.Lon,
                     })
