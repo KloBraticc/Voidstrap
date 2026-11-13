@@ -291,6 +291,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
     private ICollectionView? _filteredDatacenters;
 
+    private DispatcherTimer? _serverLocationsRefreshTimer;
+
     private string _datacenterSearchText = "";
 
     private string _presetFetchStatus = "";
@@ -965,7 +967,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
         LoadCpuOptions();
         LoadDatacenters();
         _ = LoadUserGeoForPreferredAsync();
-        _ = FetchPresetAsync(false);
+        _ = FetchPresetAsync(true);
+        _serverLocationsRefreshTimer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(5) };
+        _serverLocationsRefreshTimer.Tick += async (_, _) => await FetchPresetAsync(true);
+        _serverLocationsRefreshTimer.Start();
         _ = LoadAccountAsync();
         RebuildRobloxIcons();
         LoadExcludedGames();
@@ -1621,7 +1626,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             );
             foreach (LearnedServerEntry item in entries)
             {
-                if (!string.IsNullOrWhiteSpace(item.City) && (item.Lat != 0.0 || item.Lon != 0.0))
+                if (!string.IsNullOrWhiteSpace(item.City) && !string.IsNullOrWhiteSpace(item.Country))
                 {
                     string key = VoidstrapMatchmaker.BlockKey(item.City, item.Country);
                     if (!dictionary.TryGetValue(key, out var value))
@@ -1699,6 +1704,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             return;
         foreach (DatacenterItem item in Datacenters)
         {
+            if (!double.IsFinite(item.Lat) || !double.IsFinite(item.Lon) || item.Lat == 0.0 && item.Lon == 0.0)
+            {
+                item.DistanceKm = -1.0;
+                continue;
+            }
             item.DistanceKm = Voidstrap.Integrations.VoidstrapMatchmaker.HaversineKm(
                 _userGeoForPreferred.Value.lat,
                 _userGeoForPreferred.Value.lon,
