@@ -164,20 +164,55 @@
     </ui:DynamicScrollViewer>
     <Border Grid.Row="0" Margin="0,0,14,10" Padding="4" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
             <Viewbox Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Center">
-      <ui:SelectorBar x:Name="SectionBar" Orientation="Horizontal" SelectionChanged="SectionBar_SelectionChanged">
-        <ui:SelectorBar.ItemsPanel>
+      <ListBox x:Name="SectionBar" SelectedIndex="0" BorderThickness="0" Background="Transparent" SelectionChanged="SectionBar_SelectionChanged">
+        <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
             <StackPanel Orientation="Horizontal" />
           </ItemsPanelTemplate>
-        </ui:SelectorBar.ItemsPanel>
-        <ui:SelectorBarItem Tag="{Binding ElementName=SectionInterface}" Icon="Apps24" Content="{resources:Loc Ui_Mods_Interface}" />
-        <ui:SelectorBarItem Tag="{Binding ElementName=SectionGraphics}" Icon="Desktop24" Content="{resources:Loc Ui_Gbs_Graphics}" />
-        <ui:SelectorBarItem Tag="{Binding ElementName=SectionAudio}" Icon="Speaker224" Content="{resources:Loc Ui_Gbs_Audio}" />
-        <ui:SelectorBarItem Tag="{Binding ElementName=SectionInput}" Icon="XboxController24" Content="{resources:Loc Ui_Gbs_InputAndControls}" />
-        <ui:SelectorBarItem Tag="{Binding ElementName=SectionNetwork}" Icon="Wifi124" Content="{resources:Loc Ui_Gbs_Network}" />
-        <ui:SelectorBarItem Tag="{Binding ElementName=SectionVr}" Icon="HeadsetVr24" Content="{resources:Loc Ui_Gbs_VirtualReality}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
-        <ui:SelectorBarItem Tag="{Binding ElementName=SectionAdvanced}" Icon="Wrench24" Content="{resources:Loc Ui_Bootstrapper_Advanced}" />
-      </ui:SelectorBar>
+        </ListBox.ItemsPanel>
+        <ListBoxItem Tag="{Binding ElementName=SectionInterface}" Padding="8,6">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Apps24" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Mods_Interface}" />
+          </StackPanel>
+        </ListBoxItem>
+        <ListBoxItem Tag="{Binding ElementName=SectionGraphics}" Padding="8,6">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Desktop24" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Gbs_Graphics}" />
+          </StackPanel>
+        </ListBoxItem>
+        <ListBoxItem Tag="{Binding ElementName=SectionAudio}" Padding="8,6">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Speaker224" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Gbs_Audio}" />
+          </StackPanel>
+        </ListBoxItem>
+        <ListBoxItem Tag="{Binding ElementName=SectionInput}" Padding="8,6">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="XboxController24" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Gbs_InputAndControls}" />
+          </StackPanel>
+        </ListBoxItem>
+        <ListBoxItem Tag="{Binding ElementName=SectionNetwork}" Padding="8,6">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Wifi124" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Gbs_Network}" />
+          </StackPanel>
+        </ListBoxItem>
+        <ListBoxItem Tag="{Binding ElementName=SectionVr}" Padding="8,6" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="HeadsetVr24" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Gbs_VirtualReality}" />
+          </StackPanel>
+        </ListBoxItem>
+        <ListBoxItem Tag="{Binding ElementName=SectionAdvanced}" Padding="8,6">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Wrench24" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Bootstrapper_Advanced}" />
+          </StackPanel>
+        </ListBoxItem>
+      </ListBox>
       </Viewbox>
     </Border>
   </Grid>
