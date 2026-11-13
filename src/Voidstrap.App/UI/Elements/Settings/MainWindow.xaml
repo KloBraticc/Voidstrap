@@ -581,7 +581,7 @@
                           <Image x:Name="ItemImage" Grid.Column="0" Width="18" Margin="0,0,14,0" RenderOptions.BitmapScalingMode="HighQuality" Source="{TemplateBinding Image}" />
                           <Image x:Name="ItemBadge" Grid.Column="0" Width="18" Margin="0,0,14,0" Visibility="Collapsed" IsHitTestVisible="False">
                             <Image.Source>
-                              <DrawingImage> <DrawingImage.Drawing> <DrawingGroup> <GeometryDrawing Brush="Transparent" Geometry="M0,0 H18 V18 H0 Z" /> <GeometryDrawing Brush="{DynamicResource SolidBackgroundFillColorBaseBrush}" Geometry="M10.5,9.5 H18 V15.5 H13.5 V18 H10.5 Z" /> <GeometryDrawing Brush="{DynamicResource TextFillColorPrimaryBrush}" Geometry="M11.5,10.5 H12.5 V18 H11.5 Z M12.5,10.5 H17.25 L16,12.5 L17.25,14.5 H12.5 Z" /> </DrawingGroup> </DrawingImage.Drawing> </DrawingImage>
+                              <DrawingImage> <DrawingImage.Drawing> <DrawingGroup> <GeometryDrawing Brush="Transparent" Geometry="M0,0 H18 V18 H0 Z" /> <GeometryDrawing Brush="{DynamicResource SolidBackgroundFillColorBaseBrush}" Geometry="M8.5,6.5 H18 V14 H12 V18 H8.5 Z" /> <GeometryDrawing Brush="{DynamicResource TextFillColorPrimaryBrush}" Geometry="M9.5,7.5 H11 V18 H9.5 Z M11,7.5 H17.5 L15.75,10.25 L17.5,13 H11 Z" /> </DrawingGroup> </DrawingImage.Drawing> </DrawingImage>
                             </Image.Source>
                           </Image>
                           <ContentPresenter x:Name="Label" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
