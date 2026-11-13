@@ -489,6 +489,11 @@ public static class ServerFetchStore
                         value.PingIp = server.Value.PingIp;
                         flag = true;
                     }
+                    if (!string.Equals(value.PingIp, server.Value.PingIp, StringComparison.Ordinal))
+                    {
+                        value.PingIp = server.Value.PingIp;
+                        flag = true;
+                    }
                     if (flag)
                     {
                         updated++;
