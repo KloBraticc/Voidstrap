@@ -197,6 +197,22 @@ public class UniverseDetails
         return result;
     }
 
+    public static async Task<Dictionary<long, string>> FetchIconUrlsAsync(IEnumerable<long> universeIds, CancellationToken token = default)
+    {
+        Dictionary<long, string> icons = new();
+        List<long> ids = universeIds.Where(static id => id > 0).Distinct().ToList();
+        for (int offset = 0; offset < ids.Count; offset += MaxIdsPerRequest)
+        {
+            List<long> batch = ids.GetRange(offset, Math.Min(MaxIdsPerRequest, ids.Count - offset));
+            foreach ((long id, ThumbnailResponse thumbnail) in await FetchThumbnailsAsync(batch, token).ConfigureAwait(false))
+            {
+                if (HasImage(thumbnail))
+                    icons[id] = thumbnail.ImageUrl!;
+            }
+        }
+        return icons;
+    }
+
     public static async Task RefreshMissingThumbnailsAsync(
         IEnumerable<long> universeIds,
         CancellationToken token = default(CancellationToken)

@@ -1314,6 +1314,31 @@ public class LibraryViewModel : INotifyPropertyChanged
             )
             .ConfigureAwait(false);
         ApplyCachedDetails(games);
+        await FetchMissingIconsAsync(games, token).ConfigureAwait(false);
+    }
+
+    private static async Task FetchMissingIconsAsync(List<LibraryGameEntry> games, CancellationToken token)
+    {
+        List<LibraryGameEntry> missing = games.Where(static game => game.UniverseId > 0 && string.IsNullOrEmpty(game.IconUrl)).ToList();
+        if (missing.Count == 0)
+            return;
+        try
+        {
+            Dictionary<long, string> icons = await UniverseDetails.FetchIconUrlsAsync(missing.Select(static game => game.UniverseId), token).ConfigureAwait(false);
+            foreach (LibraryGameEntry game in missing)
+            {
+                if (icons.TryGetValue(game.UniverseId, out string? icon))
+                    game.IconUrl = icon;
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("LibraryViewModel", "Icon fetch failed: " + ex.Message);
+        }
     }
 
     private List<LibraryGameEntry> MergeWithShown(List<LibraryGameEntry> games)
