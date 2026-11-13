@@ -175,9 +175,9 @@ namespace Voidstrap.Integrations.Fullscreen
             {
                 nint hwnd = Volatile.Read(ref _guardHwnd);
                 MouseHook* info = (MouseHook*)lParam;
-                if (hwnd != 0 && info->Y < _limit && info->X >= _left && info->X < _right && (info->Flags & LLMHF_INJECTED) == 0 && GetForegroundWindow() == hwnd)
+                if (hwnd != 0 && info->Y < _limit && (info->Flags & LLMHF_INJECTED) == 0 && GetForegroundWindow() == hwnd && GetCursorPos(out Point cursor) && cursor.X >= _left && cursor.X < _right)
                 {
-                    _ = SetCursorPos(info->X, _limit);
+                    _ = SetCursorPos(Math.Clamp(info->X, _left, _right - 1), _limit);
                     return 1;
                 }
             }
@@ -206,6 +206,13 @@ namespace Voidstrap.Integrations.Fullscreen
             public int Top;
             public int Right;
             public int Bottom;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct Point
+        {
+            public int X;
+            public int Y;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -252,6 +259,10 @@ namespace Voidstrap.Integrations.Fullscreen
 
         [LibraryImport("kernel32.dll", EntryPoint = "GetModuleHandleW", StringMarshalling = StringMarshalling.Utf16)]
         private static partial nint GetModuleHandleW(string? moduleName);
+
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool GetCursorPos(out Point point);
 
         [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
