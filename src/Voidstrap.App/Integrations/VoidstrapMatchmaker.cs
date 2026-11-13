@@ -598,7 +598,8 @@ public static class VoidstrapMatchmaker
             if (_ipLookupCache.TryGetValue(ip, out RobloxDatacenter? raced))
                 return raced;
             geo =
-                await TryGeoProviderAsync("https://ipinfo.io/" + ip + "/json", ParseIpInfo, token).ConfigureAwait(false)
+                await TryGeoProviderAsync("https://rblx.geoapi.workers.dev/" + Uri.EscapeDataString(ip) + "/json", ParseIpInfo, token).ConfigureAwait(false)
+                ?? await TryGeoProviderAsync("https://ipinfo.io/" + ip + "/json", ParseIpInfo, token).ConfigureAwait(false)
                 ?? await TryGeoProviderAsync("https://ipwho.is/" + ip, ParseIpWhoIs, token).ConfigureAwait(false)
                 ?? await TryGeoProviderAsync("https://get.geojs.io/v1/ip/geo/" + ip + ".json", ParseGeoJs, token).ConfigureAwait(false);
         }
