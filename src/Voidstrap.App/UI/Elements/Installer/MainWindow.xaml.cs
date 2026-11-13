@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
 using System.Windows.Markup;
 using System.Windows.Navigation;
 using Voidstrap.Enums;
@@ -254,7 +253,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 continue;
             }
             Leave(oldArt);
-            DoubleAnimation fade = new(0, TimeSpan.FromMilliseconds(260)) { BeginTime = TimeSpan.FromMilliseconds(140) };
+            DoubleAnimation fade = new(0, TimeSpan.FromMilliseconds(120)) { BeginTime = TimeSpan.FromMilliseconds(300) };
             fade.Completed += (_, _) => ArtStage.Children.Remove(oldLayer);
             oldLayer.BeginAnimation(OpacityProperty, fade);
         }
@@ -295,32 +294,25 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             EasingFunction = ease ?? new CubicEase { EasingMode = EasingMode.EaseOut },
             FillBehavior = FillBehavior.HoldEnd,
         };
+        target.SetValue(property, from);
         ((IAnimatable)target).BeginAnimation(property, animation);
     }
 
     private static void Enter(InstallerArt art, TimeSpan delay)
     {
         double d = delay.TotalMilliseconds;
-        BackEase pop = new() { Amplitude = 0.35, EasingMode = EasingMode.EaseOut };
+        CubicEase pop = new() { EasingMode = EasingMode.EaseOut };
         foreach (FrameworkElement part in Parts(art))
         {
             var rig = Rig(part);
-            Play(rig.Scale, ScaleTransform.ScaleXProperty, 0.55, 1, 520, d, pop);
-            Play(rig.Scale, ScaleTransform.ScaleYProperty, 0.55, 1, 520, d, pop);
-            Play(rig.Move, TranslateTransform.YProperty, 24, 0, 520, d, pop);
-            Play(part, OpacityProperty, 0, 1, 260, d);
-            if (Voidstrap.Utility.Platform.IsWindows)
-            {
-                BlurEffect blur = new() { Radius = 18 };
-                part.Effect = blur;
-                DoubleAnimation clear = new(18, 0, TimeSpan.FromMilliseconds(380)) { BeginTime = TimeSpan.FromMilliseconds(d) };
-                clear.Completed += (_, _) => part.Effect = null;
-                blur.BeginAnimation(BlurEffect.RadiusProperty, clear);
-            }
+            Play(rig.Scale, ScaleTransform.ScaleXProperty, 0.82, 1, 460, d, pop);
+            Play(rig.Scale, ScaleTransform.ScaleYProperty, 0.82, 1, 460, d, pop);
+            Play(rig.Move, TranslateTransform.YProperty, 14, 0, 460, d, pop);
+            Play(part, OpacityProperty, 0, 1, 300, d);
         }
         var badge = Rig(art.Badge);
-        double bd = d + 300;
-        BackEase spring = new() { Amplitude = 0.6, EasingMode = EasingMode.EaseOut };
+        double bd = d + 220;
+        BackEase spring = new() { Amplitude = 0.45, EasingMode = EasingMode.EaseOut };
         Play(art.Badge, OpacityProperty, 0, 1, 180, bd);
         Play(badge.Move, TranslateTransform.YProperty, art.BadgeRise, 0, 620, bd, spring);
         Play(badge.Rotate, RotateTransform.AngleProperty, art.BadgeAngle + 28, art.BadgeAngle, 720, bd, spring);
@@ -338,14 +330,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         foreach (FrameworkElement part in Parts(art))
         {
             var rig = Rig(part);
-            Play(rig.Scale, ScaleTransform.ScaleXProperty, 1, 0.78, 300, 140, ease);
-            Play(rig.Scale, ScaleTransform.ScaleYProperty, 1, 0.78, 300, 140, ease);
-            if (Voidstrap.Utility.Platform.IsWindows)
-            {
-                BlurEffect blur = new();
-                part.Effect = blur;
-                blur.BeginAnimation(BlurEffect.RadiusProperty, new DoubleAnimation(0, 16, TimeSpan.FromMilliseconds(300)) { BeginTime = TimeSpan.FromMilliseconds(140) });
-            }
+            Play(rig.Scale, ScaleTransform.ScaleXProperty, 1, 0.88, 260, 100, ease);
+            Play(rig.Scale, ScaleTransform.ScaleYProperty, 1, 0.88, 260, 100, ease);
+            Play(part, OpacityProperty, 1, 0, 220, 120, ease);
         }
     }
 

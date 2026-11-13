@@ -27,9 +27,9 @@ internal sealed class InstallerArt
         if (pageType == typeof(ChannelPage))
             return Glyph(SymbolRegular.Globe24, "#8A6CFF", "#3F7BFF", SymbolRegular.ArrowSync24, "#2BD39A", "#0E9E73");
         if (pageType == typeof(InstallerModsPage))
-            return Glyph(SymbolRegular.PaintBrush24, "#FF6FA8", "#FF8A2B", SymbolRegular.Sparkle24, "#FFD54A", "#FFA000");
+            return Glyph(SymbolRegular.PaintBrush24, "#FF6FA8", "#FF8A2B", SymbolRegular.Wand24, "#FFD54A", "#FFA000");
         if (pageType == typeof(InstallerAppearancePage))
-            return Glyph(SymbolRegular.Color24, "#C46BFF", "#FF5F9E", SymbolRegular.DarkTheme24, "#4FA3FF", "#2A5BFF");
+            return Glyph(SymbolRegular.Color24, "#C46BFF", "#FF5F9E", SymbolRegular.PaintBrush24, "#4FA3FF", "#2A5BFF");
         if (pageType == typeof(Voidstrap.UI.Elements.Settings.Pages.DownloadsPage))
             return Glyph(SymbolRegular.Apps24, "#3FB6FF", "#2F6BFF", SymbolRegular.ArrowDownload24, "#3DDC84", "#16A35A");
         if (pageType == typeof(Voidstrap.UI.Elements.Settings.Pages.ExtensionPage))
