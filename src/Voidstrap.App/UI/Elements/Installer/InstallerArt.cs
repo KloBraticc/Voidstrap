@@ -58,8 +58,7 @@ internal sealed class InstallerArt
         if (pageType == typeof(Voidstrap.UI.Elements.Settings.Pages.ExtensionPage))
             return Glyph(SymbolRegular.PuzzlePiece24, "#2FD8C4", "#2C9BFF", SymbolRegular.Add24, "#B07BFF", "#6A3DFF", (icon, badge, d) =>
             {
-                Keys(icon, Angle, d + 120, 1400, 0, 360);
-                Keys(icon, Size, d + 120, 1400, 1, 0.9, 1);
+                Keys(icon, Angle, d + 160, 900, 0, -8, 7, -5, 3, -1, 0);
                 Keys(badge, Angle, d + 760, 700, 0, 180);
                 Keys(badge, Size, d + 760, 700, 1, 1.2, 1);
             });
