@@ -278,6 +278,102 @@ public static class ServerFetchStore
         return data.Servers.Count == 0 ? null : data;
     }
 
+    private static ServerFetchData? ParseRobloxIpList(string text)
+    {
+        ServerFetchData data = new ServerFetchData();
+        string country = "";
+        string city = "";
+        SeedCidrEntry[] locations = RobloxDatacenterMap.AllSeedEntries().ToArray();
+
+        foreach (string line in text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            string trimmed = line.Trim();
+            if (trimmed.Length == 0)
+                continue;
+
+            bool indented = char.IsWhiteSpace(line[0]);
+            if (!indented && trimmed.StartsWith("- ", StringComparison.Ordinal))
+            {
+                city = trimmed.Substring(2).Split(',')[0].Replace("(Reserved)", "").Trim();
+                continue;
+            }
+
+            if (indented && trimmed.StartsWith("- ", StringComparison.Ordinal))
+            {
+                if (string.IsNullOrWhiteSpace(country) || string.IsNullOrWhiteSpace(city))
+                    continue;
+
+                string ipText = trimmed.Substring(2);
+                int noteStart = ipText.IndexOfAny(new[] { ' ', '\t', '(' });
+                if (noteStart >= 0)
+                    ipText = ipText.Substring(0, noteStart);
+                if (!TryNormalizeIpv4Cidr(ipText, out string cidr))
+                    continue;
+
+                SeedCidrEntry? location = locations.FirstOrDefault(entry =>
+                    string.Equals(entry.City, city, StringComparison.OrdinalIgnoreCase)
+                    && string.Equals(entry.Country, country, StringComparison.OrdinalIgnoreCase)
+                );
+                if (location == null)
+                    continue;
+
+                data.Servers[cidr] = new LearnedServerEntry
+                {
+                    Cidr = cidr,
+                    City = location.City,
+                    Region = location.Region,
+                    Country = location.Country,
+                    Lat = location.Lat,
+                    Lon = location.Lon,
+                    PingIp = ApiPingIp(cidr, "AS22697 Roblox"),
+                };
+                continue;
+            }
+
+            if (indented || trimmed.StartsWith("Last updated:", StringComparison.OrdinalIgnoreCase))
+                continue;
+            if (trimmed.All(character => character == '-' || character == '=' || char.IsWhiteSpace(character)))
+                continue;
+            if (string.Equals(trimmed, "Roblox-Registered Roblox Server IP Addresses", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(trimmed, "Roblox Server IP List", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            country = trimmed;
+            city = "";
+        }
+
+        return data.Servers.Count == 0 ? null : data;
+    }
+
+    private static bool TryNormalizeIpv4Cidr(string value, out string cidr)
+    {
+        cidr = "";
+        string[] parts = value.Split('/');
+        if (parts.Length is < 1 or > 2
+            || !IPAddress.TryParse(parts[0], out IPAddress? address)
+            || address.AddressFamily != AddressFamily.InterNetwork)
+            return false;
+
+        int prefix = 32;
+        if (parts.Length == 2 && (!int.TryParse(parts[1], NumberStyles.None, CultureInfo.InvariantCulture, out prefix)
+            || prefix is < 0 or > 32))
+            return false;
+
+        byte[] bytes = address.GetAddressBytes();
+        uint addressValue = ((uint)bytes[0] << 24) | ((uint)bytes[1] << 16) | ((uint)bytes[2] << 8) | bytes[3];
+        uint mask = prefix == 0 ? 0u : uint.MaxValue << (32 - prefix);
+        uint network = addressValue & mask;
+        byte[] networkBytes =
+        {
+            (byte)(network >> 24),
+            (byte)(network >> 16),
+            (byte)(network >> 8),
+            (byte)network,
+        };
+        cidr = new IPAddress(networkBytes) + "/" + prefix.ToString(CultureInfo.InvariantCulture);
+        return true;
+    }
+
     private static string ApiText(JsonElement item, string name)
     {
         return item.TryGetProperty(name, out JsonElement value) && value.ValueKind == JsonValueKind.String
@@ -292,13 +388,14 @@ public static class ServerFetchStore
         string[] parts = cidr.Split('/');
         if (
             parts.Length != 2
-            || parts[1] != "24"
             || !IPAddress.TryParse(parts[0], out IPAddress? address)
             || address.AddressFamily != AddressFamily.InterNetwork
         )
             return "";
         byte[] bytes = address.GetAddressBytes();
-        if (bytes[3] != 0)
+        if (parts[1] == "32" && bytes[3] == 3)
+            return address.ToString();
+        if (parts[1] != "24" || bytes[3] != 0)
             return "";
         return $"{bytes[0]}.{bytes[1]}.{bytes[2]}.3";
     }
@@ -323,6 +420,15 @@ public static class ServerFetchStore
                 apiDatabase = serverFetchData != null;
             }
             catch { }
+            if (!apiDatabase)
+            {
+                try
+                {
+                    serverFetchData = ParseRobloxIpList(json);
+                    apiDatabase = serverFetchData != null;
+                }
+                catch { }
+            }
             if (!apiDatabase)
             {
                 try
