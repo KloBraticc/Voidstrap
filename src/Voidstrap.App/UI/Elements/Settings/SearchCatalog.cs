@@ -178,7 +178,7 @@ internal static partial class SearchCatalog
                     ?.GetValue(null) as string
                 ?? Strings.ResourceManager.GetString(name)
                 ?? Strings.ResourceManager.GetString(name.Replace('_', '.'))
-                ?? name;
+                ?? string.Empty;
         }
         return value;
     }

@@ -445,6 +445,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private CancellationTokenSource? _commandPaletteSearchCts;
 
+    private DispatcherTimer? _commandPaletteTypingTimer;
+
     private sealed record CommandPalettePage(
         Type PageType,
         string Name,
@@ -3072,6 +3074,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void CancelCommandPaletteSearch()
     {
+        _commandPaletteTypingTimer?.Stop();
         Interlocked.Increment(ref _commandPaletteSearchGeneration);
         CancellationTokenSource? cts = _commandPaletteSearchCts;
         _commandPaletteSearchCts = null;
@@ -3290,7 +3293,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ApplyCommandPaletteResults(generation, snapshot, pages, new List<TopSearchEntry>());
             return;
         }
-        ApplyCommandPaletteResults(generation, snapshot, pages, null);
+        CommandPaletteCount.Text = Strings.Ui_Main_PaletteSearching;
         CancellationTokenSource cts = new CancellationTokenSource();
         _commandPaletteSearchCts = cts;
         _ = RankCommandPaletteSettingsAsync(generation, snapshot, pages, cts.Token);
@@ -3605,14 +3608,47 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CommandPalettePlaceholder.Visibility = string.IsNullOrEmpty(CommandPaletteSearchBox.Text)
             ? Visibility.Visible
             : Visibility.Collapsed;
-        if (_commandPaletteOpen)
+        if (!_commandPaletteOpen)
+        {
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(CommandPaletteSearchBox.Text))
+        {
+            RefreshCommandPaletteResults();
+            return;
+        }
+        if (_commandPaletteTypingTimer == null)
+        {
+            _commandPaletteTypingTimer = new DispatcherTimer(DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(110) };
+            _commandPaletteTypingTimer.Tick += CommandPaletteTypingTimer_Tick;
+        }
+        _commandPaletteTypingTimer.Stop();
+        _commandPaletteTypingTimer.Start();
+    }
+
+    private void CommandPaletteTypingTimer_Tick(object? sender, EventArgs e)
+    {
+        _commandPaletteTypingTimer?.Stop();
+        if (_commandPaletteOpen && !_isClosed)
         {
             RefreshCommandPaletteResults();
         }
     }
 
+    private void FlushCommandPaletteTyping()
+    {
+        if (_commandPaletteTypingTimer?.IsEnabled == true)
+        {
+            CommandPaletteTypingTimer_Tick(null, EventArgs.Empty);
+        }
+    }
+
     private void CommandPaletteSearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
     {
+        if (e.Key is Key.Down or Key.Up or Key.Enter or Key.Return)
+        {
+            FlushCommandPaletteTyping();
+        }
         switch (e.Key)
         {
             case Key.Down:
@@ -7653,6 +7689,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         MainWindowViewModel? closingViewModel = DataContext as MainWindowViewModel;
         Interlocked.Increment(ref _topSearchNavigationGeneration);
         CloseCommandPalette();
+        if (_commandPaletteTypingTimer != null)
+        {
+            _commandPaletteTypingTimer.Stop();
+            _commandPaletteTypingTimer.Tick -= CommandPaletteTypingTimer_Tick;
+            _commandPaletteTypingTimer = null;
+        }
         ReleaseZoomIndicator();
         _backgroundGeneration++;
         foreach (TaskCompletionSource<bool> waiter in _backgroundAnimationWaiters.Values)
