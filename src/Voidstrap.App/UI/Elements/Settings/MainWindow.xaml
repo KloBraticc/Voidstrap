@@ -579,6 +579,11 @@
                           </Grid.ColumnDefinitions>
                           <ui:SymbolIcon x:Name="ItemIcon" Grid.Column="0" Width="18" Margin="0,0,14,0" HorizontalAlignment="Center" VerticalAlignment="Center" Filled="{TemplateBinding IconFilled}" FontSize="{TemplateBinding IconSize}" Foreground="{TemplateBinding IconForeground}" Symbol="{TemplateBinding Icon}" />
                           <Image x:Name="ItemImage" Grid.Column="0" Width="18" Margin="0,0,14,0" RenderOptions.BitmapScalingMode="HighQuality" Source="{TemplateBinding Image}" />
+                          <Image x:Name="ItemBadge" Grid.Column="0" Width="18" Margin="0,0,14,0" Visibility="Collapsed" IsHitTestVisible="False">
+                            <Image.Source>
+                              <DrawingImage> <DrawingImage.Drawing> <DrawingGroup> <GeometryDrawing Brush="Transparent" Geometry="M0,0 H18 V18 H0 Z" /> <GeometryDrawing Brush="{DynamicResource SolidBackgroundFillColorBaseBrush}" Geometry="M10.5,9.5 H18 V15.5 H13.5 V18 H10.5 Z" /> <GeometryDrawing Brush="{DynamicResource TextFillColorPrimaryBrush}" Geometry="M11.5,10.5 H12.5 V18 H11.5 Z M12.5,10.5 H17.25 L16,12.5 L17.25,14.5 H12.5 Z" /> </DrawingGroup> </DrawingImage.Drawing> </DrawingImage>
+                            </Image.Source>
+                          </Image>
                           <ContentPresenter x:Name="Label" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                         <ui:SymbolIcon x:Name="GroupChevron" Margin="0,0,12,0" HorizontalAlignment="Right" VerticalAlignment="Center" Symbol="ChevronDown20" Filled="True" FontSize="14" Opacity="0.7" Foreground="{TemplateBinding IconForeground}" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
@@ -729,6 +734,9 @@
                         <Setter TargetName="ItemIcon" Property="Margin" Value="0" />
                         <Setter TargetName="ItemIcon" Property="Visibility" Value="Collapsed" />
                       </Trigger>
+                      <Trigger Property="Tag" Value="FlagBadge">
+                        <Setter TargetName="ItemBadge" Property="Visibility" Value="Visible" />
+                      </Trigger>
                       <Trigger Property="Image" Value="{x:Null}">
                         <Setter TargetName="ItemImage" Property="Width" Value="0" />
                         <Setter TargetName="ItemImage" Property="Margin" Value="0" />
@@ -739,6 +747,7 @@
                         <Setter TargetName="InnerGrid" Property="HorizontalAlignment" Value="Center" />
                         <Setter TargetName="ItemIcon" Property="Margin" Value="0" />
                         <Setter TargetName="ItemImage" Property="Margin" Value="0" />
+                        <Setter TargetName="ItemBadge" Property="Margin" Value="0" />
                         <Setter TargetName="GroupChevron" Property="Visibility" Value="Collapsed" />
                       </DataTrigger>
                     </ControlTemplate.Triggers>
@@ -783,19 +792,7 @@
             <ui:NavigationItem Cache="True" Name="AppearanceNavItem" Content="{resources:Loc Menu_Appearance_Title}" Icon="Color24" PageType="{x:Type pages:AppearancePage}" />
             <ui:NavigationSeparator />
             <ui:NavigationItem Content="{resources:Loc Ui_Nav_Configuration}" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="{resources:Loc Ui_Nav_FastFlagSettings}" Icon="Settings28" PageType="{x:Type pages:FastFlagsPage}">
-              <ui:NavigationItem.Image>
-                <DrawingImage>
-                  <DrawingImage.Drawing>
-                    <DrawingGroup>
-                      <GeometryDrawing Brush="Transparent" Geometry="M0,0 H18 V18 H0 Z" />
-                      <GeometryDrawing Brush="{DynamicResource SolidBackgroundFillColorBaseBrush}" Geometry="M10.5,9.5 H18 V15.5 H13.5 V18 H10.5 Z" />
-                      <GeometryDrawing Brush="{DynamicResource TextFillColorPrimaryBrush}" Geometry="M11.5,10.5 H12.5 V18 H11.5 Z M12.5,10.5 H17.25 L16,12.5 L17.25,14.5 H12.5 Z" />
-                    </DrawingGroup>
-                  </DrawingImage.Drawing>
-                </DrawingImage>
-              </ui:NavigationItem.Image>
-            </ui:NavigationItem>
+            <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="{resources:Loc Ui_Nav_FastFlagSettings}" Icon="Settings28" Tag="FlagBadge" PageType="{x:Type pages:FastFlagsPage}" />
             <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="{resources:Loc Ui_Nav_FastFlagEditor}" Icon="Flag28" PageType="{x:Type pages:FastFlagEditorPage}" />
             <ui:NavigationItem Cache="True" Name="ModsNavItem" Content="{resources:Loc Menu_Mods_Title}" Icon="WrenchScrewdriver20" PageType="{x:Type pages:ModsPage}" />
           </ui:NavigationBase.Items>
