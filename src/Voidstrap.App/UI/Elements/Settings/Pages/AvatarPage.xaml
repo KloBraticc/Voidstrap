@@ -207,15 +207,20 @@
         <ui:Button DockPanel.Dock="Right" Margin="8,0,0,0" Appearance="Primary" Icon="Save24" Content="{resources:Loc Accounts_Outfits_SaveCurrent}" Command="{Binding SaveOutfitCommand}" Visibility="{Binding OutfitsVisibility}" />
         <ui:TextBox Icon="Search24" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
       </DockPanel>
-      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <ItemsControl ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AvatarItemTile}">
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <WrapPanel />
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-        </ItemsControl>
-      </ScrollViewer>
+      <ItemsControl Grid.Row="2" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AvatarItemTile}" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.ScrollUnit="Pixel" VirtualizingPanel.CacheLengthUnit="Page" VirtualizingPanel.CacheLength="1" ScrollViewer.CanContentScroll="True">
+        <ItemsControl.Template>
+          <ControlTemplate TargetType="ItemsControl">
+            <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+              <ItemsPresenter />
+            </ScrollViewer>
+          </ControlTemplate>
+        </ItemsControl.Template>
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <ui:VirtualizingWrapPanel ItemSize="140,180" SpacingMode="None" StretchItems="False" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
       <ui:ProgressRing Grid.Row="2" Width="28" Height="28" Margin="0,40,0,0" VerticalAlignment="Top" IsIndeterminate="True" IsHitTestVisible="False" Visibility="{Binding Loading, Converter={StaticResource BooleanToVisibilityConverter}}" />
       <TextBlock Grid.Row="2" Margin="0,44,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14" IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Accounts_Avatar_Empty}" Visibility="{Binding EmptyVisibility}" />
     </Grid>

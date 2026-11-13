@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -46,6 +47,10 @@ namespace Voidstrap.UI.ViewModels.Settings
             [HeadScale] = nameof(ScaleHead),
             [ProportionScale] = nameof(ScaleProportion),
         };
+
+        private static readonly ConcurrentDictionary<(long UserId, string Category), List<AvatarItemRow>> CategoryCache = new();
+
+        private static readonly string[] PrefetchCategories = [RecentCategory, CharactersCategory, BodyCategory, ClothingCategory, AccessoriesCategory, BackgroundsCategory, AnimationsCategory, EmotesCategory];
 
         private readonly SavedAccount _account;
 
@@ -121,7 +126,13 @@ namespace Voidstrap.UI.ViewModels.Settings
             SaveOutfitCommand = new AsyncRelayCommand(SaveOutfitAsync);
         }
 
-        public ObservableCollection<AvatarItemRow> Items { get; } = new();
+        private ObservableCollection<AvatarItemRow> _items = new();
+
+        public ObservableCollection<AvatarItemRow> Items
+        {
+            get => _items;
+            private set => SetProperty(ref _items, value);
+        }
 
         public ObservableCollection<AvatarItemRow> Wearing { get; } = new();
 
@@ -395,12 +406,16 @@ namespace Voidstrap.UI.ViewModels.Settings
             try
             {
                 Loading = true;
-                _rules = await RobloxAvatar.LoadRulesAsync(_cts.Token);
+                Task<AvatarRules> rules = RobloxAvatar.LoadRulesAsync(_cts.Token);
+                Task<AvatarState?> avatar = Cookie() is string cookie ? RobloxAvatar.GetAsync(cookie, _cts.Token) : Task.FromResult<AvatarState?>(null);
+                _loaded = true;
+                Task category = LoadCategoryAsync();
+                _rules = await rules;
                 foreach (string hex in _rules.Palette)
                     Palette.Add("#" + hex);
-                await RefreshAvatarAsync();
-                _loaded = true;
-                await LoadCategoryAsync();
+                ApplyAvatar(await avatar);
+                await category;
+                _ = PrefetchAsync();
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -436,12 +451,58 @@ namespace Voidstrap.UI.ViewModels.Settings
             return null;
         }
 
+        private async Task PrefetchAsync()
+        {
+            const string LOG_IDENT = "AvatarViewModel::PrefetchAsync";
+            if (SavedAccounts.ReadCurrentCookie(_account) is not { Length: > 0 } cookie)
+                return;
+            try
+            {
+                await Task.WhenAll(PrefetchCategories.Where(c => !CategoryCache.ContainsKey((_account.UserId, c))).Select(async category =>
+                {
+                    List<AvatarItemRow> rows = await FetchCategoryAsync(category, cookie, _cts.Token);
+                    CategoryCache.TryAdd((_account.UserId, category), rows);
+                    await RobloxAvatar.FillThumbnailsAsync(rows, _cts.Token);
+                }));
+            }
+            catch (OperationCanceledException) { }
+            catch (ObjectDisposedException) { }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The avatar items could not be preloaded: " + ex.Message);
+            }
+        }
+
+        private Task<List<AvatarItemRow>> FetchCategoryAsync(string category, string cookie, CancellationToken token) =>
+            category switch
+            {
+                RecentCategory => RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.RecentTypes, cookie, token, 1),
+                CharactersCategory => ListOutfitsAsync(cookie, token),
+                BodyCategory => RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.BodyTypes, cookie, token),
+                ClothingCategory => RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.ClothingTypes, cookie, token),
+                AccessoriesCategory => RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.AccessoryTypes, cookie, token),
+                BackgroundsCategory => RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.BackgroundTypes, cookie, token),
+                AnimationsCategory => RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.AnimationTypes, cookie, token),
+                EmotesCategory => RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.EmoteTypes, cookie, token),
+                _ => Task.FromResult(new List<AvatarItemRow>()),
+            };
+
+        private async Task<List<AvatarItemRow>> ListOutfitsAsync(string cookie, CancellationToken token) =>
+            (await RobloxOutfits.ListAsync(_account.UserId, cookie, token)).Select(o => new AvatarItemRow(o.Id, o.Name, "", true)).ToList();
+
         private async Task RefreshAvatarAsync()
         {
             string? cookie = Cookie();
             if (cookie == null)
                 return;
-            AvatarState? state = await RobloxAvatar.GetAsync(cookie, _cts.Token);
+            ApplyAvatar(await RobloxAvatar.GetAsync(cookie, _cts.Token));
+        }
+
+        private void ApplyAvatar(AvatarState? state)
+        {
+            string? cookie = SavedAccounts.ReadCurrentCookie(_account);
+            if (string.IsNullOrEmpty(cookie) || _disposed)
+                return;
             if (state == null)
             {
                 Status = Strings.Accounts_Avatar_Failed;
@@ -596,34 +657,43 @@ namespace Voidstrap.UI.ViewModels.Settings
             CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_cts.Token);
             _categoryCts = cts;
             CancellationToken token = cts.Token;
+            string category = _category;
+            (long, string) key = (_account.UserId, category);
             _all.Clear();
-            Items.Clear();
-            Loading = true;
+            if (CategoryCache.TryGetValue(key, out List<AvatarItemRow>? cached))
+                _all.AddRange(cached);
+            MarkWorn();
+            ApplyFilter();
+            Loading = cached == null;
             try
             {
                 string? cookie = Cookie();
-                List<AvatarItemRow> rows = new();
-                if (cookie != null)
-                    rows = _category switch
-                    {
-                        RecentCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.RecentTypes, cookie, token, 1),
-                        CharactersCategory => (await RobloxOutfits.ListAsync(_account.UserId, cookie, token))
-                            .Select(o => new AvatarItemRow(o.Id, o.Name, "", true))
-                            .ToList(),
-                        BodyCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.BodyTypes, cookie, token),
-                        ClothingCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.ClothingTypes, cookie, token),
-                        AccessoriesCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.AccessoryTypes, cookie, token),
-                        BackgroundsCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.BackgroundTypes, cookie, token),
-                        AnimationsCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.AnimationTypes, cookie, token),
-                        EmotesCategory => await RobloxAvatar.ListInventoryAsync(_account.UserId, RobloxAvatar.EmoteTypes, cookie, token),
-                        _ => rows,
-                    };
+                if (cookie == null)
+                    return;
+                List<AvatarItemRow> rows = await FetchCategoryAsync(category, cookie, token);
                 if (token.IsCancellationRequested)
                     return;
-                App.Logger?.WriteLine(LOG_IDENT, "Loaded " + rows.Count + " items for " + _category);
-                _all.AddRange(rows);
-                MarkWorn();
-                ApplyFilter();
+                App.Logger?.WriteLine(LOG_IDENT, "Loaded " + rows.Count + " items for " + category);
+                if (cached != null && cached.Select(r => (r.Id, r.Name)).SequenceEqual(rows.Select(r => (r.Id, r.Name))))
+                {
+                    rows = cached;
+                }
+                else
+                {
+                    if (cached != null)
+                    {
+                        Dictionary<long, string?> images = new();
+                        foreach (AvatarItemRow row in cached)
+                            images.TryAdd(row.Id, row.ImageUrl);
+                        foreach (AvatarItemRow row in rows)
+                            row.ImageUrl ??= images.GetValueOrDefault(row.Id);
+                    }
+                    CategoryCache[key] = rows;
+                    _all.Clear();
+                    _all.AddRange(rows);
+                    MarkWorn();
+                    ApplyFilter();
+                }
                 Loading = false;
                 await RobloxAvatar.FillThumbnailsAsync(rows, token);
             }
@@ -663,10 +733,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         private void ApplyFilter()
         {
             string search = _searchText.Trim();
-            Items.Clear();
-            foreach (AvatarItemRow row in _all)
-                if (search.Length == 0 || row.Name.Contains(search, StringComparison.CurrentCultureIgnoreCase))
-                    Items.Add(row);
+            Items = new ObservableCollection<AvatarItemRow>(search.Length == 0 ? _all : _all.Where(row => row.Name.Contains(search, StringComparison.CurrentCultureIgnoreCase)));
             OnPropertyChanged(nameof(EmptyVisibility));
         }
 

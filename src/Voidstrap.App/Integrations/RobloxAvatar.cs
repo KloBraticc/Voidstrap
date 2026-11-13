@@ -178,8 +178,23 @@ internal static partial class RobloxAvatar
         }
     }
 
-    public static async Task<AvatarRules> LoadRulesAsync(CancellationToken token)
+    private static Task<AvatarRules>? _rulesTask;
+
+    private static readonly ConcurrentDictionary<(bool Outfit, long Id), string> ThumbnailCache = new();
+
+    public static Task<AvatarRules> LoadRulesAsync(CancellationToken token)
     {
+        Task<AvatarRules>? cached = _rulesTask;
+        if (cached != null && (!cached.IsCompleted || cached.IsCompletedSuccessfully && cached.Result.Types.Count > 0))
+            return cached.WaitAsync(token);
+        Task<AvatarRules> task = FetchRulesAsync();
+        _rulesTask = task;
+        return task.WaitAsync(token);
+    }
+
+    private static async Task<AvatarRules> FetchRulesAsync()
+    {
+        CancellationToken token = CancellationToken.None;
         const string LOG_IDENT = "RobloxAvatar::LoadRulesAsync";
         Dictionary<string, (int Id, int Max)> types = new(StringComparer.Ordinal);
         List<string> palette = new();
@@ -423,26 +438,40 @@ internal static partial class RobloxAvatar
         foreach (bool outfits in new[] { false, true })
         {
             List<AvatarItemRow> group = rows.Where(r => r.IsOutfit == outfits && r.ImageUrl == null).ToList();
+            foreach (AvatarItemRow row in group)
+                if (ThumbnailCache.TryGetValue((outfits, row.Id), out string? known))
+                    row.ImageUrl = known;
+            group.RemoveAll(r => r.ImageUrl != null);
             List<long> remaining = group.Select(r => r.Id).Distinct().ToList();
             for (int attempt = 0; attempt <= RetryDelaysMs.Length && remaining.Count > 0; attempt++)
             {
                 if (attempt > 0)
                     await Task.Delay(RetryDelaysMs[attempt - 1], token);
-                List<long> next = new();
+                List<Task<(List<long> Pending, Dictionary<long, string> Found)>> batches = new();
                 for (int i = 0; i < remaining.Count; i += 50)
+                    batches.Add(RequestThumbnailsAsync(remaining.GetRange(i, Math.Min(50, remaining.Count - i)), outfits, token));
+                List<long> next = new();
+                foreach (var batch in await Task.WhenAll(batches))
                 {
-                    List<long> chunk = remaining.GetRange(i, Math.Min(50, remaining.Count - i));
-                    Dictionary<long, string> found = new();
-                    next.AddRange(await RobloxOutfits.RequestThumbnailBatchAsync(chunk, found, token, outfits ? "Outfit" : "Asset"));
-                    if (token.IsCancellationRequested)
-                        return;
+                    next.AddRange(batch.Pending);
+                    foreach ((long id, string url) in batch.Found)
+                        ThumbnailCache[(outfits, id)] = url;
                     foreach (AvatarItemRow row in group)
-                        if (found.TryGetValue(row.Id, out string? url))
+                        if (batch.Found.TryGetValue(row.Id, out string? url))
                             row.ImageUrl = url;
                 }
+                if (token.IsCancellationRequested)
+                    return;
                 remaining = next;
             }
         }
+    }
+
+    private static async Task<(List<long> Pending, Dictionary<long, string> Found)> RequestThumbnailsAsync(List<long> ids, bool outfits, CancellationToken token)
+    {
+        Dictionary<long, string> found = new();
+        List<long> pending = await RobloxOutfits.RequestThumbnailBatchAsync(ids, found, token, outfits ? "Outfit" : "Asset");
+        return (pending, found);
     }
 
     public static async Task<string?> ThumbnailAsync(string type, long id, CancellationToken token)
