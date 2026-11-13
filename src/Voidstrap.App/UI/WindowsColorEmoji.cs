@@ -613,6 +613,7 @@ internal static partial class WindowsColorEmoji
         private List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> _items = new();
         private int _retries;
         private string? _snapshot;
+        private DrawingGroup? _last;
 
         public EmojiAdorner(TextBlock block)
             : base(block)
@@ -642,6 +643,7 @@ internal static partial class WindowsColorEmoji
         {
             _block.IsVisibleChanged -= OnBlockVisibilityChanged;
             _items = new();
+            _last = null;
         }
 
         private void OnBlockVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e) => InvalidateVisual();
@@ -652,9 +654,22 @@ internal static partial class WindowsColorEmoji
                 return;
             if (!string.Equals(_block.Text, _snapshot, StringComparison.Ordinal) || IsHiddenDetached(_block))
             {
+                if (_last != null)
+                    dc.DrawDrawing(_last);
                 QueueApply(_block);
                 return;
             }
+            DrawingGroup drawing = new();
+            using (DrawingContext context = drawing.Open())
+                Draw(context);
+            if (drawing.CanFreeze)
+                drawing.Freeze();
+            _last = drawing;
+            dc.DrawDrawing(drawing);
+        }
+
+        private void Draw(DrawingContext dc)
+        {
             Brush foreground = _block.Foreground ?? Brushes.White;
             double scale = _block.FontSize / OutlineEmSize;
             dc.PushClip(new RectangleGeometry(new Rect(_block.RenderSize)));
