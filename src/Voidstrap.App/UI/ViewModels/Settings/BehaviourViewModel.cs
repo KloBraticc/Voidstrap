@@ -9,6 +9,7 @@ using System.Linq;
 using System.Management;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.NetworkInformation;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -145,7 +146,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
         public string ServerIps { get; }
 
-        public string PingIp { get; }
+        public IReadOnlyList<string> PingIps { get; }
 
         public string Key => City + "|" + Country;
 
@@ -221,6 +222,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             double lat,
             double lon,
             IReadOnlyList<string> serverIps,
+            IReadOnlyList<string> pingIps,
             IReadOnlyList<string> cidrRanges,
             bool isBlocked,
             Action<DatacenterItem> onChange
@@ -232,7 +234,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             Lat = lat;
             Lon = lon;
             ServerIps = serverIps.Count > 0 ? string.Join(", ", serverIps) : string.Join(", ", cidrRanges);
-            PingIp = serverIps.Count > 0 ? serverIps[0] : "";
+            PingIps = pingIps;
             _pingDisplay = "...";
             _isBlocked = isBlocked;
             _onChange = onChange;
@@ -418,7 +420,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             DatacenterItem? nearest = Datacenters.Where(d => d.DistanceKm >= 0.0).OrderBy(d => d.DistanceKm).FirstOrDefault();
             if (nearest == null)
                 return "Location found, learning which datacenters are near you.";
-            return $"Nearest known datacenter: {nearest.Location}, about {Voidstrap.Integrations.VoidstrapMatchmaker.EstimatePingMs(nearest.DistanceKm)}ms";
+            string ping = nearest.PingMs >= 0 ? $", about {nearest.PingMs}ms" : "";
+            return $"Nearest known datacenter: {nearest.Location}{ping}";
         }
     }
 
@@ -1513,6 +1516,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                     delegate
                     {
                         ApplyDistances();
+                        _ = MeasureDatacenterPingsAsync();
                         RefreshPreferredDatacenterOptions();
                         EnsurePreferredDatacenter();
                         OnPropertyChanged(nameof(UserLatitude));
@@ -1610,6 +1614,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                         City = seed.City,
                         Region = seed.Region,
                         Country = seed.Country,
+                        PingIp = seed.PingIp,
                         Lat = seed.Lat,
                         Lon = seed.Lon,
                     })
@@ -1651,6 +1656,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                     .Where(IsUsablePingIp)
                     .Distinct<string>(StringComparer.OrdinalIgnoreCase)
                     .ToList();
+                List<string> pingIps = value2
+                    .Select(x => x.PingIp)
+                    .Where(IsUsablePingIp)
+                    .Distinct<string>(StringComparer.OrdinalIgnoreCase)
+                    .Take(3)
+                    .ToList();
                 List<string> cidrRanges = (from x in value2 select x.Cidr into x where !string.IsNullOrWhiteSpace(x) select x)
                     .Distinct<string>(StringComparer.OrdinalIgnoreCase)
                     .ToList();
@@ -1662,6 +1673,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                         learnedServerEntry.Lat,
                         learnedServerEntry.Lon,
                         serverIps,
+                        pingIps,
                         cidrRanges,
                         hashSet.Contains(item2.Key),
                         OnDatacenterToggled
@@ -1692,11 +1704,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                 item.Lat,
                 item.Lon
             );
-            if (item.PingMs < 0)
-            {
-                item.PingMs = Voidstrap.Integrations.VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm);
-                item.PingDisplay = $"{item.PingMs} ms";
-            }
         }
         SortDatacentersByDistance();
     }
@@ -1764,10 +1771,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             PreferredDatacenterOptions.Clear();
             foreach (DatacenterItem item in Datacenters.Where(d => d.IsAllowed))
             {
-                string ping =
-                    item.PingMs >= 0
-                        ? $"{item.PingMs} ms"
-                        : (item.DistanceKm >= 0.0 ? $"{VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm)} ms" : "");
+                string ping = item.PingMs >= 0 ? $"{item.PingMs} ms" : "";
                 string display = string.IsNullOrEmpty(ping) ? item.Location : $"{item.Location} ({ping})";
                 PreferredDatacenterOptions.Add(
                     new PreferredDatacenterOption
@@ -1861,7 +1865,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
     private async Task MeasureDatacenterPingsAsync()
     {
-        List<DatacenterItem> pingable = Datacenters.Where(d => !string.IsNullOrEmpty(d.PingIp)).ToList();
+        List<DatacenterItem> pingable = Datacenters.Where(d => d.PingMs < 0).ToList();
         if (pingable.Count == 0)
             return;
         using SemaphoreSlim throttler = new SemaphoreSlim(8);
@@ -1870,10 +1874,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             await throttler.WaitAsync().ConfigureAwait(false);
             try
             {
-                int ms = await MeasureTcpPingAsync(item.PingIp).ConfigureAwait(false);
+                (int ms, bool estimated) = await MeasureDatacenterPingAsync(item.PingIps, item.DistanceKm).ConfigureAwait(false);
                 if (ms < 0)
                     return;
-                string text = $"{ms} ms";
+                string text = estimated ? $"{ms} ms (estimated)" : $"{ms} ms";
                 await Application.Current.Dispatcher.InvokeAsync(
                     delegate
                     {
@@ -1894,6 +1898,46 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             await Application.Current.Dispatcher.InvokeAsync(RefreshPreferredDatacenterOptions);
         }
         catch { }
+    }
+
+    private static async Task<(int Ms, bool Estimated)> MeasureDatacenterPingAsync(IReadOnlyList<string> ips, double distanceKm)
+    {
+        int best = -1;
+        foreach (string ip in ips)
+        {
+            int ms = await MeasureIcmpPingAsync(ip).ConfigureAwait(false);
+            if (ms >= 0 && (best < 0 || ms < best))
+                best = ms;
+        }
+        if (best >= 0)
+            return (best, false);
+
+        foreach (string ip in ips)
+        {
+            int ms = await MeasureTcpPingAsync(ip).ConfigureAwait(false);
+            if (ms >= 0 && (best < 0 || ms < best))
+                best = ms;
+        }
+        if (best >= 0)
+            return (best, false);
+
+        return (VoidstrapMatchmaker.EstimatePingMs(distanceKm), true);
+    }
+
+    private static async Task<int> MeasureIcmpPingAsync(string ip)
+    {
+        if (!IPAddress.TryParse(ip, out _))
+            return -1;
+        try
+        {
+            using Ping ping = new Ping();
+            PingReply reply = await ping.SendPingAsync(ip, 700).ConfigureAwait(false);
+            return reply.Status == IPStatus.Success ? (int)Math.Min(reply.RoundtripTime, int.MaxValue) : -1;
+        }
+        catch
+        {
+            return -1;
+        }
     }
 
     private static async Task<int> MeasureTcpPingAsync(string ip)
