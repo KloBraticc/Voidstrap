@@ -45,8 +45,9 @@ internal static partial class WindowsColorEmoji
     private sealed class Tracker
     {
         public EmojiAdorner? Adorner;
-        public TextEffectCollection? Effects;
+        public readonly List<(Run Run, object Original)> Hidden = new();
         public bool Pending;
+        public bool Hiding;
         public string? Snapshot;
     }
 
@@ -103,7 +104,7 @@ internal static partial class WindowsColorEmoji
 
     private static void OnTextChanged(object? sender, EventArgs e)
     {
-        if (sender is TextBlock block)
+        if (sender is TextBlock block && !(Trackers.TryGetValue(block, out Tracker? tracker) && tracker.Hiding))
             QueueApply(block);
     }
 
@@ -151,18 +152,12 @@ internal static partial class WindowsColorEmoji
             Clear(block, tracker);
             return;
         }
-        TextEffectCollection effects = new TextEffectCollection();
-        foreach ((TextPointer start, TextPointer end, _) in found)
+        found = Hide(block, tracker);
+        if (found.Count == 0)
         {
-            effects.Add(new TextEffect
-            {
-                PositionStart = block.ContentStart.GetOffsetToPosition(start),
-                PositionCount = start.GetOffsetToPosition(end),
-                Foreground = Brushes.Transparent
-            });
+            Clear(block, tracker);
+            return;
         }
-        tracker.Effects = effects;
-        block.TextEffects = effects;
         if (tracker.Adorner == null)
         {
             tracker.Adorner = new EmojiAdorner(block);
@@ -173,18 +168,106 @@ internal static partial class WindowsColorEmoji
 
     private static void Clear(TextBlock block, Tracker tracker)
     {
-        if (tracker.Effects != null)
-        {
-            if (ReferenceEquals(block.TextEffects, tracker.Effects))
-                block.ClearValue(TextBlock.TextEffectsProperty);
-            tracker.Effects = null;
-        }
+        Restore(block, tracker);
         if (tracker.Adorner != null)
         {
             tracker.Adorner.Detach();
             AdornerLayer.GetAdornerLayer(block)?.Remove(tracker.Adorner);
             tracker.Adorner = null;
         }
+    }
+
+    private static List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> Hide(TextBlock block, Tracker tracker)
+    {
+        Restore(block, tracker);
+        List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> found = FindEmoji(block);
+        List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> hidden = new(found.Count);
+        Dictionary<Run, TextEffectCollection> effects = new();
+        TextPointer content = block.ContentStart;
+        foreach ((TextPointer start, TextPointer end, ushort[] glyphs) item in found)
+        {
+            if (item.start.Parent is not Run run || !ReferenceEquals(item.end.Parent, run))
+                continue;
+            int position = CharacterIndex(content, item.start) + 1;
+            int count = item.start.GetOffsetToPosition(item.end);
+            if (position < content.GetOffsetToPosition(run.ContentStart) || position + count > content.GetOffsetToPosition(run.ContentEnd))
+                continue;
+            if (!effects.TryGetValue(run, out TextEffectCollection? collection))
+            {
+                collection = new TextEffectCollection();
+                effects.Add(run, collection);
+            }
+            collection.Add(new TextEffect { PositionStart = position, PositionCount = count, Foreground = Brushes.Transparent });
+            hidden.Add(item);
+        }
+        tracker.Hiding = true;
+        try
+        {
+            foreach ((Run run, TextEffectCollection collection) in effects)
+            {
+                tracker.Hidden.Add((run, run.ReadLocalValue(TextElement.TextEffectsProperty)));
+                run.TextEffects = collection;
+            }
+        }
+        finally
+        {
+            tracker.Hiding = false;
+        }
+        return hidden;
+    }
+
+    private static int CharacterIndex(TextPointer from, TextPointer to)
+    {
+        int index = 0;
+        TextPointer? pointer = from;
+        while (pointer != null && pointer.CompareTo(to) < 0)
+        {
+            if (pointer.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
+            {
+                TextPointer next = pointer.GetNextContextPosition(LogicalDirection.Forward) ?? to;
+                index += next.CompareTo(to) > 0 ? pointer.GetOffsetToPosition(to) : pointer.GetOffsetToPosition(next);
+                pointer = next;
+                continue;
+            }
+            pointer = pointer.GetNextContextPosition(LogicalDirection.Forward);
+        }
+        return index;
+    }
+
+    private static void Restore(TextBlock block, Tracker tracker)
+    {
+        if (tracker.Hidden.Count == 0)
+            return;
+        tracker.Hiding = true;
+        try
+        {
+            foreach ((Run run, object original) in tracker.Hidden)
+            {
+                if (!run.ContentStart.IsInSameDocument(block.ContentStart))
+                    continue;
+                if (original == DependencyProperty.UnsetValue)
+                    run.ClearValue(TextElement.TextEffectsProperty);
+                else
+                    run.SetValue(TextElement.TextEffectsProperty, original);
+            }
+        }
+        finally
+        {
+            tracker.Hiding = false;
+            tracker.Hidden.Clear();
+        }
+    }
+
+    private static bool IsHiddenDetached(TextBlock block)
+    {
+        if (!Trackers.TryGetValue(block, out Tracker? tracker))
+            return false;
+        foreach ((Run run, _) in tracker.Hidden)
+        {
+            if (!run.ContentStart.IsInSameDocument(block.ContentStart))
+                return true;
+        }
+        return false;
     }
 
     private static bool MayContainEmoji(string? text)
@@ -526,7 +609,7 @@ internal static partial class WindowsColorEmoji
         {
             if (!_block.IsVisible || _items.Count == 0)
                 return;
-            if (!string.Equals(_block.Text, _snapshot, StringComparison.Ordinal))
+            if (!string.Equals(_block.Text, _snapshot, StringComparison.Ordinal) || IsHiddenDetached(_block))
             {
                 QueueApply(_block);
                 return;
