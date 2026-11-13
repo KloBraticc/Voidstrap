@@ -12,7 +12,7 @@ internal static class RemoteData
 {
     public const string BaseUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap-Resources/main";
 
-    private const string ServerLocationsUrl = "https://maneetbal.github.io/roblox-server-locations/api/v1/database.json";
+    private const string ServerLocationsUrl = "https://raw.githubusercontent.com/Maneetbal/roblox-server-locations/main/roblox-ips.txt";
 
     private const string LOG_IDENT = "RemoteData";
 
@@ -26,7 +26,7 @@ internal static class RemoteData
 
     public static string TranslationsPath => Path.Combine(Paths.Data, "Translations.json");
 
-    public static string ServerLocationsPath => Path.Combine(Paths.Data, "RobloxGeoApi.json");
+    public static string ServerLocationsPath => Path.Combine(Paths.Data, "RobloxIPs.txt");
 
     public static string? FileUrl(string relativePath)
     {
@@ -84,12 +84,21 @@ internal static class RemoteData
             response.EnsureSuccessStatusCode();
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
             await Http.DownloadToFileBoundedAsync(response.Content, temporary, MaxFileBytes, token).ConfigureAwait(false);
-            await using (FileStream stream = File.OpenRead(temporary))
+            if (path != ServerLocationsPath)
             {
-                using JsonDocument document = await JsonDocument.ParseAsync(stream, default, token).ConfigureAwait(false);
-                JsonValueKind expectedKind = path == ServerLocationsPath ? JsonValueKind.Array : JsonValueKind.Object;
-                if (document.RootElement.ValueKind != expectedKind)
-                    throw new InvalidDataException("The downloaded file has an unexpected JSON format");
+                await using (FileStream stream = File.OpenRead(temporary))
+                {
+                    using JsonDocument document = await JsonDocument.ParseAsync(stream, default, token).ConfigureAwait(false);
+                    if (document.RootElement.ValueKind != JsonValueKind.Object)
+                        throw new InvalidDataException("The downloaded file has an unexpected JSON format");
+                }
+            }
+            else
+            {
+                string serverList = await File.ReadAllTextAsync(temporary, token).ConfigureAwait(false);
+                if (!serverList.Contains("Roblox-Registered Roblox Server IP Addresses", StringComparison.OrdinalIgnoreCase)
+                    || !serverList.Contains("128.116.", StringComparison.Ordinal))
+                    throw new InvalidDataException("The downloaded Roblox IP list is invalid");
             }
             File.Move(temporary, path, true);
             string? tag = response.Headers.ETag?.ToString();
