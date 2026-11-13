@@ -1,4 +1,4 @@
-﻿<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Installer.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Installer.Pages" xmlns:settingspages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{resources:Loc Installer_Title}" Width="800" Height="625" MinWidth="800" MinHeight="625" ExtendsContentIntoTitleBar="True" ResizeMode="CanResize" WindowBackdropType="Mica" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+﻿<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Installer.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Installer.Pages" xmlns:settingspages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{resources:Loc Installer_Title}" Width="1000" Height="640" MinWidth="900" MinHeight="625" ExtendsContentIntoTitleBar="True" ResizeMode="CanResize" WindowBackdropType="Mica" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -6,6 +6,10 @@
     </Grid.RowDefinitions>
     <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Padding="8" Title="{resources:Loc Installer_Title}" Icon="pack://application:,,,/Voidstrap.png" ForceShutdown="False" MinimizeToTray="False" ShowMaximize="False" UseSnapLayout="True" />
     <Grid Name="RootGrid" Grid.Row="1" Margin="32,18,32,24">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="240" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
@@ -22,18 +26,10 @@
           <ui:NavigationItem Content="{resources:Loc Installer_Completion_Title}" Icon="CheckmarkCircle24" PageType="{x:Type pages:CompletionPage}" />
         </ui:NavigationBase.Items>
       </ui:NavigationStore>
-      <Grid Grid.Row="0" Margin="0,0,0,20">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Border Width="42" Height="42" Margin="0,0,14,0" CornerRadius="10" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
-          <ui:SymbolIcon Name="StepIcon" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="{DynamicResource SystemAccentBrush}" Symbol="ArrowDownload24" />
-        </Border>
-        <TextBlock Name="StepHeadingText" Grid.Column="1" VerticalAlignment="Center" FontSize="28" FontWeight="SemiBold" Text="{Binding StepHeading, Mode=OneWay}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
-      </Grid>
-      <Frame Name="RootFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Navigated="RootFrame_Navigated" />
-      <Grid Name="NavButtonBar" Grid.Row="2" Margin="0,20,0,0">
+      <Grid Name="ArtStage" Grid.Row="0" Grid.RowSpan="2" Width="220" Height="220" Margin="0,0,20,40" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" />
+      <TextBlock Name="StepHeadingText" Grid.Row="0" Grid.Column="1" Margin="0,0,0,20" FontSize="28" FontWeight="SemiBold" Text="{Binding StepHeading, Mode=OneWay}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
+      <Frame Name="RootFrame" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden" Navigated="RootFrame_Navigated" />
+      <Grid Name="NavButtonBar" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,20,0,0">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="*" />

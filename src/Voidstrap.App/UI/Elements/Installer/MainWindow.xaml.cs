@@ -7,6 +7,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Markup;
 using System.Windows.Navigation;
 using Voidstrap.Enums;
@@ -83,6 +86,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _viewModel.SetStep(0, HeadingFor(typeof(InstallPage)));
         PaintSteps(0);
         ApplyChrome(typeof(InstallPage));
+        Loaded += MainWindow_Loaded;
+    }
+
+    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        Loaded -= MainWindow_Loaded;
+        ApplyChrome(_currentPage);
     }
 
     private void OnLinuxReducedMotionChanged(object? sender, EventArgs e)
@@ -235,24 +245,108 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ApplyChrome(Type pageType)
     {
-        StepIcon.Symbol = IconFor(pageType);
+        bool animate = IsLoaded && !(Voidstrap.Utility.Platform.IsLinux && Voidstrap.UI.LinuxUiPerformance.ReducedMotion);
+        foreach (UIElement old in ArtStage.Children.Cast<UIElement>().ToList())
+        {
+            if (!animate || old is not Grid oldLayer || oldLayer.Tag is not InstallerArt oldArt)
+            {
+                ArtStage.Children.Remove(old);
+                continue;
+            }
+            Leave(oldArt);
+            DoubleAnimation fade = new(0, TimeSpan.FromMilliseconds(260)) { BeginTime = TimeSpan.FromMilliseconds(140) };
+            fade.Completed += (_, _) => ArtStage.Children.Remove(oldLayer);
+            oldLayer.BeginAnimation(OpacityProperty, fade);
+        }
+        InstallerArt art = InstallerArt.For(pageType);
+        Grid layer = new() { Tag = art };
+        layer.Children.Add(art.Back);
+        layer.Children.Add(art.Badge);
+        if (art.Front != null)
+            layer.Children.Add(art.Front);
+        foreach (FrameworkElement part in Parts(art))
+            Rig(part);
+        Rig(art.Badge).Rotate.Angle = art.BadgeAngle;
+        ArtStage.Children.Add(layer);
+        if (animate)
+            Enter(art, TimeSpan.FromMilliseconds(ArtStage.Children.Count > 1 ? 260 : 60));
     }
 
-    private static SymbolRegular IconFor(Type pageType)
+    private static IEnumerable<FrameworkElement> Parts(InstallerArt art) =>
+        art.Front == null ? [art.Back] : [art.Back, art.Front];
+
+    private static (ScaleTransform Scale, RotateTransform Rotate, TranslateTransform Move) Rig(FrameworkElement element)
     {
-        if (pageType == typeof(InstallPage))
-            return SymbolRegular.ArrowDownload24;
-        if (pageType == typeof(ChannelPage))
-            return SymbolRegular.Globe24;
-        if (pageType == typeof(InstallerModsPage))
-            return SymbolRegular.PaintBrush24;
-        if (pageType == typeof(InstallerAppearancePage))
-            return SymbolRegular.Color24;
-        if (pageType == typeof(Voidstrap.UI.Elements.Settings.Pages.DownloadsPage))
-            return SymbolRegular.Apps24;
-        if (pageType == typeof(Voidstrap.UI.Elements.Settings.Pages.ExtensionPage))
-            return SymbolRegular.PuzzlePiece24;
-        return SymbolRegular.CheckmarkCircle24;
+        if (element.RenderTransform is TransformGroup { Children.Count: 3 } existing)
+            return ((ScaleTransform)existing.Children[0], (RotateTransform)existing.Children[1], (TranslateTransform)existing.Children[2]);
+        ScaleTransform scale = new();
+        RotateTransform rotate = new();
+        TranslateTransform move = new();
+        element.RenderTransformOrigin = new Point(0.5, 0.5);
+        element.RenderTransform = new TransformGroup { Children = { scale, rotate, move } };
+        return (scale, rotate, move);
+    }
+
+    private static void Play(DependencyObject target, DependencyProperty property, double from, double to, double ms, double delay, IEasingFunction? ease = null)
+    {
+        DoubleAnimation animation = new(from, to, TimeSpan.FromMilliseconds(ms))
+        {
+            BeginTime = TimeSpan.FromMilliseconds(delay),
+            EasingFunction = ease ?? new CubicEase { EasingMode = EasingMode.EaseOut },
+            FillBehavior = FillBehavior.HoldEnd,
+        };
+        ((IAnimatable)target).BeginAnimation(property, animation);
+    }
+
+    private static void Enter(InstallerArt art, TimeSpan delay)
+    {
+        double d = delay.TotalMilliseconds;
+        BackEase pop = new() { Amplitude = 0.35, EasingMode = EasingMode.EaseOut };
+        foreach (FrameworkElement part in Parts(art))
+        {
+            var rig = Rig(part);
+            Play(rig.Scale, ScaleTransform.ScaleXProperty, 0.55, 1, 520, d, pop);
+            Play(rig.Scale, ScaleTransform.ScaleYProperty, 0.55, 1, 520, d, pop);
+            Play(rig.Move, TranslateTransform.YProperty, 24, 0, 520, d, pop);
+            Play(part, OpacityProperty, 0, 1, 260, d);
+            if (Voidstrap.Utility.Platform.IsWindows)
+            {
+                BlurEffect blur = new() { Radius = 18 };
+                part.Effect = blur;
+                DoubleAnimation clear = new(18, 0, TimeSpan.FromMilliseconds(380)) { BeginTime = TimeSpan.FromMilliseconds(d) };
+                clear.Completed += (_, _) => part.Effect = null;
+                blur.BeginAnimation(BlurEffect.RadiusProperty, clear);
+            }
+        }
+        var badge = Rig(art.Badge);
+        double bd = d + 300;
+        BackEase spring = new() { Amplitude = 0.6, EasingMode = EasingMode.EaseOut };
+        Play(art.Badge, OpacityProperty, 0, 1, 180, bd);
+        Play(badge.Move, TranslateTransform.YProperty, art.BadgeRise, 0, 620, bd, spring);
+        Play(badge.Rotate, RotateTransform.AngleProperty, art.BadgeAngle + 28, art.BadgeAngle, 720, bd, spring);
+        Play(badge.Scale, ScaleTransform.ScaleXProperty, 0.6, 1, 620, bd, spring);
+        Play(badge.Scale, ScaleTransform.ScaleYProperty, 0.6, 1, 620, bd, spring);
+    }
+
+    private static void Leave(InstallerArt art)
+    {
+        CubicEase ease = new() { EasingMode = EasingMode.EaseIn };
+        var badge = Rig(art.Badge);
+        Play(badge.Move, TranslateTransform.YProperty, 0, art.BadgeRise, 220, 0, ease);
+        Play(badge.Rotate, RotateTransform.AngleProperty, art.BadgeAngle, art.BadgeAngle + 18, 220, 0, ease);
+        Play(art.Badge, OpacityProperty, 1, 0, 200, 0, ease);
+        foreach (FrameworkElement part in Parts(art))
+        {
+            var rig = Rig(part);
+            Play(rig.Scale, ScaleTransform.ScaleXProperty, 1, 0.78, 300, 140, ease);
+            Play(rig.Scale, ScaleTransform.ScaleYProperty, 1, 0.78, 300, 140, ease);
+            if (Voidstrap.Utility.Platform.IsWindows)
+            {
+                BlurEffect blur = new();
+                part.Effect = blur;
+                blur.BeginAnimation(BlurEffect.RadiusProperty, new DoubleAnimation(0, 16, TimeSpan.FromMilliseconds(300)) { BeginTime = TimeSpan.FromMilliseconds(140) });
+            }
+        }
     }
 
     private static string HeadingFor(Type pageType)
