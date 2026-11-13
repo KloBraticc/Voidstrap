@@ -619,8 +619,6 @@ internal static partial class WindowsColorEmoji
         private long _followUntil;
         private Matrix _lastTransform;
         private double _lastOpacity = 1.0;
-        private static readonly ConditionalWeakTable<EmojiAdorner, object> Active = new();
-        private static bool _transitionsHooked;
 
         public EmojiAdorner(TextBlock block)
             : base(block)
@@ -628,21 +626,6 @@ internal static partial class WindowsColorEmoji
             _block = block;
             IsHitTestVisible = false;
             _block.IsVisibleChanged += OnBlockVisibilityChanged;
-            Active.AddOrUpdate(this, Active);
-            if (!_transitionsHooked)
-            {
-                _transitionsHooked = true;
-                Wpf.Ui.Animations.Transitions.AnimationStarted += OnAnimationStarted;
-            }
-        }
-
-        private static void OnAnimationStarted(object? sender, EventArgs e)
-        {
-            foreach (KeyValuePair<EmojiAdorner, object> entry in Active)
-            {
-                if (entry.Key._block.IsVisible)
-                    entry.Key.Follow();
-            }
         }
 
         public void SetItems(List<(TextPointer Start, TextPointer End, ushort[] Glyphs)> items, string snapshot)
@@ -735,7 +718,6 @@ internal static partial class WindowsColorEmoji
         public void Detach()
         {
             _block.IsVisibleChanged -= OnBlockVisibilityChanged;
-            Active.Remove(this);
             StopFollowing();
             _items = new();
             _last = null;
