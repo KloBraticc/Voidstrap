@@ -44,11 +44,37 @@ internal static partial class WindowsColorEmoji
 
     private sealed class Tracker
     {
+        public Tracker(TextBlock block) => Block = block;
+
+        public readonly TextBlock Block;
         public EmojiAdorner? Adorner;
+        public bool Watching;
         public readonly List<(Run Run, object Original)> Hidden = new();
         public bool Pending;
         public bool Hiding;
         public string? Snapshot;
+
+        public void Watch()
+        {
+            if (Watching)
+                return;
+            Watching = true;
+            Block.LayoutUpdated += OnLayoutUpdated;
+        }
+
+        public void Unwatch()
+        {
+            if (!Watching)
+                return;
+            Watching = false;
+            Block.LayoutUpdated -= OnLayoutUpdated;
+        }
+
+        private void OnLayoutUpdated(object? sender, EventArgs e)
+        {
+            if (!Hiding && IsHiddenDetached(Block))
+                Apply(Block);
+        }
     }
 
     public static void Install()
@@ -88,7 +114,7 @@ internal static partial class WindowsColorEmoji
 
     private static void Track(TextBlock block)
     {
-        Trackers.Add(block, new Tracker());
+        Trackers.Add(block, new Tracker(block));
         TextDescriptor?.AddValueChanged(block, OnTextChanged);
         Apply(block);
     }
@@ -169,6 +195,7 @@ internal static partial class WindowsColorEmoji
 
     private static void Clear(TextBlock block, Tracker tracker)
     {
+        tracker.Unwatch();
         Restore(block, tracker);
         if (tracker.Adorner != null)
         {
@@ -215,7 +242,10 @@ internal static partial class WindowsColorEmoji
             tracker.Hiding = false;
         }
         if (effects.Count > 0)
+        {
+            tracker.Watch();
             Refresh(block);
+        }
         return hidden;
     }
 
