@@ -10271,4 +10271,10 @@ Người chơi: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Hiển thị biểu tượng của trò chơi bạn đang tham gia trong cửa sổ khởi chạy thay cho biểu tượng Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Ẩn thanh tiêu đề toàn màn hình</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Ngăn thanh tiêu đề Roblox trượt xuống khi chuột của bạn chạm tới mép trên màn hình ở chế độ toàn màn hình.</value>
+  </data>
 </root>

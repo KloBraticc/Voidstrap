@@ -9956,4 +9956,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>د پیل په کړکۍ کې د Voidstrap نښې پر ځای د هغې لوبې نښه وښایاست چې تاسو ورسره یوځای کېږئ.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>د بشپړې پردې د سرلیک پټه پټ کړئ</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>کله چې ستاسو موږک په بشپړه پرده کې د پردې سر ته ورسېږي، د Roblox سرلیک پټه ښکته کېدو څخه ساتي.</value>
+  </data>
 </root>

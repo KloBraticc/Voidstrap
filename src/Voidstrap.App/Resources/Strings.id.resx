@@ -10271,4 +10271,10 @@ Pemain: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Tampilkan ikon game yang Anda ikuti di jendela peluncuran, bukan ikon Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Sembunyikan bilah judul layar penuh</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Mencegah bilah judul Roblox turun saat mouse Anda mencapai bagian atas layar dalam mode layar penuh.</value>
+  </data>
 </root>

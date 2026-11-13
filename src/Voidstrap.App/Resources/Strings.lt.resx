@@ -10270,4 +10270,10 @@ Veikimo laikas: {1}
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Paleidimo lange vietoj Voidstrap piktogramos rodyti žaidimo, prie kurio jungiatės, piktogramą.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Slėpti viso ekrano pavadinimo juostą</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Neleidžia Roblox pavadinimo juostai nusileisti, kai jūsų pelė viso ekrano režimu pasiekia ekrano viršų.</value>
+  </data>
 </root>

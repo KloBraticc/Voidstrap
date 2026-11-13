@@ -2126,6 +2126,22 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public bool HideFullscreenTitleBar
+    {
+        get => App.Settings.Prop.HideFullscreenTitleBar;
+        set
+        {
+            if (App.Settings.Prop.HideFullscreenTitleBar == value)
+                return;
+            App.Settings.Prop.HideFullscreenTitleBar = value;
+            OnPropertyChanged(nameof(HideFullscreenTitleBar));
+            if (value)
+                Voidstrap.Integrations.Fullscreen.RobloxTitleBarGuard.Start();
+            else
+                Voidstrap.Integrations.Fullscreen.RobloxTitleBarGuard.Shutdown();
+        }
+    }
+
     public bool FakeBorderlessFullscreen
     {
         get { return App.Settings.Prop.FakeBorderlessFullscreen; }

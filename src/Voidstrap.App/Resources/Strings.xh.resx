@@ -9955,4 +9955,10 @@ Abadlali: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Bonisa uphawu lomdlalo owujoyinayo kwifestile yokuqalisa endaweni yophawu lwe Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Fihla ibha yesihloko yesikrini esipheleleyo</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Ithintela ibha yesihloko ye-Roblox ukuba yehle xa imawusi yakho ifika phezulu kwesikrini kwisikrini esipheleleyo.</value>
+  </data>
 </root>

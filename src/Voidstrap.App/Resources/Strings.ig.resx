@@ -9956,4 +9956,10 @@ Ndị egwuregwu: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Gosi akara egwuregwu ị na-esonye na windo mmalite kama akara Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Zoo ogwe aha nke ihuenyo zuru oke</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Ọ na-egbochi ogwe aha Roblox ịda ala mgbe òké gị ruru n'elu ihuenyo n'ihuenyo zuru oke.</value>
+  </data>
 </root>

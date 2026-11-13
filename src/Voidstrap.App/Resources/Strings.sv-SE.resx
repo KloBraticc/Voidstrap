@@ -10268,4 +10268,10 @@ Spelare: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Visa ikonen för spelet du ansluter till i startfönstret i stället för Voidstrap-ikonen.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Dölj namnlisten i helskärm</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Hindrar Roblox namnlist från att glida ner när musen når skärmens överkant i helskärm.</value>
+  </data>
 </root>

@@ -10292,4 +10292,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>在启动窗口中显示您要加入的游戏图标，而不是 Voidstrap 图标。</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>隐藏全屏标题栏</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>全屏时，鼠标移到屏幕顶部也不会让 Roblox 标题栏滑下来。</value>
+  </data>
 </root>

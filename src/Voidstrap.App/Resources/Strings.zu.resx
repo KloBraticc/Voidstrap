@@ -9955,4 +9955,10 @@ Abadlali: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Bonisa isithonjana segeyimu oyijoyinayo ewindini lokuqalisa esikhundleni sesithonjana se Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Fihla ibha yesihloko yesikrini esigcwele</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Ivimbela ibha yesihloko ye-Roblox ukuthi yehle lapho igundane lakho lifika phezulu kwesikrini esikrinini esigcwele.</value>
+  </data>
 </root>

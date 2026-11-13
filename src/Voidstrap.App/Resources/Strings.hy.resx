@@ -9956,4 +9956,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Գործարկման պատուհանում Voidstrap-ի պատկերակի փոխարեն ցույց տալ այն խաղի պատկերակը, որին միանում եք։</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Թաքցնել լիաէկրան վերնագրի տողը</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Կանխում է Roblox-ի վերնագրի տողի իջնելը, երբ մկնիկը լիաէկրան ռեժիմում հասնում է էկրանի վերին մասին։</value>
+  </data>
 </root>

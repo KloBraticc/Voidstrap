@@ -9956,4 +9956,10 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Ишке киргизүү терезесинде Voidstrap сөлөкөтүнүн ордуна кошулуп жаткан оюндун сөлөкөтүн көрсөтүү.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Толук экрандагы аталыш тилкесин жашыруу</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Толук экранда чычкан экрандын жогору жагына жеткенде Roblox аталыш тилкесинин төмөн түшүшүн токтотот.</value>
+  </data>
 </root>

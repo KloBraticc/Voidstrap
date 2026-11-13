@@ -9955,4 +9955,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>লঞ্চ উইন্ডোতে Voidstrap আইকনের বদলে আপনি যে গেমে যোগ দিচ্ছেন তার আইকন দেখান।</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>ফুলস্ক্রিন টাইটেল বার লুকান</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>ফুলস্ক্রিনে মাউস স্ক্রিনের উপরে পৌঁছালে Roblox টাইটেল বার নিচে নেমে আসা বন্ধ করে।</value>
+  </data>
 </root>

@@ -1013,6 +1013,8 @@ namespace Voidstrap.Resources {
         public static string Ui_Bootstrapper_WhichRobloxJoinEndpointVoidstrapAsks => ResourceManager.GetString("Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks", resourceCulture);
 
         public static string Ui_Bootstrapper_FullscreenMode => ResourceManager.GetString("Ui.Bootstrapper.FullscreenMode", resourceCulture);
+        public static string Ui_Bootstrapper_HideFullscreenTitleBar => ResourceManager.GetString("Ui.Bootstrapper.HideFullscreenTitleBar", resourceCulture);
+        public static string Ui_Bootstrapper_HideFullscreenTitleBarDescription => ResourceManager.GetString("Ui.Bootstrapper.HideFullscreenTitleBarDescription", resourceCulture);
 
         public static string Ui_Bootstrapper_HowTheRobloxGameWindowFills => ResourceManager.GetString("Ui.Bootstrapper.HowTheRobloxGameWindowFills", resourceCulture);
 

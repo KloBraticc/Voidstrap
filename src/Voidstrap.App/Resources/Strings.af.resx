@@ -9955,4 +9955,10 @@ Spelers: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Wys die ikoon van die speletjie waarby jy aansluit in die beginvenster in plaas van die Voidstrap-ikoon.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Versteek die volskerm-titelbalk</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Keer dat die Roblox-titelbalk afgly wanneer jou muis in volskerm die bokant van die skerm bereik.</value>
+  </data>
 </root>

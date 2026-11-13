@@ -2516,6 +2516,7 @@ public partial class App : Application
         TryShutdown(Voidstrap.Integrations.Mcp.McpBridgeServer.Stop);
         TryShutdown(AssetCaptureStore.Shutdown);
         TryShutdown(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Shutdown);
+        TryShutdown(Voidstrap.Integrations.Fullscreen.RobloxTitleBarGuard.Shutdown);
         if (Voidstrap.Utility.Platform.IsLinux)
             TryShutdown(Voidstrap.Integrations.Overlays.OverlayHub.Shutdown);
         TryShutdown(Voidstrap.Integrations.Overlays.RobloxWindowTracker.Shutdown);

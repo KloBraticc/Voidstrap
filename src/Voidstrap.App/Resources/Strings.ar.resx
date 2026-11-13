@@ -10267,4 +10267,10 @@
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>اعرض أيقونة اللعبة التي تنضم إليها في نافذة التشغيل بدلاً من أيقونة Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>إخفاء شريط العنوان في وضع ملء الشاشة</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>يمنع شريط عنوان Roblox من الظهور عندما يصل مؤشر الماوس إلى أعلى الشاشة في وضع ملء الشاشة.</value>
+  </data>
 </root>

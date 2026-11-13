@@ -9956,4 +9956,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>ലോഞ്ച് വിൻഡോയിൽ Voidstrap ഐക്കണിന് പകരം നിങ്ങൾ ചേരുന്ന ഗെയിമിന്റെ ഐക്കൺ കാണിക്കുക.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>പൂർണ്ണസ്ക്രീൻ ടൈറ്റിൽ ബാർ മറയ്ക്കുക</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>പൂർണ്ണസ്ക്രീനിൽ മൗസ് സ്ക്രീനിന്റെ മുകളിൽ എത്തുമ്പോൾ Roblox ടൈറ്റിൽ ബാർ താഴേക്ക് വരുന്നത് തടയുന്നു.</value>
+  </data>
 </root>

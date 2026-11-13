@@ -9955,4 +9955,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>စတင်ဝင်းဒိုးတွင် Voidstrap အိုင်ကွန်အစား သင်ဝင်ရောက်နေသော ဂိမ်း၏ အိုင်ကွန်ကို ပြသရန်။</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>မျက်နှာပြင်အပြည့် ခေါင်းစဉ်ဘားကို ဖျောက်ရန်</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>မျက်နှာပြင်အပြည့်တွင် မောက်စ်သည် မျက်နှာပြင်ထိပ်သို့ ရောက်သောအခါ Roblox ခေါင်းစဉ်ဘား ဆင်းမလာစေရန် တားဆီးသည်။</value>
+  </data>
 </root>

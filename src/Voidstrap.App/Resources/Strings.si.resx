@@ -9956,4 +9956,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>ආරම්භක කවුළුවේ Voidstrap අයිකනය වෙනුවට ඔබ සම්බන්ධ වන ක්‍රීඩාවේ අයිකනය පෙන්වන්න.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>පූර්ණ තිර මාතෘකා තීරුව සඟවන්න</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>පූර්ණ තිරයේදී ඔබේ මූසිකය තිරයේ ඉහළට ළඟා වූ විට Roblox මාතෘකා තීරුව පහළට ලිස්සා ඒම නවත්වයි.</value>
+  </data>
 </root>

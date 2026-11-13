@@ -9956,4 +9956,10 @@ Spillere: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Vis ikonet til spillet du blir med i, i startvinduet i stedet for Voidstrap-ikonet.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Skjul tittellinjen i fullskjerm</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Hindrer Roblox tittellinjen i å gli ned når musen når toppen av skjermen i fullskjerm.</value>
+  </data>
 </root>

@@ -9956,4 +9956,10 @@ Spiller: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Weist an der Startfënster d'Ikon vum Spill, deem s du bäitrëtts, amplaz vum Voidstrap-Ikon.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Titelleescht am Vollbild verstoppen</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Verhënnert, datt d'Roblox Titelleescht erofrutscht, wann deng Maus am Vollbild uewen um Bildschierm ukënnt.</value>
+  </data>
 </root>

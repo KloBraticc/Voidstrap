@@ -9955,4 +9955,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>தொடக்கச் சாளரத்தில் Voidstrap ஐகானுக்குப் பதிலாக நீங்கள் இணையும் விளையாட்டின் ஐகானைக் காட்டு.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>முழுத்திரை தலைப்புப் பட்டியை மறை</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>முழுத்திரையில் உங்கள் மவுஸ் திரையின் மேற்பகுதியை அடையும்போது Roblox தலைப்புப் பட்டி கீழே இறங்குவதைத் தடுக்கிறது.</value>
+  </data>
 </root>

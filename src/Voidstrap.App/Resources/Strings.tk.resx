@@ -9955,4 +9955,10 @@ Oýunçylar: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Başlatma penjiresinde Voidstrap nyşanynyň ýerine goşulýan oýnuňyzyň nyşanyny görkez.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Doly ekran sözbaşy zolagyny gizle</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Doly ekranda syçanyňyz ekranyň ýokarsyna ýetende Roblox sözbaşy zolagynyň aşak süýşmeginiň öňüni alýar.</value>
+  </data>
 </root>

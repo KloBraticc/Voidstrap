@@ -9955,4 +9955,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Паказваць у акне запуску значок гульні, да якой вы далучаецеся, замест значка Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Схаваць панэль загалоўка ў поўнаэкранным рэжыме</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Не дае панэлі загалоўка Roblox высоўвацца, калі мыш дасягае верхняга краю экрана ў поўнаэкранным рэжыме.</value>
+  </data>
 </root>

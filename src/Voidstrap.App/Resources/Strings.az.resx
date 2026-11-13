@@ -9955,4 +9955,10 @@ Oyunçular: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Başlatma pəncərəsində Voidstrap ikonu əvəzinə qoşulduğunuz oyunun ikonunu göstər.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Tam ekran başlıq zolağını gizlət</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Tam ekranda siçan ekranın yuxarısına çatanda Roblox başlıq zolağının aşağı sürüşməsinin qarşısını alır.</value>
+  </data>
 </root>

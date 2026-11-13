@@ -10283,4 +10283,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>起動ウィンドウで Voidstrap のアイコンの代わりに、参加するゲームのアイコンを表示します。</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>全画面のタイトルバーを非表示にする</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>全画面表示でマウスが画面上端に達したときに、Roblox のタイトルバーが下りてこないようにします。</value>
+  </data>
 </root>

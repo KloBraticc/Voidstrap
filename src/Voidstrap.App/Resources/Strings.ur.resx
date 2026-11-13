@@ -9955,4 +9955,10 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>لانچ ونڈو میں Voidstrap آئیکن کی بجائے اس گیم کا آئیکن دکھائیں جس میں آپ شامل ہو رہے ہیں۔</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>فل اسکرین ٹائٹل بار چھپائیں</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>فل اسکرین میں جب آپ کا ماؤس اسکرین کے اوپر پہنچے تو Roblox ٹائٹل بار کو نیچے آنے سے روکتا ہے۔</value>
+  </data>
 </root>

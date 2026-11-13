@@ -10268,4 +10268,10 @@ Jugadores: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Muestra el icono del juego al que te unes en la ventana de inicio en lugar del icono de Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Ocultar la barra de título en pantalla completa</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Evita que la barra de título de Roblox se despliegue cuando el ratón llega a la parte superior de la pantalla en pantalla completa.</value>
+  </data>
 </root>

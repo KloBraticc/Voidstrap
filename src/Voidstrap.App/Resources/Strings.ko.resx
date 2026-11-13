@@ -10267,4 +10267,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>실행 창에 Voidstrap 아이콘 대신 참가하는 게임의 아이콘을 표시합니다.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>전체 화면 제목 표시줄 숨기기</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>전체 화면에서 마우스가 화면 위쪽 끝에 닿을 때 Roblox 제목 표시줄이 내려오지 않도록 합니다.</value>
+  </data>
 </root>

@@ -9955,4 +9955,10 @@ Libapali: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Bontsha letshwao la papadi eo o kenang ho yona fensetereng ya ho qala sebakeng sa letshwao la Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Pata bara ya sehlooho ya skrine e felletseng</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>E thibela bara ya sehlooho ya Roblox ho theoha ha toeba ya hao e fihla hodimo ho skrine ho skrine e felletseng.</value>
+  </data>
 </root>

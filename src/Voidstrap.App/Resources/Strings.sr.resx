@@ -9956,4 +9956,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Прикажи икону игре којој се придружујеш у прозору за покретање уместо иконе Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Сакриј насловну траку преко целог екрана</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Спречава да се насловна трака Roblox спусти када миш дође до врха екрана у режиму преко целог екрана.</value>
+  </data>
 </root>

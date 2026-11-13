@@ -10269,4 +10269,10 @@ Pelaajat: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Näytä käynnistysikkunassa sen pelin kuvake, johon liityt, Voidstrapin kuvakkeen sijaan.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Piilota koko näytön otsikkopalkki</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Estää Robloxin otsikkopalkkia liukumasta alas, kun hiiri osuu näytön yläreunaan koko näytön tilassa.</value>
+  </data>
 </root>

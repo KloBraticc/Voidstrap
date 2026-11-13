@@ -9956,4 +9956,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Прикажи ја иконата на играта кон која се приклучуваш во прозорецот за стартување наместо иконата на Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Скриј ја насловната лента на цел екран</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Спречува лизгање надолу на насловната лента на Roblox кога глувчето ќе стигне до врвот на екранот на цел екран.</value>
+  </data>
 </root>

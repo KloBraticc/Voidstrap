@@ -9956,4 +9956,10 @@ Ciyaartoyda: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Ku tus daaqadda bilowga astaanta ciyaarta aad ku biirayso halkii aad ka tusi lahayd astaanta Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Qari baarka cinwaanka shaashadda buuxda</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Waxay ka joojisaa baarka cinwaanka Roblox inuu hoos u soo dego marka jiirkaagu gaaro korka shaashadda marka shaashaddu buuxdo.</value>
+  </data>
 </root>

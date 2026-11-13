@@ -10266,4 +10266,10 @@ Oyuncular: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Başlatma penceresinde Voidstrap simgesi yerine katıldığınız oyunun simgesini gösterir.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Tam ekran başlık çubuğunu gizle</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Tam ekranda fareniz ekranın üstüne ulaştığında Roblox başlık çubuğunun aşağı kaymasını engeller.</value>
+  </data>
 </root>

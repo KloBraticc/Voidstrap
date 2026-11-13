@@ -9956,4 +9956,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>ଲଞ୍ଚ ୱିଣ୍ଡୋରେ Voidstrap ଆଇକନ୍ ବଦଳରେ ଆପଣ ଯୋଗ ଦେଉଥିବା ଖେଳର ଆଇକନ୍ ଦେଖାନ୍ତୁ।</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>ପୂର୍ଣ୍ଣସ୍କ୍ରିନ ଟାଇଟେଲ ବାର ଲୁଚାନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>ପୂର୍ଣ୍ଣସ୍କ୍ରିନରେ ଆପଣଙ୍କ ମାଉସ ସ୍କ୍ରିନର ଉପରେ ପହଞ୍ଚିଲେ Roblox ଟାଇଟେଲ ବାର ତଳକୁ ଖସିବାକୁ ରୋକେ।</value>
+  </data>
 </root>

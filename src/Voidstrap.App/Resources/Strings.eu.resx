@@ -9955,4 +9955,10 @@ Jokalariak: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Erakutsi batzen ari zaren jokoaren ikonoa abiarazte leihoan, Voidstrap ikonoaren ordez.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Ezkutatu pantaila osoko izenburu-barra</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Roblox-en izenburu-barra behera irristatzea eragozten du saguak pantailaren goialdea jotzen duenean pantaila osoan.</value>
+  </data>
 </root>

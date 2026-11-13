@@ -10270,4 +10270,10 @@ Jogadores: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Mostra o ícone do jogo em que você está entrando na janela de inicialização em vez do ícone do Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Ocultar a barra de título em tela cheia</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Impede que a barra de título do Roblox desça quando o mouse chega ao topo da tela em tela cheia.</value>
+  </data>
 </root>

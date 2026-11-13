@@ -9956,4 +9956,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>सुरु विन्डोमा Voidstrap आइकनको सट्टा तपाईं सामेल हुँदै गरेको खेलको आइकन देखाउनुहोस्।</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>पूर्णस्क्रिन शीर्षक पट्टी लुकाउनुहोस्</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>पूर्णस्क्रिनमा माउस स्क्रिनको माथि पुग्दा Roblox शीर्षक पट्टी तल झर्नबाट रोक्छ।</value>
+  </data>
 </root>

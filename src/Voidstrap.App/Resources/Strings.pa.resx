@@ -9956,4 +9956,10 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>ਲਾਂਚ ਵਿੰਡੋ ਵਿੱਚ Voidstrap ਆਈਕਨ ਦੀ ਥਾਂ ਉਸ ਗੇਮ ਦਾ ਆਈਕਨ ਦਿਖਾਓ ਜਿਸ ਵਿੱਚ ਤੁਸੀਂ ਸ਼ਾਮਲ ਹੋ ਰਹੇ ਹੋ।</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>ਪੂਰੀ ਸਕ੍ਰੀਨ ਸਿਰਲੇਖ ਪੱਟੀ ਲੁਕਾਓ</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>ਪੂਰੀ ਸਕ੍ਰੀਨ ਵਿੱਚ ਮਾਊਸ ਦੇ ਸਕ੍ਰੀਨ ਦੇ ਉੱਪਰ ਪਹੁੰਚਣ ਤੇ Roblox ਸਿਰਲੇਖ ਪੱਟੀ ਨੂੰ ਹੇਠਾਂ ਆਉਣ ਤੋਂ ਰੋਕਦਾ ਹੈ।</value>
+  </data>
 </root>

@@ -9956,4 +9956,10 @@ Uptime: {1}
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>გაშვების ფანჯარაში Voidstrap-ის ხატულის ნაცვლად აჩვენეთ იმ თამაშის ხატულა, რომელშიც შედიხართ.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>სრული ეკრანის სათაურის ზოლის დამალვა</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>ხელს უშლის Roblox-ის სათაურის ზოლის ჩამოსრიალებას, როცა მაუსი სრულ ეკრანზე ეკრანის ზედა კიდეს აღწევს.</value>
+  </data>
 </root>

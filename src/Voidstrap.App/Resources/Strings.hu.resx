@@ -10268,4 +10268,10 @@ Játékosok: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Az indítóablakban a Voidstrap ikonja helyett annak a játéknak az ikonját mutatja, amelyhez csatlakozol.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Teljes képernyős címsor elrejtése</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Megakadályozza, hogy a Roblox címsora lecsússzon, amikor az egered teljes képernyőn eléri a képernyő tetejét.</value>
+  </data>
 </root>

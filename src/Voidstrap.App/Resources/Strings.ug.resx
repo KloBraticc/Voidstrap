@@ -9955,4 +9955,10 @@ Uptime: {1}
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>قوزغىتىش كۆزنىكىدە Voidstrap سىنبەلگىسىنىڭ ئورنىغا قېتىلىۋاتقان ئويۇننىڭ سىنبەلگىسىنى كۆرسىتىش.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>پۈتۈن ئېكران ماۋزۇ بالدىقىنى يوشۇرۇش</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>پۈتۈن ئېكراندا مائۇس ئېكراننىڭ ئۈستىگە يەتكەندە Roblox ماۋزۇ بالدىقىنىڭ تۆۋەنگە سىيرىلىشىنى توسىدۇ.</value>
+  </data>
 </root>

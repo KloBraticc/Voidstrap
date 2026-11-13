@@ -10268,4 +10268,10 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Показва иконата на играта, към която се присъединявате, в прозореца за стартиране вместо иконата на Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Скриване на заглавната лента на цял екран</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Спира плъзгането надолу на заглавната лента на Roblox, когато мишката Ви достигне горния край на екрана в режим на цял екран.</value>
+  </data>
 </root>

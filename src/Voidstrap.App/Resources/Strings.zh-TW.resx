@@ -10271,4 +10271,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>在啟動視窗中顯示你要加入的遊戲圖示，而不是 Voidstrap 圖示。</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>隱藏全螢幕標題列</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>全螢幕時，滑鼠移到螢幕頂端也不會讓 Roblox 標題列滑下來。</value>
+  </data>
 </root>

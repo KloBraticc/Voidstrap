@@ -9956,4 +9956,10 @@ Parteċipanti: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Uri l-ikona tal-logħba li qed tingħaqad magħha fit-tieqa tat-tnedija minflok l-ikona ta' Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Aħbi l-istrixxa tat-titlu fuq skrin sħiħ</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Iżżomm l-istrixxa tat-titlu ta' Roblox milli tinżel meta l-maws tiegħek jasal fil-quċċata tal-iskrin fuq skrin sħiħ.</value>
+  </data>
 </root>

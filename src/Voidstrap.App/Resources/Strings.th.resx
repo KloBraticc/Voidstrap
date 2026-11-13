@@ -10263,4 +10263,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>แสดงไอคอนของเกมที่คุณกำลังเข้าร่วมในหน้าต่างเริ่มต้นแทนไอคอน Voidstrap</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>ซ่อนแถบชื่อเรื่องแบบเต็มหน้าจอ</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>ป้องกันไม่ให้แถบชื่อเรื่องของ Roblox เลื่อนลงมาเมื่อเมาส์ของคุณไปถึงด้านบนของหน้าจอในโหมดเต็มหน้าจอ</value>
+  </data>
 </root>

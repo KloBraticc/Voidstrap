@@ -9955,4 +9955,10 @@ Awọn oṣere: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Fi àmì eré tí o ń darapọ̀ mọ́ hàn nínú fèrèsé ìbẹ̀rẹ̀ dípò àmì Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Fi ọ̀pá àkọlé ojú-ìbojú kíkún pamọ́</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Ó dá ọ̀pá àkọlé Roblox dúró láti sọ̀kalẹ̀ nígbà tí àsín rẹ bá dé òkè ojú-ìbojú ní ojú-ìbojú kíkún.</value>
+  </data>
 </root>

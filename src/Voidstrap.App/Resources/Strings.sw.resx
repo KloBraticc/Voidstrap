@@ -9955,4 +9955,10 @@ Wachezaji: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Onyesha aikoni ya mchezo unaojiunga nao kwenye dirisha la kuanzisha badala ya aikoni ya Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Ficha upau wa kichwa wa skrini nzima</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Huzuia upau wa kichwa wa Roblox kushuka kipanya chako kinapofika juu ya skrini katika skrini nzima.</value>
+  </data>
 </root>

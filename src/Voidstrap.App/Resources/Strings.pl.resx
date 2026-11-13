@@ -10269,4 +10269,10 @@ Gracze: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Pokazuj w oknie uruchamiania ikonę gry, do której dołączasz, zamiast ikony Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Ukryj pasek tytułu na pełnym ekranie</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Nie pozwala, by pasek tytułu Roblox zjeżdżał w dół, gdy kursor dotknie górnej krawędzi ekranu na pełnym ekranie.</value>
+  </data>
 </root>

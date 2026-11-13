@@ -9956,4 +9956,10 @@ Kaitākaro: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Whakaaturia te tohu o te kēmu e hono ana koe ki te matapihi whakarewa, kaua ko te tohu Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Hunaia te pae taitara mata katoa</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Ka ārai i te pae taitara o Roblox kia kaua e heke iho ina tae tō kiore ki te tihi o te mata i te aratau mata katoa.</value>
+  </data>
 </root>

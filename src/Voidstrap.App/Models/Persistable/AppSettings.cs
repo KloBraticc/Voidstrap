@@ -481,6 +481,8 @@ namespace Voidstrap.Models.Persistable
         public int DoubleMovementSocdMode { get; set; } = 0;
         public double DoubleMovementStrafeAngle { get; set; } = 55.0;
         public bool FakeBorderlessFullscreen { get; set; } = false;
+
+        public bool HideFullscreenTitleBar { get; set; } = false;
         public bool FakeExclusiveFullscreen { get; set; } = false;
         public Dictionary<long, string> PerGamePreferredDatacenters { get; set; } = [];
         public List<long> FavoriteGamePlaceIds { get; set; } = [];

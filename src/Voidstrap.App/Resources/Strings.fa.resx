@@ -10270,4 +10270,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>نماد بازی‌ای را که به آن می‌پیوندید به‌جای نماد Voidstrap در پنجره اجرا نشان دهید.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>پنهان کردن نوار عنوان در حالت تمام‌صفحه</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>از پایین آمدن نوار عنوان Roblox هنگامی که ماوس شما در حالت تمام‌صفحه به بالای صفحه می‌رسد جلوگیری می‌کند.</value>
+  </data>
 </root>

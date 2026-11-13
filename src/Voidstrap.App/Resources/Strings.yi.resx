@@ -9955,4 +9955,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>ווייזן אין דעם אנהייב־פענצטער דעם בילדל פון דעם שפּיל וואס איר פארבינדט זיך מיט אנשטאט דעם Voidstrap בילדל.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>באַהאַלטן דעם טיטל־באַר אין פולן עקראַן</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>שטעלט אָפּ דעם Roblox טיטל־באַר פון אַראָפּגליטשן ווען דיין מויז דערגרייכט די שפּיץ פון עקראַן אין פולן עקראַן.</value>
+  </data>
 </root>

@@ -9956,4 +9956,10 @@ Hráči: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>V okne spustenia zobrazí ikonu hry, ku ktorej sa pripájate, namiesto ikony Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Skryť záhlavie na celej obrazovke</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Zabráni vysunutiu záhlavia Roblox, keď myš na celej obrazovke dosiahne horný okraj obrazovky.</value>
+  </data>
 </root>

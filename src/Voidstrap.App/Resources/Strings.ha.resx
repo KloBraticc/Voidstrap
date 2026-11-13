@@ -9956,4 +9956,10 @@ Uptime: {1}
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Nuna alamar wasan da kake shiga a tagar farawa maimakon alamar Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Ɓoye sandar take na cikakken allo</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Yana hana sandar take ta Roblox saukowa idan linzamin ka ya kai saman allo a cikakken allo.</value>
+  </data>
 </root>

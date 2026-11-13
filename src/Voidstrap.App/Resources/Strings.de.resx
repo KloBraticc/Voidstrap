@@ -10268,4 +10268,10 @@ Spieler: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Zeigt im Startfenster das Symbol des Spiels, dem du beitrittst, statt des Voidstrap-Symbols.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Titelleiste im Vollbild ausblenden</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Verhindert, dass die Roblox Titelleiste herunterfährt, wenn deine Maus im Vollbild den oberen Bildschirmrand erreicht.</value>
+  </data>
 </root>

@@ -10270,4 +10270,10 @@ Spelers: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Toon in het startvenster het icoon van de game waaraan je deelneemt in plaats van het Voidstrap-icoon.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Titelbalk op volledig scherm verbergen</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Voorkomt dat de Roblox titelbalk naar beneden schuift wanneer je muis op volledig scherm de bovenkant van het scherm raakt.</value>
+  </data>
 </root>

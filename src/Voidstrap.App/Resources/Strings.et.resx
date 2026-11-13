@@ -9955,4 +9955,10 @@ Mängijad: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Näita käivitusaknas Voidstrapi ikooni asemel selle mängu ikooni, millega liitud.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Peida täisekraani tiitliriba</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Takistab Robloxi tiitliriba allalibisemist, kui hiir jõuab täisekraanil ekraani ülaserva.</value>
+  </data>
 </root>

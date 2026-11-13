@@ -9956,4 +9956,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>لانچ ونڊو ۾ Voidstrap آئڪن بدران ان راند جو آئڪن ڏيکاريو جنهن ۾ توهان شامل ٿي رهيا آهيو.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>مڪمل اسڪرين جي عنوان واري پٽي لڪايو</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>مڪمل اسڪرين ۾ جڏهن توهان جو مائوس اسڪرين جي مٿي تائين پهچي ته Roblox جي عنوان واري پٽي کي هيٺ لهڻ کان روڪي ٿو.</value>
+  </data>
 </root>

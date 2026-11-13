@@ -9955,4 +9955,10 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Дар равзанаи оғоз ба ҷои нишонаи Voidstrap нишонаи бозиеро, ки ба он пайваст мешавед, нишон диҳед.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Пинҳон кардани навори сарлавҳа дар экрани пурра</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Ҳангоме ки муш дар экрани пурра ба болои экран мерасад, навори сарлавҳаи Roblox поён намеояд.</value>
+  </data>
 </root>

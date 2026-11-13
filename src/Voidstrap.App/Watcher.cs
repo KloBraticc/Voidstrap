@@ -963,6 +963,8 @@ public partial class Watcher : IDisposable
         StartWindowManipulation();
         if (FullscreenModeActive)
             RunOnApplicationDispatcher(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Start);
+        if (Voidstrap.Integrations.Fullscreen.RobloxTitleBarGuard.Enabled)
+            RunOnApplicationDispatcher(Voidstrap.Integrations.Fullscreen.RobloxTitleBarGuard.Start);
         StartRuntimeOptimizer();
         DateTime sessionStartedUtc = ModCrashGuard.BeginSession();
         Task crashMonitor = MonitorModCrashAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
@@ -975,6 +977,7 @@ public partial class Watcher : IDisposable
         {
             return;
         }
+        Voidstrap.Integrations.Fullscreen.RobloxTitleBarGuard.Shutdown();
         if (AnotherRobloxRunning(_watcherData.ProcessId))
         {
             App.Logger.WriteLine("Watcher::Run", "Another Roblox took over this session, handing the watcher to it");

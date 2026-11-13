@@ -9956,4 +9956,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>લોન્ચ વિન્ડોમાં Voidstrap આઇકનને બદલે તમે જે ગેમમાં જોડાઈ રહ્યા છો તેનો આઇકન બતાવો.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>ફુલસ્ક્રીન ટાઇટલ બાર છુપાવો</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>ફુલસ્ક્રીનમાં તમારું માઉસ સ્ક્રીનની ટોચે પહોંચે ત્યારે Roblox ટાઇટલ બારને નીચે સરકતો અટકાવે છે.</value>
+  </data>
 </root>

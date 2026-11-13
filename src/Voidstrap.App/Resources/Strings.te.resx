@@ -9955,4 +9955,10 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>లాంచ్ విండోలో Voidstrap ఐకాన్‌కు బదులుగా మీరు చేరుతున్న గేమ్ ఐకాన్ చూపించండి.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>పూర్తి స్క్రీన్ టైటిల్ బార్‌ను దాచండి</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>పూర్తి స్క్రీన్‌లో మీ మౌస్ స్క్రీన్ పైభాగానికి చేరినప్పుడు Roblox టైటిల్ బార్ కిందికి జారకుండా ఆపుతుంది.</value>
+  </data>
 </root>

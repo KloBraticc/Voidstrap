@@ -9956,4 +9956,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>लाँच विंडोमध्ये Voidstrap आयकॉनऐवजी तुम्ही ज्या गेममध्ये सामील होत आहात त्याचा आयकॉन दाखवा.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>पूर्णस्क्रीन शीर्षक पट्टी लपवा</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>पूर्णस्क्रीनमध्ये माउस स्क्रीनच्या वर पोहोचल्यावर Roblox शीर्षक पट्टी खाली सरकणे थांबवते.</value>
+  </data>
 </root>

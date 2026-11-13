@@ -9955,4 +9955,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>በማስጀመሪያ መስኮቱ ውስጥ ከVoidstrap አዶ ይልቅ የሚቀላቀሉትን ጨዋታ አዶ አሳይ።</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>የሙሉ ማያ ርዕስ አሞሌን ደብቅ</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>በሙሉ ማያ ላይ መዳፊትዎ የማያውን ላይኛው ክፍል ሲደርስ የRoblox ርዕስ አሞሌ ወደ ታች እንዳይወርድ ያደርጋል።</value>
+  </data>
 </root>

@@ -9956,4 +9956,10 @@ Igralci: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>V oknu za zagon prikaži ikono igre, ki se ji pridružuješ, namesto ikone Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Skrij naslovno vrstico v celozaslonskem načinu</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Prepreči, da bi naslovna vrstica Roblox zdrsnila navzdol, ko miška v celozaslonskem načinu doseže vrh zaslona.</value>
+  </data>
 </root>

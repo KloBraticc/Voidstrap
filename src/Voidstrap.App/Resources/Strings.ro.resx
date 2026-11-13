@@ -10270,4 +10270,10 @@ Jucători: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Afișează în fereastra de lansare pictograma jocului la care te alături în locul pictogramei Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Ascunde bara de titlu pe ecran complet</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Împiedică bara de titlu Roblox să coboare când mouse-ul tău ajunge în partea de sus a ecranului pe ecran complet.</value>
+  </data>
 </root>

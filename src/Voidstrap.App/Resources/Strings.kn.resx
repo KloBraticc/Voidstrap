@@ -9956,4 +9956,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>ಲಾಂಚ್ ವಿಂಡೋದಲ್ಲಿ Voidstrap ಐಕಾನ್ ಬದಲಿಗೆ ನೀವು ಸೇರುತ್ತಿರುವ ಆಟದ ಐಕಾನ್ ತೋರಿಸಿ.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>ಪೂರ್ಣಪರದೆ ಶೀರ್ಷಿಕೆ ಪಟ್ಟಿಯನ್ನು ಮರೆಮಾಡಿ</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>ಪೂರ್ಣಪರದೆಯಲ್ಲಿ ನಿಮ್ಮ ಮೌಸ್ ಪರದೆಯ ಮೇಲ್ಭಾಗ ತಲುಪಿದಾಗ Roblox ಶೀರ್ಷಿಕೆ ಪಟ್ಟಿ ಕೆಳಗೆ ಜಾರುವುದನ್ನು ತಡೆಯುತ್ತದೆ.</value>
+  </data>
 </root>

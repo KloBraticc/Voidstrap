@@ -9956,4 +9956,10 @@ Lojtarët: {2}</value>
   <data name="Menu.Appearance.LaunchGameIcon.Description" xml:space="preserve">
     <value>Shfaq ikonën e lojës me të cilën po bashkohesh në dritaren e nisjes në vend të ikonës së Voidstrap.</value>
   </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBar" xml:space="preserve">
+    <value>Fshih shiritin e titullit në ekran të plotë</value>
+  </data>
+  <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
+    <value>Ndalon shiritin e titullit të Roblox të rrëshqasë poshtë kur miu yt arrin në krye të ekranit në ekran të plotë.</value>
+  </data>
 </root>

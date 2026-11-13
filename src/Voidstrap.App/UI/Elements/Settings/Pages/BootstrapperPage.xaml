@@ -81,6 +81,9 @@
           <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#roblox-window-windows" Margin="0,-8,0,0" Header="{resources:Loc Ui_Bootstrapper_FullscreenMode}" Description="{resources:Loc Ui_Bootstrapper_HowTheRobloxGameWindowFills}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" ItemsSource="{Binding FullscreenModes}" SelectedIndex="{Binding RobloxFullscreenMode, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_HideFullscreenTitleBar}" Description="{resources:Loc Ui_Bootstrapper_HideFullscreenTitleBarDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <ui:ToggleSwitch IsChecked="{Binding HideFullscreenTitleBar, Mode=TwoWay}" />
+          </controls:OptionControl>
           <ui:InfoBar Padding="8" Margin="0,4,0,4" IsClosable="False" IsOpen="True" Severity="Informational" Title="{resources:Loc Ui_Bootstrapper_NeedsXWaylandOnLinux}" Message="{resources:Loc Ui_Bootstrapper_TheTitleGameNameGameIcon}" Visibility="{Binding LinuxTitleNeedsXWayland, Converter={StaticResource BooleanToVisibilityConverter}}" />
           <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Menu_Appearance_CustomisationTitle_Title}" Description="{resources:Loc Ui_Bootstrapper_LeaveBlankToKeepTheTitle}">
             <ui:TextBox Width="220" PlaceholderText="{resources:Loc Enums_Theme_Voidstrap}" Text="{Binding RobloxTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
