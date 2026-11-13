@@ -12,7 +12,7 @@ internal static class RemoteData
 {
     public const string BaseUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap-Resources/main";
 
-    private const string ServerLocationsUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/Datacenters/ServerFetch.json";
+    private const string ServerLocationsUrl = "https://maneetbal.github.io/roblox-server-locations/api/v1/database.json";
 
     private const string LOG_IDENT = "RemoteData";
 
@@ -26,7 +26,7 @@ internal static class RemoteData
 
     public static string TranslationsPath => Path.Combine(Paths.Data, "Translations.json");
 
-    public static string ServerLocationsPath => Path.Combine(Paths.Data, "ServerLocations.json");
+    public static string ServerLocationsPath => Path.Combine(Paths.Data, "RobloxGeoApi.json");
 
     public static string? FileUrl(string relativePath)
     {
@@ -87,8 +87,9 @@ internal static class RemoteData
             await using (FileStream stream = File.OpenRead(temporary))
             {
                 using JsonDocument document = await JsonDocument.ParseAsync(stream, default, token).ConfigureAwait(false);
-                if (document.RootElement.ValueKind != JsonValueKind.Object)
-                    throw new InvalidDataException("The downloaded file is not a JSON object");
+                JsonValueKind expectedKind = path == ServerLocationsPath ? JsonValueKind.Array : JsonValueKind.Object;
+                if (document.RootElement.ValueKind != expectedKind)
+                    throw new InvalidDataException("The downloaded file has an unexpected JSON format");
             }
             File.Move(temporary, path, true);
             string? tag = response.Headers.ETag?.ToString();
