@@ -579,11 +579,11 @@
                           </Grid.ColumnDefinitions>
                           <ui:SymbolIcon x:Name="ItemIcon" Grid.Column="0" Width="18" Margin="0,0,14,0" HorizontalAlignment="Center" VerticalAlignment="Center" Filled="{TemplateBinding IconFilled}" FontSize="{TemplateBinding IconSize}" Foreground="{TemplateBinding IconForeground}" Symbol="{TemplateBinding Icon}" />
                           <Image x:Name="ItemImage" Grid.Column="0" Width="18" Margin="0,0,14,0" RenderOptions.BitmapScalingMode="HighQuality" Source="{TemplateBinding Image}" />
-                          <Image x:Name="ItemBadge" Grid.Column="0" Width="18" Margin="0,0,14,0" Visibility="Collapsed" IsHitTestVisible="False">
-                            <Image.Source>
-                              <DrawingImage> <DrawingImage.Drawing> <DrawingGroup> <GeometryDrawing Brush="Transparent" Geometry="M0,0 H18 V18 H0 Z" /> <GeometryDrawing Brush="{DynamicResource SolidBackgroundFillColorBaseBrush}" Geometry="M8.5,6.5 H18 V14 H12 V18 H8.5 Z" /> <GeometryDrawing Brush="{DynamicResource TextFillColorPrimaryBrush}" Geometry="M9.5,7.5 H11 V18 H9.5 Z M11,7.5 H17.5 L15.75,10.25 L17.5,13 H11 Z" /> </DrawingGroup> </DrawingImage.Drawing> </DrawingImage>
-                            </Image.Source>
-                          </Image>
+                          <Grid x:Name="ItemBadge" Grid.Column="0" Width="18" Height="18" Margin="0,0,14,0" VerticalAlignment="Center" Visibility="Collapsed" IsHitTestVisible="False">
+                            <Border Width="10" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-2,-2" CornerRadius="3" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
+                              <ui:SymbolIcon Symbol="Flag28" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Filled="{Binding Filled, ElementName=ItemIcon}" Foreground="{TemplateBinding IconForeground}" />
+                            </Border>
+                          </Grid>
                           <ContentPresenter x:Name="Label" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                         <ui:SymbolIcon x:Name="GroupChevron" Margin="0,0,12,0" HorizontalAlignment="Right" VerticalAlignment="Center" Symbol="ChevronDown20" Filled="True" FontSize="14" Opacity="0.7" Foreground="{TemplateBinding IconForeground}" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
