@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
+using Microsoft.Win32;
 using Voidstrap.Integrations.Overlays;
 using Interop = Voidstrap.Integrations.AntiAliasing.AntiAliasingInterop;
 
@@ -17,6 +18,8 @@ namespace Voidstrap.Integrations.Fullscreen
         private const uint WM_QUIT = 0x0012;
 
         private const uint LLMHF_INJECTED = 0x00000001;
+
+        private static readonly nint PerMonitorAwareV2 = -4;
 
         private static readonly TimeSpan CheckInterval = TimeSpan.FromMilliseconds(500);
 
@@ -61,6 +64,7 @@ namespace Voidstrap.Integrations.Fullscreen
                 return;
             _trackerLease = RobloxWindowTracker.Acquire();
             RobloxWindowTracker.Changed += OnTrackerChanged;
+            SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
             _timer = new DispatcherTimer(DispatcherPriority.Background) { Interval = CheckInterval };
             _timer.Tick += OnTick;
             _timer.Start();
@@ -87,6 +91,7 @@ namespace Voidstrap.Integrations.Fullscreen
                 _timer.Tick -= OnTick;
                 _timer = null;
                 RobloxWindowTracker.Changed -= OnTrackerChanged;
+                SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
             }
             _trackerLease?.Dispose();
             _trackerLease = null;
@@ -110,6 +115,8 @@ namespace Voidstrap.Integrations.Fullscreen
             Refresh();
         }
 
+        private static void OnDisplaySettingsChanged(object? sender, EventArgs e) => OnTrackerChanged(sender, default);
+
         private static void OnTrackerChanged(object? sender, RobloxWindowRect rect)
         {
             Dispatcher? dispatcher = Application.Current?.Dispatcher;
@@ -124,7 +131,19 @@ namespace Voidstrap.Integrations.Fullscreen
             if (_timer == null)
                 return;
             IntPtr hwnd = RobloxWindowTracker.Current.Hwnd;
-            if (hwnd == IntPtr.Zero || !IsWindow(hwnd) || IsIconic(hwnd) || !TryGetFullscreenMonitor(hwnd, out RECT monitor))
+            nint previous = SetThreadDpiAwarenessContext(PerMonitorAwareV2);
+            RECT monitor = default;
+            bool fullscreen;
+            try
+            {
+                fullscreen = hwnd != IntPtr.Zero && IsWindow(hwnd) && !IsIconic(hwnd) && TryGetFullscreenMonitor(hwnd, out monitor);
+            }
+            finally
+            {
+                if (previous != 0)
+                    _ = SetThreadDpiAwarenessContext(previous);
+            }
+            if (!fullscreen)
             {
                 Volatile.Write(ref _guardHwnd, 0);
                 return;
@@ -149,6 +168,7 @@ namespace Voidstrap.Integrations.Fullscreen
                     return;
                 _hookThreadId = GetCurrentThreadId();
             }
+            _ = SetThreadDpiAwarenessContext(PerMonitorAwareV2);
             _hook = SetWindowsHookExW(WH_MOUSE_LL, (nint)(delegate* unmanaged<int, nint, nint, nint>)&HookProc, GetModuleHandleW(null), 0);
             if (_hook == 0)
             {
@@ -256,6 +276,9 @@ namespace Voidstrap.Integrations.Fullscreen
 
         [LibraryImport("kernel32.dll")]
         private static partial uint GetCurrentThreadId();
+
+        [LibraryImport("user32.dll")]
+        private static partial nint SetThreadDpiAwarenessContext(nint context);
 
         [LibraryImport("kernel32.dll", EntryPoint = "GetModuleHandleW", StringMarshalling = StringMarshalling.Utf16)]
         private static partial nint GetModuleHandleW(string? moduleName);
