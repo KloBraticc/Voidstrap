@@ -783,7 +783,19 @@
             <ui:NavigationItem Cache="True" Name="AppearanceNavItem" Content="{resources:Loc Menu_Appearance_Title}" Icon="Color24" PageType="{x:Type pages:AppearancePage}" />
             <ui:NavigationSeparator />
             <ui:NavigationItem Content="{resources:Loc Ui_Nav_Configuration}" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="{resources:Loc Ui_Nav_FastFlagSettings}" Icon="Settings28" PageType="{x:Type pages:FastFlagsPage}" />
+            <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="{resources:Loc Ui_Nav_FastFlagSettings}" Icon="Settings28" PageType="{x:Type pages:FastFlagsPage}">
+              <ui:NavigationItem.Image>
+                <DrawingImage>
+                  <DrawingImage.Drawing>
+                    <DrawingGroup>
+                      <GeometryDrawing Brush="Transparent" Geometry="M0,0 H18 V18 H0 Z" />
+                      <GeometryDrawing Brush="{DynamicResource SolidBackgroundFillColorBaseBrush}" Geometry="M10.5,9.5 H18 V15.5 H13.5 V18 H10.5 Z" />
+                      <GeometryDrawing Brush="{DynamicResource TextFillColorPrimaryBrush}" Geometry="M11.5,10.5 H12.5 V18 H11.5 Z M12.5,10.5 H17.25 L16,12.5 L17.25,14.5 H12.5 Z" />
+                    </DrawingGroup>
+                  </DrawingImage.Drawing>
+                </DrawingImage>
+              </ui:NavigationItem.Image>
+            </ui:NavigationItem>
             <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="{resources:Loc Ui_Nav_FastFlagEditor}" Icon="Flag28" PageType="{x:Type pages:FastFlagEditorPage}" />
             <ui:NavigationItem Cache="True" Name="ModsNavItem" Content="{resources:Loc Menu_Mods_Title}" Icon="WrenchScrewdriver20" PageType="{x:Type pages:ModsPage}" />
           </ui:NavigationBase.Items>
