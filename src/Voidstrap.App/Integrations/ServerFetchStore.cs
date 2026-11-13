@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -232,6 +233,75 @@ public static class ServerFetchStore
         return num;
     }
 
+    private static ServerFetchData? ParseApiDatabase(string json)
+    {
+        using JsonDocument document = JsonDocument.Parse(json);
+        if (document.RootElement.ValueKind != JsonValueKind.Array)
+            return null;
+
+        ServerFetchData data = new ServerFetchData();
+        foreach (JsonElement item in document.RootElement.EnumerateArray())
+        {
+            if (item.ValueKind != JsonValueKind.Object)
+                continue;
+            string cidr = ApiText(item, "ip");
+            string city = ApiText(item, "city");
+            string region = ApiText(item, "region");
+            string country = ApiText(item, "country");
+            string[] coordinates = ApiText(item, "loc").Split(',');
+            if (
+                string.IsNullOrWhiteSpace(cidr)
+                || string.IsNullOrWhiteSpace(city)
+                || coordinates.Length != 2
+                || !double.TryParse(coordinates[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double lat)
+                || !double.TryParse(coordinates[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double lon)
+                || !double.IsFinite(lat)
+                || !double.IsFinite(lon)
+                || lat is < -90.0 or > 90.0
+                || lon is < -180.0 or > 180.0
+                || lat == 0.0 && lon == 0.0
+            )
+                continue;
+
+            data.Servers[cidr] = new LearnedServerEntry
+            {
+                Cidr = cidr,
+                City = city,
+                Region = region,
+                Country = country,
+                Lat = lat,
+                Lon = lon,
+                PingIp = ApiPingIp(cidr, ApiText(item, "org")),
+            };
+        }
+        return data.Servers.Count == 0 ? null : data;
+    }
+
+    private static string ApiText(JsonElement item, string name)
+    {
+        return item.TryGetProperty(name, out JsonElement value) && value.ValueKind == JsonValueKind.String
+            ? value.GetString() ?? ""
+            : "";
+    }
+
+    private static string ApiPingIp(string cidr, string org)
+    {
+        if (!string.Equals(org, "AS22697 Roblox", StringComparison.OrdinalIgnoreCase))
+            return "";
+        string[] parts = cidr.Split('/');
+        if (
+            parts.Length != 2
+            || parts[1] != "24"
+            || !IPAddress.TryParse(parts[0], out IPAddress? address)
+            || address.AddressFamily != AddressFamily.InterNetwork
+        )
+            return "";
+        byte[] bytes = address.GetAddressBytes();
+        if (bytes[3] != 0)
+            return "";
+        return $"{bytes[0]}.{bytes[1]}.{bytes[2]}.3";
+    }
+
     public static int ImportServerLocations()
     {
         string path = Voidstrap.Utility.RemoteData.ServerLocationsPath;
@@ -245,11 +315,21 @@ public static class ServerFetchStore
         {
             string json = Voidstrap.Utility.JsonFile.ReadText(path, MaxImportBytes);
             ServerFetchData? serverFetchData = null;
+            bool apiDatabase = false;
             try
             {
-                serverFetchData = JsonSerializer.Deserialize<ServerFetchData>(json);
+                serverFetchData = ParseApiDatabase(json);
+                apiDatabase = serverFetchData != null;
             }
             catch { }
+            if (!apiDatabase)
+            {
+                try
+                {
+                    serverFetchData = JsonSerializer.Deserialize<ServerFetchData>(json);
+                }
+                catch { }
+            }
             if (serverFetchData == null || serverFetchData.Servers == null || serverFetchData.Servers.Count == 0)
             {
                 Dictionary<string, LearnedServerEntry>? dictionary = null;
@@ -276,6 +356,18 @@ public static class ServerFetchStore
             List<SeedCidrEntry> list = new List<SeedCidrEntry>();
             lock (_lock)
             {
+                if (apiDatabase)
+                {
+                    HashSet<string> authoritativeCidrs = new HashSet<string>(serverFetchData.Servers.Keys, StringComparer.OrdinalIgnoreCase);
+                    List<string> staleCidrs = _data.Servers.Keys.Where(key => !authoritativeCidrs.Contains(key)).ToList();
+                    foreach (string staleCidr in staleCidrs)
+                        _data.Servers.Remove(staleCidr);
+                    if (staleCidrs.Count > 0)
+                    {
+                        updated += staleCidrs.Count;
+                        App.Logger.WriteLine(LOG_IDENT, $"Removed {staleCidrs.Count} datacenter ranges absent from the GeoAPI database");
+                    }
+                }
                 foreach (KeyValuePair<string, LearnedServerEntry> server in serverFetchData.Servers)
                 {
                     string text = (string.IsNullOrWhiteSpace(server.Value.Cidr) ? server.Key : server.Value.Cidr);
@@ -307,6 +399,7 @@ public static class ServerFetchStore
                             City = text2,
                             Region = text3,
                             Country = text4,
+                            PingIp = server.Value.PingIp,
                             Lat = lat,
                             Lon = lon,
                         }
@@ -402,7 +495,10 @@ public static class ServerFetchStore
             {
                 try
                 {
-                    RobloxDatacenterMap.AddCidrEntries(list);
+                    if (apiDatabase)
+                        RobloxDatacenterMap.ReplaceCidrEntries(list);
+                    else
+                        RobloxDatacenterMap.AddCidrEntries(list);
                 }
                 catch (Exception ex)
                 {
