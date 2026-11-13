@@ -162,7 +162,27 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
         }
     }
 
-    private List<ActivityData> LoadHistoryFromFile()
+    private async Task<List<ActivityData>> LoadHistoryFromFileAsync(CancellationToken token)
+    {
+        for (int attempt = 0; ; attempt++)
+        {
+            try
+            {
+                return await Task.Run(ReadHistoryFile, token);
+            }
+            catch (IOException) when (attempt < 4 && File.Exists(_historyFilePath))
+            {
+                await Task.Delay(150, token);
+            }
+            catch (IOException ex)
+            {
+                App.Logger.WriteException("ServerHistoryViewModel::LoadHistoryFromFile", ex);
+                return new();
+            }
+        }
+    }
+
+    private List<ActivityData> ReadHistoryFile()
     {
         try
         {
@@ -177,6 +197,10 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
                 .OrderByDescending(item => item.TimeJoined)
                 .Take(MaxLoadedHistoryEntries)
                 .ToList();
+        }
+        catch (IOException)
+        {
+            throw;
         }
         catch (Exception ex)
         {
@@ -197,7 +221,7 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
             Interlocked.Exchange(ref _reloadPending, 0);
             token.ThrowIfCancellationRequested();
             SetLoadingState();
-            List<ActivityData> stored = await Task.Run(LoadHistoryFromFile, token);
+            List<ActivityData> stored = await LoadHistoryFromFileAsync(token);
             List<ActivityData> history;
             lock (_activityWatcher.History)
                 history = _activityWatcher.History.ToList();
