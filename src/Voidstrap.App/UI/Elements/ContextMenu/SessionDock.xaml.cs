@@ -2091,7 +2091,7 @@ public partial class SessionDock : Window
                 FontFamily = FontFamily,
             };
             PortableOverlay.Prepare(_popout);
-            _popout.Background = Brushes.Black;
+            _popout.SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
             _popout.SourceInitialized += OnPopoutSourceInitialized;
             if (PortableOverlay.Active)
             {
