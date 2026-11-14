@@ -65,7 +65,17 @@
         </Border.OpacityMask>
       </Border>
       <Image Stretch="UniformToFill" Visibility="{Binding FeaturedPost.HasImage, Converter={StaticResource BoolToVis}}" util:DynamicRenderSystem.LazyImageSource="{Binding FeaturedPost.Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
-      <ui:SymbolIcon Symbol="News24" FontSize="190" Margin="0,0,40,-30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FFFFFF" Opacity="0.12" />
+      <ui:SymbolIcon Symbol="News24" FontSize="190" Margin="0,0,40,-30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FFFFFF" Opacity="0.12">
+        <ui:SymbolIcon.Style>
+          <Style TargetType="{x:Type ui:SymbolIcon}">
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding FeaturedPost.HasImage}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </ui:SymbolIcon.Style>
+      </ui:SymbolIcon>
       <Border>
         <Border.Background>
           <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.4">
