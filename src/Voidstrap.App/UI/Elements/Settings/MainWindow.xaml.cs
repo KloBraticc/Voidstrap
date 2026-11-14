@@ -388,6 +388,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["BootstrapperPage"] = ("Bootstrapper", "Customizing the launch window"),
         ["LibraryPage"] = ("Library", "Browsing the game library"),
         ["PrivateServersPage"] = ("Private Servers", "Managing private servers"),
+        ["NewsPage"] = ("News", "Reading what's new"),
         ["FriendsPage"] = ("Friends", "Chatting with friends"),
         ["AccountsPage"] = ("Account Manager", "Managing Roblox accounts"),
         ["AvatarPage"] = ("Avatar Customization", "Customizing an avatar"),
@@ -1136,7 +1137,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BreadcrumbPanel.Visibility = Visibility.Visible;
         }
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
-        bool hidesSidebar = content is VoidstrapModsPage or ModPacksPage or DownloadsPage or ExtensionPage or FriendsPage or AvatarPage or ThemeEditorPage;
+        bool hidesSidebar = content is VoidstrapModsPage or ModPacksPage or DownloadsPage or NewsPage or ExtensionPage or FriendsPage or AvatarPage or ThemeEditorPage;
         SetRootNavigationShown(!hasOwnSidebar && !hidesSidebar);
         SidebarToggle.Visibility = hidesSidebar ? Visibility.Collapsed : Visibility.Visible;
         SynchronizeSidebarSelection(content);
@@ -1313,6 +1314,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         TopNavLibrary.Tag = content is LibraryPage ? "Active" : null;
         TopNavServers.Tag = content is PrivateServersPage ? "Active" : null;
         TopNavManager.Tag = content is DownloadsPage ? "Active" : null;
+        TopNavNews.Tag = content is NewsPage ? "Active" : null;
         TopNavVoidstrapMods.Tag = content is VoidstrapModsPage ? "Active" : null;
     }
 
@@ -2904,6 +2906,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     }
 
     private DownloadsPage? _managerPage;
+
+    private NewsPage? _newsPage;
+
+    private void TopNavNews_Click(object sender, RoutedEventArgs e)
+    {
+        PagesMenuPopup.IsOpen = false;
+        _newsPage ??= new NewsPage();
+        if (!ReferenceEquals(RootFrame.Content, _newsPage))
+            RootNavigation.NavigateExternal(_newsPage);
+    }
 
     private VoidstrapModsPage? _voidstrapModsPage;
 

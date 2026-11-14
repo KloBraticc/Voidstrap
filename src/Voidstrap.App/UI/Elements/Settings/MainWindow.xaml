@@ -464,6 +464,9 @@
           <MenuItem x:Name="TopNavManager" Header="{resources:Loc Ui_Nav_Manager}" Style="{StaticResource TopBarMenuItemStyle}" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" Click="TopNavManager_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="ArrowDownload24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
+          <MenuItem x:Name="TopNavNews" Header="{resources:Loc Ui_Nav_News}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavNews_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="News24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
           <Rectangle Height="1" Margin="10,4" Fill="{StaticResource LauncherMenuBorderBrush}" />
           <MenuItem x:Name="TopNavSpotify" Header="Spotify" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavSpotify_Click">
             <MenuItem.Icon>
