@@ -410,7 +410,7 @@
     </Border>
     </Grid>
     <Popup x:Name="NowPlayingPopup" Grid.Row="1" PlacementTarget="{Binding ElementName=Pill}" Placement="Custom" AllowsTransparency="True" Focusable="False" StaysOpen="True">
-      <Grid x:Name="IslandStage" Width="460" Height="214">
+      <Grid x:Name="IslandStage" Width="480" Height="260">
         <Grid.Resources>
           <Storyboard x:Key="IslandMeter">
           <DoubleAnimation Storyboard.TargetName="MeterBar0" Storyboard.TargetProperty="ScaleY" From="0.25" To="0.5" Duration="0:0:0.41" AutoReverse="True" RepeatBehavior="Forever" />
