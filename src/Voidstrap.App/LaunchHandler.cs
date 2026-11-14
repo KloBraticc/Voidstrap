@@ -2417,8 +2417,10 @@ public static class LaunchHandler
                         try
                         {
                             process.Kill();
+                            App.Logger.WriteLine("LaunchHandler::CloseOtherInstances", $"Stopped pid {process.Id} because it did not close in time");
                         }
                         catch { }
+                        LogDiagnostics.ForgetSession(process.Id);
                     }
                 }
                 catch (Exception ex)

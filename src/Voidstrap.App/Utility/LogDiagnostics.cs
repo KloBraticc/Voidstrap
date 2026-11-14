@@ -127,6 +127,18 @@ internal static class LogDiagnostics
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
     }
 
+    public static void ForgetSession(int processId)
+    {
+        string? marker = _markerPath;
+        if (marker == null)
+            return;
+        try
+        {
+            File.Delete(Path.Combine(Path.GetDirectoryName(marker)!, processId.ToString(CultureInfo.InvariantCulture) + MarkerExtension));
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
+    }
+
     private static void ReportUncleanSessions(string directory)
     {
         foreach (string marker in Directory.EnumerateFiles(directory, "*" + MarkerExtension))
