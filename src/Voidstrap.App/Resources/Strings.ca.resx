@@ -9394,33 +9394,6 @@ Ho permets?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Plantilles</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Roblox per a Android a MuMu Player amb efectes RiShade</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Dispositiu Voidstrap a MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>S'està instal·lant MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>S'està preparant el dispositiu Voidstrap</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>S'està iniciant MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Inicia la sessió a Google Play a MuMu Player i instal·la Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>S'està iniciant Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>No s'ha pogut iniciar Roblox a MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>No s'ha pogut configurar MuMu Player</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>Captura de pantalla feta</value>
   </data>

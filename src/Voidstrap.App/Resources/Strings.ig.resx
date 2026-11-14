@@ -9395,33 +9395,6 @@ kwe ya?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Ntempletị</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Roblox Android na MuMu Player nwere mmetụta RiShade</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Ngwaọrụ Voidstrap na MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>A na-etinye MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>A na-akwado ngwaọrụ Voidstrap</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>A na-amalite MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Banye na Google Play na MuMu Player ma tinye Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>A na-amalite Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Enweghị ike ịmalite Roblox na MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>Enweghị ike ịhazi MuMu Player</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>E sere foto ihuenyo</value>
   </data>

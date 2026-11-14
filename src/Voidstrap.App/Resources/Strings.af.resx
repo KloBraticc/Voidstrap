@@ -9394,33 +9394,6 @@ Laat dit toe?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Sjablone</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Android Roblox in MuMu Player met RiShade effekte</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Voidstrap toestel in MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>MuMu Player word geïnstalleer</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Die Voidstrap toestel word voorberei</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>MuMu Player begin</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Meld aan by Google Play in MuMu Player en installeer Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Roblox word begin</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Roblox kon nie in MuMu Player begin word nie: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player kon nie opgestel word nie</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>Skermskoot geneem</value>
   </data>

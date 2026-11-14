@@ -116,7 +116,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
         get
         {
             string code = App.Settings.Prop.LaunchSelectedClient ?? "";
-            return !App.MuMuEnabled && string.Equals(code, App.MuMuLaunchClientCode, StringComparison.Ordinal) ? "" : code;
+            return string.Equals(code, "mumu-rishade", StringComparison.Ordinal) ? "" : code;
         }
         set
         {
@@ -140,8 +140,8 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
                 return SelectedLaunchModeIndex == 1 ? "Vinegar" : "Sober";
             }
             string code = SelectedLaunchClient;
-            if (IsMuMuSelection(code))
-                return "Roblox (RiShade)";
+            if (IsSteamVrSelection(code))
+                return Strings.Vr_Title;
             if (IsClassicSelection(code))
             {
                 var config = ClassicClients.IsClientInstalled(code) ? ClassicClients.GetInstalledConfig(code) : null;
@@ -258,11 +258,6 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
     private void LaunchSelectedTarget()
     {
         string code = SelectedLaunchClient;
-        if (IsMuMuSelection(code))
-        {
-            LaunchMuMu();
-            return;
-        }
         if (IsSteamVrSelection(code))
         {
             LaunchSteamVr();
@@ -300,46 +295,6 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
         if (!Voidstrap.Integrations.SteamVr.PrepareLaunch(install))
             App.Logger.WriteLine(LOG_IDENT, "Continuing without starting SteamVR first");
         LaunchHandler.LaunchRoblox(LaunchMode.Player);
-    }
-
-    private static bool IsMuMuSelection(string code)
-    {
-        return App.MuMuEnabled && Voidstrap.Utility.Platform.IsWindows && string.Equals(code, App.MuMuLaunchClientCode, StringComparison.Ordinal);
-    }
-
-    private static void LaunchMuMu()
-    {
-        const string LOG_IDENT = "MainWindowViewModel::LaunchMuMu";
-
-        IBootstrapperDialog dialog = App.Settings.Prop.BootstrapperStyle.GetNew();
-        dialog.CancelEnabled = true;
-        dialog.ProgressStyle = System.Windows.Forms.ProgressBarStyle.Marquee;
-        dialog.Message = Strings.MuMu_Status_Starting;
-        var launchCts = new CancellationTokenSource();
-        dialog.CancelCallback = delegate
-        {
-            try { launchCts.Cancel(); } catch (ObjectDisposedException) { }
-        };
-        Task.Run(async delegate
-        {
-            try
-            {
-                await Voidstrap.Integrations.MuMu.MuMuRoblox.LaunchAsync(null, message => dialog.Message = message, launchCts.Token).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException) when (launchCts.IsCancellationRequested)
-            {
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException(LOG_IDENT, ex);
-                Frontend.ShowMessageBox(string.Format(Strings.MuMu_Error_Failed, ex.Message), MessageBoxImage.Error);
-            }
-        }).ContinueWith(delegate
-        {
-            dialog.CloseBootstrapper();
-            launchCts.Dispose();
-        });
-        dialog.ShowBootstrapper();
     }
 
     private static bool IsClassicSelection(string code)

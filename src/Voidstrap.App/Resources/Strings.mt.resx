@@ -9395,33 +9395,6 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Mudelli</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Roblox Android f'MuMu Player b'effetti RiShade</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Apparat Voidstrap f'MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>Qed jiġi installat MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Qed jiġi ppreparat l'apparat Voidstrap</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>Qed jinbeda MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Idħol f'Google Play f'MuMu Player u installa Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Qed jinfetaħ Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Roblox ma setax jinbeda f'MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player ma setax jiġi kkonfigurat</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>Ittieħed screenshot</value>
   </data>

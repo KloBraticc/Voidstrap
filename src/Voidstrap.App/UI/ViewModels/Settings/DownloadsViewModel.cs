@@ -1626,19 +1626,6 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public ObservableCollection<VrItem> VrItems { get; } = new ObservableCollection<VrItem>();
 
-        public sealed class MuMuItem : NotifyPropertyChangedViewModel
-        {
-            public string Title => "Roblox (RiShade)";
-            public string Subtitle => Strings.Ui_Downloads_MuMu_Subtitle;
-            public ImageSource? IconImage { get; } = Voidstrap.Utility.AppImage.LoadSync("pack://application:,,,/Resources/RobloxPlayerIcon.png");
-            public string LocationText => Strings.Ui_Downloads_MuMu_Location;
-            public bool CanChangeLocation => false;
-            public ICommand? ChangeLocationCommand => null;
-            public bool IsInstalled => true;
-        }
-
-        public MuMuItem? MuMu { get; } = App.MuMuEnabled && Voidstrap.Utility.Platform.IsWindows ? new MuMuItem() : null;
-
         public ObservableCollection<DownloadItem> Items { get; } = new ObservableCollection<DownloadItem>();
 
         public string InstallRootText => Paths.Versions;

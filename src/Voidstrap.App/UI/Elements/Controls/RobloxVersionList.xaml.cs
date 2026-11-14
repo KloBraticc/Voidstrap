@@ -52,7 +52,6 @@ public partial class RobloxVersionList : UserControl
         {
             DownloadsViewModel.ClientItem => true,
             DownloadsViewModel.DownloadItem => true,
-            DownloadsViewModel.MuMuItem => true,
             DownloadsViewModel.VrItem vr => vr.IsInstalled,
             _ => false
         };

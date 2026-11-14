@@ -8136,16 +8136,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         List<object> entries = !Voidstrap.Utility.Platform.IsWindows
             ? [.. downloads.Items]
-            : [.. downloads.Items, .. (downloads.Vr != null ? new object[] { downloads.Vr } : []), .. (downloads.MuMu != null ? new object[] { downloads.MuMu } : []), .. downloads.ClientItems.Where(client => client.IsInstalled)];
+            : [.. downloads.Items, .. (downloads.Vr != null ? new object[] { downloads.Vr } : []), .. downloads.ClientItems.Where(client => client.IsInstalled)];
         if (LaunchTargetList.ItemsSource is not IList<object> shown || !shown.SequenceEqual(entries))
             LaunchTargetList.ItemsSource = entries;
         object? current = null;
         if (base.DataContext is MainWindowViewModel vm)
         {
             string code = vm.SelectedLaunchClient;
-            if (downloads.MuMu != null && string.Equals(code, App.MuMuLaunchClientCode, StringComparison.Ordinal))
-                current = downloads.MuMu;
-            else if (downloads.Vr != null && string.Equals(code, App.SteamVrLaunchClientCode, StringComparison.Ordinal))
+            if (downloads.Vr != null && string.Equals(code, App.SteamVrLaunchClientCode, StringComparison.Ordinal))
                 current = downloads.Vr;
             else if (!string.IsNullOrEmpty(code))
                 current = downloads.ClientItems.FirstOrDefault(client =>
@@ -8207,10 +8205,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 case DownloadsViewModel.ClientItem client:
                     mainWindowViewModel.SelectedLaunchClient = client.Code;
-                    break;
-                case DownloadsViewModel.MuMuItem:
-                    mainWindowViewModel.SelectedLaunchClient = App.MuMuLaunchClientCode;
-                    mainWindowViewModel.SelectedLaunchModeIndex = 0;
                     break;
                 case DownloadsViewModel.VrItem:
                     mainWindowViewModel.SelectedLaunchClient = App.SteamVrLaunchClientCode;

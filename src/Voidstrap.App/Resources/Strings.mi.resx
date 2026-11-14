@@ -9395,33 +9395,6 @@ Whakaaetia?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Ngā tauira</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Roblox Android i MuMu Player me ngā pānga RiShade</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Pūrere Voidstrap i MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>E tāuta ana i MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>E whakarite ana i te pūrere Voidstrap</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>E tīmata ana i MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Takiuru ki Google Play i MuMu Player ka tāuta i Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>E whakarewa ana i Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Kāore i taea te tīmata i Roblox i MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>Kāore i taea te whakarite i MuMu Player</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>Kua tangohia te whakaahua mata</value>
   </data>

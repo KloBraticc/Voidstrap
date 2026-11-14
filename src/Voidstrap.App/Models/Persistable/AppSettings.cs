@@ -541,7 +541,6 @@ namespace Voidstrap.Models.Persistable
         public string ClassicDownloadBaseUrl { get; set; } = "";
         public string ClassicSelectedMap { get; set; } = "";
         public string LaunchSelectedClient { get; set; } = "";
-        public int MuMuInstanceIndex { get; set; }
         public bool ClassicCommunityContent { get; set; } = false;
         public bool WebAvatarBorder { get; set; } = true;
         public bool WebBannedUserViewer { get; set; } = true;

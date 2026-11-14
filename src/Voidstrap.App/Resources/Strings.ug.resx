@@ -9394,33 +9394,6 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>قېلىپلار</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>RiShade ئۈنۈملىرى بىلەن MuMu Player دىكى Android Roblox</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>MuMu Player دىكى Voidstrap ئۈسكۈنىسى</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>MuMu Player قاچىلىنىۋاتىدۇ</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Voidstrap ئۈسكۈنىسى تەييارلىنىۋاتىدۇ</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>MuMu Player قوزغىلىۋاتىدۇ</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>MuMu Player دا Google Play غا كىرىپ Roblox نى قاچىلاڭ</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Roblox ئېچىلىۋاتىدۇ</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Roblox نى MuMu Player دا قوزغاتقىلى بولمىدى: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player نى تەڭشىگىلى بولمىدى</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>ئېكران رەسىمى ئېلىندى</value>
   </data>

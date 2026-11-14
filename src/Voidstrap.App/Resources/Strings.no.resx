@@ -9395,33 +9395,6 @@ Vil du tillate det?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Maler</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Android Roblox i MuMu Player med RiShade effekter</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Voidstrap enhet i MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>Installerer MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Klargjør Voidstrap enheten</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>Starter MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Logg på Google Play i MuMu Player og installer Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Starter Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Roblox kunne ikke startes i MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player kunne ikke konfigureres</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>Skjermbilde tatt</value>
   </data>

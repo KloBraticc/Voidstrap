@@ -489,9 +489,6 @@
 		<RiShadeDepthRoot>$(MSBuildThisFileDirectory)../../native/rishade-depth</RiShadeDepthRoot>
 		<RiShadeDepthBuild>$(RiShadeTargetDir)/depth</RiShadeDepthBuild>
 		<RiShadeDepthBridgeDll>$(RiShadeDepthBuild)/Release/rishade_depth_bridge.dll</RiShadeDepthBridgeDll>
-		<MuMuDepthRoot>$(MSBuildThisFileDirectory)../../native/mumu-depth</MuMuDepthRoot>
-		<MuMuDepthBuild>$(RiShadeTargetDir)/mumu-depth</MuMuDepthBuild>
-		<MuMuDepthAddon>$(MuMuDepthBuild)/Release/mumu_depth.addon64</MuMuDepthAddon>
 		<RiShadeCMake Condition="'$(RI_SHADE_CMAKE)' != ''">$(RI_SHADE_CMAKE)</RiShadeCMake>
 		<RiShadeCMake Condition="'$(RiShadeCMake)' == ''">cmake</RiShadeCMake>
 	</PropertyGroup>
@@ -499,14 +496,11 @@
 	<ItemGroup>
 		<RiShadeSources Include="$(RiShadeCrate)/**/*.rs;$(RiShadeCrate)/presets/**/*.ini" Exclude="$(RiShadeTargetDir)/**/*.rs" />
 		<RiShadeDepthSources Include="$(RiShadeDepthRoot)/CMakeLists.txt;$(RiShadeDepthRoot)/src/**/*.cpp;$(RiShadeDepthRoot)/src/**/*.h" />
-		<MuMuDepthSources Include="$(MuMuDepthRoot)/CMakeLists.txt;$(MuMuDepthRoot)/src/**/*.cpp;$(MuMuDepthRoot)/src/**/*.h;$(MuMuDepthRoot)/src/**/*.comp" />
 	</ItemGroup>
 
-	<Target Name="BuildRiShade" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And Exists('$(RiShadeCrate)/Cargo.toml')" Inputs="$(RiShadeCrate)/Cargo.toml;$(RiShadeCrate)/Cargo.lock;$(RiShadeCrate)/reshade-addon/Cargo.toml;@(RiShadeSources);@(RiShadeDepthSources);@(MuMuDepthSources)" Outputs="$(RiShadeCoreDll);$(RiShadeAddonDll);$(RiShadeDepthBridgeDll);$(MuMuDepthAddon)">
+	<Target Name="BuildRiShade" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And Exists('$(RiShadeCrate)/Cargo.toml')" Inputs="$(RiShadeCrate)/Cargo.toml;$(RiShadeCrate)/Cargo.lock;$(RiShadeCrate)/reshade-addon/Cargo.toml;@(RiShadeSources);@(RiShadeDepthSources)" Outputs="$(RiShadeCoreDll);$(RiShadeAddonDll);$(RiShadeDepthBridgeDll)">
 		<Exec Command="&quot;$(RiShadeCMake)&quot; -S &quot;$(RiShadeDepthRoot)&quot; -B &quot;$(RiShadeDepthBuild)&quot; -A x64" StandardOutputImportance="low" />
 		<Exec Command="&quot;$(RiShadeCMake)&quot; --build &quot;$(RiShadeDepthBuild)&quot; --config Release" StandardOutputImportance="low" />
-		<Exec Command="&quot;$(RiShadeCMake)&quot; -S &quot;$(MuMuDepthRoot)&quot; -B &quot;$(MuMuDepthBuild)&quot; -A x64" StandardOutputImportance="low" />
-		<Exec Command="&quot;$(RiShadeCMake)&quot; --build &quot;$(MuMuDepthBuild)&quot; --config Release" StandardOutputImportance="low" />
 		<Exec Command="&quot;$(VoidImageCargo)&quot; build --workspace --locked --quiet --release --lib --target x86_64-pc-windows-msvc --manifest-path &quot;$(RiShadeCrate)/Cargo.toml&quot; --target-dir &quot;$(RiShadeTargetDir)&quot;" />
 	</Target>
 
@@ -519,7 +513,6 @@
 			<None Include="$(RiShadeCoreDll)" Link="rishade_core.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 			<None Include="$(RiShadeAddonDll)" Link="rishade_reshade_addon.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 			<None Include="$(RiShadeDepthBridgeDll)" Link="rishade_depth_bridge.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-			<None Include="$(MuMuDepthAddon)" Link="mumu_depth.addon64" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Condition="Exists('$(MuMuDepthAddon)')" />
 		</ItemGroup>
 	</Target>
 

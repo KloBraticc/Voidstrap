@@ -9395,33 +9395,6 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>ਟੈਮਪਲੇਟ</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>RiShade ਪ੍ਰਭਾਵਾਂ ਨਾਲ MuMu Player ਵਿੱਚ Android Roblox</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>MuMu Player ਵਿੱਚ Voidstrap ਡਿਵਾਈਸ</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>MuMu Player ਇੰਸਟਾਲ ਹੋ ਰਿਹਾ ਹੈ</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Voidstrap ਡਿਵਾਈਸ ਤਿਆਰ ਹੋ ਰਿਹਾ ਹੈ</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>MuMu Player ਸ਼ੁਰੂ ਹੋ ਰਿਹਾ ਹੈ</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>MuMu Player ਵਿੱਚ Google Play ਵਿੱਚ ਸਾਈਨ ਇਨ ਕਰੋ ਅਤੇ Roblox ਇੰਸਟਾਲ ਕਰੋ</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Roblox ਸ਼ੁਰੂ ਹੋ ਰਿਹਾ ਹੈ</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>MuMu Player ਵਿੱਚ Roblox ਸ਼ੁਰੂ ਨਹੀਂ ਹੋ ਸਕਿਆ: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player ਸੈੱਟ ਅੱਪ ਨਹੀਂ ਹੋ ਸਕਿਆ</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>ਸਕ੍ਰੀਨਸ਼ਾਟ ਲਿਆ ਗਿਆ</value>
   </data>

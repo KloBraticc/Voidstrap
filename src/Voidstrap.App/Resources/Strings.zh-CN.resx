@@ -9746,33 +9746,6 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>下移板块</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>在 MuMu Player 中运行带 RiShade 效果的 Android 版 Roblox</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>MuMu Player 中的 Voidstrap 设备</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>正在安装 MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>正在准备 Voidstrap 设备</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>正在启动 MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>请您在 MuMu Player 中登录 Google Play 并安装 Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>正在启动 Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>无法在 MuMu Player 中启动 Roblox：{0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>无法设置 MuMu Player</value>
-  </data>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>高级 Matchmaker 选项</value>
   </data>

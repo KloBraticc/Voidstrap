@@ -9394,33 +9394,6 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Шаблоны</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Android Roblox у MuMu Player з эфектамі RiShade</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Прылада Voidstrap у MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>Усталёўка MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Падрыхтоўка прылады Voidstrap</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>Запуск MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Увайдзіце ў Google Play у MuMu Player і ўсталюйце Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Запуск Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Не ўдалося запусціць Roblox у MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>Не ўдалося наладзіць MuMu Player</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>Здымак экрана зроблены</value>
   </data>

@@ -9394,33 +9394,6 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>አብነቶች</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Android Roblox በ MuMu Player ውስጥ ከ RiShade ውጤቶች ጋር</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>በ MuMu Player ውስጥ ያለ የ Voidstrap መሣሪያ</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>MuMu Player በመጫን ላይ</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>የ Voidstrap መሣሪያን በማዘጋጀት ላይ</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>MuMu Player በመጀመር ላይ</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>በ MuMu Player ውስጥ ወደ Google Play ይግቡና Roblox ይጫኑ</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Roblox በመክፈት ላይ</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Roblox በ MuMu Player ውስጥ ሊጀመር አልቻለም: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player ሊዘጋጅ አልቻለም</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>ቅጽበታዊ ገጽ እይታ ተነስቷል</value>
   </data>

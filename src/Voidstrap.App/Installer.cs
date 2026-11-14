@@ -718,7 +718,6 @@ internal sealed partial class Installer
                 TrySafe("versions", () => Paths.DeleteOwnedDirectory(Paths.Versions, basePath));
                 TrySafe("Roblox clients", () => Paths.DeleteOwnedDirectory(Paths.RobloxClients, basePath));
             }
-            TrySafe("MuMuRoblox", Voidstrap.Integrations.MuMu.MuMuRoblox.Uninstall);
             TrySafe("protocol handlers", RestoreRobloxHandlers);
             TrySafe(
                 "registry Software\\Voidstrap",

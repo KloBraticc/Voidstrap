@@ -9394,33 +9394,6 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>வார்ப்புருக்கள்</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>RiShade விளைவுகளுடன் MuMu Player இல் Android Roblox</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>MuMu Player இல் உள்ள Voidstrap சாதனம்</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>MuMu Player நிறுவப்படுகிறது</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Voidstrap சாதனம் தயாராகிறது</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>MuMu Player தொடங்குகிறது</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>MuMu Player இல் Google Play இல் உள்நுழைந்து Roblox ஐ நிறுவவும்</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Roblox தொடங்குகிறது</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>MuMu Player இல் Roblox ஐத் தொடங்க முடியவில்லை: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player ஐ அமைக்க முடியவில்லை</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>திரைப்பிடிப்பு எடுக்கப்பட்டது</value>
   </data>

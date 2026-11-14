@@ -9395,33 +9395,6 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Загварууд</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>RiShade эффекттэй MuMu Player дээрх Android Roblox</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>MuMu Player дээрх Voidstrap төхөөрөмж</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>MuMu Player суулгаж байна</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Voidstrap төхөөрөмжийг бэлтгэж байна</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>MuMu Player эхлүүлж байна</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>MuMu Player дээр Google Play руу нэвтэрч Roblox суулгана уу</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Roblox эхлүүлж байна</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>MuMu Player дээр Roblox эхлүүлж чадсангүй: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player тохируулж чадсангүй</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>Дэлгэцийн зураг авлаа</value>
   </data>

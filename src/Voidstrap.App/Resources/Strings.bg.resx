@@ -9722,33 +9722,6 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Преместване на секцията надолу</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Android Roblox в MuMu Player с ефекти RiShade</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Устройство на Voidstrap в MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>Инсталиране на MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Подготовка на устройството на Voidstrap</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>Стартиране на MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Влезте в Google Play в MuMu Player и инсталирайте Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Стартиране на Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Roblox не можа да се стартира в MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player не можа да се настрои</value>
-  </data>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Разширени настройки на Matchmaker</value>
   </data>

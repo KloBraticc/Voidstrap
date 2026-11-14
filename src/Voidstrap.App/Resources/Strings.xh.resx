@@ -9394,33 +9394,6 @@ uyayivumela?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Iitempleyiti</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>I Roblox ye Android ku MuMu Player eneziphumo ze RiShade</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Isixhobo se Voidstrap ku MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>Kufakelwa i MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Kulungiselelwa isixhobo se Voidstrap</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>Kuqaliswa i MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Ngena ku Google Play ku MuMu Player uze ufake i Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Kuvulwa i Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>I Roblox ayikwazanga ukuqaliswa ku MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>I MuMu Player ayikwazanga ukusetwa</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>Umfanekiso wesikrini uthathiwe</value>
   </data>

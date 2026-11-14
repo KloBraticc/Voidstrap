@@ -9395,33 +9395,6 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>نمونې</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>د RiShade اغیزو سره په MuMu Player کې د Android Roblox</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>په MuMu Player کې د Voidstrap وسیله</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>MuMu Player نصب کېږي</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>د Voidstrap وسیله چمتو کېږي</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>MuMu Player پیلېږي</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>په MuMu Player کې Google Play ته ننوځئ او Roblox نصب کړئ</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Roblox پیلېږي</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Roblox په MuMu Player کې پیل نه شو: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player جوړ نه شو</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>سکرین شاټ واخیستل شو</value>
   </data>

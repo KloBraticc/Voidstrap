@@ -9722,33 +9722,6 @@ Engedélyezed?</value>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Szakasz mozgatása lefelé</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Androidos Roblox a MuMu Playerben RiShade effektekkel</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Voidstrap eszköz a MuMu Playerben</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>A MuMu Player telepítése</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>A Voidstrap eszköz előkészítése</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>A MuMu Player indítása</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Jelentkezz be a Google Playbe a MuMu Playerben, és telepítsd a Robloxot</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>A Roblox indítása</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>A Roblox nem indítható el a MuMu Playerben: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>A MuMu Player nem állítható be</value>
-  </data>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Speciális Matchmaker-beállítások</value>
   </data>

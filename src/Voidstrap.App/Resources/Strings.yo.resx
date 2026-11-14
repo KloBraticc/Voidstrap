@@ -9394,33 +9394,6 @@ Gba laaye?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Àwọn àpẹẹrẹ</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Roblox Android ninu MuMu Player pẹlu awọn ipa RiShade</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Ẹrọ Voidstrap ninu MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>A n fi MuMu Player sori ẹrọ</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>A n pese ẹrọ Voidstrap silẹ</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>A n bẹrẹ MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Wọle si Google Play ninu MuMu Player ki o si fi Roblox sori ẹrọ</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>A n ṣi Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>A ko le bẹrẹ Roblox ninu MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>A ko le ṣeto MuMu Player</value>
-  </data>
   <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
     <value>A ti ya aworan iboju</value>
   </data>

@@ -9737,33 +9737,6 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>セクションを下に移動</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>RiShade エフェクト付きの MuMu Player で動く Android 版 Roblox</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>MuMu Player 内の Voidstrap デバイス</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>MuMu Player をインストールしています</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Voidstrap デバイスを準備しています</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>MuMu Player を起動しています</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>MuMu Player で Google Play にログインし、Roblox をインストールしてください</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Roblox を起動しています</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>MuMu Player で Roblox を起動できませんでした: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player を設定できませんでした</value>
-  </data>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Matchmaker の詳細オプション</value>
   </data>

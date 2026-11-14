@@ -9722,33 +9722,6 @@ Tillåta?</value>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Flytta avsnittet nedåt</value>
   </data>
-  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
-    <value>Android Roblox i MuMu Player med RiShade effekter</value>
-  </data>
-  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
-    <value>Voidstrap enhet i MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Installing" xml:space="preserve">
-    <value>Installerar MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.Preparing" xml:space="preserve">
-    <value>Förbereder Voidstrap enheten</value>
-  </data>
-  <data name="MuMu.Status.Starting" xml:space="preserve">
-    <value>Startar MuMu Player</value>
-  </data>
-  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
-    <value>Logga in på Google Play i MuMu Player och installera Roblox</value>
-  </data>
-  <data name="MuMu.Status.Launching" xml:space="preserve">
-    <value>Startar Roblox</value>
-  </data>
-  <data name="MuMu.Error.Failed" xml:space="preserve">
-    <value>Roblox kunde inte startas i MuMu Player: {0}</value>
-  </data>
-  <data name="MuMu.Error.Setup" xml:space="preserve">
-    <value>MuMu Player kunde inte konfigureras</value>
-  </data>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Avancerade Matchmaker-alternativ</value>
   </data>
