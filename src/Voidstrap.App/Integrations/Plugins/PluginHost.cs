@@ -50,6 +50,12 @@ public static class PluginHost
 
     public static event Action? ModsChanged;
 
+    private static readonly Lazy<string> IconList = new(() =>
+        new JsonArray(
+            Enum.GetNames<Wpf.Ui.Common.SymbolRegular>().Where(name => name != "Empty").Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).Select(name => (JsonNode?)name).ToArray()
+        ).ToJsonString()
+    );
+
     public sealed record ModInfo(
         string Name,
         string Version,
@@ -863,6 +869,7 @@ public static class PluginHost
 			      version: host.version,
 			      platform: host.platform,
 			      texts: () => parse(host.appTextList()),
+			      icons: () => parse(host.appIconList()),
 			      setText: (target, text) => host.appTextSet(String(target), text === undefined || text === null ? '' : String(text)),
 			      clearText: target => Boolean(host.appTextClear(String(target))),
 			      background: () => parse(host.appBackgroundGet()),
@@ -1937,6 +1944,7 @@ public static class PluginHost
                     }
                 )
             );
+            host.Set("appIconList", Host("appIconList", _ => IconList.Value));
             host.Set(
                 "appTextSet",
                 Host(

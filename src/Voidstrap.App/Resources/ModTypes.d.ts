@@ -1,4 +1,4 @@
-declare module 'voidstrap' {
+﻿declare module 'voidstrap' {
   export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
 
   export type Surface = 'desktop';
@@ -339,6 +339,7 @@ declare module 'voidstrap' {
       readonly version: string;
       readonly platform: 'windows' | 'linux' | 'macos';
       texts(): Record<string, string>;
+      icons(): string[];
       setText(target: string, text: string): string;
       clearText(target: string): boolean;
       background(): Json;

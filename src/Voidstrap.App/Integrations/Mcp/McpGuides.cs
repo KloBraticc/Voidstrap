@@ -340,6 +340,7 @@ public static class McpGuides
 		  Settings holding paths, addresses, launch commands or channels cannot be read or changed by mods, and network paths are refused.
 		  Rules cannot change frames, images, or anything that loads a file or address.
 
+		  Icon names: $.app.icons() returns every Fluent symbol name Voidstrap ships, sorted, with no permission needed. Use it instead of hardcoding an icon list.
 		  Menu icons: the icon of $.modpages.add is a Fluent symbol name ('Games24'), a file inside the mod ('assets/icon.png', 2 MB at most), or a vector drawn in code ('path:M4 4h16v16H4z').
 		  Menu buttons: $.modpages.add({ id, title, icon, action: true }) runs code instead of opening a page. Handle it with on('ui.event', { id, plugin: 'your-mod-name' }, ...), event is 'menu'.
 
