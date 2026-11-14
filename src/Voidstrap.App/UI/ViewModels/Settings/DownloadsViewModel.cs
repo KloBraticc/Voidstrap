@@ -972,6 +972,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             public string VersionText { get; private set; } = "";
             public string LocationText { get; private set; } = "";
             public string PrimaryButtonText => UpdateAvailable ? "Update" : (IsInstalled ? "Reinstall" : "Install");
+
+            public Wpf.Ui.Common.SymbolRegular PrimaryIcon => Wpf.Ui.Common.SymbolRegular.ArrowDownload24;
             public bool ShowStudioAddons => false;
 
             private bool _isSelected;
@@ -1428,7 +1430,9 @@ namespace Voidstrap.UI.ViewModels.Settings
             public string VersionText => _install == null || _install.BuildId.Length == 0 ? "" : "Build " + _install.BuildId;
             public string SizeText => _install == null || _install.SizeOnDisk <= 0 ? "" : FormatBytes(_install.SizeOnDisk);
             public string LocationText => _install?.Folder ?? "SteamVR";
-            public string PrimaryButtonText => IsInstalled ? "Open in Steam" : "Install";
+            public string PrimaryButtonText => IsInstalled ? Strings.Common_Open : Strings.Common_Navigation_Install;
+
+            public Wpf.Ui.Common.SymbolRegular PrimaryIcon => IsInstalled ? Wpf.Ui.Common.SymbolRegular.Open24 : Wpf.Ui.Common.SymbolRegular.ArrowDownload24;
 
             public bool IsSelected
             {
@@ -1485,6 +1489,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 OnPropertyChanged(nameof(SizeText));
                 OnPropertyChanged(nameof(LocationText));
                 OnPropertyChanged(nameof(PrimaryButtonText));
+                OnPropertyChanged(nameof(PrimaryIcon));
             }
 
             private void Install()
