@@ -1,9 +1,12 @@
+using System.Collections.Concurrent;
 using Voidstrap.Integrations;
 
 namespace Voidstrap.Utility;
 
 internal static class RobloxGameExtras
 {
+    private static readonly ConcurrentDictionary<string, byte> MissingInvites = new(StringComparer.OrdinalIgnoreCase);
+
     public static async Task<List<GameSocialLink>> GetSocialLinksAsync(long universeId, CancellationToken token)
     {
         const string LOG_IDENT = "RobloxGameExtras::GetSocialLinksAsync";
@@ -44,13 +47,15 @@ internal static class RobloxGameExtras
     {
         const string LOG_IDENT = "RobloxGameExtras::ResolveLinkIconAsync";
         string? code = DiscordInviteCode(link.Url);
-        if (code == null)
+        if (code == null || MissingInvites.ContainsKey(code))
             return;
         try
         {
-            using HttpResponseMessage response = await App
-                .HttpClient.GetAsync("https://discord.com/api/v10/invites/" + Uri.EscapeDataString(code), token)
-                .ConfigureAwait(false);
+            using HttpRequestMessage request = new(HttpMethod.Get, "https://discord.com/api/v10/invites/" + Uri.EscapeDataString(code));
+            request.Options.Set(HttpClientLoggingHandler.NotFoundExpected, true);
+            using HttpResponseMessage response = await App.HttpClient.SendAsync(request, token).ConfigureAwait(false);
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                MissingInvites.TryAdd(code, 0);
             if (!response.IsSuccessStatusCode)
                 return;
             await using Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);

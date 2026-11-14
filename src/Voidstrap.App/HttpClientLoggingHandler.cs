@@ -8,6 +8,8 @@ internal sealed class HttpClientLoggingHandler : MessageProcessingHandler
     public HttpClientLoggingHandler(HttpMessageHandler innerHandler)
         : base(innerHandler) { }
 
+    internal static readonly HttpRequestOptionsKey<bool> NotFoundExpected = new("Voidstrap.NotFoundExpected");
+
     protected override HttpRequestMessage ProcessRequest(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         return request;
@@ -15,7 +17,14 @@ internal sealed class HttpClientLoggingHandler : MessageProcessingHandler
 
     protected override HttpResponseMessage ProcessResponse(HttpResponseMessage response, CancellationToken cancellationToken)
     {
-        if (!response.IsSuccessStatusCode)
+        if (
+            !response.IsSuccessStatusCode
+            && !(
+                response.StatusCode == System.Net.HttpStatusCode.NotFound
+                && response.RequestMessage?.Options.TryGetValue(NotFoundExpected, out bool expected) == true
+                && expected
+            )
+        )
             App.Logger.WriteLine(
                 "HttpClientLoggingHandler::ProcessResponse",
                 $"{(int)response.StatusCode} {response.ReasonPhrase} {SafeUri(response.RequestMessage?.RequestUri)}"
