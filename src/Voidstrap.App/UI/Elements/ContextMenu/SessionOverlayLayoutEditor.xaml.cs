@@ -277,9 +277,13 @@ public partial class SessionOverlayLayoutEditor : Window
 
     private void SetHiddenForScreenDrag(bool hidden)
     {
-        Window host = Window.GetWindow(StageCanvas) ?? this;
-        host.Opacity = hidden ? 0 : 1;
-        host.IsHitTestVisible = !hidden;
+        if (Window.GetWindow(StageCanvas) is SessionPanelWindow panel)
+        {
+            panel.SetScreenDragHidden(hidden);
+            return;
+        }
+        Opacity = hidden ? 0 : 1;
+        IsHitTestVisible = !hidden;
     }
 
     private void LoadAllControls()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -521,6 +521,18 @@ public sealed partial class SessionPanelWindow : Window
             reviewPanel.SetPanelVisible(visible);
         else if (_view is SessionOverlayLayoutEditor layoutEditor)
             layoutEditor.SetPanelVisible(visible);
+    }
+
+    internal void SetScreenDragHidden(bool hidden)
+    {
+        IsHitTestVisible = !hidden;
+        if (Voidstrap.Utility.Platform.IsWindows && _handle != IntPtr.Zero)
+        {
+            int value = hidden ? 1 : 0;
+            _ = DwmSetWindowAttribute(_handle, 13, ref value, sizeof(int));
+            return;
+        }
+        Opacity = hidden ? 0 : 1;
     }
 
     private void SetCloak(bool cloak)
