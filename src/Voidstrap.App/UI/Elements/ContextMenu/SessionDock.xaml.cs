@@ -377,6 +377,22 @@ public partial class SessionDock : Window
 
     private bool _nowPlayingPolling;
 
+    private readonly DispatcherTimer _islandClock = new(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1) };
+
+    private bool _islandExpanded;
+
+    private bool _islandMeterStarted;
+
+    private const double IslandExpandedWidth = 372;
+
+    private const double IslandExpandedHeight = 172;
+
+    private const double IslandCompactHeight = 37;
+
+    private const double IslandExpandedRadius = 38;
+
+    private static readonly Duration IslandMorph = new(TimeSpan.FromMilliseconds(560));
+
     public void RefreshNowPlaying()
     {
         if (_closed)
@@ -407,19 +423,194 @@ public partial class SessionDock : Window
         _nowPlayingPolling = false;
         if (_closed || !_nowPlayingTimer.IsEnabled)
             return;
-        _nowPlaying = track is { Playing: true } ? track : null;
+        _nowPlaying = track != null && (track.Playing || _islandExpanded) ? track : null;
         if (_nowPlaying != null)
         {
             if (_nowPlaying.Title != _nowPlayingTitle)
+            {
                 NowPlayingCover.Source = null;
+                NowPlayingCoverLarge.Source = null;
+            }
             _nowPlayingTitle = _nowPlaying.Title;
             NowPlayingTitle.Text = _nowPlaying.Title;
             NowPlayingArtist.Text = _nowPlaying.Artist;
             NowPlayingArtist.Visibility = _nowPlaying.Artist.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+            IslandTitle.Text = _nowPlaying.Title;
+            IslandArtist.Text = _nowPlaying.Artist;
             if (_nowPlaying.Cover != null)
-                NowPlayingCover.Source = LoadNowPlayingCover(_nowPlaying.Cover);
+            {
+                System.Windows.Media.Imaging.BitmapImage? cover = LoadNowPlayingCover(_nowPlaying.Cover);
+                NowPlayingCover.Source = cover;
+                NowPlayingCoverLarge.Source = cover;
+            }
         }
         UpdateNowPlayingVisibility();
+        if (_nowPlaying != null && NowPlayingPopup.IsOpen)
+        {
+            ApplyIslandPlayState();
+            if (!_islandExpanded)
+                AnimateIsland(NowPlayingIsland, WidthProperty, CompactIslandWidth());
+            UpdateIslandClock();
+        }
+    }
+
+    private double CompactIslandWidth()
+    {
+        IslandCompact.Measure(new Size(double.PositiveInfinity, IslandCompactHeight));
+        return Math.Ceiling(IslandCompact.DesiredSize.Width);
+    }
+
+    private static void AnimateIsland(UIElement element, DependencyProperty property, double to)
+    {
+        DoubleAnimation animation = new(to, IslandMorph) { EasingFunction = new Voidstrap.UI.SpringEase() };
+        element.BeginAnimation(property, animation, HandoffBehavior.SnapshotAndReplace);
+    }
+
+    private static void FadeIsland(UIElement element, double to, int milliseconds, int delay)
+    {
+        DoubleAnimation animation = new(to, new Duration(TimeSpan.FromMilliseconds(milliseconds)))
+        {
+            BeginTime = TimeSpan.FromMilliseconds(delay),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+        };
+        element.BeginAnimation(OpacityProperty, animation, HandoffBehavior.SnapshotAndReplace);
+    }
+
+    private void MorphIsland(bool expand)
+    {
+        if (_closed)
+            return;
+        _islandExpanded = expand;
+        double width = expand ? IslandExpandedWidth : CompactIslandWidth();
+        double height = expand ? IslandExpandedHeight : IslandCompactHeight;
+        double radius = expand ? IslandExpandedRadius : IslandCompactHeight / 2;
+        AnimateIsland(NowPlayingIsland, WidthProperty, width);
+        AnimateIsland(NowPlayingIsland, HeightProperty, height);
+        AnimateIsland(IslandShape, System.Windows.Shapes.Rectangle.RadiusXProperty, radius);
+        AnimateIsland(IslandShape, System.Windows.Shapes.Rectangle.RadiusYProperty, radius);
+        if (expand)
+        {
+            IslandExpanded.Visibility = Visibility.Visible;
+            IslandCompact.IsHitTestVisible = false;
+            FadeIsland(IslandCompact, 0, 120, 0);
+            FadeIsland(IslandExpanded, 1, 220, 120);
+            UpdateIslandClock();
+            _islandClock.Tick -= OnIslandClockTick;
+            _islandClock.Tick += OnIslandClockTick;
+            _islandClock.Start();
+        }
+        else
+        {
+            IslandCompact.IsHitTestVisible = true;
+            FadeIsland(IslandExpanded, 0, 120, 0);
+            FadeIsland(IslandCompact, 1, 200, 140);
+            _islandClock.Stop();
+            _islandClock.Tick -= OnIslandClockTick;
+            if (_nowPlaying is { Playing: false })
+                OnNowPlayingTick(null, EventArgs.Empty);
+        }
+    }
+
+    private void ResetIsland()
+    {
+        _islandExpanded = false;
+        _islandClock.Stop();
+        _islandClock.Tick -= OnIslandClockTick;
+        NowPlayingIsland.BeginAnimation(WidthProperty, null);
+        NowPlayingIsland.BeginAnimation(HeightProperty, null);
+        IslandShape.BeginAnimation(System.Windows.Shapes.Rectangle.RadiusXProperty, null);
+        IslandShape.BeginAnimation(System.Windows.Shapes.Rectangle.RadiusYProperty, null);
+        IslandCompact.BeginAnimation(OpacityProperty, null);
+        IslandExpanded.BeginAnimation(OpacityProperty, null);
+        NowPlayingIsland.Height = IslandCompactHeight;
+        IslandShape.RadiusX = IslandCompactHeight / 2;
+        IslandShape.RadiusY = IslandCompactHeight / 2;
+        IslandCompact.Opacity = 1;
+        IslandCompact.IsHitTestVisible = true;
+        IslandExpanded.Opacity = 0;
+        IslandExpanded.Visibility = Visibility.Collapsed;
+        if (_islandMeterStarted && IslandStage.Resources["IslandMeter"] is Storyboard meter)
+            meter.Stop(IslandStage);
+        _islandMeterStarted = false;
+    }
+
+    private void IslandAppear()
+    {
+        ResetIsland();
+        NowPlayingIsland.Width = CompactIslandWidth();
+        IslandScale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(0.6, 1, IslandMorph) { EasingFunction = new Voidstrap.UI.SpringEase() });
+        IslandScale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(0.6, 1, IslandMorph) { EasingFunction = new Voidstrap.UI.SpringEase() });
+        NowPlayingIsland.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(180))));
+        ApplyIslandPlayState();
+    }
+
+    private void ApplyIslandPlayState()
+    {
+        bool playing = _nowPlaying?.Playing == true;
+        IslandToggleGlyph.Text = playing ? "\uE769" : "\uE768";
+        if (IslandStage.Resources["IslandMeter"] is not Storyboard meter)
+            return;
+        if (!_islandMeterStarted)
+        {
+            meter.Begin(IslandStage, true);
+            _islandMeterStarted = true;
+        }
+        if (playing)
+            meter.Resume(IslandStage);
+        else
+            meter.Pause(IslandStage);
+    }
+
+    private void OnIslandClockTick(object? sender, EventArgs e) => UpdateIslandClock();
+
+    private void UpdateIslandClock()
+    {
+        if (_nowPlaying == null)
+            return;
+        TimeSpan duration = _nowPlaying.Duration;
+        TimeSpan position = _nowPlaying.PositionNow;
+        IslandElapsed.Text = FormatIslandTime(position);
+        IslandRemaining.Text = duration > TimeSpan.Zero ? FormatIslandTime(duration) : string.Empty;
+        IslandProgress.ScaleX = duration > TimeSpan.Zero ? Math.Clamp(position.TotalMilliseconds / duration.TotalMilliseconds, 0, 1) : 0;
+    }
+
+    private static string FormatIslandTime(TimeSpan time) =>
+        time.TotalHours >= 1
+            ? ((int)time.TotalHours).ToString(CultureInfo.InvariantCulture) + ":" + time.Minutes.ToString("00", CultureInfo.InvariantCulture) + ":" + time.Seconds.ToString("00", CultureInfo.InvariantCulture)
+            : ((int)time.TotalMinutes).ToString(CultureInfo.InvariantCulture) + ":" + time.Seconds.ToString("00", CultureInfo.InvariantCulture);
+
+    private void NowPlayingIsland_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (!_islandExpanded && _nowPlaying != null)
+            MorphIsland(true);
+    }
+
+    private void NowPlayingIsland_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (_islandExpanded)
+            MorphIsland(false);
+    }
+
+    private async void IslandTransport_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (_closed || sender is not FrameworkElement { Tag: string action })
+            return;
+        e.Handled = true;
+        Task work = action switch
+        {
+            "previous" => SpotifyDesktopSession.SkipAsync(false),
+            "next" => SpotifyDesktopSession.SkipAsync(true),
+            _ => SpotifyDesktopSession.ToggleAsync(),
+        };
+        if (action == "toggle" && _nowPlaying != null)
+        {
+            _nowPlaying = _nowPlaying with { Playing = !_nowPlaying.Playing, Position = _nowPlaying.PositionNow, SampledAt = DateTime.UtcNow };
+            ApplyIslandPlayState();
+        }
+        await work;
+        await Task.Delay(350);
+        if (!_closed)
+            OnNowPlayingTick(null, EventArgs.Empty);
     }
 
     private void OnDockMoved(object? sender, EventArgs e)
@@ -435,11 +626,16 @@ public partial class SessionDock : Window
         if (show)
         {
             NowPlayingPopup.CustomPopupPlacementCallback ??= PlaceNowPlaying;
+            bool appearing = !NowPlayingPopup.IsOpen;
             NowPlayingPopup.IsOpen = true;
+            if (appearing)
+                IslandAppear();
             NowPlayingPopup.HorizontalOffset = NowPlayingPopup.HorizontalOffset == 0 ? 0.01 : 0;
         }
         else
         {
+            if (NowPlayingPopup.IsOpen)
+                ResetIsland();
             NowPlayingPopup.IsOpen = false;
         }
     }
@@ -455,7 +651,7 @@ public partial class SessionDock : Window
             using System.IO.MemoryStream stream = new(bytes);
             image.BeginInit();
             image.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-            image.DecodePixelWidth = 44;
+            image.DecodePixelWidth = 120;
             image.StreamSource = stream;
             image.EndInit();
             image.Freeze();
@@ -1895,7 +2091,7 @@ public partial class SessionDock : Window
                 FontFamily = FontFamily,
             };
             PortableOverlay.Prepare(_popout);
-            _popout.SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
+            _popout.Background = Brushes.Black;
             _popout.SourceInitialized += OnPopoutSourceInitialized;
             if (PortableOverlay.Active)
             {
@@ -1919,6 +2115,7 @@ public partial class SessionDock : Window
             return;
         }
         PlacePopout();
+        AnimatePopoutIn(view as FrameworkElement);
         UpdateNowPlayingVisibility();
         RaiseAboveDimmer();
         if (profile)
@@ -1928,6 +2125,19 @@ public partial class SessionDock : Window
         }
         UpdateReadout();
         _ = PortableOverlay.RunAsync(this, LoadPopoutAsync);
+    }
+
+    private static void AnimatePopoutIn(FrameworkElement? view)
+    {
+        if (view == null)
+            return;
+        if (view.RenderTransform is not TranslateTransform slide)
+        {
+            slide = new TranslateTransform();
+            view.RenderTransform = slide;
+        }
+        slide.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(18, 0, IslandMorph) { EasingFunction = new Voidstrap.UI.SpringEase() });
+        view.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(200))));
     }
 
     // Fills the profile view: names, pictures, account details and counts, kept for a few minutes
@@ -2409,6 +2619,8 @@ public partial class SessionDock : Window
         LocationChanged -= OnDockMoved;
         _nowPlayingTimer.Stop();
         _nowPlayingTimer.Tick -= OnNowPlayingTick;
+        _islandClock.Stop();
+        _islandClock.Tick -= OnIslandClockTick;
         NowPlayingPopup.IsOpen = false;
         Voidstrap.Integrations.Clipper.ClipperService.StateChanged -= OnClipperStateChanged;
         RobloxWindowTracker.Changed -= OnTrackerChanged;
