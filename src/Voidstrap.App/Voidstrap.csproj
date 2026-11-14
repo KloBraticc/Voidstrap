@@ -108,6 +108,7 @@
 		<Resource Include="Resources\ImportSourceFishstrap.png" />
 		<Resource Include="Resources\RobloxFace.png" />
 		<Resource Include="Resources\RobloxPlayerIcon.png" />
+		<Resource Include="Resources\SteamVRIcon.png" />
 		<Resource Include="Resources\RobloxVngIcon.png" />
 		<Resource Include="Resources\RobloxStudioIcon.png" />
 		<Resource Include="Resources\SoberIcon.png" />

@@ -1580,36 +1580,11 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 try
                 {
-                    Typeface typeface = new Typeface(
-                        Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.FullIconFont,
-                        FontStyles.Normal,
-                        FontWeights.Normal,
-                        FontStretches.Normal
-                    );
-                    FormattedText text = new FormattedText(
-                        char.ConvertFromUtf32((int)Wpf.Ui.Common.SymbolRegular.HeadsetVr24),
-                        CultureInfo.InvariantCulture,
-                        FlowDirection.LeftToRight,
-                        typeface,
-                        64,
-                        Brushes.White,
-                        1.0
-                    );
-                    Geometry glyph = text.BuildGeometry(new Point(0, 0));
-                    Rect bounds = glyph.Bounds;
-                    if (bounds.IsEmpty)
-                        return null;
-                    glyph.Transform = new TranslateTransform(64 - (bounds.X + bounds.Width / 2), 64 - (bounds.Y + bounds.Height / 2));
-                    DrawingGroup group = new DrawingGroup();
-                    group.Children.Add(
-                        new GeometryDrawing(
-                            new SolidColorBrush(Color.FromRgb(0x33, 0x5F, 0xFF)),
-                            null,
-                            new RectangleGeometry(new Rect(0, 0, 128, 128), 24, 24)
-                        )
-                    );
-                    group.Children.Add(new GeometryDrawing(Brushes.White, null, glyph));
-                    DrawingImage image = new DrawingImage(group);
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.UriSource = new Uri("pack://application:,,,/Resources/SteamVRIcon.png");
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.EndInit();
                     image.Freeze();
                     return image;
                 }
