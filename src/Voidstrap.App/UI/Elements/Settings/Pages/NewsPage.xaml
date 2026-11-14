@@ -55,7 +55,15 @@
     </StackPanel>
 
     <Grid Height="260" util:RoundedClip.Radius="12" Visibility="{Binding HasFeatured, Converter={StaticResource BoolToVis}}" MouseEnter="Featured_MouseEnter" MouseLeave="Featured_MouseLeave">
-      <Border Background="{DynamicResource SystemAccentBrush}" />
+      <Border Background="#1C1D22" />
+      <Border Background="{DynamicResource SystemAccentBrush}" Opacity="0.35">
+        <Border.OpacityMask>
+          <RadialGradientBrush Center="1,1" GradientOrigin="1,1" RadiusX="0.9" RadiusY="1.4">
+            <GradientStop Offset="0" Color="#FF000000" />
+            <GradientStop Offset="1" Color="#00000000" />
+          </RadialGradientBrush>
+        </Border.OpacityMask>
+      </Border>
       <Image Stretch="UniformToFill" Visibility="{Binding FeaturedPost.HasImage, Converter={StaticResource BoolToVis}}" util:DynamicRenderSystem.LazyImageSource="{Binding FeaturedPost.Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
       <ui:SymbolIcon Symbol="News24" FontSize="190" Margin="0,0,40,-30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FFFFFF" Opacity="0.12" />
       <Border>
