@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -442,8 +442,15 @@ namespace Voidstrap.Utility
                 DateTime cutoff = DateTime.UtcNow - DiskCachePruneAge;
                 foreach (string file in Directory.EnumerateFiles(directory))
                 {
-                    if (File.GetLastWriteTimeUtc(file) < cutoff || file.EndsWith(".tmp", StringComparison.OrdinalIgnoreCase))
+                    if (File.GetLastWriteTimeUtc(file) >= cutoff)
+                        continue;
+                    try
+                    {
                         File.Delete(file);
+                    }
+                    catch (IOException)
+                    {
+                    }
                 }
             }
             catch (Exception ex)
