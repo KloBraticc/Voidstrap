@@ -9964,4 +9964,13 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Ilmub v2.1-s</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Eelmine lugu</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Järgmine lugu</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Esita või peata</value>
+  </data>
 </root>

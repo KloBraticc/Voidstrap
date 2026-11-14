@@ -10280,4 +10280,13 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Sắp có v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Bản nhạc trước</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Bài hát tiếp theo</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Chơi hoặc tạm dừng</value>
+  </data>
 </root>

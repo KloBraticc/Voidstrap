@@ -9965,4 +9965,13 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>មកដល់ v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>បទមុន។</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>បទបន្ទាប់</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>លេងឬផ្អាក</value>
+  </data>
 </root>

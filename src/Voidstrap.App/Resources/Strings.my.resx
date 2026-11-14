@@ -9964,4 +9964,13 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1 တွင် ရောက်ရှိလာမည်ဖြစ်သည်။</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>အရင်တစ်ပုဒ်</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>နောက်တစ်ပုဒ်</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>ကစားပါ သို့မဟုတ် ခေတ္တရပ်ပါ။</value>
+  </data>
 </root>

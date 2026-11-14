@@ -9964,4 +9964,13 @@ Ludantoj: {2}</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Venante en v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Antaŭa trako</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Sekva aŭtoveturejo</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Ludu aŭ paŭzu</value>
+  </data>
 </root>

@@ -9964,4 +9964,13 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>ወደ v2.1 መምጣት</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>የቀድሞ ትራክ</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>ቀጣይ ትራክ</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>ይጫወቱ ወይም ለአፍታ ያቁሙ</value>
+  </data>
 </root>

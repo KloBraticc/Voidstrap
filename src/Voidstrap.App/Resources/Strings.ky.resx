@@ -9965,4 +9965,13 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1 келе жатат</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Мурунку трек</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Кийинки трек</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Ойнотуу же тыныгуу</value>
+  </data>
 </root>

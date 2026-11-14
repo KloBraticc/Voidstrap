@@ -10279,4 +10279,13 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>در v2.1 آمده است</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>آهنگ قبلی</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>آهنگ بعدی</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>پخش یا مکث کنید</value>
+  </data>
 </root>

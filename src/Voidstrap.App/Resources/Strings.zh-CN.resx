@@ -10301,4 +10301,13 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1即将到来</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>上一曲目</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>下一曲目</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>播放或暂停</value>
+  </data>
 </root>

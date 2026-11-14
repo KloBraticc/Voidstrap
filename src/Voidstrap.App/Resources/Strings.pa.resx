@@ -9965,4 +9965,13 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1 ਵਿੱਚ ਆ ਰਿਹਾ ਹੈ</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>ਪਿਛਲਾ ਟਰੈਕ</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>ਅਗਲਾ ਟਰੈਕ</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>ਚਲਾਓ ਜਾਂ ਰੋਕੋ</value>
+  </data>
 </root>

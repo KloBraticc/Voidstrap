@@ -9964,4 +9964,13 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>קומט אין v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>פֿריִערדיקע שפּור</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>ווייַטער שפּור</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>שפּיל אָדער פּויזע</value>
+  </data>
 </root>

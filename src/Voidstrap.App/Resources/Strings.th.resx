@@ -10272,4 +10272,13 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>มาใน v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>เพลงก่อนหน้า</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>แทร็กถัดไป</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>เล่นหรือหยุดชั่วคราว</value>
+  </data>
 </root>

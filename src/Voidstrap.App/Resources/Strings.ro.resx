@@ -10279,4 +10279,13 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Vine în v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Piesa anterioară</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Următoarea piesă</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Redați sau întrerupeți</value>
+  </data>
 </root>

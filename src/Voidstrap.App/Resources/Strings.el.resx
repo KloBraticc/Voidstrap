@@ -9964,4 +9964,13 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Έρχεται στο v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Προηγούμενο κομμάτι</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Επόμενο κομμάτι</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Αναπαραγωγή ή παύση</value>
+  </data>
 </root>

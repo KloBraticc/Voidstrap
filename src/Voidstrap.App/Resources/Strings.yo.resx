@@ -9964,4 +9964,13 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Nbọ ni v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Ti tẹlẹ orin</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Itele orin</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Ṣiṣẹ tabi da duro</value>
+  </data>
 </root>

@@ -9965,4 +9965,13 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>מגיע ב-v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>רצועה קודמת</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>הרצועה הבאה</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>הפעל או השהה</value>
+  </data>
 </root>

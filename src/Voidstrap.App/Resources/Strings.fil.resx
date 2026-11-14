@@ -10275,4 +10275,13 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Darating sa v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Nakaraang track</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Susunod na track</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>I-play o i-pause</value>
+  </data>
 </root>

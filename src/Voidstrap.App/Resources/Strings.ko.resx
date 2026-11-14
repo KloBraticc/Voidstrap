@@ -10276,4 +10276,13 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1에 등장</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>이전 트랙</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>다음 트랙</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>재생 또는 일시중지</value>
+  </data>
 </root>

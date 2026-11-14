@@ -9964,4 +9964,13 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1 এ আসছে</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>পূর্ববর্তী ট্র্যাক</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>পরবর্তী ট্র্যাক</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>খেলা বা বিরতি</value>
+  </data>
 </root>

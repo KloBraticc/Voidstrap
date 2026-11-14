@@ -10278,5 +10278,8 @@ namespace Voidstrap.Resources {
         public static string Vr_VulkanWarning => ResourceManager.GetString("Vr.VulkanWarning", resourceCulture);
         public static string Vr_InstallWarning => ResourceManager.GetString("Vr.InstallWarning", resourceCulture);
         public static string Ui_Extensions_ComingSoon => ResourceManager.GetString("Ui.Extensions.ComingSoon", resourceCulture);
+        public static string Ui_Island_Previous => ResourceManager.GetString("Ui.Island.Previous", resourceCulture);
+        public static string Ui_Island_Next => ResourceManager.GetString("Ui.Island.Next", resourceCulture);
+        public static string Ui_Island_PlayPause => ResourceManager.GetString("Ui.Island.PlayPause", resourceCulture);
     }
 }

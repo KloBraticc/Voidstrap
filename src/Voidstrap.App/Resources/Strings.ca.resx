@@ -9964,4 +9964,13 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Arriba a v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Pista anterior</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Pista següent</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Reprodueix o posa en pausa</value>
+  </data>
 </root>

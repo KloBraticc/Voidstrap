@@ -9965,4 +9965,13 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1 එනවා</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>පෙර ධාවන පථය</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>ඊළඟ ධාවන පථය</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>සෙල්ලම් කරන්න හෝ විරාම කරන්න</value>
+  </data>
 </root>

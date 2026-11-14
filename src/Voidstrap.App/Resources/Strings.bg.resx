@@ -10277,4 +10277,13 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Предлага се в v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Предишна песен</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Следваща песен</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Възпроизвеждане или пауза</value>
+  </data>
 </root>

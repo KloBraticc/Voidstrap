@@ -10277,4 +10277,13 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1-ben érkezik</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Előző szám</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Következő szám</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Lejátszás vagy szünet</value>
+  </data>
 </root>

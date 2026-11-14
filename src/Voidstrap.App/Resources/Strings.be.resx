@@ -9964,4 +9964,13 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Выйдзе ў v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Папярэдні трэк</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Наступны трэк</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Прайграванне або прыпыненне</value>
+  </data>
 </root>

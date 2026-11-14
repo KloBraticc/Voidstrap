@@ -9964,4 +9964,13 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Inakuja v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Wimbo uliopita</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Wimbo unaofuata</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Cheza au sitisha</value>
+  </data>
 </root>

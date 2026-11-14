@@ -9965,4 +9965,13 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1 ನಲ್ಲಿ ಬರಲಿದೆ</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>ಹಿಂದಿನ ಟ್ರ್ಯಾಕ್</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>ಮುಂದಿನ ಟ್ರ್ಯಾಕ್</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>ಪ್ಲೇ ಮಾಡಿ ಅಥವಾ ವಿರಾಮಗೊಳಿಸಿ</value>
+  </data>
 </root>

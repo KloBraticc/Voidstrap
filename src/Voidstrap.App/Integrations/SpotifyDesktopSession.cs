@@ -7,7 +7,21 @@ using Windows.Storage.Streams;
 
 namespace Voidstrap.Integrations;
 
-public sealed record SpotifyDesktopTrack(string Title, string Artist, bool Playing, byte[]? Cover);
+public sealed record SpotifyDesktopTrack(string Title, string Artist, bool Playing, byte[]? Cover, TimeSpan Position = default, TimeSpan Duration = default)
+{
+    public DateTime SampledAt { get; init; } = DateTime.UtcNow;
+
+    public TimeSpan PositionNow
+    {
+        get
+        {
+            TimeSpan position = Playing ? Position + (DateTime.UtcNow - SampledAt) : Position;
+            if (position < TimeSpan.Zero)
+                return TimeSpan.Zero;
+            return Duration > TimeSpan.Zero && position > Duration ? Duration : position;
+        }
+    }
+}
 
 public static class SpotifyDesktopSession
 {
@@ -19,7 +33,7 @@ public static class SpotifyDesktopSession
     private const string MprisPlayer = "org.mpris.MediaPlayer2.Player";
 
     private const string MacScript =
-        "if application \"Spotify\" is running then tell application \"Spotify\" to return (player state as string) & linefeed & (name of current track) & linefeed & (artist of current track)";
+        "if application \"Spotify\" is running then tell application \"Spotify\" to return (player state as string) & linefeed & (name of current track) & linefeed & (artist of current track) & linefeed & (player position as string) & linefeed & (duration of current track as string)";
 
     public static async Task<SpotifyDesktopTrack?> ReadAsync(string? knownTitle)
     {
@@ -44,7 +58,9 @@ public static class SpotifyDesktopSession
         string[] lines = output.Split((char)10);
         if (lines.Length < 3 || string.IsNullOrWhiteSpace(lines[1]))
             return null;
-        return new SpotifyDesktopTrack(lines[1].Trim(), lines[2].Trim(), lines[0].Trim() == "playing", null);
+        TimeSpan position = lines.Length > 3 && double.TryParse(lines[3].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double seconds) ? TimeSpan.FromSeconds(seconds) : TimeSpan.Zero;
+        TimeSpan duration = lines.Length > 4 && double.TryParse(lines[4].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double millis) ? TimeSpan.FromMilliseconds(millis) : TimeSpan.Zero;
+        return new SpotifyDesktopTrack(lines[1].Trim(), lines[2].Trim(), lines[0].Trim() == "playing", null, position, duration);
     }
 
     private static async Task<SpotifyDesktopTrack?> ReadLinuxAsync()
@@ -68,7 +84,18 @@ public static class SpotifyDesktopSession
         if (data.TryGetProperty("xesam:artist", out System.Text.Json.JsonElement a) && a.TryGetProperty("data", out System.Text.Json.JsonElement av) && av.ValueKind == System.Text.Json.JsonValueKind.Array)
             artist = string.Join(", ", av.EnumerateArray().Select(static item => item.GetString()).Where(static item => !string.IsNullOrEmpty(item)));
         bool playing = statusDoc.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement s) && s.GetString() == "Playing";
-        return new SpotifyDesktopTrack(title, artist, playing, null);
+        TimeSpan duration = data.TryGetProperty("mpris:length", out System.Text.Json.JsonElement l) && l.TryGetProperty("data", out System.Text.Json.JsonElement lv) && lv.TryGetInt64(out long micros)
+            ? TimeSpan.FromTicks(micros * 10)
+            : TimeSpan.Zero;
+        TimeSpan position = TimeSpan.Zero;
+        string? positionJson = await RunAsync("busctl", "--user", "--json=short", "get-property", MprisName, MprisPath, MprisPlayer, "Position").ConfigureAwait(false);
+        if (!string.IsNullOrWhiteSpace(positionJson))
+        {
+            using System.Text.Json.JsonDocument positionDoc = System.Text.Json.JsonDocument.Parse(positionJson);
+            if (positionDoc.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement pv) && pv.TryGetInt64(out long at))
+                position = TimeSpan.FromTicks(at * 10);
+        }
+        return new SpotifyDesktopTrack(title, artist, playing, null, position, duration);
     }
 
     private static async Task<string?> RunAsync(string file, params string[] args)
@@ -100,7 +127,23 @@ public static class SpotifyDesktopSession
         return process.ExitCode == 0 ? output : null;
     }
 
-    public static Task ToggleAsync() => Task.CompletedTask;
+    public static Task ToggleAsync() => ControlAsync("PlayPause", "playpause");
+
+    public static Task SkipAsync(bool next) => next ? ControlAsync("Next", "next track") : ControlAsync("Previous", "previous track");
+
+    private static async Task ControlAsync(string mprisMethod, string macCommand)
+    {
+        try
+        {
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                await RunAsync("osascript", "-e", "if application \"Spotify\" is running then tell application \"Spotify\" to " + macCommand).ConfigureAwait(false);
+            else if (Voidstrap.Utility.Platform.IsLinux)
+                await RunAsync("busctl", "--user", "call", MprisName, MprisPath, MprisPlayer, mprisMethod).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException)
+        {
+        }
+    }
 #else
     private const string LOG_IDENT = "SpotifyDesktopSession";
 
@@ -126,7 +169,13 @@ public static class SpotifyDesktopSession
                 return null;
             bool playing = session.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
             byte[]? cover = media.Title == knownTitle ? null : await ReadCoverAsync(media).ConfigureAwait(false);
-            return new SpotifyDesktopTrack(media.Title, media.Artist, playing, cover);
+            GlobalSystemMediaTransportControlsSessionTimelineProperties timeline = session.GetTimelineProperties();
+            TimeSpan duration = timeline.EndTime - timeline.StartTime;
+            TimeSpan position = timeline.Position - timeline.StartTime;
+            DateTime sampled = timeline.LastUpdatedTime.UtcDateTime;
+            if (sampled.Year < 2000 || sampled > DateTime.UtcNow)
+                sampled = DateTime.UtcNow;
+            return new SpotifyDesktopTrack(media.Title, media.Artist, playing, cover, position, duration) { SampledAt = sampled };
         }
         catch (Exception ex)
         {
@@ -148,6 +197,20 @@ public static class SpotifyDesktopSession
         byte[] bytes = new byte[size];
         reader.ReadBytes(bytes);
         return bytes;
+    }
+
+    public static async Task SkipAsync(bool next)
+    {
+        try
+        {
+            GlobalSystemMediaTransportControlsSession? session = await FindAsync().ConfigureAwait(false);
+            if (session != null)
+                await (next ? session.TrySkipNextAsync() : session.TrySkipPreviousAsync()).AsTask().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The desktop player could not skip: " + ex.GetType().Name);
+        }
     }
 
     public static async Task ToggleAsync()

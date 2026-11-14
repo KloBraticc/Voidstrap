@@ -10280,4 +10280,13 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Datang di v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Lagu sebelumnya</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Lagu berikutnya</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Putar atau jeda</value>
+  </data>
 </root>

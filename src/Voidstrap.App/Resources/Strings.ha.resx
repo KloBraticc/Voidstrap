@@ -9965,4 +9965,13 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Yana zuwa v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Waƙar da ta gabata</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Waƙa ta gaba</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Kunna ko dakata</value>
+  </data>
 </root>

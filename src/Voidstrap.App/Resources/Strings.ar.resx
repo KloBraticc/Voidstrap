@@ -10276,4 +10276,13 @@
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>قادم في v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>المسار السابق</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>المسار التالي</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>تشغيل أو إيقاف مؤقت</value>
+  </data>
 </root>

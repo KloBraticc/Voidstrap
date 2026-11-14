@@ -9965,4 +9965,13 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Prichádza v v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Predchádzajúca skladba</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Ďalšia skladba</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Prehrať alebo pozastaviť</value>
+  </data>
 </root>

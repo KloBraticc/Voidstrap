@@ -9964,4 +9964,13 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1-da gəlir</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Əvvəlki trek</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Növbəti trek</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Oynayın və ya fasilə verin</value>
+  </data>
 </root>

@@ -9964,4 +9964,13 @@ Indi SteamVR guruň?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>v2.1-da gelýär</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Öňki ýol</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Indiki ýol</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Oýna ýa-da duruz</value>
+  </data>
 </root>

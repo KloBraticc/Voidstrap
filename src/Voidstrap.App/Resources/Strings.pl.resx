@@ -10278,4 +10278,13 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Już w v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Poprzedni utwór</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Następny utwór</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Odtwórz lub wstrzymaj</value>
+  </data>
 </root>

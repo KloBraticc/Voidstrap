@@ -9964,4 +9964,13 @@ Installeer SteamVR nou?</value>
   <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
     <value>Kom in v2.1</value>
   </data>
+  <data name="Ui.Island.Previous" xml:space="preserve">
+    <value>Vorige snit</value>
+  </data>
+  <data name="Ui.Island.Next" xml:space="preserve">
+    <value>Volgende snit</value>
+  </data>
+  <data name="Ui.Island.PlayPause" xml:space="preserve">
+    <value>Speel of breek</value>
+  </data>
 </root>
