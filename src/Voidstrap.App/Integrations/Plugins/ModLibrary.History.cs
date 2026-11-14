@@ -24,9 +24,11 @@ public static partial class ModLibrary
     [GeneratedRegex(@"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", RegexOptions.IgnoreCase)]
     private static partial Regex EmailPattern { get; }
 
+    private const int MaxPresenceIconName = 40;
+
     public static string IconImageUrl(Index index, LibraryMod mod) =>
-        mod.HasIcon && CommitPattern.IsMatch(index.Commit)
-            ? "https://images.weserv.nl/?url=" + Uri.EscapeDataString("raw.githubusercontent.com/" + Repository + "/" + index.Commit + "/mods/" + mod.Name + "/" + ModFiles.IconFile) + "&output=png&w=256&h=256&fit=contain"
+        mod.HasIcon && CommitPattern.IsMatch(index.Commit) && mod.Name.Length <= MaxPresenceIconName
+            ? "https://images.weserv.nl/?url=" + Uri.EscapeDataString("cdn.jsdelivr.net/gh/" + Repository + "@" + index.Commit[..12] + "/mods/" + mod.Name + "/" + ModFiles.IconFile) + "&output=png"
             : "";
 
     public static Task<History> GetHistoryAsync(Index index, LibraryMod mod)
