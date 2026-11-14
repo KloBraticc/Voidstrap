@@ -10298,4 +10298,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
 
 现在安装SteamVR吗？</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1即将到来</value>
+  </data>
 </root>

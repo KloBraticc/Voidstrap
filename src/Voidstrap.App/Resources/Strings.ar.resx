@@ -10273,4 +10273,7 @@
 
 هل تريد تثبيت SteamVR الآن؟</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>قادم في v2.1</value>
+  </data>
 </root>

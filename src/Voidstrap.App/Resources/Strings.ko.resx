@@ -10273,4 +10273,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
 
 지금 SteamVR를 설치하시겠습니까?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1에 등장</value>
+  </data>
 </root>

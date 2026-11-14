@@ -9961,4 +9961,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
 
 Εγκατάσταση του SteamVR τώρα;</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Έρχεται στο v2.1</value>
+  </data>
 </root>

@@ -9962,4 +9962,7 @@ Parteċipanti: {2}</value>
 
 Installa SteamVR issa?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Ġejjin fi v2.1</value>
+  </data>
 </root>

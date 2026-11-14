@@ -39,6 +39,8 @@ public partial class App : Application
 
     public const string SteamVrLaunchClientCode = "steamvr";
 
+    public static readonly bool RiShadeAvailable = false;
+
     public const int MacVirtualDisplayDefaultRefreshRate = 240;
 
     public const int MacVirtualDisplayMinRefreshRate = 30;

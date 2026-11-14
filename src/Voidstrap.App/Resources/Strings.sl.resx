@@ -9962,4 +9962,7 @@ Igralci: {2}</value>
 
 Namestite SteamVR zdaj?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Prihaja v v2.1</value>
+  </data>
 </root>

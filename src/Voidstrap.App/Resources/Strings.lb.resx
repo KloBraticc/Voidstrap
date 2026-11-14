@@ -9962,4 +9962,7 @@ Spiller: {2}</value>
 
 SteamVR elo installéieren?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Kommt an v2.1</value>
+  </data>
 </root>

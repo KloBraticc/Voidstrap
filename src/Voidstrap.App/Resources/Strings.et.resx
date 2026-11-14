@@ -9961,4 +9961,7 @@ Mängijad: {2}</value>
 
 Kas installida SteamVR kohe?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Ilmub v2.1-s</value>
+  </data>
 </root>

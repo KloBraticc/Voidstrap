@@ -9961,4 +9961,7 @@ Jokalariak: {2}</value>
 
 SteamVR instalatu orain?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1-n datorrena</value>
+  </data>
 </root>

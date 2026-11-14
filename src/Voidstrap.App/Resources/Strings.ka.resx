@@ -9962,4 +9962,7 @@ Uptime: {1}
 
 დააინსტალირე SteamVR ახლა?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>მოდის v2.1</value>
+  </data>
 </root>

@@ -24,7 +24,12 @@ namespace Voidstrap.Models.Persistable
         public BootstrapperIcon BootstrapperIcon { get; set; } = BootstrapperIcon.IconVoidstrap;
         public BootstrapperIcon StudioBootstrapperIcon { get; set; }
         public bool LaunchGameIcon { get; set; } = true;
-        public bool RiShadeEnabled { get; set; } = false;
+        private bool _riShadeEnabled;
+        public bool RiShadeEnabled
+        {
+            get => App.RiShadeAvailable && _riShadeEnabled;
+            set => _riShadeEnabled = App.RiShadeAvailable && value;
+        }
         public string RiShadeDepthModel { get; set; } = "RiDepth";
         public bool RiShadePerformancePromptShown { get; set; }
         public OverlayShortcut RiShadeOverlayShortcut { get; set; } = new() { Modifiers = 0, Key = 0x24 };

@@ -10277,4 +10277,7 @@ Pemain: {2}</value>
 
 Instal SteamVR sekarang?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Datang di v2.1</value>
+  </data>
 </root>

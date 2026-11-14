@@ -9962,4 +9962,7 @@ Voidstrap ја проверува секоја датотека во библи�
 
 Да се инсталира SteamVR сега?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Доаѓа во v2.1</value>
+  </data>
 </root>

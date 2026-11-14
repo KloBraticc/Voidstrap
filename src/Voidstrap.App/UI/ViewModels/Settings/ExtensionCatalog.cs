@@ -53,7 +53,8 @@ public static class ExtensionCatalog
                     "Shaders cost frames, so it is best used for screenshots and videos rather than competitive play.",
                 ],
                 Icon = RiShadeIcon,
-                CanOpen = true,
+                CanOpen = App.RiShadeAvailable,
+                ComingSoon = !App.RiShadeAvailable,
                 SearchText = "RiShade ReShade shaders presets visuals effects depth overlay Home",
             },
             new ExtensionEntry("community", () => vm.communitycontentenabler, value => vm.communitycontentenabler = value)

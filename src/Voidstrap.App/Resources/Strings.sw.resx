@@ -9961,4 +9961,7 @@ Wachezaji: {2}</value>
 
 Sakinisha SteamVR sasa?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Inakuja v2.1</value>
+  </data>
 </root>

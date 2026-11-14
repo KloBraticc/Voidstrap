@@ -9962,4 +9962,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
 
 Տեղադրե՞լ SteamVR-ը հիմա:</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Գալիս է v2.1-ում</value>
+  </data>
 </root>

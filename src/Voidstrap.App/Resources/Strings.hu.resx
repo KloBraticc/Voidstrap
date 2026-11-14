@@ -10274,4 +10274,7 @@ Játékosok: {2}</value>
 
 Telepítse most az SteamVR-t?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1-ben érkezik</value>
+  </data>
 </root>

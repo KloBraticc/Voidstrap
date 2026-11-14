@@ -9962,4 +9962,7 @@ Rannpháirtithe: {2}</value>
 
 Suiteáil SteamVR anois?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Ag teacht i v2.1</value>
+  </data>
 </root>

@@ -9962,4 +9962,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
 
 आता SteamVR इंस्टॉल करायचे?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1 मध्ये येत आहे</value>
+  </data>
 </root>

@@ -9961,4 +9961,7 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
 
 SteamVR-ро ҳозир насб кунед?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Дар v2.1 меояд</value>
+  </data>
 </root>

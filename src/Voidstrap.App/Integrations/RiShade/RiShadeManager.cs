@@ -584,6 +584,11 @@ namespace Voidstrap.Integrations.RiShade
 
         public static void SetEnabled(bool enabled)
         {
+            if (enabled && !App.RiShadeAvailable)
+            {
+                App.Logger.WriteLine(LogIdent, "RiShade is not available in this version, keeping it off");
+                return;
+            }
             Install();
             if (enabled && !App.Settings.Prop.RiShadeEnabled)
             {

@@ -10275,4 +10275,7 @@ Hráči: {2}</value>
 
 Nainstalovat SteamVR nyní?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Přichází v v2.1</value>
+  </data>
 </root>

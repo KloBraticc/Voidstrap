@@ -9962,4 +9962,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
 
 ھاڻي SteamVR انسٽال ڪريو؟</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1 ۾ اچي رهيو آهي</value>
+  </data>
 </root>

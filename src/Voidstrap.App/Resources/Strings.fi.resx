@@ -10275,4 +10275,7 @@ Pelaajat: {2}</value>
 
 Asennetaan SteamVR nyt?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Tulossa v2.1</value>
+  </data>
 </root>

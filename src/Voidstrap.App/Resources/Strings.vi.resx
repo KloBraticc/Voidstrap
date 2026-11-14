@@ -10277,4 +10277,7 @@ Người chơi: {2}</value>
 
 Cài đặt SteamVR ngay bây giờ?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Sắp có v2.1</value>
+  </data>
 </root>

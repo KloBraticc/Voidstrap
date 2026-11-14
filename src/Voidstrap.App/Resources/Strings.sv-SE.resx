@@ -10274,4 +10274,7 @@ Spelare: {2}</value>
 
 Installera SteamVR nu?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Kommer i v2.1</value>
+  </data>
 </root>

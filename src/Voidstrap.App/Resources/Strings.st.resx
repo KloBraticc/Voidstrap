@@ -9961,4 +9961,7 @@ Libapali: {2}</value>
 
 Kenya SteamVR hona joale?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>E tla ka v2.1</value>
+  </data>
 </root>

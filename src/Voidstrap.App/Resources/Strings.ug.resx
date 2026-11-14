@@ -9961,4 +9961,7 @@ Uptime: {1}
 
 ھازىر SteamVR نى قاچىلاڭ؟</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1 دا كېلىدۇ</value>
+  </data>
 </root>

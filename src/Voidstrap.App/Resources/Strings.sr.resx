@@ -9962,4 +9962,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
 
 Инсталирати SteamVR сада?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Стиже у v2.1</value>
+  </data>
 </root>

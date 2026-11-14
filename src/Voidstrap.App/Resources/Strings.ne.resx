@@ -9962,4 +9962,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
 
 अहिले SteamVR स्थापना गर्ने हो?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1 मा आउँदैछ</value>
+  </data>
 </root>

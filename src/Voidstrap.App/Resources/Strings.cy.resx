@@ -9961,4 +9961,7 @@ Chwaraewyr: {2}</value>
 
 Gosod SteamVR nawr?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Yn dod i mewn v2.1</value>
+  </data>
 </root>

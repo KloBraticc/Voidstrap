@@ -9962,4 +9962,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
 
 હવે SteamVR ઇન્સ્ટોલ કરીએ?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1 માં આવી રહ્યું છે</value>
+  </data>
 </root>

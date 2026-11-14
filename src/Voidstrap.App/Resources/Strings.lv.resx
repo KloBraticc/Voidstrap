@@ -9962,4 +9962,7 @@ Spēlētāji: {2}</value>
 
 Vai instalēt SteamVR tūlīt?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Ienāks v2.1</value>
+  </data>
 </root>

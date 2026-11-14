@@ -10276,4 +10276,7 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
 
 SteamVR را الان نصب کنم؟</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>در v2.1 آمده است</value>
+  </data>
 </root>

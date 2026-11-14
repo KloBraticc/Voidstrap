@@ -9962,4 +9962,7 @@ Spillere: {2}</value>
 
 Installer SteamVR nå?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Kommer i v2.1</value>
+  </data>
 </root>

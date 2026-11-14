@@ -40,6 +40,12 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 
     public string Summary { get; init; } = "";
 
+    public bool ComingSoon { get; init; }
+
+    public bool IsAvailable => !ComingSoon;
+
+    public string DisplaySummary => ComingSoon ? Strings.Ui_Extensions_ComingSoon : Summary;
+
     public IReadOnlyList<string> Description { get; init; } = Array.Empty<string>();
 
     public string Icon { get; init; } = "";

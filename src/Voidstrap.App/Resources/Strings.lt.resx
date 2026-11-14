@@ -10276,4 +10276,7 @@ Veikimo laikas: {1}
 
 Įdiegti SteamVR dabar?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Pasirodys v2.1</value>
+  </data>
 </root>

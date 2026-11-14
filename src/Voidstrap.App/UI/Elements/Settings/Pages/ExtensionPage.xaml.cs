@@ -252,13 +252,13 @@ public partial class ExtensionPage : UiPage
 
     private void ViewAsset_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement { Tag: ExtensionEntry asset })
+        if (sender is FrameworkElement { Tag: ExtensionEntry { ComingSoon: false } asset })
             ShowAssetDetail(asset);
     }
 
     private void ToggleAsset_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement { Tag: ExtensionEntry asset })
+        if (sender is FrameworkElement { Tag: ExtensionEntry { ComingSoon: false } asset })
             asset.IsEnabled = !asset.IsEnabled;
     }
 
@@ -628,7 +628,7 @@ public partial class ExtensionPage : UiPage
 
     private void ShowExtension(string id)
     {
-        ExtensionEntry? asset = _assets.Find(entry => entry.Id == id);
+        ExtensionEntry? asset = _assets.Find(entry => entry.Id == id && !entry.ComingSoon);
         if (asset != null)
             ShowAssetDetail(asset);
     }

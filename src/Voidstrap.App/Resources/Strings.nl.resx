@@ -10276,4 +10276,7 @@ Spelers: {2}</value>
 
 SteamVR nu installeren?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Komt in v2.1</value>
+  </data>
 </root>

@@ -10289,4 +10289,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
 
 今すぐ SteamVR をインストールしますか?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1に登場</value>
+  </data>
 </root>

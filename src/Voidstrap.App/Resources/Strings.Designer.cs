@@ -10277,5 +10277,6 @@ namespace Voidstrap.Resources {
         public static string Vr_NotInstalled => ResourceManager.GetString("Vr.NotInstalled", resourceCulture);
         public static string Vr_VulkanWarning => ResourceManager.GetString("Vr.VulkanWarning", resourceCulture);
         public static string Vr_InstallWarning => ResourceManager.GetString("Vr.InstallWarning", resourceCulture);
+        public static string Ui_Extensions_ComingSoon => ResourceManager.GetString("Ui.Extensions.ComingSoon", resourceCulture);
     }
 }

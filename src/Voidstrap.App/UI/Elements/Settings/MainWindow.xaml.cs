@@ -8678,6 +8678,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public void ShowRiShadeRelease()
     {
+        if (!App.RiShadeAvailable)
+            return;
         if (!Voidstrap.Utility.Platform.IsWindows)
             return;
         OpenSimpleModal(RiShadeReleasePanel, RiShadeReleasePanelScale);

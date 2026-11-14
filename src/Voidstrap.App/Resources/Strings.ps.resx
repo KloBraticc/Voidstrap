@@ -9962,4 +9962,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
 
 اوس SteamVR نصب کړئ؟</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>په v2.1 کې راځي</value>
+  </data>
 </root>

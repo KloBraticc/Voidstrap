@@ -10276,4 +10276,7 @@ Jucători: {2}</value>
 
 Instalați SteamVR acum?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Vine în v2.1</value>
+  </data>
 </root>

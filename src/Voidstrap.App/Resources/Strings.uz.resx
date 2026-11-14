@@ -9961,4 +9961,7 @@ O'yinchilar: {2}</value>
 
 SteamVR hozir o'rnatilsinmi?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1 da keladi</value>
+  </data>
 </root>

@@ -9961,4 +9961,7 @@ Oýunçylar: {2}</value>
 
 Indi SteamVR guruň?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1-da gelýär</value>
+  </data>
 </root>

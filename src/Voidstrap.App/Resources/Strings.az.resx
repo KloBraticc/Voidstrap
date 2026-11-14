@@ -9961,4 +9961,7 @@ Oyunçular: {2}</value>
 
 SteamVR indi quraşdırılsın?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1-da gəlir</value>
+  </data>
 </root>

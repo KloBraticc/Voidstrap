@@ -9961,4 +9961,7 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
 
 SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1 တွင် ရောက်ရှိလာမည်ဖြစ်သည်။</value>
+  </data>
 </root>

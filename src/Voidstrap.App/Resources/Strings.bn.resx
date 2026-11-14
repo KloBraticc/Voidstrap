@@ -9961,4 +9961,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
 
 এখন SteamVR ইনস্টল করবেন?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1 এ আসছে</value>
+  </data>
 </root>

@@ -9962,4 +9962,7 @@ Uptime: {1}
 
 Shigar SteamVR yanzu?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Yana zuwa v2.1</value>
+  </data>
 </root>

@@ -10274,4 +10274,7 @@ Voidstrap блокира програми, други папки и Вашия �
 
 Инсталиране на SteamVR сега?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Предлага се в v2.1</value>
+  </data>
 </root>

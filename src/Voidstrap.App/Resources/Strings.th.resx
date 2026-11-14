@@ -10269,4 +10269,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
 
 ติดตั้ง SteamVR ตอนนี้เลย?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>มาใน v2.1</value>
+  </data>
 </root>

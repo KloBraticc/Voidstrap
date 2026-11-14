@@ -9962,4 +9962,7 @@ Leikmenn: {2}</value>
 
 Settu upp SteamVR núna?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Kemur í v2.1</value>
+  </data>
 </root>

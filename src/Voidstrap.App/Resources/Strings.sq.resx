@@ -9962,4 +9962,7 @@ Lojtarët: {2}</value>
 
 Të instalohet SteamVR tani?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Vjen në v2.1</value>
+  </data>
 </root>

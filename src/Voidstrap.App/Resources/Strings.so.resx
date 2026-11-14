@@ -9962,4 +9962,7 @@ Ciyaartoyda: {2}</value>
 
 Hadda rakib SteamVR?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Soo gelaya v2.1</value>
+  </data>
 </root>

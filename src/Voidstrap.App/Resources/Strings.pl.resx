@@ -10275,4 +10275,7 @@ Gracze: {2}</value>
 
 Zainstalować SteamVR teraz?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Już w v2.1</value>
+  </data>
 </root>

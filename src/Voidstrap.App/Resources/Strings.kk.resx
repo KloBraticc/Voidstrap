@@ -9962,4 +9962,7 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
 
 SteamVR қазір орнатыңыз ба?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>v2.1-да келеді</value>
+  </data>
 </root>

@@ -9961,4 +9961,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
 
 Усталяваць SteamVR зараз?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Выйдзе ў v2.1</value>
+  </data>
 </root>

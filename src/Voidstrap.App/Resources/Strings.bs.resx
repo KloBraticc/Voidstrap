@@ -9961,4 +9961,7 @@ Igrači: {2}</value>
 
 Instalirati SteamVR sada?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Stiže u v2.1</value>
+  </data>
 </root>

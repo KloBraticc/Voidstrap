@@ -9961,4 +9961,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
 
 አሁን SteamVR ጫን?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>ወደ v2.1 መምጣት</value>
+  </data>
 </root>

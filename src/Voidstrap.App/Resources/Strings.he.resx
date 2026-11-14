@@ -9962,4 +9962,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
 
 להתקין את SteamVR עכשיו?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>מגיע ב-v2.1</value>
+  </data>
 </root>

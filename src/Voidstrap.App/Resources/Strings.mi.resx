@@ -9962,4 +9962,7 @@ Kaitākaro: {2}</value>
 
 Tāuta SteamVR ināianei?</value>
   </data>
+  <data name="Ui.Extensions.ComingSoon" xml:space="preserve">
+    <value>Ka tae mai ki te v2.1</value>
+  </data>
 </root>
