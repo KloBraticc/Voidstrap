@@ -47,5 +47,7 @@
   </array>
   <key>NSHighResolutionCapable</key>
   <true/>
+  <key>NSAppleEventsUsageDescription</key>
+  <string>Voidstrap shows the song playing in Spotify and lets you control it over Roblox.</string>
 </dict>
 </plist>

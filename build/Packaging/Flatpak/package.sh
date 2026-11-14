@@ -94,6 +94,7 @@ FINISH_ARGS=(
   "--talk-name=org.freedesktop.secrets"
   "--talk-name=org.freedesktop.Notifications"
   "--talk-name=org.kde.StatusNotifierWatcher"
+  "--talk-name=org.mpris.MediaPlayer2.*"
 )
 
 printf 'id: %s\nruntime: org.gnome.Platform\nruntime-version: "50"\nsdk: org.gnome.Sdk\ncommand: voidstrap\nseparate-locales: false\nfinish-args:\n' "$APPLICATION_ID" > "$MANIFEST"
