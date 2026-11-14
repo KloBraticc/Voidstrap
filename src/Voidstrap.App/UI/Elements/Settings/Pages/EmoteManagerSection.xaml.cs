@@ -12,23 +12,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class EmoteManagerSection : UserControl
 {
-    private sealed record Preset(string Center, string Lines, string Background, string Glow, string Marker);
-
-    private static readonly Preset[] Presets =
-    [
-        new Preset("#0B2A55", "#4FA8FF", "#06162E", "#2F8CFF", "#9FD0FF"),
-        new Preset("#3A0B12", "#FF5C6C", "#1F060A", "#FF3B5C", "#FFB3BC"),
-        new Preset("#22104A", "#B08CFF", "#120828", "#8A5CFF", "#D9C8FF"),
-        new Preset("#0B3A22", "#4FE08C", "#061F12", "#2FCB6F", "#B5F5D0"),
-        new Preset("#3A2A06", "#FFD23F", "#1F1603", "#FFB020", "#FFE9A8"),
-        new Preset("#3D0B33", "#FF7AD9", "#200619", "#FF4FC8", "#FFC4EE"),
-        new Preset("#1A1C21", "#FFFFFF", "#0C0D10", "#9AA0A6", "#FFFFFF"),
-        new Preset("#0B3540", "#4FE3FF", "#061B21", "#2EC5FF", "#B8F3FF"),
-    ];
-
     private readonly DispatcherTimer _previewTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500.0) };
-
-    private readonly List<Button> _presetButtons = [];
 
     private EmoteImagePlacement _centerImage = new EmoteImagePlacement();
 
@@ -57,20 +41,6 @@ public partial class EmoteManagerSection : UserControl
     public EmoteManagerSection()
     {
         InitializeComponent();
-        foreach (Preset preset in Presets)
-        {
-            Button button = new Button
-            {
-                Style = (Style)Resources["PresetButton"],
-                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(preset.Glow)),
-                BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(preset.Center)),
-                Tag = preset,
-                ToolTip = preset.Glow,
-            };
-            button.Click += Preset_Click;
-            _presetButtons.Add(button);
-            PresetPanel.Children.Add(button);
-        }
     }
 
     private EmoteImagePlacement Target => TargetPicker.SelectedIndex == 1 ? _backgroundImage : _centerImage;
@@ -273,32 +243,6 @@ public partial class EmoteManagerSection : UserControl
             return;
         }
         LoadTarget();
-    }
-
-    private void Preset_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is not Button { Tag: Preset preset })
-        {
-            return;
-        }
-        _loading = true;
-        try
-        {
-            CenterBox.Text = preset.Center;
-            CenterEndBox.Text = "";
-            LineBox.Text = preset.Lines;
-            BackgroundBox.Text = preset.Background;
-            GlowBox.Text = preset.Glow;
-            GlowEndBox.Text = "";
-            MarkerBox.Text = preset.Marker;
-            IconBox.Text = preset.Lines;
-        }
-        finally
-        {
-            _loading = false;
-        }
-        UpdateSwatches();
-        SchedulePreview();
     }
 
     private void Swatch_Click(object sender, MouseButtonEventArgs e)
@@ -596,10 +540,6 @@ public partial class EmoteManagerSection : UserControl
         RandomizeButton.IsEnabled = enabled;
         ChooseCenterButton.IsEnabled = enabled;
         ChooseBackgroundButton.IsEnabled = enabled;
-        foreach (Button button in _presetButtons)
-        {
-            button.IsEnabled = enabled;
-        }
     }
 
     private void Randomize_Click(object sender, RoutedEventArgs e)

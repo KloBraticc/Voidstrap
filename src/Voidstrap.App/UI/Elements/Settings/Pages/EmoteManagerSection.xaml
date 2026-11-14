@@ -5,19 +5,6 @@
              Loaded="Section_Loaded"
              Unloaded="Section_Unloaded">
   <UserControl.Resources>
-    <Style x:Key="PresetButton" TargetType="Button">
-      <Setter Property="Width" Value="30" />
-      <Setter Property="Height" Value="30" />
-      <Setter Property="Margin" Value="0,0,6,6" />
-      <Setter Property="Cursor" Value="Hand" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Border CornerRadius="15" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="4" />
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
     <Style x:Key="ColorSwatch" TargetType="Border">
       <Setter Property="CornerRadius" Value="6" />
       <Setter Property="BorderThickness" Value="1" />
@@ -58,9 +45,6 @@
             </Grid>
           </Border>
           <TextBlock x:Name="PreviewNote" Margin="2,8,0,0" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_EmoteMgr_DragHint}" />
-
-          <TextBlock Margin="0,16,0,0" FontSize="13" FontWeight="SemiBold" Text="{resources:Loc Common_Presets}" />
-          <WrapPanel x:Name="PresetPanel" Margin="0,8,0,0" />
 
           <TextBlock Margin="0,10,0,0" FontSize="13" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_Colors}" />
           <Grid Margin="0,12,0,0">

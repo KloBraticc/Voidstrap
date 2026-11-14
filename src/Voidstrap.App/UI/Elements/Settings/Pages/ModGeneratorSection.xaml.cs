@@ -17,23 +17,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class ModGeneratorSection : UserControl
 {
-    private static readonly string[] Presets =
-    [
-        "#FF3B5C",
-        "#FF8A3D",
-        "#FFD23F",
-        "#3DDC84",
-        "#2EC5FF",
-        "#4F7CFF",
-        "#9B5CFF",
-        "#FF5CD6",
-        "#FFFFFF",
-        "#9AA0A6",
-    ];
-
     private readonly DispatcherTimer _previewTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500.0) };
-
-    private readonly List<Button> _presetButtons = [];
 
     private const long MaxThemeBytes = 64 * 1024;
 
@@ -67,19 +51,6 @@ public partial class ModGeneratorSection : UserControl
     public ModGeneratorSection()
     {
         InitializeComponent();
-        foreach (string preset in Presets)
-        {
-            Button button = new Button
-            {
-                Style = (Style)Resources["SwatchButton"],
-                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(preset)),
-                Tag = preset,
-                ToolTip = preset,
-            };
-            button.Click += Preset_Click;
-            _presetButtons.Add(button);
-            PresetPanel.Children.Add(button);
-        }
     }
 
     private void Section_Loaded(object sender, RoutedEventArgs e)
@@ -249,14 +220,6 @@ public partial class ModGeneratorSection : UserControl
         if (!_loading)
         {
             SchedulePreview();
-        }
-    }
-
-    private void Preset_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is Button { Tag: string color })
-        {
-            SolidColorBox.Text = color;
         }
     }
 
