@@ -331,7 +331,7 @@ internal sealed partial class MusicIslandOverlayWindow : Window
         SpotifyDesktopTrack? track;
         try
         {
-            track = await SpotifyDesktopSession.ReadAsync(_trackTitle);
+            track = await SpotifyNowPlaying.ReadAsync(_trackTitle);
         }
         finally
         {
@@ -339,7 +339,7 @@ internal sealed partial class MusicIslandOverlayWindow : Window
         }
         if (_disposed)
             return;
-        bool dockShowing = Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.IsOpen == true;
+        bool dockShowing = Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.ShowsNowPlaying == true;
         if (track == null || dockShowing || (!track.Playing && !_interactive))
         {
             SetShown(false);
@@ -501,9 +501,9 @@ internal sealed partial class MusicIslandOverlayWindow : Window
         e.Handled = true;
         Task work = action switch
         {
-            "previous" => SpotifyDesktopSession.SkipAsync(false),
-            "next" => SpotifyDesktopSession.SkipAsync(true),
-            _ => SpotifyDesktopSession.ToggleAsync(),
+            "previous" => SpotifyNowPlaying.SkipAsync(false),
+            "next" => SpotifyNowPlaying.SkipAsync(true),
+            _ => SpotifyNowPlaying.ToggleAsync(),
         };
         if (action == "toggle")
             SetPlaying(!_playing);

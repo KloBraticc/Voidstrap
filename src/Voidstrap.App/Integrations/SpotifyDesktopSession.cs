@@ -154,7 +154,8 @@ public static class SpotifyDesktopSession
     private static async Task<GlobalSystemMediaTransportControlsSession?> FindAsync()
     {
         _manager ??= await GlobalSystemMediaTransportControlsSessionManager.RequestAsync().AsTask().ConfigureAwait(false);
-        return _manager.GetSessions().FirstOrDefault(static session => session.SourceAppUserModelId.Contains("Spotify", StringComparison.OrdinalIgnoreCase));
+        GlobalSystemMediaTransportControlsSession[] sessions = [.. _manager.GetSessions().Where(static session => session.SourceAppUserModelId.Contains("Spotify", StringComparison.OrdinalIgnoreCase))];
+        return sessions.FirstOrDefault(static session => session.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing) ?? sessions.FirstOrDefault();
     }
 
     public static async Task<SpotifyDesktopTrack?> ReadAsync(string? knownTitle)

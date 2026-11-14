@@ -248,6 +248,8 @@ public partial class SessionDock : Window
 
     public bool IsOpen => _opened && !_closed;
 
+    public bool ShowsNowPlaying => IsOpen && NowPlayingPopup.IsOpen;
+
     // Set as soon as closing starts, showing or hiding a closing window throws
     private void OnClosing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
@@ -419,7 +421,7 @@ public partial class SessionDock : Window
         if (_nowPlayingPolling || _closed)
             return;
         _nowPlayingPolling = true;
-        SpotifyDesktopTrack? track = await SpotifyDesktopSession.ReadAsync(_nowPlayingTitle);
+        SpotifyDesktopTrack? track = await SpotifyNowPlaying.ReadAsync(_nowPlayingTitle);
         _nowPlayingPolling = false;
         if (_closed || !_nowPlayingTimer.IsEnabled)
             return;
@@ -604,9 +606,9 @@ public partial class SessionDock : Window
         e.Handled = true;
         Task work = action switch
         {
-            "previous" => SpotifyDesktopSession.SkipAsync(false),
-            "next" => SpotifyDesktopSession.SkipAsync(true),
-            _ => SpotifyDesktopSession.ToggleAsync(),
+            "previous" => SpotifyNowPlaying.SkipAsync(false),
+            "next" => SpotifyNowPlaying.SkipAsync(true),
+            _ => SpotifyNowPlaying.ToggleAsync(),
         };
         if (action == "toggle" && _nowPlaying != null)
         {
