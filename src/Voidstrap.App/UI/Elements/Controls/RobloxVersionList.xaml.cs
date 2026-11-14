@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using Voidstrap.UI.ViewModels.Settings;
 
 namespace Voidstrap.UI.Elements.Controls;
@@ -79,6 +80,47 @@ public partial class RobloxVersionList : UserControl
         if (item == null || !IsSelectable(item))
             return;
         ItemChosen?.Invoke(this, item);
+    }
+
+    private static readonly IEasingFunction HoverEaseOut = new CubicEase { EasingMode = EasingMode.EaseOut };
+
+    private static readonly IEasingFunction HoverEaseIn = new CubicEase { EasingMode = EasingMode.EaseIn };
+
+    private void VersionItem_MouseEnter(object sender, MouseEventArgs e)
+    {
+        if (sender is ListBoxItem container && IsSelectable(container.DataContext))
+            AnimateHover(container, true);
+    }
+
+    private void VersionItem_MouseLeave(object sender, MouseEventArgs e)
+    {
+        if (sender is ListBoxItem container)
+            AnimateHover(container, false);
+    }
+
+    private void VersionList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (IsVisible)
+            return;
+        foreach (object item in VersionsListBox.Items)
+            if (VersionsListBox.ItemContainerGenerator.ContainerFromItem(item) is ListBoxItem container)
+                AnimateHover(container, false);
+    }
+
+    private static void AnimateHover(ListBoxItem container, bool hovered)
+    {
+        if (container.Template?.FindName("PlayButton", container) is not UIElement play
+            || container.Template.FindName("PlayShift", container) is not TranslateTransform shift
+            || container.Template.FindName("CardScale", container) is not ScaleTransform scale)
+            return;
+        Duration duration = new(TimeSpan.FromMilliseconds(hovered ? 220 : 160));
+        IEasingFunction ease = hovered ? HoverEaseOut : HoverEaseIn;
+        double grow = hovered ? 1.012 : 1.0;
+        play.IsHitTestVisible = hovered;
+        play.BeginAnimation(OpacityProperty, new DoubleAnimation(hovered ? 1 : 0, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
+        shift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(hovered ? 0 : 10, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
+        scale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(grow, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
+        scale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(grow, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
     }
 
     private void PlayButton_Click(object sender, RoutedEventArgs e)
