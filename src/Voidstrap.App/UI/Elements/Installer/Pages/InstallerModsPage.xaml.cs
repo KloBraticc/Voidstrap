@@ -17,7 +17,7 @@ public partial class InstallerModsPage : UiPage
 
     private void UiPage_Loaded(object sender, RoutedEventArgs e)
     {
-        if (Window.GetWindow(this) is MainWindow mainWindow)
+        if (Window.GetWindow(this) is MainWindow mainWindow && mainWindow.IsCurrentPage(this))
         {
             mainWindow.SetNextButtonText(Strings.Common_Navigation_Next);
             mainWindow.NextPageCallback = NextPageCallback;

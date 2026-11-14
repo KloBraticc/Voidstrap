@@ -30,7 +30,7 @@ public partial class InstallPage : UiPage
 
     private void UiPage_Loaded(object sender, RoutedEventArgs e)
     {
-        if (Window.GetWindow((DependencyObject)(object)this) is MainWindow mainWindow)
+        if (Window.GetWindow((DependencyObject)(object)this) is MainWindow mainWindow && mainWindow.IsCurrentPage(this))
         {
             mainWindow.SetNextButtonText(Strings.Common_Navigation_Install);
             mainWindow.NextPageAsyncCallback = NextPageCallbackAsync;

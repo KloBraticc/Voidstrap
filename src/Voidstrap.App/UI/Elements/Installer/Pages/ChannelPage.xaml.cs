@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using Voidstrap.UI.ViewModels.Installer;
 using Wpf.Ui.Controls;
 
@@ -16,7 +16,7 @@ public partial class ChannelPage : UiPage
 
     private void UiPage_Loaded(object sender, RoutedEventArgs e)
     {
-        if (Window.GetWindow(this) is MainWindow mainWindow)
+        if (Window.GetWindow(this) is MainWindow mainWindow && mainWindow.IsCurrentPage(this))
         {
             mainWindow.SetNextButtonText(Voidstrap.Resources.Strings.Common_Navigation_Next);
             mainWindow.NextPageCallback = NextPageCallback;

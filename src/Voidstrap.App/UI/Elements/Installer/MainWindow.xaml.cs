@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -207,6 +207,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         _viewModel.SetButtonEnabled(type, state);
     }
+
+    public bool IsCurrentPage(object page) => page.GetType() == _currentPage;
 
     public Frame GetFrame()
     {
