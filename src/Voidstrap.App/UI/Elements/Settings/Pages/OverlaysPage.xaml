@@ -31,7 +31,7 @@
         </controls:OptionControl>
       </ui:CardExpander>
 
-      <ui:CardExpander Margin="0,0,0,8" IsExpanded="{Binding MusicIslandOverlay, Mode=OneWay}">
+      <ui:CardExpander Margin="0,8,0,0" IsExpanded="{Binding MusicIslandOverlay, Mode=OneWay}">
         <HeaderedContentControl.Header>
           <Grid>
             <Grid.ColumnDefinitions>
