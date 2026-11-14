@@ -32,6 +32,15 @@ internal sealed partial class MusicIslandOverlayWindow : Window
 
     private static MusicIslandOverlayWindow? _active;
 
+    private static bool _screenDragHidden;
+
+    internal static void SetScreenDragHidden(bool hidden)
+    {
+        _screenDragHidden = hidden;
+        if (_active is { _disposed: false } active)
+            active.Opacity = hidden ? 0 : 1;
+    }
+
     private readonly bool _interactive;
 
     private readonly RobloxOverlayAnchor _anchor;
@@ -141,6 +150,7 @@ internal sealed partial class MusicIslandOverlayWindow : Window
         ShowActivated = false;
         Focusable = false;
         Width = WindowWidth;
+        Opacity = _screenDragHidden ? 0 : 1;
         Height = WindowHeight;
         UseLayoutRounding = true;
         SnapsToDevicePixels = true;

@@ -19,6 +19,15 @@ public partial class KeystrokeOverlayWindow : Window
     private const string ResourceKey = "KeystrokeOverlayWindow";
     private static readonly object InstanceGate = new();
     private static KeystrokeOverlayWindow? _activeInstance;
+
+    private static bool _screenDragHidden;
+
+    internal static void SetScreenDragHidden(bool hidden)
+    {
+        _screenDragHidden = hidden;
+        if (_activeInstance is { _disposed: false } active)
+            active.Opacity = hidden ? 0 : 1;
+    }
     private static int _reconcilePending;
 
     private readonly RobloxOverlayAnchor _anchor;
@@ -150,6 +159,7 @@ public partial class KeystrokeOverlayWindow : Window
                 throw new InvalidOperationException("A keystroke overlay surface is already active");
             _activeInstance = this;
         }
+        Opacity = _screenDragHidden ? 0 : 1;
 
         try
         {

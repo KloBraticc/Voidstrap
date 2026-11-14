@@ -741,7 +741,7 @@ public partial class SessionOverlayLayoutEditor : Window
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 
-    private static MusicIslandPosition MusicPositionFromPercent(double x, double y)
+    internal static MusicIslandPosition MusicPositionFromPercent(double x, double y)
     {
         bool top = y < 50;
         if (x < 33.3)
@@ -751,7 +751,7 @@ public partial class SessionOverlayLayoutEditor : Window
         return top ? MusicIslandPosition.TopCenter : MusicIslandPosition.BottomCenter;
     }
 
-    private static Point MusicStagePoint(MusicIslandPosition position, double stageW, double stageH, Size size)
+    internal static Point MusicStagePoint(MusicIslandPosition position, double stageW, double stageH, Size size)
     {
         const double margin = 6;
         double left = position switch

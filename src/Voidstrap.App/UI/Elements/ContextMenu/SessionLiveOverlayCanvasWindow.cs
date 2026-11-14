@@ -96,6 +96,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private readonly Image _crosshairImage;
 
     private readonly Border _keystrokesWrapper;
+    private readonly Border _musicWrapper;
     private readonly Border _keystrokesHost;
 
     private OverlayStudioLayer _selectedLayer;
@@ -116,7 +117,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         Action onResetAll
     )
     {
-        _selectedLayer = initialLayer is OverlayStudioLayer.Panels or OverlayStudioLayer.Music ? OverlayStudioLayer.Readout : initialLayer;
+        _selectedLayer = initialLayer == OverlayStudioLayer.Panels ? OverlayStudioLayer.Readout : initialLayer;
         _gameIcon = gameIcon;
         _onLayerUpdated = onLayerUpdated;
         _onResetAll = onResetAll;
@@ -225,6 +226,9 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         };
         _stage.Children.Add(_keystrokesWrapper);
 
+        _musicWrapper = WrapExactElement(OverlayStudioLayer.Music, BuildMusicElement());
+        _stage.Children.Add(_musicWrapper);
+
         _toolbar = BuildTopToolbar(out _coordBadge, out _snapButton);
         Canvas.SetZIndex(_toolbar, 30);
         _stage.Children.Add(_toolbar);
@@ -285,6 +289,25 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         border.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
         border.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
         return border;
+    }
+
+    private static Border BuildMusicElement()
+    {
+        TextBlock title = new() { Text = Strings.Ui_MusicIsland_Title, FontSize = 12.5, FontWeight = FontWeights.SemiBold, VerticalAlignment = VerticalAlignment.Center };
+        title.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        Border cover = new() { Width = 22, Height = 22, CornerRadius = new CornerRadius(6), Margin = new Thickness(0, 0, 9, 0), Background = new SolidColorBrush(Color.FromRgb(0x1E, 0xD7, 0x60)) };
+        StackPanel row = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
+        row.Children.Add(cover);
+        row.Children.Add(title);
+        SolidColorBrush green = new(Color.FromRgb(0x32, 0xD7, 0x4B));
+        green.Freeze();
+        double[] heights = [7, 14, 10, 6, 9, 5];
+        for (int i = 0; i < heights.Length; i++)
+            row.Children.Add(new System.Windows.Shapes.Rectangle { Width = 2, Height = heights[i], RadiusX = 1, RadiusY = 1, Fill = green, Margin = new Thickness(i == 0 ? 12 : 1.5, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center });
+        Border island = new() { Height = 37, CornerRadius = new CornerRadius(18.5), Padding = new Thickness(8, 0, 14, 0), BorderThickness = new Thickness(1), Child = row };
+        island.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
+        island.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
+        return island;
     }
 
     private static TextBlock CreateExactReadoutTextBlock(Brush fallback) =>
@@ -1275,6 +1298,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         SessionDock.ActiveInstance?.SetScreenDragDimOverride(true);
         OverlayWindow.SetScreenDragHidden(true);
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.SetScreenDragHidden(true);
+        Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.SetScreenDragHidden(true);
+        Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.SetScreenDragHidden(true);
         PlaceOverGame(current);
         LayoutStage();
         UpdateSelectionBorders();
@@ -1460,6 +1485,20 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         double kMaxY = Math.Max(kMinY, stageH - _keystrokesWrapper.DesiredSize.Height - kGap);
         Canvas.SetLeft(_keystrokesWrapper, kMinX + (kMaxX - kMinX) * (layout.SafeKeystrokesHorizontal / 100.0));
         Canvas.SetTop(_keystrokesWrapper, kMinY + (kMaxY - kMinY) * (layout.SafeKeystrokesVertical / 100.0));
+
+        _musicWrapper.Visibility = App.Settings.Prop.MusicIslandOverlay ? Visibility.Visible : Visibility.Collapsed;
+        if (_draggingLayer != OverlayStudioLayer.Music)
+        {
+            MeasureBox(_musicWrapper);
+            MusicIslandPosition musicPosition = App.Settings.Prop.MusicIslandPosition;
+            Point musicPoint = SessionOverlayLayoutEditor.MusicStagePoint(musicPosition, stageW, stageH, _musicWrapper.DesiredSize);
+            double musicShiftX = musicPosition is MusicIslandPosition.BottomLeft or MusicIslandPosition.TopLeft ? 8
+                : musicPosition is MusicIslandPosition.BottomRight or MusicIslandPosition.TopRight ? -8
+                : 0;
+            double musicShiftY = musicPosition is MusicIslandPosition.TopLeft or MusicIslandPosition.TopCenter or MusicIslandPosition.TopRight ? 8 : -8;
+            Canvas.SetLeft(_musicWrapper, musicPoint.X + musicShiftX);
+            Canvas.SetTop(_musicWrapper, musicPoint.Y + musicShiftY);
+        }
 
         UpdateActiveCoordBanner();
         PositionToolbarAwayFromOverlays(stageW, stageH);
@@ -1699,6 +1738,14 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             layout.KeystrokesVertical = Math.Round(pctY);
         }
 
+        else if (layer == OverlayStudioLayer.Music)
+        {
+            Canvas.SetLeft(box, Math.Clamp(nextLeft, 0, Math.Max(0, stageW - elemW)));
+            Canvas.SetTop(box, Math.Clamp(nextTop, 0, Math.Max(0, stageH - elemH)));
+            e.Handled = true;
+            return;
+        }
+
         ApplyLayerLive(layer);
         LayoutStage();
         e.Handled = true;
@@ -1707,7 +1754,20 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private void OnHandleMouseUp(object sender, MouseButtonEventArgs e)
     {
         if (sender is Border box && box.IsMouseCaptured)
+        {
             box.ReleaseMouseCapture();
+            if (_draggingLayer == OverlayStudioLayer.Music)
+            {
+                double stageW = Math.Max(320, _stage.ActualWidth);
+                double stageH = Math.Max(240, _stage.ActualHeight);
+                MeasureBox(box);
+                double centerX = Canvas.GetLeft(box) + box.DesiredSize.Width * 0.5;
+                double centerY = Canvas.GetTop(box) + box.DesiredSize.Height * 0.5;
+                App.Settings.Prop.MusicIslandPosition = SessionOverlayLayoutEditor.MusicPositionFromPercent(centerX / stageW * 100.0, centerY / stageH * 100.0);
+                _draggingLayer = null;
+                ApplyLayerLive(OverlayStudioLayer.Music);
+            }
+        }
         _draggingLayer = null;
         _toolbar.Opacity = 1.0;
         _toolbar.IsHitTestVisible = true;
@@ -1755,6 +1815,10 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.Reconcile();
         }
+        else if (layer == OverlayStudioLayer.Music)
+        {
+            Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+        }
         _onLayerUpdated(layer);
     }
 
@@ -1765,6 +1829,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         SetBoxSelected(_dockWrapper, _selectedLayer == OverlayStudioLayer.Dock);
         SetBoxSelected(_crosshairWrapper, _selectedLayer == OverlayStudioLayer.Crosshair);
         SetBoxSelected(_keystrokesWrapper, _selectedLayer == OverlayStudioLayer.Keystrokes);
+        SetBoxSelected(_musicWrapper, _selectedLayer == OverlayStudioLayer.Music);
         UpdateActiveCoordBanner();
     }
 
@@ -1801,6 +1866,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
                 CultureInfo.InvariantCulture,
                 $"{Strings.Ui_OverlayStudio_LayerKeystrokes}: X {Math.Round(layout.SafeKeystrokesHorizontal)}% · Y {Math.Round(layout.SafeKeystrokesVertical)}% · {Math.Round(layout.SafeKeystrokesEdgeSpacing)} px"
             ),
+            OverlayStudioLayer.Music => Strings.Ui_OverlayStudio_LayerMusic + ": " + Voidstrap.UI.ViewModels.Settings.ModsViewModel.MusicIslandPositionLabels()[Math.Clamp((int)App.Settings.Prop.MusicIslandPosition, 0, 5)],
             _ => Strings.Ui_OverlayStudio_Title,
         };
     }
@@ -1834,6 +1900,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         }
         OverlayWindow.SetScreenDragHidden(false);
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.SetScreenDragHidden(false);
+        Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.SetScreenDragHidden(false);
+        Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.SetScreenDragHidden(false);
         SessionDock.ActiveInstance?.SetScreenDragDimOverride(false);
         App.Settings.SaveDeferred();
     }
