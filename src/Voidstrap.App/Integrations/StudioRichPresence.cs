@@ -25,8 +25,6 @@ public sealed partial class StudioRichPresence : IDisposable
     private static readonly HttpClient Http = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(10));
     private static readonly Dictionary<long, string> IconCache = [];
 
-    [GeneratedRegex(@"(?:line count|lines)\D{0,8}(\d{1,9})", RegexOptions.IgnoreCase)]
-    private static partial Regex ScriptLinePattern { get; }
     private readonly CancellationTokenSource _lifetimeCancellation = new();
     private readonly CancellationToken _lifetimeToken;
     private DiscordRpcClient? _client;
@@ -46,16 +44,12 @@ public sealed partial class StudioRichPresence : IDisposable
     private int _iconFetching;
     private int _polling;
     private string _lastSignature = "";
-    private string _lastLogPath = "";
-    private DateTime _lastLogWriteUtc;
-    private LogState _lastLogState = new();
-    private readonly StudioLogTracker _linuxLog = new();
+    private readonly object _sync = new();
+    private readonly StudioLogTracker _log = new();
     private string _creator = "";
     private long _namedUniverse;
     private int _nameFetching;
     private string _sessionKey = "";
-
-    private sealed record LogState(long PlaceId = 0, long UniverseId = 0, int ScriptLines = 0);
 
     public StudioRichPresence()
     {
@@ -83,6 +77,12 @@ public sealed partial class StudioRichPresence : IDisposable
 
     private void EnsureClient()
     {
+        lock (_sync)
+            EnsureClientLocked();
+    }
+
+    private void EnsureClientLocked()
+    {
         if (_disposed || _client != null || DateTime.UtcNow < _retryAtUtc || !DiscordIpc.TryFindPipe(out int pipe))
         {
             return;
@@ -99,7 +99,7 @@ public sealed partial class StudioRichPresence : IDisposable
         {
             App.Logger.WriteLine(LogTag, "Discord connection failed: " + ex.Message);
             _retryAtUtc = DateTime.UtcNow + DiscordIpc.RetryDelay;
-            ReleaseClient();
+            ReleaseClientLocked();
             return;
         }
         App.Logger.WriteLine(LogTag, $"Studio RPC initialized, client {_clientId}");
@@ -112,6 +112,12 @@ public sealed partial class StudioRichPresence : IDisposable
     }
 
     private void ReleaseClient()
+    {
+        lock (_sync)
+            ReleaseClientLocked();
+    }
+
+    private void ReleaseClientLocked()
     {
         DiscordRpcClient? client = Interlocked.Exchange(ref _client, null);
         if (client == null)
@@ -168,21 +174,10 @@ public sealed partial class StudioRichPresence : IDisposable
             _sessionStart = DateTime.UtcNow;
             App.Logger.WriteLine(LogTag, "Roblox Studio detected");
         }
-        if (Voidstrap.Utility.Platform.UsesPortableUi)
-        {
-            ReadLinuxState();
-        }
-        else
-        {
-            ReadWindowState(studio);
-            ReadLogState();
-        }
+        ReadStudioState(studio);
         ApplyPluginState();
-        if (Voidstrap.Utility.Platform.UsesPortableUi)
-        {
-            EnsurePlaceName();
-            TrackPlaceSession();
-        }
+        EnsurePlaceName();
+        TrackPlaceSession();
         EnsureIcon();
         EnsureClient();
         UpdatePresence();
@@ -206,13 +201,16 @@ public sealed partial class StudioRichPresence : IDisposable
         _namedUniverse = 0;
         _sessionKey = "";
         _lastSignature = "";
-        _linuxLog.Reset();
+        _log.Reset();
         App.Logger.WriteLine(LogTag, "Roblox Studio closed");
-        try
+        lock (_sync)
         {
-            _client?.ClearPresence();
+            try
+            {
+                _client?.ClearPresence();
+            }
+            catch { }
         }
-        catch { }
     }
 
     private static string SafeProcessName(Process process)
@@ -261,53 +259,14 @@ public sealed partial class StudioRichPresence : IDisposable
         return selected;
     }
 
-    private void ReadWindowState(Process studio)
-    {
-        string title;
-        try
-        {
-            title = studio.MainWindowTitle ?? "";
-        }
-        catch
-        {
-            return;
-        }
-        if (title.Length == 0)
-        {
-            return;
-        }
-        _mode = ResolveMode(title);
-        string cleaned = StudioTitleSuffixPattern.Replace(title, "").Trim();
-        if (string.Equals(cleaned, "Roblox Studio", StringComparison.OrdinalIgnoreCase))
-        {
-            cleaned = "";
-        }
-        string[] parts = cleaned.Split([" - ", " – ", " — "], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        List<string> meaningful = parts.Where(part => !IsModeText(part)).ToList();
-        string place = meaningful.Count > 0 ? meaningful[^1] : "";
-        if (!string.Equals(place, _place, StringComparison.Ordinal))
-        {
-            _place = place;
-            _placeId = 0;
-            _universeId = 0;
-            _scriptLines = 0;
-            _lastLogState = new LogState();
-            _lastLogPath = "";
-            if (_place.Length > 0)
-            {
-                _sessionStart = DateTime.UtcNow;
-            }
-        }
-        _script = meaningful.Count > 1 ? meaningful[0] : "";
-    }
-
-    private void ReadLinuxState()
+    private void ReadStudioState(Process studio)
     {
         try
         {
-            IEnumerable<string> directories = Voidstrap.Utility.Platform.IsMacOS
-                ? [Paths.RobloxLogs]
-                : Voidstrap.Utility.VinegarPaths.LogDirectories;
+            IEnumerable<string> directories =
+                Voidstrap.Utility.Platform.IsMacOS ? [Paths.RobloxLogs]
+                : Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Utility.VinegarPaths.LogDirectories
+                : [Path.Combine(Paths.LocalAppData, "Roblox", "logs")];
             FileInfo? latest = directories
                 .Where(Directory.Exists)
                 .SelectMany(directory => new DirectoryInfo(directory).EnumerateFiles("*.log"))
@@ -319,7 +278,7 @@ public sealed partial class StudioRichPresence : IDisposable
                 .FirstOrDefault();
             if (latest != null)
             {
-                _linuxLog.Update(latest.FullName);
+                _log.Update(latest.FullName);
             }
         }
         catch (Exception ex)
@@ -327,7 +286,7 @@ public sealed partial class StudioRichPresence : IDisposable
             App.Logger.WriteLine(LogTag, "The Studio log could not be read: " + ex.Message);
         }
 
-        string title = Voidstrap.Utility.Platform.IsMacOS ? "" : Voidstrap.Platform.Linux.LinuxWindowInterop.FindStudioWindowTitle();
+        string title = ReadWindowTitle(studio);
         string cleaned = StudioTitleSuffixPattern.Replace(title, "").Trim();
         if (string.Equals(cleaned, "Roblox Studio", StringComparison.OrdinalIgnoreCase))
         {
@@ -337,24 +296,51 @@ public sealed partial class StudioRichPresence : IDisposable
         List<string> meaningful = parts.Where(part => !IsModeText(part)).ToList();
         string titleMode = ResolveMode(title);
 
-        if (!_linuxLog.DocumentOpen && _linuxLog.HasEvents)
+        if (!_log.DocumentOpen && _log.HasEvents)
         {
             _place = "";
             _script = "";
             _placeId = 0;
             _universeId = 0;
+            _scriptLines = 0;
             _mode = "";
             return;
         }
 
-        _placeId = _linuxLog.PlaceId;
-        _universeId = _linuxLog.UniverseId;
-        _place =
+        string place =
             meaningful.Count > 0 ? meaningful[^1]
-            : _namedUniverse == _universeId && _universeId > 0 ? _place
+            : _namedUniverse == _log.UniverseId && _log.UniverseId > 0 ? _place
             : "";
+        if (!string.Equals(place, _place, StringComparison.Ordinal))
+        {
+            _scriptLines = 0;
+        }
+        _place = place;
+        _placeId = _log.PlaceId;
+        _universeId = _log.UniverseId;
         _script = meaningful.Count > 1 ? meaningful[0] : "";
-        _mode = titleMode.Length > 0 ? titleMode : _linuxLog.Mode;
+        _mode = titleMode.Length > 0 ? titleMode : _log.Mode;
+    }
+
+    private static string ReadWindowTitle(Process studio)
+    {
+        if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            return "";
+        }
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            return Voidstrap.Platform.Linux.LinuxWindowInterop.FindStudioWindowTitle();
+        }
+        try
+        {
+            studio.Refresh();
+            return studio.MainWindowTitle ?? "";
+        }
+        catch
+        {
+            return "";
+        }
     }
 
     private void EnsurePlaceName()
@@ -401,7 +387,8 @@ public sealed partial class StudioRichPresence : IDisposable
 
     private void TrackPlaceSession()
     {
-        string key = _placeId + ":" + (_linuxLog.DocumentOpen ? _mode : "start");
+        bool open = _log.HasEvents ? _log.DocumentOpen : _place.Length > 0;
+        string key = (_placeId > 0 ? _placeId.ToString(System.Globalization.CultureInfo.InvariantCulture) : _place) + ":" + (open ? _mode : "start");
         if (key == _sessionKey)
         {
             return;
@@ -413,11 +400,11 @@ public sealed partial class StudioRichPresence : IDisposable
         _sessionKey = key;
         App.Logger.WriteLine(
             LogTag,
-            _linuxLog.DocumentOpen && _placeId > 0
+            open && (_placeId > 0 || _place.Length > 0)
                 ? "Studio is "
                     + (_mode.Length > 0 ? _mode.ToLowerInvariant() : "editing")
                     + " place "
-                    + _placeId
+                    + (_placeId > 0 ? _placeId.ToString(System.Globalization.CultureInfo.InvariantCulture) : _place)
                     + (_universeId > 0 ? " in universe " + _universeId : "")
                 : "Studio is on the start page"
         );
@@ -480,87 +467,6 @@ public sealed partial class StudioRichPresence : IDisposable
         return value.Contains("Team Create", StringComparison.OrdinalIgnoreCase)
             || value.Contains("Playtest", StringComparison.OrdinalIgnoreCase)
             || value.Equals("Testing", StringComparison.OrdinalIgnoreCase);
-    }
-
-    private void ReadLogState()
-    {
-        try
-        {
-            string logDirectory = Voidstrap.Utility.Platform.IsMacOS
-                ? Paths.RobloxLogs
-                : Path.Combine(Paths.LocalAppData, "Roblox", "logs");
-            FileInfo? latest = new DirectoryInfo(logDirectory)
-                .EnumerateFiles("*.log")
-                .Where(file =>
-                    file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase)
-                    && !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase)
-                )
-                .OrderByDescending(file => file.LastWriteTimeUtc)
-                .FirstOrDefault();
-            if (latest == null || _place.Length == 0)
-            {
-                return;
-            }
-            if (
-                string.Equals(_lastLogPath, latest.FullName, StringComparison.OrdinalIgnoreCase)
-                && _lastLogWriteUtc == latest.LastWriteTimeUtc
-            )
-            {
-                ApplyLogState(_lastLogState);
-                return;
-            }
-            string tail = ReadTail(latest.FullName, 262144);
-            LogState state = new(
-                FindLastInt64(PlaceIdPattern, tail),
-                FindLastInt64(UniverseIdPattern, tail),
-                (int)Math.Min(int.MaxValue, FindLastInt64(ScriptLinePattern, tail))
-            );
-            _lastLogPath = latest.FullName;
-            _lastLogWriteUtc = latest.LastWriteTimeUtc;
-            _lastLogState = state;
-            ApplyLogState(state);
-        }
-        catch { }
-    }
-
-    private void ApplyLogState(LogState state)
-    {
-        if (state.PlaceId > 0)
-        {
-            _placeId = state.PlaceId;
-        }
-        if (state.UniverseId > 0)
-        {
-            _universeId = state.UniverseId;
-        }
-        if (state.ScriptLines > 0)
-        {
-            _scriptLines = state.ScriptLines;
-        }
-    }
-
-    private static string ReadTail(string path, int maxBytes)
-    {
-        using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-        if (stream.Length > maxBytes)
-        {
-            stream.Seek(-maxBytes, SeekOrigin.End);
-        }
-        using StreamReader reader = new(stream);
-        return reader.ReadToEnd();
-    }
-
-    private static long FindLastInt64(Regex pattern, string value)
-    {
-        MatchCollection matches = pattern.Matches(value);
-        for (int index = matches.Count - 1; index >= 0; index--)
-        {
-            if (long.TryParse(matches[index].Groups[1].Value, out long parsed))
-            {
-                return parsed;
-            }
-        }
-        return 0;
     }
 
     private void EnsureIcon()
@@ -632,7 +538,11 @@ public sealed partial class StudioRichPresence : IDisposable
                     IconCache.Remove(IconCache.Keys.First());
                 }
             }
-            if (!_disposed)
+            long current =
+                _universeId > 0 ? _universeId
+                : _placeId > 0 ? -_placeId
+                : 0;
+            if (!_disposed && (current == key || (universeId > 0 && current == universeId)))
             {
                 _iconUrl = url;
                 UpdatePresence();
@@ -659,6 +569,12 @@ public sealed partial class StudioRichPresence : IDisposable
 
     private void UpdatePresence()
     {
+        lock (_sync)
+            UpdatePresenceLocked();
+    }
+
+    private void UpdatePresenceLocked()
+    {
         if (_disposed || _client == null || !_studioRunning)
         {
             return;
@@ -667,8 +583,8 @@ public sealed partial class StudioRichPresence : IDisposable
         bool showPlace = settings.StudioRpcShowPlace && !string.IsNullOrWhiteSpace(_place);
         string details = showPlace ? FormatActivity(_mode, _place) : "In Roblox Studio";
         bool linux = Voidstrap.Utility.Platform.UsesPortableUi;
-        bool startPage = linux ? _linuxLog.HasEvents && !_linuxLog.DocumentOpen : _place.Length == 0;
-        if (linux && showPlace && _creator.Length > 0)
+        bool startPage = _log.HasEvents ? !_log.DocumentOpen : _place.Length == 0;
+        if (showPlace && _creator.Length > 0)
         {
             details += " \u00b7 by " + _creator;
         }
@@ -740,10 +656,10 @@ public sealed partial class StudioRichPresence : IDisposable
                             LargeImageText = Trim(largeText, 128),
                             SmallImageKey = StudioIconUrl,
                             SmallImageText =
-                                linux && _linuxLog.Version.Length > 0
+                                _log.Version.Length > 0
                                     ? "Roblox Studio "
-                                        + _linuxLog.Version
-                                        + (Voidstrap.Utility.Platform.IsMacOS ? " on macOS" : " on Linux")
+                                        + _log.Version
+                                        + (linux ? Voidstrap.Utility.Platform.IsMacOS ? " on macOS" : " on Linux" : "")
                                     : "Roblox Studio",
                         },
                         Buttons = buttons.ToArray(),
@@ -794,12 +710,15 @@ public sealed partial class StudioRichPresence : IDisposable
             _pollTimer.Dispose();
         }
         _lifetimeCancellation.Cancel();
-        try
+        lock (_sync)
         {
-            _client?.ClearPresence();
+            try
+            {
+                _client?.ClearPresence();
+            }
+            catch { }
+            ReleaseClientLocked();
         }
-        catch { }
-        ReleaseClient();
         _lifetimeCancellation.Dispose();
         _pollTimer = null;
         GC.SuppressFinalize(this);
@@ -957,10 +876,4 @@ public sealed partial class StudioRichPresence : IDisposable
             }
         }
     }
-
-    [GeneratedRegex(@"\bplaceId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex PlaceIdPattern { get; }
-
-    [GeneratedRegex(@"\buniverseId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex UniverseIdPattern { get; }
 }
