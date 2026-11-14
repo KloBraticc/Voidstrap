@@ -244,6 +244,8 @@ public partial class App : Application
         ShutdownApplication((int)exitCode);
     }
 
+    private static int _softTerminating;
+
     public static void SoftTerminate(ErrorCode exitCode = ErrorCode.ERROR_SUCCESS)
     {
         if (LaunchSettings?.WindowAuditFlag.Active == true)
@@ -251,6 +253,8 @@ public partial class App : Application
             Logger.WriteLine("App::SoftTerminate", "Soft termination blocked, window audit is running.");
             return;
         }
+        if (Interlocked.Exchange(ref _softTerminating, 1) != 0)
+            return;
         int exitCodeNum = (int)exitCode;
         Logger.WriteLine("App::SoftTerminate", $"Terminating with exit code {exitCodeNum} ({exitCode})");
         CloseRuntimeOnExit();
