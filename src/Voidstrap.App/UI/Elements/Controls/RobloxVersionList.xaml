@@ -16,13 +16,57 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-              <Border x:Name="RowBorder" Padding="12" CornerRadius="8" BorderThickness="1" BorderBrush="Transparent" Background="{DynamicResource LauncherMenuHoverBrush}" SnapsToDevicePixels="True">
-                <ContentPresenter />
-              </Border>
+              <Grid x:Name="CardRoot" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                  <ScaleTransform x:Name="CardScale" ScaleX="1" ScaleY="1" />
+                </Grid.RenderTransform>
+                <Border x:Name="RowBorder" Padding="12" CornerRadius="8" BorderThickness="1" BorderBrush="Transparent" Background="{DynamicResource LauncherMenuHoverBrush}" SnapsToDevicePixels="True">
+                  <ContentPresenter />
+                </Border>
+                <ui:Button x:Name="PlayButton" Appearance="Primary" Icon="Play20" Content="{resources:Loc Ui_Home_Play}" Height="32" Padding="14,0" Margin="0,18,46,0" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0" IsHitTestVisible="False" Focusable="False" Click="PlayButton_Click" RenderTransformOrigin="0.5,0.5">
+                  <ui:Button.RenderTransform>
+                    <TranslateTransform x:Name="PlayShift" X="10" />
+                  </ui:Button.RenderTransform>
+                </ui:Button>
+              </Grid>
               <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                   <Setter TargetName="RowBorder" Property="Background" Value="#1FFFFFFF" />
                 </Trigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                    <Condition Value="True">
+                      <Condition.Binding>
+                        <MultiBinding Converter="{StaticResource SelectableConverter}">
+                          <Binding />
+                          <Binding Path="IsInstalled" />
+                        </MultiBinding>
+                      </Condition.Binding>
+                    </Condition>
+                  </MultiDataTrigger.Conditions>
+                  <Setter TargetName="PlayButton" Property="IsHitTestVisible" Value="True" />
+                  <MultiDataTrigger.EnterActions>
+                    <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="PlayButton" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.22"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction></DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="PlayShift" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.22"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction></DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="CardScale" Storyboard.TargetProperty="ScaleX" To="1.012" Duration="0:0:0.22"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction></DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="CardScale" Storyboard.TargetProperty="ScaleY" To="1.012" Duration="0:0:0.22"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction></DoubleAnimation>
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </MultiDataTrigger.EnterActions>
+                  <MultiDataTrigger.ExitActions>
+                    <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="PlayButton" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.16"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn" /></DoubleAnimation.EasingFunction></DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="PlayShift" Storyboard.TargetProperty="X" To="10" Duration="0:0:0.16"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn" /></DoubleAnimation.EasingFunction></DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="CardScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.16"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn" /></DoubleAnimation.EasingFunction></DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="CardScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.16"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseIn" /></DoubleAnimation.EasingFunction></DoubleAnimation>
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </MultiDataTrigger.ExitActions>
+                </MultiDataTrigger>
                 <Trigger Property="IsSelected" Value="True">
                   <Setter TargetName="RowBorder" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
                 </Trigger>

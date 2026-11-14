@@ -24,6 +24,8 @@ public partial class RobloxVersionList : UserControl
 
     public event EventHandler<object>? ItemScrolled;
 
+    public event EventHandler<object>? ItemPlayed;
+
     public IEnumerable? ItemsSource
     {
         get => VersionsListBox.ItemsSource;
@@ -77,6 +79,13 @@ public partial class RobloxVersionList : UserControl
         if (item == null || !IsSelectable(item))
             return;
         ItemChosen?.Invoke(this, item);
+    }
+
+    private void PlayButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement { DataContext: { } item } || !IsSelectable(item))
+            return;
+        ItemPlayed?.Invoke(this, item);
     }
 
     private void VersionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

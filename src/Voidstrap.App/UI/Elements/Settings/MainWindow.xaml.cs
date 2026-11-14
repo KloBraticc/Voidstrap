@@ -8183,6 +8183,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CloseLaunchTargetOverlay();
     }
 
+    private void LaunchTargetList_ItemPlayed(object? sender, object item)
+    {
+        ApplyLaunchTarget(item);
+        CloseLaunchTargetOverlay();
+        if (base.DataContext is MainWindowViewModel viewModel && viewModel.SaveAndLaunchSettingsCommand.CanExecute(null))
+            viewModel.SaveAndLaunchSettingsCommand.Execute(null);
+    }
+
     private void LaunchTargetList_ItemScrolled(object? sender, object item)
     {
         ApplyLaunchTarget(item);

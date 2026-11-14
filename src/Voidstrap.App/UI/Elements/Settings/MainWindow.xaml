@@ -1065,7 +1065,7 @@
             <ui:Button Grid.Column="1" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="LaunchTargetClose_Click" />
           </Grid>
           <TextBlock Grid.Row="1" Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="{resources:Loc Ui_Main_ChooseRobloxVersionHint}" TextWrapping="Wrap" />
-          <vscontrols:RobloxVersionList x:Name="LaunchTargetList" Grid.Row="2" ItemChosen="LaunchTargetList_ItemChosen" ItemScrolled="LaunchTargetList_ItemScrolled" />
+          <vscontrols:RobloxVersionList x:Name="LaunchTargetList" Grid.Row="2" ItemChosen="LaunchTargetList_ItemChosen" ItemPlayed="LaunchTargetList_ItemPlayed" ItemScrolled="LaunchTargetList_ItemScrolled" />
           <ui:ToggleSwitch Grid.Row="3" Margin="0,14,0,0" Content="{resources:Loc Menu_LaunchDropdownOnRight}"
                            IsChecked="{Binding LaunchDropdownOnRight, Mode=TwoWay}" />
         </Grid>
