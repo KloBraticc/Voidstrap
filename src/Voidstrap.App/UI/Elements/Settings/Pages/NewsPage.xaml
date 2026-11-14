@@ -55,7 +55,7 @@
     </StackPanel>
 
     <Grid Height="260" util:RoundedClip.Radius="12" Visibility="{Binding HasFeatured, Converter={StaticResource BoolToVis}}" MouseEnter="Featured_MouseEnter" MouseLeave="Featured_MouseLeave">
-      <Border Background="#1C1D22" />
+      <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
       <Border Background="{DynamicResource SystemAccentBrush}" Opacity="0.35">
         <Border.OpacityMask>
           <RadialGradientBrush Center="1,1" GradientOrigin="1,1" RadiusX="0.9" RadiusY="1.4">
@@ -76,12 +76,12 @@
           </Style>
         </ui:SymbolIcon.Style>
       </ui:SymbolIcon>
-      <Border>
+      <Border Visibility="{Binding FeaturedPost.HasImage, Converter={StaticResource BoolToVis}}">
         <Border.Background>
-          <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.4">
-            <GradientStop Offset="0" Color="#E6000000" />
-            <GradientStop Offset="0.55" Color="#99000000" />
-            <GradientStop Offset="1" Color="#1A000000" />
+          <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+            <GradientStop Offset="0" Color="#B3000000" />
+            <GradientStop Offset="0.6" Color="#33000000" />
+            <GradientStop Offset="1" Color="#00000000" />
           </LinearGradientBrush>
         </Border.Background>
       </Border>
