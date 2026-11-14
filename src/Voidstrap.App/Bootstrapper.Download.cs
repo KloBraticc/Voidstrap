@@ -596,7 +596,8 @@ public partial class Bootstrapper
                 }
             }
             progress.Set(doneBytes);
-            App.Logger.WriteLine(logIdent, $"Resuming multi part download, {doneBytes:N0} of {contentLength:N0} bytes already complete");
+            if (doneBytes > 0)
+                App.Logger.WriteLine(logIdent, $"Resuming multi part download, {doneBytes:N0} of {contentLength:N0} bytes already complete");
         }
         else
         {
