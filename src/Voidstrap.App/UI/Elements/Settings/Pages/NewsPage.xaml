@@ -54,7 +54,7 @@
       <TextBlock Margin="0,4,0,0" Text="{resources:Loc Ui_Misc2_NewVoidstrapUpdatesAndAnnouncementsWill}" FontSize="12" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
     </StackPanel>
 
-    <Grid Height="260" util:RoundedClip.Radius="12" Visibility="{Binding HasFeatured, Converter={StaticResource BoolToVis}}" MouseEnter="Featured_MouseEnter" MouseLeave="Featured_MouseLeave">
+    <Grid Height="360" util:RoundedClip.Radius="12" Visibility="{Binding HasFeatured, Converter={StaticResource BoolToVis}}" MouseEnter="Featured_MouseEnter" MouseLeave="Featured_MouseLeave">
       <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
       <Border Background="{DynamicResource SystemAccentBrush}" Opacity="0.35">
         <Border.OpacityMask>
