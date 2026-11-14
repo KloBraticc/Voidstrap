@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -192,11 +192,11 @@ internal sealed partial class MusicIslandOverlayWindow : Window
             _meter.Children.Add(bounce);
         }
 
-        _toggleGlyph = CreateGlyph("");
+        _toggleGlyph = CreateGlyph("\uE769");
         StackPanel controlRow = new() { Orientation = Orientation.Horizontal, Width = ControlsWidth, HorizontalAlignment = HorizontalAlignment.Left };
-        controlRow.Children.Add(CreateControl("previous", CreateGlyph("")));
+        controlRow.Children.Add(CreateControl("previous", CreateGlyph("\uE892")));
         controlRow.Children.Add(CreateControl("toggle", _toggleGlyph));
-        controlRow.Children.Add(CreateControl("next", CreateGlyph("")));
+        controlRow.Children.Add(CreateControl("next", CreateGlyph("\uE893")));
         _controls = new Border { Width = 0, Opacity = 0, ClipToBounds = true, Margin = new Thickness(6, 0, 0, 0), Child = controlRow, VerticalAlignment = VerticalAlignment.Center };
 
         StackPanel row = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
@@ -350,7 +350,7 @@ internal sealed partial class MusicIslandOverlayWindow : Window
     private void SetPlaying(bool playing)
     {
         _playing = playing;
-        _toggleGlyph.Text = playing ? "" : "";
+        _toggleGlyph.Text = playing ? "\uE769" : "\uE768";
         if (!_shown)
             return;
         if (playing)
@@ -536,6 +536,7 @@ internal sealed partial class MusicIslandOverlayWindow : Window
 
     private void ApplyWindowStyle()
     {
+
         if (!Voidstrap.Utility.Platform.IsWindows)
         {
             LinuxOverlaySurface.MakeClickThrough(this);
