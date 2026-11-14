@@ -204,6 +204,22 @@ namespace Voidstrap.UI.ViewModels.Pages
                 if (picks.Count == 0 && featuredCandidates.Count == 0)
                     return;
 
+                Dictionary<long, string> knownThumbnails = (_discoverCache?.Recommended ?? new List<DiscoverCacheGame>())
+                    .Concat(_discoverCache?.Featured != null ? new[] { _discoverCache.Featured } : Array.Empty<DiscoverCacheGame>())
+                    .Where(game => !string.IsNullOrEmpty(game.ThumbnailUrl))
+                    .GroupBy(game => game.UniverseId)
+                    .ToDictionary(group => group.Key, group => group.First().ThumbnailUrl!);
+                foreach (DiscoverGameEntry game in picks.Concat(featuredCandidates))
+                {
+                    if (string.IsNullOrEmpty(game.ThumbnailUrl) && knownThumbnails.TryGetValue(game.UniverseId, out string? known))
+                        game.ThumbnailUrl = known;
+                }
+                if (picks.Count > 0 && picks.All(game => string.IsNullOrEmpty(game.ThumbnailUrl)) && knownThumbnails.Count > 0)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "Roblox returned no thumbnails, keeping the saved discover list");
+                    return;
+                }
+
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     Recommended.Clear();
