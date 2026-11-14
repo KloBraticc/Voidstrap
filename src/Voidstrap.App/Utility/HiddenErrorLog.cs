@@ -564,6 +564,11 @@ internal static partial class HiddenErrorLog
             if (current is System.Net.Sockets.SocketException { SocketErrorCode: System.Net.Sockets.SocketError.OperationAborted })
                 return true;
         }
+        for (Exception? current = ex; current != null; current = current.InnerException)
+        {
+            if (current is ObjectDisposedException { ObjectName: "System.Net.Security.SslStream" or "System.Net.Sockets.NetworkStream" or "System.Net.Sockets.Socket" })
+                return true;
+        }
         return ex is System.IO.IOException
             && ex.Message.Contains("aborted because of either a thread exit or an application request", StringComparison.Ordinal);
     }
@@ -630,6 +635,12 @@ internal static partial class HiddenErrorLog
             int freezes = Math.Min(Volatile.Read(ref _freezeReports), MaxFreezeReports);
             using (Process process = Process.GetCurrentProcess())
             {
+                _peakHandles = Math.Max(_peakHandles, process.HandleCount);
+                if (OperatingSystem.IsWindows())
+                {
+                    _peakGdi = Math.Max(_peakGdi, (int)GetGuiResources(process.Handle, 0));
+                    _peakUser = Math.Max(_peakUser, (int)GetGuiResources(process.Handle, 1));
+                }
                 App.Logger.WriteLine(
                     LOG_IDENT,
                     "Session lasted "
