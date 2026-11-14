@@ -90,6 +90,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             public string SizeText { get; private set; } = "";
             public string LocationText { get; private set; } = "";
             public string PrimaryButtonText { get; private set; } = "Install";
+
+            public Wpf.Ui.Common.SymbolRegular PrimaryIcon => Wpf.Ui.Common.SymbolRegular.ArrowDownload24;
             public bool CanUninstall => IsInstalled && !IsBusy;
             public bool CanPrimary => !IsBusy;
 
