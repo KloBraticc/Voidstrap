@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Exceptions;
+using Voidstrap.Integrations;
 using Voidstrap.Models.APIs.Roblox;
 using Voidstrap.Utility;
 
@@ -320,23 +321,20 @@ public class UniverseDetails
     {
         string query = string.Join(',', placeIds);
         ApiArrayResponse<PlaceDetailResponse>? response = null;
-        try
+        string? json = await RobloxCookie
+            .GetAuthenticatedStringAsync("https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + query, token)
+            .ConfigureAwait(false);
+        token.ThrowIfCancellationRequested();
+        if (json != null)
         {
-            response = await Http.GetJson<ApiArrayResponse<PlaceDetailResponse>>(
-                "https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + query,
-                token
-            );
-        }
-        catch (OperationCanceledException) when (token.IsCancellationRequested)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine(
-                "UniverseDetails::ResolvePlaces",
-                "Bulk place lookup unavailable, using individual universe lookups: " + ex.Message
-            );
+            try
+            {
+                response = JsonSerializer.Deserialize<ApiArrayResponse<PlaceDetailResponse>>(json);
+            }
+            catch (JsonException ex)
+            {
+                App.Logger.WriteLine("UniverseDetails::ResolvePlaces", "The bulk place lookup could not be read: " + ex.Message);
+            }
         }
         foreach (PlaceDetailResponse detail in response?.Data ?? Enumerable.Empty<PlaceDetailResponse>())
         {
