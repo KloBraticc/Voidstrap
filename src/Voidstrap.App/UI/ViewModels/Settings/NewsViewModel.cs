@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -9,14 +11,19 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public sealed partial class NewsViewModel : ObservableObject, IDisposable
 {
-    private const string FeedUrl = "https://raw.githubusercontent.com/KloBraticc/VoidstrapNews-/main/feed.json";
+    private const string ApiUrl = "https://api.github.com/repos/KloBraticc/VoidstrapNews-/contents/feed.json?ref=main";
+    private const string RawUrl = "https://raw.githubusercontent.com/KloBraticc/VoidstrapNews-/main/feed.json";
+    private const int MaxFeedBytes = 2 * 1024 * 1024;
+    private const int FeaturedLimit = 5;
+    private const int MaxPosts = 500;
 
-    private static readonly HttpClient Http = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(20));
+    private static readonly HttpClient Http = CreateClient();
+    private static readonly SemaphoreSlim CacheLock = new(1, 1);
+    private static string? _etag;
 
     private CancellationTokenSource? _cts;
+    private string _shownJson = string.Empty;
     private bool _disposed;
-
-    private const int FeaturedLimit = 5;
 
     public ObservableCollection<NewsPost> Posts { get; } = [];
 
@@ -36,18 +43,37 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
 
     public bool ShowEmpty => !IsLoading && Featured.Count == 0;
 
+    private static string CachePath => Path.Combine(Paths.Cache, "NewsFeed.json");
+
     public NewsViewModel()
     {
-        _ = LoadAsync();
+        _ = InitializeAsync();
+    }
+
+    private static HttpClient CreateClient()
+    {
+        HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(20));
+        client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Voidstrap", "1.0"));
+        return client;
+    }
+
+    private async Task InitializeAsync()
+    {
+        string? cached = await ReadCacheAsync();
+        if (!string.IsNullOrEmpty(cached) && !_disposed)
+            Apply(cached);
+        await LoadAsync(true);
     }
 
     [RelayCommand]
-    private Task Refresh() => LoadAsync();
+    private Task Refresh() => LoadAsync(true);
+
+    internal Task CheckForUpdatesAsync() => IsLoading ? Task.CompletedTask : LoadAsync(false);
 
     [RelayCommand]
     private void SelectFeatured(NewsPost? post)
     {
-        if (post != null)
+        if (post != null && Featured.Contains(post))
             SetFeatured(post);
     }
 
@@ -61,7 +87,7 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
     {
         if (Featured.Count == 0)
             return;
-        int index = FeaturedPost == null ? 0 : Featured.IndexOf(FeaturedPost);
+        int index = FeaturedPost == null ? 0 : Math.Max(0, Featured.IndexOf(FeaturedPost));
         SetFeatured(Featured[((index + step) % Featured.Count + Featured.Count) % Featured.Count]);
     }
 
@@ -76,11 +102,11 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
     [RelayCommand]
     private static void OpenLink(string? url)
     {
-        if (Utilities.IsWebLink(url ?? string.Empty))
+        if (IsHttpsUrl(url))
             Utilities.OpenWebLink(url!);
     }
 
-    private async Task LoadAsync()
+    private async Task LoadAsync(bool showSpinner)
     {
         const string LOG_IDENT = "NewsViewModel::LoadAsync";
         if (_disposed)
@@ -89,28 +115,15 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
         _cts?.Dispose();
         _cts = new CancellationTokenSource();
         CancellationToken token = _cts.Token;
-        IsLoading = true;
+        if (showSpinner)
+            IsLoading = true;
         try
         {
-            string json = await Http.GetStringAsync(FeedUrl, token);
-            NewsFeed? feed = JsonConvert.DeserializeObject<NewsFeed>(json);
-            if (token.IsCancellationRequested)
+            string? json = await FetchAsync(token);
+            if (token.IsCancellationRequested || _disposed || json == null)
                 return;
-            Posts.Clear();
-            Featured.Clear();
-            FeaturedPost = null;
-            foreach (NewsPost post in feed?.Posts ?? [])
-            {
-                if (string.IsNullOrWhiteSpace(post.Title))
-                    continue;
-                if (Featured.Count < FeaturedLimit)
-                    Featured.Add(post);
-                else
-                    Posts.Add(post);
-            }
-            if (Featured.Count > 0)
-                SetFeatured(Featured[0]);
-            OnPropertyChanged(nameof(HasPosts));
+            if (Apply(json))
+                await WriteCacheAsync(json);
         }
         catch (OperationCanceledException)
         {
@@ -121,8 +134,142 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
         }
         finally
         {
-            if (!token.IsCancellationRequested)
+            if (!token.IsCancellationRequested && !_disposed)
                 IsLoading = false;
+        }
+    }
+
+    private static async Task<string?> FetchAsync(CancellationToken token)
+    {
+        const string LOG_IDENT = "NewsViewModel::FetchAsync";
+        try
+        {
+            using HttpRequestMessage request = new(HttpMethod.Get, ApiUrl);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.raw+json"));
+            if (_etag != null && EntityTagHeaderValue.TryParse(_etag, out EntityTagHeaderValue? tag))
+                request.Headers.IfNoneMatch.Add(tag);
+            using HttpResponseMessage response = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
+            if (response.StatusCode == HttpStatusCode.NotModified)
+                return null;
+            if (response.IsSuccessStatusCode)
+            {
+                _etag = response.Headers.ETag?.ToString();
+                return await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxFeedBytes, token);
+            }
+            App.Logger.WriteLine(LOG_IDENT, "GitHub API returned " + (int)response.StatusCode + ", using the raw file");
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "GitHub API failed: " + ex.GetType().Name + ", using the raw file");
+        }
+        using HttpRequestMessage rawRequest = new(HttpMethod.Get, RawUrl + "?t=" + DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        rawRequest.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true };
+        using HttpResponseMessage rawResponse = await Http.SendAsync(rawRequest, HttpCompletionOption.ResponseHeadersRead, token);
+        rawResponse.EnsureSuccessStatusCode();
+        return await Voidstrap.Utility.Http.ReadStringBoundedAsync(rawResponse.Content, MaxFeedBytes, token);
+    }
+
+    private bool Apply(string json)
+    {
+        const string LOG_IDENT = "NewsViewModel::Apply";
+        if (string.Equals(json, _shownJson, StringComparison.Ordinal))
+            return false;
+        List<NewsPost> posts;
+        try
+        {
+            posts = Sanitize(JsonConvert.DeserializeObject<NewsFeed>(json));
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Feed is not valid: " + ex.GetType().Name);
+            return false;
+        }
+        if (posts.Count == 0)
+            return false;
+        string? currentTitle = FeaturedPost?.Title;
+        _shownJson = json;
+        Posts.Clear();
+        Featured.Clear();
+        FeaturedPost = null;
+        foreach (NewsPost post in posts)
+        {
+            if (Featured.Count < FeaturedLimit)
+                Featured.Add(post);
+            else
+                Posts.Add(post);
+        }
+        SetFeatured(Featured.FirstOrDefault(post => post.Title == currentTitle) ?? Featured[0]);
+        OnPropertyChanged(nameof(HasPosts));
+        OnPropertyChanged(nameof(ShowEmpty));
+        return true;
+    }
+
+    private static List<NewsPost> Sanitize(NewsFeed? feed)
+    {
+        List<NewsPost> result = [];
+        foreach (NewsPost? post in feed?.Posts ?? [])
+        {
+            if (post == null || string.IsNullOrWhiteSpace(post.Title))
+                continue;
+            post.Title = post.Title.Trim();
+            post.Body = post.Body?.Trim() ?? string.Empty;
+            post.Date = post.Date?.Trim() ?? string.Empty;
+            post.Image = IsHttpsUrl(post.Image) ? post.Image : null;
+            post.Links = (post.Links ?? []).Where(link => link != null && !string.IsNullOrWhiteSpace(link.Label) && IsHttpsUrl(link.Url)).ToList();
+            result.Add(post);
+            if (result.Count >= MaxPosts)
+                break;
+        }
+        return result;
+    }
+
+    private static bool IsHttpsUrl(string? url) =>
+        Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps;
+
+    private static async Task<string?> ReadCacheAsync()
+    {
+        const string LOG_IDENT = "NewsViewModel::ReadCacheAsync";
+        await CacheLock.WaitAsync();
+        try
+        {
+            FileInfo file = new(CachePath);
+            if (!file.Exists || file.Length > MaxFeedBytes)
+                return null;
+            return await File.ReadAllTextAsync(file.FullName);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Cache read failed: " + ex.GetType().Name);
+            return null;
+        }
+        finally
+        {
+            CacheLock.Release();
+        }
+    }
+
+    private static async Task WriteCacheAsync(string json)
+    {
+        const string LOG_IDENT = "NewsViewModel::WriteCacheAsync";
+        await CacheLock.WaitAsync();
+        try
+        {
+            Directory.CreateDirectory(Paths.Cache);
+            string temp = CachePath + ".tmp";
+            await File.WriteAllTextAsync(temp, json);
+            File.Move(temp, CachePath, true);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Cache write failed: " + ex.GetType().Name);
+        }
+        finally
+        {
+            CacheLock.Release();
         }
     }
 
