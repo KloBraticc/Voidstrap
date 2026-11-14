@@ -28,6 +28,12 @@ public sealed class SpotifyEngine
 
     private static readonly TimeSpan LowMemoryDelay = TimeSpan.FromSeconds(20);
 
+    private static readonly TimeSpan ResumeWindow = TimeSpan.FromSeconds(60);
+
+    private static readonly TimeSpan PausedDelay = TimeSpan.FromSeconds(8);
+
+    private static readonly TimeSpan RecentAudio = TimeSpan.FromSeconds(15);
+
     private const string PlayerUrl = "https://open.spotify.com/";
 
     internal const string Arguments =
@@ -198,6 +204,10 @@ public sealed class SpotifyEngine
 
     private bool _lowMemory;
 
+    private DateTime _lastAudioAt;
+
+    private bool _resuming;
+
     public static SpotifyEngine Shared { get; } = new();
 
     public event EventHandler? AudioStarted;
@@ -228,8 +238,16 @@ public sealed class SpotifyEngine
     private void IdleTimer_Tick(object? sender, EventArgs e)
     {
         if (IsPlayingAudio)
+        {
+            _lastAudioAt = DateTime.UtcNow;
             KeepPlayerResponsive();
-        if (_views > 0 || IsPlayingAudio)
+            KeepResumeMarker();
+        }
+        else if (DateTime.UtcNow - _lastAudioAt >= PausedDelay)
+        {
+            DropResumeMarker();
+        }
+        if (_views > 0 || IsPlayingAudio || _resuming)
         {
             _silentSince = DateTime.UtcNow;
             return;
@@ -243,12 +261,183 @@ public sealed class SpotifyEngine
 
     private void Core_AudioChanged(object? sender, object e)
     {
+        _lastAudioAt = DateTime.UtcNow;
         if (!IsPlayingAudio)
             return;
         SetLowMemory(false);
         KeepPlayerResponsive();
+        KeepResumeMarker();
         AudioStarted?.Invoke(this, EventArgs.Empty);
     }
+
+    private static string ResumePath => Path.Combine(Paths.Cache, "SpotifyResume");
+
+    private static (int ProcessId, long StartTicks)? ReadResumeOwner()
+    {
+        if (!File.Exists(ResumePath))
+            return null;
+        string[] lines = File.ReadAllLines(ResumePath);
+        if (
+            lines.Length < 2
+            || !int.TryParse(lines[0], NumberStyles.None, CultureInfo.InvariantCulture, out int processId)
+            || !long.TryParse(lines[1], NumberStyles.None, CultureInfo.InvariantCulture, out long startTicks)
+        )
+            return null;
+        return (processId, startTicks);
+    }
+
+    private static void KeepResumeMarker()
+    {
+        try
+        {
+            if (ReadResumeOwner()?.ProcessId == Environment.ProcessId)
+            {
+                File.SetLastWriteTimeUtc(ResumePath, DateTime.UtcNow);
+                return;
+            }
+            using Process current = Process.GetCurrentProcess();
+            File.WriteAllLines(
+                ResumePath,
+                [
+                    Environment.ProcessId.ToString(CultureInfo.InvariantCulture),
+                    current.StartTime.ToUniversalTime().Ticks.ToString(CultureInfo.InvariantCulture),
+                ]
+            );
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException) { }
+    }
+
+    private static void DropResumeMarker()
+    {
+        try
+        {
+            if (ReadResumeOwner()?.ProcessId == Environment.ProcessId)
+                File.Delete(ResumePath);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
+    }
+
+    private static (int ProcessId, long StartTicks)? FindResumeOwner()
+    {
+        try
+        {
+            (int ProcessId, long StartTicks)? owner = ReadResumeOwner();
+            if (owner == null || owner.Value.ProcessId == Environment.ProcessId)
+                return null;
+            if (DateTime.UtcNow - File.GetLastWriteTimeUtc(ResumePath) > ResumeWindow)
+            {
+                File.Delete(ResumePath);
+                return null;
+            }
+            return owner;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return null;
+        }
+    }
+
+    private static bool IsAlive((int ProcessId, long StartTicks) owner)
+    {
+        try
+        {
+            using Process process = Process.GetProcessById(owner.ProcessId);
+            return !process.HasExited && process.StartTime.ToUniversalTime().Ticks == owner.StartTicks;
+        }
+        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
+        {
+            return false;
+        }
+    }
+
+    private async Task ResumeAfterRestartAsync((int ProcessId, long StartTicks) owner)
+    {
+        _resuming = true;
+        try
+        {
+            for (int wait = 0; wait < 20 && IsAlive(owner); wait++)
+                await Task.Delay(500);
+            if (IsAlive(owner) || ReadResumeOwner() != owner)
+                return;
+            File.Delete(ResumePath);
+            App.Logger.WriteLine(LOG_IDENT, "Resuming the music that was playing before Voidstrap restarted");
+            await ResumePlaybackAsync();
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The music could not be resumed: " + ex.GetType().Name);
+        }
+        finally
+        {
+            _resuming = false;
+        }
+    }
+
+    private async Task ResumePlaybackAsync()
+    {
+        for (int attempt = 0; attempt < 10 && _controller != null; attempt++)
+        {
+            if (IsPlayingAudio)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The music is playing again");
+                return;
+            }
+            SpotifyState? state = await GetStateAsync();
+            if (state is { SignedIn: true, Playing: false } && state.Title.Length > 0)
+            {
+                await PressAsync("control-button-playpause");
+                await Task.Delay(3000);
+            }
+            else
+            {
+                await Task.Delay(1500);
+            }
+        }
+        if (_controller != null && !IsPlayingAudio)
+            App.Logger.WriteLine(LOG_IDENT, "The music did not start again");
+    }
+
+#if !CROSSPLAT
+    private void Core_ProcessFailed(object? sender, CoreWebView2ProcessFailedEventArgs e)
+    {
+        bool wasPlaying = DateTime.UtcNow - _lastAudioAt < RecentAudio;
+        App.Logger.WriteLine(LOG_IDENT, $"A player process failed: {e.ProcessFailedKind}, {e.Reason}, exit code {e.ExitCode}");
+        if (e.ProcessFailedKind == CoreWebView2ProcessFailedKind.BrowserProcessExited)
+        {
+            Shutdown();
+            if (wasPlaying)
+                _ = RestartAndResumeAsync();
+            return;
+        }
+        if (e.ProcessFailedKind is CoreWebView2ProcessFailedKind.RenderProcessExited or CoreWebView2ProcessFailedKind.RenderProcessUnresponsive)
+            Reload();
+        if (wasPlaying)
+            _ = RecoverPlaybackAsync();
+    }
+
+    private async Task RestartAndResumeAsync()
+    {
+        await Task.Delay(1000);
+        if (await EnsureStartedAsync())
+            await RecoverPlaybackAsync();
+    }
+
+    private async Task RecoverPlaybackAsync()
+    {
+        if (_resuming)
+            return;
+        _resuming = true;
+        try
+        {
+            await Task.Delay(2000);
+            await ResumePlaybackAsync();
+        }
+        finally
+        {
+            _resuming = false;
+        }
+    }
+#endif
 
 #if !CROSSPLAT
     private void Environment_ProcessInfosChanged(object? sender, object e)
@@ -317,6 +506,8 @@ public sealed class SpotifyEngine
 
     public Task<bool> EnsureStartedAsync()
     {
+        if (!Voidstrap.Utility.Platform.IsWindows)
+            return Task.FromResult(false);
         if (_controller != null)
             return Task.FromResult(true);
         return _starting ??= StartAsync();
@@ -349,6 +540,9 @@ public sealed class SpotifyEngine
             _ready = new TaskCompletionSource();
             core.NavigationCompleted += Core_NavigationCompleted;
             core.IsDocumentPlayingAudioChanged += Core_AudioChanged;
+#if !CROSSPLAT
+            core.ProcessFailed += Core_ProcessFailed;
+#endif
             core.Navigate(PlayerUrl);
             _controller = controller;
 #if !CROSSPLAT
@@ -360,7 +554,15 @@ public sealed class SpotifyEngine
             _idleTimer.Tick += IdleTimer_Tick;
             _idleTimer.Start();
             await Task.WhenAny(_ready.Task, Task.Delay(15000));
+            if (FindResumeOwner() is { } owner)
+                _ = ResumeAfterRestartAsync(owner);
             return true;
+        }
+        catch (System.Runtime.InteropServices.COMException ex) when (ex.HResult == unchecked((int)0x80004004))
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The hidden player start was cancelled");
+            Shutdown();
+            return false;
         }
         catch (Exception ex)
         {
@@ -599,6 +801,9 @@ public sealed class SpotifyEngine
             {
                 controller.CoreWebView2.NavigationCompleted -= Core_NavigationCompleted;
                 controller.CoreWebView2.IsDocumentPlayingAudioChanged -= Core_AudioChanged;
+#if !CROSSPLAT
+                controller.CoreWebView2.ProcessFailed -= Core_ProcessFailed;
+#endif
                 controller.Close();
             }
         }
