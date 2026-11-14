@@ -1374,6 +1374,19 @@ public partial class MenuContainer : WpfUiWindow
 
     private static readonly TimeSpan NotificationEnrichTimeout = TimeSpan.FromSeconds(8);
 
+    private static async Task<(bool Ready, T? Value)> TryWaitAsync<T>(Task<T> task, TimeSpan timeout, CancellationToken token)
+    {
+        using CancellationTokenSource delay = CancellationTokenSource.CreateLinkedTokenSource(token);
+        Task finished = await Task.WhenAny(task, Task.Delay(timeout, delay.Token));
+        delay.Cancel();
+        if (finished != task)
+        {
+            token.ThrowIfCancellationRequested();
+            return (false, default);
+        }
+        return (true, await task);
+    }
+
     private static readonly TimeSpan JoinLocationTimeout = TimeSpan.FromSeconds(30);
 
     private static string CompactServerLocation(string location)
@@ -1417,16 +1430,12 @@ public partial class MenuContainer : WpfUiWindow
         BitmapSource? notificationIcon;
         try
         {
-            (universeName, notificationIcon) = await presentationTask.WaitAsync(NotificationEnrichTimeout, token);
+            var (presentationReady, presentation) = await TryWaitAsync(presentationTask, NotificationEnrichTimeout, token);
+            (universeName, notificationIcon) = presentationReady ? presentation : (data.GameName ?? "Roblox", null);
         }
         catch (OperationCanceledException)
         {
             return;
-        }
-        catch (TimeoutException)
-        {
-            universeName = data.GameName ?? "Roblox";
-            notificationIcon = null;
         }
         catch (Exception ex)
         {
@@ -1453,7 +1462,7 @@ public partial class MenuContainer : WpfUiWindow
         string serverLocation = "Server location unavailable";
         try
         {
-            string? location = await locationTask.WaitAsync(JoinLocationTimeout, token);
+            (_, string? location) = await TryWaitAsync(locationTask, JoinLocationTimeout, token);
             if (!string.IsNullOrWhiteSpace(location))
                 serverLocation = location;
         }
@@ -1465,18 +1474,18 @@ public partial class MenuContainer : WpfUiWindow
         (int, int, int, bool) tuple = (0, 0, 0, false);
         try
         {
-            tuple = await statsTask.WaitAsync(NotificationEnrichTimeout, token);
+            var (statsReady, stats) = await TryWaitAsync(statsTask, NotificationEnrichTimeout, token);
+            if (statsReady)
+                tuple = stats;
+            else
+                App.Logger.WriteLine(
+                    "MenuContainer::ShowJoinNotification",
+                    "The player count was not ready in time, showing the join notification without it"
+                );
         }
         catch (OperationCanceledException)
         {
             return;
-        }
-        catch (TimeoutException)
-        {
-            App.Logger.WriteLine(
-                "MenuContainer::ShowJoinNotification",
-                "The player count was not ready in time, showing the join notification without it"
-            );
         }
         catch (Exception ex)
         {
@@ -1497,15 +1506,16 @@ public partial class MenuContainer : WpfUiWindow
         BitmapSource? flagImage = null;
         try
         {
-            flagImage = await Voidstrap
-                .Utility.CountryFlag.GetImageAsync(data.ServerCountryCode, token)
-                .WaitAsync(NotificationEnrichTimeout, token);
+            (_, flagImage) = await TryWaitAsync(
+                Voidstrap.Utility.CountryFlag.GetImageAsync(data.ServerCountryCode, token),
+                NotificationEnrichTimeout,
+                token
+            );
         }
         catch (OperationCanceledException)
         {
             return;
         }
-        catch (TimeoutException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("MenuContainer::ShowJoinNotification", "Flag lookup failed: " + ex.Message);
