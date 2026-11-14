@@ -9974,4 +9974,10 @@ Installa SteamVR issa?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Ilgħab jew ieqaf</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Uri l-aħbarijiet tal-logħba meta tiftaħ</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Jiftaħ awtomatikament il-pannell tal-aħbarijiet tal-logħba meta jinfetaħ l-overlay.</value>
+  </data>
 </root>

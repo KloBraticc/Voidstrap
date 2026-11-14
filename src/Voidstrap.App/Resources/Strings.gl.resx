@@ -9974,4 +9974,10 @@ Instalar SteamVR agora?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Xoga ou fai unha pausa</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Amosar novas do xogo ao abrir</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Abre automaticamente o panel de novas do xogo cando se abre a superposición.</value>
+  </data>
 </root>

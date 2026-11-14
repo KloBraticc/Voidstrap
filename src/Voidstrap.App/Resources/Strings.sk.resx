@@ -9974,4 +9974,10 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Prehrať alebo pozastaviť</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Zobraziť novinky hry pri otvorení</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Pri otvorení prekrytia automaticky otvorí panel s novinkami hry.</value>
+  </data>
 </root>

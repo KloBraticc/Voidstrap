@@ -9974,4 +9974,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>لوبه وکړئ یا وقفه وکړئ</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>د خلاصولو پر مهال د لوبې خبرونه وښایه</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>کله چې پوښ خلاص شي، د لوبې د خبرونو تخته په اتومات ډول خلاصوي.</value>
+  </data>
 </root>

@@ -10284,4 +10284,10 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Oynat veya duraklat</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Açılışta oyun haberlerini göster</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Katman açıldığında oyun haberleri panelini otomatik olarak açar.</value>
+  </data>
 </root>

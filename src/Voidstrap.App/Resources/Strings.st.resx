@@ -9973,4 +9973,10 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Bapala kapa khefutsa</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Bontsha ditaba tsa papadi ha o bula</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>E bula phanele ya ditaba tsa papadi ka boiketsetso ha overlay e buleha.</value>
+  </data>
 </root>

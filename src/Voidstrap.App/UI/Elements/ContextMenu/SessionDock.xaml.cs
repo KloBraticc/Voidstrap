@@ -322,7 +322,7 @@ public partial class SessionDock : Window
         bool hubOpen = _panels.TryGetValue(HubKey, out SessionPanelWindow? hub) && hub.IsRequested;
         if (otherOpen && hubOpen)
             CloseTool(HubKey);
-        else if (!otherOpen && !hubOpen)
+        else if (!otherOpen && !hubOpen && App.Settings.Prop.ShowDockNews)
             _action(HubKey);
     }
 

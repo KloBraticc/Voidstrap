@@ -9973,4 +9973,10 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Oynayın və ya fasilə verin</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Açılışda oyun xəbərlərini göstər</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Örtük açılanda oyun xəbərləri panelini avtomatik açır.</value>
+  </data>
 </root>

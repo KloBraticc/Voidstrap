@@ -9973,4 +9973,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>விளையாடவும் அல்லது இடைநிறுத்தவும்</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>திறக்கும்போது விளையாட்டு செய்திகளைக் காட்டு</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>மேலடுக்கு திறக்கும்போது விளையாட்டு செய்திப் பலகத்தைத் தானாகத் திறக்கும்.</value>
+  </data>
 </root>

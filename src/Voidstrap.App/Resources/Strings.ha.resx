@@ -9974,4 +9974,10 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Kunna ko dakata</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Nuna labaran wasa yayin buɗewa</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Yana buɗe allon labaran wasa kai tsaye idan an buɗe abin rufewa.</value>
+  </data>
 </root>

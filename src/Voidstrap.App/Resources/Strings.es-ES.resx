@@ -10286,4 +10286,10 @@ Jugadores: {2}</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Reproducir o pausar</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Mostrar noticias del juego al abrir</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Abre automáticamente el panel de noticias del juego cuando se abre la superposición.</value>
+  </data>
 </root>

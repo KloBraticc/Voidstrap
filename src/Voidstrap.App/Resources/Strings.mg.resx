@@ -9974,4 +9974,10 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Milalao na miato</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Asehoy ny vaovao momba ny lalao rehefa sokafana</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Manokatra ho azy ny tontonana vaovaon’ny lalao rehefa misokatra ny overlay.</value>
+  </data>
 </root>

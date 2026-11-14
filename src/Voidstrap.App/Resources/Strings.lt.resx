@@ -10288,4 +10288,10 @@ Veikimo laikas: {1}
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Leisti arba pristabdyti</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Rodyti žaidimo naujienas atidarius</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Automatiškai atidaro žaidimo naujienų skydelį, kai atsidaro perdanga.</value>
+  </data>
 </root>

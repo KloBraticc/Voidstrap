@@ -9973,4 +9973,10 @@ Uptime: {1}
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>ئويناش ياكى توختىتىش</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>ئاچقاندا ئويۇن خەۋەرلىرىنى كۆرسەت</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>قاپلاما ئېچىلغاندا ئويۇن خەۋەرلىرى تاختىسىنى ئاپتوماتىك ئاچىدۇ.</value>
+  </data>
 </root>

@@ -9974,4 +9974,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Նվագարկել կամ դադարեցնել</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Ցույց տալ խաղի նորությունները բացելիս</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Ավտոմատ բացում է խաղի նորությունների վահանակը, երբ վերադրումը բացվում է։</value>
+  </data>
 </root>

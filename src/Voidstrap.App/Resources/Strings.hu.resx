@@ -10286,4 +10286,10 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Lejátszás vagy szünet</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Játékhírek megjelenítése megnyitáskor</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Automatikusan megnyitja a játékhírek panelt, amikor az átfedés megnyílik.</value>
+  </data>
 </root>

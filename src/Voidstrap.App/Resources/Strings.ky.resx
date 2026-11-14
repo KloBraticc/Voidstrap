@@ -9974,4 +9974,10 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Ойнотуу же тыныгуу</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Ачканда оюн жаңылыктарын көрсөтүү</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Катмар ачылганда оюн жаңылыктар панелин автоматтык түрдө ачат.</value>
+  </data>
 </root>

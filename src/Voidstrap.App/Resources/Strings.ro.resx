@@ -10288,4 +10288,10 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Redați sau întrerupeți</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Afișează știrile jocului la deschidere</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Deschide automat panoul cu știrile jocului când se deschide suprapunerea.</value>
+  </data>
 </root>

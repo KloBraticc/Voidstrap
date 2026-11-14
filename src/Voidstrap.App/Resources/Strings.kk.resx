@@ -9974,4 +9974,10 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Ойнату немесе кідірту</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Ашқанда ойын жаңалықтарын көрсету</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Қабаттасу ашылғанда ойын жаңалықтары панелін автоматты түрде ашады.</value>
+  </data>
 </root>

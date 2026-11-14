@@ -9974,4 +9974,10 @@ Installer SteamVR nå?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Spill av eller sett på pause</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Vis spillnyheter ved åpning</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Åpner panelet med spillnyheter automatisk når overlegget åpnes.</value>
+  </data>
 </root>

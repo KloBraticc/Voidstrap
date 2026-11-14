@@ -9974,4 +9974,10 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Spillt oder Paus</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Spillnoriichten beim Opmaache weisen</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Mécht de Spillnoriichtepanel automatesch op, wann den Overlay opgeet.</value>
+  </data>
 </root>

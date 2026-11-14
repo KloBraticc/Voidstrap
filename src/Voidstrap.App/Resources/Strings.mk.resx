@@ -9974,4 +9974,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Играјте или паузирајте</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Прикажи вести за играта при отворање</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Автоматски го отвора панелот со вести за играта кога ќе се отвори преклопот.</value>
+  </data>
 </root>

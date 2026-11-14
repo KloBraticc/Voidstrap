@@ -10285,4 +10285,10 @@
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>تشغيل أو إيقاف مؤقت</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>عرض أخبار اللعبة عند الفتح</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>يفتح لوحة أخبار اللعبة تلقائيًا عند فتح الواجهة العلوية.</value>
+  </data>
 </root>

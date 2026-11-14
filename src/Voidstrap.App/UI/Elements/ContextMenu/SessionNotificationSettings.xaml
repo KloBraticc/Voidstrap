@@ -136,6 +136,19 @@
             </StackPanel>
           </Grid>
         </Border>
+        <Border Style="{StaticResource Row}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+              <TextBlock Text="{resources:Loc Ui_SessionNotify_DockNews_Title}" Style="{StaticResource Label}" />
+              <TextBlock Text="{resources:Loc Ui_SessionNotify_DockNews_Hint}" Style="{StaticResource Hint}" />
+            </StackPanel>
+            <ui:ToggleSwitch x:Name="DockNewsToggle" Grid.Column="1" VerticalAlignment="Center" Click="Toggle_Click" />
+          </Grid>
+        </Border>
         <Border Style="{StaticResource LastRow}">
           <Grid>
             <Grid.ColumnDefinitions>

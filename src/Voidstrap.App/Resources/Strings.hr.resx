@@ -10286,4 +10286,10 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Pusti ili pauziraj</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Prikaži vijesti igre pri otvaranju</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Automatski otvara ploču s vijestima igre kada se sloj otvori.</value>
+  </data>
 </root>

@@ -10289,4 +10289,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>播放或暫停</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>開啟時顯示遊戲新聞</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>開啟疊加層時自動開啟遊戲新聞面板。</value>
+  </data>
 </root>

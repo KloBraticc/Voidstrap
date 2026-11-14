@@ -9974,4 +9974,10 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Gwuo ma ọ bụ kwụsịtụ</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Gosi akụkọ egwuregwu mgbe emepere</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Na-emeghe ogwe akụkọ egwuregwu na-akpaghị aka mgbe emepere ihe mkpuchi ahụ.</value>
+  </data>
 </root>

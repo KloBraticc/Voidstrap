@@ -10288,4 +10288,10 @@ Instalar o SteamVR agora?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Reproduzir ou pausar</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Mostrar notícias do jogo ao abrir</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Abre automaticamente o painel de notícias do jogo quando a sobreposição é aberta.</value>
+  </data>
 </root>

@@ -9974,4 +9974,10 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Ciyaar ama hakad</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Muuji wararka ciyaarta marka la furo</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Si toos ah ayuu u furaa guddiga wararka ciyaarta marka daboolka la furo.</value>
+  </data>
 </root>

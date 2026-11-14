@@ -10286,4 +10286,10 @@ SteamVR jetzt installieren?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Spielen oder pausieren</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Spielnews beim Öffnen anzeigen</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Öffnet das Spielnews Panel automatisch, wenn das Overlay geöffnet wird.</value>
+  </data>
 </root>

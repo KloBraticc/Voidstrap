@@ -10289,4 +10289,10 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Chơi hoặc tạm dừng</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Hiện tin tức trò chơi khi mở</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Tự động mở bảng tin tức trò chơi khi lớp phủ được mở.</value>
+  </data>
 </root>

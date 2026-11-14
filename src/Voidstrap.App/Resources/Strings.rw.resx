@@ -9974,4 +9974,10 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Kina cyangwa uhagarike</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Erekana amakuru y’umukino iyo ufunguye</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Ifungura ku buryo bwikora akanama k’amakuru y’umukino iyo igipfundikizo gifunguwe.</value>
+  </data>
 </root>

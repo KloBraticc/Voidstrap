@@ -10284,4 +10284,10 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>I-play o i-pause</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Ipakita ang balita ng laro sa pagbukas</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Awtomatikong binubuksan ang panel ng balita ng laro kapag bumukas ang overlay.</value>
+  </data>
 </root>

@@ -9973,4 +9973,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>খেলা বা বিরতি</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>খোলার সময় গেমের খবর দেখান</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>ওভারলে খুললে গেমের খবরের প্যানেল স্বয়ংক্রিয়ভাবে খোলে।</value>
+  </data>
 </root>

@@ -10286,4 +10286,10 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Възпроизвеждане или пауза</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Показване на новини за играта при отваряне</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Отваря автоматично панела с новини за играта, когато наслагването се отвори.</value>
+  </data>
 </root>

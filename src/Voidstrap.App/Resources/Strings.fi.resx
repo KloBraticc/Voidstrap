@@ -10287,4 +10287,10 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Toista tai keskeytä</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Näytä pelin uutiset avattaessa</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Avaa pelin uutispaneelin automaattisesti, kun peittokuva avautuu.</value>
+  </data>
 </root>

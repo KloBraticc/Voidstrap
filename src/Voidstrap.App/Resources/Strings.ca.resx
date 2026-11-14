@@ -9973,4 +9973,10 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Reprodueix o posa en pausa</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Mostra les notícies del joc en obrir</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Obre automàticament el panell de notícies del joc quan s’obre la superposició.</value>
+  </data>
 </root>

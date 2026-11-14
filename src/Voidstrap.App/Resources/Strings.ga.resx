@@ -9974,4 +9974,10 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Seinn nó sos</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Taispeáin nuacht an chluiche ar oscailt</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Osclaíonn sé painéal nuachta an chluiche go huathoibríoch nuair a osclaítear an forleagan.</value>
+  </data>
 </root>

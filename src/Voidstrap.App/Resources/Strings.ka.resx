@@ -9974,4 +9974,10 @@ Uptime: {1}
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>დაკვრა ან პაუზა</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>გახსნისას თამაშის სიახლეების ჩვენება</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>ზედაფენის გახსნისას ავტომატურად ხსნის თამაშის სიახლეების პანელს.</value>
+  </data>
 </root>

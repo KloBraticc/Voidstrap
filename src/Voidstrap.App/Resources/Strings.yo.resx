@@ -9973,4 +9973,10 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Ṣiṣẹ tabi da duro</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Fi ìròyìn eré hàn nígbà ṣíṣí</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Ó ń ṣí pánẹ́ẹ̀lì ìròyìn eré láìfọwọ́yí nígbà tí ìbòrí bá ṣí.</value>
+  </data>
 </root>

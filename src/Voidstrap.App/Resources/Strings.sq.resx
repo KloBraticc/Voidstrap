@@ -9974,4 +9974,10 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Luaj ose ndalo</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Shfaq lajmet e lojës në hapje</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Hap automatikisht panelin e lajmeve të lojës kur hapet mbivendosja.</value>
+  </data>
 </root>

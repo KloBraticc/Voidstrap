@@ -9973,4 +9973,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Прайграванне або прыпыненне</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Паказваць навіны гульні пры адкрыцці</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Аўтаматычна адкрывае панэль навін гульні, калі адкрываецца накладка.</value>
+  </data>
 </root>

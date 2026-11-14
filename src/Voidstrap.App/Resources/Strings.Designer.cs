@@ -1330,6 +1330,8 @@ namespace Voidstrap.Resources {
         public static string Ui_SessionNotify_Overlay => ResourceManager.GetString("Ui.SessionNotify.Overlay", resourceCulture);
 
         public static string Ui_SessionNotify_OverlayShortcut => ResourceManager.GetString("Ui.SessionNotify.OverlayShortcut", resourceCulture);
+        public static string Ui_SessionNotify_DockNews_Title => ResourceManager.GetString("Ui.SessionNotify.DockNews.Title", resourceCulture);
+        public static string Ui_SessionNotify_DockNews_Hint => ResourceManager.GetString("Ui.SessionNotify.DockNews.Hint", resourceCulture);
 
         public static string Ui_SessionNotify_TheKeyCombinationThatOpensThe => ResourceManager.GetString("Ui.SessionNotify.TheKeyCombinationThatOpensThe", resourceCulture);
 

@@ -10287,4 +10287,10 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Odtwórz lub wstrzymaj</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Pokazuj wiadomości z gry przy otwarciu</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Automatycznie otwiera panel wiadomości z gry, gdy otwiera się nakładka.</value>
+  </data>
 </root>

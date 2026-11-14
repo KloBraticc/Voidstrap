@@ -10285,4 +10285,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>재생 또는 일시중지</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>열 때 게임 뉴스 표시</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>오버레이를 열 때 게임 뉴스 패널을 자동으로 엽니다.</value>
+  </data>
 </root>

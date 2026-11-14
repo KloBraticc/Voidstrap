@@ -10310,4 +10310,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>播放或暂停</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>打开时显示游戏新闻</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>打开叠加层时自动打开游戏新闻面板。</value>
+  </data>
 </root>

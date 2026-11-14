@@ -9974,4 +9974,10 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Predvajaj ali začasno ustavi</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Prikaži novice igre ob odprtju</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Samodejno odpre ploščo z novicami igre, ko se odpre prekrivni sloj.</value>
+  </data>
 </root>

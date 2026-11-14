@@ -9974,4 +9974,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>הפעל או השהה</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>הצג חדשות משחק בפתיחה</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>פותח אוטומטית את חלונית חדשות המשחק כשהשכבה נפתחת.</value>
+  </data>
 </root>

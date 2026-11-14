@@ -10281,4 +10281,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>เล่นหรือหยุดชั่วคราว</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>แสดงข่าวเกมเมื่อเปิด</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>เปิดแผงข่าวเกมโดยอัตโนมัติเมื่อเปิดโอเวอร์เลย์</value>
+  </data>
 </root>

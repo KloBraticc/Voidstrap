@@ -9974,4 +9974,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>प्ले गर्नुहोस् वा पज गर्नुहोस्</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>खोल्दा खेल समाचार देखाउनुहोस्</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>ओभरले खुल्दा खेल समाचार प्यानल स्वचालित रूपमा खोल्छ।</value>
+  </data>
 </root>

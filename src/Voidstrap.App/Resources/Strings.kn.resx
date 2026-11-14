@@ -9974,4 +9974,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>ಪ್ಲೇ ಮಾಡಿ ಅಥವಾ ವಿರಾಮಗೊಳಿಸಿ</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>ತೆರೆದಾಗ ಆಟದ ಸುದ್ದಿ ತೋರಿಸಿ</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>ಓವರ್‌ಲೇ ತೆರೆದಾಗ ಆಟದ ಸುದ್ದಿ ಫಲಕವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ತೆರೆಯುತ್ತದೆ.</value>
+  </data>
 </root>

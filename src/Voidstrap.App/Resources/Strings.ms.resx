@@ -10278,4 +10278,10 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Main atau jeda</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Tunjukkan berita permainan semasa dibuka</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Membuka panel berita permainan secara automatik apabila tindanan dibuka.</value>
+  </data>
 </root>

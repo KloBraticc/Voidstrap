@@ -9974,4 +9974,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>ຫຼິ້ນ ຫຼືຢຸດຊົ່ວຄາວ</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>ສະແດງຂ່າວເກມເມື່ອເປີດ</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>ເປີດແຜງຂ່າວເກມອັດຕະໂນມັດເມື່ອເປີດໂອເວີເລ.</value>
+  </data>
 </root>

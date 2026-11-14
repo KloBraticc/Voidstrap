@@ -9974,4 +9974,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>සෙල්ලම් කරන්න හෝ විරාම කරන්න</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>විවෘත කරන විට ක්‍රීඩා පුවත් පෙන්වන්න</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>උඩැතිරිය විවෘත වූ විට ක්‍රීඩා පුවත් පුවරුව ස්වයංක්‍රීයව විවෘත කරයි.</value>
+  </data>
 </root>

@@ -9974,4 +9974,10 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>ਚਲਾਓ ਜਾਂ ਰੋਕੋ</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>ਖੋਲ੍ਹਣ ਤੇ ਗੇਮ ਖ਼ਬਰਾਂ ਦਿਖਾਓ</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>ਓਵਰਲੇ ਖੁੱਲ੍ਹਣ ਤੇ ਗੇਮ ਖ਼ਬਰਾਂ ਪੈਨਲ ਆਪਣੇ ਆਪ ਖੋਲ੍ਹਦਾ ਹੈ।</value>
+  </data>
 </root>

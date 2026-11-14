@@ -9973,4 +9973,10 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Chwarae neu oedi</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Dangos newyddion y gêm wrth agor</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Yn agor panel newyddion y gêm yn awtomatig pan fydd y troshaen yn agor.</value>
+  </data>
 </root>

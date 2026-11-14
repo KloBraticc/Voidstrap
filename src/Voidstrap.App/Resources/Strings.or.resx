@@ -9974,4 +9974,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>ଖେଳ କିମ୍ବା ବିରତି କର |</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>ଖୋଲିବା ସମୟରେ ଖେଳ ଖବର ଦେଖାନ୍ତୁ</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>ଓଭରଲେ ଖୋଲିଲେ ଖେଳ ଖବର ପ୍ୟାନେଲ ସ୍ୱୟଂଚାଳିତ ଭାବେ ଖୋଲେ।</value>
+  </data>
 </root>

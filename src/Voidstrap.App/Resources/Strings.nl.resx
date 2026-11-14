@@ -10288,4 +10288,10 @@ SteamVR nu installeren?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Afspelen of pauzeren</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Gamenieuws tonen bij openen</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Opent automatisch het gamenieuwspaneel wanneer de overlay opent.</value>
+  </data>
 </root>

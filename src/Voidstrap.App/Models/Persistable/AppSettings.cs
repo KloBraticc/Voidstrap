@@ -413,6 +413,8 @@ namespace Voidstrap.Models.Persistable
         // On reminds about the dock shortcut every time a game starts, off only the very first time
         public bool NotifyShortcutEveryGame { get; set; } = false;
 
+        public bool ShowDockNews { get; set; } = true;
+
         public bool Ps4ButtonsEnabled { get; set; } = false;
 
         public bool ModPacksNoticeShown { get; set; } = false;

@@ -9973,4 +9973,10 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>ကစားပါ သို့မဟုတ် ခေတ္တရပ်ပါ။</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>ဖွင့်သောအခါ ဂိမ်းသတင်းပြရန်</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>အထပ်ကို ဖွင့်သောအခါ ဂိမ်းသတင်းအကွက်ကို အလိုအလျောက် ဖွင့်ပေးသည်။</value>
+  </data>
 </root>

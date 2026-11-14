@@ -9973,4 +9973,10 @@ Installeer SteamVR nou?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Speel of breek</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Wys speletjienuus by oopmaak</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Maak die speletjienuuspaneel outomaties oop wanneer die oorleg oopmaak.</value>
+  </data>
 </root>

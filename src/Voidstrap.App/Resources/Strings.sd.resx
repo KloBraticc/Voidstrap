@@ -9974,4 +9974,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>راند ڪريو يا رکو</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>کولڻ تي راند جون خبرون ڏيکاريو</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>جڏهن اوورلي کلي ته راند جي خبرن واري پينل کي پاڻمرادو کولي ٿو.</value>
+  </data>
 </root>

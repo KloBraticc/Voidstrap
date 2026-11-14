@@ -9974,4 +9974,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>खेळा किंवा विराम द्या</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>उघडताना गेम बातम्या दाखवा</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>ओव्हरले उघडल्यावर गेम बातम्यांचे पॅनेल आपोआप उघडते.</value>
+  </data>
 </root>

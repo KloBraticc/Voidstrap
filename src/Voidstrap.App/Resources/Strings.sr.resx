@@ -9974,4 +9974,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Пусти или паузирај</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Прикажи вести игре при отварању</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Аутоматски отвара панел са вестима игре када се преклоп отвори.</value>
+  </data>
 </root>

@@ -10301,4 +10301,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>再生または一時停止</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>開いたときにゲームニュースを表示</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>オーバーレイを開いたときにゲームニュースパネルを自動で開きます。</value>
+  </data>
 </root>

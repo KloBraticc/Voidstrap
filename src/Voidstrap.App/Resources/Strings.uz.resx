@@ -9973,4 +9973,10 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>O'ynang yoki pauza qiling</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Ochilganda o‘yin yangiliklarini ko‘rsatish</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Qatlam ochilganda o‘yin yangiliklari panelini avtomatik ochadi.</value>
+  </data>
 </root>

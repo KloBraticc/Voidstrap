@@ -10289,4 +10289,10 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>Putar atau jeda</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>Tampilkan berita game saat dibuka</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>Membuka panel berita game secara otomatis saat overlay dibuka.</value>
+  </data>
 </root>

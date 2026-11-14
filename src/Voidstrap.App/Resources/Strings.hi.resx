@@ -9974,4 +9974,10 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>चलायें या रोकें</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>खोलने पर गेम समाचार दिखाएं</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>ओवरले खुलने पर गेम समाचार पैनल अपने आप खोलता है।</value>
+  </data>
 </root>

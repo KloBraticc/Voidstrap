@@ -9974,4 +9974,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Island.PlayPause" xml:space="preserve">
     <value>លេងឬផ្អាក</value>
   </data>
+  <data name="Ui.SessionNotify.DockNews.Title" xml:space="preserve">
+    <value>បង្ហាញព័ត៌មានហ្គេមពេលបើក</value>
+  </data>
+  <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
+    <value>បើកផ្ទាំងព័ត៌មានហ្គេមដោយស្វ័យប្រវត្តិ នៅពេលស្រទាប់បើក។</value>
+  </data>
 </root>
