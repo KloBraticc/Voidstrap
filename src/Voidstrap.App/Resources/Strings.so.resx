@@ -9962,4 +9962,31 @@ Ciyaartoyda: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Waxay ka joojisaa baarka cinwaanka Roblox inuu hoos u soo dego marka jiirkaagu gaaro korka shaashadda marka shaashaddu buuxdo.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Ku ciyaar Roblox madaxa dhegahaaga ilaa SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR wuxuu ku rakibaa ilaa Steam. Ku rakib Steam oo soo gal, ka dib isku day mar kale.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR lama rakibin. Ka soo deji qaybta VR ee bogga Maareeyaha marka hore.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags-gaaga wuxuu ka dhigayaa Roblox inuu doorbido Vulkan, laakiin Roblox VR kaliya wuxuu la shaqeeyaa DirectX 11. Ka bilow VR si kastaba?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap waxay ku rakibtaa SteamVR iyada oo loo marayo Steam oo ku soo saarta Roblox madaxa dhegahaaga, laakiin astaamaha Voidstrap qaarkood ma gaadhi karaan SteamVR:
+
+• Duldhigidda sida counter-ka FPS, timaha is-goysyada, furayaasha furaha iyo macluumaadka server-ka kama muuqdaan gudaha dhegaha-dhegaha
+• RiShade iyo hadhka kale kuma khuseeyaan VR
+• Dhaqdhaqaaq laba jibaaran, Snap Tap iyo kontaroolaha farsamada lama shaqeeyaan kontaroolayaasha VR
+• Ilaalada ciwaanka, hagaajinta daaqada iyo ikhtiyaarada shaashadda oo dhan waxay saameeyaan muraayada miiska
+• Furitaanka FPS ma khuseeyo, madaxa dhegahaagu wuxuu dejiyaa heerka cabbirka
+• Dejinta SteamVR, cusbooneysiinta iyo dulsaarkeeda waxaa maamula Steam, ma aha Voidstrap
+
+Hadda rakib SteamVR?</value>
+  </data>
 </root>

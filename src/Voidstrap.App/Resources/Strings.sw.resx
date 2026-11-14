@@ -9961,4 +9961,31 @@ Wachezaji: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Huzuia upau wa kichwa wa Roblox kushuka kipanya chako kinapofika juu ya skrini katika skrini nzima.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Cheza Roblox kwenye vifaa vyako vya sauti kupitia SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR imesakinishwa kupitia Steam. Sakinisha Steam na uingie, kisha ujaribu tena.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR haijasakinishwa. Isakinishe kutoka sehemu ya Uhalisia Pepe ya ukurasa wa Kidhibiti kwanza.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags yako hufanya Roblox ipende zaidi Vulkan, lakini Roblox VR inafanya kazi na DirectX 11 pekee. Ungependa kuzindua katika Uhalisia Pepe?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap husakinisha SteamVR kupitia Steam na kuzindua Roblox kwenye vifaa vyako vya sauti, lakini baadhi ya vipengele vya Voidstrap haviwezi kufikia SteamVR:
+
+• Viwekeleo kama vile kihesabu cha FPS, nywele zilizovuka, mibofyo ya vitufe na maelezo ya seva hayaonyeshi ndani ya kifaa cha sauti.
+• RiShade na vivuli vingine havitumiki katika Uhalisia Pepe
+• Kusonga mara mbili, Snap Tap na kidhibiti pepe havifanyi kazi na vidhibiti vya Uhalisia Pepe
+• Kilinda upau wa kichwa, marekebisho ya dirisha na chaguo za skrini nzima huathiri tu kioo cha eneo-kazi
+• Ufunguaji wa FPS hautumiki, vifaa vyako vya sauti huweka kasi ya fremu
+• Mipangilio ya SteamVR, masasisho na viwekeleo vyake yenyewe vinadhibitiwa na Steam, si Voidstrap
+
+Sakinisha SteamVR sasa?</value>
+  </data>
 </root>

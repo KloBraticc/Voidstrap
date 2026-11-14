@@ -10289,4 +10289,31 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>全画面表示でマウスが画面上端に達したときに、Roblox のタイトルバーが下りてこないようにします。</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR を通じてヘッドセットで Roblox を再生する</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR は Steam を通じてインストールされます。 Steam をインストールしてサインインし、もう一度試してください。</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVRがインストールされていません。まずはマネージャーページのVRセクションからインストールしてください。</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags では Roblox が Vulkan を優先しますが、Roblox VR は DirectX 11 でのみ動作します。とにかく VR で起動しますか?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap は SteamVR から Steam までをインストールし、ヘッドセットで Roblox を起動しますが、一部の Voidstrap 機能は SteamVR に到達できません。
+
+• FPS カウンター、十字線、キーストローク、サーバー情報などのオーバーレイがヘッドセット内に表示されない
+• RiShade およびその他のシェーダは VR には適用されません
+• 二重移動、Snap Tap および仮想コントローラーは VR コントローラーでは動作しません
+• タイトル バー ガード、ウィンドウの調整、全画面オプションはデスクトップ ミラーにのみ影響します。
+• FPS ロック解除は適用されません。ヘッドセットによってフレーム レートが設定されます。
+• SteamVR の設定、アップデート、および独自のオーバーレイは、Voidstrap ではなく Steam によって管理されます。
+
+今すぐ SteamVR をインストールしますか?</value>
+  </data>
 </root>

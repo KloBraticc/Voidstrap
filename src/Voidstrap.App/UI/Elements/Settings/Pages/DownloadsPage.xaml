@@ -157,6 +157,7 @@
                     <ComboBoxItem Content="Everything" />
                     <ComboBoxItem Content="Roblox" />
                     <ComboBoxItem Content="Classic" />
+                    <ComboBoxItem Content="VR" />
                     </ComboBox>
                   </controls:SearchFilterBox.Filter>
                 </controls:SearchFilterBox>
@@ -168,6 +169,17 @@
                     <StackPanel x:Name="RobloxSection">
                         <TextBlock Text="Roblox" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10" />
                         <ItemsControl x:Name="RobloxItems" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource PosterCardTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid VerticalAlignment="Top" Columns="{Binding ClassicColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <StackPanel x:Name="VrSection" Visibility="{Binding HasVr, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <TextBlock Text="VR" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,10" />
+                        <ItemsControl x:Name="VrItemsList" ItemsSource="{Binding VrItems}" ItemTemplate="{StaticResource PosterCardTemplate}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid VerticalAlignment="Top" Columns="{Binding ClassicColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />

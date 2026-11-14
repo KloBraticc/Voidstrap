@@ -10269,4 +10269,31 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>ป้องกันไม่ให้แถบชื่อเรื่องของ Roblox เลื่อนลงมาเมื่อเมาส์ของคุณไปถึงด้านบนของหน้าจอในโหมดเต็มหน้าจอ</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>เล่น Roblox ในชุดหูฟังของคุณผ่าน SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR ติดตั้งผ่าน Steam ติดตั้ง Steam และลงชื่อเข้าใช้ จากนั้นลองอีกครั้ง</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>ไม่ได้ติดตั้ง SteamVR ติดตั้งจากส่วน VR ของหน้าผู้จัดการก่อน</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags ของคุณทำให้ Roblox ชอบ Vulkan แต่ Roblox VR ใช้ได้กับ DirectX 11 เท่านั้น เปิดตัวใน VR หรือยัง?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap ติดตั้ง SteamVR ผ่าน Steam และเปิดใช้งาน Roblox ในชุดหูฟังของคุณ แต่คุณสมบัติ Voidstrap บางอย่างไม่สามารถเข้าถึง SteamVR:
+
+• ภาพซ้อนทับ เช่น ตัวนับ FPS, เป้าเล็ง, การกดแป้นพิมพ์ และข้อมูลเซิร์ฟเวอร์ จะไม่แสดงภายในชุดหูฟัง
+• RiShade และเชเดอร์อื่นๆ ใช้ไม่ได้กับ VR
+• การเคลื่อนไหวสองครั้ง Snap Tap และตัวควบคุมเสมือนใช้งานไม่ได้กับตัวควบคุม VR
+• ตัวป้องกันแถบหัวเรื่อง การปรับแต่งหน้าต่าง และตัวเลือกเต็มหน้าจอจะมีผลกับมิเรอร์เดสก์ท็อปเท่านั้น
+• ใช้การปลดล็อค FPS ไม่ได้ ชุดหูฟังของคุณจะตั้งค่าอัตราเฟรม
+• การตั้งค่า SteamVR การอัปเดต และการซ้อนทับของตัวเองได้รับการจัดการโดย Steam ไม่ใช่ Voidstrap
+
+ติดตั้ง SteamVR ตอนนี้เลย?</value>
+  </data>
 </root>

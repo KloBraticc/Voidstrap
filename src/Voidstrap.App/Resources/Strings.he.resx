@@ -9962,4 +9962,31 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>מונע משורת הכותרת של Roblox לגלוש למטה כשהעכבר מגיע לראש המסך במצב מסך מלא.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>שחק Roblox באוזניות שלך דרך SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR מותקן דרך Steam. התקן את Steam והיכנס, ולאחר מכן נסה שוב.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR אינו מותקן. התקן אותו תחילה מקטע ה-VR של דף המנהל.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags שלך גורם ל-Roblox להעדיף את Vulkan, אבל Roblox VR עובד רק עם DirectX 11. הושקה ב-VR בכל זאת?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap מתקין את SteamVR עד Steam ומשיק את Roblox באוזניות שלך, אבל חלק מתכונות Voidstrap לא יכולות להגיע ל-SteamVR:
+
+• שכבות-על כגון מונה FPS, כוונת, הקשות ופרטי שרת אינן מופיעות בתוך האוזניות
+• RiShade והצללות אחרות לא חלות ב-VR
+• תנועה כפולה, Snap Tap והבקר הוירטואלי לא עובדים עם בקרי VR
+• שומר שורת הכותרת, שינויים בחלונות ואפשרויות מסך מלא משפיעים רק על מראה שולחן העבודה
+• ביטול הנעילה של FPS אינו חל, האוזניות שלך קובעות את קצב הפריימים
+• הגדרות SteamVR, עדכונים ושכבות-על משלו מנוהלות על ידי Steam, לא Voidstrap
+
+להתקין את SteamVR עכשיו?</value>
+  </data>
 </root>

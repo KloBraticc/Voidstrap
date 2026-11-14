@@ -10276,4 +10276,31 @@ Jogadores: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Impede que a barra de título do Roblox desça quando o mouse chega ao topo da tela em tela cheia.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Jogue Roblox em seu fone de ouvido através do SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>O SteamVR é instalado através do Steam. Instale o Steam, faça login e tente novamente.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR não está instalado. Instale-o primeiro na seção VR da página do gerenciador.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Seu FastFlags faz com que o Roblox prefira o Vulkan, mas o Roblox VR só funciona com o DirectX 11. Lançar em VR mesmo assim?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>O Voidstrap instala o SteamVR por meio do Steam e inicia o Roblox em seu fone de ouvido, mas alguns recursos do Voidstrap não podem alcançar o SteamVR:
+
+• Sobreposições como contador FPS, mira, pressionamentos de tecla e informações do servidor não aparecem dentro do fone de ouvido
+• RiShade e outros shaders não se aplicam em VR
+• Movimento duplo, Snap Tap e o controlador virtual não funcionam com controladores VR
+• A proteção da barra de título, ajustes de janela e opções de tela cheia afetam apenas o espelho da área de trabalho
+• O desbloqueio do FPS não se aplica, seu fone de ouvido define a taxa de quadros
+• As configurações, atualizações e suas próprias sobreposições do SteamVR são gerenciadas pelo Steam, não pelo Voidstrap
+
+Instalar o SteamVR agora?</value>
+  </data>
 </root>

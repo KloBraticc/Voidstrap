@@ -9961,4 +9961,31 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>పూర్తి స్క్రీన్‌లో మీ మౌస్ స్క్రీన్ పైభాగానికి చేరినప్పుడు Roblox టైటిల్ బార్ కిందికి జారకుండా ఆపుతుంది.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR ద్వారా మీ హెడ్‌సెట్‌లో Roblox ప్లే చేయండి</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR Steam ద్వారా ఇన్‌స్టాల్ అవుతుంది. Steam ఇన్‌స్టాల్ చేసి, సైన్ ఇన్ చేసి, ఆపై మళ్లీ ప్రయత్నించండి.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ఇన్‌స్టాల్ చేయబడలేదు. ముందుగా మేనేజర్ పేజీలోని VR విభాగం నుండి దీన్ని ఇన్‌స్టాల్ చేయండి.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>మీ FastFlags Robloxని Vulkanకి ప్రాధాన్యతనిస్తుంది, కానీ Roblox VR DirectX 11తో మాత్రమే పని చేస్తుంది. ఏమైనా VRలో ప్రారంభించాలా?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap Steam ద్వారా SteamVRని ఇన్‌స్టాల్ చేస్తుంది మరియు మీ హెడ్‌సెట్‌లో Robloxని ప్రారంభిస్తుంది, కానీ కొన్ని Voidstrap ఫీచర్‌లు SteamVRకి చేరుకోలేవు:
+
+• FPS కౌంటర్, క్రాస్‌హైర్, కీస్ట్రోక్‌లు మరియు సర్వర్ సమాచారం వంటి అతివ్యాప్తులు హెడ్‌సెట్ లోపల కనిపించవు
+• RiShade మరియు ఇతర షేడర్‌లు VRలో వర్తించవు
+• డబుల్ కదలిక, Snap Tap మరియు వర్చువల్ కంట్రోలర్ VR కంట్రోలర్‌లతో పని చేయవు
+• టైటిల్ బార్ గార్డ్, విండో ట్వీక్స్ మరియు పూర్తి స్క్రీన్ ఎంపికలు డెస్క్‌టాప్ మిర్రర్‌ను మాత్రమే ప్రభావితం చేస్తాయి
+• FPS అన్‌లాక్ వర్తించదు, మీ హెడ్‌సెట్ ఫ్రేమ్ రేట్‌ను సెట్ చేస్తుంది
+• SteamVR సెట్టింగ్‌లు, అప్‌డేట్‌లు మరియు దాని స్వంత ఓవర్‌లేలు Voidstrap ద్వారా కాకుండా Steam ద్వారా నిర్వహించబడతాయి
+
+ఇప్పుడు SteamVRని ఇన్‌స్టాల్ చేయాలా?</value>
+  </data>
 </root>

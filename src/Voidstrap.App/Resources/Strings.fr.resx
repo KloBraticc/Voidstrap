@@ -10273,4 +10273,31 @@ Joueurs : {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Empêche la barre de titre de Roblox de descendre lorsque votre souris atteint le haut de l'écran en plein écran.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Jouez à Roblox dans votre casque via SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR s'installe via Steam. Installez Steam et connectez-vous, puis réessayez.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR n'est pas installé. Installez-le d'abord à partir de la section VR de la page Manager.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Votre FastFlags fait que Roblox préfère Vulkan, mais Roblox VR ne fonctionne qu'avec DirectX 11. Lancer en VR quand même ?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap installe SteamVR via Steam et lance Roblox dans votre casque, mais certaines fonctionnalités Voidstrap ne peuvent pas atteindre SteamVR :
+
+• Les superpositions telles que le compteur FPS, le réticule, les frappes au clavier et les informations sur le serveur ne s'affichent pas à l'intérieur du casque.
+• RiShade et autres shaders ne s'appliquent pas en VR
+• Double mouvement, Snap Tap et le contrôleur virtuel ne fonctionnent pas avec les contrôleurs VR
+• La protection de la barre de titre, les réglages de la fenêtre et les options plein écran n'affectent que le miroir du bureau.
+• Le déverrouillage du FPS ne s'applique pas, votre casque définit la fréquence d'images
+• Les paramètres, mises à jour et ses propres superpositions du SteamVR sont gérés par Steam, et non par Voidstrap
+
+Installer SteamVR maintenant ?</value>
+  </data>
 </root>

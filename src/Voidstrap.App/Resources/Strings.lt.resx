@@ -10276,4 +10276,31 @@ Veikimo laikas: {1}
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Neleidžia Roblox pavadinimo juostai nusileisti, kai jūsų pelė viso ekrano režimu pasiekia ekrano viršų.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Žaiskite Roblox savo ausinėse per SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR įdiegiamas per Steam. Įdiekite Steam ir prisijunkite, tada bandykite dar kartą.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR neįdiegtas. Pirmiausia įdiekite jį iš tvarkyklės puslapio VR skilties.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Jūsų FastFlags daro Roblox pirmenybę Vulkan, tačiau Roblox VR veikia tik su DirectX 11. Vis tiek paleisti VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap įdiegia SteamVR per Steam ir paleidžia Roblox jūsų ausinėse, tačiau kai kurios Voidstrap funkcijos negali pasiekti SteamVR:
+
+• Perdangos, tokios kaip FPS skaitiklis, kryželis, klavišų paspaudimai ir serverio informacija, nerodomi ausinių viduje
+• RiShade ir kiti šešėliai netaikomi VR
+• Dvigubas judėjimas, Snap Tap ir virtualus valdiklis neveikia su VR valdikliais
+• Pavadinimo juostos apsauga, langų pakeitimai ir viso ekrano parinktys veikia tik darbalaukio veidrodį
+• FPS atrakinimas netaikomas, jūsų ausinės nustato kadrų dažnį
+• SteamVR nustatymus, naujinimus ir savo perdangas valdo Steam, o ne Voidstrap
+
+Įdiegti SteamVR dabar?</value>
+  </data>
 </root>

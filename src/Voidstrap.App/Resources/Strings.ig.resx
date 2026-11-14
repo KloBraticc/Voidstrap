@@ -9962,4 +9962,31 @@ Ndị egwuregwu: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Ọ na-egbochi ogwe aha Roblox ịda ala mgbe òké gị ruru n'elu ihuenyo n'ihuenyo zuru oke.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Kpọọ Roblox na ekweisi gị site na SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR arụnyere site na Steam. Wụnye Steam wee banye, wee nwaa ọzọ.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>Awụnyeghị SteamVR. Wụnye ya na ngalaba VR nke ibe njikwa mbụ.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags gị na-eme Roblox masịrị Vulkan, mana Roblox VR na-arụ ọrụ naanị na DirectX 11. Malite na VR agbanyeghị?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap na-etinye SteamVR site na Steam wee malite Roblox na ekweisi gị, mana ụfọdụ atụmatụ Voidstrap enweghị ike iru SteamVR:
+
+• Mkpuchi dị ka counter FPS, crosshair, igodo igodo na ozi nkesa anaghị egosi n'ime ekweisi.
+• RiShade na shaders ndị ọzọ anaghị etinye na VR
+• Mmegharị ugboro abụọ, Snap Tap na njikwa mebere anaghị arụ ọrụ na njikwa VR
+• Onye nche mmanya aha, tweaks windo na nhọrọ ihuenyo zuru ezu na-emetụta naanị enyo desktọpụ
+• Mkpọghe FPS anaghị emetụta, ekweisi gị na-edozi ọnụego etiti
+• Steam na-ejikwa ntọala SteamVR, mmelite na ihe mkpuchi nke ya, ọ bụghị Voidstrap
+
+Wụnye SteamVR ugbu a?</value>
+  </data>
 </root>

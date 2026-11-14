@@ -9962,4 +9962,31 @@ Parteċipanti: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Iżżomm l-istrixxa tat-titlu ta' Roblox milli tinżel meta l-maws tiegħek jasal fil-quċċata tal-iskrin fuq skrin sħiħ.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Ilgħab Roblox fil-headset tiegħek permezz ta' SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR jinstalla permezz Steam. Installa Steam u idħol, imbagħad erġa' pprova.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR mhux installat. Installaha mit-taqsima VR tal-paġna tal-Maniġer l-ewwel.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags tiegħek jagħmel Roblox jippreferi Vulkan, iżda Roblox VR jaħdem biss ma 'DirectX 11. Tnedija fil-VR xorta waħda?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap jinstalla SteamVR permezz Steam u jniedi Roblox fil-headset tiegħek, iżda xi karatteristiċi Voidstrap ma jistgħux jilħqu SteamVR:
+
+• Overlays bħall-counter FPS, crosshair, keystrokes u info tas-server ma jidhrux ġewwa l-headset
+• RiShade u shaders oħra ma japplikawx fil-VR
+• Moviment doppju, Snap Tap u l-kontrollur virtwali ma jaħdmux mal-kontrolluri VR
+• Il-gwardja tal-bar tat-titlu, it-tweaks tat-twieqi u l-għażliet fullscreen jaffettwaw biss il-mera tad-desktop
+• Il-ftuħ tal-FPS ma japplikax, il-headset tiegħek jistabbilixxi r-rata tal-qafas
+• Is-settings SteamVR, l-aġġornamenti u l-overlays tiegħu stess huma ġestiti minn Steam, mhux Voidstrap
+
+Installa SteamVR issa?</value>
+  </data>
 </root>

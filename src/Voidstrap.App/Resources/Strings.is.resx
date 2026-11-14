@@ -9962,4 +9962,31 @@ Leikmenn: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Kemur í veg fyrir að titilstika Roblox renni niður þegar músin nær efst á skjáinn á öllum skjánum.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Spilaðu Roblox í heyrnartólinu þínu í gegnum SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR setur upp í gegnum Steam. Settu upp Steam og skráðu þig inn, reyndu svo aftur.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR er ekki uppsett. Settu það upp úr VR hlutanum á Manager síðunni fyrst.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags þinn gerir Roblox frekar til að velja Vulkan, en Roblox VR virkar aðeins með DirectX 11. Ræsa í VR samt?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap setur upp SteamVR í gegnum Steam og ræsir Roblox í höfuðtólinu þínu, en sumir Voidstrap eiginleikar ná ekki til SteamVR:
+
+• Yfirlög eins og FPS teljarinn, krosshár, ásláttur og upplýsingar um miðlara birtast ekki inni í höfuðtólinu
+• RiShade og aðrir skyggingar eiga ekki við í VR
+• Tvöföld hreyfing, Snap Tap og sýndarstýringin virka ekki með VR stýringar
+• Titilstikavörðurinn, gluggaklippingar og valkostir á öllum skjánum hafa aðeins áhrif á skjáborðsspegilinn
+• FPS aflæsingin á ekki við, höfuðtólið þitt stillir rammahraðann
+• SteamVR stillingar, uppfærslur og eigin yfirlög eru stjórnað af Steam, ekki Voidstrap
+
+Settu upp SteamVR núna?</value>
+  </data>
 </root>

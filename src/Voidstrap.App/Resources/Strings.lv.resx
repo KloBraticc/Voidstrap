@@ -9962,4 +9962,31 @@ Spēlētāji: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Neļauj Roblox virsrakstjoslai nolaisties, kad pele pilnekrāna režīmā sasniedz ekrāna augšmalu.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Spēlējiet Roblox savās austiņās, izmantojot SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR instalēšana, izmantojot Steam. Instalējiet Steam un pierakstieties, pēc tam mēģiniet vēlreiz.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR nav instalēts. Vispirms instalējiet to no pārvaldnieka lapas VR sadaļas.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Jūsu FastFlags padara Roblox priekšroku Vulkan, bet Roblox VR darbojas tikai ar DirectX 11. Vai tomēr palaist virtuālajā realitātē?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap instalē SteamVR līdz Steam un palaiž Roblox jūsu austiņās, taču dažas Voidstrap funkcijas nevar sasniegt SteamVR:
+
+• Austiņu iekšpusē netiek rādīti pārklājumi, piemēram, FPS skaitītājs, krustojums, taustiņsitieni un servera informācija.
+• RiShade un citi ēnotāji nav lietojami VR
+• Dubultā kustība, Snap Tap un virtuālais kontrolieris nedarbojas ar VR kontrolleriem
+• Virsraksta joslas aizsargs, logu pielāgojumi un pilnekrāna opcijas ietekmē tikai darbvirsmas spoguli
+• FPS atbloķēšana netiek piemērota, jūsu austiņas iestata kadru ātrumu
+• SteamVR iestatījumus, atjauninājumus un savus pārklājumus pārvalda Steam, nevis Voidstrap
+
+Vai instalēt SteamVR tūlīt?</value>
+  </data>
 </root>

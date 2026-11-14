@@ -9962,4 +9962,31 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>පූර්ණ තිරයේදී ඔබේ මූසිකය තිරයේ ඉහළට ළඟා වූ විට Roblox මාතෘකා තීරුව පහළට ලිස්සා ඒම නවත්වයි.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR හරහා ඔබේ හෙඩ්සෙට් එකේ Roblox වාදනය කරන්න</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR ස්ථාපනය කරන්නේ Steam හරහාය. Steam ස්ථාපනය කර පුරනය වන්න, ඉන්පසු නැවත උත්සාහ කරන්න.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ස්ථාපනය කර නැත. මුලින්ම Manager පිටුවේ VR කොටසින් එය ස්ථාපනය කරන්න.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>ඔබේ FastFlags විසින් Roblox Vulkan වලට වඩා කැමති කරයි, නමුත් Roblox VR ක්‍රියා කරන්නේ DirectX 11 සමඟ පමණි. කෙසේ වෙතත් VR තුළ දියත් කරන්නද?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap Steam හරහා SteamVR ස්ථාපනය කර ඔබේ හෙඩ්සෙට් එකේ Roblox දියත් කරයි, නමුත් සමහර Voidstrap විශේෂාංග SteamVR වෙත ළඟා විය නොහැක:
+
+• FPS කවුන්ටරය, හරස්කඩ, යතුරු පහර සහ සේවාදායක තොරතුරු වැනි ආවරණ හෙඩ්සෙට් එක තුළ නොපෙන්වයි
+• RiShade සහ අනෙකුත් ෂේඩර් VR හි අදාළ නොවේ
+• ද්විත්ව චලනය, Snap Tap සහ අතථ්‍ය පාලකය VR පාලක සමඟ ක්‍රියා නොකරයි
+• මාතෘකා තීරු ආරක්ෂකය, කවුළු tweaks සහ සම්පූර්ණ තිර විකල්පයන් ඩෙස්ක්ටොප් කැඩපතට පමණක් බලපායි
+• FPS අගුලු හැරීම අදාළ නොවේ, ඔබේ හෙඩ්සෙට් රාමු අනුපාතය සකසයි
+• SteamVR සැකසීම්, යාවත්කාල කිරීම් සහ එහි උඩැතිරි කළමනාකරණය කරනු ලබන්නේ Voidstrap නොව Steam විසිනි
+
+දැන් SteamVR ස්ථාපනය කරන්නද?</value>
+  </data>
 </root>

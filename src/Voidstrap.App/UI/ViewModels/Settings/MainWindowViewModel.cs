@@ -263,12 +263,43 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
             LaunchMuMu();
             return;
         }
+        if (IsSteamVrSelection(code))
+        {
+            LaunchSteamVr();
+            return;
+        }
+        if (SelectedLaunchModeIndex != 1)
+            Voidstrap.Integrations.SteamVr.RestoreDesktop();
         if (IsClassicSelection(code))
         {
             LaunchClassicClient(code, SelectedLaunchModeIndex == 1);
             return;
         }
         LaunchHandler.LaunchRoblox((SelectedLaunchModeIndex != 1) ? LaunchMode.Player : LaunchMode.Studio);
+    }
+
+    private static bool IsSteamVrSelection(string code)
+    {
+        return Voidstrap.Integrations.SteamVr.IsSupported && string.Equals(code, App.SteamVrLaunchClientCode, StringComparison.Ordinal);
+    }
+
+    private static void LaunchSteamVr()
+    {
+        const string LOG_IDENT = "MainWindowViewModel::LaunchSteamVr";
+        Voidstrap.Integrations.SteamVr.Install? install = Voidstrap.Integrations.SteamVr.Find();
+        if (install == null)
+        {
+            Frontend.ShowMessageBox(Strings.Vr_NotInstalled, MessageBoxImage.Warning);
+            return;
+        }
+        if (
+            Voidstrap.Integrations.SteamVr.PrefersVulkan()
+            && Frontend.ShowMessageBox(Strings.Vr_VulkanWarning, MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes
+        )
+            return;
+        if (!Voidstrap.Integrations.SteamVr.PrepareLaunch(install))
+            App.Logger.WriteLine(LOG_IDENT, "Continuing without starting SteamVR first");
+        LaunchHandler.LaunchRoblox(LaunchMode.Player);
     }
 
     private static bool IsMuMuSelection(string code)

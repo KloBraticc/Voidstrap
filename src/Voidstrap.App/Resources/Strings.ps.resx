@@ -9962,4 +9962,31 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>کله چې ستاسو موږک په بشپړه پرده کې د پردې سر ته ورسېږي، د Roblox سرلیک پټه ښکته کېدو څخه ساتي.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>د SteamVR له لارې خپل هیډسیټ کې Roblox پلی کړئ</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR د Steam له لارې نصب کیږي. Steam نصب کړئ او لاسلیک وکړئ، بیا بیا هڅه وکړئ.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR نه دی نصب شوی. دا لومړی د مدیر پاڼې د VR برخې څخه نصب کړئ.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>ستاسو FastFlags د Roblox غوره کوي Vulkan، مګر Roblox VR یوازې د DirectX 11 سره کار کوي. په هرصورت په VR کې لانچ کړئ؟</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap د Steam له لارې SteamVR نصبوي او ستاسو په هیډسیټ کې Roblox پیلوي، مګر د Voidstrap ځینې ځانګړتیاوې نشي کولی SteamVR ته ورسیږي:
+
+• پوښښ لکه د FPS کاونټر، کراسشیر، کیسټروک او د سرور معلومات د هیډسیټ دننه نه ښیې
+• RiShade او نور سیډرونه په VR کې نه پلي کیږي
+• دوه ځله حرکت، Snap Tap او مجازی کنټرولر د VR کنټرولرانو سره کار نه کوي
+• د سرلیک بار ساتونکي ، د کړکۍ ټیکونه او د بشپړ سکرین اختیارونه یوازې د ډیسټاپ عکس اغیزه کوي
+• د FPS انلاک نه پلي کیږي، ستاسو هیډسیټ د چوکاټ نرخ ټاکي
+• د SteamVR تنظیمات، تازه معلومات او د هغې خپل پوښښ د Steam لخوا اداره کیږي، نه Voidstrap
+
+اوس SteamVR نصب کړئ؟</value>
+  </data>
 </root>

@@ -9962,4 +9962,31 @@ Uptime: {1}
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>ხელს უშლის Roblox-ის სათაურის ზოლის ჩამოსრიალებას, როცა მაუსი სრულ ეკრანზე ეკრანის ზედა კიდეს აღწევს.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>ითამაშეთ Roblox თქვენს ყურსასმენში SteamVR-ის საშუალებით</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR ინსტალირებულია Steam-ის მეშვეობით. დააინსტალირეთ Steam და შედით სისტემაში, შემდეგ სცადეთ ხელახლა.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR არ არის დაინსტალირებული. ჯერ დააინსტალირეთ მენეჯერის გვერდის VR განყოფილებიდან.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>თქვენი FastFlags ხდის Roblox-ს უპირატესობას Vulkan-ს, მაგრამ Roblox VR მუშაობს მხოლოდ DirectX 11-თან. მაინც გაშვება VR-ში?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap აყენებს SteamVR-ს Steam-მდე და უშვებს Roblox-ს თქვენს ყურსასმენში, მაგრამ Voidstrap-ის ზოგიერთი ფუნქცია ვერ აღწევს SteamVR-ს:
+
+• გადაფარვები, როგორიცაა FPS მრიცხველი, ჯვარი, კლავიშები და სერვერის ინფორმაცია არ ჩანს ყურსასმენის შიგნით
+• RiShade და სხვა ჩრდილები არ გამოიყენება VR-ში
+• ორმაგი მოძრაობა, Snap Tap და ვირტუალური კონტროლერი არ მუშაობს VR კონტროლერებთან
+• სათაურის ზოლის მცველი, ფანჯრის შესწორებები და სრულეკრანიანი პარამეტრები გავლენას ახდენს მხოლოდ დესკტოპის სარკეზე
+• FPS განბლოკვა არ გამოიყენება, თქვენი ყურსასმენი ადგენს კადრების სიხშირეს
+• SteamVR პარამეტრებს, განახლებებს და საკუთარ გადაფარვებს მართავს Steam და არა Voidstrap
+
+დააინსტალირე SteamVR ახლა?</value>
+  </data>
 </root>

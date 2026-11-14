@@ -9962,4 +9962,31 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Бүтэн дэлгэцэнд хулгана дэлгэцийн дээд хэсэгт хүрэхэд Roblox-ийн гарчгийн мөр доош гулсахыг зогсооно.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Roblox-г SteamVR-аар дамжуулан чихэвчээрээ тоглоорой</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR нь Steam-ээр дамжуулан суулгадаг. Steam суулгаад нэвтэрч, дахин оролдоно уу.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR суулгаагүй байна. Үүнийг эхлээд Менежер хуудасны VR хэсгээс суулгана уу.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Таны FastFlags нь Roblox-г Vulkan-г илүүд үздэг боловч Roblox VR зөвхөн DirectX 11-тэй ажилладаг. Ямар ч байсан VR дээр эхлүүлэх үү?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap SteamVR-г Steam-ээр суулгаж, Roblox-г чихэвчдээ суулгаж ажиллуулж байгаа боловч зарим Voidstrap функцууд SteamVR-д хүрч чадахгүй байна:
+
+• FPS тоолуур, загалмай, товчлуур болон серверийн мэдээлэл зэрэг давхаргууд нь чихэвч дотор харагдахгүй.
+• RiShade болон бусад шэйдерүүд VR-д хамаарахгүй
+• Давхар хөдөлгөөн, Snap Tap болон виртуал хянагч нь VR хянагчтай ажиллахгүй
+• Гарчгийн самбарын хамгаалалт, цонхны тохиргоо болон бүтэн дэлгэцийн сонголтууд нь зөвхөн ширээний толинд нөлөөлдөг
+• FPS түгжээг тайлах боломжгүй, таны чихэвч фрэймийн хурдыг тохируулна
+• SteamVR тохиргоо, шинэчлэлт болон өөрийн давхаргыг Voidstrap биш харин Steam удирддаг
+
+SteamVR-г одоо суулгах уу?</value>
+  </data>
 </root>

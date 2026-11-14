@@ -9962,4 +9962,31 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>រារាំងរបារចំណងជើង Roblox មិនឱ្យរអិលចុះ នៅពេលកណ្ដុររបស់អ្នកដល់ផ្នែកខាងលើអេក្រង់ក្នុងរបៀបពេញអេក្រង់។</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>លេង Roblox នៅក្នុងកាសរបស់អ្នកតាមរយៈ SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>ការដំឡើង SteamVR តាមរយៈ Steam ។ ដំឡើង Steam ហើយចូល បន្ទាប់មកព្យាយាមម្តងទៀត។</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR មិនត្រូវបានដំឡើងទេ។ ដំឡើងវាពីផ្នែក VR នៃទំព័រអ្នកគ្រប់គ្រងជាមុនសិន។</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags របស់អ្នកធ្វើឱ្យ Roblox ចូលចិត្ត Vulkan ប៉ុន្តែ Roblox VR ដំណើរការតែជាមួយ DirectX 11 ប៉ុណ្ណោះ។ បើកដំណើរការនៅក្នុង VR មែនទេ?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap ដំឡើង SteamVR ដល់ Steam ហើយបើកដំណើរការ Roblox នៅក្នុងកាសរបស់អ្នក ប៉ុន្តែមុខងារ Voidstrap មួយចំនួនមិនអាចទៅដល់ SteamVR បានទេ៖
+
+• ការត្រួតលើគ្នាដូចជា FPS counter, crosshair, keystrokes និង server info មិនបង្ហាញនៅខាងក្នុងកាសទេ
+• RiShade និងកម្មវិធីស្រមោលផ្សេងទៀតមិនអនុវត្តនៅក្នុង VR ទេ។
+• ចលនាទ្វេដង Snap Tap និងឧបករណ៍បញ្ជានិម្មិតមិនដំណើរការជាមួយឧបករណ៍បញ្ជា VR ទេ។
+• ការការពាររបារចំណងជើង ការកែប្រែបង្អួច និងជម្រើសពេញអេក្រង់ប៉ះពាល់តែកញ្ចក់កុំព្យូទ័រប៉ុណ្ណោះ។
+• ការដោះសោ FPS មិនត្រូវបានអនុវត្តទេ កាសរបស់អ្នកកំណត់អត្រាស៊ុម
+• ការកំណត់ SteamVR ការអាប់ដេត និងការត្រួតលើគ្នាផ្ទាល់របស់វាត្រូវបានគ្រប់គ្រងដោយ Steam មិនមែន Voidstrap ទេ។
+
+ដំឡើង SteamVR ឥឡូវនេះ?</value>
+  </data>
 </root>

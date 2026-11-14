@@ -10275,4 +10275,31 @@ Hráči: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Zabrání vysunutí záhlaví Roblox, když myš v režimu celé obrazovky dosáhne horního okraje obrazovky.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Přehrávejte Roblox ve vaší náhlavní soupravě přes SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR se instaluje přes Steam. Nainstalujte Steam a přihlaste se a zkuste to znovu.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR není nainstalováno. Nejprve jej nainstalujte ze sekce VR na stránce Správce.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Vaše FastFlags dává Roblox přednost Vulkan, ale Roblox VR funguje pouze s DirectX 11. Přesto spustit ve VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap nainstaluje SteamVR až Steam a spustí Roblox ve vaší náhlavní soupravě, ale některé funkce Voidstrap nemohou dosáhnout SteamVR:
+
+• Překryvné vrstvy, jako je počítadlo FPS, zaměřovací kříž, stisknutí kláves a informace o serveru se uvnitř náhlavní soupravy nezobrazují
+• RiShade a další shadery ve VR neplatí
+• Dvojitý pohyb, Snap Tap a virtuální ovladač nefungují s ovladači VR
+• Ochrana titulního pruhu, úpravy oken a možnosti celé obrazovky ovlivňují pouze zrcadlení plochy
+• Odemknutí FPS se nepoužije, obnovovací kmitočet nastaví vaše sluchátka
+• Nastavení SteamVR, aktualizace a vlastní překryvy spravuje Steam, nikoli Voidstrap
+
+Nainstalovat SteamVR nyní?</value>
+  </data>
 </root>

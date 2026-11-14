@@ -9962,4 +9962,31 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Կանխում է Roblox-ի վերնագրի տողի իջնելը, երբ մկնիկը լիաէկրան ռեժիմում հասնում է էկրանի վերին մասին։</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Խաղացեք Roblox ձեր ականջակալում SteamVR-ի միջոցով</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR-ը տեղադրվում է Steam-ի միջոցով: Տեղադրեք Steam և մուտք գործեք, ապա նորից փորձեք:</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR-ը տեղադրված չէ: Նախ տեղադրեք այն Կառավարիչ էջի VR բաժնից:</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Ձեր FastFlags-ն ստիպում է Roblox-ին նախընտրել Vulkan-ն, բայց Roblox VR-ն աշխատում է միայն DirectX 11-ի հետ: Միևնույն է գործարկե՞լ VR-ով:</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap-ը տեղադրում է SteamVR-ը Steam-ից և գործարկում է Roblox-ը ձեր ականջակալում, սակայն Voidstrap-ի որոշ գործառույթներ չեն կարող հասնել SteamVR-ին.
+
+• Ծածկույթները, ինչպիսիք են FPS հաշվիչը, խաչմերուկը, ստեղնաշարերը և սերվերի տվյալները, չեն ցուցադրվում ականջակալի ներսում
+• RiShade-ը և այլ շեյդերները չեն կիրառվում VR-ում
+• Կրկնակի շարժումը, Snap Tap-ն և վիրտուալ կարգավորիչը չեն աշխատում VR կարգավորիչների հետ
+• Վերնագրի գծի պահակը, պատուհանի ճշգրտումները և ամբողջ էկրանի ընտրանքները ազդում են միայն աշխատասեղանի հայելու վրա
+• FPS ապակողպումը չի կիրառվում, ձեր ականջակալը սահմանում է կադրերի արագությունը
+• SteamVR կարգավորումները, թարմացումները և սեփական ծածկույթները կառավարվում են Steam-ի, այլ ոչ թե Voidstrap-ի կողմից
+
+Տեղադրե՞լ SteamVR-ը հիմա:</value>
+  </data>
 </root>

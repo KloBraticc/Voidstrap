@@ -9962,4 +9962,31 @@ Rannpháirtithe: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Cuireann sé cosc ar bharra teidil Roblox sleamhnú anuas nuair a shroicheann do luch barr an scáileáin i lánscáileán.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Seinn Roblox i do headset trí SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>Suiteáil SteamVR trí Steam. Suiteáil Steam agus sínigh isteach, ansin bain triail eile as.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>Níl SteamVR suiteáilte. Suiteáil é ón rannán VR den leathanach Bainisteoir ar dtús.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Is fearr le do FastFlags Roblox Vulkan, ach ní oibríonn Roblox VR ach le DirectX 11. Seoladh i VR ar aon nós?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Suiteáil Voidstrap SteamVR trí Steam agus seolann sé Roblox i do headset, ach ní féidir le roinnt gnéithe Voidstrap SteamVR a bhaint amach:
+
+• Ní thaispeánann forleagan cosúil le cuntar FPS, cros-ghruaig, eochairbhuillí agus faisnéis freastalaí laistigh den chluasán
+• Ní bhaineann RiShade agus shaders eile i VR
+• Ní oibríonn gluaiseacht dúbailte, Snap Tap agus an rialtóir fíorúil le rialtóirí VR
+• Ní dhéanann an garda barra teidil, tweaks fuinneoige agus roghanna lánscáileáin ach difear do scáthán na deisce
+• Ní bhaineann an díghlasáil FPS, socraíonn do headset an ráta fráma
+• Is é Steam, ní Voidstrap, a bhainistíonn socruithe SteamVR, nuashonruithe agus a fhorleagan féin
+
+Suiteáil SteamVR anois?</value>
+  </data>
 </root>

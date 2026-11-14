@@ -10277,4 +10277,31 @@ Giocatori: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Impedisce alla barra del titolo di Roblox di scendere quando il mouse raggiunge la parte alta dello schermo a schermo intero.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Gioca a Roblox con le cuffie tramite SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR si installa tramite Steam. Installa Steam e accedi, quindi riprova.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR non è installato. Installalo prima dalla sezione VR della pagina Gestione.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Il tuo FastFlags fa sì che Roblox preferisca Vulkan, ma Roblox VR funziona solo con DirectX 11. Lanciarlo comunque in VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap installa SteamVR tramite Steam e avvia Roblox nell'auricolare, ma alcune funzionalità di Voidstrap non possono raggiungere SteamVR:
+
+• Le sovrapposizioni come il contatore FPS, il mirino, i tasti premuti e le informazioni sul server non vengono visualizzate all'interno dell'auricolare
+• RiShade e altri shader non si applicano in VR
+• Doppio movimento, Snap Tap e il controller virtuale non funzionano con i controller VR
+• La protezione della barra del titolo, le modifiche alla finestra e le opzioni a schermo intero influiscono solo sul mirroring del desktop
+• Lo sblocco FPS non si applica, l'auricolare imposta la frequenza dei fotogrammi
+• Le impostazioni, gli aggiornamenti e i propri overlay di SteamVR sono gestiti da Steam, non da Voidstrap
+
+Installare SteamVR adesso?</value>
+  </data>
 </root>

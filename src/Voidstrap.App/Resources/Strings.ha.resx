@@ -9962,4 +9962,31 @@ Uptime: {1}
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Yana hana sandar take ta Roblox saukowa idan linzamin ka ya kai saman allo a cikakken allo.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Kunna Roblox a cikin na'urar kai ta hanyar SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR yana shigarwa ta hanyar Steam. Shigar Steam kuma shiga, sannan a sake gwadawa.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>Ba a shigar da SteamVR ba. Shigar da shi daga sashin VR na shafin Manajan farko.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags ɗin ku ya sa Roblox ya fi son Vulkan, amma Roblox VR yana aiki da DirectX 11 kawai. Kaddamar da VR ko ta yaya?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap yana shigar da SteamVR ta hanyar Steam kuma yana ƙaddamar da Roblox a cikin na'urar kai, amma wasu fasalulluka na Voidstrap ba za su iya kaiwa SteamVR ba:
+
+• Litattafai irin su counter FPS, crosshair, maɓalli da bayanan uwar garken basa nunawa a cikin naúrar kai.
+• RiShade da sauran shaders ba sa aiki a cikin VR
+• Motsi sau biyu, Snap Tap da mai sarrafa kama-da-wane ba sa aiki tare da masu sarrafa VR
+• Tsaron sandar take, tweaks taga da zaɓuɓɓukan cikakken allo suna shafar madubin tebur kawai
+• Buɗe FPS baya aiki, na'urar kai tana saita ƙimar firam
+• Steam ne ke sarrafa saitunan SteamVR, sabuntawa da nasa overlays, ba Voidstrap ba
+
+Shigar SteamVR yanzu?</value>
+  </data>
 </root>

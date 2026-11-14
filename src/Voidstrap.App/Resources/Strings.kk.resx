@@ -9962,4 +9962,31 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Толық экранда тінтуір экранның жоғарғы жиегіне жеткенде Roblox тақырып жолағының төмен сырғуын тоқтатады.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR арқылы құлаққапта Roblox ойнаңыз</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR Steam арқылы орнатылады. Steam орнатып, жүйеге кіріп, әрекетті қайталаңыз.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR орнатылмаған. Алдымен оны менеджер бетіндегі VR бөлімінен орнатыңыз.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags Roblox Vulkan артықшылық береді, бірақ Roblox VR тек DirectX 11-мен жұмыс істейді. VR режимінде іске қосу керек пе?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap SteamVR арқылы Steam арқылы орнатады және Roblox қолданбасын гарнитурада іске қосады, бірақ кейбір Voidstrap мүмкіндіктері SteamVR-ға жете алмайды:
+
+• FPS есептегіші, крест, пернелерді басу және сервер туралы ақпарат сияқты қабаттасулар гарнитураның ішінде көрсетілмейді.
+• RiShade және басқа шейдерлер VR режимінде қолданылмайды
+• Қосарланған қозғалыс, Snap Tap және виртуалды контроллер VR контроллерлерімен жұмыс істемейді
+• Тақырып жолағын қорғау, терезені түзету және толық экран опциялары тек жұмыс үстелінің айнасына әсер етеді
+• FPS құлпын ашу қолданылмайды, гарнитура кадр жиілігін орнатады
+• SteamVR параметрлері, жаңартулары және оның қабаттасуы Voidstrap емес, Steam арқылы басқарылады
+
+SteamVR қазір орнатыңыз ба?</value>
+  </data>
 </root>

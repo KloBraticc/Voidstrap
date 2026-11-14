@@ -10275,4 +10275,31 @@ Pelaajat: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Estää Robloxin otsikkopalkkia liukumasta alas, kun hiiri osuu näytön yläreunaan koko näytön tilassa.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Pelaa Roblox:ta kuulokkeillasi SteamVR:n kautta</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR asennetaan Steam:n kautta. Asenna Steam ja kirjaudu sisään ja yritä sitten uudelleen.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR:ta ei ole asennettu. Asenna se ensin Manager-sivun VR-osiosta.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags tekee Roblox:sta suosivan Vulkan:ta, mutta Roblox VR toimii vain DirectX 11:n kanssa. Käynnistetäänkö VR:ssä kuitenkin?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap asentaa SteamVR:n Steam:hen ja käynnistää Roblox:n kuulokemikrofonissasi, mutta jotkin Voidstrap:n ominaisuudet eivät voi saavuttaa SteamVR:ta:
+
+• Peittokuvat, kuten FPS-laskuri, hiusristikko, näppäinpainallukset ja palvelintiedot, eivät näy kuulokkeiden sisällä
+• RiShade ja muut varjostimet eivät toimi VR:ssä
+• Kaksoisliike, Snap Tap ja virtuaaliohjain eivät toimi VR-ohjaimien kanssa
+• Otsikkopalkin suojaus, ikkunan säädöt ja koko näytön asetukset vaikuttavat vain työpöydän peiliin
+• FPS-lukituksen avaus ei ole käytössä, kuulokemikrofoni määrittää kuvanopeuden
+• SteamVR:n asetuksia, päivityksiä ja omia peittokuvia hallitsee Steam, ei Voidstrap
+
+Asennetaan SteamVR nyt?</value>
+  </data>
 </root>

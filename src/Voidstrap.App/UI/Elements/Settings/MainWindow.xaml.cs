@@ -8136,7 +8136,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         List<object> entries = !Voidstrap.Utility.Platform.IsWindows
             ? [.. downloads.Items]
-            : [.. downloads.Items, .. (downloads.MuMu != null ? new object[] { downloads.MuMu } : []), .. downloads.ClientItems.Where(client => client.IsInstalled)];
+            : [.. downloads.Items, .. (downloads.Vr != null ? new object[] { downloads.Vr } : []), .. (downloads.MuMu != null ? new object[] { downloads.MuMu } : []), .. downloads.ClientItems.Where(client => client.IsInstalled)];
         if (LaunchTargetList.ItemsSource is not IList<object> shown || !shown.SequenceEqual(entries))
             LaunchTargetList.ItemsSource = entries;
         object? current = null;
@@ -8145,6 +8145,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             string code = vm.SelectedLaunchClient;
             if (downloads.MuMu != null && string.Equals(code, App.MuMuLaunchClientCode, StringComparison.Ordinal))
                 current = downloads.MuMu;
+            else if (downloads.Vr != null && string.Equals(code, App.SteamVrLaunchClientCode, StringComparison.Ordinal))
+                current = downloads.Vr;
             else if (!string.IsNullOrEmpty(code))
                 current = downloads.ClientItems.FirstOrDefault(client =>
                     string.Equals(client.Code, code, StringComparison.OrdinalIgnoreCase)
@@ -8169,6 +8171,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         DownloadsViewModel downloads = DownloadsViewModel.Shared;
         foreach (DownloadsViewModel.DownloadItem download in downloads.Items)
             download.RefreshInstallState();
+        downloads.Vr?.RefreshInstallState();
         if (Voidstrap.Utility.Platform.IsWindows)
         {
             foreach (DownloadsViewModel.ClientItem client in downloads.ClientItems)
@@ -8207,6 +8210,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     break;
                 case DownloadsViewModel.MuMuItem:
                     mainWindowViewModel.SelectedLaunchClient = App.MuMuLaunchClientCode;
+                    mainWindowViewModel.SelectedLaunchModeIndex = 0;
+                    break;
+                case DownloadsViewModel.VrItem:
+                    mainWindowViewModel.SelectedLaunchClient = App.SteamVrLaunchClientCode;
                     mainWindowViewModel.SelectedLaunchModeIndex = 0;
                     break;
                 case DownloadsViewModel.DownloadItem download:

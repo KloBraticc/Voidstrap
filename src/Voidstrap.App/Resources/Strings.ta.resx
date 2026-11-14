@@ -9961,4 +9961,31 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>முழுத்திரையில் உங்கள் மவுஸ் திரையின் மேற்பகுதியை அடையும்போது Roblox தலைப்புப் பட்டி கீழே இறங்குவதைத் தடுக்கிறது.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR மூலம் உங்கள் ஹெட்செட்டில் Roblox ஐ இயக்கவும்</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>Steam மூலம் SteamVR நிறுவுகிறது. Steam ஐ நிறுவி உள்நுழைந்து, மீண்டும் முயலவும்.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR நிறுவப்படவில்லை. முதலில் மேலாளர் பக்கத்தின் VR பிரிவில் இருந்து அதை நிறுவவும்.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>உங்கள் FastFlags Roblox ஐ Vulkan ஐ விரும்புகிறது, ஆனால் Roblox VR DirectX 11 உடன் மட்டுமே வேலை செய்கிறது. எப்படியும் VR இல் தொடங்கவா?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap Steam மூலம் SteamVR ஐ நிறுவுகிறது மற்றும் உங்கள் ஹெட்செட்டில் Roblox ஐ அறிமுகப்படுத்துகிறது, ஆனால் சில Voidstrap அம்சங்கள் SteamVR ஐ அடைய முடியாது:
+
+• FPS கவுண்டர், க்ராஸ்ஹேர், கீஸ்ட்ரோக்குகள் மற்றும் சர்வர் தகவல் போன்ற மேலடுக்குகள் ஹெட்செட்டிற்குள் காட்டப்படாது
+• RiShade மற்றும் பிற ஷேடர்கள் VR இல் பொருந்தாது
+• இரட்டை இயக்கம், Snap Tap மற்றும் மெய்நிகர் கட்டுப்படுத்தி VR கட்டுப்படுத்திகளுடன் வேலை செய்யாது
+• தலைப்புப் பட்டி பாதுகாப்பு, சாளர மாற்றங்கள் மற்றும் முழுத்திரை விருப்பங்கள் டெஸ்க்டாப் கண்ணாடியை மட்டுமே பாதிக்கும்
+• FPS திறத்தல் பொருந்தாது, உங்கள் ஹெட்செட் பிரேம் வீதத்தை அமைக்கிறது
+• SteamVR அமைப்புகள், புதுப்பிப்புகள் மற்றும் அதன் சொந்த மேலடுக்குகள் Steam ஆல் நிர்வகிக்கப்படுகின்றன, Voidstrap அல்ல
+
+இப்போது SteamVR ஐ நிறுவவா?</value>
+  </data>
 </root>

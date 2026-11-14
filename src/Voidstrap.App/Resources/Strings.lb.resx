@@ -9962,4 +9962,31 @@ Spiller: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Verhënnert, datt d'Roblox Titelleescht erofrutscht, wann deng Maus am Vollbild uewen um Bildschierm ukënnt.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Spillt Roblox an Ärem Headset duerch SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR installéiert duerch Steam. Installéiert Steam a mellt Iech un, probéiert dann nach eng Kéier.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ass net installéiert. Installéiert et als éischt aus der VR Sektioun vun der Manager Säit.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Är FastFlags mécht Roblox léiwer Vulkan, mee Roblox VR Wierker nëmme mat DirectX 11. Lancéiere souwisou am VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap installéiert SteamVR duerch Steam a lancéiert Roblox an Ärem Headset, awer e puer Voidstrap Feature kënnen net SteamVR erreechen:
+
+• Iwwerlagerungen wéi den FPS Konter, Crosshair, Tastekombinatiounen a Serverinfo weisen net am Headset
+• RiShade an aner Shaders gëllen net am VR
+• Duebel Bewegung, Snap Tap an de virtuelle Controller funktionnéieren net mat VR Controller
+• D'Titelbar Garde, Fënstertweaks a Vollbildschiermoptiounen beaflossen nëmmen den Desktopspigel
+• Den FPS Spär gëllt net, Ären Headset setzt de Frame Taux
+• SteamVR Astellungen, Aktualiséierungen a seng eege Iwwerlagerunge gi vum Steam geréiert, net Voidstrap
+
+SteamVR elo installéieren?</value>
+  </data>
 </root>

@@ -9962,4 +9962,31 @@ Kaitākaro: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Ka ārai i te pae taitara o Roblox kia kaua e heke iho ina tae tō kiore ki te tihi o te mata i te aratau mata katoa.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Purei Roblox i roto i to pane ma te SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>Ka whakauru a SteamVR ma te Steam. Tāuta Steam ka takiuru, ka ngana ano.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>Kāore te SteamVR i te tāuta. Whakauruhia mai i te waahanga VR o te whaarangi Kaiwhakahaere i te tuatahi.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Ko to FastFlags ka pai ake a Roblox ki te Vulkan, engari ko Roblox VR anake te mahi me DirectX 11. Whakarewa tonu i roto i te VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Ka whakauruhia e Voidstrap te SteamVR na roto i te Steam ka whakarewahia te Roblox ki to pane, engari kaore e taea e etahi waahanga Voidstrap te tae atu ki te SteamVR:
+
+• Ko nga whakakikorua penei i te porotiti FPS, te whitiwhiti, te patuhi me nga korero a te tūmau kaore e kitea i roto i te pane
+• Ko te RiShade me etahi atu atarangi kaore e uru ki te VR
+• Ko te nekehanga takirua, Snap Tap me te kaiwhakahaere mariko kaore e mahi me nga kaiwhakahaere VR
+• Ko te kaitiaki pae taitara, nga takawiri matapihi me nga whiringa mata katoa ka pa ki te whakaata papamahi anake
+• Karekau te iriti FPS e pa ana, ka whakatauhia e to pane te reeti anga
+• Ko nga tautuhinga SteamVR, nga whakahou me ona ake whakakikorua kei te whakahaeretia e Steam, ehara i te Voidstrap
+
+Tāuta SteamVR ināianei?</value>
+  </data>
 </root>

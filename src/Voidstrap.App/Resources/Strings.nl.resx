@@ -10276,4 +10276,31 @@ Spelers: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Voorkomt dat de Roblox titelbalk naar beneden schuift wanneer je muis op volledig scherm de bovenkant van het scherm raakt.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Speel Roblox in je headset via SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR wordt geïnstalleerd via Steam. Installeer Steam, log in en probeer het opnieuw.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR is niet geïnstalleerd. Installeer het eerst vanuit het VR-gedeelte van de Manager-pagina.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Jouw FastFlags zorgt ervoor dat Roblox de voorkeur geeft aan Vulkan, maar Roblox VR werkt alleen met DirectX 11. Toch in VR lanceren?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap installeert SteamVR via Steam en start Roblox in uw headset, maar sommige Voidstrap-functies kunnen SteamVR niet bereiken:
+
+• Overlays zoals de FPS-teller, draadkruis, toetsaanslagen en serverinformatie worden niet weergegeven in de headset
+• RiShade en andere shaders zijn niet van toepassing in VR
+• Dubbele beweging, Snap Tap en de virtuele controller werken niet met VR-controllers
+• De titelbalkbeveiliging, vensteraanpassingen en opties voor volledig scherm hebben alleen invloed op de bureaubladspiegel
+• De FPS-ontgrendeling is niet van toepassing, uw headset stelt de framesnelheid in
+• SteamVR-instellingen, updates en zijn eigen overlays worden beheerd door Steam, niet door Voidstrap
+
+SteamVR nu installeren?</value>
+  </data>
 </root>

@@ -9962,4 +9962,31 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>ປ້ອງກັນບໍ່ໃຫ້ແຖບຫົວຂໍ້ Roblox ເລື່ອນລົງມາ ເມື່ອເມົ້າຂອງທ່ານໄປຮອດດ້ານເທິງຂອງໜ້າຈໍໃນໂໝດເຕັມຈໍ.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>ຫຼິ້ນ Roblox ໃນຫູຟັງຂອງທ່ານຜ່ານ SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR ຕິດຕັ້ງຜ່ານ Steam. ຕິດຕັ້ງ Steam ແລະເຂົ້າສູ່ລະບົບ, ຈາກນັ້ນລອງອີກຄັ້ງ.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ບໍ່ໄດ້ຕິດຕັ້ງ. ຕິດຕັ້ງມັນຈາກພາກສ່ວນ VR ຂອງໜ້າຜູ້ຈັດການກ່ອນ.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags ຂອງເຈົ້າເຮັດໃຫ້ Roblox ມັກ Vulkan, ແຕ່ Roblox VR ເຮັດວຽກກັບ DirectX 11 ເທົ່ານັ້ນ. ເປີດຕົວໃນ VR ແລ້ວບໍ?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap ຕິດຕັ້ງ SteamVR ຜ່ານ Steam ແລະເປີດຕົວ Roblox ໃນຊຸດຫູຟັງຂອງທ່ານ, ແຕ່ບາງຄຸນສົມບັດ Voidstrap ບໍ່ສາມາດເຂົ້າຫາ SteamVR:
+
+• ການວາງຊ້ອນກັນເຊັ່ນ FPS counter, crosshair, keystrokes ແລະຂໍ້ມູນເຊີບເວີບໍ່ສະແດງຢູ່ໃນຫູຟັງ.
+• RiShade ແລະ shaders ອື່ນໆບໍ່ໄດ້ນໍາໃຊ້ໃນ VR
+• ການເຄື່ອນໄຫວຄູ່, Snap Tap ແລະຕົວຄວບຄຸມ virtual ບໍ່ເຮັດວຽກກັບຕົວຄວບຄຸມ VR
+• ກອງແຖບຫົວຂໍ້, ການປັບປ່ຽນໜ້າຈໍ ແລະຕົວເລືອກເຕັມຈໍມີຜົນກະທົບກັບກະຈົກ desktop ເທົ່ານັ້ນ
+• ການປົດລັອກ FPS ບໍ່ໄດ້ນຳໃຊ້, ຊຸດຫູຟັງຂອງທ່ານກຳນົດອັດຕາເຟຣມ
+• ການຕັ້ງຄ່າ SteamVR, ການປັບປຸງແລະການວາງຊ້ອນຂອງຕົນເອງແມ່ນຈັດການໂດຍ Steam, ບໍ່ແມ່ນ Voidstrap
+
+ຕິດຕັ້ງ SteamVR ດຽວນີ້ບໍ?</value>
+  </data>
 </root>

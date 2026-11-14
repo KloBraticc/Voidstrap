@@ -9961,4 +9961,31 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>فل اسکرین میں جب آپ کا ماؤس اسکرین کے اوپر پہنچے تو Roblox ٹائٹل بار کو نیچے آنے سے روکتا ہے۔</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR کے ذریعے اپنے ہیڈسیٹ میں Roblox چلائیں۔</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR Steam کے ذریعے انسٹال ہوتا ہے۔ Steam انسٹال کریں اور سائن ان کریں، پھر دوبارہ کوشش کریں۔</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR انسٹال نہیں ہے۔ اسے پہلے مینیجر صفحہ کے VR سیکشن سے انسٹال کریں۔</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>آپ کا FastFlags Roblox کو Vulkan کو ترجیح دیتا ہے، لیکن Roblox VR صرف DirectX 11 کے ساتھ کام کرتا ہے۔ ویسے بھی VR میں لانچ کریں؟</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap Steam کے ذریعے SteamVR انسٹال کرتا ہے اور آپ کے ہیڈسیٹ میں Roblox لانچ کرتا ہے، لیکن کچھ Voidstrap خصوصیات SteamVR تک نہیں پہنچ سکتیں:
+
+• اوورلیز جیسے کہ FPS کاؤنٹر، کراس ہیئر، کی اسٹروکس اور سرور کی معلومات ہیڈسیٹ کے اندر نہیں دکھائی دیتی ہیں۔
+• RiShade اور دیگر شیڈرز VR میں لاگو نہیں ہوتے ہیں۔
+• ڈبل موومنٹ، Snap Tap اور ورچوئل کنٹرولر VR کنٹرولرز کے ساتھ کام نہیں کرتے ہیں۔
+• ٹائٹل بار گارڈ، ونڈو ٹویکس اور فل سکرین آپشنز صرف ڈیسک ٹاپ آئینے کو متاثر کرتے ہیں۔
+• FPS انلاک لاگو نہیں ہوتا ہے، آپ کا ہیڈسیٹ فریم ریٹ سیٹ کرتا ہے۔
+• SteamVR کی ترتیبات، اپ ڈیٹس اور اس کے اپنے اوورلیز کا نظم Steam کے ذریعے کیا جاتا ہے، Voidstrap نہیں۔
+
+SteamVR ابھی انسٹال کریں؟</value>
+  </data>
 </root>

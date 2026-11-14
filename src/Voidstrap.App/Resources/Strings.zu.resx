@@ -9961,4 +9961,31 @@ Abadlali: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Ivimbela ibha yesihloko ye-Roblox ukuthi yehle lapho igundane lakho lifika phezulu kwesikrini esikrinini esigcwele.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Dlala i-Roblox kumahedisethi akho nge-SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>I-SteamVR ifaka nge-Steam. Faka i-Steam bese ungena ngemvume, bese uyazama futhi.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>I-SteamVR ayifakiwe. Ifake kusukela esigabeni se-VR sekhasi lesiphathi kuqala.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>I-FastFlags yakho yenza i-Roblox ikhethe i-Vulkan, kodwa i-Roblox VR isebenza nge-DirectX 11 kuphela. Yethula nge-VR noma kunjalo?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>I-Voidstrap ifaka i-SteamVR nge-Steam bese yethula i-Roblox kumahedisethi akho, kodwa ezinye izici ze-Voidstrap azikwazi ukufinyelela ku-SteamVR:
+
+• Izimbondela ezifana nekhawunta ye-FPS, i-crosshair, izinkinobho kanye nolwazi lweseva akubonisi ngaphakathi kwehedisethi.
+• I-RiShade namanye ama-shader awasebenzi ku-VR
+• Ukunyakaza okuphindwe kabili, i-Snap Tap nesilawuli esibonakalayo akusebenzi nezilawuli ze-VR
+• Unogada webha yesihloko, ukulungiswa kwewindi nezinketho zesikrini esigcwele kuthinta kuphela isibuko sedeskithophu
+• Ukuvula i-FPS akusebenzi, ihedisethi yakho ibeka izinga lozimele
+• Izilungiselelo ze-SteamVR, izibuyekezo kanye nembondela yayo iphethwe yi-Steam, hhayi i-Voidstrap
+
+Faka i-SteamVR manje?</value>
+  </data>
 </root>

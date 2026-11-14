@@ -9962,4 +9962,31 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>पूर्णस्क्रिनमा माउस स्क्रिनको माथि पुग्दा Roblox शीर्षक पट्टी तल झर्नबाट रोक्छ।</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR मार्फत आफ्नो हेडसेटमा Roblox खेल्नुहोस्</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR Steam मार्फत स्थापना हुन्छ। Steam स्थापना गर्नुहोस् र साइन इन गर्नुहोस्, त्यसपछि फेरि प्रयास गर्नुहोस्।</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR स्थापना गरिएको छैन। यसलाई पहिले प्रबन्धक पृष्ठको VR खण्डबाट स्थापना गर्नुहोस्।</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>तपाइँको FastFlags ले Roblox लाई Vulkan लाई प्राथमिकता दिन्छ, तर Roblox VR ले DirectX 11 सँग मात्र काम गर्दछ। जे भए पनि VR मा सुरु गर्ने हो?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap ले Steam मार्फत SteamVR स्थापना गर्छ र तपाईंको हेडसेटमा Roblox सुरु गर्छ, तर केही Voidstrap सुविधाहरू SteamVR मा पुग्न सक्दैनन्:
+
+• ओभरलेहरू जस्तै FPS काउन्टर, क्रसहेयर, कीस्ट्रोकहरू र सर्भर जानकारी हेडसेट भित्र देखिँदैन।
+• RiShade र अन्य शेडरहरू VR मा लागू हुँदैनन्
+• दोहोरो आन्दोलन, Snap Tap र भर्चुअल नियन्त्रकले VR नियन्त्रकहरूसँग काम गर्दैन
+• शीर्षक पट्टी गार्ड, विन्डो ट्वीक्स र फुलस्क्रिन विकल्पहरूले डेस्कटप मिररलाई मात्र असर गर्छ
+• FPS अनलक लागू हुँदैन, तपाईंको हेडसेटले फ्रेम दर सेट गर्दछ
+• SteamVR सेटिङहरू, अद्यावधिकहरू र यसको आफ्नै ओभरलेहरू Steam द्वारा व्यवस्थित हुन्छन्, Voidstrap होइन
+
+अहिले SteamVR स्थापना गर्ने हो?</value>
+  </data>
 </root>

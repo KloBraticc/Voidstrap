@@ -9962,4 +9962,31 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>ಪೂರ್ಣಪರದೆಯಲ್ಲಿ ನಿಮ್ಮ ಮೌಸ್ ಪರದೆಯ ಮೇಲ್ಭಾಗ ತಲುಪಿದಾಗ Roblox ಶೀರ್ಷಿಕೆ ಪಟ್ಟಿ ಕೆಳಗೆ ಜಾರುವುದನ್ನು ತಡೆಯುತ್ತದೆ.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR ಮೂಲಕ ನಿಮ್ಮ ಹೆಡ್‌ಸೆಟ್‌ನಲ್ಲಿ Roblox ಪ್ಲೇ ಮಾಡಿ</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR Steam ಮೂಲಕ ಸ್ಥಾಪಿಸುತ್ತದೆ. Steam ಅನ್ನು ಸ್ಥಾಪಿಸಿ ಮತ್ತು ಸೈನ್ ಇನ್ ಮಾಡಿ, ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ಅನ್ನು ಸ್ಥಾಪಿಸಲಾಗಿಲ್ಲ. ಇದನ್ನು ಮೊದಲು ಮ್ಯಾನೇಜರ್ ಪುಟದ VR ವಿಭಾಗದಿಂದ ಸ್ಥಾಪಿಸಿ.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>ನಿಮ್ಮ FastFlags Roblox ಗೆ Vulkan ಆದ್ಯತೆ ನೀಡುತ್ತದೆ, ಆದರೆ Roblox VR ಮಾತ್ರ DirectX 11 ನೊಂದಿಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ. ಹೇಗಾದರೂ VR ನಲ್ಲಿ ಪ್ರಾರಂಭಿಸುವುದೇ?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap Steam ಮೂಲಕ SteamVR ಅನ್ನು ಸ್ಥಾಪಿಸುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮ ಹೆಡ್‌ಸೆಟ್‌ನಲ್ಲಿ Roblox ಅನ್ನು ಪ್ರಾರಂಭಿಸುತ್ತದೆ, ಆದರೆ ಕೆಲವು Voidstrap ವೈಶಿಷ್ಟ್ಯಗಳು SteamVR ಅನ್ನು ತಲುಪಲು ಸಾಧ್ಯವಿಲ್ಲ:
+
+• FPS ಕೌಂಟರ್, ಕ್ರಾಸ್‌ಹೇರ್, ಕೀಸ್ಟ್ರೋಕ್‌ಗಳು ಮತ್ತು ಸರ್ವರ್ ಮಾಹಿತಿಯಂತಹ ಓವರ್‌ಲೇಗಳು ಹೆಡ್‌ಸೆಟ್‌ನಲ್ಲಿ ತೋರಿಸುವುದಿಲ್ಲ
+• RiShade ಮತ್ತು ಇತರ ಶೇಡರ್‌ಗಳು VR ನಲ್ಲಿ ಅನ್ವಯಿಸುವುದಿಲ್ಲ
+• ಡಬಲ್ ಚಲನೆ, Snap Tap ಮತ್ತು ವರ್ಚುವಲ್ ನಿಯಂತ್ರಕವು VR ನಿಯಂತ್ರಕಗಳೊಂದಿಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುವುದಿಲ್ಲ
+• ಟೈಟಲ್ ಬಾರ್ ಗಾರ್ಡ್, ವಿಂಡೋ ಟ್ವೀಕ್‌ಗಳು ಮತ್ತು ಫುಲ್‌ಸ್ಕ್ರೀನ್ ಆಯ್ಕೆಗಳು ಡೆಸ್ಕ್‌ಟಾಪ್ ಮಿರರ್‌ನ ಮೇಲೆ ಮಾತ್ರ ಪರಿಣಾಮ ಬೀರುತ್ತವೆ
+• FPS ಅನ್‌ಲಾಕ್ ಅನ್ವಯಿಸುವುದಿಲ್ಲ, ನಿಮ್ಮ ಹೆಡ್‌ಸೆಟ್ ಫ್ರೇಮ್ ದರವನ್ನು ಹೊಂದಿಸುತ್ತದೆ
+• SteamVR ಸೆಟ್ಟಿಂಗ್‌ಗಳು, ನವೀಕರಣಗಳು ಮತ್ತು ಅದರ ಸ್ವಂತ ಓವರ್‌ಲೇಗಳನ್ನು Steam ನಿಂದ ನಿರ್ವಹಿಸಲಾಗುತ್ತದೆ, Voidstrap ಅಲ್ಲ
+
+ಈಗ SteamVR ಅನ್ನು ಸ್ಥಾಪಿಸುವುದೇ?</value>
+  </data>
 </root>

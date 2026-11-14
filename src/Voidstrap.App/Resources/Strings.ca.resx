@@ -9961,4 +9961,31 @@ Jugadors: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Evita que la barra de títol de Roblox llisqui cap avall quan el ratolí arriba a la part superior de la pantalla en mode de pantalla completa.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Juga Roblox als teus auriculars mitjançant SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR s'instal·la mitjançant Steam. Instal·leu Steam i inicieu la sessió i torneu-ho a provar.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR no està instal·lat. Instal·leu-lo primer des de la secció VR de la pàgina Gestor.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>El vostre FastFlags fa que Roblox prefereixi Vulkan, però Roblox VR només funciona amb DirectX 11. Llançar a VR de totes maneres?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap instal·la SteamVR a Steam i llança Roblox als vostres auriculars, però algunes funcions de Voidstrap no poden arribar a SteamVR:
+
+• Les superposicions com ara el comptador FPS, el punt de mira, les pulsacions de tecla i la informació del servidor no es mostren dins dels auriculars
+• RiShade i altres shaders no s'apliquen a la realitat virtual
+• Doble moviment, Snap Tap i el controlador virtual no funcionen amb els controladors VR
+• La protecció de la barra de títol, els ajustaments de la finestra i les opcions de pantalla completa només afecten el mirall de l'escriptori
+• El desbloqueig FPS no s'aplica, els auriculars estableixen la velocitat de fotogrames
+• La configuració, les actualitzacions i les seves pròpies superposicions de SteamVR les gestiona Steam, no Voidstrap
+
+Instal·leu SteamVR ara?</value>
+  </data>
 </root>

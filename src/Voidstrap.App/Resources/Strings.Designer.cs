@@ -10280,5 +10280,11 @@ namespace Voidstrap.Resources {
         public static string Bootstrapper_Status_JoiningGame => ResourceManager.GetString("Bootstrapper.Status.JoiningGame", resourceCulture);
         public static string Menu_Appearance_LaunchGameIcon_Title => ResourceManager.GetString("Menu.Appearance.LaunchGameIcon.Title", resourceCulture);
         public static string Menu_Appearance_LaunchGameIcon_Description => ResourceManager.GetString("Menu.Appearance.LaunchGameIcon.Description", resourceCulture);
+        public static string Vr_Title => ResourceManager.GetString("Vr.Title", resourceCulture);
+        public static string Vr_Description => ResourceManager.GetString("Vr.Description", resourceCulture);
+        public static string Vr_SteamMissing => ResourceManager.GetString("Vr.SteamMissing", resourceCulture);
+        public static string Vr_NotInstalled => ResourceManager.GetString("Vr.NotInstalled", resourceCulture);
+        public static string Vr_VulkanWarning => ResourceManager.GetString("Vr.VulkanWarning", resourceCulture);
+        public static string Vr_InstallWarning => ResourceManager.GetString("Vr.InstallWarning", resourceCulture);
     }
 }

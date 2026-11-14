@@ -10276,4 +10276,31 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>از پایین آمدن نوار عنوان Roblox هنگامی که ماوس شما در حالت تمام‌صفحه به بالای صفحه می‌رسد جلوگیری می‌کند.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Roblox را در هدست خود از طریق SteamVR پخش کنید</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR از طریق Steam نصب می شود. Steam را نصب کنید و وارد شوید، سپس دوباره امتحان کنید.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR نصب نشده است. ابتدا آن را از قسمت VR صفحه مدیر نصب کنید.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags شما باعث می شود که Roblox Vulkan را ترجیح دهد، اما Roblox VR فقط با DirectX 11 کار می کند. به هر حال در VR راه اندازی شود؟</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap SteamVR را از طریق Steam نصب می کند و Roblox را در هدست شما راه اندازی می کند، اما برخی از ویژگی های Voidstrap نمی توانند به SteamVR دسترسی پیدا کنند:
+
+• پوشش‌هایی مانند شمارنده FPS، ضربدری، ضربه‌های کلید و اطلاعات سرور در داخل هدست نشان داده نمی‌شوند.
+• RiShade و سایر سایه زن ها در VR اعمال نمی شوند
+• حرکت دوگانه، Snap Tap و کنترلر مجازی با کنترلرهای VR کار نمی کنند
+• محافظ نوار عنوان، تغییرات پنجره و گزینه های تمام صفحه فقط روی آینه دسکتاپ تأثیر می گذارد
+• باز کردن قفل FPS اعمال نمی شود، هدست شما نرخ فریم را تنظیم می کند
+• تنظیمات، به‌روزرسانی‌ها و پوشش‌های SteamVR توسط Steam مدیریت می‌شوند، نه Voidstrap
+
+SteamVR را الان نصب کنم؟</value>
+  </data>
 </root>

@@ -9961,4 +9961,31 @@ Jokalariak: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Roblox-en izenburu-barra behera irristatzea eragozten du saguak pantailaren goialdea jotzen duenean pantaila osoan.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Erreproduzitu Roblox entzungailuetan SteamVR bidez</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR Steam bidez instalatzen da. Instalatu Steam eta hasi saioa, eta saiatu berriro.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ez dago instalatuta. Instalatu lehenik Kudeatzailearen orrialdeko VR ataletik.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Zure FastFlags-k Roblox-k Vulkan hobesten du, baina Roblox VR-k DirectX 11-rekin soilik funtzionatzen du. VR-n abiarazi nahi duzu?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap-k SteamVR Steam bidez instalatzen du eta Roblox abiarazten du zure entzungailuetan, baina Voidstrap funtzio batzuk ezin dira SteamVRra iritsi:
+
+• Gainjartzeak, hala nola, FPS kontagailua, gurutzea, teklak sakatzeak eta zerbitzariaren informazioa ez dira agertzen entzungailuaren barruan
+• RiShade eta beste itzalgailu batzuk ez dira VRn aplikatzen
+• Mugimendu bikoitzak, Snap Tap eta kontrolagailu birtualak ez dute funtzionatzen VR kontrolagailuekin
+• Izenburu-barraren babesak, leihoen doikuntzak eta pantaila osoko aukerek mahaigaineko ispiluari bakarrik eragiten diote
+• FPS desblokeatzea ez da aplikatzen, entzungailuak fotograma-abiadura ezartzen du
+• SteamVR ezarpenak, eguneraketak eta bere gainjartzeak Steam-k kudeatzen ditu, ez Voidstrap-k
+
+SteamVR instalatu orain?</value>
+  </data>
 </root>

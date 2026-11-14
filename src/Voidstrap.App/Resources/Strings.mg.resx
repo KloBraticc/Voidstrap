@@ -9962,4 +9962,31 @@ Mpilalao: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Manakana ny bara lohatenin'i Roblox tsy hidina rehefa tonga eo amin'ny tampon'ny efijery ny totozinao amin'ny efijery feno.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Alefaso ny Roblox amin'ny headset anao amin'ny SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR dia mametraka amin'ny Steam. Ampidiro ny Steam ary midira, dia andramo indray.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR dia tsy napetraka. Apetraho amin'ny fizarana VR amin'ny pejy Manager aloha.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Ny FastFlags anao dia mahatonga ny Roblox ho tian'ny Vulkan, fa ny Roblox VR ihany no miasa amin'ny DirectX 11. Alefaso amin'ny VR ihany ve?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap dia mametraka SteamVR amin'ny Steam ary mandefa Roblox ao amin'ny headset anao, fa ny Voidstrap sasany dia tsy afaka mahatratra ny SteamVR:
+
+• Ny overlay toy ny counter FPS, crosshair, keystrokes ary info server dia tsy miseho ao anaty headset
+• RiShade sy shaders hafa dia tsy mihatra amin'ny VR
+• Hetsika indroa, Snap Tap ary ny virtoaly controller dia tsy miasa amin'ny VR controllers
+• Ny fiambenan'ny titre bar, ny fanovana varavarankely ary ny safidy amin'ny efijery feno dia misy fiantraikany amin'ny fitaratra desktop ihany
+• Ny fanokafana FPS dia tsy mihatra, ny headset anao no mametraka ny tahan'ny frame
+• Ny fanovana SteamVR, ny fanavaozana ary ny overlay azy manokana dia tantanan'ny Steam fa tsy Voidstrap
+
+Hametraka SteamVR izao?</value>
+  </data>
 </root>

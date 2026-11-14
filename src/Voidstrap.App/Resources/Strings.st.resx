@@ -9961,4 +9961,31 @@ Libapali: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>E thibela bara ya sehlooho ya Roblox ho theoha ha toeba ya hao e fihla hodimo ho skrine ho skrine e felletseng.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Bapala Roblox ho li-headset tsa hau ka SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR e kenya ka Steam. Kenya Steam 'me u kene, ebe u leka hape.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ha e ea kengoa. E kenye ho tsoa karolong ea VR ea leqephe la Motsamaisi pele.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags ea hau e etsa hore Roblox e rate Vulkan, empa Roblox VR e sebetsa feela ka DirectX 11. Na u ka qala ho sebelisa VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap e kenya SteamVR ka Steam 'me e hlahisa Roblox hloohong ea hau, empa likarolo tse ling tsa Voidstrap li ke ke tsa fihla SteamVR:
+
+• Li-overlays tse kang FPS counter, crosshair, keystrokes le lintlha tsa seva ha li bontše ka hare ho li-headset.
+• RiShade le li-shader tse ling ha li sebetse ho VR
+• Ho sisinyeha habeli, Snap Tap le "virtual controller" ha li sebetse le balaoli ba VR
+• Molebeli oa bar ea sehlooho, li-tweaks tsa fensetere le likhetho tse felletseng li ama seipone sa desktop feela
+• Ho notlolla FPS ha ho sebetse, semamedi sa hau se beha sekhahla sa foreimi
+• Litlhophiso tsa SteamVR, lintlafatso le likoahelo tsa eona li laoloa ke Steam, eseng Voidstrap
+
+Kenya SteamVR hona joale?</value>
+  </data>
 </root>

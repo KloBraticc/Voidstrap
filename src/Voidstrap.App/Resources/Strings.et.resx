@@ -9961,4 +9961,31 @@ Mängijad: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Takistab Robloxi tiitliriba allalibisemist, kui hiir jõuab täisekraanil ekraani ülaserva.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Mängige Roblox-d peakomplektis läbi SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR installib Steam kaudu. Installige Steam ja logige sisse, seejärel proovige uuesti.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR pole installitud. Installige see esmalt halduri lehe VR-i jaotisest.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Teie FastFlags eelistab Roblox-d Vulkan-d, kuid Roblox VR töötab ainult DirectX 11-ga. Kas käivitada ikkagi VR-is?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap installib SteamVR kuni Steam ja käivitab teie peakomplektis Roblox, kuid mõned Voidstrap funktsioonid ei jõua SteamVR-ni:
+
+• Peakomplektis ei kuvata ülekatteid, nagu FPS loendur, rist, klahvivajutused ja serveriteave
+• RiShade ja muud varjundid VR-is ei kehti
+• Topeltliikumine, Snap Tap ja virtuaalne kontroller ei tööta VR-kontrolleritega
+• Tiitliriba valvur, akna näpunäited ja täisekraanvalikud mõjutavad ainult töölaua peeglit
+• FPS avamine ei kehti, teie peakomplekt määrab kaadrisageduse
+• SteamVR sätteid, värskendusi ja oma ülekatteid haldab Steam, mitte Voidstrap
+
+Kas installida SteamVR kohe?</value>
+  </data>
 </root>

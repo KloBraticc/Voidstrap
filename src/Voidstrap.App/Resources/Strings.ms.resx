@@ -10266,4 +10266,31 @@ Pemain: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Menghalang bar tajuk Roblox daripada turun apabila tetikus anda sampai ke bahagian atas skrin dalam mod skrin penuh.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Mainkan Roblox dalam set kepala anda melalui SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR memasang melalui Steam. Pasang Steam dan log masuk, kemudian cuba lagi.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR tidak dipasang. Pasangnya dari bahagian VR halaman Pengurus dahulu.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags anda menjadikan Roblox lebih suka Vulkan, tetapi Roblox VR hanya berfungsi dengan DirectX 11. Lancarkan dalam VR pula?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap memasang SteamVR melalui Steam dan melancarkan Roblox dalam set kepala anda, tetapi beberapa ciri Voidstrap tidak dapat mencapai SteamVR:
+
+• Tindanan seperti kaunter FPS, silang, ketukan kekunci dan maklumat pelayan tidak ditunjukkan di dalam set kepala
+• RiShade dan shader lain tidak digunakan dalam VR
+• Pergerakan berganda, Snap Tap dan pengawal maya tidak berfungsi dengan pengawal VR
+• Pengawal bar tajuk, tweak tetingkap dan pilihan skrin penuh hanya mempengaruhi cermin desktop
+• Buka kunci FPS tidak digunakan, set kepala anda menetapkan kadar bingkai
+• Tetapan SteamVR, kemas kini dan tindanannya sendiri diuruskan oleh Steam, bukan Voidstrap
+
+Pasang SteamVR sekarang?</value>
+  </data>
 </root>

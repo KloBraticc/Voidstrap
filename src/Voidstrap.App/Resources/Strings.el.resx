@@ -9961,4 +9961,31 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Εμποδίζει τη γραμμή τίτλου του Roblox να εμφανίζεται όταν το ποντίκι σου φτάνει στην κορυφή της οθόνης σε πλήρη οθόνη.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Παίξτε Roblox στα ακουστικά σας μέσω του SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>Το SteamVR εγκαθίσταται μέσω του Steam. Εγκαταστήστε το Steam και συνδεθείτε και δοκιμάστε ξανά.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>Το SteamVR δεν είναι εγκατεστημένο. Εγκαταστήστε το πρώτα από την ενότητα VR της σελίδας Manager.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Το FastFlags σας κάνει το Roblox να προτιμά το Vulkan, αλλά το Roblox VR λειτουργεί μόνο με το DirectX 11. Κυκλοφορεί σε VR ούτως ή άλλως;</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Το Voidstrap εγκαθιστά το SteamVR έως το Steam και εκκινεί το Roblox στα ακουστικά σας, αλλά ορισμένες λειτουργίες του Voidstrap δεν μπορούν να φτάσουν το SteamVR:
+
+• Επικαλύψεις όπως ο μετρητής FPS, το σταυρόνημα, οι πληκτρολογήσεις και οι πληροφορίες διακομιστή δεν εμφανίζονται μέσα στα ακουστικά
+• Το RiShade και άλλα shader δεν ισχύουν στο VR
+• Η διπλή κίνηση, το Snap Tap και ο εικονικός ελεγκτής δεν λειτουργούν με ελεγκτές VR
+• Το προστατευτικό της γραμμής τίτλου, οι τροποποιήσεις παραθύρων και οι επιλογές πλήρους οθόνης επηρεάζουν μόνο τον καθρέφτη της επιφάνειας εργασίας
+• Το ξεκλείδωμα FPS δεν ισχύει, το ακουστικό σας ορίζει τον ρυθμό καρέ
+• Η διαχείριση των ρυθμίσεων, των ενημερώσεων και των δικών του επικαλύψεων του SteamVR γίνεται από το Steam και όχι από το Voidstrap
+
+Εγκατάσταση του SteamVR τώρα;</value>
+  </data>
 </root>

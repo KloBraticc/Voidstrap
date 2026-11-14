@@ -77,6 +77,7 @@ public partial class DownloadsPage : UiPage
         {
             DownloadsViewModel.DownloadItem download => download.Title + " " + download.Subtitle,
             DownloadsViewModel.ClientItem client => client.Title + " " + client.Description,
+            DownloadsViewModel.VrItem vr => vr.Title + " " + vr.Subtitle + " SteamVR",
             _ => "",
         };
         return title.Contains(_search, System.StringComparison.OrdinalIgnoreCase);
@@ -87,11 +88,13 @@ public partial class DownloadsPage : UiPage
         if (RobloxItems == null || ClassicItems == null)
             return;
         int filter = FilterCombo?.SelectedIndex ?? 0;
-        RobloxSection.Visibility = filter == 2 ? Visibility.Collapsed : Visibility.Visible;
-        ClassicSection.Visibility = filter == 1 ? Visibility.Collapsed : Visibility.Visible;
+        RobloxSection.Visibility = filter == 0 || filter == 1 ? Visibility.Visible : Visibility.Collapsed;
+        ClassicSection.Visibility = filter == 0 || filter == 2 ? Visibility.Visible : Visibility.Collapsed;
+        VrSection.Visibility = _viewModel.HasVr && (filter == 0 || filter == 3) ? Visibility.Visible : Visibility.Collapsed;
         System.Predicate<object>? searchFilter = _search.Length == 0 ? null : _searchFilter;
         SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.Items), searchFilter);
         SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.ClientItems), searchFilter);
+        SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.VrItems), searchFilter);
     }
 
     private static void SetFilter(System.ComponentModel.ICollectionView view, System.Predicate<object>? filter)
@@ -133,5 +136,6 @@ public partial class DownloadsPage : UiPage
     {
         SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.Items), null);
         SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.ClientItems), null);
+        SetFilter(System.Windows.Data.CollectionViewSource.GetDefaultView(_viewModel.VrItems), null);
     }
 }

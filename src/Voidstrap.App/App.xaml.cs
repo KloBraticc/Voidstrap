@@ -38,6 +38,7 @@ public partial class App : Application
     public const string ProjectName = "Voidstrap";
 
     public const string MuMuLaunchClientCode = "mumu-rishade";
+    public const string SteamVrLaunchClientCode = "steamvr";
 
     public const bool MuMuEnabled = false;
 

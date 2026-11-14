@@ -9961,4 +9961,31 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Не дае панэлі загалоўка Roblox высоўвацца, калі мыш дасягае верхняга краю экрана ў поўнаэкранным рэжыме.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Гуляйце ў Roblox у гарнітуры праз SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR усталёўваецца праз Steam. Усталюйце Steam і ўвайдзіце, а потым паўтарыце спробу.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR не ўсталяваны. Спачатку ўсталюйце яго з раздзела VR на старонцы дыспетчара.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Ваш FastFlags прымушае Roblox аддаваць перавагу Vulkan, але Roblox VR працуе толькі з DirectX 11. Усё роўна запусціць у VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap усталёўвае SteamVR праз Steam і запускае Roblox у вашай гарнітуры, але некаторыя функцыі Voidstrap не могуць дасягнуць SteamVR:
+
+• Такія накладкі, як лічыльнік FPS, прыцэл, націсканні клавіш і інфармацыя аб серверы, не адлюстроўваюцца ўнутры гарнітуры
+• RiShade і іншыя шэйдары не прымяняюцца ў VR
+• Двайны рух, Snap Tap і віртуальны кантролер не працуюць з кантролерамі VR
+• Ахоўнік радка загалоўка, налады вокнаў і параметры поўнаэкраннага рэжыму ўплываюць толькі на люстэрка працоўнага стала
+• Разблакіроўка FPS не прымяняецца, ваша гарнітура задае частату кадраў
+• Наладамі, абнаўленнямі і ўласнымі накладкамі SteamVR кіруе Steam, а не Voidstrap
+
+Усталяваць SteamVR зараз?</value>
+  </data>
 </root>

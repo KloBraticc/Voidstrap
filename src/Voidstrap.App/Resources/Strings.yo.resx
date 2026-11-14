@@ -9961,4 +9961,31 @@ Awọn oṣere: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Ó dá ọ̀pá àkọlé Roblox dúró láti sọ̀kalẹ̀ nígbà tí àsín rẹ bá dé òkè ojú-ìbojú ní ojú-ìbojú kíkún.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Mu Roblox ṣiṣẹ ninu agbekari rẹ nipasẹ SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR fi sori ẹrọ nipasẹ Steam. Fi sori ẹrọ Steam ki o wọle, lẹhinna gbiyanju lẹẹkansi.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ko fi sii. Fi sii lati apakan VR ti oju-iwe Alakoso ni akọkọ.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags rẹ jẹ ki Roblox fẹran Vulkan, ṣugbọn Roblox VR nikan ṣiṣẹ pẹlu DirectX 11. Lọlẹ ni VR lonakona?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap fi sori ẹrọ SteamVR nipasẹ Steam ati ṣe ifilọlẹ Roblox ninu agbekari rẹ, ṣugbọn diẹ ninu awọn ẹya Voidstrap ko le de SteamVR:
+
+• Awọn agbekọja bii counter FPS, agbekọja, awọn bọtini bọtini ati alaye olupin ko han ninu agbekari.
+• RiShade ati awọn shaders miiran ko lo ni VR
+• Ilọpo meji, Snap Tap ati oluṣakoso foju ko ṣiṣẹ pẹlu awọn olutona VR
+• Oluṣọ ọpa akọle, awọn tweaks window ati awọn aṣayan iboju kikun ni ipa lori digi tabili nikan
+• Ṣii silẹ FPS ko lo, agbekari rẹ ṣeto oṣuwọn fireemu
+• Awọn eto SteamVR, awọn imudojuiwọn ati awọn agbekọja tirẹ ni a ṣakoso nipasẹ Steam, kii ṣe Voidstrap
+
+Fi sori ẹrọ SteamVR bayi?</value>
+  </data>
 </root>

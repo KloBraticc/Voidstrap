@@ -10273,4 +10273,31 @@
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>يمنع شريط عنوان Roblox من الظهور عندما يصل مؤشر الماوس إلى أعلى الشاشة في وضع ملء الشاشة.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>قم بتشغيل Roblox في سماعة الرأس الخاصة بك من خلال SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>يتم تثبيت SteamVR من خلال Steam. قم بتثبيت Steam وقم بتسجيل الدخول، ثم حاول مرة أخرى.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>لم يتم تثبيت SteamVR. قم بتثبيته من قسم VR في صفحة المدير أولاً.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags الخاص بك يجعل Roblox يفضل Vulkan، لكن Roblox VR يعمل فقط مع DirectX 11. إطلاق في الواقع الافتراضي على أي حال؟</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>يقوم Voidstrap بتثبيت SteamVR عبر Steam وتشغيل Roblox في سماعة الرأس الخاصة بك، ولكن لا يمكن لبعض ميزات Voidstrap الوصول إلى SteamVR:
+
+• لا تظهر التراكبات مثل عداد FPS والخطوط المتقاطعة وضغطات المفاتيح ومعلومات الخادم داخل سماعة الرأس
+• لا يتم تطبيق RiShade والتظليلات الأخرى في الواقع الافتراضي
+• الحركة المزدوجة وSnap Tap ووحدة التحكم الافتراضية لا تعمل مع وحدات تحكم الواقع الافتراضي
+• تؤثر حماية شريط العنوان وتعديلات النوافذ وخيارات ملء الشاشة فقط على مرآة سطح المكتب
+• لا يتم تطبيق إلغاء قفل FPS، حيث تقوم سماعة الرأس الخاصة بك بضبط معدل الإطارات
+• تتم إدارة إعدادات SteamVR وتحديثاتها وتراكباتها الخاصة بواسطة Steam، وليس Voidstrap
+
+هل تريد تثبيت SteamVR الآن؟</value>
+  </data>
 </root>

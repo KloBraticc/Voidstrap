@@ -10277,4 +10277,31 @@ Người chơi: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Ngăn thanh tiêu đề Roblox trượt xuống khi chuột của bạn chạm tới mép trên màn hình ở chế độ toàn màn hình.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Phát Roblox trong tai nghe của bạn thông qua SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR cài đặt thông qua Steam. Hãy cài đặt Steam và đăng nhập rồi thử lại.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR chưa được cài đặt. Trước tiên hãy cài đặt nó từ phần VR của trang Trình quản lý.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags của bạn khiến Roblox thích Vulkan hơn, nhưng Roblox VR chỉ hoạt động với DirectX 11. Vẫn khởi chạy trong VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap cài đặt SteamVR thông qua Steam và khởi chạy Roblox trong tai nghe của bạn, nhưng một số tính năng của Voidstrap không thể đạt được SteamVR:
+
+• Các lớp phủ như bộ đếm FPS, tâm ngắm, tổ hợp phím và thông tin máy chủ không hiển thị bên trong tai nghe
+• RiShade và các shader khác không áp dụng trong VR
+• Chuyển động kép, Snap Tap và bộ điều khiển ảo không hoạt động với bộ điều khiển VR
+• Thanh bảo vệ thanh tiêu đề, chỉnh sửa cửa sổ và tùy chọn toàn màn hình chỉ ảnh hưởng đến gương màn hình
+• Mở khóa FPS không áp dụng, tai nghe của bạn sẽ đặt tốc độ khung hình
+• Cài đặt, cập nhật và lớp phủ riêng của SteamVR được quản lý bởi Steam chứ không phải Voidstrap
+
+Cài đặt SteamVR ngay bây giờ?</value>
+  </data>
 </root>

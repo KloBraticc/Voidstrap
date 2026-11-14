@@ -10272,4 +10272,31 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Не дає рядку заголовка Roblox висуватися, коли миша досягає верхнього краю екрана в повноекранному режимі.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Грайте в Roblox у своїй гарнітурі через SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR встановлюється через Steam. Установіть Steam, увійдіть і повторіть спробу.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR не встановлено. Спочатку встановіть його з розділу VR на сторінці менеджера.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Ваш FastFlags змушує Roblox віддавати перевагу Vulkan, але Roblox VR працює лише з DirectX 11. Усе одно запустити у VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap встановлює SteamVR через Steam і запускає Roblox у вашій гарнітурі, але деякі функції Voidstrap не можуть отримати доступ до SteamVR:
+
+• Такі накладки, як лічильник FPS, перехрестя, натискання клавіш і інформація про сервер, не відображаються всередині гарнітури
+• RiShade та інші шейдери не застосовуються у VR
+• Подвійний рух, Snap Tap і віртуальний контролер не працюють з контролерами VR
+• Захист рядка заголовка, налаштування вікон і параметри повноекранного режиму впливають лише на дзеркало робочого столу
+• Розблокування FPS не застосовується, ваша гарнітура встановлює частоту кадрів
+• Налаштуваннями, оновленнями та власними накладками SteamVR керує Steam, а не Voidstrap
+
+Установити SteamVR зараз?</value>
+  </data>
 </root>

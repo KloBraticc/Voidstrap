@@ -9962,4 +9962,31 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>ପୂର୍ଣ୍ଣସ୍କ୍ରିନରେ ଆପଣଙ୍କ ମାଉସ ସ୍କ୍ରିନର ଉପରେ ପହଞ୍ଚିଲେ Roblox ଟାଇଟେଲ ବାର ତଳକୁ ଖସିବାକୁ ରୋକେ।</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR ମାଧ୍ୟମରେ ଆପଣଙ୍କ ହେଡସେଟ୍ ରେ Roblox ଚଲାନ୍ତୁ |</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>Steam ମାଧ୍ୟମରେ SteamVR ସଂସ୍ଥାପନ କରେ | Steam ସଂସ୍ଥାପନ କରନ୍ତୁ ଏବଂ ସାଇନ୍ ଇନ୍ କରନ୍ତୁ, ତାପରେ ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ |</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ସଂସ୍ଥାପିତ ହୋଇନାହିଁ | ଏହାକୁ ପ୍ରଥମେ ମ୍ୟାନେଜର୍ ପୃଷ୍ଠାର VR ବିଭାଗରୁ ସଂସ୍ଥାପନ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>ଆପଣଙ୍କର FastFlags Roblox କୁ Vulkan କୁ ପସନ୍ଦ କରେ, କିନ୍ତୁ Roblox VR କେବଳ DirectX 11 ସହିତ କାମ କରେ | ଯେକ way ଣସି ପ୍ରକାରେ VR ରେ ଆରମ୍ଭ ହେବ?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap Steam ମାଧ୍ୟମରେ SteamVR ସଂସ୍ଥାପନ କରେ ଏବଂ ଆପଣଙ୍କ ହେଡସେଟରେ Roblox ଲଞ୍ଚ କରେ, କିନ୍ତୁ କିଛି Voidstrap ବ features ଶିଷ୍ଟ୍ୟ SteamVR ରେ ପହଞ୍ଚିପାରିବ ନାହିଁ:
+
+• ଓଭରଲେଜ୍ ଯେପରିକି FPS କାଉଣ୍ଟର, କ୍ରସ୍ ଚେୟାର, କିଷ୍ଟ୍ରୋକ ଏବଂ ସର୍ଭର ସୂଚନା ହେଡସେଟ୍ ଭିତରେ ଦେଖାଯାଏ ନାହିଁ |
+• RiShade ଏବଂ ଅନ୍ୟ ଛାୟାଗୁଡ଼ିକ VR ରେ ପ୍ରଯୁଜ୍ୟ ନୁହେଁ |
+• ଡବଲ୍ ଗତି, Snap Tap ଏବଂ ଭର୍ଚୁଆଲ୍ କଣ୍ଟ୍ରୋଲର୍ VR ନିୟନ୍ତ୍ରକ ସହିତ କାମ କରେ ନାହିଁ |
+• ଟାଇଟଲ୍ ବାର୍ ଗାର୍ଡ, ୱିଣ୍ଡୋ ଟ୍ୱିକ୍ସ ଏବଂ ଫୁଲ୍ ସ୍କ୍ରିନ୍ ବିକଳ୍ପଗୁଡ଼ିକ କେବଳ ଡେସ୍କଟପ୍ ଦର୍ପଣକୁ ପ୍ରଭାବିତ କରେ |
+• FPS ଅନଲକ୍ ପ୍ରଯୁଜ୍ୟ ନୁହେଁ, ଆପଣଙ୍କର ହେଡସେଟ୍ ଫ୍ରେମ୍ ରେଟ୍ ସେଟ୍ କରେ |
+• SteamVR ସେଟିଂସମୂହ, ଅଦ୍ୟତନ ଏବଂ ଏହାର ନିଜସ୍ୱ ଓଭରଲେଜ୍ Steam ଦ୍ୱାରା ପରିଚାଳିତ, Voidstrap ନୁହେଁ |
+
+ବର୍ତ୍ତମାନ SteamVR ସଂସ୍ଥାପନ କରନ୍ତୁ?</value>
+  </data>
 </root>

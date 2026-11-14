@@ -9962,4 +9962,31 @@ Abakinnyi: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Ibuza umurongo w'umutwe wa Roblox kumanuka iyo imbeba yawe igeze hejuru ya ecran iri kuri ecran yose.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Kina Roblox mumutwe wawe unyuze kuri SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR yinjiza binyuze muri Steam. Shyiramo Steam hanyuma winjire, hanyuma ugerageze.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ntabwo yashyizweho. Shyira mubice bya VR kurupapuro rwambere.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags yawe ituma Roblox ikunda Vulkan, ariko Roblox VR ikorana na DirectX 11 gusa. Gutangiza muri VR uko byagenda kose?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap ishyiraho SteamVR ikoresheje Steam hanyuma igatangiza Roblox mumutwe wawe, ariko bimwe Voidstrap biranga ntibishobora kugera kuri SteamVR:
+
+• Kurengana nka FPS compteur, crosshair, urufunguzo na seriveri yamakuru ntabwo yerekana imbere mumutwe
+• RiShade nibindi bicucu ntibikoreshwa muri VR
+• Kugenda kabiri, Snap Tap hamwe nubugenzuzi busanzwe ntibikorana nabagenzuzi ba VR
+• Umutwe wumurinzi wizamu, idirishya ryahinduwe hamwe nuburyo bwuzuye bwerekana gusa indorerwamo ya desktop
+• Gufungura FPS ntabwo bikurikizwa, na gareti yawe ishyiraho igipimo cyikigero
+• Igenamiterere rya SteamVR, ivugurura hamwe naryo ryonyine riyobowe na Steam, ntabwo Voidstrap
+
+Shyiramo SteamVR ubungubu?</value>
+  </data>
 </root>

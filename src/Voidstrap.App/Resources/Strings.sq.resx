@@ -9962,4 +9962,31 @@ Lojtarët: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Ndalon shiritin e titullit të Roblox të rrëshqasë poshtë kur miu yt arrin në krye të ekranit në ekran të plotë.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Luaj Roblox në kufjet tuaja përmes SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR instalohet përmes Steam. Instaloni Steam dhe regjistrohuni, më pas provoni sërish.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR nuk është i instaluar. Instaloni fillimisht nga seksioni VR i faqes së Menaxherit.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags juaj e bën Roblox të preferojë Vulkan, por Roblox VR funksionon vetëm me DirectX 11. Nis gjithsesi në VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap instalon SteamVR deri në Steam dhe lëshon Roblox në kufjet tuaja, por disa veçori të Voidstrap nuk mund të arrijnë SteamVR:
+
+• Mbivendosjet si numëruesi i FPS, pikat e kryqëzuara, goditjet e tasteve dhe informacioni i serverit nuk shfaqen brenda kufjeve
+• RiShade dhe shaderët e tjerë nuk zbatohen në VR
+• Lëvizja e dyfishtë, Snap Tap dhe kontrolluesi virtual nuk funksionojnë me kontrollorët VR
+• Mbrojtja e shiritit të titullit, ndryshimet e dritareve dhe opsionet e ekranit të plotë ndikojnë vetëm në pasqyrën e desktopit
+• Zhbllokimi FPS nuk zbatohet, kufjet tuaja vendosin shpejtësinë e kuadrove
+• Cilësimet, përditësimet dhe mbivendosjet e SteamVR menaxhohen nga Steam, jo nga Voidstrap
+
+Të instalohet SteamVR tani?</value>
+  </data>
 </root>

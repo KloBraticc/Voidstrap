@@ -9961,4 +9961,31 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>မျက်နှာပြင်အပြည့်တွင် မောက်စ်သည် မျက်နှာပြင်ထိပ်သို့ ရောက်သောအခါ Roblox ခေါင်းစဉ်ဘား ဆင်းမလာစေရန် တားဆီးသည်။</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR မှတစ်ဆင့် သင့်နားကြပ်တွင် Roblox ကို ကစားပါ။</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR သည် Steam မှတဆင့် ထည့်သွင်းသည်။ Steam ကို ထည့်သွင်းပြီး အကောင့်ဝင်ပြီးနောက် ထပ်စမ်းကြည့်ပါ။</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ကို ထည့်သွင်းမထားပါ။ ၎င်းကို Manager စာမျက်နှာ၏ VR ကဏ္ဍမှ ဦးစွာ ထည့်သွင်းပါ။</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>သင်၏ FastFlags သည် Roblox ကို Vulkan ကို ပိုနှစ်သက်စေသည်၊ သို့သော် Roblox VR သည် DirectX 11 နှင့်သာအလုပ်လုပ်သည်။ မည်သို့ပင်ဖြစ်စေ VR တွင် စတင်မလား။</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap သည် SteamVR မှတဆင့် Steam ကိုထည့်သွင်းပြီး သင့်နားကြပ်တွင် Roblox ကိုဖွင့်ပေးသည်၊ သို့သော် အချို့သော Voidstrap လုပ်ဆောင်ချက်များသည် SteamVR သို့မရောက်ရှိနိုင်ပါ။
+
+• FPS ကောင်တာ၊ crosshair၊ keystroke နှင့် server အချက်အလက်ကဲ့သို့သော ထပ်ဆင့်များသည် နားကြပ်အတွင်းတွင် မပြပါ
+• RiShade နှင့် အခြားအရိပ်အာနိသင်များကို VR တွင် အသုံးမပြုပါ။
+• နှစ်ချက်လှုပ်ရှားမှု၊ Snap Tap နှင့် virtual controller သည် VR ထိန်းချုပ်ကိရိယာများနှင့် အလုပ်မလုပ်ပါ။
+• ခေါင်းစဉ်ဘားစောင့်၊ ဝင်းဒိုးပြင်ဆင်မှုများနှင့် မျက်နှာပြင်အပြည့်ရွေးချယ်မှုများသည် ဒက်စ်တော့မှန်ကိုသာ အကျိုးသက်ရောက်သည်။
+• FPS လော့ခ်ဖွင့်ခြင်းသည် သက်ရောက်မှုမရှိပါ၊ သင့်နားကြပ်သည် ဖရိမ်နှုန်းကို သတ်မှတ်ပေးပါသည်။
+• SteamVR ဆက်တင်များ၊ အပ်ဒိတ်များနှင့် ၎င်း၏ကိုယ်ပိုင် ထပ်ဆင့်များကို Steam က စီမံခန့်ခွဲသည်၊ Voidstrap မဟုတ်ပါ။
+
+SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
+  </data>
 </root>

@@ -10275,4 +10275,31 @@ Players: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Stops the Roblox title bar from sliding down when your mouse reaches the top of the screen in fullscreen.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Play Roblox in your headset through SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR installs through Steam. Install Steam and sign in, then try again.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR is not installed. Install it from the VR section of the Manager page first.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Your FastFlags make Roblox prefer Vulkan, but Roblox VR only works with DirectX 11. Launch in VR anyway?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap installs SteamVR through Steam and launches Roblox in your headset, but some Voidstrap features cannot reach SteamVR:
+
+• Overlays such as the FPS counter, crosshair, keystrokes and server info do not show inside the headset
+• RiShade and other shaders do not apply in VR
+• Double movement, Snap Tap and the virtual controller do not work with VR controllers
+• The title bar guard, window tweaks and fullscreen options only affect the desktop mirror
+• The FPS unlock does not apply, your headset sets the frame rate
+• SteamVR settings, updates and its own overlays are managed by Steam, not Voidstrap
+
+Install SteamVR now?</value>
+  </data>
 </root>

@@ -533,6 +533,7 @@ namespace Voidstrap.Models.Persistable
         public string PlayerInstallLocation { get; set; } = "";
         public string VngInstallLocation { get; set; } = "";
         public bool UseVng { get; set; }
+        public bool SteamVrEnabledVr { get; set; }
         public string StudioInstallLocation { get; set; } = "";
         public bool StaticDirectory { get; set; } = false;
         public string ClassicInstallLocation { get; set; } = "";

@@ -1393,6 +1393,239 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
         }
 
+        public sealed class VrItem : NotifyPropertyChangedViewModel
+        {
+            private readonly DownloadsViewModel _parent;
+            private CancellationTokenSource? _watchCts;
+            private Voidstrap.Integrations.SteamVr.Install? _install;
+            private bool _isSelected;
+
+            public string Title => Strings.Vr_Title;
+            public string Subtitle => Strings.Vr_Description;
+            public ImageSource? IconImage { get; } = CreateIcon();
+            public ImageSource? LogoImage => null;
+            public bool HasPoster => false;
+            public bool IsVng => false;
+            public bool UpdateAvailable => false;
+            public bool HasAddons => false;
+            public bool ShowFleasion => false;
+            public bool ShowSwiftTunnel => false;
+            public bool ShowStudioAddons => false;
+            public bool ShowCommunityContent => false;
+            public bool CanVerify => false;
+            public bool HasVerifyText => false;
+            public string VerifyText => "";
+            public bool CanChangeLocation => false;
+            public ICommand? ChangeLocationCommand => null;
+            public double Progress => 0;
+            public string ProgressDetail => "";
+
+            public bool IsInstalled => _install != null;
+            public bool IsBusy { get; private set; }
+            public bool CanPrimary => !IsBusy;
+            public bool CanUninstall => IsInstalled && !IsBusy;
+            public string StatusText { get; private set; } = "";
+            public string VersionText => _install == null || _install.BuildId.Length == 0 ? "" : "Build " + _install.BuildId;
+            public string SizeText => _install == null || _install.SizeOnDisk <= 0 ? "" : FormatBytes(_install.SizeOnDisk);
+            public string LocationText => _install?.Folder ?? "SteamVR";
+            public string PrimaryButtonText => IsInstalled ? "Open in Steam" : "Install";
+
+            public bool IsSelected
+            {
+                get => _isSelected;
+                set
+                {
+                    if (_isSelected == value)
+                        return;
+                    _isSelected = value;
+                    OnPropertyChanged(nameof(IsSelected));
+                }
+            }
+
+            public ICommand SelectCommand { get; }
+            public ICommand InstallCommand { get; }
+            public ICommand UninstallCommand { get; }
+            public ICommand OpenFolderCommand { get; }
+            public ICommand CancelCommand { get; }
+            public ICommand VerifyCommand { get; }
+
+            internal VrItem(DownloadsViewModel parent)
+            {
+                _parent = parent;
+                SelectCommand = new RelayCommand(SelectSelf);
+                InstallCommand = new RelayCommand(Install);
+                UninstallCommand = new RelayCommand(Uninstall);
+                OpenFolderCommand = new RelayCommand(OpenFolder);
+                CancelCommand = new RelayCommand(StopWatching);
+                VerifyCommand = new RelayCommand(RefreshInstallState);
+                RefreshInstallState();
+            }
+
+            private void SelectSelf()
+            {
+                _parent.SelectedItem = this;
+            }
+
+            public void RefreshInstallState()
+            {
+                _install = Voidstrap.Integrations.SteamVr.Find();
+                if (!IsBusy)
+                    StatusText = IsInstalled ? "Up to date" : "Not installed";
+                RaiseAll();
+            }
+
+            private void RaiseAll()
+            {
+                OnPropertyChanged(nameof(IsInstalled));
+                OnPropertyChanged(nameof(IsBusy));
+                OnPropertyChanged(nameof(CanPrimary));
+                OnPropertyChanged(nameof(CanUninstall));
+                OnPropertyChanged(nameof(StatusText));
+                OnPropertyChanged(nameof(VersionText));
+                OnPropertyChanged(nameof(SizeText));
+                OnPropertyChanged(nameof(LocationText));
+                OnPropertyChanged(nameof(PrimaryButtonText));
+            }
+
+            private void Install()
+            {
+                if (!Voidstrap.Integrations.SteamVr.IsSteamInstalled)
+                {
+                    Frontend.ShowMessageBox(Strings.Vr_SteamMissing, MessageBoxImage.Warning);
+                    Utilities.OpenWebLink("https://store.steampowered.com/about/");
+                    return;
+                }
+                if (
+                    !IsInstalled
+                    && Frontend.ShowMessageBox(Strings.Vr_InstallWarning, MessageBoxImage.Information, MessageBoxButton.OKCancel)
+                        != MessageBoxResult.OK
+                )
+                    return;
+                if (!Voidstrap.Integrations.SteamVr.RequestInstall())
+                {
+                    Frontend.ShowMessageBox(Strings.Vr_SteamMissing, MessageBoxImage.Warning);
+                    return;
+                }
+                if (!IsInstalled)
+                    WatchUntil(true, "Installing through Steam");
+            }
+
+            private void Uninstall()
+            {
+                if (Voidstrap.Integrations.SteamVr.RequestUninstall())
+                    WatchUntil(false, "Removing through Steam");
+            }
+
+            private void OpenFolder()
+            {
+                if (_install != null && Directory.Exists(_install.Folder))
+                    Process.Start(new ProcessStartInfo(_install.Folder) { UseShellExecute = true })?.Dispose();
+            }
+
+            private void WatchUntil(bool installed, string status)
+            {
+                StopWatching();
+                CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromMinutes(45));
+                _watchCts = cts;
+                IsBusy = true;
+                StatusText = status;
+                RaiseAll();
+                _ = WatchAsync(installed, cts);
+            }
+
+            private async Task WatchAsync(bool installed, CancellationTokenSource cts)
+            {
+                try
+                {
+                    while (!cts.IsCancellationRequested)
+                    {
+                        await Task.Delay(3000, cts.Token).ConfigureAwait(true);
+                        if ((Voidstrap.Integrations.SteamVr.Find() != null) == installed)
+                            break;
+                    }
+                }
+                catch (OperationCanceledException) { }
+                finally
+                {
+                    if (ReferenceEquals(_watchCts, cts))
+                    {
+                        _watchCts = null;
+                        IsBusy = false;
+                        RefreshInstallState();
+                    }
+                    cts.Dispose();
+                }
+            }
+
+            private void StopWatching()
+            {
+                CancellationTokenSource? cts = _watchCts;
+                _watchCts = null;
+                if (cts != null)
+                {
+                    try
+                    {
+                        cts.Cancel();
+                    }
+                    catch (ObjectDisposedException) { }
+                }
+                if (IsBusy)
+                {
+                    IsBusy = false;
+                    RefreshInstallState();
+                }
+            }
+
+            private static ImageSource? CreateIcon()
+            {
+                try
+                {
+                    Typeface typeface = new Typeface(
+                        Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.FullIconFont,
+                        FontStyles.Normal,
+                        FontWeights.Normal,
+                        FontStretches.Normal
+                    );
+                    FormattedText text = new FormattedText(
+                        char.ConvertFromUtf32((int)Wpf.Ui.Common.SymbolRegular.HeadsetVr24),
+                        CultureInfo.InvariantCulture,
+                        FlowDirection.LeftToRight,
+                        typeface,
+                        64,
+                        Brushes.White,
+                        1.0
+                    );
+                    Geometry glyph = text.BuildGeometry(new Point(0, 0));
+                    Rect bounds = glyph.Bounds;
+                    if (bounds.IsEmpty)
+                        return null;
+                    glyph.Transform = new TranslateTransform(64 - (bounds.X + bounds.Width / 2), 64 - (bounds.Y + bounds.Height / 2));
+                    DrawingGroup group = new DrawingGroup();
+                    group.Children.Add(
+                        new GeometryDrawing(
+                            new SolidColorBrush(Color.FromRgb(0x33, 0x5F, 0xFF)),
+                            null,
+                            new RectangleGeometry(new Rect(0, 0, 128, 128), 24, 24)
+                        )
+                    );
+                    group.Children.Add(new GeometryDrawing(Brushes.White, null, glyph));
+                    DrawingImage image = new DrawingImage(group);
+                    image.Freeze();
+                    return image;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        public VrItem? Vr { get; private set; }
+
+        public bool HasVr => Vr != null;
+
+        public ObservableCollection<VrItem> VrItems { get; } = new ObservableCollection<VrItem>();
+
         public sealed class MuMuItem : NotifyPropertyChangedViewModel
         {
             public string Title => "Roblox (RiShade)";
@@ -1645,6 +1878,11 @@ namespace Voidstrap.UI.ViewModels.Settings
                             true
                         )
                     );
+                if (Voidstrap.Integrations.SteamVr.IsSupported)
+                {
+                    Vr = new VrItem(this);
+                    VrItems.Add(Vr);
+                }
             }
             OpenRootCommand = new RelayCommand(OpenRoot);
             RefreshCommand = new RelayCommand(RefreshAll);
@@ -1704,6 +1942,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 foreach (DownloadItem item in Items)
                     item.IsSelected = ReferenceEquals(item, value);
                 foreach (ClientItem item in ClientItems)
+                    item.IsSelected = ReferenceEquals(item, value);
+                foreach (VrItem item in VrItems)
                     item.IsSelected = ReferenceEquals(item, value);
                 OnPropertyChanged(nameof(SelectedItem));
                 OnPropertyChanged(nameof(HasSelection));

@@ -9961,4 +9961,31 @@ Uptime: {1}
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>پۈتۈن ئېكراندا مائۇس ئېكراننىڭ ئۈستىگە يەتكەندە Roblox ماۋزۇ بالدىقىنىڭ تۆۋەنگە سىيرىلىشىنى توسىدۇ.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR ئارقىلىق تىڭشىغۇچتا Roblox ئويناڭ</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR Steam ئارقىلىق قاچىلايدۇ. Steam نى قاچىلاپ كىرىڭ ، ئاندىن قايتا سىناڭ.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ئورنىتىلمىغان. ئۇنى ئالدى بىلەن باشقۇرغۇچى بېتىنىڭ VR بۆلىكىدىن قاچىلاڭ.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>سىزنىڭ FastFlags Roblox نى Vulkan نى ياخشى كۆرىدۇ ، ئەمما Roblox VR پەقەت DirectX 11 بىلەنلا ئىشلەيدۇ. قانداقلا بولمىسۇن VR دا قوزغىتىلامسىز؟</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap Steam ئارقىلىق SteamVR نى قاچىلايدۇ ۋە تىڭشىغۇچتا Roblox نى قوزغىتىدۇ ، ئەمما بەزى Voidstrap ئىقتىدارلىرى SteamVR غا يېتەلمەيدۇ:
+
+• FPS ھېسابلىغۇچ ، كرېسلو ، كۇنۇپكا تاختىسى ۋە مۇلازىمېتىر ئۇچۇرلىرى قاتارلىق قاپلاشلار تىڭشىغۇچنىڭ ئىچىدە كۆرۈنمەيدۇ
+• RiShade ۋە باشقا سايە VR دا قوللىنىلمايدۇ
+• قوش ھەرىكەت ، Snap Tap ۋە مەۋھۇم كونتروللىغۇچ VR كونتروللىغۇچ بىلەن ئىشلىمەيدۇ
+• تېما بالدىقى مۇھاپىزەتچىسى ، كۆزنەك ئۆزگەرتىش ۋە پۈتۈن ئېكران تاللاشلىرى پەقەت ئۈستەل ئەينىكىگە تەسىر كۆرسىتىدۇ
+• FPS قۇلۇپ ئېچىش قوللىنىلمايدۇ ، تىڭشىغۇچ رامكا نىسبىتىنى بەلگىلەيدۇ
+• SteamVR تەڭشەكلىرى ، يېڭىلانمىلىرى ۋە ئۆزىنىڭ قاپلاشلىرى Voidstrap ئەمەس ، Steam تەرىپىدىن باشقۇرۇلىدۇ
+
+ھازىر SteamVR نى قاچىلاڭ؟</value>
+  </data>
 </root>

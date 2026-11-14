@@ -9961,4 +9961,31 @@ Chwaraewyr: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Yn atal bar teitl Roblox rhag llithro i lawr pan fydd eich llygoden yn cyrraedd brig y sgrin mewn sgrin lawn.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Chwarae Roblox yn eich clustffonau trwy SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>Mae SteamVR yn gosod trwy Steam. Gosod Steam a mewngofnodi, yna ceisiwch eto.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>Nid yw SteamVR wedi'i osod. Gosodwch ef o adran VR y dudalen Rheolwr yn gyntaf.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Mae eich FastFlags yn golygu bod yn well gan Roblox Vulkan, ond dim ond gyda DirectX 11 y mae Roblox VR yn gweithio. Lansio yn VR beth bynnag?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Mae Voidstrap yn gosod SteamVR trwy Steam ac yn lansio Roblox yn eich clustffonau, ond ni all rhai nodweddion Voidstrap gyrraedd SteamVR:
+
+• Nid yw troshaenau fel cownter FPS, croeswallt, trawiadau bysell a gwybodaeth gweinydd yn dangos y tu mewn i'r clustffonau
+• Nid yw RiShade ac arlliwwyr eraill yn berthnasol yn VR
+• Nid yw symudiad dwbl, Snap Tap a'r rheolydd rhithwir yn gweithio gyda rheolwyr VR
+• Mae'r gard bar teitl, tweaks ffenestr ac opsiynau sgrin lawn yn effeithio ar y drych bwrdd gwaith yn unig
+• Nid yw'r datgloi FPS yn berthnasol, mae eich headset yn gosod y gyfradd ffrâm
+• Rheolir gosodiadau SteamVR, diweddariadau a'i droshaenau ei hun gan Steam, nid Voidstrap
+
+Gosod SteamVR nawr?</value>
+  </data>
 </root>

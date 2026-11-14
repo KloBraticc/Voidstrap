@@ -9961,4 +9961,31 @@ Oýunçylar: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Doly ekranda syçanyňyz ekranyň ýokarsyna ýetende Roblox sözbaşy zolagynyň aşak süýşmeginiň öňüni alýar.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR arkaly nauşnikde Roblox oýnaň</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR Steam arkaly gurýar. Steam guruň we giriň, gaýtadan synanyşyň.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR gurulmady. Ilki bilen Dolandyryjy sahypasynyň VR bölüminden guruň.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags-iňiz Roblox-ni Vulkan-ny makul bilýär, ýöne Roblox VR diňe DirectX 11 bilen işleýär. Her niçigem bolsa VR-de işe başlamaly?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap SteamVR arkaly SteamVR gurýar we nauşnikde Roblox işe girizýär, ýöne käbir Voidstrap aýratynlyklary SteamVR-e ýetip bilmeýär:
+
+• FPS hasaplaýjy, kreslo, klawişler we serwer maglumatlary ýaly örtükler nauşnigiň içinde görkezilmeýär
+• RiShade we beýleki kölegeler VR-de ulanylmaýar
+• Iki gezek hereket, Snap Tap we wirtual kontrol VR dolandyryjylary bilen işlemeýär
+• Adyň çyzgysy, penjiräni üýtgetmek we doly ekran görnüşleri diňe iş stolunyň aýnasyna täsir edýär
+• FPS gulpy açylmaýar, nauşnik çarçuwanyň tizligini kesgitleýär
+• SteamVR sazlamalary, täzelenmeler we öz örtükleri Voidstrap däl-de, Steam tarapyndan dolandyrylýar
+
+Indi SteamVR guruň?</value>
+  </data>
 </root>

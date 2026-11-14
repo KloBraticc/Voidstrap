@@ -9961,4 +9961,31 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>שטעלט אָפּ דעם Roblox טיטל־באַר פון אַראָפּגליטשן ווען דיין מויז דערגרייכט די שפּיץ פון עקראַן אין פולן עקראַן.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>שפּיל Roblox אין דיין כעדסעט דורך SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR ינסטאָלז דורך Steam. ינסטאַלירן Steam און קלאָץ אין, און פּרובירן ווידער.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR איז נישט אינסטאַלירן. ינסטאַלירן עס ערשטער פון די וור אָפּטיילונג פון די מאַנאַגער בלאַט.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>דיין FastFlags מאַכן Roblox בעסער Vulkan, אָבער Roblox VR אַרבעט בלויז מיט DirectX 11. קאַטער אין וור סייַ ווי סייַ?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap ינסטאָלז SteamVR דורך Steam און לאָנטשיז Roblox אין דיין כעדסעט, אָבער עטלעכע Voidstrap פֿעיִקייטן קענען נישט דערגרייכן SteamVR:
+
+• אָוווערלייז אַזאַ ווי די FPS טאָמבאַנק, קראָסשאַיר, קיסטראָוקס און סערווער אינפֿאָרמאַציע זענען נישט געוויזן אין די כעדסעט
+• RiShade און אנדערע שאַדערז טאָן ניט צולייגן אין וור
+• טאָפּל באַוועגונג, Snap Tap און די ווירטואַל קאָנטראָללער אַרבעט נישט מיט וור קאַנטראָולערז
+• די טיטל באַר היטן, פֿענצטער טוויקס און פוללסקרעען אָפּציעס נאָר ווירקן די דעסקטאַפּ שפּיגל
+• די FPS ופשליסן איז נישט אַפּלייז, דיין כעדסעט שטעלט די ראַם קורס
+• SteamVR סעטטינגס, דערהייַנטיקונגען און זיין אייגענע אָוווערלייז זענען געראטן דורך Steam, נישט Voidstrap
+
+ינסטאַלירן SteamVR איצט?</value>
+  </data>
 </root>

@@ -9961,4 +9961,31 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Ҳангоме ки муш дар экрани пурра ба болои экран мерасад, навори сарлавҳаи Roblox поён намеояд.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Roblox-ро дар гӯшмонаки худ тавассути SteamVR бозӣ кунед</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR тавассути Steam насб карда мешавад. Steam-ро насб кунед ва ворид шавед ва дубора кӯшиш кунед.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR насб карда нашудааст. Аввал онро аз бахши VR саҳифаи менеҷер насб кунед.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags-и шумо Roblox-ро Vulkan бартарӣ медиҳад, аммо Roblox VR танҳо бо DirectX 11 кор мекунад. Ба ҳар ҳол дар VR оғоз кунед?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap SteamVR-ро тавассути Steam насб мекунад ва Roblox-ро дар гӯшмонаки шумо оғоз мекунад, аммо баъзе хусусиятҳои Voidstrap наметавонанд ба SteamVR дастрас шаванд:
+
+• Дар дохили гӯшмонак қабатҳо ба монанди ҳисобкунаки FPS, кроссшер, зарбаҳои клавиатура ва маълумоти сервер нишон дода намешаванд.
+• RiShade ва дигар шейдерҳо дар VR татбиқ намешаванд
+• Ҳаракати дукарата, Snap Tap ва контролери виртуалӣ бо контроллерҳои VR кор намекунанд
+• Муҳофизати сатри унвон, танзими тиреза ва имконоти пурраи экран танҳо ба оинаи мизи корӣ таъсир мерасонад
+• Қулфи FPS татбиқ намешавад, гӯшмонаки шумо суръати чаҳорчӯбаро муқаррар мекунад
+• Танзимоти SteamVR, навсозиҳо ва қабатҳои худ аз ҷониби Steam идора карда мешаванд, на Voidstrap
+
+SteamVR-ро ҳозир насб кунед?</value>
+  </data>
 </root>

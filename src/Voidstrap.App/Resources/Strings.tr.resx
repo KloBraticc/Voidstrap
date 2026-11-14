@@ -10272,4 +10272,31 @@ Oyuncular: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Tam ekranda fareniz ekranın üstüne ulaştığında Roblox başlık çubuğunun aşağı kaymasını engeller.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR aracılığıyla kulaklığınızda Roblox oynayın</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR, Steam aracılığıyla yüklenir. Steam'yu yükleyin ve oturum açın, ardından tekrar deneyin.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR kurulu değil. İlk önce Yönetici sayfasının VR bölümünden yükleyin.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags'nuz Roblox'nun Vulkan'yu tercih etmesine neden olur, ancak Roblox VR yalnızca DirectX 11 ile çalışır. Yine de VR'da başlatılsın mı?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap, SteamVR'yu Steam aracılığıyla yükler ve kulaklığınızda Roblox'yu başlatır, ancak bazı Voidstrap özellikleri SteamVR'ya ulaşamaz:
+
+• FPS sayacı, artı işareti, tuş vuruşları ve sunucu bilgileri gibi katmanlar kulaklığın içinde gösterilmiyor
+• RiShade ve diğer gölgelendiriciler VR'de geçerli değildir
+• Çift hareket, Snap Tap ve sanal kontrol cihazı VR kontrol cihazlarıyla çalışmaz
+• Başlık çubuğu koruması, pencere ayarları ve tam ekran seçenekleri yalnızca masaüstü aynasını etkiler
+• FPS kilit açma geçerli değil, kare hızını kulaklığınız belirliyor
+• SteamVR ayarları, güncellemeleri ve kendi katmanları Voidstrap tarafından değil Steam tarafından yönetilir
+
+SteamVR şimdi kurulsun mu?</value>
+  </data>
 </root>

@@ -10276,4 +10276,31 @@ Jucători: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Împiedică bara de titlu Roblox să coboare când mouse-ul tău ajunge în partea de sus a ecranului pe ecran complet.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Redați Roblox în căști prin SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR se instalează prin Steam. Instalați Steam și conectați-vă, apoi încercați din nou.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR nu este instalat. Instalați-l mai întâi din secțiunea VR a paginii Manager.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags-ul dvs. îl face pe Roblox să prefere Vulkan, dar Roblox VR funcționează numai cu DirectX 11. Lansați în VR oricum?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap instalează SteamVR prin Steam și lansează Roblox în căști, dar unele funcții Voidstrap nu pot ajunge la SteamVR:
+
+• Suprapunerile, cum ar fi contorul FPS, crucea, apăsările de taste și informațiile despre server nu sunt afișate în interiorul căștilor.
+• RiShade și alte shadere nu se aplică în VR
+• Mișcarea dublă, Snap Tap și controlerul virtual nu funcționează cu controlerele VR
+• Protecția barei de titlu, modificările ferestrelor și opțiunile de ecran complet afectează doar oglinda desktopului
+• Deblocarea FPS nu se aplică, setul cu cască setează rata de cadre
+• Setările SteamVR, actualizările și propriile suprapuneri sunt gestionate de Steam, nu de Voidstrap
+
+Instalați SteamVR acum?</value>
+  </data>
 </root>

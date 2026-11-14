@@ -10273,4 +10273,31 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>전체 화면에서 마우스가 화면 위쪽 끝에 닿을 때 Roblox 제목 표시줄이 내려오지 않도록 합니다.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>SteamVR를 통해 헤드셋에서 Roblox를 플레이하세요</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR는 Steam를 통해 설치됩니다. Steam를 설치하고 로그인한 후 다시 시도하세요.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR가 설치되어 있지 않습니다. 먼저 관리자 페이지의 VR 섹션에서 설치하세요.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>FastFlags를 사용하면 Roblox가 Vulkan를 선호하지만 Roblox VR는 DirectX 11에서만 작동합니다. 그래도 VR로 실행하시겠습니까?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap는 Steam를 통해 SteamVR를 설치하고 헤드셋에서 Roblox를 실행하지만 일부 Voidstrap 기능은 SteamVR에 도달할 수 없습니다.
+
+• FPS 카운터, 십자선, 키 입력 및 서버 정보와 같은 오버레이는 헤드셋 내부에 표시되지 않습니다.
+• RiShade 및 기타 셰이더는 VR에 적용되지 않습니다.
+• 이중 이동, Snap Tap 및 가상 컨트롤러는 VR 컨트롤러에서 작동하지 않습니다.
+• 제목 표시줄 가드, 창 조정 및 전체 화면 옵션은 데스크톱 미러에만 영향을 미칩니다.
+• FPS 잠금 해제는 적용되지 않으며 헤드셋이 프레임 속도를 설정합니다.
+• SteamVR 설정, 업데이트 및 자체 오버레이는 Voidstrap가 아닌 Steam에서 관리됩니다.
+
+지금 SteamVR를 설치하시겠습니까?</value>
+  </data>
 </root>

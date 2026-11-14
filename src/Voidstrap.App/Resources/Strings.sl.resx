@@ -9962,4 +9962,31 @@ Igralci: {2}</value>
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>Prepreči, da bi naslovna vrstica Roblox zdrsnila navzdol, ko miška v celozaslonskem načinu doseže vrh zaslona.</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>Predvajajte Roblox v slušalkah prek SteamVR</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR se namesti prek Steam. Namestite Steam in se prijavite ter poskusite znova.</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR ni nameščen. Najprej ga namestite iz razdelka VR na strani Manager.</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>Vaš FastFlags naredi Roblox raje Vulkan, vendar Roblox VR deluje samo z DirectX 11. Želite vseeno zagnati v VR?</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap namesti SteamVR do Steam in zažene Roblox v vaših slušalkah, vendar nekatere funkcije Voidstrap ne morejo doseči SteamVR:
+
+• Prekrivni elementi, kot so števec FPS, nitni križec, pritiski na tipke in informacije o strežniku, niso prikazani v slušalkah
+• RiShade in drugi senčniki se ne uporabljajo v VR
+• Dvojno gibanje, Snap Tap in virtualni krmilnik ne delujejo s krmilniki VR
+• Zaščita naslovne vrstice, nastavitve oken in celozaslonske možnosti vplivajo samo na ogledalo namizja
+• Odklepanje FPS ne velja, vaše slušalke nastavijo hitrost sličic
+• SteamVR nastavitve, posodobitve in lastne prekrivke upravlja Steam, ne Voidstrap
+
+Namestite SteamVR zdaj?</value>
+  </data>
 </root>

@@ -10277,4 +10277,31 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Bootstrapper.HideFullscreenTitleBarDescription" xml:space="preserve">
     <value>全螢幕時，滑鼠移到螢幕頂端也不會讓 Roblox 標題列滑下來。</value>
   </data>
+  <data name="Vr.Title" xml:space="preserve">
+    <value>Roblox VR</value>
+  </data>
+  <data name="Vr.Description" xml:space="preserve">
+    <value>透過 SteamVR 在耳機中播放 Roblox</value>
+  </data>
+  <data name="Vr.SteamMissing" xml:space="preserve">
+    <value>SteamVR 透過 Steam 安裝。安裝 Steam 並登錄，然後再試一次。</value>
+  </data>
+  <data name="Vr.NotInstalled" xml:space="preserve">
+    <value>SteamVR 未安裝。首先從管理員頁面的 VR 部分安裝它。</value>
+  </data>
+  <data name="Vr.VulkanWarning" xml:space="preserve">
+    <value>您的 FastFlags 讓 Roblox 更喜歡 Vulkan，但 Roblox VR 只能與 DirectX 11 搭配使用。無論如何都要在 VR 推出嗎？</value>
+  </data>
+  <data name="Vr.InstallWarning" xml:space="preserve">
+    <value>Voidstrap 透過 Steam 安裝 SteamVR 並在耳機中啟動 Roblox，但某些 Voidstrap 功能無法到達 SteamVR：
+
+• FPS 計數器、十字準線、擊鍵和伺服器資訊等疊加內容不會顯示在耳機內
+• RiShade和其他著色器不適用於VR
+• 雙動，Snap Tap和虛擬手把不支援VR手柄
+• 標題列防護、視窗調整和全螢幕選項僅影響桌面鏡像
+• FPS解鎖不適用，您的耳機設定幀速率
+• SteamVR 設定、更新及其自己的覆蓋由 Steam 管理，而不是 Voidstrap
+
+現在安裝SteamVR嗎？</value>
+  </data>
 </root>
