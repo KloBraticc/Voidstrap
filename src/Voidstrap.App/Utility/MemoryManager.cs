@@ -323,6 +323,26 @@ namespace Voidstrap.Utility
             }
         }
 
+        public static void RestoreNormalPriority(int processId, bool browserManaged)
+        {
+            if (!Platform.IsWindows)
+                return;
+            try
+            {
+                using Process process = Process.GetProcessById(processId);
+                bool lowered = process.PriorityClass is ProcessPriorityClass.BelowNormal or ProcessPriorityClass.Idle;
+                if (lowered && browserManaged)
+                    return;
+                if (lowered)
+                    process.PriorityClass = ProcessPriorityClass.Normal;
+                MemoryPriorityInformation information = new MemoryPriorityInformation { MemoryPriority = MemoryPriorityNormal };
+                SetProcessMemoryPriority(process.Handle, ProcessMemoryPriority, ref information, (uint)Marshal.SizeOf<MemoryPriorityInformation>());
+            }
+            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
+            {
+            }
+        }
+
         private static void SetEfficiencyMode(bool enabled)
         {
             if (_efficiencyModeSet == enabled || !Platform.IsWindows)

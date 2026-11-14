@@ -19,7 +19,7 @@ public sealed class SpotifyEngine
     private const string LOG_IDENT = "SpotifyEngine";
 
 #if !CROSSPLAT
-    private const long WebCacheBudgetBytes = 48L * 1024 * 1024;
+    private const long WebCacheBudgetBytes = 96L * 1024 * 1024;
 #endif
 
     private static readonly TimeSpan IdleLimit = TimeSpan.FromSeconds(60);
@@ -227,6 +227,8 @@ public sealed class SpotifyEngine
 
     private void IdleTimer_Tick(object? sender, EventArgs e)
     {
+        if (IsPlayingAudio)
+            KeepPlayerResponsive();
         if (_views > 0 || IsPlayingAudio)
         {
             _silentSince = DateTime.UtcNow;
@@ -244,7 +246,26 @@ public sealed class SpotifyEngine
         if (!IsPlayingAudio)
             return;
         SetLowMemory(false);
+        KeepPlayerResponsive();
         AudioStarted?.Invoke(this, EventArgs.Empty);
+    }
+
+#if !CROSSPLAT
+    private void Environment_ProcessInfosChanged(object? sender, object e)
+    {
+        KeepPlayerResponsive();
+    }
+#endif
+
+    private void KeepPlayerResponsive()
+    {
+#if !CROSSPLAT
+        CoreWebView2Environment? environment = _environment;
+        if (environment == null || !Voidstrap.Utility.Platform.IsWindows)
+            return;
+        foreach (CoreWebView2ProcessInfo info in environment.GetProcessInfos())
+            MemoryManager.RestoreNormalPriority(info.ProcessId, info.Kind == CoreWebView2ProcessKind.Renderer);
+#endif
     }
 
     private static string LibraryCachePath => Path.Combine(Paths.Cache, "SpotifyLibrary.json");
@@ -315,6 +336,10 @@ public sealed class SpotifyEngine
                 Height = 1
             });
             _environment = await CoreWebView2Environment.CreateAsync(null, UserDataFolder, new CoreWebView2EnvironmentOptions(Arguments));
+#if !CROSSPLAT
+            _environment.ProcessInfosChanged += Environment_ProcessInfosChanged;
+#endif
+            KeepPlayerResponsive();
             CoreWebView2Controller controller = await _environment.CreateCoreWebView2ControllerAsync(_host.Handle);
             controller.Bounds = new Rectangle(-6000, -6000, 1280, 900);
             controller.IsVisible = true;
@@ -581,6 +606,11 @@ public sealed class SpotifyEngine
         {
             App.Logger.WriteLine(LOG_IDENT, "The hidden player was already closed: " + ex.GetType().Name);
         }
+#if !CROSSPLAT
+        if (_environment != null)
+            _environment.ProcessInfosChanged -= Environment_ProcessInfosChanged;
+#endif
+        _environment = null;
         _host?.Dispose();
         _host = null;
     }
