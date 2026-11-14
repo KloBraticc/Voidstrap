@@ -78,6 +78,37 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         Loaded += OnLoaded;
         Closed += OnClosed;
         _searchTimer.Tick += OnSearchTick;
+        Integrations.FavoriteGames.Changed += OnFavoriteGameChanged;
+    }
+
+    private void OnFavoriteGameChanged(object? sender, long placeId)
+    {
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(new Action(() => OnFavoriteGameChanged(sender, placeId)));
+            return;
+        }
+        if (_closed)
+            return;
+        bool favorite = Integrations.FavoriteGames.Contains(placeId);
+        foreach (GameBrowserTile tile in Games.Concat(_continue).Concat(_favorites))
+        {
+            if (tile.PlaceId == placeId)
+                tile.IsFavorite = favorite;
+        }
+        _favoritesLoaded = false;
+        if (_mode != "favorites")
+            return;
+        if (favorite)
+        {
+            _ = LoadFavoritesAsync();
+            return;
+        }
+        foreach (GameBrowserTile tile in Games.Where(tile => tile.PlaceId == placeId).ToList())
+            Games.Remove(tile);
+        _favorites.RemoveAll(tile => tile.PlaceId == placeId);
+        if (Games.Count == 0)
+            SetBusy(false, Strings.ContextMenu_GameBrowser_NoFavorites);
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -370,17 +401,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         e.Handled = true;
         if (_closed || sender is not FrameworkElement { Tag: GameBrowserTile tile } || tile.PlaceId <= 0)
             return;
-        bool favorite = Integrations.FavoriteGames.Toggle(tile.PlaceId);
-        tile.IsFavorite = favorite;
-        // Favorites are read again next time that tab opens; leaving it shown here would keep a removed game
-        _favoritesLoaded = false;
-        if (_mode == "favorites" && !favorite)
-        {
-            Games.Remove(tile);
-            _favorites.Remove(tile);
-            if (Games.Count == 0)
-                SetBusy(false, Strings.ContextMenu_GameBrowser_NoFavorites);
-        }
+        Integrations.FavoriteGames.Toggle(tile.PlaceId);
     }
 
     private void ServerOptions_Click(object sender, RoutedEventArgs e)
@@ -634,6 +655,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         _closed = true;
         Loaded -= OnLoaded;
         Closed -= OnClosed;
+        Integrations.FavoriteGames.Changed -= OnFavoriteGameChanged;
         SearchBox.TextChanged -= SearchBox_TextChanged;
         _searchTimer.Stop();
         _searchTimer.Tick -= OnSearchTick;
