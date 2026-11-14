@@ -10,7 +10,7 @@ use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
 
 const TAG: &str = "VoidstrapMatchmaker";
-const REMOTE_URL: &str = "https://raw.githubusercontent.com/KloBraticc/Voidstrap-Resources/main/ServerLocations.json";
+const REMOTE_URL: &str = "https://raw.githubusercontent.com/Maneetbal/roblox-server-locations/main/v1/database.json";
 pub const MIN_CANDIDATES: i64 = 8;
 pub const MAX_CANDIDATES: i64 = 64;
 const FILTERED_CEILING: i64 = 80;
@@ -228,8 +228,8 @@ fn add_entries(t: &mut Tables, a: &[Value], replace: bool) -> bool {
     for e in a.iter().filter(|e| e.is_object()) {
         let cidr = java::trim(&java::opt_str(e, "cidr", "")).to_string();
         let city = java::trim(&java::opt_str(e, "city", "")).to_string();
-        let lat = opt_f64(e, "lat", 0.0);
-        let lon = opt_f64(e, "lon", 0.0);
+        let loc = java::opt_str(e, "loc", "");
+        let (lat, lon) = loc.split_once(',').map_or((opt_f64(e, "lat", 0.0), opt_f64(e, "lon", 0.0)), |(a, b)| (a.trim().parse().unwrap_or(f64::NAN), b.trim().parse().unwrap_or(f64::NAN)));
         if cidr.is_empty() || city.is_empty() || (lat == 0.0 && lon == 0.0) || lat.abs() > 90.0 || lon.abs() > 180.0 {
             continue;
         }
@@ -278,26 +278,8 @@ pub fn setup(builtin: &str, cache: PathBuf, files: PathBuf, agent: &str) {
     }
     let client = net::Client { agent: agent.to_string() };
     match client.cached_json(&cache, REMOTE_URL, 24 * 3600_000) {
-        Some(remote) => {
-            if let Some(servers) = remote.get("Servers").and_then(Value::as_object) {
-                let list: Vec<Value> = servers
-                    .iter()
-                    .filter(|(_, e)| e.is_object())
-                    .map(|(name, e)| {
-                        let mut o = Map::new();
-                        o.insert("cidr".into(), java::opt_str(e, "Cidr", name).into());
-                        o.insert("city".into(), java::opt_str(e, "City", "").into());
-                        o.insert("region".into(), java::opt_str(e, "Region", "").into());
-                        o.insert("country".into(), java::opt_str(e, "Country", "").into());
-                        o.insert("lat".into(), json!(opt_f64(e, "Lat", 0.0)));
-                        o.insert("lon".into(), json!(opt_f64(e, "Lon", 0.0)));
-                        Value::Object(o)
-                    })
-                    .collect();
-                add_entries(&mut t, &list, false);
-            }
-        }
-        None => net::warn(TAG, "Server locations list could not be downloaded, using the built in list"),
+        Some(Value::Array(entries)) => { add_entries(&mut t, &entries, false); }
+        _ => net::warn(TAG, "Server locations list could not be downloaded, using the built in list"),
     }
     if let Ok(text) = std::fs::read(files.join("matchmaker_learned.json"))
         && let Ok(Value::Array(a)) = serde_json::from_slice::<Value>(&text)
@@ -501,8 +483,9 @@ pub fn lookup(ip: &str, deadline: i64) -> Option<Datacenter> {
         return None;
     }
     let result = (|| {
+        let probe_ip = format!("{}.3", ip.rsplit_once('.').map_or(ip, |(prefix, _)| prefix));
         let mut g = None;
-        for url in [format!("https://ipinfo.io/{ip}/json"), format!("https://ipwho.is/{ip}"), format!("https://ipapi.co/{ip}/json/")] {
+        for url in [format!("https://rblx.geoapi.workers.dev/{probe_ip}/json"), format!("https://ipinfo.io/{ip}/json"), format!("https://ipwho.is/{ip}"), format!("https://ipapi.co/{ip}/json/")] {
             let timeout = IP_LOOKUP_TIMEOUT_MS.min(deadline - java::now_ms());
             if timeout < 500 {
                 break;
