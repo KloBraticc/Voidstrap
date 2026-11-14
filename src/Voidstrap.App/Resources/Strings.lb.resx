@@ -10016,4 +10016,7 @@ SteamVR elo installéieren?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Fuer driwwer fir d'Ofspillsteierung ze weisen a zéi se fir e fiedereg Zéien. Schalt aus, fir datt Klicks bei Roblox ukommen.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Titelen</value>
+  </data>
 </root>

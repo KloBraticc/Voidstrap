@@ -10320,4 +10320,7 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Halakan tetikus untuk memaparkan kawalan main balik dan seret untuk tarikan anjal. Matikan supaya klik diteruskan ke Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Lagu</value>
+  </data>
 </root>

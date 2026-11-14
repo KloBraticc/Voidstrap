@@ -10331,4 +10331,7 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Arahkan kursor untuk menampilkan kontrol pemutaran dan seret untuk tarikan pegas. Matikan agar klik diteruskan ke Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Trek</value>
+  </data>
 </root>

@@ -10331,4 +10331,7 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Di chuột để hiện nút điều khiển phát và kéo để có hiệu ứng lò xo. Tắt để các cú nhấp đi qua Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Bản nhạc</value>
+  </data>
 </root>

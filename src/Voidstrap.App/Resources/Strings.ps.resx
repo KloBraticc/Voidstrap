@@ -10016,4 +10016,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>د غږولو کنټرولونو لیدو لپاره پرې ودرېږئ او د فنري کشولو لپاره یې کش کړئ. بند یې کړئ چې کلیکونه Roblox ته ورسېږي.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ټرېکونه</value>
+  </data>
 </root>

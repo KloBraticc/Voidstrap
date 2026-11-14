@@ -10016,4 +10016,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>پلے بيڪ ڪنٽرول ڏسڻ لاءِ مٿان آڻيو ۽ اسپرنگ وانگر ڇڪڻ لاءِ ڇڪيو. ڪلڪ Roblox تائين وڃڻ ڏيڻ لاءِ بند ڪريو.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ٽريڪ</value>
+  </data>
 </root>

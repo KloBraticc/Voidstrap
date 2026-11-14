@@ -10330,4 +10330,7 @@ SteamVR nu installeren?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Beweeg erover om afspeelknoppen te tonen en sleep het voor een verende trek. Zet uit om klikken door te laten naar Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Nummers</value>
+  </data>
 </root>

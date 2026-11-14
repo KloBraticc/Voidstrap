@@ -10330,4 +10330,7 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>برای نمایش کنترل‌های پخش، نشانگر را روی آن ببرید و برای کشش فنری آن را بکشید. خاموش کنید تا کلیک‌ها به Roblox برسند.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>آهنگ‌ها</value>
+  </data>
 </root>

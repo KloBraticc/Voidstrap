@@ -10323,4 +10323,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>วางเมาส์เพื่อแสดงปุ่มควบคุมการเล่น และลากเพื่อดึงแบบสปริง ปิดเพื่อให้การคลิกผ่านไปยัง Roblox</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>แทร็ก</value>
+  </data>
 </root>

@@ -10015,4 +10015,7 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Elea juu ili kuonyesha vidhibiti vya kucheza na ukiburute kwa mvuto wa springi. Zima ili mibofyo ipite hadi Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Nyimbo</value>
+  </data>
 </root>

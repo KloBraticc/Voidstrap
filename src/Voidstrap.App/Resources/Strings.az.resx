@@ -10015,4 +10015,7 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>İdarəetmə düymələrini görmək üçün üzərinə gətirin və elastik çəkmə üçün sürüşdürün. Kliklərin Roblox-a keçməsi üçün söndürün.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Treklər</value>
+  </data>
 </root>

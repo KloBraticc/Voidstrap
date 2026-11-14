@@ -10016,4 +10016,7 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Kalo miun sipër për kontrollet e luajtjes dhe tërhiqe për një tërheqje elastike. Fike që klikimet të kalojnë te Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Këngë</value>
+  </data>
 </root>

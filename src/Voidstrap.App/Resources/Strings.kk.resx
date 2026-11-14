@@ -10016,4 +10016,7 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Ойнату басқармасын көру үшін меңзерді апарыңыз және серпімді тарту үшін сүйреңіз. Шертулер Roblox қа өтуі үшін өшіріңіз.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Тректер</value>
+  </data>
 </root>

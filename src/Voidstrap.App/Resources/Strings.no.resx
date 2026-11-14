@@ -10016,4 +10016,7 @@ Installer SteamVR nå?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Hold musen over for å vise avspillingskontroller, og dra den for et fjærende drag. Slå av for å la klikk gå gjennom til Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Spor</value>
+  </data>
 </root>

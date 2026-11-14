@@ -2599,6 +2599,7 @@ namespace Voidstrap.Resources {
         public static string Ui_Misc2_NoTracksMatchYourSearch => ResourceManager.GetString("Ui.Misc2.NoTracksMatchYourSearch", resourceCulture);
 
         public static string Ui_Misc2_NowPlaying => ResourceManager.GetString("Ui.Misc2.NowPlaying", resourceCulture);
+        public static string Ui_Misc2_LibraryTracks => ResourceManager.GetString("Ui.Misc2.LibraryTracks", resourceCulture);
 
         public static string Ui_Misc2_Previous => ResourceManager.GetString("Ui.Misc2.Previous", resourceCulture);
 

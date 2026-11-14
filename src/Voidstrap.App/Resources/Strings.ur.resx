@@ -10015,4 +10015,7 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>پلے بیک کنٹرول دکھانے کے لیے ہوور کریں اور اسپرنگ جیسے کھنچاؤ کے لیے گھسیٹیں۔ کلکس کو Roblox تک جانے دینے کے لیے بند کریں۔</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ٹریکس</value>
+  </data>
 </root>

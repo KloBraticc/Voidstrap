@@ -18,186 +18,186 @@
       <RowDefinition />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Title="{resources:Loc Ui_Misc2_MusicPlayer}" ShowMinimize="True" ShowMaximize="True" Icon="pack://application:,,,/Voidstrap.png" Background="{DynamicResource ApplicationBackgroundBrush}" />
-        <Grid Row="1" Margin="16,12,16,12">
+    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Padding="8,4,0,4" Title="{resources:Loc Ui_Misc2_MusicPlayer}" ShowMinimize="True" ShowMaximize="True" Icon="pack://application:,,,/Voidstrap.png" MinimizeToTray="False" UseSnapLayout="True" />
+    <Grid Row="1" Margin="16,4,16,16">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TabControl Grid.Column="0">
+        <TabItem>
+          <TabItem.Header>
+            <StackPanel Orientation="Horizontal">
+              <ui:SymbolIcon Symbol="MusicNote224" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_Misc2_NowPlaying}" />
+            </StackPanel>
+          </TabItem.Header>
+          <Grid Margin="0,12,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="2*" MinWidth="320" />
+              <ColumnDefinition Width="16" />
+              <ColumnDefinition Width="3*" MinWidth="340" />
             </Grid.ColumnDefinitions>
-            <TabControl Grid.Column="0">
-                <TabItem>
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="MusicNote224" Margin="0,0,6,0" />
-                            <TextBlock Text="{resources:Loc Ui_Misc2_NowPlaying}" />
-                        </StackPanel>
-                    </TabItem.Header>
-                    <Grid Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="380"/>
-                            <ColumnDefinition Width="16" />
+            <Grid Column="0">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,8">
+                <TextBlock Text="{resources:Loc Ui_Pages_Library}" FontSize="18" FontWeight="Medium" DockPanel.Dock="Left" />
+                <TextBlock VerticalAlignment="Center" Opacity="0.8" DockPanel.Dock="Right"><Run Text="{resources:Loc Ui_Misc2_LibraryTracks}" /><Run Text=": " /><Run Text="{Binding Tracks.Count, Mode=OneWay}" /></TextBlock>
+              </DockPanel>
+              <WrapPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,2">
+                <ui:Button Icon="DocumentAdd24" Content="{resources:Loc Common_Import}" Appearance="Secondary" Margin="0,0,6,6" Command="{Binding OpenFilesCommand}" />
+                <ui:Button Name="RpcButton" Icon="PlugConnected24" Appearance="Secondary" Margin="0,0,6,6" Content="{Binding RpcButtonLabel}" Command="{Binding ConnectRpcCommand}" />
+                <ui:Button Icon="Delete24" Content="{resources:Loc FlagSearch_Label25}" Appearance="Danger" Margin="0,0,0,6" Command="{Binding ClearLibraryCommand}" />
+              </WrapPanel>
+              <ui:TextBox Name="SearchBox" Grid.Row="2" PlaceholderText="{resources:Loc Ui_Misc2_SearchLibraryByTitleArtistOr}" Icon="Search24" Margin="0,0,0,8" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <Grid Row="3">
+                <ListView BorderThickness="0" Background="#00FFFFFF" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding FilteredMusicLibrary}" SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
+                  <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                      <Setter Property="Padding" Value="0" />
+                      <Setter Property="Margin" Value="0,2" />
+                      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                      <Setter Property="VerticalContentAlignment" Value="Center" />
+                      <Setter Property="Background" Value="#00FFFFFF" />
+                      <Setter Property="BorderThickness" Value="0" />
+                      <Setter Property="UIElement.SnapsToDevicePixels" Value="True" />
+                      <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}" />
+                      <Style.Triggers>
+                        <Trigger Property="UIElement.IsMouseOver" Value="True">
+                          <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                        </Trigger>
+                        <Trigger Property="ListBoxItem.IsSelected" Value="True">
+                          <Setter Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                          <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+                        </Trigger>
+                      </Style.Triggers>
+                    </Style>
+                  </ItemsControl.ItemContainerStyle>
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:TrackItem}">
+                      <Border CornerRadius="6" Padding="6" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="44" />
                             <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid Column="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,8">
-                                <TextBlock Text="{resources:Loc Ui_Pages_Library}" FontSize="18" FontWeight="Medium" DockPanel.Dock="Left" />
-                                <TextBlock VerticalAlignment="Center" Opacity="0.8" Text="{Binding Tracks.Count, StringFormat=Tracks: {0}}" DockPanel.Dock="Right" />
-                            </DockPanel>
-                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
-                                <ui:Button Icon="DocumentAdd24" Content="{resources:Loc Common_Import}" Appearance="Secondary" Command="{Binding OpenFilesCommand}" />
-                                <ui:Button Name="RpcButton" Icon="PlugConnected24" Appearance="Secondary" Margin="6,0,0,0" Content="{Binding RpcButtonLabel}" Command="{Binding ConnectRpcCommand}" />
-                                <ui:Button Icon="Delete24" Content="{resources:Loc FlagSearch_Label25}" Appearance="Danger" Margin="6,0,0,0" Command="{Binding ClearLibraryCommand}" />
-                            </StackPanel>
-                            <ui:TextBox Name="SearchBox" Grid.Row="2" PlaceholderText="{resources:Loc Ui_Misc2_SearchLibraryByTitleArtistOr}" Icon="Search24" Margin="0,0,0,8" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <Grid Row="3">
-                                <ListView BorderThickness="0" Background="#00FFFFFF" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding FilteredMusicLibrary}" SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
-                                    <ItemsControl.ItemContainerStyle>
-                                        <Style TargetType="{x:Type ListViewItem}">
-                                            <Setter Property="Padding" Value="0" />
-                                            <Setter Property="Margin" Value="0,2" />
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                                            <Setter Property="Background" Value="#00FFFFFF" />
-                                            <Setter Property="BorderThickness" Value="0" />
-                                            <Setter Property="UIElement.SnapsToDevicePixels" Value="True" />
-                                            <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}" />
-                                            <Style.Triggers>
-                                                <Trigger Property="UIElement.IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-                                                </Trigger>
-                                                <Trigger Property="ListBoxItem.IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-                                                    <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ItemsControl.ItemContainerStyle>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type models:TrackItem}">
-                                            <Border CornerRadius="6" Padding="6" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="44" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Image Grid.Column="0" Width="36" Height="36" Margin="4,0" Stretch="UniformToFill" ClipToBounds="True" Source="{Binding Icon, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
-                                                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="6,0,0,0">
-                                                        <TextBox FontWeight="SemiBold" FontSize="14" BorderThickness="0" Background="#00FFFFFF" Padding="2,0" IsReadOnly="True" MaxLength="60" TextWrapping="NoWrap" VerticalAlignment="Center" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" ToolTip="{Binding Title}" KeyDown="TrackTitleEdit_KeyDown" MouseDoubleClick="TrackTitle_DoubleClick" />
-                                                        <TextBlock Opacity="0.7" FontSize="12" Text="{Binding FileType}" />
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                        <TextBlock Opacity="0.8" Margin="0,0,8,0" Text="{Binding DurationString}" />
-                                                        <ui:Button Icon="Delete24" ToolTip="{resources:Loc Ui_Misc2_RemoveTrack}" Appearance="Danger" Width="28" Height="28" Command="{Binding DataContext.RemoveTrackCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}" />
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ListView>
-                                <TextBlock Text="{resources:Loc Ui_Misc2_NoTracksClickImportToAdd}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.5" FontSize="14" Visibility="{Binding HasNoTracks, Converter={StaticResource BoolToVis}}" />
-                                <TextBlock Text="{resources:Loc Ui_Misc2_NoTracksMatchYourSearch}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.5" FontSize="14" Visibility="{Binding HasNoSearchMatches, Converter={StaticResource BoolToVis}}" />
-                            </Grid>
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <Image Grid.Column="0" Width="36" Height="36" Margin="4,0" Stretch="UniformToFill" ClipToBounds="True" Source="{Binding Icon, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+                          <StackPanel Grid.Column="1" Orientation="Vertical" Margin="6,0,0,0">
+                            <TextBox FontWeight="SemiBold" FontSize="14" BorderThickness="0" Background="#00FFFFFF" Padding="2,0" IsReadOnly="True" MaxLength="60" TextWrapping="NoWrap" VerticalAlignment="Center" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" ToolTip="{Binding Title}" KeyDown="TrackTitleEdit_KeyDown" MouseDoubleClick="TrackTitle_DoubleClick" />
+                            <TextBlock Opacity="0.7" FontSize="12" Text="{Binding FileType}" />
+                          </StackPanel>
+                          <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <TextBlock Opacity="0.8" Margin="0,0,8,0" Text="{Binding DurationString}" />
+                            <ui:Button Icon="Delete24" ToolTip="{resources:Loc Ui_Misc2_RemoveTrack}" Appearance="Danger" Width="28" Height="28" Command="{Binding DataContext.RemoveTrackCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}" />
+                          </StackPanel>
                         </Grid>
-                        <Grid Grid.Column="1" Width="1" Background="{DynamicResource ControlStrokeColorDefaultBrush}" Margin="0,4" />
-                        <Grid Column="2">
-                            <StackPanel Margin="10">
-                                <Border CornerRadius="8" Padding="16" Margin="0,4,0,16" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                            <Image Width="72" Height="72" Margin="0,0,12,0" Stretch="UniformToFill" ClipToBounds="True" Source="{Binding NowPlaying.Icon, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
-                                            <StackPanel VerticalAlignment="Center">
-                                                <TextBlock FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding NowPlaying.Title}" />
-                                                <TextBlock Opacity="0.7" Text="{Binding NowPlaying.FileType}" />
-                                                <TextBlock FontSize="11" Opacity="0.6" MaxWidth="500" TextTrimming="CharacterEllipsis" Text="{Binding NowPlaying.FilePath}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <Slider Name="PositionSlider" Minimum="0" Margin="0,4,0,0" Maximum="{Binding NowPlayingDurationSeconds}" Value="{Binding PositionSeconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Thumb.DragStarted="PositionSlider_DragStarted" Thumb.DragCompleted="PositionSlider_DragCompleted" />
-                                        <DockPanel Margin="0,4,0,0">
-                                            <TextBlock DockPanel.Dock="Left" FontSize="12" Opacity="0.85" Text="{Binding PositionString}" />
-                                            <TextBlock DockPanel.Dock="Right" FontSize="12" Opacity="0.85" HorizontalAlignment="Right" Text="{Binding DurationString}" />
-                                            <TextBlock />
-                                        </DockPanel>
-                                    </StackPanel>
-                                </Border>
-                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,12">
-                                    <ui:Button Icon="Previous24" Content="{resources:Loc Ui_Misc2_Previous}" Width="100" Command="{Binding PreviousCommand}" />
-                                    <ui:Button Margin="4,0,0,0" Appearance="Primary" Width="120" Content="{Binding PlayPauseLabel}" Command="{Binding PlayPauseCommand}" />
-                                    <ui:Button Icon="Next24" Margin="4,0,0,0" Content="{resources:Loc Common_Navigation_Next}" Width="80" Command="{Binding NextCommand}" />
-                                    <ui:Button Icon="Stop24" Margin="4,0,0,0" Content="{resources:Loc Ui_Misc2_Stop}" Width="80" Command="{Binding StopCommand}" />
-                                </WrapPanel>
-                                <Border CornerRadius="6" Padding="10" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                                    <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <ui:Button Icon="Speaker224" ToolTip="{resources:Loc Ui_Misc2_MuteUnmute}" Margin="0,0,8,0" Content="{Binding MuteLabel}" Command="{Binding ToggleMuteCommand}" />
-                                        <Slider Name="VolumeSlider" Width="180" Minimum="0" Maximum="1.0" SmallChange="0.02" LargeChange="0.1" VerticalAlignment="Center" Value="{Binding Volume, Mode=TwoWay}" MouseWheel="VolumeSlider_MouseWheel" />
-                                        <TextBlock Margin="8,0,16,0" VerticalAlignment="Center" Width="44" Text="{Binding VolumePercent}" />
-                                        <ui:Button Icon="ArrowRepeatAll24" Margin="0,0,4,0" Content="{Binding LoopLabel}" Command="{Binding ToggleLoopCommand}" />
-                                        <ui:Button Icon="ArrowShuffle24" Content="{Binding ShuffleLabel}" Command="{Binding ToggleShuffleCommand}" />
-                                    </WrapPanel>
-                                </Border>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
-                </TabItem>
-                <TabItem>
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="Options24" Margin="0,0,6,0" />
-                            <TextBlock Text="{resources:Loc Ui_Misc2_Equalizer}" />
-                        </StackPanel>
-                    </TabItem.Header>
-                    <StackPanel Margin="10">
-                        <TextBlock Text="{resources:Loc Ui_Misc2_Equalizer}" FontSize="18" FontWeight="Medium" Margin="0,0,0,4" />
-                        <TextBlock Opacity="0.7" TextWrapping="Wrap" Margin="0,0,0,12" Text="{resources:Loc Ui_Misc2_TuneHowYourAudioSoundsPick}" />
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                            <ui:ToggleSwitch Content="{resources:Loc Ui_Misc2_EnableEqualizer}" IsChecked="{Binding EqualizerEnabled, Mode=TwoWay}" VerticalAlignment="Center" />
-                            <TextBlock Text="{resources:Loc Ui_Pages_Preset}" VerticalAlignment="Center" Margin="24,0,8,0" Opacity="0.85" />
-                            <ComboBox Width="170" ItemsSource="{Binding EqPresets}" SelectedItem="{Binding SelectedEqPreset, Mode=TwoWay}" VerticalAlignment="Center" />
-                            <ui:Button Content="{resources:Loc Common_Reset}" Margin="12,0,0,0" Appearance="Secondary" Command="{Binding ResetEqualizerCommand}" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <Border CornerRadius="8" Padding="16,20" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                            <ItemsControl ItemsSource="{Binding EqBands}" IsEnabled="{Binding EqualizerEnabled}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel HorizontalAlignment="Center" Margin="2,0">
-                                            <TextBlock Text="{Binding GainLabel}" FontSize="11" HorizontalAlignment="Center" Opacity="0.85" Margin="0,0,0,6" />
-                                            <Slider Orientation="Vertical" Height="200" Minimum="-12" Maximum="12" TickFrequency="3" SmallChange="1" LargeChange="3" IsSnapToTickEnabled="False" HorizontalAlignment="Center" Value="{Binding Gain, Mode=TwoWay}" />
-                                            <TextBlock Text="{Binding Label}" FontSize="11" HorizontalAlignment="Center" Opacity="0.7" Margin="0,6,0,0" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Border>
-                        <TextBlock Margin="0,10,0,0" FontSize="12" Opacity="0.55" Text="{resources:Loc Ui_Misc2_BandsAreInHz0DB}" />
+                      </Border>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ListView>
+                <TextBlock Text="{resources:Loc Ui_Misc2_NoTracksClickImportToAdd}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.5" FontSize="14" Visibility="{Binding HasNoTracks, Converter={StaticResource BoolToVis}}" />
+                <TextBlock Text="{resources:Loc Ui_Misc2_NoTracksMatchYourSearch}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.5" FontSize="14" Visibility="{Binding HasNoSearchMatches, Converter={StaticResource BoolToVis}}" />
+              </Grid>
+            </Grid>
+            <Grid Grid.Column="1" Width="1" Background="{DynamicResource ControlStrokeColorDefaultBrush}" Margin="0,4" />
+            <Grid Column="2">
+              <StackPanel>
+                <Border CornerRadius="8" Padding="16" Margin="0,0,0,12" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                      <Image Width="72" Height="72" Margin="0,0,12,0" Stretch="UniformToFill" ClipToBounds="True" Source="{Binding NowPlaying.Icon, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+                      <StackPanel VerticalAlignment="Center">
+                        <TextBlock FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding NowPlaying.Title}" />
+                        <TextBlock Opacity="0.7" Text="{Binding NowPlaying.FileType}" />
+                        <TextBlock FontSize="11" Opacity="0.6" MaxWidth="500" TextTrimming="CharacterEllipsis" Text="{Binding NowPlaying.FilePath}" />
+                      </StackPanel>
                     </StackPanel>
-                </TabItem>
-                <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <Viewbox Margin="0,0,6,0" VerticalAlignment="Center" Width="16" Height="16">
-                                <Canvas Width="24" Height="24">
-                                    <Path Fill="#1DB954" Data="M12,0 A12,12 0 1 0 12,24 A12,12 0 1 0 12,0 Z" />
-                                    <Path Stroke="#000000" StrokeThickness="2.2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M5.5,8.8 C10,7.4 15,7.7 19,10" />
-                                    <Path Stroke="#000000" StrokeThickness="1.9" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M6.3,12.4 C10,11.3 14.3,11.7 17.6,13.6" />
-                                    <Path Stroke="#000000" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M7,15.8 C10,15 13.4,15.3 16.2,16.9" />
-                                </Canvas>
-                            </Viewbox>
-                            <TextBlock Text="Spotify" />
-                        </StackPanel>
-                    </TabItem.Header>
-                    <vscontrols:SpotifyLibraryView x:Name="SpotifyTab" Margin="10" />
-                </TabItem>
-            </TabControl>
-        </Grid>
+                    <Slider Name="PositionSlider" Minimum="0" Margin="0,4,0,0" Maximum="{Binding NowPlayingDurationSeconds}" Value="{Binding PositionSeconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Thumb.DragStarted="PositionSlider_DragStarted" Thumb.DragCompleted="PositionSlider_DragCompleted" />
+                    <DockPanel Margin="0,4,0,0">
+                      <TextBlock DockPanel.Dock="Left" FontSize="12" Opacity="0.85" Text="{Binding PositionString}" />
+                      <TextBlock DockPanel.Dock="Right" FontSize="12" Opacity="0.85" HorizontalAlignment="Right" Text="{Binding DurationString}" />
+                      <TextBlock />
+                    </DockPanel>
+                  </StackPanel>
+                </Border>
+                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,6">
+                  <ui:Button Icon="Previous24" Content="{resources:Loc Ui_Misc2_Previous}" MinWidth="100" Margin="0,0,6,6" Command="{Binding PreviousCommand}" />
+                  <ui:Button Margin="0,0,6,6" Appearance="Primary" MinWidth="120" Content="{Binding PlayPauseLabel}" Command="{Binding PlayPauseCommand}" />
+                  <ui:Button Icon="Next24" Margin="0,0,6,6" Content="{resources:Loc Common_Navigation_Next}" MinWidth="80" Command="{Binding NextCommand}" />
+                  <ui:Button Icon="Stop24" Margin="0,0,0,6" Content="{resources:Loc Ui_Misc2_Stop}" MinWidth="80" Command="{Binding StopCommand}" />
+                </WrapPanel>
+                <Border CornerRadius="6" Padding="10,10,10,4" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                  <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:Button Icon="Speaker224" ToolTip="{resources:Loc Ui_Misc2_MuteUnmute}" Margin="0,0,8,6" Content="{Binding MuteLabel}" Command="{Binding ToggleMuteCommand}" />
+                    <Slider Name="VolumeSlider" Width="180" Minimum="0" Maximum="1.0" SmallChange="0.02" LargeChange="0.1" VerticalAlignment="Center" Value="{Binding Volume, Mode=TwoWay}" Margin="0,0,0,6" MouseWheel="VolumeSlider_MouseWheel" />
+                    <TextBlock Margin="8,0,16,6" VerticalAlignment="Center" Width="44" Text="{Binding VolumePercent}" />
+                    <ui:Button Icon="ArrowRepeatAll24" Margin="0,0,6,6" Content="{Binding LoopLabel}" Command="{Binding ToggleLoopCommand}" />
+                    <ui:Button Icon="ArrowShuffle24" Margin="0,0,0,6" Content="{Binding ShuffleLabel}" Command="{Binding ToggleShuffleCommand}" />
+                  </WrapPanel>
+                </Border>
+              </StackPanel>
+            </Grid>
+          </Grid>
+        </TabItem>
+        <TabItem>
+          <TabItem.Header>
+            <StackPanel Orientation="Horizontal">
+              <ui:SymbolIcon Symbol="Options24" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_Misc2_Equalizer}" />
+            </StackPanel>
+          </TabItem.Header>
+          <StackPanel Margin="0,12,0,0">
+            <TextBlock Text="{resources:Loc Ui_Misc2_Equalizer}" FontSize="18" FontWeight="Medium" Margin="0,0,0,4" />
+            <TextBlock Opacity="0.7" TextWrapping="Wrap" Margin="0,0,0,12" Text="{resources:Loc Ui_Misc2_TuneHowYourAudioSoundsPick}" />
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+              <ui:ToggleSwitch Content="{resources:Loc Ui_Misc2_EnableEqualizer}" IsChecked="{Binding EqualizerEnabled, Mode=TwoWay}" VerticalAlignment="Center" />
+              <TextBlock Text="{resources:Loc Ui_Pages_Preset}" VerticalAlignment="Center" Margin="24,0,8,0" Opacity="0.85" />
+              <ComboBox Width="170" ItemsSource="{Binding EqPresets}" SelectedItem="{Binding SelectedEqPreset, Mode=TwoWay}" VerticalAlignment="Center" />
+              <ui:Button Content="{resources:Loc Common_Reset}" Margin="12,0,0,0" Appearance="Secondary" Command="{Binding ResetEqualizerCommand}" VerticalAlignment="Center" />
+            </StackPanel>
+            <Border CornerRadius="8" Padding="16,20" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
+              <ItemsControl ItemsSource="{Binding EqBands}" IsEnabled="{Binding EqualizerEnabled}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <UniformGrid Rows="1" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <StackPanel HorizontalAlignment="Center" Margin="2,0">
+                      <TextBlock Text="{Binding GainLabel}" FontSize="11" HorizontalAlignment="Center" Opacity="0.85" Margin="0,0,0,6" />
+                      <Slider Orientation="Vertical" Height="200" Minimum="-12" Maximum="12" TickFrequency="3" SmallChange="1" LargeChange="3" IsSnapToTickEnabled="False" HorizontalAlignment="Center" Value="{Binding Gain, Mode=TwoWay}" />
+                      <TextBlock Text="{Binding Label}" FontSize="11" HorizontalAlignment="Center" Opacity="0.7" Margin="0,6,0,0" />
+                    </StackPanel>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Border>
+            <TextBlock Margin="0,10,0,0" FontSize="12" Opacity="0.55" Text="{resources:Loc Ui_Misc2_BandsAreInHz0DB}" />
+          </StackPanel>
+        </TabItem>
+        <TabItem Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <TabItem.Header>
+            <StackPanel Orientation="Horizontal">
+              <Viewbox Margin="0,0,6,0" VerticalAlignment="Center" Width="16" Height="16">
+                <Canvas Width="24" Height="24">
+                  <Path Fill="#1DB954" Data="M12,0 A12,12 0 1 0 12,24 A12,12 0 1 0 12,0 Z" />
+                  <Path Stroke="#000000" StrokeThickness="2.2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M5.5,8.8 C10,7.4 15,7.7 19,10" />
+                  <Path Stroke="#000000" StrokeThickness="1.9" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M6.3,12.4 C10,11.3 14.3,11.7 17.6,13.6" />
+                  <Path Stroke="#000000" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M7,15.8 C10,15 13.4,15.3 16.2,16.9" />
+                </Canvas>
+              </Viewbox>
+              <TextBlock Text="Spotify" />
+            </StackPanel>
+          </TabItem.Header>
+          <vscontrols:SpotifyLibraryView x:Name="SpotifyTab" Margin="0,12,0,0" />
+        </TabItem>
+      </TabControl>
+    </Grid>
     </Grid>
 </base:WpfUiWindow>

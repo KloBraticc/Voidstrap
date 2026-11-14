@@ -10329,4 +10329,7 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Najetím zobrazíte ovládání přehrávání a tažením jej pružně potáhnete. Vypněte, aby kliknutí procházela do Robloxu.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Skladby</value>
+  </data>
 </root>

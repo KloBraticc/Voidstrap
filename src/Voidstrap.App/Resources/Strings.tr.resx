@@ -10326,4 +10326,7 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Oynatma kontrollerini görmek için üzerine gelin ve esnek bir çekiş için sürükleyin. Tıklamaların Roblox'a geçmesi için kapatın.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Parçalar</value>
+  </data>
 </root>

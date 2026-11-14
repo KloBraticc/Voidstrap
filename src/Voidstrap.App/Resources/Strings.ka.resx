@@ -10016,4 +10016,7 @@ Uptime: {1}
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>მიიტანეთ კურსორი დაკვრის ღილაკების საჩვენებლად და გადაათრიეთ ზამბარისებრი მოზიდვისთვის. გამორთეთ, რომ დაწკაპუნებები Roblox ს მიაღწიოს.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ტრეკები</value>
+  </data>
 </root>

@@ -10016,4 +10016,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>प्लेबॅक नियंत्रणे दाखवण्यासाठी होव्हर करा आणि स्प्रिंगसारख्या ओढीसाठी ड्रॅग करा. क्लिक Roblox पर्यंत जाऊ देण्यासाठी बंद करा.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ट्रॅक</value>
+  </data>
 </root>

@@ -10015,4 +10015,7 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Ijro boshqaruvini ko'rish uchun ustiga olib boring va prujinali tortish uchun sudrang. Bosishlar Roblox ga o'tishi uchun o'chiring.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Treklar</value>
+  </data>
 </root>

@@ -10328,4 +10328,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Наведите, чтобы показать кнопки воспроизведения, и потяните его для пружинистого эффекта. Выключите, чтобы клики проходили в Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Треки</value>
+  </data>
 </root>

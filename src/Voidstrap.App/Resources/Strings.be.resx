@@ -10015,4 +10015,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Навядзіце, каб паказаць кнопкі прайгравання, і цягніце для пругкага руху. Выключыце, каб клікі праходзілі ў Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Трэкі</value>
+  </data>
 </root>

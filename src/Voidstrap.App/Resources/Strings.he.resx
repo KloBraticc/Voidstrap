@@ -10016,4 +10016,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>רחפו מעליו כדי להציג פקדי ניגון וגררו אותו למשיכה קפיצית. כבו כדי שלחיצות יעברו ל Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>רצועות</value>
+  </data>
 </root>

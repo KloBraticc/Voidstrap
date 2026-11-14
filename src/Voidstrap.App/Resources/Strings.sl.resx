@@ -10016,4 +10016,7 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Premaknite miško nad otok za kontrolnike predvajanja in ga povlecite za prožen poteg. Izklopite, da kliki pridejo do Robloxa.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Skladbe</value>
+  </data>
 </root>

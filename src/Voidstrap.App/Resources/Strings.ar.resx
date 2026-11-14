@@ -10327,4 +10327,7 @@
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>مرّر المؤشر لإظهار أزرار التشغيل واسحبها لسحب مرن. أوقفها لتمر النقرات إلى Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>المقاطع</value>
+  </data>
 </root>
