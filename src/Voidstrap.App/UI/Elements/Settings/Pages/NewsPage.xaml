@@ -20,6 +20,42 @@
         </Setter.Value>
       </Setter>
     </Style>
+    <DataTemplate x:Key="VoteButtons">
+      <StackPanel Orientation="Horizontal" Visibility="{Binding HasVotes, Converter={StaticResource BoolToVis}}">
+        <ui:Button Padding="6,3" Appearance="Transparent" Command="{Binding LikeCommand}" ToolTip="{resources:Loc Library_Vote_Like}" AutomationProperties.Name="{resources:Loc Library_Vote_Like}" Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType=ContentPresenter}}">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="ThumbLike24" FontSize="14" VerticalAlignment="Center" Filled="{Binding IsLiked}">
+              <ui:SymbolIcon.Style>
+                <Style TargetType="{x:Type ui:SymbolIcon}">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsLiked}" Value="True">
+                      <Setter Property="Foreground" Value="{DynamicResource SystemAccentColorSecondaryBrush}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </ui:SymbolIcon.Style>
+            </ui:SymbolIcon>
+            <TextBlock Margin="5,0,0,0" FontSize="12" VerticalAlignment="Center" Text="{Binding LikesText}" />
+          </StackPanel>
+        </ui:Button>
+        <ui:Button Margin="2,0,0,0" Padding="6,3" Appearance="Transparent" Command="{Binding DislikeCommand}" ToolTip="{resources:Loc Library_Vote_Dislike}" AutomationProperties.Name="{resources:Loc Library_Vote_Dislike}" Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType=ContentPresenter}}">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="ThumbDislike24" FontSize="14" VerticalAlignment="Center" Filled="{Binding IsDisliked}">
+              <ui:SymbolIcon.Style>
+                <Style TargetType="{x:Type ui:SymbolIcon}">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsDisliked}" Value="True">
+                      <Setter Property="Foreground" Value="{DynamicResource SystemAccentColorSecondaryBrush}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </ui:SymbolIcon.Style>
+            </ui:SymbolIcon>
+            <TextBlock Margin="5,0,0,0" FontSize="12" VerticalAlignment="Center" Text="{Binding DislikesText}" />
+          </StackPanel>
+        </ui:Button>
+      </StackPanel>
+    </DataTemplate>
     <DataTemplate x:Key="LinkButtons">
       <ItemsControl ItemsSource="{Binding Links}">
         <ItemsControl.ItemsPanel>
@@ -96,6 +132,7 @@
         <TextBlock Margin="0,10,0,0" FontSize="26" FontWeight="Bold" TextWrapping="Wrap" Foreground="#FFFFFF" Text="{Binding FeaturedPost.Title}" />
         <TextBlock Margin="0,6,0,0" FontSize="13" LineHeight="19" MaxHeight="38" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="#D9FFFFFF" Text="{Binding FeaturedPost.Body}" />
         <ContentPresenter Margin="0,4,0,0" Content="{Binding FeaturedPost}" ContentTemplate="{StaticResource LinkButtons}" />
+        <ContentPresenter Margin="-6,8,0,0" HorizontalAlignment="Left" TextElement.Foreground="#FFFFFF" Content="{Binding FeaturedPost}" ContentTemplate="{StaticResource VoteButtons}" />
       </StackPanel>
       <ItemsControl Margin="0,0,28,28" HorizontalAlignment="Right" VerticalAlignment="Bottom" ItemsSource="{Binding Featured}">
         <ItemsControl.ItemsPanel>
@@ -152,6 +189,7 @@
                     <TextBlock FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" />
                     <TextBlock Margin="0,4,0,0" FontSize="13" LineHeight="19" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Body}" />
                     <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource LinkButtons}" Visibility="{Binding HasLinks, Converter={StaticResource BoolToVis}}" />
+                    <ContentPresenter Margin="-6,8,0,0" HorizontalAlignment="Left" TextElement.Foreground="{DynamicResource TextFillColorSecondaryBrush}" Content="{Binding}" ContentTemplate="{StaticResource VoteButtons}" />
                   </StackPanel>
                   <Image Grid.Column="1" Width="160" Height="90" Margin="14,0,0,0" VerticalAlignment="Top" Stretch="UniformToFill" util:RoundedClip.Radius="6" Visibility="{Binding HasImage, Converter={StaticResource BoolToVis}}" util:DynamicRenderSystem.LazyImageSource="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
                 </Grid>

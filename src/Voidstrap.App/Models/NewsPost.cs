@@ -1,4 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Voidstrap.Integrations.Plugins;
+using Voidstrap.UI.ViewModels.Settings;
 
 namespace Voidstrap.Models;
 
@@ -14,6 +17,28 @@ public sealed partial class NewsPost : ObservableObject
     [ObservableProperty]
     [Newtonsoft.Json.JsonIgnore]
     public partial bool IsCurrent { get; set; }
+
+    [ObservableProperty]
+    [Newtonsoft.Json.JsonIgnore]
+    [NotifyPropertyChangedFor(nameof(LikesText))]
+    public partial int Likes { get; set; }
+
+    [ObservableProperty]
+    [Newtonsoft.Json.JsonIgnore]
+    [NotifyPropertyChangedFor(nameof(DislikesText))]
+    public partial int Dislikes { get; set; }
+
+    [ObservableProperty]
+    [Newtonsoft.Json.JsonIgnore]
+    [NotifyPropertyChangedFor(nameof(IsLiked), nameof(IsDisliked))]
+    public partial int Mine { get; set; }
+
+    [ObservableProperty]
+    [Newtonsoft.Json.JsonIgnore]
+    [NotifyCanExecuteChangedFor(nameof(LikeCommand), nameof(DislikeCommand))]
+    public partial bool VotePending { get; set; }
+
+    public string? Id { get; set; }
 
     public string Date { get; set; } = string.Empty;
 
@@ -40,6 +65,37 @@ public sealed partial class NewsPost : ObservableObject
     public bool HasImage => !string.IsNullOrWhiteSpace(Image);
 
     public bool HasLinks => Links.Count > 0;
+
+    public bool HasVotes => !string.IsNullOrEmpty(Id);
+
+    public string VoteId => "news/" + Id;
+
+    public bool IsLiked => Mine == 1;
+
+    public bool IsDisliked => Mine == -1;
+
+    public string LikesText => Likes.ToString("N0", CultureInfo.CurrentCulture);
+
+    public string DislikesText => Dislikes.ToString("N0", CultureInfo.CurrentCulture);
+
+    public void LoadVotes()
+    {
+        if (!HasVotes)
+            return;
+        ModVotes.Tally tally = ModVotes.Get(VoteId);
+        Likes = tally.Likes;
+        Dislikes = tally.Dislikes;
+        Mine = tally.Mine;
+        VotePending = NewsVoting.IsPending(VoteId);
+    }
+
+    private bool CanVote() => HasVotes && !VotePending;
+
+    [RelayCommand(CanExecute = nameof(CanVote))]
+    private void Like() => NewsVoting.Vote(this, 1);
+
+    [RelayCommand(CanExecute = nameof(CanVote))]
+    private void Dislike() => NewsVoting.Vote(this, -1);
 }
 
 public sealed class NewsLink

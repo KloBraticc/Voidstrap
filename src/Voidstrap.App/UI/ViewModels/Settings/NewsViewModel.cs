@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using Voidstrap.Models;
+using Voidstrap.Integrations.Plugins;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -16,6 +16,7 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
     private const int MaxFeedBytes = 2 * 1024 * 1024;
     private const int FeaturedLimit = 5;
     private const int MaxPosts = 500;
+    private static readonly Regex PostId = new("^[a-z0-9][a-z0-9-]{0,99}$", RegexOptions.CultureInvariant);
 
     private static readonly HttpClient Http = CreateClient();
     private static readonly SemaphoreSlim CacheLock = new(1, 1);
@@ -47,7 +48,24 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
 
     public NewsViewModel()
     {
+        ModVotes.Changed += OnVotesChanged;
         _ = InitializeAsync();
+        _ = ModVotes.RefreshAsync(CancellationToken.None);
+    }
+
+    private void OnVotesChanged()
+    {
+        System.Windows.Application.Current?.Dispatcher.BeginInvoke(new Action(LoadVotes));
+    }
+
+    private void LoadVotes()
+    {
+        if (_disposed)
+            return;
+        foreach (NewsPost post in Featured)
+            post.LoadVotes();
+        foreach (NewsPost post in Posts)
+            post.LoadVotes();
     }
 
     private static HttpClient CreateClient()
@@ -203,6 +221,7 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
                 Posts.Add(post);
         }
         SetFeatured(Featured.FirstOrDefault(post => post.Title == currentTitle) ?? Featured[0]);
+        LoadVotes();
         OnPropertyChanged(nameof(HasPosts));
         OnPropertyChanged(nameof(ShowEmpty));
         return true;
@@ -211,10 +230,12 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
     private static List<NewsPost> Sanitize(NewsFeed? feed)
     {
         List<NewsPost> result = [];
+        HashSet<string> seen = new(StringComparer.Ordinal);
         foreach (NewsPost? post in feed?.Posts ?? [])
         {
             if (post == null || string.IsNullOrWhiteSpace(post.Title))
                 continue;
+            post.Id = post.Id != null && PostId.IsMatch(post.Id) && seen.Add(post.Id) ? post.Id : null;
             post.Title = post.Title.Trim();
             post.Body = post.Body?.Trim() ?? string.Empty;
             post.Date = post.Date?.Trim() ?? string.Empty;
@@ -278,6 +299,7 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
         if (_disposed)
             return;
         _disposed = true;
+        ModVotes.Changed -= OnVotesChanged;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;
