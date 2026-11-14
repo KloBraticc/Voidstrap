@@ -1191,7 +1191,7 @@ public partial class VoidstrapModsPage : UiPage
             Margin = new Thickness(value > 0 ? 0 : 2, 0, 0, 0),
             ToolTip = label,
             Tag = new VoteTarget(mod.Id, value),
-            IsEnabled = !_votePending.Contains(mod.Id),
+            IsEnabled = ModVotes.Available && !_votePending.Contains(mod.Id),
         };
         System.Windows.Automation.AutomationProperties.SetName(button, label);
         button.Click += LibraryVote_Click;
@@ -1202,7 +1202,7 @@ public partial class VoidstrapModsPage : UiPage
 
     private void LibraryVote_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not FrameworkElement { Tag: VoteTarget target } || !_votePending.Add(target.ModId))
+        if (sender is not FrameworkElement { Tag: VoteTarget target } || !ModVotes.Available || !_votePending.Add(target.ModId))
             return;
         int vote = ModVotes.Get(target.ModId).Mine == target.Value ? 0 : target.Value;
         RefreshVoteButtons();
@@ -1214,6 +1214,8 @@ public partial class VoidstrapModsPage : UiPage
         const string LOG_IDENT = "VoidstrapModsPage::OnVoteFinished";
         App.Logger.WriteLine(LOG_IDENT, tally != null ? "Saved the vote on " + modId : error == 0 ? "The vote window for " + modId + " was closed" : error < 0 ? "Opened the vote for " + modId + " in the browser" : "The vote on " + modId + " failed with status " + error);
         _votePending.Remove(modId);
+        if (error >= 500)
+            ModVotes.MarkUnavailable();
         if (tally != null)
             ModVotes.Apply(modId, tally);
         else

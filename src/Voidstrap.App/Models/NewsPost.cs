@@ -87,9 +87,11 @@ public sealed partial class NewsPost : ObservableObject
         Dislikes = tally.Dislikes;
         Mine = tally.Mine;
         VotePending = NewsVoting.IsPending(VoteId);
+        LikeCommand.NotifyCanExecuteChanged();
+        DislikeCommand.NotifyCanExecuteChanged();
     }
 
-    private bool CanVote() => HasVotes && !VotePending;
+    private bool CanVote() => HasVotes && !VotePending && ModVotes.Available;
 
     [RelayCommand(CanExecute = nameof(CanVote))]
     private void Like() => NewsVoting.Vote(this, 1);

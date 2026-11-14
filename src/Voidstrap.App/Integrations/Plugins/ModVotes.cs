@@ -20,6 +20,8 @@ internal static class ModVotes
 
     public static event Action? Changed;
 
+    public static bool Available { get; private set; }
+
     private static HttpClient CreateClient()
     {
         HttpClient client = new(
@@ -58,7 +60,10 @@ internal static class ModVotes
         {
             byte[] bytes = await Client.GetByteArrayAsync(App.ProjectWebsite + "/api/mod-votes", token).ConfigureAwait(false);
             if (JsonNode.Parse(bytes) is not JsonObject root)
+            {
+                MarkUnavailable();
                 return;
+            }
             Dictionary<string, Tally> fresh = new(StringComparer.Ordinal);
             JsonObject? mine = root["votes"] as JsonObject;
             if (root["totals"] is JsonArray totals)
@@ -75,13 +80,23 @@ internal static class ModVotes
                 foreach ((string id, Tally tally) in fresh)
                     Tallies[id] = tally;
             }
+            Available = root["siteKey"] is JsonValue siteKey && siteKey.TryGetValue(out string? key) && !string.IsNullOrEmpty(key);
             Changed?.Invoke();
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine(LOG_IDENT, "Could not load mod votes: " + ex.Message);
+            MarkUnavailable();
         }
+    }
+
+    public static void MarkUnavailable()
+    {
+        if (!Available)
+            return;
+        Available = false;
+        Changed?.Invoke();
     }
 
     private static int Count(JsonNode? node) => node is JsonValue value && value.TryGetValue(out int count) ? Math.Max(0, count) : 0;

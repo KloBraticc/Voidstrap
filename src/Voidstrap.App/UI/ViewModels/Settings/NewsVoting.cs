@@ -13,7 +13,7 @@ internal static class NewsVoting
 
     public static void Vote(NewsPost post, int value)
     {
-        if (!post.HasVotes || !Pending.Add(post.VoteId))
+        if (!post.HasVotes || !ModVotes.Available || !Pending.Add(post.VoteId))
             return;
         string voteId = post.VoteId;
         int vote = ModVotes.Get(voteId).Mine == value ? 0 : value;
@@ -26,6 +26,8 @@ internal static class NewsVoting
         const string LOG_IDENT = "NewsVoting::Finished";
         App.Logger.WriteLine(LOG_IDENT, tally != null ? "Saved the vote on " + voteId : error == 0 ? "The vote window for " + voteId + " was closed" : error < 0 ? "Opened the vote for " + voteId + " in the browser" : "The vote on " + voteId + " failed with status " + error);
         Pending.Remove(voteId);
+        if (error >= 500)
+            ModVotes.MarkUnavailable();
         if (tally != null)
             ModVotes.Apply(voteId, tally);
         post.LoadVotes();
