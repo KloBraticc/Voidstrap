@@ -7,7 +7,7 @@
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="ThumbLike24" FontSize="14" VerticalAlignment="Center" Filled="{Binding IsLiked}">
               <ui:SymbolIcon.Style>
-                <Style TargetType="{x:Type ui:SymbolIcon}">
+                <Style TargetType="{x:Type ui:SymbolIcon}" BasedOn="{StaticResource {x:Type ui:SymbolIcon}}">
                   <Style.Triggers>
                     <DataTrigger Binding="{Binding IsLiked}" Value="True">
                       <Setter Property="Foreground" Value="{DynamicResource SystemAccentColorSecondaryBrush}" />
@@ -23,7 +23,7 @@
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="ThumbDislike24" FontSize="14" VerticalAlignment="Center" Filled="{Binding IsDisliked}">
               <ui:SymbolIcon.Style>
-                <Style TargetType="{x:Type ui:SymbolIcon}">
+                <Style TargetType="{x:Type ui:SymbolIcon}" BasedOn="{StaticResource {x:Type ui:SymbolIcon}}">
                   <Style.Triggers>
                     <DataTrigger Binding="{Binding IsDisliked}" Value="True">
                       <Setter Property="Foreground" Value="{DynamicResource SystemAccentColorSecondaryBrush}" />
