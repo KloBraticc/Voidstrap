@@ -328,7 +328,16 @@ public partial class DiscordRichPresence : IDisposable
     private void OnClientPresenceUpdate(object sender, PresenceMessage e)
     {
         if (!_disposed && ReferenceEquals(sender, _rpcClient))
-            App.Logger.WriteLine(LOG_IDENT, "Discord acknowledged activity: " + (e.Presence?.Details ?? "none"));
+            App.Logger.WriteLine(LOG_IDENT, "Discord acknowledged activity: " + DescribeAck(e.Presence));
+    }
+
+    private static string DescribeAck(DiscordRPC.BaseRichPresence? presence)
+    {
+        if (presence == null)
+            return "cleared";
+        if (!string.IsNullOrWhiteSpace(presence.Details))
+            return presence.Details;
+        return string.IsNullOrWhiteSpace(presence.State) ? "name only" : presence.State;
     }
 
     private void OnClientError(object sender, ErrorMessage e)
