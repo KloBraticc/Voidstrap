@@ -664,27 +664,26 @@ public static class GitHubPublisher
 
     private static string BuildBody(Preflight check, string notes, Account account)
     {
-        StringBuilder body = new();
-        body.AppendLine("## Mod").AppendLine();
-        body.AppendLine("- Name: `" + check.Name + "`");
-        body.AppendLine(
-            "- Version: " + check.Version + (check.PublishedVersion != null ? " (was " + check.PublishedVersion + ")" : " (new)")
-        );
-        body.AppendLine("- Owner: @" + account.Login + " (" + account.Id + ")").AppendLine();
-        body.AppendLine("## What changed").AppendLine();
-        body.AppendLine(string.IsNullOrWhiteSpace(notes) ? "No notes." : notes.Trim().Replace("\r", "")).AppendLine();
-        body.AppendLine("## Websites it contacts").AppendLine();
-        body.AppendLine(check.Network.Count == 0 ? "None" : string.Join(Environment.NewLine, check.Network.Select(h => "- `" + h + "`")))
-            .AppendLine();
+        string version = check.PublishedVersion != null ? check.PublishedVersion + " to " + check.Version : check.Version + " (new)";
+        List<string> lines =
+        [
+            "`" + check.Name + "` " + version + " by @" + account.Login,
+            "",
+            "**What changed**",
+            string.IsNullOrWhiteSpace(notes) ? "No notes." : notes.Trim().Replace("\r", ""),
+            "",
+            "**Websites it contacts**",
+            check.Network.Count == 0 ? "None" : string.Join("\n", check.Network.Select(h => "- `" + h + "`")),
+        ];
         if (check.Warnings.Count > 0)
         {
-            body.AppendLine("## Flagged for review").AppendLine();
-            foreach (string warning in check.Warnings)
-                body.AppendLine("- " + warning);
-            body.AppendLine();
+            lines.Add("");
+            lines.Add("**Flagged for review**");
+            lines.AddRange(check.Warnings.Select(w => "- " + w));
         }
-        body.AppendLine("Published from Voidstrap.");
-        return body.ToString();
+        lines.Add("");
+        lines.Add("Owner id " + account.Id + ", published from Voidstrap.");
+        return string.Join("\n", lines) + "\n";
     }
 
     private static async Task<JsonObject> CreateBlobEntryAsync(
