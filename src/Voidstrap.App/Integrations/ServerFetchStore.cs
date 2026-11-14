@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -232,10 +232,9 @@ public static class ServerFetchStore
         return num;
     }
 
-    public static int ImportServerLocations()
+    public static int ImportServerLocations(string json)
     {
-        string path = Voidstrap.Utility.RemoteData.ServerLocationsPath;
-        if (!Paths.Initialized || !File.Exists(path))
+        if (string.IsNullOrWhiteSpace(json) || json.Length > MaxImportBytes)
         {
             return 0;
         }
@@ -243,7 +242,6 @@ public static class ServerFetchStore
         int updated = 0;
         try
         {
-            string json = Voidstrap.Utility.JsonFile.ReadText(path, MaxImportBytes);
             ServerFetchData? serverFetchData = null;
             try
             {

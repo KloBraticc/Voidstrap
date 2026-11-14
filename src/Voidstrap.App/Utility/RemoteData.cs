@@ -26,8 +26,6 @@ internal static class RemoteData
 
     public static string TranslationsPath => Path.Combine(Paths.Data, "Translations.json");
 
-    public static string ServerLocationsPath => Path.Combine(Paths.Data, "ServerLocations.json");
-
     public static string? FileUrl(string relativePath)
     {
         return string.IsNullOrWhiteSpace(BaseUrl) ? null : BaseUrl.TrimEnd('/') + "/" + relativePath;
@@ -52,11 +50,25 @@ internal static class RemoteData
 
     public static async Task<int> RefreshServerLocationsAsync(bool force, CancellationToken token)
     {
-        bool downloaded = await DownloadAsync(ServerLocationsUrl, ServerLocationsPath, force, token).ConfigureAwait(false);
         bool firstImport = Interlocked.Exchange(ref _serverLocationsImported, 1) == 0;
-        if (!downloaded && !firstImport)
+        if (!force && !firstImport)
             return 0;
-        return Voidstrap.Integrations.ServerFetchStore.ImportServerLocations();
+        try
+        {
+            string json = await App.HttpClient.GetStringAsync(ServerLocationsUrl, token).ConfigureAwait(false);
+            return Voidstrap.Integrations.ServerFetchStore.ImportServerLocations(json);
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Could not read the server locations: " + ex.Message);
+            if (firstImport)
+                Interlocked.Exchange(ref _serverLocationsImported, 0);
+            return 0;
+        }
     }
 
     private static async Task<bool> DownloadAsync(string? url, string path, bool force, CancellationToken token)
