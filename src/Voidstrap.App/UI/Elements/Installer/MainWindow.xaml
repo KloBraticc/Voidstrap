@@ -15,7 +15,7 @@
         <RowDefinition Height="*" />
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
-      <ui:NavigationStore Name="RootNavigation" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" SelectedPageIndex="0" Frame="{Binding ElementName=RootFrame}">
+      <ui:NavigationStore Name="RootNavigation" TransitionDuration="0" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" SelectedPageIndex="0" Frame="{Binding ElementName=RootFrame}">
         <ui:NavigationBase.Items>
           <ui:NavigationItem Content="{resources:Loc Installer_Install_Title}" Icon="ArrowDownload24" PageType="{x:Type pages:InstallPage}" />
           <ui:NavigationItem Content="{resources:Loc Menu_Behaviour_Channel_Title}" Icon="Globe24" PageType="{x:Type pages:ChannelPage}" />
@@ -28,7 +28,7 @@
       </ui:NavigationStore>
       <Grid Name="ArtStage" Grid.Row="0" Grid.RowSpan="2" Width="220" Height="220" Margin="0,0,20,40" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" />
       <TextBlock Name="StepHeadingText" Grid.Row="0" Grid.Column="1" Margin="0,0,0,20" FontSize="28" FontWeight="SemiBold" Text="{Binding StepHeading, Mode=OneWay}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
-      <Frame Name="RootFrame" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden" Navigated="RootFrame_Navigated" />
+      <Frame Name="RootFrame" Grid.Row="1" Grid.Column="1" ClipToBounds="False" NavigationUIVisibility="Hidden" Navigated="RootFrame_Navigated" />
       <Grid Name="NavButtonBar" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,20,0,0">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
