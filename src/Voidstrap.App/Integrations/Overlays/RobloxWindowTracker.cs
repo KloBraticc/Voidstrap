@@ -626,6 +626,19 @@ namespace Voidstrap.Integrations.Overlays
             return IsHiddenShellForeground(foreground, _hwnd);
         }
 
+        public static bool IsRobloxWindowActive()
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return Current.Foreground;
+            IntPtr foreground = GetForegroundWindow();
+            if (foreground == IntPtr.Zero)
+                return false;
+            if (foreground == _hwnd)
+                return true;
+            GetWindowThreadProcessId(foreground, out uint pid);
+            return pid != 0 && pid == _pid;
+        }
+
         public static bool IsHiddenShellForeground(IntPtr foreground, IntPtr roblox)
         {
             if (!Voidstrap.Utility.Platform.IsWindows || foreground == IntPtr.Zero || roblox == IntPtr.Zero || foreground == roblox)

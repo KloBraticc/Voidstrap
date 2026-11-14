@@ -815,7 +815,7 @@ public partial class MenuContainer : WpfUiWindow
         if (
             !App.Settings.Prop.SessionDockEnabled
             || _activityWatcher is not { InGame: true } activityWatcher
-            || !(RobloxWindowTracker.IsProcessForeground(_watcher.RobloxProcessId) || RobloxWindowTracker.IsRobloxForeground())
+            || !(RobloxWindowTracker.IsProcessForeground(_watcher.RobloxProcessId) || RobloxWindowTracker.IsRobloxWindowActive())
         )
             return;
         SessionDock dock = EnsureSessionDock(activityWatcher);
