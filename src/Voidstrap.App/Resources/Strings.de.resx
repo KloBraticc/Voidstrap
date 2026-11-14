@@ -10328,4 +10328,7 @@ SteamVR jetzt installieren?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Zeige beim Darüberfahren die Wiedergabesteuerung und zieh sie für einen federnden Zug. Schalte es aus, damit Klicks an Roblox durchgehen.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Titel</value>
+  </data>
 </root>

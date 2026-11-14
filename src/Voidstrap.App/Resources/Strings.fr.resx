@@ -10327,4 +10327,7 @@ Installer SteamVR maintenant ?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Survolez pour afficher les commandes de lecture et faites la glisser pour un effet élastique. Désactivez pour laisser les clics passer à Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Pistes</value>
+  </data>
 </root>

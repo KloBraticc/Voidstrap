@@ -10016,4 +10016,7 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Ɗora linzami don nuna sarrafa kunnawa kuma ja shi don jan roba. Kashe shi don barin dannawa su wuce zuwa Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Waƙoƙi</value>
+  </data>
 </root>

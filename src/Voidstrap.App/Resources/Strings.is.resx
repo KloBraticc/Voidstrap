@@ -10016,4 +10016,7 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Haltu músinni yfir til að sýna spilunarstýringar og dragðu hana fyrir fjaðrandi tog. Slökktu til að smellir fari í Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Lög</value>
+  </data>
 </root>

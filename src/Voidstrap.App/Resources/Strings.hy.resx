@@ -10016,4 +10016,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Սավառնեք՝ նվագարկման կառավարումը տեսնելու համար, և քաշեք առաձգական ձգման համար։ Անջատեք, որ սեղմումները հասնեն Roblox ին։</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Թրեքներ</value>
+  </data>
 </root>

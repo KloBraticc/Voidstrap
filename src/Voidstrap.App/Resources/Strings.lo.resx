@@ -10016,4 +10016,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>ວາງເມົາສ໌ເພື່ອສະແດງປຸ່ມຫຼິ້ນ ແລະ ລາກເພື່ອດຶງແບບສະປິງ. ປິດເພື່ອໃຫ້ການຄລິກຜ່ານໄປ Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ເພງ</value>
+  </data>
 </root>

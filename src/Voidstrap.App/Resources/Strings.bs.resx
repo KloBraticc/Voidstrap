@@ -10015,4 +10015,7 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Pređite mišem za kontrole reprodukcije i povucite ga za elastično povlačenje. Isključite da bi klikovi prolazili do Robloxa.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Pjesme</value>
+  </data>
 </root>

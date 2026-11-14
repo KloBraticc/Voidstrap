@@ -10015,4 +10015,7 @@ Ludantoj: {2}</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Ŝvebu por montri ludregilojn kaj trenu ĝin por elasta tiro. Malŝaltu por lasi klakojn trairi al Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Trakoj</value>
+  </data>
 </root>

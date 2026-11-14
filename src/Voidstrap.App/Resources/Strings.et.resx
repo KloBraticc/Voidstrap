@@ -10015,4 +10015,7 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Hõljuta, et näidata esitusnuppe, ja lohista seda vetruvaks tõmbeks. Lülita välja, et klõpsud jõuaksid Robloxi.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Lood</value>
+  </data>
 </root>

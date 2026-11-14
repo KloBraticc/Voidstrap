@@ -10328,4 +10328,7 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Vidd fölé az egeret a lejátszásvezérlőkhöz, és húzd meg egy rugalmas rántásért. Kapcsold ki, hogy a kattintások a Robloxhoz jussanak.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Számok</value>
+  </data>
 </root>

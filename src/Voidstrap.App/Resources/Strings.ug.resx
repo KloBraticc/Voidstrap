@@ -10015,4 +10015,7 @@ Uptime: {1}
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>قويۇش كونتروللىرىنى كۆرسىتىش ئۈچۈن ئۈستىگە ئېلىپ بېرىڭ ۋە ئېلاستىك تارتىش ئۈچۈن سۆرەڭ. چېكىشلەر Roblox غا ئۆتسۇن دېسىڭىز تاقاڭ.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ناخشىلار</value>
+  </data>
 </root>

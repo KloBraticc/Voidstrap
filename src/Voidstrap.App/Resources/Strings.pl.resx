@@ -10329,4 +10329,7 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Najedź, aby zobaczyć sterowanie odtwarzaniem, i przeciągnij ją, by sprężyście pociągnąć. Wyłącz, aby kliknięcia trafiały do Robloxa.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Utwory</value>
+  </data>
 </root>

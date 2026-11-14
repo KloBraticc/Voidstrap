@@ -10015,4 +10015,7 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>ဖွင့်ခလုတ်များပြရန် မောက်စ်တင်ပြီး စပရိန်လို ဆွဲရန် ဆွဲပါ။ နှိပ်ချက်များ Roblox သို့ ရောက်စေရန် ပိတ်ပါ။</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>သီချင်းများ</value>
+  </data>
 </root>

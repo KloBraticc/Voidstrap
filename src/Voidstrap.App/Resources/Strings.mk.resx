@@ -10016,4 +10016,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Поминете со глувчето за контроли за репродукција и повлечете го за еластично влечење. Исклучете за кликовите да минуваат до Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Песни</value>
+  </data>
 </root>

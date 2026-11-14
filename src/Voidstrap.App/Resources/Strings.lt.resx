@@ -10330,4 +10330,7 @@ Veikimo laikas: {1}
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Užveskite pelę, kad matytumėte grojimo valdiklius, ir vilkite ją spyruokliškam patraukimui. Išjunkite, kad paspaudimai pasiektų Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Takeliai</value>
+  </data>
 </root>

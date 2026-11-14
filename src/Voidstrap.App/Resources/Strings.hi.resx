@@ -10016,4 +10016,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>प्लेबैक कंट्रोल दिखाने के लिए होवर करें और स्प्रिंग जैसे खिंचाव के लिए खींचें। क्लिक Roblox तक जाने देने के लिए बंद करें।</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ट्रैक</value>
+  </data>
 </root>

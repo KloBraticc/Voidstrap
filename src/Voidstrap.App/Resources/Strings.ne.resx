@@ -10016,4 +10016,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>प्लेब्याक नियन्त्रण देखाउन होभर गर्नुहोस् र स्प्रिङ जस्तो तानका लागि ड्र्याग गर्नुहोस्। क्लिकहरू Roblox मा जान दिन बन्द गर्नुहोस्।</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ट्र्याकहरू</value>
+  </data>
 </root>

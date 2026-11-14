@@ -10328,4 +10328,7 @@ Installera SteamVR nu?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Hovra för att visa uppspelningskontroller och dra den för ett fjädrande drag. Stäng av för att låta klick gå igenom till Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Spår</value>
+  </data>
 </root>

@@ -10016,4 +10016,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>પ્લેબેક કંટ્રોલ બતાવવા હોવર કરો અને સ્પ્રિંગ જેવા ખેંચાણ માટે ખેંચો. ક્લિક Roblox સુધી જવા દેવા બંધ કરો.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ટ્રેક</value>
+  </data>
 </root>

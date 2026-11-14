@@ -10016,4 +10016,7 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Тоглуулах удирдлагыг харуулахын тулд хулганаа аваачиж, уян татахын тулд чирнэ үү. Даралтууд Roblox руу очихын тулд унтраана уу.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Дуунууд</value>
+  </data>
 </root>

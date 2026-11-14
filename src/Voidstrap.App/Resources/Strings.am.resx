@@ -10015,4 +10015,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>የመጫወቻ መቆጣጠሪያዎችን ለማሳየት ያንዣብቡ እና ለሚለጠጥ መሳብ ይጎትቱት። ጠቅታዎች ወደ Roblox እንዲያልፉ ያጥፉት።</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ትራኮች</value>
+  </data>
 </root>

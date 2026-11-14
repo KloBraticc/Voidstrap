@@ -10016,4 +10016,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Пређите мишем за контроле репродукције и превуците га за еластично повлачење. Искључите да би кликови пролазили до Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Песме</value>
+  </data>
 </root>

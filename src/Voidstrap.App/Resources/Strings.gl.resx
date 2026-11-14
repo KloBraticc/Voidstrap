@@ -10016,4 +10016,7 @@ Instalar SteamVR agora?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Pasa o rato para amosar os controis de reprodución e arrástraa para un tirón elástico. Desactívao para que os clics cheguen a Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Pistas</value>
+  </data>
 </root>

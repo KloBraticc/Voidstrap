@@ -10015,4 +10015,7 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>Passa el ratolí per mostrar els controls de reproducció i arrossega-la per estirar-la amb molla. Desactiva-ho perquè els clics arribin a Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>Pistes</value>
+  </data>
 </root>

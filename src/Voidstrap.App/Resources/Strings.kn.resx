@@ -10016,4 +10016,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>ಪ್ಲೇಬ್ಯಾಕ್ ನಿಯಂತ್ರಣಗಳನ್ನು ತೋರಿಸಲು ಹೋವರ್ ಮಾಡಿ ಮತ್ತು ಸ್ಪ್ರಿಂಗ್ ಎಳೆತಕ್ಕೆ ಎಳೆಯಿರಿ. ಕ್ಲಿಕ್‌ಗಳು Roblox ಗೆ ಹೋಗಲು ಆಫ್ ಮಾಡಿ.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>ಟ್ರ್ಯಾಕ್‌ಗಳು</value>
+  </data>
 </root>

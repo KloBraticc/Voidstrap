@@ -10015,4 +10015,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
     <value>שוועב איבער אים צו ווייַזן שפּיל קאָנטראָלן און שלעפּ אים פֿאַר אַ שפּרינגיק ציען. שאַלט אויס כּדי קליקס זאָלן דורכגיין צו Roblox.</value>
   </data>
+  <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
+    <value>טראַקס</value>
+  </data>
 </root>
