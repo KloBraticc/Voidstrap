@@ -10019,4 +10019,73 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Hira</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Mpitantana Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Ovay ny lokon'ny kodiaran'ny emote, ampio ny sarinao manokana ary afindrafindrao</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Manova ny endriky ny kodiaran'ny emote Roblox amin'ny habe rehetra ampiasain'ny Roblox ary manorina ny tenany indray aorian'ny fanavaozana Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Sintony ny topi-maso hamindrana ny sary voafidy ary horonany hanovana ny habeny.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Afovoany</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Fiafaran'ny gradient afovoany (tsy voatery)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Tsipika</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Ampahany voafidy</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Fiafaran'ny gradient ny ampahany voafidy (tsy voatery)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Marika fifantenana</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Opacity ny ambadika</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Opacity ny kodiarana</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Sary afovoany</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Sary hamboarina</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Ovay koa ny kodiaran'ny mpanova emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Manova koa ny kodiarana miseho rehefa misafidy emote ao amin'ny mpanova avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Ovay ny lokon'ny bokotra emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Lokon'ny bokotra</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Anaran'ny mod (Kodiaran'ny emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Eo am-panovana ny tekstiran'ny emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Voaova ny tekstiran'ny emote {0}. Manorina ny tenany indray izy rehefa havaozina ny Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Nesorina ny mod emote.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Tsy nahitana tekstiran'ny emote. Alefaso indray mandeha ny Roblox dia andramo indray.</value>
+  </data>
 </root>

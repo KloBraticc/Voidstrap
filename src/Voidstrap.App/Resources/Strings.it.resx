@@ -10334,4 +10334,73 @@ Installare SteamVR adesso?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Brani</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Gestore emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Ricolora la ruota delle emote, aggiungi le tue immagini e spostale</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Rinnova la ruota delle emote di Roblox in ogni dimensione usata da Roblox e si ricostruisce da sola dopo gli aggiornamenti di Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Trascina l'anteprima per spostare l'immagine scelta e scorri per ridimensionarla.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Centro</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Fine sfumatura del centro (facoltativo)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Linee</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Spicchio selezionato</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Fine sfumatura dello spicchio selezionato (facoltativo)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Indicatore di selezione</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Opacità dello sfondo</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Opacità della ruota</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Immagine al centro</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Immagine da regolare</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Rinnova anche la ruota dell'editor delle emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Applica lo stile anche alla ruota mostrata quando scegli le emote nell'editor dell'avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Ricolora i pulsanti delle emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Colore dei pulsanti</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Nome della mod (Ruota delle emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Rinnovo delle texture delle emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} texture delle emote rinnovate. Si ricostruisce da sola quando Roblox si aggiorna.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>La mod delle emote è stata rimossa.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Nessuna texture delle emote trovata. Avvia Roblox una volta, poi riprova.</value>
+  </data>
 </root>

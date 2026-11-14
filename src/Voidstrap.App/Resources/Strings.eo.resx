@@ -10018,4 +10018,73 @@ Ludantoj: {2}</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Trakoj</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Mienoadministrilo</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Rekoloru la mienoradon, aldonu viajn proprajn bildojn kaj movu ilin</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Restiligas la mienoradon de Roblox en ĉiu grando, kiun Roblox uzas, kaj rekonstruas sin mem post ĝisdatigoj de Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Trenu la antaŭvidon por movi la elektitan bildon kaj rulumu por ŝanĝi ĝian grandon.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Centro</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Fino de la centra kolortransiro (nedeviga)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Linioj</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Elektita sektoro</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Fino de la kolortransiro de la elektita sektoro (nedeviga)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Elekta marko</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Opakeco de la fono</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Opakeco de la rado</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Centra bildo</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Alĝustigota bildo</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Restiligi ankaŭ la radon de la mienoredaktilo</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Ankaŭ restiligas la radon montratan dum elekto de mienoj en la avatara redaktilo.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Rekolori la mienobutonojn</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Butona koloro</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Nomo de la modifo (Mienorado)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Restiligado de mienaj teksturoj...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} mienaj teksturoj restiligitaj. Ĝi rekonstruas sin mem kiam Roblox ĝisdatiĝas.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>La mienomodifo estis forigita.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Neniuj mienaj teksturoj troviĝis. Lanĉu Roblox unufoje, poste reprovu.</value>
+  </data>
 </root>

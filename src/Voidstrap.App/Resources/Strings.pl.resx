@@ -10332,4 +10332,73 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Utwory</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Menedżer emotek</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Zmień kolory koła emotek, dodaj własne obrazy i przesuwaj je</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Zmienia wygląd koła emotek Roblox w każdym rozmiarze używanym przez Roblox i odbudowuje się sam po aktualizacjach Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Przeciągnij podgląd, aby przesunąć wybrany obraz, i przewiń, aby zmienić jego rozmiar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Środek</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Koniec gradientu środka (opcjonalnie)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Linie</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Zaznaczony wycinek</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Koniec gradientu zaznaczonego wycinka (opcjonalnie)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Znacznik zaznaczenia</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Krycie tła</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Krycie koła</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Obraz na środku</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Obraz do dopasowania</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Zmień też koło w edytorze emotek</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Zmienia też wygląd koła wyświetlanego przy wyborze emotek w edytorze awatara.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Zmień kolor przycisków emotek</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Kolor przycisków</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Nazwa moda (Koło emotek)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Zmienianie wyglądu tekstur emotek...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Zmieniono wygląd tekstur emotek: {0}. Mod odbudowuje się sam po aktualizacji Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Mod emotek został usunięty.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Nie znaleziono tekstur emotek. Uruchom Roblox raz i spróbuj ponownie.</value>
+  </data>
 </root>

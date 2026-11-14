@@ -10018,4 +10018,73 @@ Installer SteamVR nu?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Numre</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emotehåndtering</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Farv emotehjulet om, tilføj dine egne billeder og flyt rundt på dem</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Giver Roblox emotehjulet ny stil i alle de størrelser, Roblox bruger, og genopbygger sig selv efter Roblox opdateringer.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Træk i forhåndsvisningen for at flytte det valgte billede, og rul for at ændre størrelsen.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Midte</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Midtens gradientslut (valgfrit)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Linjer</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Valgt sektor</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Den valgte sektors gradientslut (valgfrit)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Valgmarkør</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Baggrundens opacitet</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Hjulets opacitet</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Billede i midten</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Billede, der skal justeres</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Giv også hjulet i emoteeditoren ny stil</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Giver også hjulet, der vises, når du vælger emotes i avatareditoren, ny stil.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Farv emoteknapperne om</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Knapfarve</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Modnavn (Emotehjul)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Giver emoteteksturerne ny stil...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} emoteteksturer fik ny stil. Den genopbygger sig selv, når Roblox opdateres.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Emotemodden blev fjernet.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Ingen emoteteksturer blev fundet. Start Roblox én gang, og prøv så igen.</value>
+  </data>
 </root>

@@ -10019,4 +10019,73 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Këngë</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Menaxheri i emoteve</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Ringjyros rrotën e emoteve, shto imazhet e tua dhe zhvendosi</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Ristilon rrotën e emoteve të Roblox në çdo madhësi që përdor Roblox dhe rindërtohet vetë pas përditësimeve të Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Tërhiq pamjen paraprake për të zhvendosur imazhin e zgjedhur dhe rrotullo për t'i ndryshuar madhësinë.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Qendra</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Fundi i gradientit të qendrës (opsionale)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Vijat</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Feta e zgjedhur</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Fundi i gradientit të fetës së zgjedhur (opsionale)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Shënuesi i zgjedhjes</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Opaciteti i sfondit</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Opaciteti i rrotës</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Imazhi në qendër</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Imazhi për t'u rregulluar</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Ristilo edhe rrotën e redaktuesit të emoteve</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Ristilon edhe rrotën që shfaqet kur zgjedh emote në redaktuesin e avatarit.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Ringjyros butonat e emoteve</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Ngjyra e butonave</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Emri i modit (Rrota e emoteve)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Po ristilohen teksturat e emoteve...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>U ristiluan {0} tekstura emotesh. Rindërtohet vetë kur Roblox përditësohet.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Modi i emoteve u hoq.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Nuk u gjetën tekstura emotesh. Hap Roblox një herë, pastaj provo përsëri.</value>
+  </data>
 </root>

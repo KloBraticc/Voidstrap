@@ -10019,4 +10019,73 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Indirimbo</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Umuyobozi wa Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Hindura ibara ry'uruziga rwa emote, ongeraho amafoto yawe kandi uyimure</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Ihindura isura y'uruziga rwa emote rwa Roblox mu ngano zose Roblox ikoresha kandi yiyubaka bundi bushya nyuma y'amavugurura ya Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Kurura igaragazwa ry'ibanze kugira ngo wimure ifoto yatoranyijwe kandi uzunguze kugira ngo uhindure ingano yayo.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Hagati</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Iherezo rya gradient yo hagati (si ngombwa)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Imirongo</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Igice cyatoranyijwe</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Iherezo rya gradient y'igice cyatoranyijwe (si ngombwa)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Ikimenyetso cyo guhitamo</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Ubudasobanuka bw'inyuma</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Ubudasobanuka bw'uruziga</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Ifoto yo hagati</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Ifoto yo guhindura</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Hindura n'uruziga rwa muhinduzi wa emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Ihindura kandi uruziga rugaragara mu gihe uhitamo emote muri muhinduzi wa avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Hindura ibara ry'utubuto twa emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Ibara ry'utubuto</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Izina rya mod (Uruziga rwa emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Turimo guhindura isura y'imiterere ya emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Imiterere ya emote {0} yahinduwe. Yiyubaka bundi bushya iyo Roblox ivuguruwe.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Mod ya emote yakuweho.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Nta miterere ya emote yabonetse. Fungura Roblox rimwe, hanyuma wongere ugerageze.</value>
+  </data>
 </root>

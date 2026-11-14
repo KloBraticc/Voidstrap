@@ -10333,4 +10333,73 @@ Veikimo laikas: {1}
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Takeliai</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emocijų tvarkyklė</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Perspalvinkite emocijų ratą, pridėkite savo paveikslėlių ir juos perkelkite</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Pakeičia Roblox emocijų rato stilių visuose Roblox naudojamuose dydžiuose ir po Roblox atnaujinimų pats persikuria.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Vilkite peržiūrą, kad perkeltumėte pasirinktą paveikslėlį, ir slinkite, kad pakeistumėte jo dydį.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Centras</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Centro perėjimo pabaiga (neprivaloma)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Linijos</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Pasirinktas sektorius</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Pasirinkto sektoriaus perėjimo pabaiga (neprivaloma)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Pasirinkimo žymeklis</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Fono nepermatomumas</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Rato nepermatomumas</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Paveikslėlis centre</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Koreguojamas paveikslėlis</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Pakeisti ir emocijų redaktoriaus ratą</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Pakeičia ir ratą, rodomą renkantis emocijas avataro redaktoriuje.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Perspalvinti emocijų mygtukus</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Mygtukų spalva</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Modo pavadinimas (Emocijų ratas)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Keičiamas emocijų tekstūrų stilius...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Pakeista emocijų tekstūrų: {0}. Atnaujinus Roblox, jis pats persikuria.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Emocijų modas pašalintas.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Emocijų tekstūrų nerasta. Vieną kartą paleiskite Roblox ir bandykite dar kartą.</value>
+  </data>
 </root>

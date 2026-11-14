@@ -10019,4 +10019,73 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Ngā ara</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Kaiwhakahaere Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Tāwahia te tae o te wīra emote, tāpirihia ō ake whakaahua ka nekehia</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Ka whakahou i te āhua o te wīra emote o Roblox i ia rahi e whakamahia ana e Roblox, ā, ka hanga anō i a ia anō i muri i ngā whakahōunga o Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Tōia te arokite hei neke i te whakaahua kua tīpakohia, ā, panukuhia hei huri i tōna rahi.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Waenga</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Te mutunga o te rōnaki waenga (kōwhiringa)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Ngā rārangi</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Te wāhanga kua tīpakohia</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Te mutunga o te rōnaki o te wāhanga kua tīpakohia (kōwhiringa)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Tohu tīpako</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Pataata o te papamuri</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Pataata o te wīra</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Whakaahua waenga</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Whakaahua hei whakatika</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Whakahoutia hoki te wīra o te ētita emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Ka whakahou hoki i te wīra e whakaaturia ana i te wā e tīpako emote ana i te ētita avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Tāwahia te tae o ngā pātene emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Tae pātene</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Ingoa mod (Wīra emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Kei te whakahou i ngā kakano emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Kua whakahoutia ngā kakano emote {0}. Ka hanga anō i a ia anō ina whakahōu a Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Kua tangohia te mod emote.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Kāore i kitea he kakano emote. Whakarewahia a Roblox kia kotahi, kātahi ka ngana anō.</value>
+  </data>
 </root>

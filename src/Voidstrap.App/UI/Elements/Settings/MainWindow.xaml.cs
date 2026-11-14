@@ -399,6 +399,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["ServerBrowserPage"] = ("Server Browser", "Searching for a server"),
         ["NvidiaFastFlagsPage"] = ("NVIDIA FastFlags", "Tweaking NVIDIA GPU settings"),
         ["ModGeneratorPage"] = ("Mod Generator", "Recoloring the Roblox icons"),
+        ["EmoteManagerPage"] = ("Emote Manager", "Styling the Roblox emote wheel"),
         ["AdvancedMatchmakerPage"] = ("Advanced Matchmaker", "Tuning the Voidstrap Matchmaker"),
     };
 
@@ -8107,7 +8108,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         ModsPage.PendingMyModsTab = true;
-        if (RootFrame.Content is OverlaysPage or ModGeneratorPage && RootFrame.CanGoBack)
+        if (RootFrame.Content is OverlaysPage or ModGeneratorPage or EmoteManagerPage && RootFrame.CanGoBack)
         {
             RootFrame.GoBack();
             return;

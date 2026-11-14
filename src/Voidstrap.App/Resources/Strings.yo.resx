@@ -10018,4 +10018,73 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Àwọn orin</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Alakoso Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Yí àwọ̀ kẹ̀kẹ́ emote padà, ṣàfikún àwọn àwòrán tìrẹ kí o sì gbé wọn kiri</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Ó ń yí ìrísí kẹ̀kẹ́ emote Roblox padà ní gbogbo ìwọ̀n tí Roblox ń lò, ó sì ń tún ara rẹ̀ kọ́ lẹ́yìn àwọn ìmúdójúìwọ̀n Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Fa àwòtẹ́lẹ̀ láti gbé àwòrán tí o yàn, kí o sì yí i láti yí ìwọ̀n rẹ̀ padà.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Àárín</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Òpin gradient àárín (àṣàyàn)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Àwọn ìlà</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Apá tí a yàn</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Òpin gradient apá tí a yàn (àṣàyàn)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Àmì yíyàn</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Àìfojúrí ìsàlẹ̀</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Àìfojúrí kẹ̀kẹ́</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Àwòrán àárín</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Àwòrán láti ṣàtúnṣe</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Yí kẹ̀kẹ́ olóòtú emote náà padà</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Ó tún ń yí kẹ̀kẹ́ tí ó ń hàn nígbà tí o bá ń yan emote nínú olóòtú avatar padà.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Yí àwọ̀ àwọn bọ́tìnnì emote padà</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Àwọ̀ bọ́tìnnì</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Orúkọ mod (Kẹ̀kẹ́ emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>A ń yí ìrísí àwọn texture emote padà...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>A ti yí ìrísí texture emote {0} padà. Ó ń tún ara rẹ̀ kọ́ nígbà tí Roblox bá ṣe ìmúdójúìwọ̀n.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>A ti yọ mod emote kúrò.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Kò sí texture emote kankan tí a rí. Ṣí Roblox lẹ́ẹ̀kan, lẹ́yìn náà gbìyànjú lẹ́ẹ̀kan sí i.</value>
+  </data>
 </root>

@@ -143,7 +143,7 @@ public static class ModGenerator
         System.Text.RegularExpressions.RegexOptions.Compiled
     );
 
-    private static readonly SemaphoreSlim GenerateGate = new SemaphoreSlim(1, 1);
+    internal static readonly SemaphoreSlim GenerateGate = new SemaphoreSlim(1, 1);
 
     private static readonly string[] LogoTargets =
     [
@@ -451,6 +451,12 @@ public static class ModGenerator
     }
 
     public static async Task RefreshOutdatedAsync(string versionDirectory, string versionGuid, CancellationToken token)
+    {
+        await RefreshThemeAsync(versionDirectory, versionGuid, token).ConfigureAwait(false);
+        await EmoteWheelGenerator.RefreshOutdatedAsync(versionDirectory, versionGuid, token).ConfigureAwait(false);
+    }
+
+    private static async Task RefreshThemeAsync(string versionDirectory, string versionGuid, CancellationToken token)
     {
         await GenerateGate.WaitAsync(token).ConfigureAwait(false);
         try
@@ -1116,7 +1122,7 @@ public static class ModGenerator
             .ToList();
     }
 
-    private static HashSet<string> CurrentManifest(RobloxPlayerData data)
+    internal static HashSet<string> CurrentManifest(RobloxPlayerData data)
     {
         HashSet<string> manifest = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (string entry in data.State.ModManifest)
@@ -1126,7 +1132,7 @@ public static class ModGenerator
         return manifest;
     }
 
-    private static (string Folder, string Guid) ResolveInstall(RobloxPlayerData data)
+    internal static (string Folder, string Guid) ResolveInstall(RobloxPlayerData data)
     {
         if (Voidstrap.Utility.Platform.IsLinux)
         {
@@ -1176,7 +1182,7 @@ public static class ModGenerator
         return (folder, guid);
     }
 
-    private static string ResolveSource(string versionDirectory, string versionGuid, string relative, HashSet<string> manifest)
+    internal static string ResolveSource(string versionDirectory, string versionGuid, string relative, HashSet<string> manifest)
     {
         string safeGuid = string.IsNullOrWhiteSpace(versionGuid) ? "unknown" : versionGuid;
         string cached = Path.Combine(OriginalsRoot, safeGuid, relative.Replace('/', Path.DirectorySeparatorChar));
@@ -1873,7 +1879,7 @@ public static class ModGenerator
         return max == 0 ? 0.0 : (max - min) / (double)max;
     }
 
-    private static (byte[] Pixels, int Width, int Height) Shrink(byte[] pixels, int width, int height, int limit)
+    internal static (byte[] Pixels, int Width, int Height) Shrink(byte[] pixels, int width, int height, int limit)
     {
         int longest = Math.Max(width, height);
         if (longest <= limit)
@@ -1905,7 +1911,7 @@ public static class ModGenerator
         return result;
     }
 
-    private static (byte[] Pixels, int Width, int Height) Load(string path)
+    internal static (byte[] Pixels, int Width, int Height) Load(string path)
     {
         if (!Voidstrap.Utility.Platform.IsWindows)
         {
@@ -1930,7 +1936,7 @@ public static class ModGenerator
         return (pixels, width, height);
     }
 
-    private static void Save(string path, byte[] pixels, int width, int height)
+    internal static void Save(string path, byte[] pixels, int width, int height)
     {
         string temporary = path + ".tmp";
         if (!Voidstrap.Utility.Platform.IsWindows)
@@ -1948,7 +1954,7 @@ public static class ModGenerator
         File.Move(temporary, path, overwrite: true);
     }
 
-    private static BitmapSource Create(byte[] pixels, int width, int height)
+    internal static BitmapSource Create(byte[] pixels, int width, int height)
     {
         BitmapSource bitmap = BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, pixels, width * 4);
         bitmap.Freeze();

@@ -10019,4 +10019,73 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Skladbe</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Upravitelj čustvenčkov</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Prebarvaj kolo čustvenčkov, dodaj svoje slike in jih premikaj</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Preoblikuje kolo čustvenčkov v Robloxu v vseh velikostih, ki jih Roblox uporablja, in se po posodobitvah Robloxa sam znova zgradi.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Povleci predogled, da premakneš izbrano sliko, in se pomakni s kolescem, da spremeniš njeno velikost.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Sredina</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Konec prelivanja sredine (izbirno)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Črte</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Izbrani izsek</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Konec prelivanja izbranega izseka (izbirno)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Oznaka izbire</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Prekrivnost ozadja</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Prekrivnost kolesa</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Slika na sredini</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Slika za prilagoditev</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Preoblikuj tudi kolo v urejevalniku čustvenčkov</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Preoblikuje tudi kolo, ki se prikaže pri izbiri čustvenčkov v urejevalniku avatarja.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Prebarvaj gumbe čustvenčkov</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Barva gumbov</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Ime moda (Kolo čustvenčkov)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Preoblikovanje tekstur čustvenčkov...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Preoblikovane teksture čustvenčkov: {0}. Ob posodobitvi Robloxa se sam znova zgradi.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Mod čustvenčkov je bil odstranjen.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Tekstur čustvenčkov ni bilo mogoče najti. Enkrat zaženi Roblox in poskusi znova.</value>
+  </data>
 </root>

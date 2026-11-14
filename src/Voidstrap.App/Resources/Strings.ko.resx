@@ -10330,4 +10330,73 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>트랙</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>이모트 관리자</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>이모트 휠의 색을 바꾸고, 원하는 이미지를 추가하고, 위치를 옮길 수 있습니다</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox가 사용하는 모든 크기에서 이모트 휠의 스타일을 바꾸고 Roblox 업데이트 후 자동으로 다시 만듭니다.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>미리보기를 드래그하면 선택한 이미지가 이동하고, 스크롤하면 크기가 바뀝니다.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>가운데</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>가운데 그라데이션 끝 색 (선택 사항)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>선</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>선택된 조각</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>선택된 조각 그라데이션 끝 색 (선택 사항)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>선택 표시</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>배경 불투명도</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>휠 불투명도</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>가운데 이미지</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>조정할 이미지</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>이모트 편집기 휠도 변경</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>아바타 편집기에서 이모트를 고를 때 보이는 휠에도 적용합니다.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>이모트 버튼 색 변경</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>버튼 색</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>모드 이름 (이모트 휠)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>이모트 텍스처를 변경하는 중...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>이모트 텍스처 {0}개를 변경했습니다. Roblox가 업데이트되면 자동으로 다시 만듭니다.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>이모트 모드를 제거했습니다.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>이모트 텍스처를 찾을 수 없습니다. Roblox를 한 번 실행한 뒤 다시 시도하십시오.</value>
+  </data>
 </root>

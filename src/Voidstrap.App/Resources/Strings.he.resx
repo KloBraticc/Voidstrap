@@ -10019,4 +10019,73 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>רצועות</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>מנהל אימוטים</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>צבעו מחדש את גלגל האימוטים, הוסיפו תמונות משלכם והזיזו אותן</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>מעצב מחדש את גלגל האימוטים של Roblox בכל הגדלים ש־Roblox משתמש בהם ובונה את עצמו מחדש אחרי עדכוני Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>גררו את התצוגה המקדימה כדי להזיז את התמונה שנבחרה וגללו כדי לשנות את גודלה.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>מרכז</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>סוף מעבר הצבע של המרכז (אופציונלי)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>קווים</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>הפלח הנבחר</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>סוף מעבר הצבע של הפלח הנבחר (אופציונלי)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>סמן הבחירה</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>אטימות הרקע</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>אטימות הגלגל</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>תמונה במרכז</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>תמונה לכוונון</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>לעצב מחדש גם את הגלגל בעורך האימוטים</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>מעצב גם את הגלגל שמוצג בזמן בחירת אימוטים בעורך האווטאר.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>לצבוע מחדש את כפתורי האימוטים</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>צבע הכפתורים</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>שם המוד (גלגל אימוטים)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>מעצב מחדש את טקסטורות האימוטים...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} טקסטורות אימוטים עוצבו מחדש. הוא בונה את עצמו מחדש כש־Roblox מתעדכן.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>מוד האימוטים הוסר.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>לא נמצאו טקסטורות אימוטים. הפעילו את Roblox פעם אחת ונסו שוב.</value>
+  </data>
 </root>

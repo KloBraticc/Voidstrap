@@ -10333,4 +10333,73 @@ SteamVR nu installeren?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Nummers</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emotebeheer</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Kleur het emotewiel opnieuw, voeg je eigen afbeeldingen toe en verplaats ze</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Geeft het Roblox emotewiel een nieuwe stijl in elk formaat dat Roblox gebruikt en bouwt zichzelf opnieuw op na Roblox updates.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Sleep de voorbeeldweergave om de gekozen afbeelding te verplaatsen en scrol om het formaat te wijzigen.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Midden</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Einde van het verloop in het midden (optioneel)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Lijnen</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Geselecteerd segment</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Einde van het verloop van het geselecteerde segment (optioneel)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Selectiemarkering</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Dekking van de achtergrond</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Dekking van het wiel</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Afbeelding in het midden</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Aan te passen afbeelding</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Ook het wiel in de emote-editor stylen</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Geeft ook het wiel een nieuwe stijl dat verschijnt bij het kiezen van emotes in de avatareditor.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Emoteknoppen opnieuw kleuren</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Kleur van de knoppen</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Modnaam (Emotewiel)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Emotetextures krijgen een nieuwe stijl...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} emotetextures opnieuw gestyled. Hij bouwt zichzelf opnieuw op als Roblox wordt bijgewerkt.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>De emotemod is verwijderd.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Geen emotetextures gevonden. Start Roblox één keer en probeer het opnieuw.</value>
+  </data>
 </root>

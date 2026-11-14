@@ -10331,4 +10331,73 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Pjesme</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Upravitelj emotea</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Promijeni boje kotača emotea, dodaj vlastite slike i pomiči ih</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Mijenja izgled kotača emotea u Robloxu u svim veličinama koje Roblox koristi i sam se ponovno gradi nakon Roblox ažuriranja.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Povuci pregled da pomakneš odabranu sliku i pomiči kotačić da joj promijeniš veličinu.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Središte</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Kraj prijelaza središta (neobavezno)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Linije</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Odabrani isječak</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Kraj prijelaza odabranog isječka (neobavezno)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Oznaka odabira</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Neprozirnost pozadine</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Neprozirnost kotača</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Slika u središtu</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Slika za prilagodbu</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Promijeni i kotač u uređivaču emotea</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Mijenja i kotač koji se prikazuje pri odabiru emotea u uređivaču avatara.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Promijeni boju gumba emotea</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Boja gumba</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Naziv moda (Kotač emotea)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Mijenjanje izgleda tekstura emotea...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Promijenjene teksture emotea: {0}. Sam se ponovno gradi kad se Roblox ažurira.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Mod emotea je uklonjen.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Nisu pronađene teksture emotea. Pokreni Roblox jednom pa pokušaj ponovno.</value>
+  </data>
 </root>

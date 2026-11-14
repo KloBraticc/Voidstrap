@@ -10018,4 +10018,73 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Κομμάτια</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Διαχείριση emotes</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Αλλάξτε τα χρώματα του τροχού emotes, προσθέστε δικές σας εικόνες και μετακινήστε τες</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Αλλάζει την εμφάνιση του τροχού emotes του Roblox σε κάθε μέγεθος που χρησιμοποιεί το Roblox και ξαναχτίζεται μόνο του μετά από ενημερώσεις του Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Σύρετε την προεπισκόπηση για να μετακινήσετε την επιλεγμένη εικόνα και κυλήστε για να αλλάξετε το μέγεθός της.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Κέντρο</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Τέλος διαβάθμισης κέντρου (προαιρετικό)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Γραμμές</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Επιλεγμένο τμήμα</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Τέλος διαβάθμισης επιλεγμένου τμήματος (προαιρετικό)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Δείκτης επιλογής</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Αδιαφάνεια φόντου</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Αδιαφάνεια τροχού</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Εικόνα στο κέντρο</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Εικόνα για ρύθμιση</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Αλλαγή και του τροχού στον επεξεργαστή emotes</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Αλλάζει και τον τροχό που εμφανίζεται κατά την επιλογή emotes στον επεξεργαστή avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Αλλαγή χρώματος κουμπιών emotes</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Χρώμα κουμπιών</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Όνομα mod (Τροχός emotes)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Αλλαγή εμφάνισης υφών emotes...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Άλλαξαν {0} υφές emotes. Ξαναχτίζεται μόνο του όταν ενημερώνεται το Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Το mod των emotes αφαιρέθηκε.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Δεν βρέθηκαν υφές emotes. Ανοίξτε το Roblox μία φορά και δοκιμάστε ξανά.</value>
+  </data>
 </root>

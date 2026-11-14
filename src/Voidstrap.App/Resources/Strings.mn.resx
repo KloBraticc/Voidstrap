@@ -10019,4 +10019,73 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Дуунууд</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Эмоцын менежер</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Эмоцын дугуйн өнгийг өөрчилж, өөрийн зургуудыг нэмээд зөөж байрлуулаарай</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox ашигладаг бүх хэмжээнд Roblox эмоцын дугуйн загварыг өөрчилж, Roblox шинэчлэгдсэний дараа өөрийгөө дахин бүтээдэг.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Сонгосон зургийг зөөхийн тулд урьдчилан харахыг чирж, хэмжээг нь өөрчлөхийн тулд гүйлгээрэй.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Төв</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Төвийн градиентын төгсгөл (заавал биш)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Шугамууд</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Сонгосон хэсэг</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Сонгосон хэсгийн градиентын төгсгөл (заавал биш)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Сонголтын тэмдэг</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Арын дэвсгэрийн тунгалаг бус байдал</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Дугуйн тунгалаг бус байдал</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Төвийн зураг</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Тохируулах зураг</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Эмоцын засварлагчийн дугуйг бас өөрчлөх</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Аватар засварлагчид эмоц сонгох үед харагдах дугуйг бас өөрчилнө.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Эмоцын товчнуудын өнгийг өөрчлөх</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Товчны өнгө</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Модны нэр (Эмоцын дугуй)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Эмоцын бүтцүүдийг өөрчилж байна...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} эмоцын бүтцийг өөрчиллөө. Roblox шинэчлэгдэхэд өөрийгөө дахин бүтээдэг.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Эмоцын мод устгагдлаа.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Эмоцын бүтэц олдсонгүй. Roblox-ийг нэг удаа ажиллуулаад дахин оролдоорой.</value>
+  </data>
 </root>

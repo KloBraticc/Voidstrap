@@ -10018,4 +10018,73 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Nyimbo</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Kidhibiti cha Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Badilisha rangi ya gurudumu la emote, ongeza picha zako mwenyewe na uzisogeze</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Hubadilisha mtindo wa gurudumu la emote la Roblox katika kila ukubwa ambao Roblox hutumia na hujijenga upya baada ya masasisho ya Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Buruta onyesho la kukagua ili kusogeza picha iliyochaguliwa na usogeze gurudumu la kipanya ili kubadilisha ukubwa wake.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Katikati</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Mwisho wa gradienti ya katikati (si lazima)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Mistari</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Kipande kilichochaguliwa</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Mwisho wa gradienti ya kipande kilichochaguliwa (si lazima)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Alama ya uteuzi</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Uangavu wa mandharinyuma</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Uangavu wa gurudumu</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Picha ya katikati</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Picha ya kurekebisha</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Badilisha pia gurudumu la kihariri cha emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Pia hubadilisha gurudumu linaloonyeshwa unapochagua emote katika kihariri cha avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Badilisha rangi ya vitufe vya emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Rangi ya vitufe</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Jina la mod (Gurudumu la emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Inabadilisha mtindo wa maumbo ya emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Maumbo {0} ya emote yamebadilishwa. Hujijenga upya Roblox inaposasishwa.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Mod ya emote imeondolewa.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Hakuna maumbo ya emote yaliyopatikana. Fungua Roblox mara moja, kisha ujaribu tena.</value>
+  </data>
 </root>

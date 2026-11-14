@@ -10018,4 +10018,73 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ট্র্যাক</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ইমোট ম্যানেজার</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ইমোট হুইলের রং বদলান, নিজের ছবি যোগ করুন এবং সেগুলো সরান</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox যত আকার ব্যবহার করে তার প্রতিটিতে Roblox ইমোট হুইলের রূপ বদলায় এবং Roblox আপডেটের পরে নিজেকে আবার তৈরি করে।</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>বেছে নেওয়া ছবি সরাতে প্রিভিউ টেনে আনুন এবং আকার বদলাতে স্ক্রল করুন।</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>মাঝখান</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>মাঝখানের গ্রেডিয়েন্টের শেষ রং (ঐচ্ছিক)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>রেখা</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>বেছে নেওয়া অংশ</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>বেছে নেওয়া অংশের গ্রেডিয়েন্টের শেষ রং (ঐচ্ছিক)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>নির্বাচন চিহ্ন</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>ব্যাকগ্রাউন্ডের অস্বচ্ছতা</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>হুইলের অস্বচ্ছতা</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>মাঝখানের ছবি</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>যে ছবি সমন্বয় করবেন</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ইমোট এডিটরের হুইলও বদলান</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>অবতার এডিটরে ইমোট বাছার সময় দেখানো হুইলেও প্রয়োগ হয়।</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ইমোট বোতামের রং বদলান</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>বোতামের রং</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>মডের নাম (ইমোট হুইল)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ইমোট টেক্সচারের রূপ বদলানো হচ্ছে...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0}টি ইমোট টেক্সচারের রূপ বদলানো হয়েছে। Roblox আপডেট হলে এটি নিজেকে আবার তৈরি করে।</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ইমোট মড সরানো হয়েছে।</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>কোনো ইমোট টেক্সচার পাওয়া যায়নি। Roblox একবার চালু করুন, তারপর আবার চেষ্টা করুন।</value>
+  </data>
 </root>

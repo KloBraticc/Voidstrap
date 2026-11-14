@@ -10019,4 +10019,73 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>បទ</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>កម្មវិធីគ្រប់គ្រង Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ប្ដូរពណ៌កង់ emote បន្ថែមរូបភាពផ្ទាល់ខ្លួនរបស់អ្នក ហើយផ្លាស់ទីវា</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>ប្ដូររចនាប័ទ្មកង់ emote របស់ Roblox គ្រប់ទំហំដែល Roblox ប្រើ ហើយសាងសង់ខ្លួនឯងឡើងវិញក្រោយ Roblox ធ្វើបច្ចុប្បន្នភាព។</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>អូសការមើលជាមុន ដើម្បីផ្លាស់ទីរូបភាពដែលបានជ្រើស ហើយរំកិល ដើម្បីប្ដូរទំហំ។</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>កណ្ដាល</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>ចុងពណ៌ជម្រាលកណ្ដាល (ស្រេចចិត្ត)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>បន្ទាត់</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>ផ្នែកដែលបានជ្រើស</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>ចុងពណ៌ជម្រាលនៃផ្នែកដែលបានជ្រើស (ស្រេចចិត្ត)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>សញ្ញាជ្រើសរើស</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>ភាពស្រអាប់ផ្ទៃខាងក្រោយ</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>ភាពស្រអាប់កង់</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>រូបភាពកណ្ដាល</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>រូបភាពដែលត្រូវកែ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ប្ដូររចនាប័ទ្មកង់ក្នុងកម្មវិធីកែ emote ផងដែរ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>អនុវត្តលើកង់ដែលបង្ហាញពេលជ្រើស emote ក្នុងកម្មវិធីកែ avatar ផងដែរ។</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ប្ដូរពណ៌ប៊ូតុង emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>ពណ៌ប៊ូតុង</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>ឈ្មោះ mod (កង់ emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>កំពុងប្ដូររចនាប័ទ្មវាយនភាព emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>បានប្ដូររចនាប័ទ្មវាយនភាព emote ចំនួន {0}។ វាសាងសង់ខ្លួនឯងឡើងវិញពេល Roblox ធ្វើបច្ចុប្បន្នភាព។</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>បានដក mod emote ចេញហើយ។</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>រកមិនឃើញវាយនភាព emote ទេ។ សូមបើក Roblox ម្ដង រួចសាកល្បងម្ដងទៀត។</value>
+  </data>
 </root>

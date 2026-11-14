@@ -1,0 +1,292 @@
+<UserControl xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Settings.Pages.EmoteManagerSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             Loaded="Section_Loaded"
+             Unloaded="Section_Unloaded">
+  <UserControl.Resources>
+    <Style x:Key="PresetButton" TargetType="Button">
+      <Setter Property="Width" Value="30" />
+      <Setter Property="Height" Value="30" />
+      <Setter Property="Margin" Value="0,0,6,6" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border CornerRadius="15" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="4" />
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="ColorSwatch" TargetType="Border">
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="ToolTip" Value="{resources:Loc Ui_ModGen_PickColour}" />
+    </Style>
+    <Style x:Key="OptionLabel" TargetType="TextBlock">
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+  </UserControl.Resources>
+
+  <StackPanel>
+    <TextBlock Margin="2,24,0,0" FontSize="12.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_EmoteMgr_Intro}" />
+
+    <ui:CardControl Margin="0,10,0,0" Focusable="False" ui:RinControlMotion.Enabled="True">
+      <ui:CardControl.Header>
+        <StackPanel>
+          <Border CornerRadius="10" Background="#FF15171C" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" ClipToBounds="True">
+            <Grid Height="260">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Image x:Name="BeforeImage" Margin="18,36,18,14" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Opacity="0.85" />
+              <Border Margin="12,10,0,0" Padding="8,2" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="9" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_ModGen_Original}" />
+              </Border>
+              <Border Grid.Column="1" Margin="0,14" Background="{DynamicResource SubtleFillColorSecondaryBrush}" />
+              <Image x:Name="AfterImage" Grid.Column="2" Margin="18,36,18,14" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Cursor="SizeAll" MouseLeftButtonDown="Preview_MouseDown" MouseMove="Preview_MouseMove" MouseLeftButtonUp="Preview_MouseUp" MouseWheel="Preview_MouseWheel" />
+              <Border Grid.Column="2" Margin="12,10,0,0" Padding="8,2" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="9" Background="{DynamicResource SystemAccentColorPrimaryBrush}" IsHitTestVisible="False">
+                <TextBlock FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{resources:Loc Ui_ModGen_YourMod}" />
+              </Border>
+              <ui:ProgressRing x:Name="PreviewRing" Grid.Column="2" Width="22" Height="22" IsIndeterminate="True" Visibility="Collapsed" IsHitTestVisible="False" />
+            </Grid>
+          </Border>
+          <TextBlock x:Name="PreviewNote" Margin="2,8,0,0" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_EmoteMgr_DragHint}" />
+
+          <TextBlock Margin="0,16,0,0" FontSize="13" FontWeight="SemiBold" Text="{resources:Loc Common_Presets}" />
+          <WrapPanel x:Name="PresetPanel" Margin="0,8,0,0" />
+
+          <TextBlock Margin="0,10,0,0" FontSize="13" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_Colors}" />
+          <Grid Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="170" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_Center}" />
+            <Border x:Name="CenterSwatch" Grid.Column="1" Width="30" Height="30" Margin="10,0,8,0" Style="{StaticResource ColorSwatch}" Tag="{Binding ElementName=CenterBox}" MouseLeftButtonDown="Swatch_Click" />
+            <ui:TextBox x:Name="CenterBox" Grid.Column="2" PlaceholderText="#0B2A55" TextChanged="Input_Changed" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="170" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_CenterFade}" />
+            <Border x:Name="CenterEndSwatch" Grid.Column="1" Width="30" Height="30" Margin="10,0,8,0" Style="{StaticResource ColorSwatch}" Tag="{Binding ElementName=CenterEndBox}" MouseLeftButtonDown="Swatch_Click" />
+            <ui:TextBox x:Name="CenterEndBox" Grid.Column="2" PlaceholderText="#1E5FB8" TextChanged="Input_Changed" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="170" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_Lines}" />
+            <Border x:Name="LineSwatch" Grid.Column="1" Width="30" Height="30" Margin="10,0,8,0" Style="{StaticResource ColorSwatch}" Tag="{Binding ElementName=LineBox}" MouseLeftButtonDown="Swatch_Click" />
+            <ui:TextBox x:Name="LineBox" Grid.Column="2" PlaceholderText="#4FA8FF" TextChanged="Input_Changed" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="170" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_Appearance_Background}" />
+            <Border x:Name="BackgroundSwatch" Grid.Column="1" Width="30" Height="30" Margin="10,0,8,0" Style="{StaticResource ColorSwatch}" Tag="{Binding ElementName=BackgroundBox}" MouseLeftButtonDown="Swatch_Click" />
+            <ui:TextBox x:Name="BackgroundBox" Grid.Column="2" PlaceholderText="#06162E" TextChanged="Input_Changed" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="170" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_Highlight}" />
+            <Border x:Name="GlowSwatch" Grid.Column="1" Width="30" Height="30" Margin="10,0,8,0" Style="{StaticResource ColorSwatch}" Tag="{Binding ElementName=GlowBox}" MouseLeftButtonDown="Swatch_Click" />
+            <ui:TextBox x:Name="GlowBox" Grid.Column="2" PlaceholderText="#2F8CFF" TextChanged="Input_Changed" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="170" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_HighlightFade}" />
+            <Border x:Name="GlowEndSwatch" Grid.Column="1" Width="30" Height="30" Margin="10,0,8,0" Style="{StaticResource ColorSwatch}" Tag="{Binding ElementName=GlowEndBox}" MouseLeftButtonDown="Swatch_Click" />
+            <ui:TextBox x:Name="GlowEndBox" Grid.Column="2" PlaceholderText="#7FC4FF" TextChanged="Input_Changed" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="170" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_Marker}" />
+            <Border x:Name="MarkerSwatch" Grid.Column="1" Width="30" Height="30" Margin="10,0,8,0" Style="{StaticResource ColorSwatch}" Tag="{Binding ElementName=MarkerBox}" MouseLeftButtonDown="Swatch_Click" />
+            <ui:TextBox x:Name="MarkerBox" Grid.Column="2" PlaceholderText="#9FD0FF" TextChanged="Input_Changed" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_BackgroundOpacity}" />
+            <Slider x:Name="BackgroundOpacitySlider" Grid.Column="1" Margin="10,0" Minimum="0" Maximum="100" Value="60" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="Slider_Changed" />
+            <TextBlock x:Name="BackgroundOpacitySliderText" Grid.Column="2" MinWidth="44" VerticalAlignment="Center" TextAlignment="Right" Text="60%" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_WheelOpacity}" />
+            <Slider x:Name="WheelOpacitySlider" Grid.Column="1" Margin="10,0" Minimum="10" Maximum="100" Value="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="Slider_Changed" />
+            <TextBlock x:Name="WheelOpacitySliderText" Grid.Column="2" MinWidth="44" VerticalAlignment="Center" TextAlignment="Right" Text="100%" />
+          </Grid>
+        </StackPanel>
+      </ui:CardControl.Header>
+    </ui:CardControl>
+
+    <ui:CardControl Margin="0,8,0,0" Focusable="False">
+      <ui:CardControl.Header>
+        <StackPanel>
+          <TextBlock FontSize="13" FontWeight="SemiBold" Text="{resources:Loc Ui_ModGen_ImagesFilter}" />
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock FontSize="13" Text="{resources:Loc Ui_EmoteMgr_CenterImage}" />
+              <TextBlock x:Name="CenterImageText" FontSize="11.5" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_ModGen_NoImageChosen}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+              <ui:Button x:Name="ClearCenterButton" Margin="0,0,8,0" Content="{resources:Loc Ui_Mods_Remove}" Icon="Delete24" Appearance="Secondary" Visibility="Collapsed" Click="ClearImage_Click" />
+              <ui:Button x:Name="ChooseCenterButton" Content="{resources:Loc Ui_Mods_Choose}" Icon="Add24" Appearance="Secondary" Click="ChooseImage_Click" />
+            </StackPanel>
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock FontSize="13" Text="{resources:Loc Ui_Appearance_BackgroundImage}" />
+              <TextBlock x:Name="BackgroundImageText" FontSize="11.5" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_ModGen_NoImageChosen}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+              <ui:Button x:Name="ClearBackgroundButton" Margin="0,0,8,0" Content="{resources:Loc Ui_Mods_Remove}" Icon="Delete24" Appearance="Secondary" Visibility="Collapsed" Click="ClearImage_Click" />
+              <ui:Button x:Name="ChooseBackgroundButton" Content="{resources:Loc Ui_Mods_Choose}" Icon="Add24" Appearance="Secondary" Click="ChooseImage_Click" />
+            </StackPanel>
+          </Grid>
+          <Grid Margin="0,14,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_AdjustImage}" />
+            <ComboBox x:Name="TargetPicker" Grid.Column="1" MinWidth="180" SelectedIndex="0" SelectionChanged="Target_Changed">
+              <ComboBoxItem Content="{resources:Loc Ui_EmoteMgr_CenterImage}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Appearance_BackgroundImage}" />
+            </ComboBox>
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_Mods_Size}" />
+            <Slider x:Name="SizeSlider" Grid.Column="1" Margin="10,0" Minimum="10" Maximum="500" Value="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="Slider_Changed" />
+            <TextBlock x:Name="SizeSliderText" Grid.Column="2" MinWidth="44" VerticalAlignment="Center" TextAlignment="Right" Text="100%" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Accounts_Avatar_Rotation}" />
+            <Slider x:Name="RotationSlider" Grid.Column="1" Margin="10,0" Minimum="-180" Maximum="180" Value="0" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="Slider_Changed" />
+            <TextBlock x:Name="RotationSliderText" Grid.Column="2" MinWidth="44" VerticalAlignment="Center" TextAlignment="Right" Text="0°" />
+          </Grid>
+          <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_Keystrokes_Editor_ImageOpacity}" />
+            <Slider x:Name="ImageOpacitySlider" Grid.Column="1" Margin="10,0" Minimum="0" Maximum="100" Value="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="Slider_Changed" />
+            <TextBlock x:Name="ImageOpacitySliderText" Grid.Column="2" MinWidth="44" VerticalAlignment="Center" TextAlignment="Right" Text="100%" />
+          </Grid>
+          <ui:Button Margin="0,10,0,0" Content="{resources:Loc Ui_Misc2_ResetImage}" Icon="ArrowReset24" Appearance="Secondary" Click="ResetPosition_Click" />
+        </StackPanel>
+      </ui:CardControl.Header>
+    </ui:CardControl>
+
+    <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+      <HeaderedContentControl.Header>
+        <TextBlock FontSize="14" Text="{resources:Loc Ui_ModGen_MoreOptions}" />
+      </HeaderedContentControl.Header>
+      <StackPanel Margin="0,-10,0,0">
+        <Grid Margin="0,10,0,0" ToolTip="{resources:Loc Ui_EmoteMgr_RecolorEditorHelp}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_RecolorEditor}" />
+          <ui:ToggleSwitch x:Name="EditorToggle" Grid.Column="1" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,10,0,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_RecolorIcons}" />
+          <ui:ToggleSwitch x:Name="IconsToggle" Grid.Column="1" VerticalAlignment="Center" Checked="Input_Changed" Unchecked="Input_Changed" />
+        </Grid>
+        <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="170" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_EmoteMgr_IconColour}" />
+            <Border x:Name="IconSwatch" Grid.Column="1" Width="30" Height="30" Margin="10,0,8,0" Style="{StaticResource ColorSwatch}" Tag="{Binding ElementName=IconBox}" MouseLeftButtonDown="Swatch_Click" />
+            <ui:TextBox x:Name="IconBox" Grid.Column="2" PlaceholderText="#4FA8FF" TextChanged="Input_Changed" />
+          </Grid>
+      </StackPanel>
+    </ui:CardExpander>
+
+    <WrapPanel Margin="0,8,0,0">
+      <ui:Button x:Name="RandomizeButton" Margin="0,0,8,8" Content="{resources:Loc Ui_ModGen_Randomize}" Icon="ArrowShuffle24" Appearance="Secondary" Click="Randomize_Click" />
+      <ui:Button x:Name="ResetButton" Margin="0,0,8,8" Content="{resources:Loc Ui_ModGen_Reset}" Icon="ArrowReset24" Appearance="Secondary" Click="Reset_Click" />
+      <ui:Button x:Name="RemoveButton" Margin="0,0,8,8" Content="{resources:Loc Ui_Mods_RemoveMod}" Icon="Delete24" Appearance="Secondary" Visibility="Collapsed" Click="Remove_Click" />
+    </WrapPanel>
+
+    <ui:CardControl Margin="0,0,0,0" Focusable="False" ui:RinControlMotion.Enabled="True">
+      <ui:CardControl.Header>
+        <StackPanel Margin="0,0,12,0">
+          <ui:TextBox x:Name="ModNameBox" PlaceholderText="{resources:Loc Ui_EmoteMgr_ModName}" />
+          <TextBlock x:Name="StatusText" Margin="2,8,0,0" FontSize="12.5" TextWrapping="Wrap" Text="{resources:Loc Ui_ModGen_ReadyToGenerate}" />
+          <ProgressBar x:Name="GenerateProgress" Margin="0,8,0,0" Height="4" Minimum="0" Maximum="1" Visibility="Collapsed" />
+        </StackPanel>
+      </ui:CardControl.Header>
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <ui:Button x:Name="CancelButton" Margin="0,0,8,0" Content="{resources:Loc Common_Cancel}" Icon="Dismiss24" Appearance="Secondary" Visibility="Collapsed" Click="Cancel_Click" />
+        <ui:Button x:Name="GenerateButton" Content="{resources:Loc Ui_ModGen_GenerateMod}" Icon="Wand24" Appearance="Primary" Background="{DynamicResource SystemAccentColorSecondaryBrush}" Click="Generate_Click" />
+      </StackPanel>
+    </ui:CardControl>
+  </StackPanel>
+</UserControl>

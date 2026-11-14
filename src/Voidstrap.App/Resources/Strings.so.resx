@@ -10019,4 +10019,73 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Heesaha</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Maamulaha Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Bedel midabka giraangiraha emote, ku dar sawiradaada oo dhaqaaji</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Wuxuu bedelaa muuqaalka giraangiraha emote ee Roblox cabbir kasta oo Roblox isticmaalo, wuxuuna dib isu dhisaa ka dib cusboonaysiinta Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Jiid horudhaca si aad u dhaqaajiso sawirka la doortay, oo rogrog si aad u bedesho cabbirkiisa.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Bartame</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Dhammaadka gradient-ka bartamaha (ikhtiyaari)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Xariiqyo</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Qaybta la doortay</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Dhammaadka gradient-ka qaybta la doortay (ikhtiyaari)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Calaamadda doorashada</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Mugdiga asalka</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Mugdiga giraangiraha</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Sawirka bartamaha</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Sawirka la hagaajinayo</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Sidoo kale bedel giraangiraha tifaftiraha emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Sidoo kale wuxuu bedelaa giraangiraha la muujiyo marka emote laga doorto tifaftiraha avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Bedel midabka badhamada emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Midabka badhanka</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Magaca mod (Giraangiraha emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Waxaa la bedelayaa muuqaalka dharka emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Waxaa la bedelay {0} dharka emote. Wuxuu dib isu dhisaa marka Roblox la cusboonaysiiyo.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Mod-ka emote waa la saaray.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Lama helin dhar emote ah. Hal mar fur Roblox, kadibna isku day mar kale.</value>
+  </data>
 </root>

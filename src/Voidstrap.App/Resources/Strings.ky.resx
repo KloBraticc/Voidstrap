@@ -10019,4 +10019,73 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Тректер</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Эмоциялар менеджери</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Эмоциялар дөңгөлөгүнүн түсүн өзгөртүңүз, өз сүрөттөрүңүздү кошуп, аларды жылдырыңыз</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox эмоциялар дөңгөлөгүнүн көрүнүшүн Roblox колдонгон бардык өлчөмдөрдө өзгөртөт жана Roblox жаңыртуулардан кийин өзүн кайра курат.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Тандалган сүрөттү жылдыруу үчүн алдын ала көрүүнү сүйрөңүз, өлчөмүн өзгөртүү үчүн айлантыңыз.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Борбор</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Борбор градиентинин аягы (милдеттүү эмес)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Сызыктар</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Тандалган сектор</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Тандалган сектордун градиентинин аягы (милдеттүү эмес)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Тандоо белгиси</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Фондун тунук эместиги</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Дөңгөлөктүн тунук эместиги</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Борбордогу сүрөт</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Жөндөлүүчү сүрөт</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Эмоциялар редакторунун дөңгөлөгүн да өзгөртүү</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Аватар редакторунда эмоция тандаганда көрсөтүлгөн дөңгөлөктү да өзгөртөт.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Эмоция баскычтарынын түсүн өзгөртүү</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Баскычтардын түсү</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Мод аты (Эмоциялар дөңгөлөгү)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Эмоция текстуралары өзгөртүлүүдө...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} эмоция текстурасы өзгөртүлдү. Roblox жаңырганда өзүн кайра курат.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Эмоциялар моду өчүрүлдү.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Эмоция текстуралары табылган жок. Roblox'ту бир жолу иштетип, кайра аракет кылыңыз.</value>
+  </data>
 </root>

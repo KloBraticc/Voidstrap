@@ -10019,4 +10019,73 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Թրեքներ</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Էմոցիաների կառավարիչ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Վերաներկեք էմոցիաների անիվը, ավելացրեք ձեր նկարները և տեղափոխեք դրանք</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Փոխում է Roblox-ի էմոցիաների անիվի տեսքը Roblox-ի օգտագործած բոլոր չափերում և Roblox-ի թարմացումներից հետո ինքն իրեն վերակառուցում է։</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Քաշեք նախադիտումը՝ ընտրված նկարը տեղափոխելու համար, և ոլորեք՝ չափը փոխելու համար։</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Կենտրոն</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Կենտրոնի գրադիենտի վերջ (ըստ ցանկության)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Գծեր</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Ընտրված հատված</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Ընտրված հատվածի գրադիենտի վերջ (ըստ ցանկության)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Ընտրության նշիչ</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Ֆոնի անթափանցություն</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Անիվի անթափանցություն</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Կենտրոնի նկար</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Կարգավորվող նկար</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Փոխել նաև էմոցիաների խմբագրիչի անիվը</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Փոխում է նաև այն անիվը, որը ցուցադրվում է ավատարի խմբագրիչում էմոցիաներ ընտրելիս։</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Վերաներկել էմոցիաների կոճակները</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Կոճակների գույն</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Մոդի անուն (Էմոցիաների անիվ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Էմոցիաների տեքստուրաները փոխվում են...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Փոխվել է {0} էմոցիայի տեքստուրա։ Այն ինքն իրեն վերակառուցում է Roblox-ի թարմացման ժամանակ։</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Էմոցիաների մոդը հեռացվեց։</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Էմոցիաների տեքստուրաներ չգտնվեցին։ Մեկ անգամ գործարկեք Roblox-ը, ապա նորից փորձեք։</value>
+  </data>
 </root>

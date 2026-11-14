@@ -10018,4 +10018,73 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Treklar</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emotlar menejeri</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Emot g'ildiragining rangini o'zgartiring, o'z rasmlaringizni qo'shing va ularni siljiting</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox emot g'ildiragining ko'rinishini Roblox ishlatadigan barcha o'lchamlarda o'zgartiradi va Roblox yangilanishlaridan keyin o'zini qayta quradi.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Tanlangan rasmni siljitish uchun oldindan ko'rishni torting, o'lchamini o'zgartirish uchun aylantiring.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Markaz</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Markaz gradientining oxiri (ixtiyoriy)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Chiziqlar</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Tanlangan bo'lak</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Tanlangan bo'lak gradientining oxiri (ixtiyoriy)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Tanlov belgisi</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Fonning shaffof emasligi</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>G'ildirakning shaffof emasligi</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Markazdagi rasm</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Sozlanadigan rasm</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Emot muharriri g'ildiragini ham o'zgartirish</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Avatar muharririda emot tanlashda ko'rsatiladigan g'ildirakni ham o'zgartiradi.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Emot tugmalarining rangini o'zgartirish</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Tugmalar rangi</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Mod nomi (Emot g'ildiragi)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Emot teksturalari o'zgartirilmoqda...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} ta emot teksturasi o'zgartirildi. Roblox yangilanganda o'zini qayta quradi.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Emot modi olib tashlandi.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Hech qanday emot teksturasi topilmadi. Roblox'ni bir marta ishga tushiring, so'ng qayta urinib ko'ring.</value>
+  </data>
 </root>

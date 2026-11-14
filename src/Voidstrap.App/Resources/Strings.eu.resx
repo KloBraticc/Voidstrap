@@ -10018,4 +10018,73 @@ SteamVR instalatu orain?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Pistak</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emote kudeatzailea</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Aldatu emote gurpilaren kolorea, gehitu zure irudiak eta mugitu itzazu</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox emote gurpilaren itxura aldatzen du Robloxek erabiltzen dituen tamaina guztietan, eta bere burua berreraikitzen du Roblox eguneratu ondoren.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Arrastatu aurrebista hautatutako irudia mugitzeko, eta korritu tamaina aldatzeko.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Erdigunea</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Erdiguneko gradientearen amaiera (aukerakoa)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Lerroak</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Hautatutako zatia</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Hautatutako zatiaren gradientearen amaiera (aukerakoa)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Hautapen marka</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Atzeko planoaren opakutasuna</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Gurpilaren opakutasuna</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Erdiko irudia</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Doitu beharreko irudia</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Aldatu emote editorearen gurpila ere</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Abatar editorean emoteak aukeratzean agertzen den gurpilari ere aplikatzen zaio.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Aldatu emote botoien kolorea</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Botoien kolorea</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Modaren izena (Emote gurpila)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Emote testurak aldatzen...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} emote testura aldatu dira. Roblox eguneratzean bere burua berreraikitzen du.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Emote moda kendu da.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Ez da emote testurarik aurkitu. Abiarazi Roblox behin eta saiatu berriro.</value>
+  </data>
 </root>

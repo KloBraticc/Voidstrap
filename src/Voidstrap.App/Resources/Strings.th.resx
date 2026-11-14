@@ -10326,4 +10326,73 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>แทร็ก</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ตัวจัดการอีโมต</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>เปลี่ยนสีวงล้ออีโมต เพิ่มรูปภาพของคุณเอง และย้ายตำแหน่งได้</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>ปรับรูปแบบวงล้ออีโมตของ Roblox ในทุกขนาดที่ Roblox ใช้ และสร้างตัวเองใหม่หลังจาก Roblox อัปเดต</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>ลากตัวอย่างเพื่อย้ายรูปที่เลือก และเลื่อนเพื่อปรับขนาด</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>ตรงกลาง</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>สีปลายไล่ระดับตรงกลาง (ไม่บังคับ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>เส้น</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>ส่วนที่เลือก</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>สีปลายไล่ระดับของส่วนที่เลือก (ไม่บังคับ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>เครื่องหมายการเลือก</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>ความทึบของพื้นหลัง</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>ความทึบของวงล้อ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>รูปตรงกลาง</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>รูปที่จะปรับ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ปรับรูปแบบวงล้อในตัวแก้ไขอีโมตด้วย</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>ใช้กับวงล้อที่แสดงขณะเลือกอีโมตในตัวแก้ไขอวตารด้วย</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>เปลี่ยนสีปุ่มอีโมต</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>สีปุ่ม</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>ชื่อม็อด (วงล้ออีโมต)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>กำลังปรับรูปแบบพื้นผิวอีโมต...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>ปรับรูปแบบพื้นผิวอีโมตแล้ว {0} รายการ ม็อดจะสร้างตัวเองใหม่เมื่อ Roblox อัปเดต</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ลบม็อดอีโมตแล้ว</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>ไม่พบพื้นผิวอีโมต เปิด Roblox หนึ่งครั้ง แล้วลองอีกครั้ง</value>
+  </data>
 </root>

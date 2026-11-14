@@ -10019,4 +10019,73 @@ Uptime: {1}
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ტრეკები</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ემოციების მენეჯერი</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>შეცვალეთ ემოციების ბორბლის ფერი, დაამატეთ საკუთარი სურათები და გადააადგილეთ ისინი</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>ცვლის Roblox-ის ემოციების ბორბლის სტილს ყველა ზომაში, რომელსაც Roblox იყენებს, და Roblox-ის განახლებების შემდეგ თავად აიგება ხელახლა.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>გადაათრიეთ გადახედვა არჩეული სურათის გადასაადგილებლად და გადაახვიეთ ზომის შესაცვლელად.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>ცენტრი</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>ცენტრის გრადიენტის დასასრული (არასავალდებულო)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>ხაზები</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>არჩეული სექტორი</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>არჩეული სექტორის გრადიენტის დასასრული (არასავალდებულო)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>არჩევის მარკერი</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>ფონის გაუმჭვირვალობა</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>ბორბლის გაუმჭვირვალობა</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>სურათი ცენტრში</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>დასარეგულირებელი სურათი</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ემოციების რედაქტორის ბორბლის შეცვლაც</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>ასევე ცვლის ბორბალს, რომელიც ჩანს ავატარის რედაქტორში ემოციების არჩევისას.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ემოციების ღილაკების ფერის შეცვლა</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>ღილაკების ფერი</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>მოდის სახელი (ემოციების ბორბალი)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ემოციების ტექსტურების სტილი იცვლება...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>შეიცვალა {0} ემოციის ტექსტურა. Roblox-ის განახლებისას თავად აიგება ხელახლა.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ემოციების მოდი წაიშალა.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>ემოციების ტექსტურები ვერ მოიძებნა. ერთხელ გაუშვით Roblox და კვლავ სცადეთ.</value>
+  </data>
 </root>

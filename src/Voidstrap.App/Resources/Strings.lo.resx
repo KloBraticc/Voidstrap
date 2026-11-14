@@ -10019,4 +10019,73 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ເພງ</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ຕົວຈັດການ Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ປ່ຽນສີວົງລໍ້ emote, ເພີ່ມຮູບຂອງທ່ານເອງ ແລະ ຍ້າຍມັນໄປມາ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>ປັບຮູບແບບວົງລໍ້ emote ຂອງ Roblox ໃນທຸກຂະໜາດທີ່ Roblox ໃຊ້ ແລະ ສ້າງຕົວເອງຄືນໃໝ່ຫຼັງຈາກ Roblox ອັບເດດ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>ລາກຕົວຢ່າງເພື່ອຍ້າຍຮູບທີ່ເລືອກ ແລະ ເລື່ອນເພື່ອປ່ຽນຂະໜາດ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>ກາງ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>ສີປາຍໄລ່ລະດັບກາງ (ບໍ່ບັງຄັບ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>ເສັ້ນ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>ສ່ວນທີ່ເລືອກ</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>ສີປາຍໄລ່ລະດັບຂອງສ່ວນທີ່ເລືອກ (ບໍ່ບັງຄັບ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>ເຄື່ອງໝາຍການເລືອກ</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>ຄວາມທຶບຂອງພື້ນຫຼັງ</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>ຄວາມທຶບຂອງວົງລໍ້</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>ຮູບກາງ</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>ຮູບທີ່ຈະປັບ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ປັບຮູບແບບວົງລໍ້ໃນຕົວແກ້ໄຂ emote ນຳ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>ໃຊ້ກັບວົງລໍ້ທີ່ສະແດງຂະນະເລືອກ emote ໃນຕົວແກ້ໄຂ avatar ນຳ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ປ່ຽນສີປຸ່ມ emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>ສີປຸ່ມ</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>ຊື່ mod (ວົງລໍ້ emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ກຳລັງປັບຮູບແບບພື້ນຜິວ emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>ປັບຮູບແບບພື້ນຜິວ emote ແລ້ວ {0} ລາຍການ. ມັນສ້າງຕົວເອງຄືນໃໝ່ເມື່ອ Roblox ອັບເດດ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ລຶບ mod emote ແລ້ວ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>ບໍ່ພົບພື້ນຜິວ emote. ເປີດ Roblox ໜຶ່ງເທື່ອ ແລ້ວລອງໃໝ່.</value>
+  </data>
 </root>

@@ -10019,4 +10019,73 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ટ્રેક</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ઇમોટ મેનેજર</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ઇમોટ વ્હીલનો રંગ બદલો, તમારી પોતાની છબીઓ ઉમેરો અને તેમને ખસેડો</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox જે દરેક કદ વાપરે છે તેમાં Roblox ઇમોટ વ્હીલનો દેખાવ બદલે છે અને Roblox અપડેટ પછી પોતાને ફરીથી બનાવે છે.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>પસંદ કરેલી છબી ખસેડવા પ્રિવ્યૂ ખેંચો અને તેનું કદ બદલવા સ્ક્રોલ કરો.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>મધ્ય ભાગ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>મધ્ય ગ્રેડિયન્ટનો અંતિમ રંગ (વૈકલ્પિક)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>રેખાઓ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>પસંદ કરેલો ભાગ</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>પસંદ કરેલા ભાગના ગ્રેડિયન્ટનો અંતિમ રંગ (વૈકલ્પિક)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>પસંદગી ચિહ્ન</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>બેકગ્રાઉન્ડની અપારદર્શિતા</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>વ્હીલની અપારદર્શિતા</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>મધ્યની છબી</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>ગોઠવવાની છબી</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ઇમોટ એડિટરનું વ્હીલ પણ બદલો</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>અવતાર એડિટરમાં ઇમોટ પસંદ કરતી વખતે દેખાતા વ્હીલ પર પણ લાગુ થાય છે.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ઇમોટ બટનોનો રંગ બદલો</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>બટનનો રંગ</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>મોડનું નામ (ઇમોટ વ્હીલ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ઇમોટ ટેક્સચરનો દેખાવ બદલાઈ રહ્યો છે...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} ઇમોટ ટેક્સચરનો દેખાવ બદલાયો. Roblox અપડેટ થાય ત્યારે તે પોતાને ફરીથી બનાવે છે.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ઇમોટ મોડ દૂર કરવામાં આવ્યો.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>કોઈ ઇમોટ ટેક્સચર મળ્યું નથી. Roblox એક વાર શરૂ કરો, પછી ફરી પ્રયાસ કરો.</value>
+  </data>
 </root>

@@ -10019,4 +10019,73 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ട്രാക്കുകൾ</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ഇമോട്ട് മാനേജർ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ഇമോട്ട് വീലിന്റെ നിറം മാറ്റുക, നിങ്ങളുടെ ചിത്രങ്ങൾ ചേർക്കുക, അവ നീക്കുക</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox ഉപയോഗിക്കുന്ന എല്ലാ വലുപ്പങ്ങളിലും Roblox ഇമോട്ട് വീലിന്റെ രൂപം മാറ്റുകയും Roblox അപ്ഡേറ്റുകൾക്ക് ശേഷം സ്വയം വീണ്ടും നിർമ്മിക്കുകയും ചെയ്യുന്നു.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>തിരഞ്ഞെടുത്ത ചിത്രം നീക്കാൻ പ്രിവ്യൂ വലിക്കുക, വലുപ്പം മാറ്റാൻ സ്ക്രോൾ ചെയ്യുക.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>മധ്യഭാഗം</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>മധ്യഭാഗ ഗ്രേഡിയന്റിന്റെ അവസാന നിറം (ഓപ്ഷണൽ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>വരകൾ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>തിരഞ്ഞെടുത്ത ഭാഗം</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>തിരഞ്ഞെടുത്ത ഭാഗത്തിന്റെ ഗ്രേഡിയന്റിന്റെ അവസാന നിറം (ഓപ്ഷണൽ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>തിരഞ്ഞെടുപ്പ് അടയാളം</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>പശ്ചാത്തല അതാര്യത</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>വീൽ അതാര്യത</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>മധ്യഭാഗത്തെ ചിത്രം</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>ക്രമീകരിക്കേണ്ട ചിത്രം</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ഇമോട്ട് എഡിറ്ററിലെ വീലും മാറ്റുക</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>അവതാർ എഡിറ്ററിൽ ഇമോട്ട് തിരഞ്ഞെടുക്കുമ്പോൾ കാണിക്കുന്ന വീലിനും ബാധകമാക്കുന്നു.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ഇമോട്ട് ബട്ടണുകളുടെ നിറം മാറ്റുക</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>ബട്ടൺ നിറം</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>മോഡിന്റെ പേര് (ഇമോട്ട് വീൽ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ഇമോട്ട് ടെക്സ്ചറുകളുടെ രൂപം മാറ്റുന്നു...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} ഇമോട്ട് ടെക്സ്ചറുകളുടെ രൂപം മാറ്റി. Roblox അപ്ഡേറ്റ് ആകുമ്പോൾ ഇത് സ്വയം വീണ്ടും നിർമ്മിക്കുന്നു.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ഇമോട്ട് മോഡ് നീക്കം ചെയ്തു.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>ഇമോട്ട് ടെക്സ്ചറുകളൊന്നും കണ്ടെത്തിയില്ല. Roblox ഒരിക്കൽ തുറന്നശേഷം വീണ്ടും ശ്രമിക്കുക.</value>
+  </data>
 </root>

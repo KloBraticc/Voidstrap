@@ -10019,4 +10019,73 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Egwu</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Onye njikwa Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Gbanwee agba wiil emote, tinye foto nke gị ma bugharịa ha</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Na-agbanwe ụdị wiil emote nke Roblox n'ogo ọ bụla Roblox na-eji ma na-ewughachi onwe ya mgbe Roblox melitere.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Dọrọ nlele ahụ iji bugharịa foto ahọpụtara ma pịgharịa iji gbanwee nha ya.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Etiti</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Njedebe gradient etiti (nhọrọ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Ahịrị</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Akụkụ ahọpụtara</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Njedebe gradient akụkụ ahọpụtara (nhọrọ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Akara nhọrọ</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Opacity azụ</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Opacity wiil</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Foto etiti</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Foto a ga-edozi</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Gbanwekwaa wiil nke onye ndezi emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Na-agbanwekwa wiil na-egosi mgbe ị na-ahọrọ emote n'ime onye ndezi avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Gbanwee agba bọtịnụ emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Agba bọtịnụ</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Aha mod (Wiil emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Na-agbanwe ụdị tekstị emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Agbanweela ụdị tekstị emote {0}. Ọ na-ewughachi onwe ya mgbe Roblox melitere.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Ewepụla mod emote.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Ahụghị tekstị emote ọ bụla. Malite Roblox otu ugboro, wee nwaa ọzọ.</value>
+  </data>
 </root>

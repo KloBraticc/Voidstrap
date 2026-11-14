@@ -10018,4 +10018,73 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>သီချင်းများ</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emote စီမံခန့်ခွဲသူ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>emote ဘီး၏ အရောင်ပြောင်းပါ၊ ကိုယ်ပိုင်ပုံများထည့်ပြီး ရွှေ့ပါ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox သုံးသော အရွယ်အစားတိုင်းတွင် Roblox emote ဘီး၏ ပုံစံကို ပြောင်းပြီး Roblox အပ်ဒိတ်များပြီးနောက် ကိုယ်တိုင် ပြန်တည်ဆောက်သည်။</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>ရွေးထားသောပုံကို ရွှေ့ရန် အစမ်းကြည့်ကို ဆွဲပြီး အရွယ်အစားပြောင်းရန် လှိမ့်ပါ။</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>အလယ်</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>အလယ် gradient အဆုံးရောင် (ရွေးချယ်နိုင်)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>မျဉ်းများ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>ရွေးထားသော အပိုင်း</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>ရွေးထားသော အပိုင်း၏ gradient အဆုံးရောင် (ရွေးချယ်နိုင်)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>ရွေးချယ်မှု အမှတ်အသား</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>နောက်ခံ အလင်းမပေါက်မှု</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>ဘီး အလင်းမပေါက်မှု</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>အလယ်ပုံ</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>ချိန်ညှိမည့်ပုံ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>emote တည်းဖြတ်ကိရိယာ၏ ဘီးကိုလည်း ပြောင်းရန်</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>avatar တည်းဖြတ်ကိရိယာတွင် emote ရွေးစဉ် ပြသသော ဘီးကိုလည်း ပြောင်းသည်။</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>emote ခလုတ်များ၏ အရောင်ပြောင်းရန်</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>ခလုတ်အရောင်</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>mod အမည် (Emote ဘီး)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>emote texture များ၏ ပုံစံကို ပြောင်းနေသည်...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>emote texture {0} ခု၏ ပုံစံကို ပြောင်းပြီးပါပြီ။ Roblox အပ်ဒိတ်ဖြစ်သောအခါ ကိုယ်တိုင် ပြန်တည်ဆောက်သည်။</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>emote mod ကို ဖယ်ရှားပြီးပါပြီ။</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>emote texture မတွေ့ပါ။ Roblox ကို တစ်ကြိမ်ဖွင့်ပြီး ထပ်စမ်းကြည့်ပါ။</value>
+  </data>
 </root>

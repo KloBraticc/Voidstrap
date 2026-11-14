@@ -10019,4 +10019,73 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ټرېکونه</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>د ایموټ مدیر</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>د ایموټ څرخ رنګ بدل کړئ، خپل انځورونه ورزیات کړئ او ځای یې بدل کړئ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>د Roblox ایموټ څرخ په هر هغه اندازه کې چې Roblox یې کاروي بڼه بدلوي او د Roblox له تازه کولو وروسته ځان بیا جوړوي.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>د ټاکل شوي انځور د خوځولو لپاره مخکتنه کش کړئ او د اندازې بدلولو لپاره سکرول وکړئ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>منځ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>د منځ ګرېډینټ پای رنګ (اختیاري)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>کرښې</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>ټاکل شوې برخه</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>د ټاکل شوې برخې ګرېډینټ پای رنګ (اختیاري)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>د ټاکنې نښه</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>د شالید ناروڼتیا</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>د څرخ ناروڼتیا</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>د منځ انځور</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>د سمولو انځور</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>د ایموټ اېډیټر څرخ هم بدل کړه</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>هغه څرخ هم بدلوي چې د اواتار اېډیټر کې د ایموټ ټاکلو پر مهال ښودل کېږي.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>د ایموټ تڼیو رنګ بدل کړه</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>د تڼۍ رنګ</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>د موډ نوم (د ایموټ څرخ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>د ایموټ بافتونو بڼه بدلېږي...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>د {0} ایموټ بافتونو بڼه بدله شوه. کله چې Roblox تازه شي ځان بیا جوړوي.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>د ایموټ موډ لرې شو.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>هېڅ ایموټ بافت ونه موندل شو. Roblox یو ځل پیل کړئ، بیا یې بیا هڅه وکړئ.</value>
+  </data>
 </root>

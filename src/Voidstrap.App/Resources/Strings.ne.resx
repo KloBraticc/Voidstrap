@@ -10019,4 +10019,73 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ट्र्याकहरू</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>इमोट व्यवस्थापक</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>इमोट ह्वीलको रङ बदल्नुहोस्, आफ्नै तस्बिरहरू थप्नुहोस् र तिनलाई सार्नुहोस्</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox ले प्रयोग गर्ने हरेक आकारमा Roblox इमोट ह्वीलको रूप बदल्छ र Roblox अपडेटपछि आफैंलाई फेरि बनाउँछ।</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>छानिएको तस्बिर सार्न पूर्वावलोकन तान्नुहोस् र आकार बदल्न स्क्रोल गर्नुहोस्।</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>बीच भाग</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>बीचको ग्रेडियन्टको अन्तिम रङ (वैकल्पिक)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>रेखाहरू</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>छानिएको भाग</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>छानिएको भागको ग्रेडियन्टको अन्तिम रङ (वैकल्पिक)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>छनोट चिन्ह</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>पृष्ठभूमिको अपारदर्शिता</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>ह्वीलको अपारदर्शिता</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>बीचको तस्बिर</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>मिलाउने तस्बिर</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>इमोट सम्पादकको ह्वील पनि बदल्नुहोस्</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>अवतार सम्पादकमा इमोट छान्दा देखिने ह्वीलमा पनि लागू हुन्छ।</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>इमोट बटनहरूको रङ बदल्नुहोस्</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>बटनको रङ</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>मोडको नाम (इमोट ह्वील)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>इमोट टेक्स्चरको रूप बदलिँदै छ...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} इमोट टेक्स्चरको रूप बदलियो। Roblox अपडेट हुँदा यो आफैंलाई फेरि बनाउँछ।</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>इमोट मोड हटाइयो।</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>कुनै इमोट टेक्स्चर भेटिएन। Roblox एक पटक चलाउनुहोस्, अनि फेरि प्रयास गर्नुहोस्।</value>
+  </data>
 </root>

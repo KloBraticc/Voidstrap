@@ -10018,4 +10018,73 @@ Uptime: {1}
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ناخشىلار</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ئىموت باشقۇرغۇچ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ئىموت چاقىنىڭ رەڭگىنى ئۆزگەرتىڭ، ئۆزىڭىزنىڭ رەسىملىرىنى قوشۇڭ ۋە ئۇلارنى يۆتكەڭ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox ئىشلىتىدىغان ھەممە چوڭلۇقتا Roblox ئىموت چاقىنىڭ كۆرۈنۈشىنى ئۆزگەرتىدۇ ۋە Roblox يېڭىلانغاندىن كېيىن ئۆزىنى قايتا قۇرىدۇ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>تاللانغان رەسىمنى يۆتكەش ئۈچۈن ئالدىن كۆرۈشنى سۆرەڭ، چوڭلۇقىنى ئۆزگەرتىش ئۈچۈن دومىلىتىڭ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>ئوتتۇرا</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>ئوتتۇرا رەڭ ئۆتۈشۈشىنىڭ ئاخىرى (ئىختىيارى)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>سىزىقلار</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>تاللانغان بۆلەك</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>تاللانغان بۆلەك رەڭ ئۆتۈشۈشىنىڭ ئاخىرى (ئىختىيارى)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>تاللاش بەلگىسى</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>تەگلىكنىڭ سۈزۈك ئەمەسلىكى</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>چاقنىڭ سۈزۈك ئەمەسلىكى</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>ئوتتۇرىدىكى رەسىم</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>تەڭشىلىدىغان رەسىم</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ئىموت تەھرىرلىگۈچنىڭ چاقىنىمۇ ئۆزگەرت</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>ئاۋاتار تەھرىرلىگۈچىدە ئىموت تاللىغاندا كۆرسىتىلىدىغان چاققىمۇ قوللىنىلىدۇ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ئىموت كۇنۇپكىلىرىنىڭ رەڭگىنى ئۆزگەرت</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>كۇنۇپكا رەڭگى</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>مود نامى (ئىموت چاقى)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ئىموت ماتېرىياللىرىنىڭ كۆرۈنۈشى ئۆزگەرتىلىۋاتىدۇ...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} ئىموت ماتېرىيالىنىڭ كۆرۈنۈشى ئۆزگەرتىلدى. Roblox يېڭىلانغاندا ئۆزىنى قايتا قۇرىدۇ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ئىموت مودى چىقىرىۋېتىلدى.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>ھېچقانداق ئىموت ماتېرىيالى تېپىلمىدى. Roblox نى بىر قېتىم قوزغىتىپ، قايتا سىناڭ.</value>
+  </data>
 </root>

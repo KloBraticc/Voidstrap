@@ -10019,4 +10019,73 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Celiņi</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emociju pārvaldnieks</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Pārkrāsojiet emociju ratu, pievienojiet savus attēlus un pārvietojiet tos</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Pārveido Roblox emociju rata stilu visos Roblox izmantotajos izmēros un pēc Roblox atjauninājumiem pats sevi pārbūvē.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Velciet priekšskatījumu, lai pārvietotu atlasīto attēlu, un ritiniet, lai mainītu tā izmēru.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Centrs</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Centra krāsu pārejas beigas (pēc izvēles)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Līnijas</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Atlasītais sektors</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Atlasītā sektora krāsu pārejas beigas (pēc izvēles)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Atlases marķieris</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Fona necaurredzamība</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Rata necaurredzamība</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Attēls centrā</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Pielāgojamais attēls</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Pārveidot arī emociju redaktora ratu</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Pārveido arī ratu, kas tiek rādīts, izvēloties emocijas avatāra redaktorā.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Pārkrāsot emociju pogas</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Pogu krāsa</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Moda nosaukums (Emociju rats)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Tiek pārveidotas emociju tekstūras...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Pārveidotas emociju tekstūras: {0}. Kad Roblox tiek atjaunināts, tas pats sevi pārbūvē.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Emociju mods tika noņemts.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Netika atrastas emociju tekstūras. Vienreiz palaidiet Roblox un mēģiniet vēlreiz.</value>
+  </data>
 </root>

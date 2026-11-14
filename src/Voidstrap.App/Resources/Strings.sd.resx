@@ -10019,4 +10019,73 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ٽريڪ</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ايموٽ مئنيجر</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ايموٽ ويل جو رنگ بدلايو، پنهنجون تصويرون شامل ڪريو ۽ انهن کي هلايو</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox جي استعمال ٿيندڙ هر سائيز ۾ Roblox ايموٽ ويل جي شڪل بدلائي ٿو ۽ Roblox اپڊيٽ کان پوءِ پاڻ کي ٻيهر ٺاهي ٿو.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>چونڊيل تصوير هلائڻ لاءِ پريويو ڇڪيو ۽ سائيز بدلائڻ لاءِ اسڪرول ڪريو.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>وچ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>وچ جي گريڊيئنٽ جو آخري رنگ (اختياري)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>ليڪون</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>چونڊيل حصو</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>چونڊيل حصي جي گريڊيئنٽ جو آخري رنگ (اختياري)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>چونڊ جو نشان</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>پس منظر جي غير شفافيت</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>ويل جي غير شفافيت</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>وچ واري تصوير</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>ترتيب ڏيڻ واري تصوير</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ايموٽ ايڊيٽر جو ويل به بدلايو</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>اوتار ايڊيٽر ۾ ايموٽ چونڊڻ وقت ڏيکاريل ويل تي به لاڳو ٿئي ٿو.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ايموٽ بٽڻن جو رنگ بدلايو</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>بٽڻ جو رنگ</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>موڊ جو نالو (ايموٽ ويل)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ايموٽ ٽيڪسچرز جي شڪل بدلجي رهي آهي...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} ايموٽ ٽيڪسچرز جي شڪل بدلجي وئي. Roblox اپڊيٽ ٿيڻ تي اهو پاڻ کي ٻيهر ٺاهي ٿو.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ايموٽ موڊ هٽايو ويو.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>ڪو به ايموٽ ٽيڪسچر نه مليو. Roblox هڪ ڀيرو هلايو، پوءِ ٻيهر ڪوشش ڪريو.</value>
+  </data>
 </root>

@@ -2932,6 +2932,29 @@ namespace Voidstrap.Resources {
         public static string Ui_ModGen_RegenerateMod => ResourceManager.GetString("Ui.ModGen.RegenerateMod", resourceCulture);
 
         public static string Ui_ModGen_EnterHexColour => ResourceManager.GetString("Ui.ModGen.EnterHexColour", resourceCulture);
+        public static string Ui_EmoteMgr_Title => ResourceManager.GetString("Ui.EmoteMgr.Title", resourceCulture);
+        public static string Ui_EmoteMgr_CardDescription => ResourceManager.GetString("Ui.EmoteMgr.CardDescription", resourceCulture);
+        public static string Ui_EmoteMgr_Intro => ResourceManager.GetString("Ui.EmoteMgr.Intro", resourceCulture);
+        public static string Ui_EmoteMgr_DragHint => ResourceManager.GetString("Ui.EmoteMgr.DragHint", resourceCulture);
+        public static string Ui_EmoteMgr_Center => ResourceManager.GetString("Ui.EmoteMgr.Center", resourceCulture);
+        public static string Ui_EmoteMgr_CenterFade => ResourceManager.GetString("Ui.EmoteMgr.CenterFade", resourceCulture);
+        public static string Ui_EmoteMgr_Lines => ResourceManager.GetString("Ui.EmoteMgr.Lines", resourceCulture);
+        public static string Ui_EmoteMgr_Highlight => ResourceManager.GetString("Ui.EmoteMgr.Highlight", resourceCulture);
+        public static string Ui_EmoteMgr_HighlightFade => ResourceManager.GetString("Ui.EmoteMgr.HighlightFade", resourceCulture);
+        public static string Ui_EmoteMgr_Marker => ResourceManager.GetString("Ui.EmoteMgr.Marker", resourceCulture);
+        public static string Ui_EmoteMgr_BackgroundOpacity => ResourceManager.GetString("Ui.EmoteMgr.BackgroundOpacity", resourceCulture);
+        public static string Ui_EmoteMgr_WheelOpacity => ResourceManager.GetString("Ui.EmoteMgr.WheelOpacity", resourceCulture);
+        public static string Ui_EmoteMgr_CenterImage => ResourceManager.GetString("Ui.EmoteMgr.CenterImage", resourceCulture);
+        public static string Ui_EmoteMgr_AdjustImage => ResourceManager.GetString("Ui.EmoteMgr.AdjustImage", resourceCulture);
+        public static string Ui_EmoteMgr_RecolorEditor => ResourceManager.GetString("Ui.EmoteMgr.RecolorEditor", resourceCulture);
+        public static string Ui_EmoteMgr_RecolorEditorHelp => ResourceManager.GetString("Ui.EmoteMgr.RecolorEditorHelp", resourceCulture);
+        public static string Ui_EmoteMgr_RecolorIcons => ResourceManager.GetString("Ui.EmoteMgr.RecolorIcons", resourceCulture);
+        public static string Ui_EmoteMgr_IconColour => ResourceManager.GetString("Ui.EmoteMgr.IconColour", resourceCulture);
+        public static string Ui_EmoteMgr_ModName => ResourceManager.GetString("Ui.EmoteMgr.ModName", resourceCulture);
+        public static string Ui_EmoteMgr_Restyling => ResourceManager.GetString("Ui.EmoteMgr.Restyling", resourceCulture);
+        public static string Ui_EmoteMgr_Generated => ResourceManager.GetString("Ui.EmoteMgr.Generated", resourceCulture);
+        public static string Ui_EmoteMgr_Removed => ResourceManager.GetString("Ui.EmoteMgr.Removed", resourceCulture);
+        public static string Ui_EmoteMgr_NoTextures => ResourceManager.GetString("Ui.EmoteMgr.NoTextures", resourceCulture);
 
         public static string Ui_ModGen_EnterGradientColours => ResourceManager.GetString("Ui.ModGen.EnterGradientColours", resourceCulture);
 

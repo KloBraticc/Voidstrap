@@ -10018,4 +10018,73 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Трэкі</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Менеджар эмоцый</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Змяніце колеры кола эмоцый, дадайце свае выявы і перамяшчайце іх</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Мяняе выгляд кола эмоцый Roblox ва ўсіх памерах, якія выкарыстоўвае Roblox, і сам перабудоўваецца пасля абнаўленняў Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Перацягніце папярэдні прагляд, каб перамясціць выбраную выяву, і пракруціце, каб змяніць яе памер.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Цэнтр</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Канец градыента цэнтра (неабавязкова)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Лініі</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Выбраны сектар</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Канец градыента выбранага сектара (неабавязкова)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Маркер выбару</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Непразрыстасць фону</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Непразрыстасць кола</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Выява ў цэнтры</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Выява для наладжвання</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Змяніць таксама кола ў рэдактары эмоцый</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Таксама мяняе кола, якое паказваецца пры выбары эмоцый у рэдактары аватара.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Перафарбаваць кнопкі эмоцый</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Колер кнопак</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Назва мода (Кола эмоцый)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Абнаўленне тэкстур эмоцый...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Абноўлена тэкстур эмоцый: {0}. Мод сам перабудоўваецца пры абнаўленні Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Мод эмоцый выдалены.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Тэкстуры эмоцый не знойдзены. Запусціце Roblox адзін раз і паспрабуйце зноў.</value>
+  </data>
 </root>

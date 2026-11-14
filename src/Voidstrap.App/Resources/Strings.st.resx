@@ -10018,4 +10018,73 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Dipina</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Mookameli wa Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Fetola mmala wa lebidi la emote, eketsa ditshwantsho tsa hao mme o di tsamaise</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>E fetola sebopeho sa lebidi la emote la Roblox ka boholo bo bong le bo bong boo Roblox e bo sebedisang mme e ikaha bocha kamora dintlafatso tsa Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Hula ponelopele ho tsamaisa setshwantsho se kgethilweng mme o phetle ho fetola boholo ba sona.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Bohareng</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Qetello ya gradient ya bohareng (ka boikgethelo)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Mela</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Karolo e kgethilweng</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Qetello ya gradient ya karolo e kgethilweng (ka boikgethelo)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Letshwao la kgetho</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Ho se bonahale ha bokamorao</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Ho se bonahale ha lebidi</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Setshwantsho sa bohareng</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Setshwantsho se lokelang ho lokiswa</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Fetola le lebidi la sehlophisi sa emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>E boetse e fetola lebidi le bontshwang ha o kgetha di emote sehlophising sa avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Fetola mmala wa dikonopo tsa emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Mmala wa dikonopo</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Lebitso la mod (Lebidi la emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Ho fetolwa sebopeho sa dithekesetjha tsa emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Dithekesetjha tsa emote tse {0} di fetotswe. E ikaha bocha ha Roblox e ntlafatswa.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Mod ya emote e tlositswe.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Ha ho dithekesetjha tsa emote tse fumanweng. Bula Roblox hang, ebe o leka hape.</value>
+  </data>
 </root>

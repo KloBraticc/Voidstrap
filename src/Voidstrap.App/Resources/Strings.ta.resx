@@ -10018,4 +10018,73 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>டிராக்குகள்</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>எமோட் மேலாளர்</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>எமோட் சக்கரத்தின் நிறத்தை மாற்றி, உங்கள் சொந்தப் படங்களைச் சேர்த்து அவற்றை நகர்த்துங்கள்</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox பயன்படுத்தும் ஒவ்வொரு அளவிலும் Roblox எமோட் சக்கரத்தின் தோற்றத்தை மாற்றி, Roblox புதுப்பிப்புகளுக்குப் பிறகு தன்னைத் தானே மீண்டும் உருவாக்கும்.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>தேர்ந்தெடுத்த படத்தை நகர்த்த முன்னோட்டத்தை இழுக்கவும், அளவை மாற்ற உருட்டவும்.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>நடுப்பகுதி</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>நடுப்பகுதி சாய்வின் இறுதி நிறம் (விருப்பத்தேர்வு)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>கோடுகள்</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>தேர்ந்தெடுத்த பகுதி</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>தேர்ந்தெடுத்த பகுதியின் சாய்வு இறுதி நிறம் (விருப்பத்தேர்வு)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>தேர்வுக் குறி</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>பின்னணி ஒளிபுகாமை</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>சக்கர ஒளிபுகாமை</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>நடுப் படம்</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>சரிசெய்ய வேண்டிய படம்</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>எமோட் எடிட்டர் சக்கரத்தையும் மாற்று</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>அவதார் எடிட்டரில் எமோட் தேர்ந்தெடுக்கும்போது காட்டப்படும் சக்கரத்துக்கும் பொருந்தும்.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>எமோட் பொத்தான்களின் நிறத்தை மாற்று</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>பொத்தான் நிறம்</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>மாட் பெயர் (எமோட் சக்கரம்)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>எமோட் டெக்ஸ்சர்களின் தோற்றம் மாற்றப்படுகிறது...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} எமோட் டெக்ஸ்சர்களின் தோற்றம் மாற்றப்பட்டது. Roblox புதுப்பிக்கப்படும்போது இது தன்னைத் தானே மீண்டும் உருவாக்கும்.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>எமோட் மாட் அகற்றப்பட்டது.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>எமோட் டெக்ஸ்சர்கள் எதுவும் கிடைக்கவில்லை. Roblox ஐ ஒருமுறை தொடங்கி, மீண்டும் முயற்சிக்கவும்.</value>
+  </data>
 </root>

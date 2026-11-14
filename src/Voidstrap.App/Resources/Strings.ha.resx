@@ -10019,4 +10019,73 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Waƙoƙi</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Manajan Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Canza launin dabaran emote, ƙara hotunanka kuma ka motsa su</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Yana sauya salon dabaran emote na Roblox a kowane girma da Roblox ke amfani da shi kuma yana sake gina kansa bayan sabuntawar Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Ja samfoti don motsa hoton da aka zaɓa kuma ka gungura don canza girmansa.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Tsakiya</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Ƙarshen gradient na tsakiya (na zaɓi)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Layuka</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Yankin da aka zaɓa</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Ƙarshen gradient na yankin da aka zaɓa (na zaɓi)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Alamar zaɓi</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Rashin bayyanar bango</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Rashin bayyanar dabaran</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Hoton tsakiya</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Hoton da za a daidaita</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Sauya salon dabaran editan emote ma</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Yana kuma sauya dabaran da ke bayyana yayin zaɓar emote a editan avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Canza launin maɓallan emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Launin maɓalli</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Sunan mod (Dabaran emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Ana sauya salon tekstur na emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>An sauya salon tekstur na emote {0}. Yana sake gina kansa idan Roblox ya sabunta.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>An cire mod na emote.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Ba a sami tekstur na emote ba. Kunna Roblox sau ɗaya, sannan ka sake gwadawa.</value>
+  </data>
 </root>

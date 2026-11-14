@@ -10018,4 +10018,73 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Трекҳо</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Менеҷери эмоцияҳо</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Ранги чархи эмоцияҳоро иваз кунед, тасвирҳои худро илова кунед ва онҳоро ҷойивазкунӣ кунед</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Намуди чархи эмоцияҳои Roblox-ро дар ҳамаи андозаҳое, ки Roblox истифода мебарад, иваз мекунад ва пас аз навсозиҳои Roblox худро аз нав месозад.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Барои ҷойивазкунии тасвири интихобшуда пешнамоишро кашед ва барои иваз кардани андоза ғелонед.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Марказ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Охири градиенти марказ (ихтиёрӣ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Хатҳо</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Бахши интихобшуда</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Охири градиенти бахши интихобшуда (ихтиёрӣ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Нишонаи интихоб</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Ношаффофии замина</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Ношаффофии чарх</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Тасвири марказ</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Тасвири танзимшаванда</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Чархи муҳаррири эмоцияҳоро низ иваз кардан</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Чархеро низ иваз мекунад, ки ҳангоми интихоби эмоцияҳо дар муҳаррири аватар нишон дода мешавад.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Иваз кардани ранги тугмаҳои эмоцияҳо</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Ранги тугмаҳо</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Номи мод (Чархи эмоцияҳо)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Намуди текстураҳои эмоцияҳо иваз шуда истодааст...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Намуди {0} текстураи эмоция иваз шуд. Ҳангоми навсозии Roblox худро аз нав месозад.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Моди эмоцияҳо хориҷ карда шуд.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Ягон текстураи эмоция ёфт нашуд. Roblox-ро як маротиба оғоз кунед ва боз кӯшиш кунед.</value>
+  </data>
 </root>

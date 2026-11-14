@@ -10331,4 +10331,73 @@ SteamVR jetzt installieren?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Titel</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emote-Manager</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Färbe das Emote-Rad um, füge eigene Bilder hinzu und verschiebe sie</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Gestaltet das Roblox Emote-Rad in jeder Größe, die Roblox nutzt, und baut sich nach Roblox Updates selbst neu.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Ziehe die Vorschau, um das gewählte Bild zu verschieben, und scrolle, um seine Größe zu ändern.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Mitte</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Verlaufsende der Mitte (optional)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Linien</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Ausgewähltes Segment</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Verlaufsende des ausgewählten Segments (optional)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Auswahlmarkierung</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Hintergrunddeckkraft</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Deckkraft des Rads</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Bild in der Mitte</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Zu bearbeitendes Bild</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Emote-Rad im Editor ebenfalls gestalten</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Gestaltet auch das Rad, das beim Auswählen von Emotes im Avatar-Editor angezeigt wird.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Emote-Schaltflächen umfärben</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Farbe der Schaltflächen</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Modname (Emote-Rad)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Emote-Texturen werden neu gestaltet...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} Emote-Texturen neu gestaltet. Wird bei Roblox Updates automatisch neu erstellt.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Die Emote-Mod wurde entfernt.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Keine Emote-Texturen gefunden. Starte Roblox einmal und versuch es dann erneut.</value>
+  </data>
 </root>

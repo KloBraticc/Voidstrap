@@ -10018,4 +10018,73 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ٹریکس</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ایموٹ مینیجر</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ایموٹ وہیل کا رنگ بدلیں، اپنی تصاویر شامل کریں اور انہیں ادھر ادھر کریں</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox کے استعمال ہونے والے ہر سائز میں Roblox ایموٹ وہیل کی شکل بدلتا ہے اور Roblox اپڈیٹس کے بعد خود کو دوبارہ بناتا ہے۔</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>منتخب تصویر ہلانے کے لیے پیش منظر کو کھینچیں اور سائز بدلنے کے لیے اسکرول کریں۔</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>درمیان</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>درمیان کے گریڈیئنٹ کا آخری رنگ (اختیاری)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>لکیریں</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>منتخب حصہ</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>منتخب حصے کے گریڈیئنٹ کا آخری رنگ (اختیاری)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>انتخاب کا نشان</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>پس منظر کی دھندلاہٹ</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>وہیل کی دھندلاہٹ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>درمیانی تصویر</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>ایڈجسٹ کرنے والی تصویر</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ایموٹ ایڈیٹر کا وہیل بھی بدلیں</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>اوتار ایڈیٹر میں ایموٹ منتخب کرتے وقت دکھائے جانے والے وہیل پر بھی لاگو ہوتا ہے۔</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ایموٹ بٹنوں کا رنگ بدلیں</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>بٹن کا رنگ</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>موڈ کا نام (ایموٹ وہیل)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ایموٹ ٹیکسچرز کی شکل بدلی جا رہی ہے...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} ایموٹ ٹیکسچرز کی شکل بدل دی گئی۔ Roblox اپڈیٹ ہونے پر یہ خود کو دوبارہ بناتا ہے۔</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ایموٹ موڈ ہٹا دیا گیا۔</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>کوئی ایموٹ ٹیکسچر نہیں ملا۔ Roblox ایک بار چلائیں، پھر دوبارہ کوشش کریں۔</value>
+  </data>
 </root>

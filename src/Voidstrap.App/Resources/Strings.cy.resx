@@ -10018,4 +10018,73 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Traciau</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Rheolwr Emotes</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Ail-liwia'r olwyn emotes, ychwanega dy luniau dy hun a'u symud o gwmpas</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Yn ail-steilio olwyn emotes Roblox ym mhob maint mae Roblox yn ei ddefnyddio ac yn ailadeiladu ei hun ar ôl diweddariadau Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Llusga'r rhagolwg i symud y llun a ddewiswyd a sgrolia i newid ei faint.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Canol</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Diwedd graddiant y canol (dewisol)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Llinellau</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Darn a ddewiswyd</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Diwedd graddiant y darn a ddewiswyd (dewisol)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Marciwr dewis</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Didreiddedd y cefndir</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Didreiddedd yr olwyn</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Llun yn y canol</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Llun i'w addasu</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Ail-steilio olwyn y golygydd emotes hefyd</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Yn steilio'r olwyn a ddangosir wrth ddewis emotes yn y golygydd afatar hefyd.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Ail-liwio'r botymau emotes</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Lliw y botymau</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Enw'r mod (Olwyn emotes)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Yn ail-steilio gweadau emotes...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} gwead emotes wedi'u hail-steilio. Mae'n ailadeiladu ei hun pan fydd Roblox yn diweddaru.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Cafodd y mod emotes ei dynnu.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Ni chafwyd hyd i weadau emotes. Agora Roblox unwaith, yna rho gynnig arall arni.</value>
+  </data>
 </root>

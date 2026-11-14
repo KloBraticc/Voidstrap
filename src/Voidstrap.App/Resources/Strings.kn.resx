@@ -10019,4 +10019,73 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ಟ್ರ್ಯಾಕ್‌ಗಳು</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ಎಮೋಟ್ ನಿರ್ವಾಹಕ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ಎಮೋಟ್ ಚಕ್ರದ ಬಣ್ಣ ಬದಲಿಸಿ, ನಿಮ್ಮ ಸ್ವಂತ ಚಿತ್ರಗಳನ್ನು ಸೇರಿಸಿ ಮತ್ತು ಅವುಗಳನ್ನು ಸರಿಸಿ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox ಬಳಸುವ ಪ್ರತಿಯೊಂದು ಗಾತ್ರದಲ್ಲೂ Roblox ಎಮೋಟ್ ಚಕ್ರದ ಶೈಲಿ ಬದಲಿಸುತ್ತದೆ ಮತ್ತು Roblox ಅಪ್‌ಡೇಟ್ ನಂತರ ತನ್ನನ್ನು ಮತ್ತೆ ನಿರ್ಮಿಸಿಕೊಳ್ಳುತ್ತದೆ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>ಆಯ್ಕೆ ಮಾಡಿದ ಚಿತ್ರವನ್ನು ಸರಿಸಲು ಮುನ್ನೋಟವನ್ನು ಎಳೆಯಿರಿ ಮತ್ತು ಗಾತ್ರ ಬದಲಿಸಲು ಸ್ಕ್ರೋಲ್ ಮಾಡಿ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>ಮಧ್ಯಭಾಗ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>ಮಧ್ಯದ ಗ್ರೇಡಿಯಂಟ್ ಕೊನೆ ಬಣ್ಣ (ಐಚ್ಛಿಕ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>ಗೆರೆಗಳು</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>ಆಯ್ಕೆ ಮಾಡಿದ ಭಾಗ</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>ಆಯ್ಕೆ ಮಾಡಿದ ಭಾಗದ ಗ್ರೇಡಿಯಂಟ್ ಕೊನೆ ಬಣ್ಣ (ಐಚ್ಛಿಕ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>ಆಯ್ಕೆ ಗುರುತು</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>ಹಿನ್ನೆಲೆಯ ಅಪಾರದರ್ಶಕತೆ</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>ಚಕ್ರದ ಅಪಾರದರ್ಶಕತೆ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>ಮಧ್ಯದ ಚಿತ್ರ</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>ಹೊಂದಿಸಬೇಕಾದ ಚಿತ್ರ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ಎಮೋಟ್ ಎಡಿಟರ್ ಚಕ್ರವನ್ನೂ ಬದಲಿಸಿ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>ಅವತಾರ್ ಎಡಿಟರ್‌ನಲ್ಲಿ ಎಮೋಟ್ ಆಯ್ಕೆ ಮಾಡುವಾಗ ಕಾಣುವ ಚಕ್ರಕ್ಕೂ ಅನ್ವಯಿಸುತ್ತದೆ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ಎಮೋಟ್ ಬಟನ್‌ಗಳ ಬಣ್ಣ ಬದಲಿಸಿ</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>ಬಟನ್ ಬಣ್ಣ</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>ಮಾಡ್ ಹೆಸರು (ಎಮೋಟ್ ಚಕ್ರ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ಎಮೋಟ್ ಟೆಕ್ಸ್ಚರ್‌ಗಳ ಶೈಲಿ ಬದಲಾಗುತ್ತಿದೆ...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} ಎಮೋಟ್ ಟೆಕ್ಸ್ಚರ್‌ಗಳ ಶೈಲಿ ಬದಲಾಗಿದೆ. Roblox ಅಪ್‌ಡೇಟ್ ಆದಾಗ ಇದು ತನ್ನನ್ನು ಮತ್ತೆ ನಿರ್ಮಿಸಿಕೊಳ್ಳುತ್ತದೆ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ಎಮೋಟ್ ಮಾಡ್ ತೆಗೆದುಹಾಕಲಾಗಿದೆ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>ಯಾವುದೇ ಎಮೋಟ್ ಟೆಕ್ಸ್ಚರ್ ಸಿಗಲಿಲ್ಲ. Roblox ಅನ್ನು ಒಮ್ಮೆ ಆರಂಭಿಸಿ, ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</value>
+  </data>
 </root>

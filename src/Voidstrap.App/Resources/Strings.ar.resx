@@ -10330,4 +10330,73 @@
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>المقاطع</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>مدير الإيموت</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>أعد تلوين عجلة الإيموت وأضف صورك الخاصة وحرّكها</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>يعيد تصميم عجلة الإيموت في Roblox بكل الأحجام التي يستخدمها Roblox ويعيد بناء نفسه بعد تحديثات Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>اسحب المعاينة لتحريك الصورة المحددة ومرّر لتغيير حجمها.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>المركز</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>نهاية تدرج المركز (اختياري)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>الخطوط</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>الجزء المحدد</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>نهاية تدرج الجزء المحدد (اختياري)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>علامة التحديد</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>عتامة الخلفية</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>عتامة العجلة</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>صورة المركز</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>الصورة المراد ضبطها</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>إعادة تصميم عجلة محرر الإيموت أيضًا</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>يطبّق التصميم أيضًا على العجلة التي تظهر عند اختيار الإيموت في محرر الأفاتار.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>إعادة تلوين أزرار الإيموت</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>لون الأزرار</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>اسم المود (عجلة الإيموت)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>جارٍ إعادة تصميم أنسجة الإيموت...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>تمت إعادة تصميم {0} من أنسجة الإيموت. يعيد بناء نفسه عند تحديث Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>تمت إزالة مود الإيموت.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>لم يتم العثور على أنسجة الإيموت. شغّل Roblox مرة واحدة ثم حاول مجددًا.</value>
+  </data>
 </root>

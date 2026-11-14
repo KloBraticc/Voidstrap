@@ -10329,4 +10329,73 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Mga track</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emote Manager</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Palitan ang kulay ng emote wheel, magdagdag ng sarili mong mga larawan at ilipat ang mga ito</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Binabago ang istilo ng emote wheel ng Roblox sa bawat laki na ginagamit ng Roblox at kusang binubuo ulit pagkatapos ng mga update ng Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>I-drag ang preview para ilipat ang napiling larawan at mag-scroll para baguhin ang laki nito.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Gitna</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Dulo ng gradient sa gitna (opsyonal)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Mga linya</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Napiling bahagi</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Dulo ng gradient ng napiling bahagi (opsyonal)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Marka ng pagpili</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Opacity ng background</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Opacity ng wheel</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Larawan sa gitna</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Larawang aayusin</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Baguhin din ang wheel sa emote editor</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Binabago rin ang wheel na lumalabas habang pumipili ng emote sa avatar editor.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Palitan ang kulay ng mga emote button</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Kulay ng button</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Pangalan ng mod (Emote wheel)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Binabago ang istilo ng mga emote texture...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} emote texture ang nabago. Kusa itong binubuo ulit kapag nag-update ang Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Natanggal na ang emote mod.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Walang nakitang emote texture. Buksan ang Roblox nang isang beses, saka subukan ulit.</value>
+  </data>
 </root>

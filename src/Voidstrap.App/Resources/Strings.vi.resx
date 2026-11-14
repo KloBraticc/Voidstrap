@@ -10334,4 +10334,73 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Bản nhạc</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Trình quản lý biểu cảm</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Đổi màu vòng biểu cảm, thêm hình ảnh của bạn và di chuyển chúng</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Tạo kiểu lại vòng biểu cảm của Roblox ở mọi kích thước Roblox dùng và tự dựng lại sau các bản cập nhật Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Kéo bản xem trước để di chuyển hình đã chọn và cuộn để thay đổi kích thước.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Tâm</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Màu cuối dải chuyển của tâm (tùy chọn)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Đường kẻ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Phần được chọn</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Màu cuối dải chuyển của phần được chọn (tùy chọn)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Dấu chọn</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Độ mờ đục của nền</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Độ mờ đục của vòng</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Hình ở tâm</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Hình cần chỉnh</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Tạo kiểu lại cả vòng trong trình chỉnh sửa biểu cảm</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Áp dụng cả cho vòng hiện ra khi bạn chọn biểu cảm trong trình chỉnh sửa avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Đổi màu các nút biểu cảm</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Màu nút</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Tên mod (Vòng biểu cảm)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Đang tạo kiểu lại texture biểu cảm...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Đã tạo kiểu lại {0} texture biểu cảm. Mod tự dựng lại khi Roblox cập nhật.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Đã gỡ mod biểu cảm.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Không tìm thấy texture biểu cảm nào. Hãy mở Roblox một lần rồi thử lại.</value>
+  </data>
 </root>

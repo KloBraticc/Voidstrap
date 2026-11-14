@@ -10019,4 +10019,73 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ගීත</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ඉමෝට් කළමනාකරු</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ඉමෝට් රෝදයේ වර්ණය වෙනස් කරන්න, ඔබේම රූප එක් කර ඒවා ගෙන යන්න</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox භාවිත කරන සෑම ප්‍රමාණයකම Roblox ඉමෝට් රෝදයේ පෙනුම වෙනස් කරන අතර Roblox යාවත්කාලීන කිරීම්වලින් පසු එය නැවත තමන්ම ගොඩනඟයි.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>තෝරාගත් රූපය ගෙන යාමට පෙරදසුන අදින්න, ප්‍රමාණය වෙනස් කිරීමට අනුචලනය කරන්න.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>මැද</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>මැද ශ්‍රේණියේ අවසාන වර්ණය (විකල්ප)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>රේඛා</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>තෝරාගත් කොටස</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>තෝරාගත් කොටසේ ශ්‍රේණියේ අවසාන වර්ණය (විකල්ප)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>තේරීම් සලකුණ</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>පසුබිමේ පාරාන්ධතාව</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>රෝදයේ පාරාන්ධතාව</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>මැද රූපය</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>සකස් කළ යුතු රූපය</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ඉමෝට් සංස්කාරකයේ රෝදයද වෙනස් කරන්න</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>අවතාර් සංස්කාරකයේ ඉමෝට් තෝරන විට පෙන්වන රෝදයටද යෙදේ.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ඉමෝට් බොත්තම්වල වර්ණය වෙනස් කරන්න</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>බොත්තම් වර්ණය</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>මොඩ් නම (ඉමෝට් රෝදය)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ඉමෝට් වයනවල පෙනුම වෙනස් කරමින්...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>ඉමෝට් වයන {0}ක පෙනුම වෙනස් කළා. Roblox යාවත්කාලීන වූ විට එය නැවත තමන්ම ගොඩනඟයි.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ඉමෝට් මොඩ් ඉවත් කළා.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>ඉමෝට් වයන කිසිවක් හමු නොවීය. Roblox එක් වරක් ආරම්භ කර නැවත උත්සාහ කරන්න.</value>
+  </data>
 </root>

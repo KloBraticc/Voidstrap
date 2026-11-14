@@ -10019,4 +10019,73 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Titelen</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emote Manager</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Fierf d'Emote Rad nei, füüg deng eege Biller dobäi a beweeg se</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Gëtt dem Roblox Emote Rad en neie Stil an all Gréisst, déi Roblox benotzt, a baut sech no Roblox Updates selwer nei op.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Zéi d'Virschau, fir dat gewielte Bild ze réckelen, a scroll, fir seng Gréisst z'änneren.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Mëtt</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Enn vum Verlaf an der Mëtt (optional)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Linnen</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Gewielte Segment</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Enn vum Verlaf vum gewielte Segment (optional)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Auswielmarker</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Deckkraaft vum Hannergrond</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Deckkraaft vum Rad</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Bild an der Mëtt</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Bild fir unzepassen</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Och d'Rad am Emote Editeur nei stiliséieren</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Gëtt och dem Rad en neie Stil, dat beim Auswiele vun Emotes am Avatar Editeur ugewise gëtt.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Emote Knäppercher nei faerwen</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Faarf vun de Knäppercher</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Modnumm (Emote Rad)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Emote Texturen ginn nei stiliséiert...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} Emote Texturen nei stiliséiert. Et baut sech selwer nei op, wann Roblox aktualiséiert gëtt.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Den Emote Mod gouf ewechgeholl.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Keng Emote Texturen fonnt. Start Roblox eemol a prob et dann nach eng Kéier.</value>
+  </data>
 </root>

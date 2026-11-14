@@ -10332,4 +10332,73 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Kappaleet</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emotejen hallinta</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Väritä emotepyörä uudelleen, lisää omia kuvia ja siirtele niitä</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Muuttaa Roblox emotepyörän tyyliä kaikissa Robloxin käyttämissä kokoissa ja rakentaa itsensä uudelleen Roblox päivitysten jälkeen.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Vedä esikatselua siirtääksesi valittua kuvaa ja vieritä muuttaaksesi sen kokoa.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Keskusta</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Keskustan liukuvärin loppu (valinnainen)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Viivat</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Valittu sektori</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Valitun sektorin liukuvärin loppu (valinnainen)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Valintamerkki</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Taustan peittävyys</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Pyörän peittävyys</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Kuva keskellä</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Säädettävä kuva</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Muuta myös emote-editorin pyörän tyyliä</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Muuttaa myös pyörää, joka näkyy, kun valitset emoteja avatar-editorissa.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Väritä emotepainikkeet uudelleen</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Painikkeiden väri</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Modin nimi (Emotepyörä)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Muutetaan emotetekstuurien tyyliä...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} emotetekstuurin tyyliä muutettu. Se rakentaa itsensä uudelleen, kun Roblox päivittyy.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Emotemodi poistettiin.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Emotetekstuureja ei löytynyt. Käynnistä Roblox kerran ja yritä sitten uudelleen.</value>
+  </data>
 </root>

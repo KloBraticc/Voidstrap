@@ -10019,4 +10019,73 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>ਟਰੈਕ</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>ਇਮੋਟ ਮੈਨੇਜਰ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>ਇਮੋਟ ਵ੍ਹੀਲ ਦਾ ਰੰਗ ਬਦਲੋ, ਆਪਣੀਆਂ ਤਸਵੀਰਾਂ ਜੋੜੋ ਅਤੇ ਉਨ੍ਹਾਂ ਨੂੰ ਹਿਲਾਓ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox ਵੱਲੋਂ ਵਰਤੇ ਜਾਂਦੇ ਹਰ ਆਕਾਰ ਵਿੱਚ Roblox ਇਮੋਟ ਵ੍ਹੀਲ ਦਾ ਰੂਪ ਬਦਲਦਾ ਹੈ ਅਤੇ Roblox ਅੱਪਡੇਟ ਤੋਂ ਬਾਅਦ ਆਪਣੇ ਆਪ ਨੂੰ ਦੁਬਾਰਾ ਬਣਾਉਂਦਾ ਹੈ।</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>ਚੁਣੀ ਗਈ ਤਸਵੀਰ ਹਿਲਾਉਣ ਲਈ ਪ੍ਰੀਵਿਊ ਖਿੱਚੋ ਅਤੇ ਆਕਾਰ ਬਦਲਣ ਲਈ ਸਕ੍ਰੋਲ ਕਰੋ।</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>ਵਿਚਕਾਰਲਾ ਹਿੱਸਾ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>ਵਿਚਕਾਰਲੇ ਗ੍ਰੇਡੀਐਂਟ ਦਾ ਅੰਤਲਾ ਰੰਗ (ਵਿਕਲਪਿਕ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>ਲਾਈਨਾਂ</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>ਚੁਣਿਆ ਹਿੱਸਾ</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>ਚੁਣੇ ਹਿੱਸੇ ਦੇ ਗ੍ਰੇਡੀਐਂਟ ਦਾ ਅੰਤਲਾ ਰੰਗ (ਵਿਕਲਪਿਕ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>ਚੋਣ ਨਿਸ਼ਾਨ</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>ਪਿਛੋਕੜ ਦੀ ਧੁੰਦਲਾਪਣ</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>ਵ੍ਹੀਲ ਦੀ ਧੁੰਦਲਾਪਣ</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>ਵਿਚਕਾਰਲੀ ਤਸਵੀਰ</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>ਠੀਕ ਕਰਨ ਵਾਲੀ ਤਸਵੀਰ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>ਇਮੋਟ ਐਡੀਟਰ ਦਾ ਵ੍ਹੀਲ ਵੀ ਬਦਲੋ</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>ਅਵਤਾਰ ਐਡੀਟਰ ਵਿੱਚ ਇਮੋਟ ਚੁਣਦੇ ਸਮੇਂ ਦਿਖਾਏ ਜਾਂਦੇ ਵ੍ਹੀਲ ਉੱਤੇ ਵੀ ਲਾਗੂ ਹੁੰਦਾ ਹੈ।</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>ਇਮੋਟ ਬਟਨਾਂ ਦਾ ਰੰਗ ਬਦਲੋ</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>ਬਟਨ ਦਾ ਰੰਗ</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>ਮੋਡ ਦਾ ਨਾਮ (ਇਮੋਟ ਵ੍ਹੀਲ)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>ਇਮੋਟ ਟੈਕਸਚਰ ਦਾ ਰੂਪ ਬਦਲਿਆ ਜਾ ਰਿਹਾ ਹੈ...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} ਇਮੋਟ ਟੈਕਸਚਰ ਦਾ ਰੂਪ ਬਦਲਿਆ ਗਿਆ। Roblox ਅੱਪਡੇਟ ਹੋਣ ਉੱਤੇ ਇਹ ਆਪਣੇ ਆਪ ਨੂੰ ਦੁਬਾਰਾ ਬਣਾਉਂਦਾ ਹੈ।</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>ਇਮੋਟ ਮੋਡ ਹਟਾ ਦਿੱਤਾ ਗਿਆ।</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>ਕੋਈ ਇਮੋਟ ਟੈਕਸਚਰ ਨਹੀਂ ਮਿਲਿਆ। Roblox ਇੱਕ ਵਾਰ ਚਲਾਓ, ਫਿਰ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</value>
+  </data>
 </root>

@@ -10019,4 +10019,73 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Rianta</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Bainisteoir Emotes</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Athdhathaigh roth na n-emotes, cuir d'íomhánna féin leis agus bog thart iad</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Athstíleálann sé roth emotes Roblox i ngach méid a úsáideann Roblox agus atógann sé é féin tar éis nuashonruithe Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Tarraing an réamhamharc chun an íomhá roghnaithe a bhogadh agus scrollaigh chun a méid a athrú.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Lár</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Deireadh ghrádán an láir (roghnach)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Línte</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Slisne roghnaithe</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Deireadh ghrádán na slisne roghnaithe (roghnach)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Marcóir roghnúcháin</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Teimhneacht an chúlra</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Teimhneacht an rotha</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Íomhá sa lár</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Íomhá le coigeartú</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Athstíleáil roth an eagarthóra emotes freisin</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Stíleálann sé freisin an roth a thaispeántar agus emotes á roghnú san eagarthóir abhatára.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Athdhathaigh na cnaipí emotes</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Dath na gcnaipí</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Ainm an mhod (Roth emotes)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Uigeachtaí emotes á n-athstíleáil...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Athstíleáladh {0} uigeacht emotes. Atógann sé é féin nuair a nuashonraítear Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Baineadh an mod emotes.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Níor aimsíodh aon uigeachtaí emotes. Seol Roblox uair amháin, ansin bain triail eile as.</value>
+  </data>
 </root>

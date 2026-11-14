@@ -10018,4 +10018,73 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Treklər</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emote meneceri</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Emote çarxını yenidən rəngləyin, öz şəkillərinizi əlavə edin və onları yerdəyişdirin</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Roblox emote çarxının görünüşünü Roblox-un istifadə etdiyi bütün ölçülərdə dəyişir və Roblox yeniləmələrindən sonra özünü yenidən qurur.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Seçilmiş şəkli hərəkət etdirmək üçün önizləməni sürükləyin, ölçüsünü dəyişmək üçün sürüşdürün.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Mərkəz</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Mərkəz keçidinin sonu (istəyə bağlı)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Xətlər</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Seçilmiş dilim</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Seçilmiş dilim keçidinin sonu (istəyə bağlı)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Seçim nişanı</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Fonun qeyri-şəffaflığı</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Çarxın qeyri-şəffaflığı</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Mərkəzdəki şəkil</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Tənzimlənəcək şəkil</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Emote redaktorunun çarxını da dəyiş</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Avatar redaktorunda emote seçərkən görünən çarxa da tətbiq olunur.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Emote düymələrini yenidən rənglə</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Düymə rəngi</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Mod adı (Emote çarxı)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Emote teksturaları dəyişdirilir...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} emote teksturası dəyişdirildi. Roblox yenilənəndə özünü yenidən qurur.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Emote modu silindi.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Heç bir emote teksturası tapılmadı. Roblox-u bir dəfə işə salın, sonra yenidən cəhd edin.</value>
+  </data>
 </root>

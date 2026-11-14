@@ -10018,4 +10018,73 @@ Faka i-SteamVR ngoku?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Iingoma</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Umphathi we-Emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Tshintsha umbala wevili le-emote, yongeza imifanekiso yakho uze uyishukumise</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Itshintsha inkangeleko yevili le-emote le-Roblox kubo bonke ubungakanani obusetyenziswa yi-Roblox kwaye iziphinda yakhe emva kohlaziyo lwe-Roblox.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Rhuqa umboniso wokuqala ukuze ushukumise umfanekiso okhethiweyo uze uskrolele ukutshintsha ubungakanani bawo.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Embindini</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Isiphelo segradient yombindi (ngokuzikhethela)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Imigca</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Iqhekeza elikhethiweyo</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Isiphelo segradient yeqhekeza elikhethiweyo (ngokuzikhethela)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Uphawu lokukhetha</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Ukungacaci kwangasemva</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Ukungacaci kwevili</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Umfanekiso ophakathi</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Umfanekiso oza kulungiswa</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Tshintsha nevili lomhleli we-emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Ikwatshintsha nevili eliboniswa xa ukhetha ii-emote kumhleli we-avatar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Tshintsha umbala wamaqhosha e-emote</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Umbala weqhosha</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Igama le-mod (Ivili le-emote)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Kutshintshwa inkangeleko yeetekstsha ze-emote...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>Kutshintshwe iitekstsha ze-emote eziyi-{0}. Iziphinda yakhe xa i-Roblox ihlaziywa.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>I-mod ye-emote isusiwe.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Akukho tekstsha ye-emote ifunyenweyo. Qalisa i-Roblox kanye, emva koko uzame kwakhona.</value>
+  </data>
 </root>

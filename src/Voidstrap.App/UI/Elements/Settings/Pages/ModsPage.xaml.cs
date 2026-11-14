@@ -135,6 +135,11 @@ public partial class ModsPage : UiPage
         NavigationService?.Navigate(new ModGeneratorPage(ViewModel));
     }
 
+    private void OpenEmoteManager_Click(object sender, RoutedEventArgs e)
+    {
+        NavigationService?.Navigate(new EmoteManagerPage(ViewModel));
+    }
+
     private void ModsTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!ReferenceEquals(e.OriginalSource, ModsTabs))

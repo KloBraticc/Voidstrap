@@ -10018,4 +10018,73 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>טראַקס</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>עמאָטע פֿאַרוואַלטער</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>פֿאַרב איבער דעם עמאָטע ראָד, לייג צו דיינע אייגענע בילדער און רוק זיי אַרום</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>גיט דעם Roblox עמאָטע ראָד אַ נייעם סטיל אין יעדער גרייס וואָס Roblox ניצט, און בויט זיך אַליין איבער נאָך Roblox דערהייַנטיקונגען.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>שלעפּ די פֿאָרויסווייַזונג כּדי צו רוקן דאָס אויסגעקליבענע בילד, און סקראָל כּדי צו ענדערן זיין גרייס.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>מיטן</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>סוף פֿון דעם מיטן גראַדיענט (אַפּשאַנאַל)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>ליניעס</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>אויסגעקליבענער טייל</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>סוף פֿון דעם אויסגעקליבענעם טייל גראַדיענט (אַפּשאַנאַל)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>אויסקלייב צייכן</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>אומדורכזיכטיקייט פֿון הינטערגרונט</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>אומדורכזיכטיקייט פֿון ראָד</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>בילד אין מיטן</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>בילד צו צופּאַסן</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>גיב אויך דעם ראָד אין עמאָטע רעדאַקטאָר אַ נייעם סטיל</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>גיט אויך אַ נייעם סטיל דעם ראָד וואָס ווייַזט זיך ווען מען קלייבט עמאָטעס אין אַוואַטאַר רעדאַקטאָר.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>פֿאַרב איבער די עמאָטע קנעפּלעך</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>קנעפּל קאָליר</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>מאָד נאָמען (עמאָטע ראָד)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>מען גיט די עמאָטע טעקסטורן אַ נייעם סטיל...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} עמאָטע טעקסטורן באַקומען אַ נייעם סטיל. עס בויט זיך אַליין איבער ווען Roblox ווערט דערהייַנטיקט.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>דער עמאָטע מאָד איז אַוועקגענומען געוואָרן.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>קיין עמאָטע טעקסטורן נישט געפֿונען. עפֿן Roblox איין מאָל און פּרוביר דערנאָך ווידער.</value>
+  </data>
 </root>

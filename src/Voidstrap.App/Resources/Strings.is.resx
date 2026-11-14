@@ -10019,4 +10019,73 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Misc2.LibraryTracks" xml:space="preserve">
     <value>Lög</value>
   </data>
+  <data name="Ui.EmoteMgr.Title" xml:space="preserve">
+    <value>Emote stjórnun</value>
+  </data>
+  <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
+    <value>Litaðu emote hjólið upp á nýtt, bættu við þínum eigin myndum og færðu þær til</value>
+  </data>
+  <data name="Ui.EmoteMgr.Intro" xml:space="preserve">
+    <value>Endurhannar Roblox emote hjólið í öllum stærðum sem Roblox notar og endurbyggir sig sjálft eftir Roblox uppfærslur.</value>
+  </data>
+  <data name="Ui.EmoteMgr.DragHint" xml:space="preserve">
+    <value>Dragðu forskoðunina til að færa valda mynd og skrunaðu til að breyta stærð hennar.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Center" xml:space="preserve">
+    <value>Miðja</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterFade" xml:space="preserve">
+    <value>Lok litaskiptingar í miðju (valfrjálst)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Lines" xml:space="preserve">
+    <value>Línur</value>
+  </data>
+  <data name="Ui.EmoteMgr.Highlight" xml:space="preserve">
+    <value>Valinn geiri</value>
+  </data>
+  <data name="Ui.EmoteMgr.HighlightFade" xml:space="preserve">
+    <value>Lok litaskiptingar valins geira (valfrjálst)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Marker" xml:space="preserve">
+    <value>Valmerki</value>
+  </data>
+  <data name="Ui.EmoteMgr.BackgroundOpacity" xml:space="preserve">
+    <value>Ógagnsæi bakgrunns</value>
+  </data>
+  <data name="Ui.EmoteMgr.WheelOpacity" xml:space="preserve">
+    <value>Ógagnsæi hjóls</value>
+  </data>
+  <data name="Ui.EmoteMgr.CenterImage" xml:space="preserve">
+    <value>Mynd í miðju</value>
+  </data>
+  <data name="Ui.EmoteMgr.AdjustImage" xml:space="preserve">
+    <value>Mynd til að stilla</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditor" xml:space="preserve">
+    <value>Endurhanna líka hjólið í emote ritlinum</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorEditorHelp" xml:space="preserve">
+    <value>Endurhannar líka hjólið sem birtist þegar þú velur emotes í avatar ritlinum.</value>
+  </data>
+  <data name="Ui.EmoteMgr.RecolorIcons" xml:space="preserve">
+    <value>Lita emote hnappana upp á nýtt</value>
+  </data>
+  <data name="Ui.EmoteMgr.IconColour" xml:space="preserve">
+    <value>Litur hnappa</value>
+  </data>
+  <data name="Ui.EmoteMgr.ModName" xml:space="preserve">
+    <value>Heiti mods (Emote hjól)</value>
+  </data>
+  <data name="Ui.EmoteMgr.Restyling" xml:space="preserve">
+    <value>Endurhanna emote áferðir...</value>
+  </data>
+  <data name="Ui.EmoteMgr.Generated" xml:space="preserve">
+    <value>{0} emote áferðir endurhannaðar. Það endurbyggir sig sjálft þegar Roblox uppfærist.</value>
+  </data>
+  <data name="Ui.EmoteMgr.Removed" xml:space="preserve">
+    <value>Emote modið var fjarlægt.</value>
+  </data>
+  <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
+    <value>Engar emote áferðir fundust. Ræstu Roblox einu sinni og reyndu svo aftur.</value>
+  </data>
 </root>
