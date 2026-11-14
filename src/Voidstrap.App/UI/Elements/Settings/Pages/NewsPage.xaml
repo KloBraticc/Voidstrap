@@ -1,9 +1,55 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.NewsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_Nav_News}" ui:Breadcrumb.Header="{resources:Loc Ui_Nav_News}" Scrollable="True">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.NewsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_Nav_News}" ui:Breadcrumb.Header="{resources:Loc Ui_Nav_News}" Scrollable="True" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
   <FrameworkElement.Resources>
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    <Style x:Key="PlainButton" TargetType="{x:Type Button}">
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border x:Name="Root" Background="{TemplateBinding Background}">
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Root" Property="Opacity" Value="0.85" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <DataTemplate x:Key="PostArt">
+      <Grid ClipToBounds="True">
+        <Grid.Background>
+          <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0" Color="{DynamicResource SystemAccentColorDark2}" />
+            <GradientStop Offset="1" Color="{DynamicResource SystemAccentColorDark3}" />
+          </LinearGradientBrush>
+        </Grid.Background>
+        <ui:SymbolIcon Symbol="News24" FontSize="44" Opacity="0.55" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Image Stretch="UniformToFill" Visibility="{Binding HasImage, Converter={StaticResource BoolToVis}}" util:DynamicRenderSystem.LazyImageSource="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+      </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="LinkButtons">
+      <ItemsControl ItemsSource="{Binding Links}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <ui:Button Margin="0,6,6,0" Appearance="Secondary" Icon="Open24" Content="{Binding Label}" Command="{Binding DataContext.OpenLinkCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding Url}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </DataTemplate>
   </FrameworkElement.Resources>
-  <StackPanel Margin="0,0,20,20">
-    <Grid Margin="0,0,0,16">
+  <StackPanel Margin="0,0,20,24">
+    <Grid Margin="0,0,0,14">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="Auto" />
@@ -21,37 +67,107 @@
       <TextBlock Margin="0,4,0,0" Text="{resources:Loc Ui_Misc2_NewVoidstrapUpdatesAndAnnouncementsWill}" FontSize="12" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
     </StackPanel>
 
-    <ItemsControl ItemsSource="{Binding Posts}">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <Border Margin="0,0,0,10" CornerRadius="8" BorderThickness="1" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-            <StackPanel>
-              <Border Height="200" CornerRadius="8,8,0,0" ClipToBounds="True" Visibility="{Binding HasImage, Converter={StaticResource BoolToVis}}">
-                <Border.Background>
-                  <ImageBrush ImageSource="{Binding Image, TargetNullValue={x:Null}}" Stretch="UniformToFill" />
-                </Border.Background>
-              </Border>
-              <StackPanel Margin="18,14,18,16">
-                <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding DateText}" />
-                <TextBlock Margin="0,4,0,0" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" />
-                <TextBlock Margin="0,6,0,0" FontSize="13" LineHeight="20" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Body}" />
-                <ItemsControl Margin="0,10,0,0" ItemsSource="{Binding Links}" Visibility="{Binding HasLinks, Converter={StaticResource BoolToVis}}">
-                  <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <WrapPanel />
-                    </ItemsPanelTemplate>
-                  </ItemsControl.ItemsPanel>
-                  <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                      <ui:Button Margin="0,4,6,0" Appearance="Secondary" Icon="Open24" Content="{Binding Label}" Command="{Binding DataContext.OpenLinkCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding Url}" />
-                    </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-                </ItemsControl>
-              </StackPanel>
-            </StackPanel>
-          </Border>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <StackPanel Visibility="{Binding HasFeatured, Converter={StaticResource BoolToVis}}">
+      <TextBlock Margin="0,0,0,8" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_LibraryFeatured}" />
+      <Grid Height="320" util:RoundedClip.Radius="10" MouseEnter="Featured_MouseEnter" MouseLeave="Featured_MouseLeave">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="2*" />
+          <ColumnDefinition Width="*" MinWidth="240" />
+        </Grid.ColumnDefinitions>
+        <ContentPresenter Content="{Binding FeaturedPost}" ContentTemplate="{StaticResource PostArt}" />
+        <Border Grid.Column="1" Background="{DynamicResource ControlFillColorDefaultBrush}" Padding="16,14">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border HorizontalAlignment="Left" Padding="6,2" CornerRadius="4" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+              <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding FeaturedPost.DateText}" />
+            </Border>
+            <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" MaxHeight="84" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding FeaturedPost.Title}" ToolTip="{Binding FeaturedPost.Title}" />
+            <TextBlock Grid.Row="2" Margin="0,8,0,0" FontSize="13" LineHeight="19" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding FeaturedPost.Body}" />
+            <ContentPresenter Grid.Row="3" Content="{Binding FeaturedPost}" ContentTemplate="{StaticResource LinkButtons}" />
+          </Grid>
+        </Border>
+      </Grid>
+      <Grid Margin="0,8,0,0">
+        <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding Featured}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Button Width="8" Height="8" Margin="3,0" util:RoundedClip.Radius="4" Command="{Binding DataContext.SelectFeaturedCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}">
+                <Button.Style>
+                  <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButton}">
+                    <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding IsCurrent}" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource SystemAccentBrush}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </Button.Style>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+          <ui:Button Appearance="Transparent" Icon="ChevronLeft24" Command="{Binding PreviousFeaturedCommand}" />
+          <ui:Button Margin="4,0,0,0" Appearance="Transparent" Icon="ChevronRight24" Command="{Binding NextFeaturedCommand}" />
+        </StackPanel>
+      </Grid>
+    </StackPanel>
+
+    <StackPanel Visibility="{Binding HasPosts, Converter={StaticResource BoolToVis}}">
+      <TextBlock Margin="0,18,0,8" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_Misc2_Earlier}" />
+      <Grid util:RoundedClip.Radius="8" Background="{DynamicResource ControlFillColorDefaultBrush}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="2*" />
+          <ColumnDefinition Width="*" MinWidth="240" />
+        </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding Posts}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Button Margin="0,0,0,4" MouseEnter="PostRow_MouseEnter" Command="{Binding DataContext.SelectPostCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}">
+                <Button.Style>
+                  <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButton}">
+                    <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+                  </Style>
+                </Button.Style>
+                <Grid Height="69" util:RoundedClip.Radius="6">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="123" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource PostArt}" />
+                  <StackPanel Grid.Column="1" Margin="12,0" VerticalAlignment="Center">
+                    <TextBlock FontSize="14" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Title}" />
+                    <TextBlock Margin="0,4,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Body}" />
+                  </StackPanel>
+                  <TextBlock Grid.Column="2" Margin="12,0" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding DateText}" />
+                </Grid>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Border Grid.Column="1" Padding="16,14" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+          <StackPanel DataContext="{Binding PreviewPost}">
+            <Border Height="120" util:RoundedClip.Radius="6">
+              <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource PostArt}" />
+            </Border>
+            <TextBlock Margin="0,12,0,0" FontSize="11" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Text="{Binding DateText}" />
+            <TextBlock Margin="0,4,0,0" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" />
+            <TextBlock Margin="0,8,0,0" FontSize="13" LineHeight="19" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Body}" />
+            <ContentPresenter Margin="0,6,0,0" Content="{Binding}" ContentTemplate="{StaticResource LinkButtons}" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </StackPanel>
   </StackPanel>
 </ui:UiPage>

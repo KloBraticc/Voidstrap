@@ -16,13 +16,28 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
     private CancellationTokenSource? _cts;
     private bool _disposed;
 
+    private const int FeaturedLimit = 6;
+
     public ObservableCollection<NewsPost> Posts { get; } = [];
+
+    public ObservableCollection<NewsPost> Featured { get; } = [];
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasFeatured))]
+    public partial NewsPost? FeaturedPost { get; set; }
+
+    [ObservableProperty]
+    public partial NewsPost? PreviewPost { get; set; }
+
+    public bool HasFeatured => FeaturedPost != null;
+
+    public bool HasPosts => Posts.Count > 0;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShowEmpty))]
     public partial bool IsLoading { get; set; }
 
-    public bool ShowEmpty => !IsLoading && Posts.Count == 0;
+    public bool ShowEmpty => !IsLoading && Featured.Count == 0;
 
     public NewsViewModel()
     {
@@ -31,6 +46,42 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
 
     [RelayCommand]
     private Task Refresh() => LoadAsync();
+
+    [RelayCommand]
+    private void SelectFeatured(NewsPost? post)
+    {
+        if (post != null)
+            SetFeatured(post);
+    }
+
+    [RelayCommand]
+    private void PreviousFeatured() => StepFeatured(-1);
+
+    [RelayCommand]
+    private void NextFeatured() => StepFeatured(1);
+
+    [RelayCommand]
+    private void SelectPost(NewsPost? post)
+    {
+        if (post != null)
+            PreviewPost = post;
+    }
+
+    internal void StepFeatured(int step)
+    {
+        if (Featured.Count == 0)
+            return;
+        int index = FeaturedPost == null ? 0 : Featured.IndexOf(FeaturedPost);
+        SetFeatured(Featured[((index + step) % Featured.Count + Featured.Count) % Featured.Count]);
+    }
+
+    private void SetFeatured(NewsPost post)
+    {
+        if (FeaturedPost != null)
+            FeaturedPost.IsCurrent = false;
+        post.IsCurrent = true;
+        FeaturedPost = post;
+    }
 
     [RelayCommand]
     private static void OpenLink(string? url)
@@ -56,11 +107,21 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
             if (token.IsCancellationRequested)
                 return;
             Posts.Clear();
+            Featured.Clear();
+            FeaturedPost = null;
             foreach (NewsPost post in feed?.Posts ?? [])
             {
-                if (!string.IsNullOrWhiteSpace(post.Title))
+                if (string.IsNullOrWhiteSpace(post.Title))
+                    continue;
+                if (Featured.Count < FeaturedLimit)
+                    Featured.Add(post);
+                else
                     Posts.Add(post);
             }
+            if (Featured.Count > 0)
+                SetFeatured(Featured[0]);
+            PreviewPost = Posts.Count > 0 ? Posts[0] : null;
+            OnPropertyChanged(nameof(HasPosts));
         }
         catch (OperationCanceledException)
         {

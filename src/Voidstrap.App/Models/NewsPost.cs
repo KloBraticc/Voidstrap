@@ -1,3 +1,5 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace Voidstrap.Models;
 
 public sealed class NewsFeed
@@ -7,8 +9,12 @@ public sealed class NewsFeed
     public List<NewsPost> Posts { get; set; } = [];
 }
 
-public sealed class NewsPost
+public sealed partial class NewsPost : ObservableObject
 {
+    [ObservableProperty]
+    [Newtonsoft.Json.JsonIgnore]
+    public partial bool IsCurrent { get; set; }
+
     public string Date { get; set; } = string.Empty;
 
     public string Title { get; set; } = string.Empty;
