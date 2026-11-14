@@ -121,6 +121,8 @@ public partial class MenuContainer : WpfUiWindow
 
     private DateTime _flagsWriteTimeUtc = DateTime.MinValue;
 
+    private System.Windows.Media.ImageSource? CurrentGameIconSource() => CurrentGameIcon.Source;
+
     private void LoadFlags()
     {
         try
@@ -896,7 +898,7 @@ public partial class MenuContainer : WpfUiWindow
                 _sessionDock?.ShowTool(
                     "notifications",
                     "Settings",
-                    () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification)
+                    () => new SessionNotificationSettings(CurrentGameIconSource, _activityWatcher?.Data?.GameName, SendTestNotification)
                 );
                 break;
             case "clips":

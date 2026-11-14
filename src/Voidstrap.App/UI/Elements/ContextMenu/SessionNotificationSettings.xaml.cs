@@ -30,15 +30,22 @@ public partial class SessionNotificationSettings : Window
     private bool _playedOnOpen;
     private readonly DispatcherTimer _replay;
 
+    private readonly Func<ImageSource?>? _iconSource;
+
+    private ImageSource? _shownIcon;
+
+    public SessionNotificationSettings(Func<ImageSource?> iconSource, string? gameName, Action? sendTest = null)
+        : this(iconSource(), gameName, sendTest)
+    {
+        _iconSource = iconSource;
+    }
+
     public SessionNotificationSettings(ImageSource? gameIcon, string? gameName, Action? sendTest = null)
     {
         _sendTest = sendTest;
         InitializeComponent();
         _appearance = NotificationStyle.Current.Copy();
-        PreviewBackground.ImageSource = gameIcon;
-        Voidstrap.Utility.DynamicRenderSystem.SetPortableBrushImage(PreviewImageHost, gameIcon);
-        MockIcon.Source = gameIcon;
-        MockIcon.Visibility = gameIcon == null ? Visibility.Collapsed : Visibility.Visible;
+        ApplyGameIcon(gameIcon);
         foreach (string name in MotionNames)
         {
             MotionBox.Items.Add(name);
@@ -53,6 +60,25 @@ public partial class SessionNotificationSettings : Window
         ShowShortcut();
         Loaded += OnLoaded;
         Closed += OnClosed;
+        IsVisibleChanged += OnVisibleChanged;
+    }
+
+    private void ApplyGameIcon(ImageSource? icon)
+    {
+        _shownIcon = icon;
+        PreviewBackground.ImageSource = icon;
+        Voidstrap.Utility.DynamicRenderSystem.SetPortableBrushImage(PreviewImageHost, icon);
+        MockIcon.Source = icon;
+        MockIcon.Visibility = icon == null ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private void OnVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (_closed || !IsVisible || _iconSource == null)
+            return;
+        ImageSource? icon = _iconSource();
+        if (!ReferenceEquals(icon, _shownIcon))
+            ApplyGameIcon(icon);
     }
 
     private void OnReplay(object? sender, EventArgs e)
@@ -68,6 +94,7 @@ public partial class SessionNotificationSettings : Window
         _replay.Tick -= OnReplay;
         Loaded -= OnLoaded;
         Closed -= OnClosed;
+        IsVisibleChanged -= OnVisibleChanged;
         _playGeneration++;
         StopRecording(false);
         GC.SuppressFinalize(this);
@@ -125,6 +152,7 @@ public partial class SessionNotificationSettings : Window
         BadgesToggle.IsChecked = App.Settings.Prop.NotifyBadges;
         ShortcutToggle.IsChecked = App.Settings.Prop.NotifyShortcutEveryGame;
         ClipperInlineToggle.IsChecked = App.Settings.Prop.ClipperEnabled;
+        DockNewsToggle.IsChecked = App.Settings.Prop.ShowDockNews;
         UpdateSpots();
         _loading = false;
         UpdateValueTexts();
@@ -272,6 +300,7 @@ public partial class SessionNotificationSettings : Window
         App.Settings.Prop.NotifyFriends = FriendsToggle.IsChecked == true;
         App.Settings.Prop.NotifyBadges = BadgesToggle.IsChecked == true;
         App.Settings.Prop.NotifyShortcutEveryGame = ShortcutToggle.IsChecked == true;
+        App.Settings.Prop.ShowDockNews = DockNewsToggle.IsChecked == true;
         Commit();
     }
 

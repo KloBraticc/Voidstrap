@@ -203,12 +203,12 @@ public static class RoReviewService
                 OnPropertyChanged(nameof(AuthorName));
             }
         }
-        public string AvatarUrl
+        public string? AvatarUrl
         {
-            get => _avatarUrl;
+            get => string.IsNullOrEmpty(_avatarUrl) ? null : _avatarUrl;
             set
             {
-                _avatarUrl = value;
+                _avatarUrl = value ?? string.Empty;
                 OnPropertyChanged(nameof(AvatarUrl));
             }
         }

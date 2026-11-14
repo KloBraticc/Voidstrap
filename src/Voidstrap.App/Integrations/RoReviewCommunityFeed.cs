@@ -191,7 +191,7 @@ public static class RoReviewCommunityFeed
                         GameName = info.Name,
                         AuthorName = entry.AuthorName,
                         AuthorId = entry.AuthorId,
-                        AvatarUrl = entry.AvatarUrl,
+                        AvatarUrl = entry.AvatarUrl ?? string.Empty,
                         Content = entry.Content,
                         CreatedAt = entry.CreatedAt,
                         UnixTime = entry.UnixTime,
