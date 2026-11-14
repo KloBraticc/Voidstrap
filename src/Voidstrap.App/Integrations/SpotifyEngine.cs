@@ -26,6 +26,8 @@ public sealed class SpotifyEngine
 
     private static readonly TimeSpan PrewarmLimit = TimeSpan.FromMinutes(10);
 
+    private static readonly TimeSpan LowMemoryDelay = TimeSpan.FromSeconds(20);
+
     private const string PlayerUrl = "https://open.spotify.com/";
 
     internal const string Arguments =
@@ -194,6 +196,8 @@ public sealed class SpotifyEngine
 
     private bool _everViewed;
 
+    private bool _lowMemory;
+
     public static SpotifyEngine Shared { get; } = new();
 
     public event EventHandler? AudioStarted;
@@ -211,7 +215,6 @@ public sealed class SpotifyEngine
         if (_views > 0)
             return;
         _silentSince = DateTime.UtcNow;
-        SetLowMemory(true);
     }
 
     public bool HasViews => _views > 0;
@@ -225,15 +228,23 @@ public sealed class SpotifyEngine
     private void IdleTimer_Tick(object? sender, EventArgs e)
     {
         if (_views > 0 || IsPlayingAudio)
+        {
             _silentSince = DateTime.UtcNow;
-        else if (DateTime.UtcNow - _silentSince >= (_everViewed ? IdleLimit : PrewarmLimit))
+            return;
+        }
+        TimeSpan silent = DateTime.UtcNow - _silentSince;
+        if (silent >= (_everViewed ? IdleLimit : PrewarmLimit))
             Shutdown();
+        else if (silent >= LowMemoryDelay)
+            SetLowMemory(true);
     }
 
     private void Core_AudioChanged(object? sender, object e)
     {
-        if (IsPlayingAudio)
-            AudioStarted?.Invoke(this, EventArgs.Empty);
+        if (!IsPlayingAudio)
+            return;
+        SetLowMemory(false);
+        AudioStarted?.Invoke(this, EventArgs.Empty);
     }
 
     private static string LibraryCachePath => Path.Combine(Paths.Cache, "SpotifyLibrary.json");
@@ -318,7 +329,7 @@ public sealed class SpotifyEngine
 #if !CROSSPLAT
             _ = TrimWebCacheAsync(core);
 #endif
-            SetLowMemory(_views == 0);
+            _lowMemory = false;
             _silentSince = DateTime.UtcNow;
             _idleTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
             _idleTimer.Tick += IdleTimer_Tick;
@@ -370,10 +381,12 @@ public sealed class SpotifyEngine
         _controller?.CoreWebView2.Navigate(PlayerUrl);
     }
 
-    public void SetLowMemory(bool low)
+    private void SetLowMemory(bool low)
     {
-        if (_controller != null)
-            _controller.CoreWebView2.MemoryUsageTargetLevel = low ? CoreWebView2MemoryUsageTargetLevel.Low : CoreWebView2MemoryUsageTargetLevel.Normal;
+        if (_controller == null || low == _lowMemory)
+            return;
+        _lowMemory = low;
+        _controller.CoreWebView2.MemoryUsageTargetLevel = low ? CoreWebView2MemoryUsageTargetLevel.Low : CoreWebView2MemoryUsageTargetLevel.Normal;
     }
 
     private async Task<JsonDocument?> RunAsync(string expression)
