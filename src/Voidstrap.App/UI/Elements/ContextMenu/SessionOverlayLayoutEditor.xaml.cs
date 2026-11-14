@@ -51,10 +51,16 @@ public partial class SessionOverlayLayoutEditor : Window
     private readonly Border _stageKeystrokesWrapper;
     private readonly Border _stageKeystrokesHost;
 
+    private readonly Border _stageMusicWrapper;
+    private readonly Border _stageMusicIsland;
+    private readonly TextBlock _stageMusicText;
+
     private OverlayStudioLayer _selectedLayer = OverlayStudioLayer.Readout;
     private OverlayStudioLayer? _stageDraggingLayer;
     private Point _stageDragStartPointer;
     private Point _stageDragStartOrigin;
+    private bool _stageDragMoved;
+    private long _lastLiveSyncTicks;
     private SessionLiveOverlayCanvasWindow? _screenDragWindow;
     private bool _ready;
     private bool _loading;
@@ -128,11 +134,29 @@ public partial class SessionOverlayLayoutEditor : Window
         StageCanvas.Children.Add(_stageCrosshairWrapper);
         StageCanvas.Children.Add(_stageKeystrokesWrapper);
 
+        _stageMusicText = new TextBlock { FontSize = 9, FontWeight = FontWeights.SemiBold, VerticalAlignment = VerticalAlignment.Center };
+        _stageMusicText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        StackPanel musicRow = new() { Orientation = Orientation.Horizontal };
+        Border musicCover = new() { Width = 10, Height = 10, CornerRadius = new CornerRadius(3), Margin = new Thickness(0, 0, 5, 0) };
+        musicCover.SetResourceReference(Border.BackgroundProperty, "SubtleFillColorSecondaryBrush");
+        musicRow.Children.Add(musicCover);
+        musicRow.Children.Add(_stageMusicText);
+        SolidColorBrush musicGreen = new(Color.FromRgb(0x32, 0xD7, 0x4B));
+        musicGreen.Freeze();
+        for (int i = 0; i < 4; i++)
+            musicRow.Children.Add(new System.Windows.Shapes.Rectangle { Width = 1.5, Height = 4 + (i % 2) * 3, Margin = new Thickness(i == 0 ? 6 : 1, 0, 0, 0), Fill = musicGreen, VerticalAlignment = VerticalAlignment.Center });
+        _stageMusicIsland = new Border { CornerRadius = new CornerRadius(9), Padding = new Thickness(4, 3, 8, 3), BorderThickness = new Thickness(1), Child = musicRow };
+        _stageMusicIsland.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
+        _stageMusicIsland.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
+        _stageMusicWrapper = WrapStageElement(OverlayStudioLayer.Music, _stageMusicIsland);
+        StageCanvas.Children.Add(_stageMusicWrapper);
+
         _ready = true;
         LoadAllControls();
         SelectLayer(OverlayStudioLayer.Readout);
         Loaded += OnEditorLoaded;
         Closed += OnEditorClosed;
+        PreviewKeyDown += OnEditorPreviewKeyDown;
     }
 
     private Border WrapStageElement(OverlayStudioLayer layer, UIElement child)
@@ -184,6 +208,7 @@ public partial class SessionOverlayLayoutEditor : Window
         _closed = true;
         Loaded -= OnEditorLoaded;
         Closed -= OnEditorClosed;
+        PreviewKeyDown -= OnEditorPreviewKeyDown;
         CloseScreenDragWindow();
         App.Settings.SaveDeferred();
         GC.SuppressFinalize(this);
@@ -291,6 +316,11 @@ public partial class SessionOverlayLayoutEditor : Window
             CrosshairOffsetYSlider.Value = layout.SafeCrosshairOffsetY;
 
             KeystrokesEnableToggle.IsChecked = prop.KeystrokesOverlayEnabled;
+
+            MusicEnableToggle.IsChecked = prop.MusicIslandOverlay;
+            if (MusicPositionCombo.Items.Count == 0)
+                MusicPositionCombo.ItemsSource = Voidstrap.UI.ViewModels.Settings.ModsViewModel.MusicIslandPositionLabels();
+            MusicPositionCombo.SelectedIndex = (int)prop.MusicIslandPosition;
             KeystrokesShowKeysToggle.IsChecked = prop.KeystrokesShowKeys;
             KeystrokesShowMouseToggle.IsChecked = prop.KeystrokesShowMouseButtons;
             KeystrokesShowSpaceToggle.IsChecked = prop.KeystrokesShowSpaceAndShift;
@@ -351,6 +381,7 @@ public partial class SessionOverlayLayoutEditor : Window
             TabCrosshair.IsChecked = layer == OverlayStudioLayer.Crosshair;
             TabKeystrokes.IsChecked = layer == OverlayStudioLayer.Keystrokes;
             TabPanels.IsChecked = layer == OverlayStudioLayer.Panels;
+            TabMusic.IsChecked = layer == OverlayStudioLayer.Music;
         }
         finally
         {
@@ -363,6 +394,7 @@ public partial class SessionOverlayLayoutEditor : Window
         CrosshairInspector.Visibility = layer == OverlayStudioLayer.Crosshair ? Visibility.Visible : Visibility.Collapsed;
         KeystrokesInspector.Visibility = layer == OverlayStudioLayer.Keystrokes ? Visibility.Visible : Visibility.Collapsed;
         PanelsInspector.Visibility = layer == OverlayStudioLayer.Panels ? Visibility.Visible : Visibility.Collapsed;
+        MusicInspector.Visibility = layer == OverlayStudioLayer.Music ? Visibility.Visible : Visibility.Collapsed;
 
         if (layer == OverlayStudioLayer.Panels)
             RebuildPanelsList();
@@ -502,6 +534,13 @@ public partial class SessionOverlayLayoutEditor : Window
         Canvas.SetLeft(_stageKeystrokesWrapper, kMinX + (kMaxX - kMinX) * (layout.SafeKeystrokesHorizontal / 100.0));
         Canvas.SetTop(_stageKeystrokesWrapper, kMinY + (kMaxY - kMinY) * (layout.SafeKeystrokesVertical / 100.0));
 
+        _stageMusicText.Text = Strings.Ui_MusicIsland_Title;
+        _stageMusicIsland.Opacity = App.Settings.Prop.MusicIslandOverlay ? 1 : 0.45;
+        _stageMusicWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        Point musicPoint = MusicStagePoint(App.Settings.Prop.MusicIslandPosition, stageW, stageH, _stageMusicWrapper.DesiredSize);
+        Canvas.SetLeft(_stageMusicWrapper, musicPoint.X);
+        Canvas.SetTop(_stageMusicWrapper, musicPoint.Y);
+
         UpdateStageSelectionVisuals();
     }
 
@@ -512,6 +551,7 @@ public partial class SessionOverlayLayoutEditor : Window
         HighlightStageBox(_stageDockWrapper, _selectedLayer == OverlayStudioLayer.Dock);
         HighlightStageBox(_stageCrosshairWrapper, _selectedLayer == OverlayStudioLayer.Crosshair);
         HighlightStageBox(_stageKeystrokesWrapper, _selectedLayer == OverlayStudioLayer.Keystrokes);
+        HighlightStageBox(_stageMusicWrapper, _selectedLayer == OverlayStudioLayer.Music);
 
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
         NotificationAppearance notif = NotificationStyle.Current;
@@ -537,6 +577,7 @@ public partial class SessionOverlayLayoutEditor : Window
                 CultureInfo.InvariantCulture,
                 $"{Strings.Ui_OverlayStudio_LayerKeystrokes}: X {Math.Round(layout.SafeKeystrokesHorizontal)}% · Y {Math.Round(layout.SafeKeystrokesVertical)}%"
             ),
+            OverlayStudioLayer.Music => Strings.Ui_OverlayStudio_LayerMusic + ": " + MusicIslandLabel(App.Settings.Prop.MusicIslandPosition),
             _ => Strings.Ui_OverlayStudio_LayerPanels,
         };
     }
@@ -558,6 +599,7 @@ public partial class SessionOverlayLayoutEditor : Window
         SelectLayer(layer);
         _stageDraggingLayer = layer;
         _stageDragStartPointer = e.GetPosition(StageCanvas);
+        _stageDragMoved = false;
         double left = Canvas.GetLeft(box);
         double top = Canvas.GetTop(box);
         _stageDragStartOrigin = new Point(double.IsNaN(left) ? 0 : left, double.IsNaN(top) ? 0 : top);
@@ -574,6 +616,12 @@ public partial class SessionOverlayLayoutEditor : Window
         double stageH = Math.Max(80, StageCanvas.ActualHeight);
         double stageScale = Math.Clamp(stageW / 1600.0, 0.25, 0.42);
         Point pointer = e.GetPosition(StageCanvas);
+        if (!_stageDragMoved)
+        {
+            if (Math.Abs(pointer.X - _stageDragStartPointer.X) < 3 && Math.Abs(pointer.Y - _stageDragStartPointer.Y) < 3)
+                return;
+            _stageDragMoved = true;
+        }
         double nextLeft = _stageDragStartOrigin.X + (pointer.X - _stageDragStartPointer.X);
         double nextTop = _stageDragStartOrigin.Y + (pointer.Y - _stageDragStartPointer.Y);
 
@@ -593,7 +641,6 @@ public partial class SessionOverlayLayoutEditor : Window
             double maxY = Math.Max(minY + 1, stageH - elemH - gap);
             layout.ReadoutHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100)));
             layout.ReadoutVertical = Math.Round(SnapStagePercent(Math.Clamp((nextTop - minY) / (maxY - minY) * 100.0, 0, 100)));
-            OverlayWindow.Reconcile();
         }
         else if (layer == OverlayStudioLayer.Notifications)
         {
@@ -613,7 +660,6 @@ public partial class SessionOverlayLayoutEditor : Window
             double maxX = Math.Max(minX + 1, stageW - elemW - 6);
             layout.DockHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100)));
             layout.DockTopEdge = (nextTop + elemH * 0.5) < stageH * 0.45;
-            SessionDock.ActiveInstance?.RefreshLayoutLive();
         }
         else if (layer == OverlayStudioLayer.Crosshair)
         {
@@ -628,7 +674,6 @@ public partial class SessionOverlayLayoutEditor : Window
                 offsetY = 0;
             layout.CrosshairOffsetX = Math.Clamp(offsetX, -200, 200);
             layout.CrosshairOffsetY = Math.Clamp(offsetY, -200, 200);
-            Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         }
         else if (layer == OverlayStudioLayer.Keystrokes)
         {
@@ -639,21 +684,170 @@ public partial class SessionOverlayLayoutEditor : Window
             double maxY = Math.Max(minY + 1, stageH - elemH - gap);
             layout.KeystrokesHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100)));
             layout.KeystrokesVertical = Math.Round(SnapStagePercent(Math.Clamp((nextTop - minY) / (maxY - minY) * 100.0, 0, 100)));
-            KeystrokeOverlayWindow.Reconcile();
         }
 
-        LoadAllControls();
-        LayoutStagePreview();
-        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
+        if (layer == OverlayStudioLayer.Music || layer == OverlayStudioLayer.Dock)
+        {
+            Canvas.SetLeft(box, Math.Clamp(nextLeft, 0, Math.Max(0, stageW - elemW)));
+            Canvas.SetTop(box, Math.Clamp(nextTop, 0, Math.Max(0, stageH - elemH)));
+            UpdateStageSelectionVisuals();
+        }
+        else
+        {
+            LayoutStagePreview();
+        }
+
+        long now = Environment.TickCount64;
+        if (now - _lastLiveSyncTicks >= 50)
+        {
+            _lastLiveSyncTicks = now;
+            if (layer != OverlayStudioLayer.Music)
+                RefreshAllLiveOverlays();
+            _screenDragWindow?.RefreshFromEditor(_selectedLayer);
+        }
         e.Handled = true;
     }
 
     private void StageItem_MouseUp(object sender, MouseButtonEventArgs e)
     {
         if (sender is Border box && box.IsMouseCaptured)
+        {
             box.ReleaseMouseCapture();
+            if (_stageDraggingLayer == OverlayStudioLayer.Music && _stageDragMoved)
+            {
+                double stageW = Math.Max(100, StageCanvas.ActualWidth);
+                double stageH = Math.Max(80, StageCanvas.ActualHeight);
+                box.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                double centerX = Canvas.GetLeft(box) + box.DesiredSize.Width * 0.5;
+                double centerY = Canvas.GetTop(box) + box.DesiredSize.Height * 0.5;
+                App.Settings.Prop.MusicIslandPosition = MusicPositionFromPercent(centerX / stageW * 100.0, centerY / stageH * 100.0);
+                Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+            }
+        }
+        bool moved = _stageDraggingLayer != null && _stageDragMoved;
         _stageDraggingLayer = null;
+        _stageDragMoved = false;
+        if (moved)
+            CommitLayerChange();
+        e.Handled = true;
+    }
+
+    private void CommitLayerChange()
+    {
+        RefreshAllLiveOverlays();
         App.Settings.SaveDeferred();
+        LoadAllControls();
+        LayoutStagePreview();
+        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
+    }
+
+    private static MusicIslandPosition MusicPositionFromPercent(double x, double y)
+    {
+        bool top = y < 50;
+        if (x < 33.3)
+            return top ? MusicIslandPosition.TopLeft : MusicIslandPosition.BottomLeft;
+        if (x > 66.6)
+            return top ? MusicIslandPosition.TopRight : MusicIslandPosition.BottomRight;
+        return top ? MusicIslandPosition.TopCenter : MusicIslandPosition.BottomCenter;
+    }
+
+    private static Point MusicStagePoint(MusicIslandPosition position, double stageW, double stageH, Size size)
+    {
+        const double margin = 6;
+        double left = position switch
+        {
+            MusicIslandPosition.BottomLeft or MusicIslandPosition.TopLeft => margin,
+            MusicIslandPosition.BottomCenter or MusicIslandPosition.TopCenter => Math.Max(0, (stageW - size.Width) * 0.5),
+            _ => Math.Max(0, stageW - size.Width - margin),
+        };
+        double top = position is MusicIslandPosition.TopLeft or MusicIslandPosition.TopCenter or MusicIslandPosition.TopRight
+            ? margin
+            : Math.Max(0, stageH - size.Height - margin);
+        return new Point(left, top);
+    }
+
+    private static string MusicIslandLabel(MusicIslandPosition position)
+    {
+        IReadOnlyList<string> labels = Voidstrap.UI.ViewModels.Settings.ModsViewModel.MusicIslandPositionLabels();
+        int index = (int)position;
+        return index >= 0 && index < labels.Count ? labels[index] : labels[0];
+    }
+
+    private void MusicControl_Changed(object sender, RoutedEventArgs e)
+    {
+        if (!_ready || _loading)
+            return;
+        App.Settings.Prop.MusicIslandOverlay = MusicEnableToggle.IsChecked == true;
+        Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+        App.Settings.SaveDeferred();
+        LayoutStagePreview();
+    }
+
+    private void MusicPositionCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!_ready || _loading || MusicPositionCombo.SelectedIndex < 0)
+            return;
+        App.Settings.Prop.MusicIslandPosition = (MusicIslandPosition)MusicPositionCombo.SelectedIndex;
+        Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+        App.Settings.SaveDeferred();
+        LayoutStagePreview();
+    }
+
+    private void OnEditorPreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (!_ready || _closed || e.Key is not (Key.Left or Key.Right or Key.Up or Key.Down))
+            return;
+        if (Keyboard.FocusedElement is TextBox or ComboBox or ComboBoxItem or Slider)
+            return;
+        double step = (Keyboard.Modifiers & ModifierKeys.Shift) != 0 ? 5 : 1;
+        double dx = e.Key == Key.Left ? -step : e.Key == Key.Right ? step : 0;
+        double dy = e.Key == Key.Up ? -step : e.Key == Key.Down ? step : 0;
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+        switch (_selectedLayer)
+        {
+            case OverlayStudioLayer.Readout:
+                layout.ReadoutHorizontal = Math.Clamp(layout.SafeReadoutHorizontal + dx, 0, 100);
+                layout.ReadoutVertical = Math.Clamp(layout.SafeReadoutVertical + dy, 0, 100);
+                break;
+            case OverlayStudioLayer.Notifications:
+                NotificationAppearance notif = NotificationStyle.Current;
+                notif.PositionMigrated = true;
+                notif.Horizontal = Math.Clamp(notif.SafeHorizontal + dx, 0, 100);
+                notif.Vertical = Math.Clamp(notif.SafeVertical + dy, 0, 100);
+                App.Settings.Prop.NotificationAppearance = notif.Copy();
+                break;
+            case OverlayStudioLayer.Dock:
+                layout.DockHorizontal = Math.Clamp(layout.SafeDockHorizontal + dx, 0, 100);
+                if (dy != 0)
+                    layout.DockTopEdge = dy < 0;
+                break;
+            case OverlayStudioLayer.Crosshair:
+                layout.CrosshairOffsetX = (int)Math.Clamp(layout.SafeCrosshairOffsetX + dx * 2, -200, 200);
+                layout.CrosshairOffsetY = (int)Math.Clamp(layout.SafeCrosshairOffsetY + dy * 2, -200, 200);
+                break;
+            case OverlayStudioLayer.Keystrokes:
+                layout.KeystrokesHorizontal = Math.Clamp(layout.SafeKeystrokesHorizontal + dx, 0, 100);
+                layout.KeystrokesVertical = Math.Clamp(layout.SafeKeystrokesVertical + dy, 0, 100);
+                break;
+            case OverlayStudioLayer.Music:
+                MusicIslandPosition current = App.Settings.Prop.MusicIslandPosition;
+                bool top = current is MusicIslandPosition.TopLeft or MusicIslandPosition.TopCenter or MusicIslandPosition.TopRight;
+                int column = current switch
+                {
+                    MusicIslandPosition.TopLeft or MusicIslandPosition.BottomLeft => 0,
+                    MusicIslandPosition.TopCenter or MusicIslandPosition.BottomCenter => 1,
+                    _ => 2,
+                };
+                column = Math.Clamp(column + Math.Sign(dx), 0, 2);
+                if (dy != 0)
+                    top = dy < 0;
+                App.Settings.Prop.MusicIslandPosition = MusicPositionFromPercent(column * 50, top ? 0 : 100);
+                Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+                break;
+            default:
+                return;
+        }
+        CommitLayerChange();
         e.Handled = true;
     }
 
@@ -719,6 +913,11 @@ public partial class SessionOverlayLayoutEditor : Window
             layout.KeystrokesHorizontal = anchorX;
             layout.KeystrokesVertical = anchorY;
             KeystrokeOverlayWindow.Reconcile();
+        }
+        else if (_selectedLayer == OverlayStudioLayer.Music)
+        {
+            App.Settings.Prop.MusicIslandPosition = MusicPositionFromPercent(anchorX, anchorY);
+            Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
         }
 
         App.Settings.SaveDeferred();
@@ -1211,6 +1410,11 @@ public partial class SessionOverlayLayoutEditor : Window
             layout.ResetKeystrokes();
             KeystrokeOverlayWindow.Reconcile();
         }
+        else if (_selectedLayer == OverlayStudioLayer.Music)
+        {
+            App.Settings.Prop.MusicIslandPosition = MusicIslandPosition.BottomRight;
+            Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+        }
         else if (_selectedLayer == OverlayStudioLayer.Panels)
         {
             SessionDock.ActiveInstance?.ResetAllPanelLayoutsLive();
@@ -1230,6 +1434,7 @@ public partial class SessionOverlayLayoutEditor : Window
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         layout.ResetAll();
         App.Settings.Prop.NotificationAppearance = new NotificationAppearance();
+        App.Settings.Prop.MusicIslandPosition = MusicIslandPosition.BottomRight;
         RefreshAllLiveOverlays();
         App.Settings.SaveDeferred();
         LoadAllControls();
@@ -1243,6 +1448,7 @@ public partial class SessionOverlayLayoutEditor : Window
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         KeystrokeOverlayWindow.Reconcile();
         SessionDock.ActiveInstance?.RefreshLayoutLive();
+        Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
     }
 
     private void ResetAllPanels_Click(object sender, RoutedEventArgs e)

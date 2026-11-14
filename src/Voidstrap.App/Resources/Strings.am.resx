@@ -9979,4 +9979,34 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>ተደራቢው ሲከፈት የጨዋታ ዜና ፓነሉን በራስ ሰር ይከፍታል።</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>የሙዚቃ ደሴት</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>በSpotify የሚጫወተውን ዘፈን በRoblox ላይ እንደ ትንሽ ደሴት ያሳያል።</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>የደሴት ቦታ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>ከታች በቀኝ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>ከታች በመሃል</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>ከታች በግራ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>ከላይ በቀኝ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>ከላይ በመሃል</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>ከላይ በግራ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>ሙዚቃ</value>
+  </data>
 </root>

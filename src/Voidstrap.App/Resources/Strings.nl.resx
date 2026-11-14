@@ -10294,4 +10294,34 @@ SteamVR nu installeren?</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>Opent automatisch het gamenieuwspaneel wanneer de overlay opent.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Muzikeiland</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Toont het nummer dat in Spotify speelt als een klein eiland boven Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Positie van het eiland</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Rechtsonder</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Middenonder</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Linksonder</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Rechtsboven</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Middenboven</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Linksboven</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Muziek</value>
+  </data>
 </root>

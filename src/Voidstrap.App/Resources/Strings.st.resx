@@ -9979,4 +9979,34 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>E bula phanele ya ditaba tsa papadi ka boiketsetso ha overlay e buleha.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Sehlekehleke sa mmino</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>E bontsha pina e bapalang ho Spotify jwalo ka sehlekehleke se senyenyane hodima Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Boemo ba sehlekehleke</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Tlase ka ho le letona</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Tlase bohareng</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Tlase ka ho le letshehadi</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Hodimo ka ho le letona</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Hodimo bohareng</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Hodimo ka ho le letshehadi</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Mmino</value>
+  </data>
 </root>

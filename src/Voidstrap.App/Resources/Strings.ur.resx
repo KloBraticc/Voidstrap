@@ -9979,4 +9979,34 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>اوورلے کھلنے پر گیم کی خبروں کا پینل خود بخود کھولتا ہے۔</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>میوزک آئی لینڈ</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify میں چلنے والا گانا Roblox کے اوپر ایک چھوٹے آئی لینڈ کی صورت میں دکھاتا ہے۔</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>آئی لینڈ کی جگہ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>نیچے دائیں</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>نیچے درمیان</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>نیچے بائیں</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>اوپر دائیں</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>اوپر درمیان</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>اوپر بائیں</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>میوزک</value>
+  </data>
 </root>

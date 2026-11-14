@@ -10295,4 +10295,34 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>Tự động mở bảng tin tức trò chơi khi lớp phủ được mở.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Đảo nhạc</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Hiển thị bài hát đang phát trên Spotify dưới dạng một đảo nhỏ phía trên Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Vị trí đảo</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Dưới bên phải</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Dưới ở giữa</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Dưới bên trái</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Trên bên phải</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Trên ở giữa</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Trên bên trái</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Nhạc</value>
+  </data>
 </root>

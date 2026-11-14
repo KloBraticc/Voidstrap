@@ -9980,4 +9980,34 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>Ifungura ku buryo bwikora akanama k’amakuru y’umukino iyo igipfundikizo gifunguwe.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Ikirwa cy'umuziki</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Kigaragaza indirimbo icurangwa muri Spotify nk'ikirwa gito hejuru ya Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Aho ikirwa kiri</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Hasi iburyo</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Hasi hagati</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Hasi ibumoso</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Hejuru iburyo</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Hejuru hagati</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Hejuru ibumoso</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Umuziki</value>
+  </data>
 </root>

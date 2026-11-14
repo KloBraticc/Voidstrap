@@ -9980,4 +9980,34 @@ SteamVR elo installéieren?</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>Mécht de Spillnoriichtepanel automatesch op, wann den Overlay opgeet.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Museksinsel</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Weist de Lidd, deen am Spotify leeft, als kleng Insel iwwer Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Positioun vun der Insel</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Ënnen riets</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Ënnen an der Mëtt</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Ënnen lénks</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Uewen riets</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Uewen an der Mëtt</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Uewen lénks</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Musek</value>
+  </data>
 </root>

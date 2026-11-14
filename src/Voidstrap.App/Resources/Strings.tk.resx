@@ -9979,4 +9979,34 @@ Indi SteamVR guruň?</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>Örtük açylanda oýun habarlary paneli awtomatik açylýar.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Saz adasy</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify -da çalynýan aýdymy Roblox üstünde kiçi ada görnüşinde görkezýär.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Adanyň ýerleşişi</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Aşakda sagda</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Aşakda ortada</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Aşakda çepde</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Ýokarda sagda</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Ýokarda ortada</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Ýokarda çepde</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Saz</value>
+  </data>
 </root>

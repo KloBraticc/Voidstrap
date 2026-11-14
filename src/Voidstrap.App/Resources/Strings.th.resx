@@ -10287,4 +10287,34 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>เปิดแผงข่าวเกมโดยอัตโนมัติเมื่อเปิดโอเวอร์เลย์</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>เกาะเพลง</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>แสดงเพลงที่กำลังเล่นใน Spotify เป็นเกาะเล็กๆ บน Roblox</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>ตำแหน่งเกาะ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>ขวาล่าง</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>กลางล่าง</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>ซ้ายล่าง</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>ขวาบน</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>กลางบน</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>ซ้ายบน</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>เพลง</value>
+  </data>
 </root>

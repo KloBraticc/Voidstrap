@@ -31,6 +31,25 @@
         </controls:OptionControl>
       </ui:CardExpander>
 
+      <ui:CardExpander Margin="0,0,0,8" IsExpanded="{Binding MusicIslandOverlay, Mode=OneWay}">
+        <HeaderedContentControl.Header>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock FontSize="14" Text="{resources:Loc Ui_MusicIsland_Title}" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Text="{resources:Loc Ui_MusicIsland_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            </StackPanel>
+            <ui:ToggleSwitch Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center" IsChecked="{Binding MusicIslandOverlay, Mode=TwoWay}" />
+          </Grid>
+        </HeaderedContentControl.Header>
+        <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_MusicIsland_Position}" IsEnabled="{Binding MusicIslandOverlay}">
+          <ComboBox Width="200" ItemsSource="{Binding MusicIslandPositions}" SelectedIndex="{Binding MusicIslandPositionIndex, Mode=TwoWay}" />
+        </controls:OptionControl>
+      </ui:CardExpander>
+
       <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/overlays/#notifications" Header="{resources:Loc Ui_Mods_ScreenshotNotify_Title}" Description="{resources:Loc Ui_Mods_ScreenshotNotify_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
         <ui:ToggleSwitch IsChecked="{Binding ScreenshotNotifications, Mode=TwoWay}" />
       </controls:OptionControl>

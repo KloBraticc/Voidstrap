@@ -10307,4 +10307,34 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>オーバーレイを開いたときにゲームニュースパネルを自動で開きます。</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>ミュージックアイランド</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify で再生中の曲を Roblox の上に小さなアイランドとして表示します。</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>アイランドの位置</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>右下</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>下中央</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>左下</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>右上</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>上中央</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>左上</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>ミュージック</value>
+  </data>
 </root>

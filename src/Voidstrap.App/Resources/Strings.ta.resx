@@ -9979,4 +9979,34 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>மேலடுக்கு திறக்கும்போது விளையாட்டு செய்திப் பலகத்தைத் தானாகத் திறக்கும்.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>மியூசிக் தீவு</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify இல் ஒலிக்கும் பாடலை Roblox மேல் சிறிய தீவாகக் காட்டுகிறது.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>தீவின் நிலை</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>கீழே வலது</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>கீழே நடுவில்</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>கீழே இடது</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>மேலே வலது</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>மேலே நடுவில்</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>மேலே இடது</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>இசை</value>
+  </data>
 </root>

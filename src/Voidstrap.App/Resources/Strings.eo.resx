@@ -9979,4 +9979,34 @@ Ludantoj: {2}</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>Aŭtomate malfermas la panelon de ludaj novaĵoj kiam la surmetaĵo malfermiĝas.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Muzika insulo</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Montras la kanton ludantan en Spotify kiel malgrandan insulon super Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Pozicio de la insulo</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Malsupre dekstre</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Malsupre centre</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Malsupre maldekstre</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Supre dekstre</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Supre centre</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Supre maldekstre</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Muziko</value>
+  </data>
 </root>

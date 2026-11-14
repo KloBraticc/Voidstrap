@@ -9979,4 +9979,34 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>עפֿנט אויטאָמאַטיש דעם שפּיל נײַעס פּאַנעל ווען די איבערלייג עפֿנט זיך.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>מוזיק אינדזל</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>ווייזט דאָס ליד וואָס שפּילט אין Spotify ווי אַ קליין אינדזל איבער Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>אינדזל פּאָזיציע</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>אונטן רעכטס</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>אונטן אין מיטן</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>אונטן לינקס</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>אויבן רעכטס</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>אויבן אין מיטן</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>אויבן לינקס</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>מוזיק</value>
+  </data>
 </root>

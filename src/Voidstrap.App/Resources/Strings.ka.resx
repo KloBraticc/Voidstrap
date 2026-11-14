@@ -9980,4 +9980,34 @@ Uptime: {1}
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>ზედაფენის გახსნისას ავტომატურად ხსნის თამაშის სიახლეების პანელს.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>მუსიკის კუნძული</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>აჩვენებს Spotify ში მიმდინარე სიმღერას პატარა კუნძულად Roblox ის თავზე.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>კუნძულის მდებარეობა</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>ქვემოთ მარჯვნივ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>ქვემოთ ცენტრში</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>ქვემოთ მარცხნივ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>ზემოთ მარჯვნივ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>ზემოთ ცენტრში</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>ზემოთ მარცხნივ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>მუსიკა</value>
+  </data>
 </root>

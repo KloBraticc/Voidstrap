@@ -595,6 +595,26 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Mods_SessionDock => ResourceManager.GetString("Ui.Mods.SessionDock", resourceCulture);
 
+        public static string Ui_MusicIsland_Title => ResourceManager.GetString("Ui.MusicIsland.Title", resourceCulture);
+
+        public static string Ui_MusicIsland_Description => ResourceManager.GetString("Ui.MusicIsland.Description", resourceCulture);
+
+        public static string Ui_MusicIsland_Position => ResourceManager.GetString("Ui.MusicIsland.Position", resourceCulture);
+
+        public static string Ui_MusicIsland_BottomRight => ResourceManager.GetString("Ui.MusicIsland.BottomRight", resourceCulture);
+
+        public static string Ui_MusicIsland_BottomCenter => ResourceManager.GetString("Ui.MusicIsland.BottomCenter", resourceCulture);
+
+        public static string Ui_MusicIsland_BottomLeft => ResourceManager.GetString("Ui.MusicIsland.BottomLeft", resourceCulture);
+
+        public static string Ui_MusicIsland_TopRight => ResourceManager.GetString("Ui.MusicIsland.TopRight", resourceCulture);
+
+        public static string Ui_MusicIsland_TopCenter => ResourceManager.GetString("Ui.MusicIsland.TopCenter", resourceCulture);
+
+        public static string Ui_MusicIsland_TopLeft => ResourceManager.GetString("Ui.MusicIsland.TopLeft", resourceCulture);
+
+        public static string Ui_OverlayStudio_LayerMusic => ResourceManager.GetString("Ui.OverlayStudio.LayerMusic", resourceCulture);
+
         public static string Ui_Mods_SessionDockSpotify_Title => ResourceManager.GetString("Ui.Mods.SessionDockSpotify.Title", resourceCulture);
 
         public static string Ui_Mods_SessionDockSpotify_Description => ResourceManager.GetString("Ui.Mods.SessionDockSpotify.Description", resourceCulture);

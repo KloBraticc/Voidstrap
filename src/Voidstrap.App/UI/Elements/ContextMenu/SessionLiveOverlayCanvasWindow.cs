@@ -27,6 +27,7 @@ public enum OverlayStudioLayer
     Crosshair = 3,
     Panels = 4,
     Keystrokes = 5,
+    Music = 6,
 }
 
 internal sealed partial class SessionLiveOverlayCanvasWindow : Window
@@ -115,7 +116,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         Action onResetAll
     )
     {
-        _selectedLayer = initialLayer == OverlayStudioLayer.Panels ? OverlayStudioLayer.Readout : initialLayer;
+        _selectedLayer = initialLayer is OverlayStudioLayer.Panels or OverlayStudioLayer.Music ? OverlayStudioLayer.Readout : initialLayer;
         _gameIcon = gameIcon;
         _onLayerUpdated = onLayerUpdated;
         _onResetAll = onResetAll;

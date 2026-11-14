@@ -9980,4 +9980,34 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>ओभरले खुल्दा खेल समाचार प्यानल स्वचालित रूपमा खोल्छ।</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>म्युजिक आइल्यान्ड</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify मा बजिरहेको गीतलाई Roblox माथि सानो आइल्यान्डको रूपमा देखाउँछ।</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>आइल्यान्डको स्थान</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>तल दायाँ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>तल बीचमा</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>तल बायाँ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>माथि दायाँ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>माथि बीचमा</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>माथि बायाँ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>म्युजिक</value>
+  </data>
 </root>

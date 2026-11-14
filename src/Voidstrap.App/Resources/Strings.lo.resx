@@ -9980,4 +9980,34 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>ເປີດແຜງຂ່າວເກມອັດຕະໂນມັດເມື່ອເປີດໂອເວີເລ.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>ເກາະເພງ</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>ສະແດງເພງທີ່ກຳລັງຫຼິ້ນໃນ Spotify ເປັນເກາະນ້ອຍເທິງ Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>ຕຳແໜ່ງເກາະ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>ລຸ່ມຂວາ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>ລຸ່ມກາງ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>ລຸ່ມຊ້າຍ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>ເທິງຂວາ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>ເທິງກາງ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>ເທິງຊ້າຍ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>ເພງ</value>
+  </data>
 </root>

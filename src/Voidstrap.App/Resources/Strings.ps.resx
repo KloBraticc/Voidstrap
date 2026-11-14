@@ -9980,4 +9980,34 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>کله چې پوښ خلاص شي، د لوبې د خبرونو تخته په اتومات ډول خلاصوي.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>د موسیقۍ ټاپو</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>هغه سندره چې په Spotify کې غږېږي د Roblox پر سر د کوچني ټاپو په توګه ښيي.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>د ټاپو ځای</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>لاندې ښي</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>لاندې منځ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>لاندې چپ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>پورته ښي</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>پورته منځ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>پورته چپ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>موسیقي</value>
+  </data>
 </root>

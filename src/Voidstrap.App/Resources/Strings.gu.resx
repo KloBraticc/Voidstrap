@@ -9980,4 +9980,34 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>ઓવરલે ખુલે ત્યારે ગેમ સમાચાર પેનલ આપમેળે ખોલે છે.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>મ્યુઝિક આઇલેન્ડ</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify માં વાગતું ગીત Roblox ઉપર નાના આઇલેન્ડ તરીકે બતાવે છે.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>આઇલેન્ડનું સ્થાન</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>નીચે જમણે</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>નીચે મધ્યમાં</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>નીચે ડાબે</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>ઉપર જમણે</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>ઉપર મધ્યમાં</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>ઉપર ડાબે</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>મ્યુઝિક</value>
+  </data>
 </root>

@@ -9980,4 +9980,34 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>උඩැතිරිය විවෘත වූ විට ක්‍රීඩා පුවත් පුවරුව ස්වයංක්‍රීයව විවෘත කරයි.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>සංගීත දූපත</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify හි වාදනය වන ගීතය Roblox මත කුඩා දූපතක් ලෙස පෙන්වයි.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>දූපතේ ස්ථානය</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>පහළ දකුණ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>පහළ මැද</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>පහළ වම</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>ඉහළ දකුණ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>ඉහළ මැද</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>ඉහළ වම</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>සංගීතය</value>
+  </data>
 </root>

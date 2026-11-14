@@ -9980,4 +9980,34 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>جڏهن اوورلي کلي ته راند جي خبرن واري پينل کي پاڻمرادو کولي ٿو.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>ميوزڪ ٻيٽ</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify ۾ هلندڙ گيت کي Roblox مٿان ننڍي ٻيٽ طور ڏيکاري ٿو.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>ٻيٽ جي جاءِ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>هيٺ ساڄي</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>هيٺ وچ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>هيٺ کاٻي</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>مٿي ساڄي</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>مٿي وچ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>مٿي کاٻي</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>ميوزڪ</value>
+  </data>
 </root>

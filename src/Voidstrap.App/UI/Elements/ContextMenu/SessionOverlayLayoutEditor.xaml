@@ -244,6 +244,7 @@
             <ColumnDefinition Width="0.85*" />
             <ColumnDefinition Width="0.9*" />
             <ColumnDefinition Width="1.0*" />
+            <ColumnDefinition Width="0.9*" />
           </Grid.ColumnDefinitions>
           <RadioButton x:Name="TabReadout" Grid.Column="0" Tag="Readout" Content="{resources:Loc Ui_OverlayStudio_LayerReadout}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" IsChecked="True" Checked="LayerTab_Click" />
           <RadioButton x:Name="TabNotifications" Grid.Column="1" Tag="Notifications" Content="{resources:Loc Ui_OverlayStudio_LayerNotifications}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
@@ -251,6 +252,7 @@
           <RadioButton x:Name="TabCrosshair" Grid.Column="3" Tag="Crosshair" Content="{resources:Loc Ui_OverlayStudio_LayerCrosshair}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
           <RadioButton x:Name="TabKeystrokes" Grid.Column="4" Tag="Keystrokes" Content="{resources:Loc Ui_OverlayStudio_LayerKeystrokes}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
           <RadioButton x:Name="TabPanels" Grid.Column="5" Tag="Panels" Content="{resources:Loc Ui_OverlayStudio_LayerPanels}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
+          <RadioButton x:Name="TabMusic" Grid.Column="6" Tag="Music" Content="{resources:Loc Ui_OverlayStudio_LayerMusic}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
         </Grid>
       </Border>
 
@@ -739,6 +741,36 @@
                 <TextBlock Text="{resources:Loc Ui_OverlayStudio_KeystrokesEdgeSpacing}" Style="{StaticResource Label}" />
                 <Slider x:Name="KeystrokesEdgeSlider" Grid.Column="1" Minimum="0" Maximum="64" TickFrequency="2" Style="{StaticResource RowSlider}" ValueChanged="KeystrokesSlider_Changed" />
                 <TextBlock x:Name="KeystrokesEdgeText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <StackPanel x:Name="MusicInspector" Margin="0,12,0,0" Visibility="Collapsed">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_MusicIsland_Title}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_MusicIsland_Description}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="MusicEnableToggle" Grid.Column="1" VerticalAlignment="Center" Checked="MusicControl_Changed" Unchecked="MusicControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_MusicIsland_Position}" Style="{StaticResource Label}" VerticalAlignment="Center" />
+                <ComboBox x:Name="MusicPositionCombo" Grid.Column="1" Width="180" SelectionChanged="MusicPositionCombo_SelectionChanged" />
               </Grid>
             </Border>
           </StackPanel>

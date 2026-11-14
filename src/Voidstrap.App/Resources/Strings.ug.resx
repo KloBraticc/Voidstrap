@@ -9979,4 +9979,34 @@ Uptime: {1}
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>قاپلاما ئېچىلغاندا ئويۇن خەۋەرلىرى تاختىسىنى ئاپتوماتىك ئاچىدۇ.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>مۇزىكا ئارىلى</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify دا قويۇلۇۋاتقان ناخشىنى Roblox ئۈستىدە كىچىك ئارال شەكلىدە كۆرسىتىدۇ.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>ئارالنىڭ ئورنى</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>ئاستى ئوڭ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>ئاستى ئوتتۇرا</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>ئاستى سول</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>ئۈستى ئوڭ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>ئۈستى ئوتتۇرا</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>ئۈستى سول</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>مۇزىكا</value>
+  </data>
 </root>

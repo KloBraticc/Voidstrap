@@ -9980,4 +9980,34 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>Ավտոմատ բացում է խաղի նորությունների վահանակը, երբ վերադրումը բացվում է։</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Երաժշտական կղզի</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Ցույց է տալիս Spotify ում հնչող երգը որպես փոքր կղզի Roblox ի վրա։</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Կղզու դիրքը</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Ներքևում աջ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Ներքևում կենտրոն</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Ներքևում ձախ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Վերևում աջ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Վերևում կենտրոն</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Վերևում ձախ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Երաժշտություն</value>
+  </data>
 </root>

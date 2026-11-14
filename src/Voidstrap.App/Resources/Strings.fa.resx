@@ -10294,4 +10294,34 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>هنگام باز شدن پوشش، پنل اخبار بازی را خودکار باز می‌کند.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>جزیره موسیقی</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>آهنگی را که در Spotify پخش می‌شود به شکل یک جزیره کوچک روی Roblox نشان می‌دهد.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>موقعیت جزیره</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>پایین راست</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>پایین وسط</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>پایین چپ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>بالا راست</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>بالا وسط</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>بالا چپ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>موسیقی</value>
+  </data>
 </root>

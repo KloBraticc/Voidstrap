@@ -9980,4 +9980,34 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>ਓਵਰਲੇ ਖੁੱਲ੍ਹਣ ਤੇ ਗੇਮ ਖ਼ਬਰਾਂ ਪੈਨਲ ਆਪਣੇ ਆਪ ਖੋਲ੍ਹਦਾ ਹੈ।</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>ਮਿਊਜ਼ਿਕ ਆਈਲੈਂਡ</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify ਵਿੱਚ ਚੱਲ ਰਹੇ ਗੀਤ ਨੂੰ Roblox ਉੱਤੇ ਛੋਟੇ ਆਈਲੈਂਡ ਵਜੋਂ ਦਿਖਾਉਂਦਾ ਹੈ।</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>ਆਈਲੈਂਡ ਦੀ ਥਾਂ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>ਹੇਠਾਂ ਸੱਜੇ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>ਹੇਠਾਂ ਵਿਚਕਾਰ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>ਹੇਠਾਂ ਖੱਬੇ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>ਉੱਪਰ ਸੱਜੇ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>ਉੱਪਰ ਵਿਚਕਾਰ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>ਉੱਪਰ ਖੱਬੇ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>ਮਿਊਜ਼ਿਕ</value>
+  </data>
 </root>

@@ -723,7 +723,7 @@ public partial class SessionDock : Window
             MorphIsland(false);
     }
 
-    private static System.Windows.Media.Imaging.BitmapImage? LoadNowPlayingCover(byte[] bytes)
+    internal static System.Windows.Media.Imaging.BitmapImage? LoadNowPlayingCover(byte[] bytes)
     {
         try
         {

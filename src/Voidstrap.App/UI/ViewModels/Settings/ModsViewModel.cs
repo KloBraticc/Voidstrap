@@ -1176,6 +1176,46 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public bool MusicIslandOverlay
+    {
+        get => App.Settings.Prop.MusicIslandOverlay;
+        set
+        {
+            if (App.Settings.Prop.MusicIslandOverlay == value)
+                return;
+            App.Settings.Prop.MusicIslandOverlay = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(MusicIslandOverlay));
+            Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+        }
+    }
+
+    public IReadOnlyList<string> MusicIslandPositions => MusicIslandPositionLabels();
+
+    internal static IReadOnlyList<string> MusicIslandPositionLabels() =>
+        [
+            Strings.Ui_MusicIsland_BottomRight,
+            Strings.Ui_MusicIsland_BottomCenter,
+            Strings.Ui_MusicIsland_BottomLeft,
+            Strings.Ui_MusicIsland_TopRight,
+            Strings.Ui_MusicIsland_TopCenter,
+            Strings.Ui_MusicIsland_TopLeft,
+        ];
+
+    public int MusicIslandPositionIndex
+    {
+        get => (int)App.Settings.Prop.MusicIslandPosition;
+        set
+        {
+            if (value < 0 || value > 5 || (int)App.Settings.Prop.MusicIslandPosition == value)
+                return;
+            App.Settings.Prop.MusicIslandPosition = (MusicIslandPosition)value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(MusicIslandPositionIndex));
+            Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+        }
+    }
+
     public bool SessionDockEnabled
     {
         get => App.Settings.Prop.SessionDockEnabled;

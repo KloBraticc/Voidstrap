@@ -9979,4 +9979,34 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>ওভারলে খুললে গেমের খবরের প্যানেল স্বয়ংক্রিয়ভাবে খোলে।</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>মিউজিক আইল্যান্ড</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify তে বাজতে থাকা গানটি Roblox এর উপরে একটি ছোট আইল্যান্ড হিসেবে দেখায়।</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>আইল্যান্ডের অবস্থান</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>নিচে ডানে</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>নিচে মাঝখানে</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>নিচে বামে</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>উপরে ডানে</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>উপরে মাঝখানে</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>উপরে বামে</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>মিউজিক</value>
+  </data>
 </root>

@@ -9979,4 +9979,34 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>Аўтаматычна адкрывае панэль навін гульні, калі адкрываецца накладка.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Музычны востраў</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Паказвае песню, якая грае ў Spotify, як маленькі востраў над Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Размяшчэнне вострава</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Унізе справа</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Унізе па цэнтры</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Унізе злева</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Уверсе справа</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Уверсе па цэнтры</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Уверсе злева</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
 </root>

@@ -9980,4 +9980,34 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>បើកផ្ទាំងព័ត៌មានហ្គេមដោយស្វ័យប្រវត្តិ នៅពេលស្រទាប់បើក។</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>កោះតន្ត្រី</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>បង្ហាញបទចម្រៀងដែលកំពុងចាក់ក្នុង Spotify ជាកោះតូចមួយលើ Roblox។</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>ទីតាំងកោះ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>ក្រោមស្ដាំ</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>ក្រោមកណ្ដាល</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>ក្រោមឆ្វេង</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>លើស្ដាំ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>លើកណ្ដាល</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>លើឆ្វេង</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>តន្ត្រី</value>
+  </data>
 </root>

@@ -9979,4 +9979,34 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>Ó ń ṣí pánẹ́ẹ̀lì ìròyìn eré láìfọwọ́yí nígbà tí ìbòrí bá ṣí.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>Erékùṣù orin</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Ó ń fi orin tó ń dún lórí Spotify hàn bí erékùṣù kékeré lórí Roblox.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>Ipò erékùṣù</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>Ìsàlẹ̀ ọ̀tún</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>Ìsàlẹ̀ àárín</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>Ìsàlẹ̀ òsì</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>Òkè ọ̀tún</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>Òkè àárín</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>Òkè òsì</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>Orin</value>
+  </data>
 </root>

@@ -9979,4 +9979,34 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.SessionNotify.DockNews.Hint" xml:space="preserve">
     <value>ఓవర్‌లే తెరిచినప్పుడు గేమ్ వార్తల ప్యానెల్‌ను స్వయంచాలకంగా తెరుస్తుంది.</value>
   </data>
+  <data name="Ui.MusicIsland.Title" xml:space="preserve">
+    <value>మ్యూజిక్ ఐలాండ్</value>
+  </data>
+  <data name="Ui.MusicIsland.Description" xml:space="preserve">
+    <value>Spotify లో ప్లే అవుతున్న పాటను Roblox పై చిన్న ఐలాండ్‌గా చూపిస్తుంది.</value>
+  </data>
+  <data name="Ui.MusicIsland.Position" xml:space="preserve">
+    <value>ఐలాండ్ స్థానం</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomRight" xml:space="preserve">
+    <value>కింద కుడి</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomCenter" xml:space="preserve">
+    <value>కింద మధ్య</value>
+  </data>
+  <data name="Ui.MusicIsland.BottomLeft" xml:space="preserve">
+    <value>కింద ఎడమ</value>
+  </data>
+  <data name="Ui.MusicIsland.TopRight" xml:space="preserve">
+    <value>పైన కుడి</value>
+  </data>
+  <data name="Ui.MusicIsland.TopCenter" xml:space="preserve">
+    <value>పైన మధ్య</value>
+  </data>
+  <data name="Ui.MusicIsland.TopLeft" xml:space="preserve">
+    <value>పైన ఎడమ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
+    <value>మ్యూజిక్</value>
+  </data>
 </root>
