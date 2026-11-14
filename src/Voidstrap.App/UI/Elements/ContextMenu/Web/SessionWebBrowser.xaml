@@ -109,7 +109,7 @@
               PreviewMouseDown="Tab_MouseDown" PreviewMouseMove="Tab_MouseMove" PreviewMouseUp="Tab_MouseUp" MouseRightButtonUp="Tab_RightClick">
         <Border.Style>
           <Style TargetType="Border">
-            <Setter Property="Width" Value="{Binding (overlay:SessionWebBrowser.TabWidth), RelativeSource={RelativeSource Self}}" />
+            <Setter Property="Width" Value="{DynamicResource BrowserTabWidth}" />
             <Style.Triggers>
               <DataTrigger Binding="{Binding IsPinned}" Value="True">
                 <Setter Property="Width" Value="40" />

@@ -61,16 +61,7 @@ public partial class SessionWebBrowser : Window
 
     private static Task<CoreWebView2Environment>? _sharedEnvironment;
 
-    public static readonly DependencyProperty TabWidthProperty = DependencyProperty.RegisterAttached(
-        nameof(TabWidth),
-        typeof(double),
-        typeof(SessionWebBrowser),
-        new FrameworkPropertyMetadata(200.0, FrameworkPropertyMetadataOptions.Inherits)
-    );
-
-    public static double GetTabWidth(DependencyObject element) => (double)element.GetValue(TabWidthProperty);
-
-    public static void SetTabWidth(DependencyObject element, double value) => element.SetValue(TabWidthProperty, value);
+    private const string TabWidthKey = "BrowserTabWidth";
 
     private readonly ObservableCollection<BrowserTab> _tabs = new();
     private readonly Queue<DateTime> _rebuilds = new();
@@ -78,6 +69,7 @@ public partial class SessionWebBrowser : Window
     private readonly DispatcherTimer _saveTimer;
     private readonly DispatcherTimer _sleepTimer;
     private readonly BrowserState _state;
+    private readonly FrameworkElement? _body;
     private CoreWebView2Environment? _environment;
     private BrowserTab? _active;
     private BrowserTab? _splitLeft;
@@ -90,6 +82,8 @@ public partial class SessionWebBrowser : Window
     public SessionWebBrowser()
     {
         InitializeComponent();
+        _body = Content as FrameworkElement;
+        TabWidth = 200;
         _state = BrowserState.Load();
         _saveTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1.5) };
         _saveTimer.Tick += OnSaveTick;
@@ -104,12 +98,11 @@ public partial class SessionWebBrowser : Window
 
     public double TabWidth
     {
-        get => (double)GetValue(TabWidthProperty);
+        get => _body?.Resources[TabWidthKey] is double width ? width : 200;
         set
         {
-            SetValue(TabWidthProperty, value);
-            if (Content is DependencyObject content)
-                content.SetValue(TabWidthProperty, value);
+            if (_body != null)
+                _body.Resources[TabWidthKey] = value;
         }
     }
 
@@ -858,15 +851,21 @@ public partial class SessionWebBrowser : Window
         try
         {
             using Stream stream = await core.GetFaviconAsync(CoreWebView2FaviconImageFormat.Png);
-            if (tab.Closed || stream == null || stream.Length == 0)
+            if (tab.Closed || stream == null)
                 return;
+            using MemoryStream buffer = new();
+            await stream.CopyToAsync(buffer);
+            if (tab.Closed || buffer.Length == 0)
+                return;
+            buffer.Position = 0;
             BitmapImage image = new();
             image.BeginInit();
-            image.StreamSource = stream;
+            image.StreamSource = buffer;
             image.DecodePixelWidth = 32;
             image.CacheOption = BitmapCacheOption.OnLoad;
             image.EndInit();
-            image.Freeze();
+            if (image.CanFreeze)
+                image.Freeze();
             tab.Icon = image;
             if (tab.Host.Length > 0)
                 _icons[tab.Host] = image;
