@@ -891,7 +891,7 @@ public partial class SessionDock : Window
         if (_closed || _opened || !_resumeOnFocus)
             return;
         bool popout = _resumePopout;
-        if (!RobloxWindowTracker.IsRobloxForeground())
+        if (!RobloxWindowTracker.IsRobloxWindowActive())
             return;
         _resumeOnFocus = false;
         _resumePopout = false;
@@ -1547,7 +1547,7 @@ public partial class SessionDock : Window
             return;
         }
         _focusLoss?.Stop();
-        if (!_opened && _resumeOnFocus && bounds.Valid && bounds.Foreground && !_resumeQueued)
+        if (!_opened && _resumeOnFocus && bounds.Valid && bounds.Foreground && !_resumeQueued && RobloxWindowTracker.IsRobloxWindowActive())
         {
             _resumeQueued = true;
             Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(ResumeDock));
@@ -2115,7 +2115,6 @@ public partial class SessionDock : Window
             return;
         }
         PlacePopout();
-        AnimatePopoutIn(view as FrameworkElement);
         UpdateNowPlayingVisibility();
         RaiseAboveDimmer();
         if (profile)
@@ -2125,19 +2124,6 @@ public partial class SessionDock : Window
         }
         UpdateReadout();
         _ = PortableOverlay.RunAsync(this, LoadPopoutAsync);
-    }
-
-    private static void AnimatePopoutIn(FrameworkElement? view)
-    {
-        if (view == null)
-            return;
-        if (view.RenderTransform is not TranslateTransform slide)
-        {
-            slide = new TranslateTransform();
-            view.RenderTransform = slide;
-        }
-        slide.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(18, 0, IslandMorph) { EasingFunction = new Voidstrap.UI.SpringEase() });
-        view.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(200))));
     }
 
     // Fills the profile view: names, pictures, account details and counts, kept for a few minutes
