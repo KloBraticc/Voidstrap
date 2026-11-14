@@ -117,10 +117,25 @@ public partial class RobloxVersionList : UserControl
         IEasingFunction ease = hovered ? HoverEaseOut : HoverEaseIn;
         double grow = hovered ? 1.012 : 1.0;
         play.IsHitTestVisible = hovered;
+        if (FindNamed(container, "VersionSubtitle") is UIElement subtitle)
+            subtitle.BeginAnimation(OpacityProperty, new DoubleAnimation(hovered ? 0 : 1, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
         play.BeginAnimation(OpacityProperty, new DoubleAnimation(hovered ? 1 : 0, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
         shift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(hovered ? 0 : 10, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
         scale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(grow, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
         scale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(grow, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
+    }
+
+    private static FrameworkElement? FindNamed(DependencyObject parent, string name)
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+            if (child is FrameworkElement element && element.Name == name)
+                return element;
+            if (FindNamed(child, name) is FrameworkElement found)
+                return found;
+        }
+        return null;
     }
 
     private void PlayButton_Click(object sender, RoutedEventArgs e)

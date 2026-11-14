@@ -25,7 +25,7 @@
                 <Border x:Name="RowBorder" Padding="12" CornerRadius="8" BorderThickness="1" BorderBrush="Transparent" Background="{DynamicResource LauncherMenuHoverBrush}" SnapsToDevicePixels="True">
                   <ContentPresenter />
                 </Border>
-                <ui:Button x:Name="PlayButton" Appearance="Primary" Icon="Play20" Content="{resources:Loc Ui_Home_Play}" Height="32" Padding="14,0" Margin="0,18,46,0" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0" IsHitTestVisible="False" Focusable="False" Click="PlayButton_Click" RenderTransformOrigin="0.5,0.5">
+                <ui:Button x:Name="PlayButton" Appearance="Primary" Icon="Play20" Content="{resources:Loc Ui_Home_Play}" Height="32" Padding="14,0" Margin="0,18,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0" IsHitTestVisible="False" Focusable="False" Click="PlayButton_Click" RenderTransformOrigin="0.5,0.5">
                   <ui:Button.RenderTransform>
                     <TranslateTransform x:Name="PlayShift" X="10" />
                   </ui:Button.RenderTransform>
@@ -75,7 +75,7 @@
           </Border>
           <StackPanel Grid.Column="1" Margin="12,0,10,0" VerticalAlignment="Center">
             <TextBlock FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource LauncherTextPrimaryBrush}" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
-            <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource LauncherTextSecondaryBrush}" Text="{Binding Subtitle}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Subtitle}" />
+            <TextBlock x:Name="VersionSubtitle" Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource LauncherTextSecondaryBrush}" Text="{Binding Subtitle}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Subtitle}" />
           </StackPanel>
           <Border Grid.Column="2" Width="22" Height="22" VerticalAlignment="Center" CornerRadius="11" Background="{DynamicResource AccentFillColorPrimaryBrush}" Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Converter={StaticResource BoolToVisibility}}">
             <ui:SymbolIcon Symbol="Checkmark16" FontSize="13" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
