@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -389,6 +389,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["LibraryPage"] = ("Library", "Browsing the game library"),
         ["PrivateServersPage"] = ("Private Servers", "Managing private servers"),
         ["NewsPage"] = ("News", "Reading what's new"),
+        ["VoidstrapModsPage"] = ("Voidstrap Mods", "Browsing and managing Voidstrap mods"),
         ["FriendsPage"] = ("Friends", "Chatting with friends"),
         ["AccountsPage"] = ("Account Manager", "Managing Roblox accounts"),
         ["AvatarPage"] = ("Avatar Customization", "Customizing an avatar"),
