@@ -80,8 +80,8 @@
         <ui:Button Margin="4,0,0,0" Appearance="Transparent" Icon="ChevronRight24" Foreground="#FFFFFF" Command="{Binding NextFeaturedCommand}" />
       </StackPanel>
       <StackPanel Margin="28,0,28,24" MaxWidth="620" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-        <Border HorizontalAlignment="Left" Padding="8,3" CornerRadius="10" Background="#33FFFFFF">
-          <TextBlock FontSize="11" FontWeight="SemiBold" Foreground="#FFFFFF" Text="{Binding FeaturedPost.DateText}" />
+        <Border HorizontalAlignment="Left" CornerRadius="10" Padding="10,3" Background="#26FFFFFF" BorderBrush="#33FFFFFF" BorderThickness="1">
+          <TextBlock FontSize="11" FontWeight="SemiBold" Foreground="White" Text="{Binding FeaturedPost.DateText}" />
         </Border>
         <TextBlock Margin="0,10,0,0" FontSize="26" FontWeight="Bold" TextWrapping="Wrap" Foreground="#FFFFFF" Text="{Binding FeaturedPost.Title}" />
         <TextBlock Margin="0,6,0,0" FontSize="13" LineHeight="19" MaxHeight="38" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="#D9FFFFFF" Text="{Binding FeaturedPost.Body}" />
