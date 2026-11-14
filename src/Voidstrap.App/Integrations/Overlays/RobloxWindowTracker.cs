@@ -289,16 +289,9 @@ namespace Voidstrap.Integrations.Overlays
                 return;
             }
 
-            if (_hwnd != IntPtr.Zero && IsWindow(_hwnd) && IsWindowVisible(_hwnd))
-            {
-                SetDiscoveryInterval(1000);
-                Publish();
-                return;
-            }
-
             SetDiscoveryInterval(1000);
 
-            if (_hwnd != IntPtr.Zero)
+            if (_hwnd != IntPtr.Zero && !(IsWindow(_hwnd) && IsWindowVisible(_hwnd)))
             {
                 ReleaseLocationHook();
                 _hwnd = IntPtr.Zero;
