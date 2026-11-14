@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
@@ -256,16 +256,30 @@ public partial class SessionOverlayLayoutEditor : Window
                 ResetAllCore();
             }
         );
-        _screenDragWindow.Closed += (_, _) =>
-        {
-            _screenDragWindow = null;
-            if (!_closed)
-            {
-                LoadAllControls();
-                LayoutStagePreview();
-            }
-        };
+        _screenDragWindow.Closed += OnScreenDragClosed;
+        SetHiddenForScreenDrag(true);
         _screenDragWindow.Show();
+    }
+
+    private void OnScreenDragClosed(object? sender, EventArgs e)
+    {
+        if (sender is SessionLiveOverlayCanvasWindow window)
+            window.Closed -= OnScreenDragClosed;
+        if (ReferenceEquals(sender, _screenDragWindow))
+            _screenDragWindow = null;
+        SetHiddenForScreenDrag(false);
+        if (!_closed)
+        {
+            LoadAllControls();
+            LayoutStagePreview();
+        }
+    }
+
+    private void SetHiddenForScreenDrag(bool hidden)
+    {
+        Window host = Window.GetWindow(StageCanvas) ?? this;
+        host.Opacity = hidden ? 0 : 1;
+        host.IsHitTestVisible = !hidden;
     }
 
     private void LoadAllControls()
