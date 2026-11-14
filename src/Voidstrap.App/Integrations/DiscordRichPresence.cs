@@ -111,6 +111,10 @@ public partial class DiscordRichPresence : IDisposable
 
     private Timer? _refreshTimer;
 
+    private Timer? _partyTimer;
+
+    private int _partyPolling;
+
     private int _partyPlaying;
 
     private volatile string? _gameActivityName;
@@ -277,6 +281,7 @@ public partial class DiscordRichPresence : IDisposable
         _activityWatcher.OnRPCMessage += _onRpcMessageHandler;
         EnsureConnected();
         _refreshTimer = new Timer(OnRefreshTimer, null, TimeSpan.FromMinutes(2L), TimeSpan.FromMinutes(2L));
+        _partyTimer = new Timer(OnPartyTimer, null, TimeSpan.FromSeconds(30L), TimeSpan.FromSeconds(30L));
         _studioWatchTimer = new Timer(OnStudioWatch, null, TimeSpan.FromSeconds(4L), TimeSpan.FromSeconds(4L));
     }
 
@@ -471,6 +476,39 @@ public partial class DiscordRichPresence : IDisposable
         _partyPlaying = playing;
         _partyMax = max;
         return true;
+    }
+
+    private void OnPartyTimer(object? state)
+    {
+        if (_disposed || !_activityWatcher.InGame || Interlocked.Exchange(ref _partyPolling, 1) == 1)
+            return;
+        _ = Task.Run(PollPartyCountAsync, _lifetimeToken);
+    }
+
+    private async Task PollPartyCountAsync()
+    {
+        const string LOG_IDENT = "DiscordRichPresence::PollPartyCountAsync";
+
+        try
+        {
+            int playing = _partyPlaying;
+            int max = _partyMax;
+            await RefreshPartyCountAsync().ConfigureAwait(false);
+            if (!_disposed && (playing != _partyPlaying || max != _partyMax))
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Server player count changed to " + _partyPlaying + " of " + _partyMax);
+                await SetCurrentGameAsync().ConfigureAwait(false);
+            }
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, ex.Message);
+        }
+        finally
+        {
+            Interlocked.Exchange(ref _partyPolling, 0);
+        }
     }
 
     private void OnRefreshTimer(object? state)
@@ -1841,6 +1879,8 @@ public partial class DiscordRichPresence : IDisposable
             {
                 _refreshTimer?.Dispose();
                 _refreshTimer = null;
+                _partyTimer?.Dispose();
+                _partyTimer = null;
                 _studioWatchTimer?.Dispose();
                 _studioWatchTimer = null;
             }
