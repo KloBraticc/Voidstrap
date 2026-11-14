@@ -2185,6 +2185,7 @@ public partial class SessionDock : Window
         GameChevron.Text = profile ? "\uE70E" : "\uE70D";
         ProfileChevron.Text = profile ? "\uE70D" : "\uE70E";
         UpdateReadout();
+        bool wasVisible = _popout.IsVisible;
         try
         {
             _popout.Show();
@@ -2194,6 +2195,9 @@ public partial class SessionDock : Window
             App.Logger.WriteLine("SessionDock", "The server popout could not be shown: " + ex.Message);
             return;
         }
+        bool sliding = !wasVisible;
+        if (sliding)
+            StartPopoutSlide();
         PlacePopout();
         UpdateNowPlayingVisibility();
         RaiseAboveDimmer();
@@ -2484,7 +2488,61 @@ public partial class SessionDock : Window
                 height = Math.Min(height, room);
         }
         int targetY = topEdge ? bottom + gap : top - gap - height;
-        SetWindowPos(_popoutHandle, HwndTopmost, left, targetY, width, height, 0x0010 | 0x0040);
+        _popoutX = left;
+        _popoutY = targetY;
+        _popoutSlideFrom = topEdge ? -(int)Math.Round(PopoutSlideDistance * dpi.DpiScaleY) : (int)Math.Round(PopoutSlideDistance * dpi.DpiScaleY);
+        int y = _popoutSlide is { IsEnabled: true } ? targetY + SlideOffset() : targetY;
+        SetWindowPos(_popoutHandle, HwndTopmost, left, y, width, height, 0x0010 | 0x0040);
+    }
+
+    private const double PopoutSlideDistance = 22;
+
+    private static readonly TimeSpan PopoutSlideDuration = TimeSpan.FromMilliseconds(420);
+
+    private static readonly Voidstrap.UI.SpringEase PopoutSlideEase = new();
+
+    private DispatcherTimer? _popoutSlide;
+
+    private DateTime _popoutSlideStart;
+
+    private int _popoutX;
+
+    private int _popoutY;
+
+    private int _popoutSlideFrom;
+
+    private int SlideOffset()
+    {
+        double progress = Math.Clamp((DateTime.UtcNow - _popoutSlideStart).TotalMilliseconds / PopoutSlideDuration.TotalMilliseconds, 0, 1);
+        return (int)Math.Round(_popoutSlideFrom * (1 - PopoutSlideEase.Ease(progress)));
+    }
+
+    private void StartPopoutSlide()
+    {
+        if (_popoutHandle == IntPtr.Zero || PortableOverlay.Active || !Voidstrap.Utility.Platform.IsWindows)
+            return;
+        if (_popoutSlide == null)
+        {
+            _popoutSlide = new DispatcherTimer(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(16) };
+            _popoutSlide.Tick += OnPopoutSlideTick;
+        }
+        _popoutSlideStart = DateTime.UtcNow;
+        _popoutSlide.Start();
+        OnPopoutSlideTick(null, EventArgs.Empty);
+    }
+
+    private void OnPopoutSlideTick(object? sender, EventArgs e)
+    {
+        if (_closed || !PopoutOpen || _popoutHandle == IntPtr.Zero)
+        {
+            _popoutSlide?.Stop();
+            return;
+        }
+        bool done = DateTime.UtcNow - _popoutSlideStart >= PopoutSlideDuration;
+        int y = done ? _popoutY : _popoutY + SlideOffset();
+        SetWindowPos(_popoutHandle, IntPtr.Zero, _popoutX, y, 0, 0, 0x0001 | 0x0004 | 0x0010);
+        if (done)
+            _popoutSlide?.Stop();
     }
 
     // Fills the popout: the game's main thumbnail as the banner and the friends who are in this server
@@ -2687,6 +2745,11 @@ public partial class SessionDock : Window
         _nowPlayingTimer.Tick -= OnNowPlayingTick;
         _islandClock.Stop();
         _islandClock.Tick -= OnIslandClockTick;
+        if (_popoutSlide != null)
+        {
+            _popoutSlide.Stop();
+            _popoutSlide.Tick -= OnPopoutSlideTick;
+        }
         NowPlayingPopup.IsOpen = false;
         Voidstrap.Integrations.Clipper.ClipperService.StateChanged -= OnClipperStateChanged;
         RobloxWindowTracker.Changed -= OnTrackerChanged;
