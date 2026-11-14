@@ -20,6 +20,8 @@ internal static class EmoteWheelGenerator
 
     private const double GlowAngle = -45.0;
 
+    private static readonly Color RobloxRing = Color.FromRgb(57, 59, 61);
+
     private static readonly string[] IconTextures =
     [
         "content/textures/ui/TopBar/emotesOn",
@@ -263,17 +265,16 @@ internal static class EmoteWheelGenerator
                 return null;
             }
             Painter painter = BuildPainter(settings, null);
-            Texture background = Process(Part.Background, textures.Background, painter);
-            Texture wheel = Process(Part.Wheel, textures.Wheel, painter);
+            Texture wheel = BakeWheel(textures.Wheel, textures.Background, painter);
             Texture glow = Process(Part.Glow, textures.Glow, painter);
             Texture marker = Process(Part.Marker, textures.Marker, painter);
             BitmapSource? before = textures.Before;
             if (before == null)
             {
-                before = Compose(textures.Background, textures.Wheel, textures.Glow, textures.Marker);
+                before = Compose(textures.Wheel, textures.Glow, textures.Marker);
                 textures.Before = before;
             }
-            return (before, Compose(background, wheel, glow, marker));
+            return (before, Compose(wheel, glow, marker));
         }
         catch (Exception ex)
         {
@@ -379,7 +380,11 @@ internal static class EmoteWheelGenerator
                 {
                     string source = ModGenerator.ResolveSource(versionDirectory, versionGuid, target.Relative, manifest);
                     (byte[] pixels, int width, int height) = ModGenerator.Load(source);
-                    Texture result = Process(target.Part, new Texture { Pixels = pixels, Width = width, Height = height }, painter);
+                    Texture texture = new Texture { Pixels = pixels, Width = width, Height = height };
+                    Texture result =
+                        target.Part == Part.Wheel
+                            ? BakeWheel(texture, LoadBackgroundFor(target.Relative, versionDirectory, versionGuid, manifest), painter)
+                            : Process(target.Part, texture, painter);
                     string destination = Path.Combine(staging, target.Relative.Replace('/', Path.DirectorySeparatorChar));
                     Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
                     ModGenerator.Save(destination, result.Pixels, result.Width, result.Height);
@@ -423,6 +428,77 @@ internal static class EmoteWheelGenerator
             "Restyled " + written + " emote textures for Roblox " + versionGuid + (skipped > 0 ? ", skipped " + skipped : "")
         );
         return written;
+    }
+
+    private static Texture? LoadBackgroundFor(string wheelRelative, string versionDirectory, string versionGuid, HashSet<string> manifest)
+    {
+        string relative = wheelRelative.Replace("SegmentedCircle", "CircleBackground", StringComparison.OrdinalIgnoreCase);
+        if (!File.Exists(Path.Combine(versionDirectory, relative.Replace('/', Path.DirectorySeparatorChar))))
+        {
+            return null;
+        }
+        (byte[] pixels, int width, int height) = ModGenerator.Load(ModGenerator.ResolveSource(versionDirectory, versionGuid, relative, manifest));
+        return new Texture { Pixels = pixels, Width = width, Height = height };
+    }
+
+    private static Texture BakeWheel(Texture wheel, Texture? background, Painter painter)
+    {
+        Texture lines = Process(Part.Wheel, wheel, painter);
+        int width = lines.Width;
+        int height = lines.Height;
+        byte[] ring = new byte[width * height * 4];
+        if (background != null)
+        {
+            Parallel.For(0, height, y =>
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    double sx = (x + 0.5) * background.Width / width - 0.5;
+                    double sy = (y + 0.5) * background.Height / height - 0.5;
+                    (double r, double g, double b, double a) = Bilinear(background.Pixels, background.Width, background.Height, sx, sy);
+                    Write(ring, (y * width + x) * 4, r, g, b, a);
+                }
+            });
+        }
+        else
+        {
+            double center = width / 2.0;
+            double radius = Math.Min(width, height) / 2.0;
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    double distance = Math.Sqrt((x + 0.5 - center) * (x + 0.5 - center) + (y + 0.5 - height / 2.0) * (y + 0.5 - height / 2.0));
+                    Write(ring, (y * width + x) * 4, 0, 0, 0, Math.Clamp(radius - distance, 0.0, 1.0));
+                }
+            }
+        }
+        PaintBackground(ring, width, height, painter);
+        byte[] pixels = lines.Pixels;
+        Parallel.For(0, height, y =>
+        {
+            for (int x = 0; x < width; x++)
+            {
+                int offset = (y * width + x) * 4;
+                double top = pixels[offset + 3] / 255.0;
+                double under = ring[offset + 3] / 255.0;
+                double alpha = top + under * (1 - top);
+                if (alpha <= 0)
+                {
+                    continue;
+                }
+                double keep = under * (1 - top);
+                Write(
+                    pixels,
+                    offset,
+                    (pixels[offset + 2] * top + ring[offset + 2] * keep) / alpha,
+                    (pixels[offset + 1] * top + ring[offset + 1] * keep) / alpha,
+                    (pixels[offset] * top + ring[offset] * keep) / alpha,
+                    alpha
+                );
+            }
+        });
+        return lines;
     }
 
     private static List<(string Relative, Part Part)> FindTargets(string versionDirectory, EmoteWheelSettings settings)
@@ -858,12 +934,25 @@ internal static class EmoteWheelGenerator
         return a <= 0 ? (0, 0, 0, 0) : (r / a, g / a, b / a, a);
     }
 
-    private static BitmapSource Compose(Texture background, Texture wheel, Texture glow, Texture marker)
+    private static BitmapSource Compose(Texture wheel, Texture glow, Texture marker)
     {
-        int size = Math.Max(background.Width, wheel.Width);
+        int size = wheel.Width;
         double center = size / 2.0;
         double[] canvas = new double[size * size * 4];
-        Draw(canvas, size, background, background.Width / 2.0, background.Height / 2.0, center, center, 0);
+        double radius = size / 2.0;
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                double distance = Math.Sqrt((x + 0.5 - center) * (x + 0.5 - center) + (y + 0.5 - center) * (y + 0.5 - center));
+                double a = Math.Clamp(radius - distance, 0.0, 1.0);
+                int offset = (y * size + x) * 4;
+                canvas[offset] = RobloxRing.B * a;
+                canvas[offset + 1] = RobloxRing.G * a;
+                canvas[offset + 2] = RobloxRing.R * a;
+                canvas[offset + 3] = a;
+            }
+        }
         Draw(canvas, size, glow, 0, glow.Height / 2.0, center, center, GlowAngle);
         Draw(canvas, size, wheel, wheel.Width / 2.0, wheel.Height / 2.0, center, center, 0);
         double radians = GlowAngle * Math.PI / 180.0;
