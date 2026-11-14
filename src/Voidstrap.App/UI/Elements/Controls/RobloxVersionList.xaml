@@ -18,10 +18,7 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-              <Grid x:Name="CardRoot" RenderTransformOrigin="0.5,0.5">
-                <Grid.RenderTransform>
-                  <ScaleTransform x:Name="CardScale" ScaleX="1" ScaleY="1" />
-                </Grid.RenderTransform>
+              <Grid x:Name="CardRoot">
                 <Border x:Name="RowBorder" Padding="12" CornerRadius="8" BorderThickness="1" BorderBrush="Transparent" Background="{DynamicResource LauncherMenuHoverBrush}" SnapsToDevicePixels="True">
                   <ContentPresenter />
                 </Border>

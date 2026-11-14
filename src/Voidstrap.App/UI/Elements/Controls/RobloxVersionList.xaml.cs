@@ -110,19 +110,17 @@ public partial class RobloxVersionList : UserControl
     private static void AnimateHover(ListBoxItem container, bool hovered)
     {
         if (container.Template?.FindName("PlayButton", container) is not UIElement play
-            || container.Template.FindName("PlayShift", container) is not TranslateTransform shift
-            || container.Template.FindName("CardScale", container) is not ScaleTransform scale)
+            || container.Template.FindName("PlayShift", container) is not TranslateTransform shift)
             return;
         Duration duration = new(TimeSpan.FromMilliseconds(hovered ? 220 : 160));
         IEasingFunction ease = hovered ? HoverEaseOut : HoverEaseIn;
-        double grow = hovered ? 1.012 : 1.0;
         play.IsHitTestVisible = hovered;
+        if (play.Opacity == (hovered ? 1 : 0) && play.IsHitTestVisible == hovered)
+            return;
         if (FindNamed(container, "VersionSubtitle") is UIElement subtitle)
             subtitle.BeginAnimation(OpacityProperty, new DoubleAnimation(hovered ? 0 : 1, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
         play.BeginAnimation(OpacityProperty, new DoubleAnimation(hovered ? 1 : 0, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
         shift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(hovered ? 0 : 10, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
-        scale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(grow, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
-        scale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(grow, duration) { EasingFunction = ease }, HandoffBehavior.SnapshotAndReplace);
     }
 
     private static FrameworkElement? FindNamed(DependencyObject parent, string name)
