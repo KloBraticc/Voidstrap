@@ -37,6 +37,11 @@ public partial class BootstrapperImportControl : UserControl
             main.ShowBootstrapperImport(OnSourceChosen);
             return;
         }
+        if (Window.GetWindow(this) is Voidstrap.UI.Elements.Installer.MainWindow installer)
+        {
+            installer.ShowBootstrapperImport(OnSourceChosen);
+            return;
+        }
         ShowStandaloneChooser();
     }
 

@@ -15,7 +15,7 @@
         <RowDefinition Height="*" />
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
-      <ui:NavigationStore Name="RootNavigation" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" SelectedPageIndex="0" Frame="{Binding ElementName=RootFrame}">
+      <ui:NavigationStore Name="RootNavigation" TransitionDuration="0" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" SelectedPageIndex="0" Frame="{Binding ElementName=RootFrame}">
         <ui:NavigationBase.Items>
           <ui:NavigationItem Content="{x:Static resources:Strings.Installer_Install_Title}" Icon="ArrowDownload24" PageType="{x:Type pages:InstallPage}" />
           <ui:NavigationItem Content="Channel" Icon="Globe24" PageType="{x:Type pages:ChannelPage}" />
@@ -38,6 +38,14 @@
           <ui:Button Name="NextButton" MinWidth="120" Height="36" Margin="8,0,0,0" HorizontalContentAlignment="Center" Appearance="Primary" Command="{Binding NextPageCommand, Mode=OneWay}" Content="{Binding NextButtonText, Mode=OneWay}" IsEnabled="{Binding NextButtonEnabled, Mode=OneWay}" />
         </StackPanel>
       </Grid>
+    </Grid>
+    <Grid Name="ImportOverlay" Grid.Row="1" Visibility="Collapsed" Background="#80000000" MouseLeftButtonDown="ImportOverlay_MouseLeftButtonDown">
+      <Border Name="ImportPanel" Width="560" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True" CornerRadius="7" BorderThickness="1" Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}" BorderBrush="{DynamicResource SurfaceStrokeColorFlyoutBrush}" TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+        <Border.RenderTransform>
+          <ScaleTransform x:Name="ImportPanelScale" ScaleX="1" ScaleY="1" />
+        </Border.RenderTransform>
+        <ContentControl Name="ImportHost" Focusable="False" />
+      </Border>
     </Grid>
   </Grid>
 </base:WpfUiWindow>
