@@ -125,20 +125,20 @@
                                         </DockPanel>
                                     </StackPanel>
                                 </Border>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,12">
+                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,12">
                                     <ui:Button Icon="Previous24" Content="{resources:Loc Ui_Misc2_Previous}" Width="100" Command="{Binding PreviousCommand}" />
                                     <ui:Button Margin="4,0,0,0" Appearance="Primary" Width="120" Content="{Binding PlayPauseLabel}" Command="{Binding PlayPauseCommand}" />
                                     <ui:Button Icon="Next24" Margin="4,0,0,0" Content="{resources:Loc Common_Navigation_Next}" Width="80" Command="{Binding NextCommand}" />
                                     <ui:Button Icon="Stop24" Margin="4,0,0,0" Content="{resources:Loc Ui_Misc2_Stop}" Width="80" Command="{Binding StopCommand}" />
-                                </StackPanel>
+                                </WrapPanel>
                                 <Border CornerRadius="6" Padding="10" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:Button Icon="Speaker224" ToolTip="{resources:Loc Ui_Misc2_MuteUnmute}" Margin="0,0,8,0" Content="{Binding MuteLabel}" Command="{Binding ToggleMuteCommand}" />
                                         <Slider Name="VolumeSlider" Width="180" Minimum="0" Maximum="1.0" SmallChange="0.02" LargeChange="0.1" VerticalAlignment="Center" Value="{Binding Volume, Mode=TwoWay}" MouseWheel="VolumeSlider_MouseWheel" />
                                         <TextBlock Margin="8,0,16,0" VerticalAlignment="Center" Width="44" Text="{Binding VolumePercent}" />
                                         <ui:Button Icon="ArrowRepeatAll24" Margin="0,0,4,0" Content="{Binding LoopLabel}" Command="{Binding ToggleLoopCommand}" />
                                         <ui:Button Icon="ArrowShuffle24" Content="{Binding ShuffleLabel}" Command="{Binding ToggleShuffleCommand}" />
-                                    </StackPanel>
+                                    </WrapPanel>
                                 </Border>
                             </StackPanel>
                         </Grid>
