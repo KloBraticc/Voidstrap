@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Voidstrap.UI.ViewModels.Settings;
@@ -57,6 +57,28 @@ public partial class NewsPage : UiPage
     {
         if (!_hoveringFeatured)
             _viewModel.StepFeatured(1);
+    }
+
+    internal void Release()
+    {
+        _rotation.Stop();
+        _rotation.Tick -= Rotation_Tick;
+        _livePoll.Stop();
+        _livePoll.Tick -= LivePoll_Tick;
+        IsVisibleChanged -= Page_IsVisibleChanged;
+        _viewModel.Dispose();
+    }
+
+    private void Post_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (e.Handled || sender is not FrameworkElement element)
+            return;
+        Voidstrap.Models.NewsPost? post = element.DataContext as Voidstrap.Models.NewsPost ?? (element.DataContext as NewsViewModel)?.FeaturedPost;
+        if (post != null && Window.GetWindow(this) is MainWindow window)
+        {
+            e.Handled = true;
+            window.ShowNewsPost(post);
+        }
     }
 
     private void Featured_MouseEnter(object sender, MouseEventArgs e) => _hoveringFeatured = true;

@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.NewsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_Nav_News}" ui:Breadcrumb.Header="{resources:Loc Ui_Nav_News}" Scrollable="True" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.NewsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_Nav_News}" ui:Breadcrumb.Header="{resources:Loc Ui_Nav_News}" Scrollable="True" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
   <FrameworkElement.Resources>
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
     <Style x:Key="PlainButton" TargetType="{x:Type Button}">
@@ -54,7 +54,7 @@
       <TextBlock Margin="0,4,0,0" Text="{resources:Loc Ui_Misc2_NewVoidstrapUpdatesAndAnnouncementsWill}" FontSize="12" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
     </StackPanel>
 
-    <Grid Height="360" util:RoundedClip.Radius="12" Visibility="{Binding HasFeatured, Converter={StaticResource BoolToVis}}" MouseEnter="Featured_MouseEnter" MouseLeave="Featured_MouseLeave">
+    <Grid Height="360" util:RoundedClip.Radius="12" Visibility="{Binding HasFeatured, Converter={StaticResource BoolToVis}}" MouseEnter="Featured_MouseEnter" MouseLeave="Featured_MouseLeave" Cursor="Hand" Background="Transparent" MouseLeftButtonUp="Post_MouseLeftButtonUp">
       <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
       <Border Background="{DynamicResource SystemAccentBrush}" Opacity="0.6">
         <Border.OpacityMask>
@@ -142,7 +142,7 @@
               </StackPanel>
               <Rectangle Grid.Column="1" Width="2" HorizontalAlignment="Center" Fill="{DynamicResource ControlStrokeColorDefaultBrush}" />
               <Ellipse Grid.Column="1" Width="10" Height="10" Margin="0,22,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="{DynamicResource SystemAccentBrush}" />
-              <Border Grid.Column="2" Margin="0,0,0,10" Padding="16,12,16,14" CornerRadius="8" BorderThickness="1" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+              <Border Grid.Column="2" Margin="0,0,0,10" Padding="16,12,16,14" Cursor="Hand" MouseLeftButtonUp="Post_MouseLeftButtonUp" CornerRadius="8" BorderThickness="1" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
                 <Grid>
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
