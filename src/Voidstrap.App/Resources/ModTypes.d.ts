@@ -428,7 +428,7 @@
       request(request: string | { url: string; method?: 'GET' | 'POST'; body?: string }): Promise<FetchResult>;
       account(): Promise<RobloxAccountInfo>;
     };
-    /** clipboard.get needs the clipboard permission in plugin.json. */
+    /** clipboard.get and clipboard.set both need the clipboard permission in plugin.json, which makes the mod a powerful mod. */
     clipboard: {
       get(): string;
       set(text: string): void;
