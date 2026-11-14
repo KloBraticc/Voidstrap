@@ -16,7 +16,7 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
     private CancellationTokenSource? _cts;
     private bool _disposed;
 
-    private const int FeaturedLimit = 6;
+    private const int FeaturedLimit = 5;
 
     public ObservableCollection<NewsPost> Posts { get; } = [];
 
@@ -25,9 +25,6 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasFeatured))]
     public partial NewsPost? FeaturedPost { get; set; }
-
-    [ObservableProperty]
-    public partial NewsPost? PreviewPost { get; set; }
 
     public bool HasFeatured => FeaturedPost != null;
 
@@ -59,13 +56,6 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
 
     [RelayCommand]
     private void NextFeatured() => StepFeatured(1);
-
-    [RelayCommand]
-    private void SelectPost(NewsPost? post)
-    {
-        if (post != null)
-            PreviewPost = post;
-    }
 
     internal void StepFeatured(int step)
     {
@@ -120,7 +110,6 @@ public sealed partial class NewsViewModel : ObservableObject, IDisposable
             }
             if (Featured.Count > 0)
                 SetFeatured(Featured[0]);
-            PreviewPost = Posts.Count > 0 ? Posts[0] : null;
             OnPropertyChanged(nameof(HasPosts));
         }
         catch (OperationCanceledException)

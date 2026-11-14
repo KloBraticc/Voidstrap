@@ -1,7 +1,6 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Voidstrap.Models;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
 
@@ -49,10 +48,4 @@ public partial class NewsPage : UiPage
     private void Featured_MouseEnter(object sender, MouseEventArgs e) => _hoveringFeatured = true;
 
     private void Featured_MouseLeave(object sender, MouseEventArgs e) => _hoveringFeatured = false;
-
-    private void PostRow_MouseEnter(object sender, MouseEventArgs e)
-    {
-        if (sender is FrameworkElement { DataContext: NewsPost post })
-            _viewModel.PreviewPost = post;
-    }
 }

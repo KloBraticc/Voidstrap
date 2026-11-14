@@ -25,9 +25,17 @@ public sealed partial class NewsPost : ObservableObject
 
     public List<NewsLink> Links { get; set; } = [];
 
-    public string DateText => DateTime.TryParseExact(Date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsed)
-        ? parsed.ToString("D", CultureInfo.CurrentCulture)
-        : Date;
+    private DateTime? ParsedDate => DateTime.TryParseExact(Date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsed)
+        ? parsed
+        : null;
+
+    public string DateText => ParsedDate?.ToString("D", CultureInfo.CurrentCulture) ?? Date;
+
+    public string DayText => ParsedDate?.Day.ToString(CultureInfo.CurrentCulture) ?? string.Empty;
+
+    public string MonthText => ParsedDate?.ToString("MMM", CultureInfo.CurrentCulture).ToUpper(CultureInfo.CurrentCulture) ?? string.Empty;
+
+    public string YearText => ParsedDate?.Year.ToString(CultureInfo.CurrentCulture) ?? string.Empty;
 
     public bool HasImage => !string.IsNullOrWhiteSpace(Image);
 
