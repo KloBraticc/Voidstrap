@@ -18,6 +18,10 @@ internal static class RemoteData
 
     private const long MaxFileBytes = 67108864;
 
+    private const int ServerLocationsAttempts = 3;
+
+    private static readonly TimeSpan ServerLocationsTimeout = TimeSpan.FromSeconds(20);
+
     private static readonly TimeSpan RefreshInterval = TimeSpan.FromHours(6);
 
     private static readonly SemaphoreSlim Gate = new(1, 1);
@@ -53,22 +57,38 @@ internal static class RemoteData
         bool firstImport = Interlocked.Exchange(ref _serverLocationsImported, 1) == 0;
         if (!force && !firstImport)
             return 0;
-        try
+        for (int attempt = 1; attempt <= ServerLocationsAttempts; attempt++)
         {
-            string json = await App.HttpClient.GetStringAsync(ServerLocationsUrl, token).ConfigureAwait(false);
-            return Voidstrap.Integrations.ServerFetchStore.ImportServerLocations(json);
+            try
+            {
+                using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+                timeout.CancelAfter(ServerLocationsTimeout);
+                using HttpResponseMessage response = await App.HttpClient
+                    .GetAsync(ServerLocationsUrl, HttpCompletionOption.ResponseHeadersRead, timeout.Token)
+                    .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                if (response.Content.Headers.ContentLength > MaxFileBytes)
+                    throw new InvalidDataException("The server locations list is too large");
+                string json = await response.Content.ReadAsStringAsync(timeout.Token).ConfigureAwait(false);
+                int imported = Voidstrap.Integrations.ServerFetchStore.ImportServerLocations(json);
+                if (imported > 0)
+                    return imported;
+                throw new InvalidDataException("The server locations list had no usable entries");
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, $"Could not read the server locations, attempt {attempt} of {ServerLocationsAttempts}: {ex.Message}");
+                if (attempt < ServerLocationsAttempts)
+                    await Task.Delay(TimeSpan.FromSeconds(2 * attempt), token).ConfigureAwait(false);
+            }
         }
-        catch (OperationCanceledException) when (token.IsCancellationRequested)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine(LOG_IDENT, "Could not read the server locations: " + ex.Message);
-            if (firstImport)
-                Interlocked.Exchange(ref _serverLocationsImported, 0);
-            return 0;
-        }
+        if (firstImport)
+            Interlocked.Exchange(ref _serverLocationsImported, 0);
+        return 0;
     }
 
     private static async Task<bool> DownloadAsync(string? url, string path, bool force, CancellationToken token)
