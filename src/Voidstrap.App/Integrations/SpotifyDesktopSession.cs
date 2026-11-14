@@ -1,6 +1,6 @@
-using System.Linq;
-using System.Threading.Tasks;
-#if !CROSSPLAT
+#if CROSSPLAT
+using Tmds.DBus;
+#else
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 #endif
@@ -25,82 +25,305 @@ public sealed record SpotifyDesktopTrack(string Title, string Artist, bool Playi
 
 public static class SpotifyDesktopSession
 {
+    private const string LOG_IDENT = "SpotifyDesktopSession";
+
 #if CROSSPLAT
-    private const string MprisName = "org.mpris.MediaPlayer2.spotify";
+    private const string MprisPrefix = "org.mpris.MediaPlayer2.";
 
-    private const string MprisPath = "/org/mpris/MediaPlayer2";
+    private static readonly ObjectPath MprisPath = new("/org/mpris/MediaPlayer2");
 
-    private const string MprisPlayer = "org.mpris.MediaPlayer2.Player";
+    private static readonly string[] SpotifyClients = ["ncspot", "psst", "spot", "spotube", "librespot"];
 
-    private const string MacScript =
-        "if application \"Spotify\" is running then tell application \"Spotify\" to return (player state as string) & linefeed & (name of current track) & linefeed & (artist of current track) & linefeed & (player position as string) & linefeed & (duration of current track as string)";
+    private static readonly TimeSpan BusTimeout = TimeSpan.FromSeconds(2);
+
+    private static readonly TimeSpan MacDeniedPause = TimeSpan.FromSeconds(30);
+
+    private static readonly string[] MacScript =
+    [
+        "if application \"Spotify\" is running then",
+        "tell application \"Spotify\"",
+        "set s to player state as string",
+        "if s is \"stopped\" then return s",
+        "return s & linefeed & (name of current track) & linefeed & (artist of current track) & linefeed & (player position as string) & linefeed & (duration of current track as string) & linefeed & (artwork url of current track)",
+        "end tell",
+        "end if",
+    ];
+
+    private static readonly SemaphoreSlim BusGate = new(1, 1);
+
+    private static Connection? _bus;
+
+    private static string? _player;
+
+    private static bool _busFailureLogged;
+
+    private static DateTime _macPausedUntil;
+
+    private static bool _macDeniedLogged;
+
+    private sealed record ProcessResult(int ExitCode, string Output, string Error);
 
     public static async Task<SpotifyDesktopTrack?> ReadAsync(string? knownTitle)
+    {
+        SpotifyDesktopTrack? track = null;
+        try
+        {
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                track = await ReadMacAsync().ConfigureAwait(false);
+            else if (Voidstrap.Utility.Platform.IsLinux)
+                track = await ReadLinuxAsync().ConfigureAwait(false);
+        }
+        catch (DBusException ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The desktop player could not be read: " + ex.ErrorName);
+        }
+        catch (Exception ex)
+        {
+            if (Voidstrap.Utility.Platform.IsLinux)
+                ResetBus(ex);
+            else
+                App.Logger.WriteLine(LOG_IDENT, "The desktop player could not be read: " + ex.GetType().Name);
+        }
+        return track != null && track.Title == knownTitle ? track with { Cover = null } : track;
+    }
+
+    public static Task ToggleAsync() => ControlAsync(static player => player.PlayPauseAsync(), "playpause");
+
+    public static Task SkipAsync(bool next) =>
+        next ? ControlAsync(static player => player.NextAsync(), "next track") : ControlAsync(static player => player.PreviousAsync(), "previous track");
+
+    private static async Task ControlAsync(Func<IMprisPlayer, Task> linux, string macCommand)
     {
         try
         {
             if (Voidstrap.Utility.Platform.IsMacOS)
-                return await ReadMacAsync().ConfigureAwait(false);
-            if (Voidstrap.Utility.Platform.IsLinux)
-                return await ReadLinuxAsync().ConfigureAwait(false);
+            {
+                if (IsMacSpotifyRunning())
+                    await RunAsync("osascript", "-e", "tell application \"Spotify\" to " + macCommand).ConfigureAwait(false);
+                return;
+            }
+            string? player = _player;
+            Connection? bus = Voidstrap.Utility.Platform.IsLinux && player != null ? await GetBusAsync().ConfigureAwait(false) : null;
+            if (bus != null && player != null)
+                await WithTimeout(linux(bus.CreateProxy<IMprisPlayer>(player, MprisPath))).ConfigureAwait(false);
         }
-        catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or System.Text.Json.JsonException or OperationCanceledException)
+        catch (DBusException ex)
         {
+            App.Logger.WriteLine(LOG_IDENT, "The desktop player did not take the command: " + ex.ErrorName);
         }
-        return null;
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The desktop player could not be controlled: " + ex.GetType().Name);
+        }
+    }
+
+    private static bool IsMacSpotifyRunning()
+    {
+        Process[] processes = Process.GetProcessesByName("Spotify");
+        foreach (Process process in processes)
+            process.Dispose();
+        return processes.Length > 0;
     }
 
     private static async Task<SpotifyDesktopTrack?> ReadMacAsync()
     {
-        string? output = await RunAsync("osascript", "-e", MacScript).ConfigureAwait(false);
-        if (string.IsNullOrWhiteSpace(output))
+        if (DateTime.UtcNow < _macPausedUntil || !IsMacSpotifyRunning())
             return null;
-        string[] lines = output.Split((char)10);
+        string[] args = new string[MacScript.Length * 2];
+        for (int i = 0; i < MacScript.Length; i++)
+        {
+            args[i * 2] = "-e";
+            args[i * 2 + 1] = MacScript[i];
+        }
+        ProcessResult? result = await RunAsync("osascript", args).ConfigureAwait(false);
+        if (result == null)
+            return null;
+        if (result.ExitCode != 0)
+        {
+            if (result.Error.Contains("-1743", StringComparison.Ordinal) || result.Error.Contains("Not authorized", StringComparison.OrdinalIgnoreCase))
+            {
+                _macPausedUntil = DateTime.UtcNow + MacDeniedPause;
+                if (!_macDeniedLogged)
+                {
+                    _macDeniedLogged = true;
+                    App.Logger.WriteLine(LOG_IDENT, "macOS blocked access to Spotify, allow Voidstrap under System Settings, Privacy and Security, Automation");
+                }
+            }
+            return null;
+        }
+        string[] lines = result.Output.TrimEnd().Split('\n');
         if (lines.Length < 3 || string.IsNullOrWhiteSpace(lines[1]))
             return null;
-        TimeSpan position = lines.Length > 3 && double.TryParse(lines[3].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double seconds) ? TimeSpan.FromSeconds(seconds) : TimeSpan.Zero;
-        TimeSpan duration = lines.Length > 4 && double.TryParse(lines[4].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double millis) ? TimeSpan.FromMilliseconds(millis) : TimeSpan.Zero;
-        return new SpotifyDesktopTrack(lines[1].Trim(), lines[2].Trim(), lines[0].Trim() == "playing", null, position, duration);
+        TimeSpan position = lines.Length > 3 && TryParseNumber(lines[3], out double seconds) ? TimeSpan.FromSeconds(seconds) : TimeSpan.Zero;
+        TimeSpan duration = lines.Length > 4 && TryParseNumber(lines[4], out double millis) ? TimeSpan.FromMilliseconds(millis) : TimeSpan.Zero;
+        byte[]? cover = lines.Length > 5 ? await SpotifyCovers.ReadAsync(lines[5].Trim()).ConfigureAwait(false) : null;
+        return new SpotifyDesktopTrack(lines[1].Trim(), lines[2].Trim(), lines[0].Trim() == "playing", cover, position, duration);
+    }
+
+    private static bool TryParseNumber(string text, out double value) =>
+        double.TryParse(text.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+
+    private static async Task<Connection?> GetBusAsync()
+    {
+        Connection? bus = _bus;
+        if (bus != null)
+            return bus;
+        string? address = Voidstrap.Utility.LinuxSessionBus.Address;
+        if (string.IsNullOrEmpty(address))
+            return null;
+        await BusGate.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            if (_bus != null)
+                return _bus;
+            Connection connection = new(address);
+            try
+            {
+                await WithTimeout(connection.ConnectAsync()).ConfigureAwait(false);
+            }
+            catch
+            {
+                connection.Dispose();
+                throw;
+            }
+            _bus = connection;
+            _busFailureLogged = false;
+            return connection;
+        }
+        finally
+        {
+            BusGate.Release();
+        }
+    }
+
+    private static void ResetBus(Exception ex)
+    {
+        Connection? bus = Interlocked.Exchange(ref _bus, null);
+        bus?.Dispose();
+        if (_busFailureLogged)
+            return;
+        _busFailureLogged = true;
+        App.Logger.WriteLine(LOG_IDENT, "The session bus connection was lost: " + ex.GetType().Name);
+    }
+
+    private static async Task WithTimeout(Task task)
+    {
+        if (await Task.WhenAny(task, Task.Delay(BusTimeout)).ConfigureAwait(false) != task)
+            throw new TimeoutException();
+        await task.ConfigureAwait(false);
+    }
+
+    private static async Task<T> WithTimeout<T>(Task<T> task)
+    {
+        if (await Task.WhenAny(task, Task.Delay(BusTimeout)).ConfigureAwait(false) != task)
+            throw new TimeoutException();
+        return await task.ConfigureAwait(false);
     }
 
     private static async Task<SpotifyDesktopTrack?> ReadLinuxAsync()
     {
-        string? status = await RunAsync("busctl", "--user", "--json=short", "get-property", MprisName, MprisPath, MprisPlayer, "PlaybackStatus").ConfigureAwait(false);
-        if (string.IsNullOrWhiteSpace(status))
+        Connection? bus = await GetBusAsync().ConfigureAwait(false);
+        if (bus == null)
             return null;
-        string? metadata = await RunAsync("busctl", "--user", "--json=short", "get-property", MprisName, MprisPath, MprisPlayer, "Metadata").ConfigureAwait(false);
-        if (string.IsNullOrWhiteSpace(metadata))
+        string[] services = await WithTimeout(bus.ListServicesAsync()).ConfigureAwait(false);
+        (string Name, MprisTrack Track)? playing = null;
+        (string Name, MprisTrack Track)? followed = null;
+        (string Name, MprisTrack Track)? first = null;
+        foreach (string name in services)
+        {
+            if (!name.StartsWith(MprisPrefix, StringComparison.Ordinal))
+                continue;
+            MprisTrack? track = await ReadPlayerAsync(bus, name).ConfigureAwait(false);
+            if (track == null || (!IsSpotifyClient(name) && !track.FromSpotifyWeb))
+                continue;
+            first ??= (name, track);
+            if (name == _player)
+                followed = (name, track);
+            if (track.Playing)
+            {
+                playing = (name, track);
+                break;
+            }
+        }
+        (string Name, MprisTrack Track)? chosen = playing ?? followed ?? first;
+        if (chosen == null)
             return null;
-        using System.Text.Json.JsonDocument statusDoc = System.Text.Json.JsonDocument.Parse(status);
-        using System.Text.Json.JsonDocument metaDoc = System.Text.Json.JsonDocument.Parse(metadata);
-        if (!metaDoc.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement data))
+        if (chosen.Value.Name != _player)
+        {
+            _player = chosen.Value.Name;
+            App.Logger.WriteLine(LOG_IDENT, "Following the desktop player " + chosen.Value.Name[MprisPrefix.Length..]);
+        }
+        MprisTrack picked = chosen.Value.Track;
+        byte[]? cover = await SpotifyCovers.ReadAsync(picked.ArtUrl).ConfigureAwait(false);
+        return new SpotifyDesktopTrack(picked.Title, picked.Artist, picked.Playing, cover, picked.Position, picked.Duration);
+    }
+
+    private static bool IsSpotifyClient(string name)
+    {
+        string client = name[MprisPrefix.Length..];
+        int dot = client.IndexOf('.');
+        if (dot >= 0)
+            client = client[..dot];
+        return client.Contains("spotify", StringComparison.OrdinalIgnoreCase)
+            || SpotifyClients.Contains(client, StringComparer.OrdinalIgnoreCase);
+    }
+
+    private sealed record MprisTrack(string Title, string Artist, bool Playing, string? ArtUrl, bool FromSpotifyWeb, TimeSpan Position, TimeSpan Duration);
+
+    private static async Task<MprisTrack?> ReadPlayerAsync(Connection bus, string name)
+    {
+        IDictionary<string, object> properties;
+        try
+        {
+            properties = await WithTimeout(bus.CreateProxy<IMprisPlayer>(name, MprisPath).GetAllAsync()).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (ex is DBusException or TimeoutException)
+        {
             return null;
-        string title = data.TryGetProperty("xesam:title", out System.Text.Json.JsonElement t) && t.TryGetProperty("data", out System.Text.Json.JsonElement tv)
-            ? tv.GetString() ?? string.Empty
-            : string.Empty;
+        }
+        if (!properties.TryGetValue("Metadata", out object? value) || value is not IDictionary<string, object> metadata)
+            return null;
+        string title = metadata.TryGetValue("xesam:title", out object? rawTitle) ? rawTitle as string ?? string.Empty : string.Empty;
         if (title.Length == 0)
             return null;
         string artist = string.Empty;
-        if (data.TryGetProperty("xesam:artist", out System.Text.Json.JsonElement a) && a.TryGetProperty("data", out System.Text.Json.JsonElement av) && av.ValueKind == System.Text.Json.JsonValueKind.Array)
-            artist = string.Join(", ", av.EnumerateArray().Select(static item => item.GetString()).Where(static item => !string.IsNullOrEmpty(item)));
-        bool playing = statusDoc.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement s) && s.GetString() == "Playing";
-        TimeSpan duration = data.TryGetProperty("mpris:length", out System.Text.Json.JsonElement l) && l.TryGetProperty("data", out System.Text.Json.JsonElement lv) && lv.TryGetInt64(out long micros)
-            ? TimeSpan.FromTicks(micros * 10)
-            : TimeSpan.Zero;
-        TimeSpan position = TimeSpan.Zero;
-        string? positionJson = await RunAsync("busctl", "--user", "--json=short", "get-property", MprisName, MprisPath, MprisPlayer, "Position").ConfigureAwait(false);
-        if (!string.IsNullOrWhiteSpace(positionJson))
+        if (metadata.TryGetValue("xesam:artist", out object? rawArtist))
         {
-            using System.Text.Json.JsonDocument positionDoc = System.Text.Json.JsonDocument.Parse(positionJson);
-            if (positionDoc.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement pv) && pv.TryGetInt64(out long at))
-                position = TimeSpan.FromTicks(at * 10);
+            artist = rawArtist switch
+            {
+                string[] names => string.Join(", ", names.Where(static item => !string.IsNullOrEmpty(item))),
+                string single => single,
+                _ => string.Empty,
+            };
         }
-        return new SpotifyDesktopTrack(title, artist, playing, null, position, duration);
+        string? artUrl = metadata.TryGetValue("mpris:artUrl", out object? rawArt) ? rawArt as string : null;
+        string? url = metadata.TryGetValue("xesam:url", out object? rawUrl) ? rawUrl as string : null;
+        bool fromWeb =
+            (url != null && url.Contains("open.spotify.com", StringComparison.OrdinalIgnoreCase))
+            || (artUrl != null && artUrl.Contains("scdn.co", StringComparison.OrdinalIgnoreCase));
+        bool playing = properties.TryGetValue("PlaybackStatus", out object? status) && status as string == "Playing";
+        TimeSpan duration = metadata.TryGetValue("mpris:length", out object? length) ? Microseconds(length) : TimeSpan.Zero;
+        TimeSpan position = properties.TryGetValue("Position", out object? at) ? Microseconds(at) : TimeSpan.Zero;
+        return new MprisTrack(title, artist, playing, artUrl, fromWeb, position, duration);
     }
 
-    private static async Task<string?> RunAsync(string file, params string[] args)
+    private static TimeSpan Microseconds(object? value)
     {
-        System.Diagnostics.ProcessStartInfo info = new(file)
+        long micros = value switch
+        {
+            long signed => signed,
+            ulong unsigned => unsigned > long.MaxValue ? 0 : (long)unsigned,
+            int small => small,
+            uint smallUnsigned => smallUnsigned,
+            double real => (long)real,
+            _ => 0,
+        };
+        return micros > 0 && micros < TimeSpan.MaxValue.Ticks / 10 ? TimeSpan.FromTicks(micros * 10) : TimeSpan.Zero;
+    }
+
+    private static async Task<ProcessResult?> RunAsync(string file, params string[] args)
+    {
+        ProcessStartInfo info = new(file)
         {
             RedirectStandardOutput = true,
             RedirectStandardError = true,
@@ -109,47 +332,31 @@ public static class SpotifyDesktopSession
         };
         foreach (string arg in args)
             info.ArgumentList.Add(arg);
-        using System.Diagnostics.Process? process = System.Diagnostics.Process.Start(info);
+        using Process? process = Process.Start(info);
         if (process == null)
             return null;
-        using System.Threading.CancellationTokenSource timeout = new(TimeSpan.FromSeconds(3));
-        Task<string> read = process.StandardOutput.ReadToEndAsync(timeout.Token);
+        using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(3));
+        Task<string> output = process.StandardOutput.ReadToEndAsync(timeout.Token);
+        Task<string> error = process.StandardError.ReadToEndAsync(timeout.Token);
         try
         {
             await process.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
+            return new ProcessResult(process.ExitCode, await output.ConfigureAwait(false), await error.ConfigureAwait(false));
         }
         catch (OperationCanceledException)
         {
             process.Kill(true);
             return null;
         }
-        string output = await read.ConfigureAwait(false);
-        return process.ExitCode == 0 ? output : null;
-    }
-
-    public static Task ToggleAsync() => ControlAsync("PlayPause", "playpause");
-
-    public static Task SkipAsync(bool next) => next ? ControlAsync("Next", "next track") : ControlAsync("Previous", "previous track");
-
-    private static async Task ControlAsync(string mprisMethod, string macCommand)
-    {
-        try
-        {
-            if (Voidstrap.Utility.Platform.IsMacOS)
-                await RunAsync("osascript", "-e", "if application \"Spotify\" is running then tell application \"Spotify\" to " + macCommand).ConfigureAwait(false);
-            else if (Voidstrap.Utility.Platform.IsLinux)
-                await RunAsync("busctl", "--user", "call", MprisName, MprisPath, MprisPlayer, mprisMethod).ConfigureAwait(false);
-        }
-        catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException)
-        {
-        }
     }
 #else
-    private const string LOG_IDENT = "SpotifyDesktopSession";
-
     private const uint MaximumCoverBytes = 2 * 1024 * 1024;
 
     private static GlobalSystemMediaTransportControlsSessionManager? _manager;
+
+    private static string? _coverKey;
+
+    private static byte[]? _coverBytes;
 
     private static async Task<GlobalSystemMediaTransportControlsSession?> FindAsync()
     {
@@ -187,6 +394,9 @@ public static class SpotifyDesktopSession
 
     private static async Task<byte[]?> ReadCoverAsync(GlobalSystemMediaTransportControlsSessionMediaProperties media)
     {
+        string key = media.Title + "\n" + media.Artist;
+        if (key == _coverKey)
+            return _coverBytes;
         if (media.Thumbnail == null)
             return null;
         using IRandomAccessStreamWithContentType stream = await media.Thumbnail.OpenReadAsync().AsTask().ConfigureAwait(false);
@@ -197,6 +407,8 @@ public static class SpotifyDesktopSession
         await reader.LoadAsync(size).AsTask().ConfigureAwait(false);
         byte[] bytes = new byte[size];
         reader.ReadBytes(bytes);
+        _coverBytes = bytes;
+        _coverKey = key;
         return bytes;
     }
 
@@ -229,3 +441,17 @@ public static class SpotifyDesktopSession
     }
 #endif
 }
+#if CROSSPLAT
+
+[DBusInterface("org.mpris.MediaPlayer2.Player")]
+public interface IMprisPlayer : IDBusObject
+{
+    Task PlayPauseAsync();
+
+    Task NextAsync();
+
+    Task PreviousAsync();
+
+    Task<IDictionary<string, object>> GetAllAsync();
+}
+#endif

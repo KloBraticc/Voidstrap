@@ -7,13 +7,13 @@ public static class SpotifyNowPlaying
 {
     private const string LOG_IDENT = "SpotifyNowPlaying";
 
-    private const int MaximumCoverBytes = 2 * 1024 * 1024;
+    private static readonly TimeSpan ReuseFor = TimeSpan.FromMilliseconds(700);
 
-    private static readonly HttpClient CoverClient = VpnHttpClient.Create(TimeSpan.FromSeconds(8));
+    private static Task<SpotifyDesktopTrack?>? _reading;
 
-    private static string? _coverUrl;
+    private static SpotifyDesktopTrack? _lastTrack;
 
-    private static byte[]? _coverBytes;
+    private static DateTime _lastReadAt;
 
     private static bool _fromApp;
 
@@ -21,10 +21,30 @@ public static class SpotifyNowPlaying
 
     public static async Task<SpotifyDesktopTrack?> ReadAsync(string? knownTitle)
     {
-        SpotifyDesktopTrack? app = await ReadAppAsync(knownTitle);
-        SpotifyDesktopTrack? desktop = await SpotifyDesktopSession.ReadAsync(knownTitle);
+        SpotifyDesktopTrack? track = await ReadSharedAsync();
+        return track != null && track.Title == knownTitle ? track with { Cover = null } : track;
+    }
+
+    private static Task<SpotifyDesktopTrack?> ReadSharedAsync()
+    {
+        Task<SpotifyDesktopTrack?>? reading = _reading;
+        if (reading is { IsCompleted: false })
+            return reading;
+        if (DateTime.UtcNow - _lastReadAt < ReuseFor)
+            return Task.FromResult(_lastTrack);
+        reading = ReadFreshAsync();
+        _reading = reading;
+        return reading;
+    }
+
+    private static async Task<SpotifyDesktopTrack?> ReadFreshAsync()
+    {
+        SpotifyDesktopTrack? app = await ReadAppAsync();
+        SpotifyDesktopTrack? desktop = await SpotifyDesktopSession.ReadAsync(null);
         SpotifyDesktopTrack? chosen;
-        if (app is { Playing: true })
+        if (app != null && desktop != null && string.Equals(app.Title, desktop.Title, StringComparison.OrdinalIgnoreCase))
+            chosen = app;
+        else if (app is { Playing: true })
             chosen = app;
         else if (desktop is { Playing: true })
             chosen = desktop;
@@ -32,6 +52,8 @@ public static class SpotifyNowPlaying
             chosen = _fromApp ? app : desktop;
         else
             chosen = app ?? desktop;
+        _lastTrack = chosen;
+        _lastReadAt = DateTime.UtcNow;
         if (chosen == null)
             return null;
         _fromApp = ReferenceEquals(chosen, app);
@@ -43,11 +65,17 @@ public static class SpotifyNowPlaying
         return chosen;
     }
 
-    public static Task ToggleAsync() =>
-        _fromApp ? PressAsync("control-button-playpause") : SpotifyDesktopSession.ToggleAsync();
+    public static Task ToggleAsync()
+    {
+        _lastReadAt = DateTime.MinValue;
+        return _fromApp ? PressAsync("control-button-playpause") : SpotifyDesktopSession.ToggleAsync();
+    }
 
-    public static Task SkipAsync(bool next) =>
-        _fromApp ? PressAsync(next ? "control-button-skip-forward" : "control-button-skip-back") : SpotifyDesktopSession.SkipAsync(next);
+    public static Task SkipAsync(bool next)
+    {
+        _lastReadAt = DateTime.MinValue;
+        return _fromApp ? PressAsync(next ? "control-button-skip-forward" : "control-button-skip-back") : SpotifyDesktopSession.SkipAsync(next);
+    }
 
     private static async Task PressAsync(string control)
     {
@@ -60,7 +88,7 @@ public static class SpotifyNowPlaying
             await dispatcher.InvokeAsync(() => SpotifyEngine.Shared.PressAsync(control)).Task.Unwrap();
     }
 
-    private static async Task<SpotifyDesktopTrack?> ReadAppAsync(string? knownTitle)
+    private static async Task<SpotifyDesktopTrack?> ReadAppAsync()
     {
         SpotifyEngine engine = SpotifyEngine.Shared;
         Dispatcher? dispatcher = Application.Current?.Dispatcher;
@@ -77,7 +105,7 @@ public static class SpotifyNowPlaying
             duration = position - duration;
         if (position < TimeSpan.Zero)
             position = TimeSpan.Zero;
-        byte[]? cover = state.Title == knownTitle ? null : await ReadCoverAsync(state.Image);
+        byte[]? cover = await SpotifyCovers.ReadAsync(state.Image);
         return new SpotifyDesktopTrack(state.Title, state.Artist, state.Playing, cover, position, duration);
     }
 
@@ -97,30 +125,5 @@ public static class SpotifyNowPlaying
             seconds = seconds * 60 + number;
         }
         return TimeSpan.FromSeconds(negative ? -seconds : seconds);
-    }
-
-    private static async Task<byte[]?> ReadCoverAsync(string? url)
-    {
-        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
-            return null;
-        if (url == _coverUrl)
-            return _coverBytes;
-        try
-        {
-            using HttpResponseMessage response = await CoverClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-            if (!response.IsSuccessStatusCode || response.Content.Headers.ContentLength > MaximumCoverBytes)
-                return null;
-            byte[] bytes = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            if (bytes.Length == 0 || bytes.Length > MaximumCoverBytes)
-                return null;
-            _coverUrl = url;
-            _coverBytes = bytes;
-            return bytes;
-        }
-        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or InvalidOperationException)
-        {
-            App.Logger.WriteLine(LOG_IDENT, "The cover could not be downloaded: " + ex.GetType().Name);
-            return null;
-        }
     }
 }
