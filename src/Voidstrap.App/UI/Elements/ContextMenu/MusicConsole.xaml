@@ -31,7 +31,7 @@
               <TextBlock Text="{resources:Loc Ui_Misc2_NowPlaying}" />
             </StackPanel>
           </TabItem.Header>
-          <Grid Margin="0,12,0,0">
+          <Grid Margin="16">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="2*" MinWidth="320" />
               <ColumnDefinition Width="16" />
@@ -151,7 +151,7 @@
               <TextBlock Text="{resources:Loc Ui_Misc2_Equalizer}" />
             </StackPanel>
           </TabItem.Header>
-          <StackPanel Margin="0,12,0,0">
+          <StackPanel Margin="16">
             <TextBlock Text="{resources:Loc Ui_Misc2_Equalizer}" FontSize="18" FontWeight="Medium" Margin="0,0,0,4" />
             <TextBlock Opacity="0.7" TextWrapping="Wrap" Margin="0,0,0,12" Text="{resources:Loc Ui_Misc2_TuneHowYourAudioSoundsPick}" />
             <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
@@ -195,7 +195,7 @@
               <TextBlock Text="Spotify" />
             </StackPanel>
           </TabItem.Header>
-          <vscontrols:SpotifyLibraryView x:Name="SpotifyTab" Margin="0,12,0,0" />
+          <vscontrols:SpotifyLibraryView x:Name="SpotifyTab" Margin="16" />
         </TabItem>
       </TabControl>
     </Grid>
