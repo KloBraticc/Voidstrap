@@ -460,7 +460,7 @@ public partial class SessionDock : Window
         return Math.Ceiling(IslandCompact.DesiredSize.Width);
     }
 
-    private static void AnimateIsland(UIElement element, DependencyProperty property, double to)
+    private static void AnimateIsland(IAnimatable element, DependencyProperty property, double to)
     {
         DoubleAnimation animation = new(to, IslandMorph) { EasingFunction = new Voidstrap.UI.SpringEase() };
         element.BeginAnimation(property, animation, HandoffBehavior.SnapshotAndReplace);
@@ -529,6 +529,12 @@ public partial class SessionDock : Window
         IslandCompact.IsHitTestVisible = true;
         IslandExpanded.Opacity = 0;
         IslandExpanded.Visibility = Visibility.Collapsed;
+        _islandPressAt = null;
+        _islandDragging = false;
+        IslandPull.BeginAnimation(TranslateTransform.XProperty, null);
+        IslandPull.BeginAnimation(TranslateTransform.YProperty, null);
+        IslandPull.X = 0;
+        IslandPull.Y = 0;
         if (_islandMeterStarted && IslandStage.Resources["IslandMeter"] is Storyboard meter)
             meter.Stop(IslandStage);
         _islandMeterStarted = false;
@@ -587,7 +593,7 @@ public partial class SessionDock : Window
 
     private void NowPlayingIsland_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
     {
-        if (_islandExpanded)
+        if (_islandExpanded && !_islandDragging)
             MorphIsland(false);
     }
 
@@ -641,7 +647,81 @@ public partial class SessionDock : Window
     }
 
     private static CustomPopupPlacement[] PlaceNowPlaying(Size popupSize, Size targetSize, Point offset) =>
-        [new CustomPopupPlacement(new Point((targetSize.Width - popupSize.Width) / 2, -popupSize.Height - 8), PopupPrimaryAxis.None)];
+        [new CustomPopupPlacement(new Point((targetSize.Width - popupSize.Width) / 2, -popupSize.Height + IslandDragRoom - 8), PopupPrimaryAxis.None)];
+
+    private const double IslandDragRoom = 28;
+
+    private const double IslandDragReach = 22;
+
+    private const double IslandDragThreshold = 3;
+
+    private Point? _islandPressAt;
+
+    private bool _islandDragging;
+
+    private static double RubberBand(double offset, double reach) =>
+        Math.Sign(offset) * reach * (1 - 1 / (Math.Abs(offset) * 0.55 / reach + 1));
+
+    private void NowPlayingIsland_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        _islandPressAt = e.GetPosition(IslandStage);
+        _islandDragging = false;
+        AnimateIsland(IslandScale, ScaleTransform.ScaleXProperty, 0.97);
+        AnimateIsland(IslandScale, ScaleTransform.ScaleYProperty, 0.97);
+    }
+
+    private void NowPlayingIsland_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (_islandPressAt is not Point start || e.LeftButton != System.Windows.Input.MouseButtonState.Pressed)
+            return;
+        Vector delta = e.GetPosition(IslandStage) - start;
+        if (!_islandDragging)
+        {
+            if (Math.Abs(delta.X) < IslandDragThreshold && Math.Abs(delta.Y) < IslandDragThreshold)
+                return;
+            _islandDragging = true;
+            NowPlayingIsland.CaptureMouse();
+        }
+        IslandPull.BeginAnimation(TranslateTransform.XProperty, null);
+        IslandPull.BeginAnimation(TranslateTransform.YProperty, null);
+        IslandPull.X = RubberBand(delta.X, IslandDragReach);
+        IslandPull.Y = RubberBand(delta.Y, IslandDragReach);
+        double stretch = 1 + Math.Min(0.06, (Math.Abs(IslandPull.X) + Math.Abs(IslandPull.Y)) / 400);
+        IslandScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+        IslandScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+        IslandScale.ScaleX = stretch;
+        IslandScale.ScaleY = stretch;
+        e.Handled = true;
+    }
+
+    private void NowPlayingIsland_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        bool dragged = _islandDragging;
+        ReleaseIsland();
+        if (dragged)
+            e.Handled = true;
+    }
+
+    private void NowPlayingIsland_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (_islandDragging)
+            ReleaseIsland();
+    }
+
+    private void ReleaseIsland()
+    {
+        bool dragging = _islandDragging;
+        _islandPressAt = null;
+        _islandDragging = false;
+        if (dragging && NowPlayingIsland.IsMouseCaptured)
+            NowPlayingIsland.ReleaseMouseCapture();
+        AnimateIsland(IslandPull, TranslateTransform.XProperty, 0);
+        AnimateIsland(IslandPull, TranslateTransform.YProperty, 0);
+        AnimateIsland(IslandScale, ScaleTransform.ScaleXProperty, 1);
+        AnimateIsland(IslandScale, ScaleTransform.ScaleYProperty, 1);
+        if (dragging && !NowPlayingIsland.IsMouseOver && _islandExpanded)
+            MorphIsland(false);
+    }
 
     private static System.Windows.Media.Imaging.BitmapImage? LoadNowPlayingCover(byte[] bytes)
     {
