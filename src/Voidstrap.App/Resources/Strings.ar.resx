@@ -10321,4 +10321,10 @@
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>الموسيقى</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>جزيرة تفاعلية</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>مرّر المؤشر لإظهار أزرار التشغيل واسحبها لسحب مرن. أوقفها لتمر النقرات إلى Roblox.</value>
+  </data>
 </root>

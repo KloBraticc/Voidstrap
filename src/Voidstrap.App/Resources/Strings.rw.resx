@@ -10010,4 +10010,10 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Umuziki</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Ikirwa gikorana</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Shyira imbeba hejuru ugaragaze igenzura ryo gucuranga kandi ukurure ukurura nk'isusupenso. Zimya kugira ngo gukanda bigere kuri Roblox.</value>
+  </data>
 </root>

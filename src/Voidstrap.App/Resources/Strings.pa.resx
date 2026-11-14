@@ -10010,4 +10010,10 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>ਮਿਊਜ਼ਿਕ</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ਇੰਟਰਐਕਟਿਵ ਆਈਲੈਂਡ</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>ਪਲੇਬੈਕ ਕੰਟਰੋਲ ਦਿਖਾਉਣ ਲਈ ਹੋਵਰ ਕਰੋ ਅਤੇ ਸਪ੍ਰਿੰਗ ਵਰਗੀ ਖਿੱਚ ਲਈ ਘਸੀਟੋ। ਕਲਿੱਕ Roblox ਤੱਕ ਜਾਣ ਦੇਣ ਲਈ ਬੰਦ ਕਰੋ।</value>
+  </data>
 </root>

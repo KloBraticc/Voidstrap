@@ -10010,4 +10010,10 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>म्यूज़िक</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>इंटरैक्टिव आइलैंड</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>प्लेबैक कंट्रोल दिखाने के लिए होवर करें और स्प्रिंग जैसे खिंचाव के लिए खींचें। क्लिक Roblox तक जाने देने के लिए बंद करें।</value>
+  </data>
 </root>

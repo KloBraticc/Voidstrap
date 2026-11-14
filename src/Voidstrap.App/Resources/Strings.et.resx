@@ -10009,4 +10009,10 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Muusika</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktiivne saar</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Hõljuta, et näidata esitusnuppe, ja lohista seda vetruvaks tõmbeks. Lülita välja, et klõpsud jõuaksid Robloxi.</value>
+  </data>
 </root>

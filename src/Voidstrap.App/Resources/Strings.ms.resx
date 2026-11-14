@@ -10314,4 +10314,10 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Muzik</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Pulau interaktif</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Halakan tetikus untuk memaparkan kawalan main balik dan seret untuk tarikan anjal. Matikan supaya klik diteruskan ke Roblox.</value>
+  </data>
 </root>

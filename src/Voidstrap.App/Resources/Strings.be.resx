@@ -10009,4 +10009,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Музыка</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Інтэрактыўны востраў</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Навядзіце, каб паказаць кнопкі прайгравання, і цягніце для пругкага руху. Выключыце, каб клікі праходзілі ў Roblox.</value>
+  </data>
 </root>

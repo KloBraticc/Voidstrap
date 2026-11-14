@@ -10010,4 +10010,10 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Glasba</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktivni otok</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Premaknite miško nad otok za kontrolnike predvajanja in ga povlecite za prožen poteg. Izklopite, da kliki pridejo do Robloxa.</value>
+  </data>
 </root>

@@ -10009,4 +10009,10 @@ SteamVR instalatu orain?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Musika</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Uharte interaktiboa</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Pasatu sagua erreprodukzio kontrolak ikusteko eta arrastatu tira elastikoa egiteko. Desaktibatu klikak Robloxera iristeko.</value>
+  </data>
 </root>

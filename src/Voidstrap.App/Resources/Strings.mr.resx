@@ -10010,4 +10010,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>म्युझिक</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>इंटरॅक्टिव्ह आयलंड</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>प्लेबॅक नियंत्रणे दाखवण्यासाठी होव्हर करा आणि स्प्रिंगसारख्या ओढीसाठी ड्रॅग करा. क्लिक Roblox पर्यंत जाऊ देण्यासाठी बंद करा.</value>
+  </data>
 </root>

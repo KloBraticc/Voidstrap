@@ -10010,4 +10010,10 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Mūzika</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktīva sala</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Novietojiet kursoru, lai redzētu atskaņošanas vadīklas, un velciet to atsperīgai vilkšanai. Izslēdziet, lai klikšķi nonāktu Roblox.</value>
+  </data>
 </root>

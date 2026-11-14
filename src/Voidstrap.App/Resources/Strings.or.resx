@@ -10010,4 +10010,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>ମ୍ୟୁଜିକ୍</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ଇଣ୍ଟରାକ୍ଟିଭ୍ ଆଇଲ୍ୟାଣ୍ଡ</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>ପ୍ଲେବ୍ୟାକ୍ ନିୟନ୍ତ୍ରଣ ଦେଖାଇବାକୁ ହୋଭର୍ କରନ୍ତୁ ଏବଂ ସ୍ପ୍ରିଙ୍ଗ୍ ଟାଣ ପାଇଁ ଡ୍ରାଗ୍ କରନ୍ତୁ। କ୍ଲିକ୍ Roblox କୁ ଯିବା ପାଇଁ ବନ୍ଦ କରନ୍ତୁ।</value>
+  </data>
 </root>

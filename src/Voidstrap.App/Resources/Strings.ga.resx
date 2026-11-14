@@ -10010,4 +10010,10 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Ceol</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Oileán idirghníomhach</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Ainligh os a chionn chun rialuithe seinnte a thaispeáint agus tarraing é le haghaidh tarraingt leaisteach. Múch é chun cliceanna a ligean go Roblox.</value>
+  </data>
 </root>

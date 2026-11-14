@@ -10323,4 +10323,10 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Musiikki</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktiivinen saari</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Vie hiiri päälle nähdäksesi toistosäätimet ja vedä sitä joustavasti. Poista käytöstä, jotta napsautukset menevät Robloxiin.</value>
+  </data>
 </root>

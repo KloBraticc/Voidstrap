@@ -10324,4 +10324,10 @@ Instalați SteamVR acum?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Muzică</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Insulă interactivă</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Treci cu mouse ul pentru controalele de redare și trage o pentru o tragere elastică. Dezactivează ca clicurile să ajungă la Roblox.</value>
+  </data>
 </root>

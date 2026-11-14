@@ -10009,4 +10009,10 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>మ్యూజిక్</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ఇంటరాక్టివ్ ఐలాండ్</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>ప్లేబ్యాక్ నియంత్రణలు చూపడానికి హోవర్ చేయండి, స్ప్రింగ్ లాగడానికి డ్రాగ్ చేయండి. క్లిక్‌లు Roblox కు వెళ్లడానికి ఆఫ్ చేయండి.</value>
+  </data>
 </root>

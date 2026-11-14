@@ -10010,4 +10010,10 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Хөгжим</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Интерактив арал</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Тоглуулах удирдлагыг харуулахын тулд хулганаа аваачиж, уян татахын тулд чирнэ үү. Даралтууд Roblox руу очихын тулд унтраана уу.</value>
+  </data>
 </root>

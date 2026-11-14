@@ -10010,4 +10010,10 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Kiɗa</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Tsibiri mai mu'amala</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Ɗora linzami don nuna sarrafa kunnawa kuma ja shi don jan roba. Kashe shi don barin dannawa su wuce zuwa Roblox.</value>
+  </data>
 </root>

@@ -10009,4 +10009,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>ሙዚቃ</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>በይነተገናኝ ደሴት</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>የመጫወቻ መቆጣጠሪያዎችን ለማሳየት ያንዣብቡ እና ለሚለጠጥ መሳብ ይጎትቱት። ጠቅታዎች ወደ Roblox እንዲያልፉ ያጥፉት።</value>
+  </data>
 </root>

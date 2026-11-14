@@ -10009,4 +10009,10 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Orin</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Erékùṣù ìbáṣepọ̀</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Gbé àsín sórí rẹ̀ láti fi àwọn ìdarí ìṣeré hàn kí o sì fà á fún fífà bí rọ́bà. Pa á kí títẹ̀ lè kọjá sí Roblox.</value>
+  </data>
 </root>

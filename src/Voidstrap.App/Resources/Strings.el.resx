@@ -10009,4 +10009,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Μουσική</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Διαδραστικό νησί</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Περάστε τον δείκτη για να εμφανιστούν τα χειριστήρια αναπαραγωγής και σύρετέ το για ελαστικό τράβηγμα. Απενεργοποιήστε το ώστε τα κλικ να περνούν στο Roblox.</value>
+  </data>
 </root>

@@ -10010,4 +10010,10 @@ Uptime: {1}
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>მუსიკა</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ინტერაქტიული კუნძული</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>მიიტანეთ კურსორი დაკვრის ღილაკების საჩვენებლად და გადაათრიეთ ზამბარისებრი მოზიდვისთვის. გამორთეთ, რომ დაწკაპუნებები Roblox ს მიაღწიოს.</value>
+  </data>
 </root>

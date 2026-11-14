@@ -10010,4 +10010,10 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Hudba</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktívny ostrovček</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Prejdením zobrazíte ovládanie prehrávania a ťahaním ho pružne potiahnete. Vypnite, aby kliknutia prechádzali do Robloxu.</value>
+  </data>
 </root>

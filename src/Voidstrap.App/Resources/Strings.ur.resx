@@ -10009,4 +10009,10 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>میوزک</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>انٹرایکٹو آئی لینڈ</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>پلے بیک کنٹرول دکھانے کے لیے ہوور کریں اور اسپرنگ جیسے کھنچاؤ کے لیے گھسیٹیں۔ کلکس کو Roblox تک جانے دینے کے لیے بند کریں۔</value>
+  </data>
 </root>

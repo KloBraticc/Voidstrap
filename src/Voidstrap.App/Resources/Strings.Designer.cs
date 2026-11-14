@@ -595,6 +595,10 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Mods_SessionDock => ResourceManager.GetString("Ui.Mods.SessionDock", resourceCulture);
 
+        public static string Ui_MusicIsland_Interactive => ResourceManager.GetString("Ui.MusicIsland.Interactive", resourceCulture);
+
+        public static string Ui_MusicIsland_InteractiveDescription => ResourceManager.GetString("Ui.MusicIsland.InteractiveDescription", resourceCulture);
+
         public static string Ui_MusicIsland_Title => ResourceManager.GetString("Ui.MusicIsland.Title", resourceCulture);
 
         public static string Ui_MusicIsland_Description => ResourceManager.GetString("Ui.MusicIsland.Description", resourceCulture);

@@ -10009,4 +10009,10 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Muziki</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Kisiwa shirikishi</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Elea juu ili kuonyesha vidhibiti vya kucheza na ukiburute kwa mvuto wa springi. Zima ili mibofyo ipite hadi Roblox.</value>
+  </data>
 </root>

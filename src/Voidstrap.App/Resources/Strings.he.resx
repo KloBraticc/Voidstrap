@@ -10010,4 +10010,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>מוזיקה</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>אי אינטראקטיבי</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>רחפו מעליו כדי להציג פקדי ניגון וגררו אותו למשיכה קפיצית. כבו כדי שלחיצות יעברו ל Roblox.</value>
+  </data>
 </root>

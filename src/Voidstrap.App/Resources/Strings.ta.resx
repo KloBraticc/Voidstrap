@@ -10009,4 +10009,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>இசை</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ஊடாடும் தீவு</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>இயக்கக் கட்டுப்பாடுகளைக் காட்ட மேலே நகர்த்தி, ஸ்பிரிங் இழுப்புக்கு இழுக்கவும். கிளிக்குகள் Roblox க்குச் செல்ல அணைக்கவும்.</value>
+  </data>
 </root>

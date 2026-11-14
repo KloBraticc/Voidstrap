@@ -10009,4 +10009,10 @@ Install SteamVR now?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Music</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interactive island</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Hover to show playback controls and drag it for a springy pull. Turn off to let clicks pass through to Roblox.</value>
+  </data>
 </root>

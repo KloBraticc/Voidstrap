@@ -10010,4 +10010,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Музика</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Интерактивен остров</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Поминете со глувчето за контроли за репродукција и повлечете го за еластично влечење. Исклучете за кликовите да минуваат до Roblox.</value>
+  </data>
 </root>

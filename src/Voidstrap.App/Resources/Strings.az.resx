@@ -10009,4 +10009,10 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Musiqi</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>İnteraktiv ada</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>İdarəetmə düymələrini görmək üçün üzərinə gətirin və elastik çəkmə üçün sürüşdürün. Kliklərin Roblox-a keçməsi üçün söndürün.</value>
+  </data>
 </root>

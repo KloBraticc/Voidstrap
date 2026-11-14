@@ -10009,4 +10009,10 @@ Indi SteamVR guruň?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Saz</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktiw ada</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Oýnatma dolandyryşlaryny görmek üçin üstüne getiriň we maýyşgak çekmek üçin süýräň. Basmalar Roblox-a geçer ýaly öçüriň.</value>
+  </data>
 </root>

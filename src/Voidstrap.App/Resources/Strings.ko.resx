@@ -10321,4 +10321,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>음악</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>인터랙티브 아일랜드</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>마우스를 올리면 재생 컨트롤이 표시되고 드래그하면 탄력 있게 당겨집니다. 끄면 클릭이 Roblox로 전달됩니다.</value>
+  </data>
 </root>

@@ -10323,4 +10323,10 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Muzyka</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktywna wyspa</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Najedź, aby zobaczyć sterowanie odtwarzaniem, i przeciągnij ją, by sprężyście pociągnąć. Wyłącz, aby kliknięcia trafiały do Robloxa.</value>
+  </data>
 </root>

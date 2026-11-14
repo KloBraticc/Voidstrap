@@ -10010,4 +10010,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>តន្ត្រី</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>កោះអន្តរកម្ម</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>ដាក់ទស្សន៍ទ្រនិចពីលើដើម្បីបង្ហាញឧបករណ៍ចាក់ ហើយអូសវាដើម្បីទាញដូចស្ព្រីង។ បិទដើម្បីឱ្យការចុចឆ្លងទៅ Roblox។</value>
+  </data>
 </root>

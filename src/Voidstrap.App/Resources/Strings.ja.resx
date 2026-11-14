@@ -10337,4 +10337,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>ミュージック</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>インタラクティブアイランド</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>ホバーで再生コントロールを表示し、ドラッグでばねのように引っ張れます。オフにするとクリックが Roblox に届きます。</value>
+  </data>
 </root>

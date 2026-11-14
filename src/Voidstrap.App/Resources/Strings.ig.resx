@@ -10010,4 +10010,10 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Egwu</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Agwaetiti mmekọrịta</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Fegharịa ka igosi njikwa ọkpụkpọ ma dọrọ ya maka ndọrọ dị nro. Gbanyụọ ka mpị gafere na Roblox.</value>
+  </data>
 </root>

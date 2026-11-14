@@ -10010,4 +10010,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>ಮ್ಯೂಸಿಕ್</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ಇಂಟರಾಕ್ಟಿವ್ ಐಲ್ಯಾಂಡ್</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>ಪ್ಲೇಬ್ಯಾಕ್ ನಿಯಂತ್ರಣಗಳನ್ನು ತೋರಿಸಲು ಹೋವರ್ ಮಾಡಿ ಮತ್ತು ಸ್ಪ್ರಿಂಗ್ ಎಳೆತಕ್ಕೆ ಎಳೆಯಿರಿ. ಕ್ಲಿಕ್‌ಗಳು Roblox ಗೆ ಹೋಗಲು ಆಫ್ ಮಾಡಿ.</value>
+  </data>
 </root>

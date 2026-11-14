@@ -10325,4 +10325,10 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Musik</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Pulau interaktif</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Arahkan kursor untuk menampilkan kontrol pemutaran dan seret untuk tarikan pegas. Matikan agar klik diteruskan ke Roblox.</value>
+  </data>
 </root>

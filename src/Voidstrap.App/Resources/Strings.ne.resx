@@ -10010,4 +10010,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>म्युजिक</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>अन्तरक्रियात्मक आइल्यान्ड</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>प्लेब्याक नियन्त्रण देखाउन होभर गर्नुहोस् र स्प्रिङ जस्तो तानका लागि ड्र्याग गर्नुहोस्। क्लिकहरू Roblox मा जान दिन बन्द गर्नुहोस्।</value>
+  </data>
 </root>

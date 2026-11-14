@@ -10320,4 +10320,10 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Музика</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Інтерактивний острів</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Наведіть, щоб показати кнопки відтворення, і потягніть для пружного ефекту. Вимкніть, щоб кліки проходили до Roblox.</value>
+  </data>
 </root>

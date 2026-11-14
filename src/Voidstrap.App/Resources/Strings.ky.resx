@@ -10010,4 +10010,10 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Музыка</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Интерактивдүү арал</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Ойнотуу баскычтарын көрүү үчүн курсорду алып барыңыз жана серпилгич тартуу үчүн сүйрөңүз. Чыкылдатуулар Roblox ко өтүшү үчүн өчүрүңүз.</value>
+  </data>
 </root>

@@ -10010,4 +10010,10 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Muusik</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Jasiirad is dhexgal ah</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Dul mari si aad u aragto xakamaynta ciyaarta oo jiid si aad u hesho jiid laastig ah. Dami si gujinta ay ugu gudbaan Roblox.</value>
+  </data>
 </root>

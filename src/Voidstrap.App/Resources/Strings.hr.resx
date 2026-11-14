@@ -10322,4 +10322,10 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Glazba</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktivni otok</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Prijeđite mišem za kontrole reprodukcije i povucite ga za elastično povlačenje. Isključite da klikovi prolaze do Robloxa.</value>
+  </data>
 </root>

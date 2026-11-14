@@ -10009,4 +10009,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>মিউজিক</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ইন্টারঅ্যাকটিভ আইল্যান্ড</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>প্লেব্যাক কন্ট্রোল দেখাতে হোভার করুন এবং স্প্রিংয়ের মতো টানতে ড্র্যাগ করুন। ক্লিক Roblox এ যেতে দিতে বন্ধ করুন।</value>
+  </data>
 </root>

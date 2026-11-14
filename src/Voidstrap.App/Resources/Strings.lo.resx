@@ -10010,4 +10010,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>ເພງ</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ເກາະໂຕ້ຕອບ</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>ວາງເມົາສ໌ເພື່ອສະແດງປຸ່ມຫຼິ້ນ ແລະ ລາກເພື່ອດຶງແບບສະປິງ. ປິດເພື່ອໃຫ້ການຄລິກຜ່ານໄປ Roblox.</value>
+  </data>
 </root>

@@ -10010,4 +10010,10 @@ Installa SteamVR issa?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Mużika</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Gżira interattiva</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Għaddi l maws biex turi l kontrolli tad daqq u kaxkarha għal ġibda elastika. Itfi biex il klikks jgħaddu għal Roblox.</value>
+  </data>
 </root>

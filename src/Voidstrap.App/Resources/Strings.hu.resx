@@ -10322,4 +10322,10 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Zene</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktív sziget</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Vidd fölé az egeret a lejátszásvezérlőkhöz, és húzd meg egy rugalmas rántásért. Kapcsold ki, hogy a kattintások a Robloxhoz jussanak.</value>
+  </data>
 </root>

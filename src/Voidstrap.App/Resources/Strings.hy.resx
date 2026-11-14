@@ -10010,4 +10010,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Երաժշտություն</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Ինտերակտիվ կղզի</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Սավառնեք՝ նվագարկման կառավարումը տեսնելու համար, և քաշեք առաձգական ձգման համար։ Անջատեք, որ սեղմումները հասնեն Roblox ին։</value>
+  </data>
 </root>

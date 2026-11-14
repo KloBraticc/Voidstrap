@@ -10009,4 +10009,10 @@ Installeer SteamVR nou?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Musiek</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktiewe eiland</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Beweeg oor dit om afspeelkontroles te wys en sleep dit vir 'n veerkragtige trek. Skakel af sodat klikke na Roblox deurgaan.</value>
+  </data>
 </root>

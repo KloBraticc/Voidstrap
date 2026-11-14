@@ -10009,4 +10009,10 @@ Uptime: {1}
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>مۇزىكا</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ئۆز ئارا تەسىرلىك ئارال</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>قويۇش كونتروللىرىنى كۆرسىتىش ئۈچۈن ئۈستىگە ئېلىپ بېرىڭ ۋە ئېلاستىك تارتىش ئۈچۈن سۆرەڭ. چېكىشلەر Roblox غا ئۆتسۇن دېسىڭىز تاقاڭ.</value>
+  </data>
 </root>

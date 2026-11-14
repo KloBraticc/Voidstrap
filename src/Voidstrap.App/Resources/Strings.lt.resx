@@ -10324,4 +10324,10 @@ Veikimo laikas: {1}
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Muzika</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktyvi sala</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Užveskite pelę, kad matytumėte grojimo valdiklius, ir vilkite ją spyruokliškam patraukimui. Išjunkite, kad paspaudimai pasiektų Roblox.</value>
+  </data>
 </root>

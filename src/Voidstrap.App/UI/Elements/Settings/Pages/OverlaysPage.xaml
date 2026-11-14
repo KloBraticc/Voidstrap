@@ -45,9 +45,14 @@
             <ui:ToggleSwitch Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center" IsChecked="{Binding MusicIslandOverlay, Mode=TwoWay}" />
           </Grid>
         </HeaderedContentControl.Header>
+        <StackPanel>
         <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_MusicIsland_Position}" IsEnabled="{Binding MusicIslandOverlay}">
           <ComboBox Width="200" ItemsSource="{Binding MusicIslandPositions}" SelectedIndex="{Binding MusicIslandPositionIndex, Mode=TwoWay}" />
         </controls:OptionControl>
+        <controls:OptionControl Header="{resources:Loc Ui_MusicIsland_Interactive}" Description="{resources:Loc Ui_MusicIsland_InteractiveDescription}" IsEnabled="{Binding MusicIslandOverlay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <ui:ToggleSwitch IsChecked="{Binding MusicIslandInteractive, Mode=TwoWay}" />
+        </controls:OptionControl>
+        </StackPanel>
       </ui:CardExpander>
 
       <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/overlays/#notifications" Header="{resources:Loc Ui_Mods_ScreenshotNotify_Title}" Description="{resources:Loc Ui_Mods_ScreenshotNotify_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">

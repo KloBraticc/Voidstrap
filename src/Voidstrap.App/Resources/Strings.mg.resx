@@ -10010,4 +10010,10 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Mozika</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Nosy mifandray</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Ataovy eo amboniny ny totozy hampisehoana ny fanaraha-maso ary sintony ho fisintonana malefaka. Vonoy mba handalovan'ny tsindry any Roblox.</value>
+  </data>
 </root>

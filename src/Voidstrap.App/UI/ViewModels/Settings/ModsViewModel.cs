@@ -1190,6 +1190,20 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public bool MusicIslandInteractive
+    {
+        get => App.Settings.Prop.MusicIslandInteractive;
+        set
+        {
+            if (App.Settings.Prop.MusicIslandInteractive == value)
+                return;
+            App.Settings.Prop.MusicIslandInteractive = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(MusicIslandInteractive));
+            Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+        }
+    }
+
     public IReadOnlyList<string> MusicIslandPositions => MusicIslandPositionLabels();
 
     internal static IReadOnlyList<string> MusicIslandPositionLabels() =>

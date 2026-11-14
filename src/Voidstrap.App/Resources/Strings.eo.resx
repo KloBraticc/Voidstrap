@@ -10009,4 +10009,10 @@ Ludantoj: {2}</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Muziko</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaga insulo</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Ŝvebu por montri ludregilojn kaj trenu ĝin por elasta tiro. Malŝaltu por lasi klakojn trairi al Roblox.</value>
+  </data>
 </root>

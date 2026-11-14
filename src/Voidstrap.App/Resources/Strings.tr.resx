@@ -10320,4 +10320,10 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Müzik</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Etkileşimli ada</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Oynatma kontrollerini görmek için üzerine gelin ve esnek bir çekiş için sürükleyin. Tıklamaların Roblox'a geçmesi için kapatın.</value>
+  </data>
 </root>

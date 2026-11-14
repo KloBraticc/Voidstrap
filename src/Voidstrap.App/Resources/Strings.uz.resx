@@ -10009,4 +10009,10 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Musiqa</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktiv orol</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Ijro boshqaruvini ko'rish uchun ustiga olib boring va prujinali tortish uchun sudrang. Bosishlar Roblox ga o'tishi uchun o'chiring.</value>
+  </data>
 </root>

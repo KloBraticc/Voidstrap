@@ -10325,4 +10325,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>音樂</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>互動式音樂島</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>將游標移上去顯示播放控制，拖曳可產生彈性拉伸效果。關閉後點擊會直接傳到 Roblox。</value>
+  </data>
 </root>

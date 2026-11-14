@@ -10010,4 +10010,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>മ്യൂസിക്</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>ഇന്ററാക്ടീവ് ഐലൻഡ്</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>പ്ലേബാക്ക് നിയന്ത്രണങ്ങൾ കാണാൻ ഹോവർ ചെയ്യുക, സ്പ്രിംഗ് പോലെ വലിക്കാൻ ഡ്രാഗ് ചെയ്യുക. ക്ലിക്കുകൾ Roblox ലേക്ക് പോകാൻ ഓഫാക്കുക.</value>
+  </data>
 </root>

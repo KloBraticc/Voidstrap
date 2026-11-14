@@ -10009,4 +10009,10 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Mmino</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Sehlekehleke se sebedisanang</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Beha toeba hodima ho bontsha ditaolo tsa ho bapala mme o e hule bakeng sa ho hula ho kang selekane. E tima hore ho tobetsa ho fete ho ya Roblox.</value>
+  </data>
 </root>

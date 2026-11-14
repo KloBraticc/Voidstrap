@@ -10010,4 +10010,10 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Puoro</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Moutere pāhekoheko</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Pūtere hei whakaatu i ngā mana purei, ā, tōia mō te kume pūtaratara. Whakawetongia kia puta ngā pāwhiri ki Roblox.</value>
+  </data>
 </root>

@@ -10009,4 +10009,10 @@ Faka i-SteamVR ngoku?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Umculo</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Isiqithi esisebenzisanayo</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Hambisa imouse phezu kwaso ubonise ulawulo lokudlala uze usitsale ukuze sitsaleke njengentsimbi. Cima ukuze ukucofa kudlulele kuRoblox.</value>
+  </data>
 </root>

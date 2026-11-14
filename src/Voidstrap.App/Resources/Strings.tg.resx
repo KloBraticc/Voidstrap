@@ -10009,4 +10009,10 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Мусиқӣ</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Ҷазираи интерактивӣ</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Барои дидани идоракунии пахш курсорро баред ва барои кашиши чандир кашед. Хомӯш кунед, то клик ба Roblox гузарад.</value>
+  </data>
 </root>

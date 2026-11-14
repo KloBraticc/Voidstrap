@@ -10010,4 +10010,10 @@ Installer SteamVR nå?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Musikk</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktiv øy</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Hold musen over for å vise avspillingskontroller, og dra den for et fjærende drag. Slå av for å la klikk gå gjennom til Roblox.</value>
+  </data>
 </root>

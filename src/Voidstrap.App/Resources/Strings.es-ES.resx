@@ -10322,4 +10322,10 @@ Jugadores: {2}</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Música</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Isla interactiva</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Pasa el ratón para ver los controles de reproducción y arrástrala para un tirón elástico. Desactívalo para que los clics lleguen a Roblox.</value>
+  </data>
 </root>

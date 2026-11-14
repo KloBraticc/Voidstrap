@@ -10010,4 +10010,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Музика</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Интерактивно острво</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Пређите мишем за контроле репродукције и превуците га за еластично повлачење. Искључите да би кликови пролазили до Roblox.</value>
+  </data>
 </root>

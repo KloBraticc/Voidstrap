@@ -419,6 +419,8 @@ namespace Voidstrap.Models.Persistable
 
         public MusicIslandPosition MusicIslandPosition { get; set; } = MusicIslandPosition.BottomRight;
 
+        public bool MusicIslandInteractive { get; set; } = false;
+
         public bool Ps4ButtonsEnabled { get; set; } = false;
 
         public bool ModPacksNoticeShown { get; set; } = false;

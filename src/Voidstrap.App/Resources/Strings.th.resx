@@ -10317,4 +10317,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>เพลง</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>เกาะแบบโต้ตอบ</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>วางเมาส์เพื่อแสดงปุ่มควบคุมการเล่น และลากเพื่อดึงแบบสปริง ปิดเพื่อให้การคลิกผ่านไปยัง Roblox</value>
+  </data>
 </root>

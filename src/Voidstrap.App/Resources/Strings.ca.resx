@@ -10009,4 +10009,10 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Música</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Illa interactiva</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Passa el ratolí per mostrar els controls de reproducció i arrossega-la per estirar-la amb molla. Desactiva-ho perquè els clics arribin a Roblox.</value>
+  </data>
 </root>

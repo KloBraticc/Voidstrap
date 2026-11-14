@@ -10009,4 +10009,10 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Cerddoriaeth</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Ynys ryngweithiol</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Hofran i ddangos rheolyddion chwarae a'i llusgo am dyniad sbonciog. Diffoddwch i adael i gliciau fynd drwodd i Roblox.</value>
+  </data>
 </root>

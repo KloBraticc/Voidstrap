@@ -10010,4 +10010,10 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Tónlist</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Gagnvirk eyja</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Haltu músinni yfir til að sýna spilunarstýringar og dragðu hana fyrir fjaðrandi tog. Slökktu til að smellir fari í Roblox.</value>
+  </data>
 </root>

@@ -10009,4 +10009,10 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>ဂီတ</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>အပြန်အလှန်ကျွန်း</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>ဖွင့်ခလုတ်များပြရန် မောက်စ်တင်ပြီး စပရိန်လို ဆွဲရန် ဆွဲပါ။ နှိပ်ချက်များ Roblox သို့ ရောက်စေရန် ပိတ်ပါ။</value>
+  </data>
 </root>

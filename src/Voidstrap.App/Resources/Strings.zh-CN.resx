@@ -10346,4 +10346,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>音乐</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>交互式音乐岛</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>悬停显示播放控件，拖动可产生弹性拉伸效果。关闭后点击会直接传递给 Roblox。</value>
+  </data>
 </root>

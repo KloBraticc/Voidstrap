@@ -10010,4 +10010,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>සංගීතය</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>අන්තර්ක්‍රියාකාරී දූපත</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>වාදන පාලන පෙන්වීමට ඉහළින් තබා දුනු ඇදීමක් සඳහා ඇද දමන්න. ක්ලික් Roblox වෙත යාමට අක්‍රිය කරන්න.</value>
+  </data>
 </root>

@@ -10009,4 +10009,10 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Umculo</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Isiqhingi esisebenzisanayo</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Beka igundane phezu kwaso ukuze ubonise izilawuli zokudlala bese usidonsa ukuze udonse njengesiphethu. Vala ukuze ukuchofoza kudlulele ku Roblox.</value>
+  </data>
 </root>

@@ -10009,4 +10009,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>מוזיק</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>אינטעראַקטיווער אינדזל</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>שוועב איבער אים צו ווייַזן שפּיל קאָנטראָלן און שלעפּ אים פֿאַר אַ שפּרינגיק ציען. שאַלט אויס כּדי קליקס זאָלן דורכגיין צו Roblox.</value>
+  </data>
 </root>

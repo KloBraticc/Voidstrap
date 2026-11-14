@@ -10010,4 +10010,10 @@ SteamVR elo installéieren?</value>
   <data name="Ui.OverlayStudio.LayerMusic" xml:space="preserve">
     <value>Musek</value>
   </data>
+  <data name="Ui.MusicIsland.Interactive" xml:space="preserve">
+    <value>Interaktiv Insel</value>
+  </data>
+  <data name="Ui.MusicIsland.InteractiveDescription" xml:space="preserve">
+    <value>Fuer driwwer fir d'Ofspillsteierung ze weisen a zéi se fir e fiedereg Zéien. Schalt aus, fir datt Klicks bei Roblox ukommen.</value>
+  </data>
 </root>
