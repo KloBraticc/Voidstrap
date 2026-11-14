@@ -294,7 +294,8 @@ public partial class DiscordRichPresence : IDisposable
         {
             _lastPresenceSignature = null;
             _lastSentPresenceSignature = null;
-            UpdatePresence(force: true);
+            if (_currentPresence != null)
+                UpdatePresence(force: true);
         }
         _ = Task.Run(SetCurrentGameAsync, _lifetimeToken);
     }
