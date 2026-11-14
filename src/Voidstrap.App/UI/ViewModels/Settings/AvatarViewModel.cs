@@ -74,6 +74,12 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private AvatarItemRow? _selectedAdjust;
 
+        private static readonly TimeSpan AdjustSaveDelay = TimeSpan.FromMilliseconds(600);
+
+        private readonly SemaphoreSlim _adjustSaveGate = new(1, 1);
+
+        private CancellationTokenSource? _adjustSaveCts;
+
         private bool _adjustLoading;
 
         private string _renderedSignature = "";
@@ -437,6 +443,9 @@ namespace Voidstrap.UI.ViewModels.Settings
             _sceneCts?.Cancel();
             _sceneCts?.Dispose();
             _sceneCts = null;
+            _adjustSaveCts?.Cancel();
+            _adjustSaveCts?.Dispose();
+            _adjustSaveCts = null;
             _cts.Cancel();
             _cts.Dispose();
             GC.SuppressFinalize(this);
@@ -982,7 +991,39 @@ namespace Voidstrap.UI.ViewModels.Settings
                 state.Assets.Clear();
                 state.Assets.AddRange(assets);
             });
-            return ApplyAsync(cookie => RobloxAvatar.SetWearingAsync(assets, cookie, _cts.Token), false);
+            return SaveAdjustAsync();
+        }
+
+        private async Task SaveAdjustAsync()
+        {
+            _adjustSaveCts?.Cancel();
+            _adjustSaveCts?.Dispose();
+            CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(_cts.Token);
+            _adjustSaveCts = cts;
+            try
+            {
+                await Task.Delay(AdjustSaveDelay, cts.Token);
+                await _adjustSaveGate.WaitAsync(cts.Token);
+                try
+                {
+                    string? cookie = Cookie();
+                    if (cookie == null || _state == null)
+                        return;
+                    List<AvatarAsset> assets = _state.Assets.ToList();
+                    Status = null;
+                    if (!await RobloxAvatar.SetWearingAsync(assets, cookie, _cts.Token))
+                    {
+                        Status = Strings.Accounts_Avatar_Failed;
+                        await RefreshAvatarAsync();
+                    }
+                }
+                finally
+                {
+                    _adjustSaveGate.Release();
+                }
+            }
+            catch (OperationCanceledException) { }
+            catch (ObjectDisposedException) { }
         }
 
         private Task ResetAdjustAsync()
