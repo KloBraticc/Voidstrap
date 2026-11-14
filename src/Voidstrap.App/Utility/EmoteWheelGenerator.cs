@@ -83,6 +83,9 @@ internal static class EmoteWheelGenerator
         public required Texture Glow { get; init; }
 
         public required Texture Marker { get; init; }
+
+        public BitmapSource? Before { get; set; }
+
     }
 
     private sealed class Placed
@@ -264,7 +267,13 @@ internal static class EmoteWheelGenerator
             Texture wheel = Process(Part.Wheel, textures.Wheel, painter);
             Texture glow = Process(Part.Glow, textures.Glow, painter);
             Texture marker = Process(Part.Marker, textures.Marker, painter);
-            return (Compose(textures.Background, textures.Wheel, textures.Glow, textures.Marker), Compose(background, wheel, glow, marker));
+            BitmapSource? before = textures.Before;
+            if (before == null)
+            {
+                before = Compose(textures.Background, textures.Wheel, textures.Glow, textures.Marker);
+                textures.Before = before;
+            }
+            return (before, Compose(background, wheel, glow, marker));
         }
         catch (Exception ex)
         {
@@ -612,7 +621,7 @@ internal static class EmoteWheelGenerator
             maxAlpha = Math.Max(maxAlpha, pixels[i]);
         }
         Placed? image = painter.BackgroundImage;
-        for (int y = 0; y < height; y++)
+        Parallel.For(0, height, y =>
         {
             for (int x = 0; x < width; x++)
             {
@@ -642,7 +651,7 @@ internal static class EmoteWheelGenerator
                 }
                 Write(pixels, offset, r, g, b, alpha);
             }
-        }
+        });
     }
 
     private static void PaintWheel(byte[] pixels, int width, int height, Painter painter)
@@ -671,7 +680,7 @@ internal static class EmoteWheelGenerator
         double discHeight = Math.Max(1, bottom - top + 1);
         double discWidth = Math.Max(1, right - left + 1);
         Placed? image = painter.CenterImage;
-        for (int y = 0; y < height; y++)
+        Parallel.For(0, height, y =>
         {
             for (int x = 0; x < width; x++)
             {
@@ -700,7 +709,7 @@ internal static class EmoteWheelGenerator
                 double b = cb + (painter.Lines.B - cb) * t;
                 Write(pixels, offset, r, g, b, a / 255.0 * painter.WheelOpacity);
             }
-        }
+        });
     }
 
     private static void PaintFlat(byte[] pixels, int width, int height, Color start, Color? end, double opacity)
@@ -895,7 +904,7 @@ internal static class EmoteWheelGenerator
         int maxX = Math.Min(size - 1, (int)Math.Ceiling(x + reach));
         int minY = Math.Max(0, (int)Math.Floor(y - reach));
         int maxY = Math.Min(size - 1, (int)Math.Ceiling(y + reach));
-        for (int py = minY; py <= maxY; py++)
+        Parallel.For(minY, maxY + 1, py =>
         {
             for (int px = minX; px <= maxX; px++)
             {
@@ -915,6 +924,6 @@ internal static class EmoteWheelGenerator
                 canvas[offset + 2] = r * a + canvas[offset + 2] * keep;
                 canvas[offset + 3] = a + canvas[offset + 3] * keep;
             }
-        }
+        });
     }
 }

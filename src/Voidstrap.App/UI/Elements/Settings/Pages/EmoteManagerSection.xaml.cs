@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Microsoft.Win32;
 using Voidstrap.UI.Elements.Controls;
 using Voidstrap.UI.ViewModels.Settings;
@@ -12,8 +11,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class EmoteManagerSection : UserControl
 {
-    private readonly DispatcherTimer _previewTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500.0) };
-
     private EmoteImagePlacement _centerImage = new EmoteImagePlacement();
 
     private EmoteImagePlacement _backgroundImage = new EmoteImagePlacement();
@@ -30,8 +27,6 @@ public partial class EmoteManagerSection : UserControl
 
     private bool _previewPending;
 
-    private int _previewVersion;
-
     private Point? _dragStart;
 
     private double _dragOffsetX;
@@ -47,7 +42,6 @@ public partial class EmoteManagerSection : UserControl
 
     private void Section_Loaded(object sender, RoutedEventArgs e)
     {
-        _previewTimer.Tick += PreviewTimer_Tick;
         if (!_initialized)
         {
             _initialized = true;
@@ -58,8 +52,6 @@ public partial class EmoteManagerSection : UserControl
 
     private void Section_Unloaded(object sender, RoutedEventArgs e)
     {
-        _previewTimer.Stop();
-        _previewTimer.Tick -= PreviewTimer_Tick;
         _previewPending = false;
         _generateCts?.Cancel();
     }
@@ -364,19 +356,17 @@ public partial class EmoteManagerSection : UserControl
 
     private void SchedulePreview()
     {
-        _previewTimer.Stop();
-        _previewTimer.Start();
-    }
-
-    private async void PreviewTimer_Tick(object? sender, EventArgs e)
-    {
-        const string LOG_IDENT = "EmoteManagerSection::PreviewTimer_Tick";
-        _previewTimer.Stop();
         if (_previewRunning)
         {
             _previewPending = true;
             return;
         }
+        _ = RenderPreviewAsync();
+    }
+
+    private async Task RenderPreviewAsync()
+    {
+        const string LOG_IDENT = "EmoteManagerSection::RenderPreviewAsync";
         EmoteWheelSettings settings = ReadSettings();
         string? problem = EmoteWheelGenerator.Validate(settings);
         if (problem != null)
@@ -384,9 +374,12 @@ public partial class EmoteManagerSection : UserControl
             PreviewNote.Text = problem;
             return;
         }
-        int version = ++_previewVersion;
         _previewRunning = true;
-        PreviewRing.Visibility = Visibility.Visible;
+        bool first = AfterImage.Source == null;
+        if (first)
+        {
+            PreviewRing.Visibility = Visibility.Visible;
+        }
         (BitmapSource Before, BitmapSource After)? preview = null;
         try
         {
@@ -401,29 +394,31 @@ public partial class EmoteManagerSection : UserControl
             _previewRunning = false;
             PreviewRing.Visibility = Visibility.Collapsed;
         }
-        if (_previewPending)
+        if (!IsLoaded)
         {
             _previewPending = false;
-            if (IsLoaded)
-            {
-                SchedulePreview();
-            }
             return;
         }
-        if (version != _previewVersion || !IsLoaded)
+        if (preview is (BitmapSource before, BitmapSource after))
         {
-            return;
+            if (!ReferenceEquals(BeforeImage.Source, before))
+            {
+                BeforeImage.Source = before;
+            }
+            AfterImage.Source = after;
+            PreviewNote.Text = Strings.Ui_EmoteMgr_DragHint;
         }
-        if (preview is not (BitmapSource before, BitmapSource after))
+        else if (!_previewPending)
         {
             BeforeImage.Source = null;
             AfterImage.Source = null;
             PreviewNote.Text = Strings.Ui_EmoteMgr_NoTextures;
-            return;
         }
-        BeforeImage.Source = before;
-        AfterImage.Source = after;
-        PreviewNote.Text = Strings.Ui_EmoteMgr_DragHint;
+        if (_previewPending)
+        {
+            _previewPending = false;
+            SchedulePreview();
+        }
     }
 
     private async void Generate_Click(object sender, RoutedEventArgs e)
