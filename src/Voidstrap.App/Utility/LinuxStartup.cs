@@ -884,6 +884,7 @@ internal static partial class LinuxStartup
             {
                 "/usr/share/glvnd/egl_vendor.d",
                 "/etc/glvnd/egl_vendor.d",
+                "/usr/local/share/glvnd/egl_vendor.d",
                 "/run/opengl-driver/share/glvnd/egl_vendor.d",
             }
         )
