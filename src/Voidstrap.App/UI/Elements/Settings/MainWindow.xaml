@@ -763,7 +763,7 @@
                                   <GeometryDrawing.Geometry>
                                     <CombinedGeometry GeometryCombineMode="Exclude">
                                       <CombinedGeometry.Geometry1><RectangleGeometry Rect="-11,-11,40,40" /></CombinedGeometry.Geometry1>
-                                      <CombinedGeometry.Geometry2><RectangleGeometry Rect="7.5,7.5,13,13" RadiusX="3" RadiusY="3" /></CombinedGeometry.Geometry2>
+                                      <CombinedGeometry.Geometry2><PathGeometry Figures="M9.2,9.2 L18.8,9.2 L18.8,15.6 L12.6,15.6 L12.6,19 L9.2,19 Z" /></CombinedGeometry.Geometry2>
                                     </CombinedGeometry>
                                   </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
