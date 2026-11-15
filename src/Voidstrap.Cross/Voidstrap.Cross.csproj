@@ -49,6 +49,8 @@
 		<LinuxPresentationFrameworkAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationFramework.dll</LinuxPresentationFrameworkAssembly>
 		<LinuxWgpuLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native.so</LinuxWgpuLibrary>
 		<LinuxGlfwLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libglfw.so.3</LinuxGlfwLibrary>
+		<LinuxWgpuLibrary Condition="$(RuntimeIdentifier.StartsWith('freebsd'))">$(MSBuildProjectDirectory)\..\..\external\LibreWPF\freebsd-x64\libwgpu_native.so</LinuxWgpuLibrary>
+		<LinuxGlfwLibrary Condition="$(RuntimeIdentifier.StartsWith('freebsd'))">$(MSBuildProjectDirectory)\..\..\external\LibreWPF\freebsd-x64\libglfw.so.3</LinuxGlfwLibrary>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(VoidstrapElfRid)' == 'true' And Exists('$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native_gl.so')">
@@ -530,7 +532,7 @@
 	</ItemGroup>
 
 	<Target Name="RequireFreeBSDGraphicsLibraries" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('freebsd')) And '$(DesignTimeBuild)' != 'true'">
-		<Error Condition="!Exists('$(LinuxWgpuLibrary)') Or !Exists('$(LinuxGlfwLibrary)')" Text="FreeBSD builds need libwgpu_native.so and libglfw.so.3 in external/LibreWPF/$(RuntimeIdentifier). Build them with build/Packaging/Linux/build-wgpu-native.sh and build-glfw-native.sh on FreeBSD." />
+		<Error Condition="!Exists('$(LinuxWgpuLibrary)') Or !Exists('$(LinuxGlfwLibrary)')" Text="FreeBSD builds need libwgpu_native.so and libglfw.so.3 in external/LibreWPF/freebsd-x64. Build them with build/Packaging/Linux/build-wgpu-native.sh and build-glfw-native.sh on FreeBSD." />
 	</Target>
 
 	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('freebsd'))">

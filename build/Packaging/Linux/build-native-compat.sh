@@ -8,7 +8,7 @@ SOURCE="${3:-$ROOT/build/Packaging/Linux/editor-compat.c}"
 case "$RID" in
   linux-x64|linux-musl-x64) ARCH=x86_64 ;;
   linux-arm64|linux-musl-arm64) ARCH=aarch64 ;;
-  freebsd-x64) ARCH=x86_64 ;;
+  freebsd-x64|freebsd.*-x64) ARCH=x86_64 ;;
   *) echo "Unsupported Linux runtime identifier" >&2; exit 1 ;;
 esac
 

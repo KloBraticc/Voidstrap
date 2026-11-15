@@ -14,7 +14,7 @@ case "$RID" in
   linux-musl-arm64) TRIPLE=aarch64-unknown-linux-musl; FILE=libvoidstate.so ;;
   osx-x64) TRIPLE=x86_64-apple-darwin; FILE=libvoidstate.dylib ;;
   osx-arm64) TRIPLE=aarch64-apple-darwin; FILE=libvoidstate.dylib ;;
-  freebsd-x64) TRIPLE=x86_64-unknown-freebsd; FILE=libvoidstate.so ;;
+  freebsd-x64|freebsd.*-x64) TRIPLE=x86_64-unknown-freebsd; FILE=libvoidstate.so ;;
   *) echo "voidstate: no native build for $RID"; exit 0 ;;
 esac
 

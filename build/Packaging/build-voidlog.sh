@@ -14,7 +14,7 @@ case "$RID" in
   linux-musl-arm64) TRIPLE=aarch64-unknown-linux-musl; FILE=libvoidlog.so ;;
   osx-x64) TRIPLE=x86_64-apple-darwin; FILE=libvoidlog.dylib ;;
   osx-arm64) TRIPLE=aarch64-apple-darwin; FILE=libvoidlog.dylib ;;
-  freebsd-x64) TRIPLE=x86_64-unknown-freebsd; FILE=libvoidlog.so ;;
+  freebsd-x64|freebsd.*-x64) TRIPLE=x86_64-unknown-freebsd; FILE=libvoidlog.so ;;
   *) echo "voidlog: no native build for $RID"; exit 0 ;;
 esac
 

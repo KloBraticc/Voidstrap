@@ -36,7 +36,7 @@ LIBRARY="$TARGET_ROOT/release/libwgpu_native.so"
 COMPILER="${VOIDSTRAP_NATIVE_COMPILER:-}"
 case "$RID" in
     linux-x64) COMPILER="${COMPILER:-cc}" ;;
-    freebsd-x64) [ "$(uname -s)" = "FreeBSD" ] || { echo "freebsd-x64 is only built on FreeBSD" >&2; exit 1; }; COMPILER="${COMPILER:-cc}" ;;
+    freebsd-x64|freebsd.*-x64) [ "$(uname -s)" = "FreeBSD" ] || { echo "freebsd-x64 is only built on FreeBSD" >&2; exit 1; }; COMPILER="${COMPILER:-cc}" ;;
     linux-arm64) TARGET=aarch64-unknown-linux-gnu; COMPILER="${COMPILER:-aarch64-linux-gnu-gcc}" ;;
     linux-musl-x64) TARGET=x86_64-unknown-linux-musl; COMPILER="${COMPILER:-musl-gcc}" ;;
     linux-musl-arm64) TARGET=aarch64-unknown-linux-musl; COMPILER="${COMPILER:-aarch64-linux-musl-gcc}" ;;
