@@ -58,7 +58,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
     private bool _addingToSteam;
 
     public Visibility SteamShortcutVisibility =>
-        Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Utility.LinuxSteamIntegration.IsSteamInstalled
+        Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxSteamIntegration.IsSteamInstalled
             ? Visibility.Visible
             : Visibility.Collapsed;
 
