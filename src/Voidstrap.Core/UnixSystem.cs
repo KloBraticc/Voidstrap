@@ -295,29 +295,15 @@ public static partial class UnixSystem
 	{
 		if (!HostSystem.IsFreeBSD || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(OpenSslOverrideVariable)))
 			return;
-		int best = -1;
-		foreach (string directory in OpenSslDirectories)
-		{
-			string[] files;
-			try
-			{
-				files = Directory.GetFiles(directory, "libssl.so.*");
-			}
-			catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
-			{
-				continue;
-			}
-			foreach (string file in files)
-			{
-				if (int.TryParse(Path.GetFileName(file)["libssl.so.".Length..], NumberStyles.None, CultureInfo.InvariantCulture, out int version) && version > best)
-					best = version;
-			}
-		}
-		if (best < 0)
-			return;
 		try
 		{
-			SetEnvironment(OpenSslOverrideVariable, best.ToString(CultureInfo.InvariantCulture), 0);
+			foreach (string version in RuntimeOpenSslVersions)
+			{
+				if (CanLoadOpenSsl(version))
+					return;
+			}
+			if (CanLoadOpenSsl("35"))
+				SetEnvironment(OpenSslOverrideVariable, "35", 1);
 		}
 		catch (Exception exception) when (exception is DllNotFoundException or EntryPointNotFoundException)
 		{
@@ -326,7 +312,15 @@ public static partial class UnixSystem
 
 	private const string OpenSslOverrideVariable = "DOTNET_OPENSSL_VERSION_OVERRIDE";
 
-	private static readonly string[] OpenSslDirectories = ["/usr/lib", "/lib", "/usr/local/lib"];
+	private static readonly string[] RuntimeOpenSslVersions = ["3", "1.1", "1.0.2", "1.0.0", "10", "12", "30", "11", "111"];
+
+	private static bool CanLoadOpenSsl(string version)
+	{
+		if (!NativeLibrary.TryLoad("libssl.so." + version, out IntPtr library))
+			return false;
+		NativeLibrary.Free(library);
+		return true;
+	}
 
 	[LibraryImport("libc", EntryPoint = "setenv", StringMarshalling = StringMarshalling.Utf8)]
 	private static partial int SetEnvironment(string name, string value, int overwrite);
