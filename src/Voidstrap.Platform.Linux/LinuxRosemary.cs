@@ -147,7 +147,8 @@ public static partial class LinuxRosemary
 			if (!process.WaitForExit(3000))
 				process.Kill(true);
 			string output = reading.Wait(1000) ? reading.Result : "";
-			string? version = output.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+			string firstLine = output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).FirstOrDefault() ?? "";
+			string? version = firstLine.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
 			return string.IsNullOrWhiteSpace(version) ? NativeExecutableName : version;
 		}
 		catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or IOException)
