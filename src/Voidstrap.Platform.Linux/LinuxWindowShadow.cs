@@ -12,8 +12,8 @@ public static unsafe partial class LinuxWindowShadow
 	private const int MaxRestackAttempts = 4;
 	private const int MaxPlacementAttempts = 3;
 	private const int EventSize = 192;
-	private const int OpenNonBlocking = 0x800;
-	private const int OpenCloseOnExec = 0x80000;
+	private static readonly int OpenNonBlocking = Voidstrap.Core.UnixSystem.OpenNonBlocking;
+	private static readonly int OpenCloseOnExec = Voidstrap.Core.UnixSystem.OpenCloseOnExec;
 	private const short PollIn = 1;
 	private const int Interrupted = 4;
 
@@ -1508,15 +1508,15 @@ public static unsafe partial class LinuxWindowShadow
 		int operation,
 		int ordering);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial int pipe2(int* descriptors, int flags);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial int poll(PollDescriptor* descriptors, nuint count, int timeout);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial nint read(int descriptor, void* buffer, nuint count);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial nint write(int descriptor, void* buffer, nuint count);
 }

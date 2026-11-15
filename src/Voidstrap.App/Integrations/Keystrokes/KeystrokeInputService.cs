@@ -662,7 +662,7 @@ public static partial class KeystrokeInputService
             if (opened.ContainsKey(node))
                 continue;
             byte[] pathBytes = System.Text.Encoding.UTF8.GetBytes(node + "\0");
-            int fd = OpenLinux(pathBytes, 0x800 | 0x80000, 0);
+            int fd = OpenLinux(pathBytes, Voidstrap.Core.UnixSystem.OpenNonBlocking | Voidstrap.Core.UnixSystem.OpenCloseOnExec, 0);
             if (fd < 0)
                 continue;
             opened[node] = fd;

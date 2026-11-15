@@ -14,6 +14,12 @@ public static partial class UnixSystem
 	private const int KernProcPathname = 12;
 	private const int PermissionDenied = 1;
 
+	public static int OpenNonBlocking { get; } = HostSystem.IsFreeBSD ? 0x4 : 0x800;
+
+	public static int OpenCloseOnExec { get; } = HostSystem.IsFreeBSD ? 0x100000 : 0x80000;
+
+	public static int OpenCreate { get; } = HostSystem.IsFreeBSD ? 0x200 : 0x40;
+
 	public static IReadOnlyList<int> ProcessIds()
 	{
 		List<int> found = [];

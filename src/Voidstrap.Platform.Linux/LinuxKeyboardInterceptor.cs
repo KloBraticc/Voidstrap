@@ -40,9 +40,9 @@ public sealed unsafe partial class LinuxKeyboardInterceptor : IDisposable
 	private const int OpenReadWrite = 2;
 	private const int OpenReadOnly = 0;
 	private const int OpenWriteOnly = 1;
-	private const int OpenNonBlocking = 0x800;
-	private const int OpenCloseOnExec = 0x80000;
-	private const int OpenCreate = 0x40;
+	private static readonly int OpenNonBlocking = Voidstrap.Core.UnixSystem.OpenNonBlocking;
+	private static readonly int OpenCloseOnExec = Voidstrap.Core.UnixSystem.OpenCloseOnExec;
+	private static readonly int OpenCreate = Voidstrap.Core.UnixSystem.OpenCreate;
 	private const short PollIn = 1;
 	private const int LockExclusive = 2;
 	private const int LockNonBlocking = 4;
@@ -54,20 +54,20 @@ public sealed unsafe partial class LinuxKeyboardInterceptor : IDisposable
 	private const int IdlePollMs = 250;
 	private const long OwnershipRetryMs = 2000;
 
-	private const nuint EviocGrab = 0x40044590;
-	private const nuint EviocGetKeyState = 0x80604518;
-	private const nuint EviocGetKeyBits = 0x80604521;
-	private const nuint EviocGetEventBits = 0x80044520;
+	private static readonly nuint EviocGrab = HostSystem.IsFreeBSD ? 0x20044590U : 0x40044590U;
+	private static readonly nuint EviocGetKeyState = HostSystem.IsFreeBSD ? 0x40604518U : 0x80604518U;
+	private static readonly nuint EviocGetKeyBits = HostSystem.IsFreeBSD ? 0x40604521U : 0x80604521U;
+	private static readonly nuint EviocGetEventBits = HostSystem.IsFreeBSD ? 0x40044520U : 0x80044520U;
 	private const int EvRelative = 2;
 	private const int EvAbsolute = 3;
 	private const int ButtonLeft = 0x110;
-	private const nuint EviocGetName = 0x81004506;
-	private const nuint UiSetEventBit = 0x40045564;
-	private const nuint UiSetKeyBit = 0x40045565;
-	private const nuint UiSetLedBit = 0x40045569;
-	private const nuint UiDeviceSetup = 0x405c5503;
-	private const nuint UiDeviceCreate = 0x5501;
-	private const nuint UiDeviceDestroy = 0x5502;
+	private static readonly nuint EviocGetName = HostSystem.IsFreeBSD ? 0x41004506U : 0x81004506U;
+	private static readonly nuint UiSetEventBit = HostSystem.IsFreeBSD ? 0x20045564U : 0x40045564U;
+	private static readonly nuint UiSetKeyBit = HostSystem.IsFreeBSD ? 0x20045565U : 0x40045565U;
+	private static readonly nuint UiSetLedBit = HostSystem.IsFreeBSD ? 0x20045569U : 0x40045569U;
+	private static readonly nuint UiDeviceSetup = HostSystem.IsFreeBSD ? 0x805c5503U : 0x405c5503U;
+	private static readonly nuint UiDeviceCreate = HostSystem.IsFreeBSD ? 0x20005501U : 0x5501U;
+	private static readonly nuint UiDeviceDestroy = HostSystem.IsFreeBSD ? 0x20005502U : 0x5502U;
 
 	private static readonly ushort[] KeyboardProbeKeys = [30, 31, 32, 17, 44, 57, 28];
 
@@ -833,30 +833,30 @@ public sealed unsafe partial class LinuxKeyboardInterceptor : IDisposable
 		public short ReturnedEvents;
 	}
 
-	[LibraryImport("libc.so.6", EntryPoint = "open", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport("libc", EntryPoint = "open", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
 	private static partial int open(string path, int flags, int mode);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial int close(int descriptor);
 
-	[LibraryImport("libc.so.6", EntryPoint = "read", SetLastError = true)]
+	[LibraryImport("libc", EntryPoint = "read", SetLastError = true)]
 	private static partial nint LibcRead(int descriptor, void* buffer, nuint count);
 
-	[LibraryImport("libc.so.6", EntryPoint = "write", SetLastError = true)]
+	[LibraryImport("libc", EntryPoint = "write", SetLastError = true)]
 	private static partial nint LibcWrite(int descriptor, void* buffer, nuint count);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial int ioctl(int descriptor, nuint request, nint argument);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial int ioctl(int descriptor, nuint request, void* argument);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial int poll(PollDescriptor* descriptors, nuint count, int timeout);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial int pipe2(int* descriptors, int flags);
 
-	[LibraryImport("libc.so.6", SetLastError = true)]
+	[LibraryImport("libc", SetLastError = true)]
 	private static partial int flock(int descriptor, int operation);
 }

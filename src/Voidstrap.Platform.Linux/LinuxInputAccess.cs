@@ -19,6 +19,19 @@ public static class LinuxInputAccess
 		+ "udevadm trigger --action=change --subsystem-match=input\n"
 		+ "udevadm settle --timeout=5 || true\n";
 
+	private const string FreeBSDScript = "set -e\n"
+		+ "user=$(id -un \"${PKEXEC_UID:-0}\")\n"
+		+ "group=$(id -gn \"$user\")\n"
+		+ "kldload -n uinput\n"
+		+ "case \" $(sysrc -n kld_list 2>/dev/null || true) \" in *\" uinput \"*) ;; *) sysrc kld_list+=\" uinput\" >/dev/null ;; esac\n"
+		+ "current=$(sysrc -n devfs_system_ruleset 2>/dev/null || true)\n"
+		+ "if [ -n \"$current\" ] && [ \"$current\" != voidstrap_snaptap ]; then echo \"devfs_system_ruleset is already set to $current\" >&2; exit 3; fi\n"
+		+ "touch /etc/devfs.rules\n"
+		+ "sed -i '' '/^\\[voidstrap_snaptap=/,/^$/d' /etc/devfs.rules\n"
+		+ "printf '[voidstrap_snaptap=4242]\\nadd path uinput mode 0660 group %s\\nadd path \"input/event*\" mode 0660 group %s\\n\\n' \"$group\" \"$group\" >> /etc/devfs.rules\n"
+		+ "sysrc devfs_system_ruleset=voidstrap_snaptap >/dev/null\n"
+		+ "service devfs restart\n";
+
 	public static async Task<LinuxInputAccessResult> GrantAsync(CancellationToken cancellationToken = default)
 	{
 		SystemProcessService processes = new();
@@ -83,7 +96,7 @@ public static class LinuxInputAccess
 
 		arguments.Add("/bin/sh");
 		arguments.Add("-c");
-		arguments.Add(Script);
+		arguments.Add(HostSystem.IsFreeBSD ? FreeBSDScript : Script);
 		arguments.Add("voidstrap");
 		return new ProcessCommand(fileName, arguments);
 	}

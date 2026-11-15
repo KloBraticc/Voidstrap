@@ -509,7 +509,7 @@ public static partial class LinuxBundleInstaller
 
 	private static void AtomicExchange(string firstPath, string secondPath)
 	{
-		if (!HostSystem.UsesLinuxHost)
+		if (!OperatingSystem.IsLinux())
 		{
 			throw new PlatformNotSupportedException("Atomic Linux update activation is unavailable");
 		}

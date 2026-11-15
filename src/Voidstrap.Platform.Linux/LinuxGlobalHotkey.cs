@@ -147,7 +147,7 @@ public sealed partial class LinuxGlobalHotkey : IDisposable
                         {
                             if (devices.ContainsKey(node))
                                 continue;
-                            int opened = Open(node, 0x800, 0);
+                            int opened = Open(node, Voidstrap.Core.UnixSystem.OpenNonBlocking, 0);
                             if (opened >= 0)
                                 devices[node] = opened;
                         }

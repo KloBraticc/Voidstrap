@@ -4317,16 +4317,16 @@ public static partial class LinuxWindowInterop
 	[LibraryImport("libXext.so.6")]
 	private static partial int XShmGetImage(nint display, nint drawable, nint image, int x, int y, nuint planeMask);
 
-	[LibraryImport("libc.so.6", EntryPoint = "shmget")]
+	[LibraryImport("libc", EntryPoint = "shmget")]
 	private static partial int ShmGet(nint key, nuint size, int flags);
 
-	[LibraryImport("libc.so.6", EntryPoint = "shmat")]
+	[LibraryImport("libc", EntryPoint = "shmat")]
 	private static partial nint ShmAt(int shmid, nint address, int flags);
 
-	[LibraryImport("libc.so.6", EntryPoint = "shmdt")]
+	[LibraryImport("libc", EntryPoint = "shmdt")]
 	private static partial int ShmDetach(nint address);
 
-	[LibraryImport("libc.so.6", EntryPoint = "shmctl")]
+	[LibraryImport("libc", EntryPoint = "shmctl")]
 	private static partial int ShmControl(int shmid, int command, nint buffer);
 
 	[LibraryImport("libXcomposite.so.1")]

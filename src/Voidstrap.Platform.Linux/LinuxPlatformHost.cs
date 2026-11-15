@@ -103,10 +103,18 @@ public sealed partial class LinuxPlatformHost : IPlatformHost
 		CapabilityDescriptor studioPrerequisite,
 		CapabilityDescriptor protocolRegistration)
 	{
-		yield return Available(FeatureId.DesktopShell, "Native Linux desktop support is available");
+		yield return Available(FeatureId.DesktopShell, HostSystem.IsFreeBSD ? "Native FreeBSD desktop support is available" : "Native Linux desktop support is available");
 		yield return CreateEmbeddedBrowserCapability();
-		yield return CreateRuntimeCapability(playerPrerequisite, "Requires the Sober Flatpak runtime", "Install Sober from Flathub");
-		yield return CreateRuntimeCapability(studioPrerequisite, "Roblox Studio requires Vinegar", "Install Vinegar");
+		if (HostSystem.IsFreeBSD)
+		{
+			yield return CreateRosemaryCapability(FeatureId.RobloxPlayer);
+			yield return CreateRosemaryCapability(FeatureId.RobloxStudio);
+		}
+		else
+		{
+			yield return CreateRuntimeCapability(playerPrerequisite, "Requires the Sober Flatpak runtime", "Install Sober from Flathub");
+			yield return CreateRuntimeCapability(studioPrerequisite, "Roblox Studio requires Vinegar", "Install Vinegar");
+		}
 		yield return new CapabilityDescriptor(FeatureId.SecureStorage, CapabilityState.RequiresExternalRuntime, "Requires a Secret Service provider", "Install and unlock a Secret Service provider");
 		yield return protocolRegistration;
 		yield return updater;
@@ -129,8 +137,24 @@ public sealed partial class LinuxPlatformHost : IPlatformHost
 			: prerequisite;
 	}
 
+	private static CapabilityDescriptor CreateRosemaryCapability(FeatureId feature)
+	{
+		if (!LinuxRosemary.IsSupportedHost)
+			return new CapabilityDescriptor(feature, CapabilityState.Unavailable, "Rosemary only runs on x86_64 FreeBSD");
+		return LinuxRosemary.IsRuntimeInstalled
+			? new CapabilityDescriptor(feature, CapabilityState.Experimental, "Roblox runs through Rosemary", null, true)
+			: new CapabilityDescriptor(feature, CapabilityState.RequiresExternalRuntime, "Requires Rosemary", "Build Rosemary and put the rosemary binary on PATH", true);
+	}
+
 	private static CapabilityDescriptor CreateAssetInjectionCapability(CapabilityDescriptor playerPrerequisite, CapabilityDescriptor studioPrerequisite)
 	{
+		if (HostSystem.IsFreeBSD)
+		{
+			return LinuxRosemary.IsSupportedHost
+				? new CapabilityDescriptor(FeatureId.AssetInjection, CapabilityState.Experimental, "Rosemary asset overlays are applied at launch", null, true)
+				: new CapabilityDescriptor(FeatureId.AssetInjection, CapabilityState.Unavailable, "Asset overlays need Rosemary on x86_64");
+		}
+
 		if (playerPrerequisite.IsAvailable)
 		{
 			return new CapabilityDescriptor(
