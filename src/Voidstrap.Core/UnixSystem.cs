@@ -125,6 +125,35 @@ public static partial class UnixSystem
 		return value > 0 ? value : ReadKilobytes(ProcPath(processId, "status"), "VmRSS:");
 	}
 
+	public static string? StartTag(int processId)
+	{
+		if (processId <= 0)
+			return null;
+		if (HostSystem.IsFreeBSD)
+		{
+			try
+			{
+				using Process process = Process.GetProcessById(processId);
+				return process.HasExited ? null : process.StartTime.ToUniversalTime().Ticks.ToString(CultureInfo.InvariantCulture);
+			}
+			catch (Exception exception) when (exception is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
+			{
+				return null;
+			}
+		}
+
+		string? stat = ReadProcFile(processId, "stat");
+		if (stat is null)
+			return null;
+		int close = stat.LastIndexOf(')');
+		if (close < 0 || close + 2 > stat.Length)
+			return null;
+		string[] fields = stat[(close + 2)..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+		if (fields.Length < 20 || fields[0] == "Z" || fields[0] == "X")
+			return null;
+		return fields[19];
+	}
+
 	public static bool IsAlive(int processId)
 	{
 		if (processId <= 0)
@@ -137,7 +166,7 @@ public static partial class UnixSystem
 	public static long? TotalMemoryBytes()
 	{
 		if (HostSystem.IsFreeBSD)
-			return ReadSysctlNumber("hw.physmem");
+			return SysctlNumber("hw.physmem");
 		long value = ReadKilobytes("/proc/meminfo", "MemTotal:");
 		return value > 0 ? value : null;
 	}
@@ -146,12 +175,12 @@ public static partial class UnixSystem
 	{
 		if (HostSystem.IsFreeBSD)
 		{
-			long? pageSize = ReadSysctlNumber("hw.pagesize");
+			long? pageSize = SysctlNumber("hw.pagesize");
 			if (pageSize is not > 0)
 				return null;
 			long pages = 0;
 			foreach (string name in (string[])["vm.stats.vm.v_free_count", "vm.stats.vm.v_inactive_count", "vm.stats.vm.v_cache_count"])
-				pages += ReadSysctlNumber(name) ?? 0;
+				pages += SysctlNumber(name) ?? 0;
 			return pages > 0 ? pages * pageSize.Value : null;
 		}
 		long value = ReadKilobytes("/proc/meminfo", "MemAvailable:");
@@ -204,18 +233,32 @@ public static partial class UnixSystem
 		return buffer.AsSpan(0, (int)length).ToArray();
 	}
 
-	private static long? ReadSysctlNumber(string name)
+	public static long? SysctlNumber(string name)
 	{
+		if (!HostSystem.IsFreeBSD)
+			return null;
 		byte[] buffer = new byte[8];
 		nuint length = (nuint)buffer.Length;
 		if (SysctlByName(name, buffer, ref length, 0, 0) != 0)
 			return null;
 		return length switch
 		{
-			4 => BitConverter.ToUInt32(buffer, 0),
-			8 => (long)BitConverter.ToUInt64(buffer, 0),
+			4 => BitConverter.ToInt32(buffer, 0),
+			8 => BitConverter.ToInt64(buffer, 0),
 			_ => null
 		};
+	}
+
+	public static string? SysctlString(string name)
+	{
+		if (!HostSystem.IsFreeBSD)
+			return null;
+		byte[] buffer = new byte[512];
+		nuint length = (nuint)buffer.Length;
+		if (SysctlByName(name, buffer, ref length, 0, 0) != 0)
+			return null;
+		string value = Encoding.UTF8.GetString(buffer, 0, (int)Math.Min(length, (nuint)buffer.Length)).TrimEnd('\0').Trim();
+		return value.Length == 0 ? null : value;
 	}
 
 	[LibraryImport("libc", EntryPoint = "kill", SetLastError = true)]

@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Voidstrap.Core;
 
 namespace Voidstrap.Platform.Linux;
 
@@ -118,32 +119,10 @@ public static partial class LinuxSteamLibrary
 
 	public static bool IsSteamRunning()
 	{
-		try
+		foreach (int processId in UnixSystem.ProcessIds())
 		{
-			foreach (string directory in Directory.EnumerateDirectories("/proc"))
-			{
-				string name = Path.GetFileName(directory);
-				if (name.Length == 0 || !char.IsAsciiDigit(name[0]))
-					continue;
-				try
-				{
-					string command = File.ReadAllText(Path.Combine(directory, "comm")).Trim();
-					if (command is "steam" or "steamwebhelper")
-						return true;
-				}
-				catch (IOException)
-				{
-				}
-				catch (UnauthorizedAccessException)
-				{
-				}
-			}
-		}
-		catch (IOException)
-		{
-		}
-		catch (UnauthorizedAccessException)
-		{
+			if (UnixSystem.ProcessName(processId) is "steam" or "steamwebhelper")
+				return true;
 		}
 		return false;
 	}

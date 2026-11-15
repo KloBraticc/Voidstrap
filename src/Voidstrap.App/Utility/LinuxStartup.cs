@@ -996,9 +996,12 @@ internal static partial class LinuxStartup
         };
     }
 
+    private static bool HasNvidiaDriver() =>
+        File.Exists(NvidiaDriverVersionPath) || Voidstrap.Core.UnixSystem.SysctlString("hw.nvidia.version") != null;
+
     private static bool CanUseHardwareGl()
     {
-        return HasOpenGlBackend() && !File.Exists(NvidiaDriverVersionPath) && GlSupportsVertexStorage();
+        return HasOpenGlBackend() && !HasNvidiaDriver() && GlSupportsVertexStorage();
     }
 
     [LibraryImport("libEGL.so.1", EntryPoint = "eglGetDisplay")]

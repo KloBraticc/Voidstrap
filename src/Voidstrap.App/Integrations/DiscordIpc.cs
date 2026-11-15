@@ -290,34 +290,22 @@ internal static class DiscordIpc
             }
             return running;
         }
-        string[] processes;
-        try
+        foreach (int processId in Voidstrap.Core.UnixSystem.ProcessIds())
         {
-            processes = Directory.GetDirectories("/proc");
-        }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-        {
-            return false;
-        }
-
-        foreach (string directory in processes)
-        {
-            string id = Path.GetFileName(directory);
-            if (
-                id.Length == 0
-                || !char.IsAsciiDigit(id[0])
-                || id == Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture)
-            )
+            if (processId == Environment.ProcessId)
+                continue;
+            string? command = Voidstrap.Core.UnixSystem.CommandLine(processId);
+            if (command is null)
+                continue;
+            int end = command.IndexOf('\0');
+            string program = Path.GetFileName(end < 0 ? command : command[..end]).ToLowerInvariant();
+            if (program.Length > 0 && ClientNames.Any(name => program.Contains(name, StringComparison.Ordinal)))
+                return true;
+            if (!OperatingSystem.IsLinux())
                 continue;
             try
             {
-                string command = File.ReadAllText(Path.Combine(directory, "cmdline"));
-                int end = command.IndexOf('\0');
-                string program = Path.GetFileName(end < 0 ? command : command[..end]).ToLowerInvariant();
-                if (program.Length > 0 && ClientNames.Any(name => program.Contains(name, StringComparison.Ordinal)))
-                    return true;
-
-                string group = File.ReadAllText(Path.Combine(directory, "cgroup")).ToLowerInvariant();
+                string group = File.ReadAllText("/proc/" + processId.ToString(System.Globalization.CultureInfo.InvariantCulture) + "/cgroup").ToLowerInvariant();
                 if (
                     group.Contains("app-flatpak-", StringComparison.Ordinal)
                     && ClientNames.Any(name => group.Contains(name, StringComparison.Ordinal))

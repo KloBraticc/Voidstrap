@@ -89,6 +89,8 @@ namespace Voidstrap.Utility
 
         private static string DetectHypervisor()
         {
+            if (Platform.IsFreeBSD)
+                return FreeBSDHypervisor();
             string vendor = ReadDmi("sys_vendor");
             string product = ReadDmi("product_name");
             string combined = (vendor + " " + product).ToLowerInvariant();
@@ -129,6 +131,22 @@ namespace Voidstrap.Utility
             }
 
             return HasHypervisorCpuFlag() ? "an unidentified hypervisor" : "";
+        }
+
+        private static string FreeBSDHypervisor()
+        {
+            return Voidstrap.Core.UnixSystem.SysctlString("kern.vm_guest") switch
+            {
+                null or "none" => "",
+                "vbox" => "VirtualBox",
+                "vmware" => "VMware",
+                "kvm" => "QEMU or KVM",
+                "xen" => "Xen",
+                "parallels" => "Parallels",
+                "hv" => "Hyper V",
+                "bhyve" => "Bochs or bhyve",
+                _ => "an unidentified hypervisor"
+            };
         }
 
         private static string ReadDmi(string name)

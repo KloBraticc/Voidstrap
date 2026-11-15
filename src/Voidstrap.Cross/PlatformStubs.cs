@@ -147,6 +147,17 @@ namespace Microsoft.VisualBasic.Devices
 
 		private static ulong ReadMemInfo(string key)
 		{
+			if (Voidstrap.Platform.HostSystem.IsFreeBSD)
+			{
+				long? value = key switch
+				{
+					"MemTotal:" => Voidstrap.Core.UnixSystem.TotalMemoryBytes(),
+					"MemAvailable:" => Voidstrap.Core.UnixSystem.AvailableMemoryBytes(),
+					"SwapTotal:" => Voidstrap.Core.UnixSystem.SysctlNumber("vm.swap_total"),
+					_ => null
+				};
+				return value is > 0 ? (ulong)value.Value : 0;
+			}
 			try
 			{
 				if (!System.IO.File.Exists("/proc/meminfo"))

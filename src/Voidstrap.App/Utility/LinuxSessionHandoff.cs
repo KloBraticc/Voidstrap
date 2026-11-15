@@ -116,35 +116,15 @@ internal static class LinuxSessionHandoff
 
     private static string? Describe(int processId)
     {
-        try
-        {
-            string stat = File.ReadAllText("/proc/" + processId.ToString(CultureInfo.InvariantCulture) + "/stat");
-            int close = stat.LastIndexOf(')');
-            if (close < 0)
-                return null;
-            string[] fields = stat[(close + 2)..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            if (fields.Length < 20 || fields[0] == "Z" || fields[0] == "X")
-                return null;
-            return processId.ToString(CultureInfo.InvariantCulture) + " " + fields[19];
-        }
-        catch (Exception)
-        {
-            return null;
-        }
+        string? tag = Voidstrap.Core.UnixSystem.StartTag(processId);
+        return tag is null ? null : processId.ToString(CultureInfo.InvariantCulture) + " " + tag;
     }
 
     private static bool IsVoidstrapProcess(int processId)
     {
-        try
-        {
-            string own = File.ReadAllText("/proc/self/comm").Trim();
-            string other = File.ReadAllText("/proc/" + processId.ToString(CultureInfo.InvariantCulture) + "/comm").Trim();
-            return own.Length > 0 && string.Equals(own, other, StringComparison.Ordinal);
-        }
-        catch (Exception)
-        {
-            return false;
-        }
+        string? own = Voidstrap.Core.UnixSystem.ProcessName(Environment.ProcessId);
+        string? other = Voidstrap.Core.UnixSystem.ProcessName(processId);
+        return !string.IsNullOrEmpty(own) && string.Equals(own, other, StringComparison.Ordinal);
     }
 
     private static bool TryParse(string value, out int processId)

@@ -57,7 +57,7 @@ public static partial class ProcessScan
             }
         }
         if (Platform.UsesLinuxHost)
-            return System.IO.Directory.Exists("/proc/" + processId);
+            return Voidstrap.Core.UnixSystem.IsAlive(processId);
         try
         {
             using Process process = Process.GetProcessById(processId);

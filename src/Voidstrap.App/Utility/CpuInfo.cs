@@ -12,6 +12,8 @@ internal static class CpuInfo
     {
         try
         {
+            if (Platform.IsFreeBSD)
+                return Voidstrap.Core.UnixSystem.SysctlString("hw.model");
             if (Platform.UsesLinuxHost)
             {
                 foreach (string line in File.ReadLines("/proc/cpuinfo"))
@@ -47,6 +49,8 @@ internal static class CpuInfo
     {
         try
         {
+            if (Platform.IsFreeBSD && Voidstrap.Core.UnixSystem.SysctlNumber("kern.smp.cores") is long freeBsdCores && freeBsdCores > 0)
+                return (int)freeBsdCores;
             if (Platform.UsesLinuxHost)
             {
                 HashSet<string> seen = new HashSet<string>();

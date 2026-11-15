@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -36,7 +37,9 @@ public static partial class LinuxGpuCatalog
 	[
 		"/usr/share/hwdata/pci.ids",
 		"/usr/share/misc/pci.ids",
-		"/usr/share/pci.ids"
+		"/usr/share/pci.ids",
+		"/usr/local/share/pciids/pci.ids",
+		"/usr/share/misc/pci_vendors"
 	];
 
 
@@ -65,10 +68,36 @@ public static partial class LinuxGpuCatalog
 	private static List<LinuxGpuCard> Enumerate()
 	{
 		List<LinuxGpuCard> cards = [];
-		if (!HostSystem.UsesLinuxHost || !Directory.Exists(DrmRoot))
+		if (!HostSystem.UsesLinuxHost)
 			return cards;
 
+		List<(string Node, string Address, string VendorId, string ProductId, bool IsPrimary)> raw = HostSystem.IsFreeBSD ? ReadPciDevices() : ReadDrmDevices();
+		if (raw.Count == 0)
+			return cards;
+
+		Dictionary<string, (string Vendor, string Product)> names = ResolveNames(raw.Select(static entry => (entry.VendorId, entry.ProductId)));
+
+		foreach ((string node, string address, string vendorId, string productId, bool primary) in raw)
+		{
+			names.TryGetValue(vendorId + ":" + productId, out (string Vendor, string Product) resolved);
+			cards.Add(new LinuxGpuCard(
+				node,
+				address,
+				vendorId,
+				productId,
+				string.IsNullOrWhiteSpace(resolved.Vendor) ? FallbackVendorName(vendorId) : resolved.Vendor,
+				string.IsNullOrWhiteSpace(resolved.Product) ? "0x" + productId : resolved.Product,
+				primary));
+		}
+
+		return cards;
+	}
+
+	private static List<(string Node, string Address, string VendorId, string ProductId, bool IsPrimary)> ReadDrmDevices()
+	{
 		List<(string Node, string Address, string VendorId, string ProductId, bool IsPrimary)> raw = [];
+		if (!Directory.Exists(DrmRoot))
+			return raw;
 		try
 		{
 			foreach (string path in Directory.EnumerateDirectories(DrmRoot).OrderBy(static entry => entry, StringComparer.Ordinal))
@@ -96,28 +125,57 @@ public static partial class LinuxGpuCatalog
 		}
 		catch (Exception)
 		{
-			return cards;
+			return [];
 		}
+		return raw;
+	}
 
-		if (raw.Count == 0)
-			return cards;
-
-		Dictionary<string, (string Vendor, string Product)> names = ResolveNames(raw.Select(static entry => (entry.VendorId, entry.ProductId)));
-
-		foreach ((string node, string address, string vendorId, string productId, bool primary) in raw)
+	private static List<(string Node, string Address, string VendorId, string ProductId, bool IsPrimary)> ReadPciDevices()
+	{
+		List<(string Node, string Address, string VendorId, string ProductId, bool IsPrimary)> raw = [];
+		string output;
+		try
 		{
-			names.TryGetValue(vendorId + ":" + productId, out (string Vendor, string Product) resolved);
-			cards.Add(new LinuxGpuCard(
-				node,
-				address,
-				vendorId,
-				productId,
-				string.IsNullOrWhiteSpace(resolved.Vendor) ? FallbackVendorName(vendorId) : resolved.Vendor,
-				string.IsNullOrWhiteSpace(resolved.Product) ? "0x" + productId : resolved.Product,
-				primary));
+			using Process process = new()
+			{
+				StartInfo = new ProcessStartInfo("pciconf", "-l")
+				{
+					RedirectStandardOutput = true,
+					UseShellExecute = false,
+					CreateNoWindow = true
+				}
+			};
+			process.Start();
+			Task<string> reader = process.StandardOutput.ReadToEndAsync();
+			if (!process.WaitForExit(3000))
+			{
+				try
+				{
+					process.Kill();
+				}
+				catch (InvalidOperationException)
+				{
+				}
+				return raw;
+			}
+			output = reader.GetAwaiter().GetResult();
+		}
+		catch (Exception exception) when (exception is System.ComponentModel.Win32Exception or InvalidOperationException or IOException)
+		{
+			return raw;
 		}
 
-		return cards;
+		long primaryUnit = Voidstrap.Core.UnixSystem.SysctlNumber("hw.pci.default_vgapci_unit") ?? -1;
+		foreach (string line in output.Split('\n'))
+		{
+			Match match = PciconfExpression.Match(line);
+			if (!match.Success)
+				continue;
+			long unit = long.Parse(match.Groups["unit"].Value, CultureInfo.InvariantCulture);
+			bool primary = primaryUnit < 0 ? raw.Count == 0 : unit == primaryUnit;
+			raw.Add((match.Groups["node"].Value, match.Groups["address"].Value, match.Groups["vendor"].Value.ToLowerInvariant(), match.Groups["device"].Value.ToLowerInvariant(), primary));
+		}
+		return raw;
 	}
 
 	private static string? ResolveAddress(string devicePath)
@@ -261,4 +319,7 @@ public static partial class LinuxGpuCatalog
 
     [GeneratedRegex("^card[0-9]+$", RegexOptions.CultureInvariant)]
     private static partial Regex CardExpression { get; }
+
+    [GeneratedRegex(@"^(?<node>vgapci(?<unit>[0-9]+))@(?<address>pci[0-9]+:[0-9]+:[0-9]+:[0-9]+):?\s.*\bvendor=0x(?<vendor>[0-9a-fA-F]{4})\b.*\bdevice=0x(?<device>[0-9a-fA-F]{4})\b", RegexOptions.CultureInvariant)]
+    private static partial Regex PciconfExpression { get; }
 }

@@ -245,7 +245,7 @@ internal static partial class LinuxWindowMemory
 
     public static void TrimWorkingSet()
     {
-        if (!Voidstrap.Utility.Platform.UsesLinuxHost || _pageOutUnsupported)
+        if (!Voidstrap.Utility.Platform.IsLinux || _pageOutUnsupported)
             return;
 
         long advised = 0;
