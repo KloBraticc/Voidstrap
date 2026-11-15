@@ -634,6 +634,7 @@ public partial class SessionDock : Window
         if (show)
         {
             NowPlayingPopup.CustomPopupPlacementCallback ??= PlaceNowPlaying;
+            AlignIslandToDock();
             bool appearing = !NowPlayingPopup.IsOpen;
             NowPlayingPopup.IsOpen = true;
             if (appearing)
@@ -648,8 +649,21 @@ public partial class SessionDock : Window
         }
     }
 
-    private static CustomPopupPlacement[] PlaceNowPlaying(Size popupSize, Size targetSize, Point offset) =>
-        [new CustomPopupPlacement(new Point((targetSize.Width - popupSize.Width) / 2, -popupSize.Height + IslandDragRoom - 8), PopupPrimaryAxis.None)];
+    private static bool IslandBelowDock => (App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings()).DockTopEdge;
+
+    private void AlignIslandToDock()
+    {
+        bool below = IslandBelowDock;
+        NowPlayingIsland.VerticalAlignment = below ? VerticalAlignment.Top : VerticalAlignment.Bottom;
+        NowPlayingIsland.Margin = below ? new Thickness(0, IslandDragRoom, 0, 0) : new Thickness(0, 0, 0, IslandDragRoom);
+        NowPlayingIsland.RenderTransformOrigin = below ? new Point(0.5, 0) : new Point(0.5, 1);
+    }
+
+    private static CustomPopupPlacement[] PlaceNowPlaying(Size popupSize, Size targetSize, Point offset)
+    {
+        double y = IslandBelowDock ? targetSize.Height - IslandDragRoom + 8 : -popupSize.Height + IslandDragRoom - 8;
+        return [new CustomPopupPlacement(new Point((targetSize.Width - popupSize.Width) / 2, y), PopupPrimaryAxis.None)];
+    }
 
     private const double IslandDragRoom = 28;
 
