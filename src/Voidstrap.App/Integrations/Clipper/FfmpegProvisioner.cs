@@ -185,7 +185,7 @@ public static class FfmpegProvisioner
         {
             return "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip";
         }
-        if (Voidstrap.Utility.Platform.UsesLinuxHost)
+        if (Voidstrap.Utility.Platform.IsLinux)
         {
             isTarXz = true;
             return RuntimeInformation.ProcessArchitecture == Architecture.Arm64
