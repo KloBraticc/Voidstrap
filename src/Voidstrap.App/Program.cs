@@ -51,6 +51,7 @@ public static class Program
     [STAThread]
     public static void Main()
     {
+        Voidstrap.Core.UnixSystem.UseSystemOpenSsl();
         AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
         string[] cmdLineArgs = Environment.GetCommandLineArgs();
         if (Voidstrap.Integrations.Mcp.McpStdioServer.IsRequested(cmdLineArgs))

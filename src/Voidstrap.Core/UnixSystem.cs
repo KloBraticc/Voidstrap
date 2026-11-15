@@ -291,6 +291,46 @@ public static partial class UnixSystem
 
 	public static bool IsRegularFile(uint mode) => (mode & 0xF000) == 0x8000;
 
+	public static void UseSystemOpenSsl()
+	{
+		if (!HostSystem.IsFreeBSD || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(OpenSslOverrideVariable)))
+			return;
+		int best = -1;
+		foreach (string directory in OpenSslDirectories)
+		{
+			string[] files;
+			try
+			{
+				files = Directory.GetFiles(directory, "libssl.so.*");
+			}
+			catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+			{
+				continue;
+			}
+			foreach (string file in files)
+			{
+				if (int.TryParse(Path.GetFileName(file)["libssl.so.".Length..], NumberStyles.None, CultureInfo.InvariantCulture, out int version) && version > best)
+					best = version;
+			}
+		}
+		if (best < 0)
+			return;
+		try
+		{
+			SetEnvironment(OpenSslOverrideVariable, best.ToString(CultureInfo.InvariantCulture), 0);
+		}
+		catch (Exception exception) when (exception is DllNotFoundException or EntryPointNotFoundException)
+		{
+		}
+	}
+
+	private const string OpenSslOverrideVariable = "DOTNET_OPENSSL_VERSION_OVERRIDE";
+
+	private static readonly string[] OpenSslDirectories = ["/usr/lib", "/lib", "/usr/local/lib"];
+
+	[LibraryImport("libc", EntryPoint = "setenv", StringMarshalling = StringMarshalling.Utf8)]
+	private static partial int SetEnvironment(string name, string value, int overwrite);
+
 	[LibraryImport("libc", EntryPoint = "statx", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
 	private static partial int LinuxFileStatus(int directoryFileDescriptor, string path, int flags, uint mask, byte[] status);
 
