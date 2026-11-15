@@ -856,6 +856,8 @@ internal static partial class LinuxStartup
 
     private static string? LoadedLibraryWithoutEgl()
     {
+        if (Platform.IsFreeBSD)
+            return null;
         string[] mapped = File.ReadAllLines("/proc/self/maps")
             .Select(line => line.IndexOf('/') is int start and >= 0 ? line[start..] : string.Empty)
             .Where(path => path.Length > 0)
@@ -1371,6 +1373,11 @@ internal static partial class LinuxStartup
 
     private static bool HasGpuFromVendor(string pciVendor)
     {
+        if (Platform.IsFreeBSD)
+        {
+            string vendor = pciVendor.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? pciVendor[2..] : pciVendor;
+            return LinuxGpuCatalog.Cards.Any(card => string.Equals(card.VendorId, vendor, StringComparison.OrdinalIgnoreCase));
+        }
         try
         {
             foreach (string card in Directory.EnumerateDirectories("/sys/class/drm", "card*"))

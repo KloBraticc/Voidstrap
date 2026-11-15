@@ -142,7 +142,7 @@ public sealed unsafe partial class LinuxKeyboardInterceptor : IDisposable
 				int descriptor = open(path, OpenReadOnly | OpenNonBlocking | OpenCloseOnExec, 0);
 				if (descriptor < 0)
 				{
-					if (IsLikelyKeyboardNode(path))
+					if (HostSystem.IsFreeBSD || IsLikelyKeyboardNode(path))
 						return LinuxInputAccessState.MissingKeyboardAccess;
 					continue;
 				}
