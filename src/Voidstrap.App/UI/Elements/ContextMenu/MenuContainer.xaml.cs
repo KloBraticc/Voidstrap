@@ -215,7 +215,7 @@ public partial class MenuContainer : WpfUiWindow
             LogTracerMenuItem.Visibility = Visibility.Visible;
         if (_activityWatcher?.InGame == true)
             ActivityWatcher_OnGameJoin(_activityWatcher, EventArgs.Empty);
-        PrewarmJoinNotification();
+        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(PrewarmJoinNotification));
     }
 
     public static void SyncSessionDockHotkey()
@@ -932,7 +932,8 @@ public partial class MenuContainer : WpfUiWindow
     private void PrewarmJoinNotification()
     {
         if (
-            _activityWatcher == null
+            _closed
+            || _activityWatcher == null
             || !App.Settings.Prop.NotificationWindowShow
             || !App.Settings.Prop.VoidNotify
             || !App.Settings.Prop.NotifyGameJoins

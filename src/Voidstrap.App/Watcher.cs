@@ -123,7 +123,6 @@ public partial class Watcher : IDisposable
         Current = this;
         if (Voidstrap.Utility.Platform.IsWindows)
             MonitorRobloxClientProcess();
-        MemoryManager.SetGameplayActive(true);
         StartSettingsWatcher();
         UpdateVirtualDisplay();
         bool enableActivityTracking = App.Settings.Prop.EnableActivityTracking;
@@ -162,6 +161,7 @@ public partial class Watcher : IDisposable
             _notifyIcon = new NotifyIconWrapper(this);
         if (ServerMatchmaker != null)
             ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
+        MemoryManager.SetGameplayActive(true);
     }
 
     private void StartSettingsWatcher()
