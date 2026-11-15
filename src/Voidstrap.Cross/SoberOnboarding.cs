@@ -1,4 +1,3 @@
-using Voidstrap.Platform;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -78,7 +77,7 @@ internal static class SoberOnboarding
 
     public static void Install()
     {
-        if (HostSystem.UsesLinuxHost)
+        if (OperatingSystem.IsLinux())
             LinuxSoberRuntimeProvider.OnboardingAssist = RunAsync;
     }
 

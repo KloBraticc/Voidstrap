@@ -84,9 +84,10 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 
     public bool RosemaryAvailable => Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost;
 
-    public Visibility RosemaryVisibility => RosemaryAvailable ? Visibility.Visible : Visibility.Collapsed;
+    public Visibility RosemaryVisibility =>
+        RosemaryAvailable && !Voidstrap.Utility.Platform.IsFreeBSD ? Visibility.Visible : Visibility.Collapsed;
 
-    private bool _useRosemary;
+    private bool _useRosemary = Voidstrap.Utility.Platform.IsFreeBSD;
 
     public bool UseSober
     {
@@ -103,7 +104,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
         get => _useRosemary;
         set
         {
-            bool chosen = value && RosemaryAvailable;
+            bool chosen = Voidstrap.Utility.Platform.IsFreeBSD || value && RosemaryAvailable;
             if (_useRosemary == chosen)
                 return;
             _useRosemary = chosen;

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Voidstrap.Core;
 
 namespace Voidstrap.Platform.Linux;
 
@@ -48,7 +49,23 @@ public static partial class LinuxRosemary
 		}
 	}
 
-	public static bool IsSupportedHost => RuntimeInformation.OSArchitecture == Architecture.X64;
+	public static bool IsSupportedHost => RuntimeInformation.OSArchitecture == Architecture.X64 && HostSystem.UsesLinuxHost;
+
+	private const string NativeExecutableName = "rosemary";
+
+	private static string? FindNativeExecutable()
+	{
+		string bundled = Path.Combine(AppContext.BaseDirectory, NativeExecutableName, NativeExecutableName);
+		if (File.Exists(bundled))
+			return bundled;
+		foreach (string directory in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries))
+		{
+			string candidate = Path.Combine(directory, NativeExecutableName);
+			if (Path.IsPathRooted(candidate) && File.Exists(candidate))
+				return candidate;
+		}
+		return null;
+	}
 
 	public static string Root
 	{
@@ -108,12 +125,43 @@ public static partial class LinuxRosemary
 	public static string ApplicationPath(RosemaryApplication application) =>
 		Path.Combine(ApplicationsRoot, application == RosemaryApplication.Player ? "Roblox.app" : "RobloxStudio.app");
 
-	public static string? InstalledRuntimeVersion => ReadText(Path.Combine(RuntimeRoot, VersionFileName));
+	public static string? InstalledRuntimeVersion => HostSystem.IsFreeBSD
+		? NativeVersion.Value
+		: ReadText(Path.Combine(RuntimeRoot, VersionFileName));
+
+	private static readonly Lazy<string?> NativeVersion = new(ReadNativeVersion);
+
+	private static string? ReadNativeVersion()
+	{
+		string? executable = FindNativeExecutable();
+		if (executable == null)
+			return null;
+		try
+		{
+			ProcessStartInfo info = new(executable) { UseShellExecute = false, RedirectStandardOutput = true };
+			info.ArgumentList.Add("--version");
+			using Process? process = Process.Start(info);
+			if (process == null)
+				return NativeExecutableName;
+			Task<string> reading = process.StandardOutput.ReadToEndAsync();
+			if (!process.WaitForExit(3000))
+				process.Kill(true);
+			string output = reading.Wait(1000) ? reading.Result : "";
+			string? version = output.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+			return string.IsNullOrWhiteSpace(version) ? NativeExecutableName : version;
+		}
+		catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or IOException)
+		{
+			return NativeExecutableName;
+		}
+	}
 
 	public static string? RuntimeExecutable
 	{
 		get
 		{
+			if (HostSystem.IsFreeBSD)
+				return FindNativeExecutable();
 			string? version = InstalledRuntimeVersion;
 			if (string.IsNullOrEmpty(version))
 				return null;
@@ -158,7 +206,14 @@ public static partial class LinuxRosemary
 	public static async Task<OperationResult<string>> EnsureRuntimeAsync(Action<string>? status, CancellationToken cancellationToken = default)
 	{
 		if (!IsSupportedHost)
-			return OperationResult<string>.Fail("RosemaryUnsupported", "Rosemary only publishes builds for x86_64 Linux, this machine is " + RuntimeInformation.OSArchitecture);
+			return OperationResult<string>.Fail("RosemaryUnsupported", "Rosemary only runs on x86_64 Linux and FreeBSD, this machine is " + RuntimeInformation.OSArchitecture);
+		if (HostSystem.IsFreeBSD)
+		{
+			string? native = FindNativeExecutable();
+			return native != null
+				? OperationResult<string>.Success(native)
+				: OperationResult<string>.Fail("RosemaryMissing", "Rosemary is not installed, build it with cargo build --release --bin rosemary and put the rosemary binary on PATH");
+		}
 
 		await EnterAsync(RuntimeGate, () => _runtimeActivity, "Waiting for the Rosemary update running in the background", status, cancellationToken).ConfigureAwait(false);
 		Action<string> report = message =>
@@ -380,66 +435,18 @@ public static partial class LinuxRosemary
 			return null;
 		long total = 0;
 		foreach (int processId in processIds)
-		{
-			string directory = "/proc/" + processId.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			long value = ReadMemoryField(Path.Combine(directory, "smaps_rollup"), "Pss:");
-			if (value <= 0)
-				value = ReadMemoryField(Path.Combine(directory, "status"), "VmRSS:");
-			total += Math.Max(0, value);
-		}
+			total += UnixSystem.ResidentBytes(processId);
 		return total > 0 ? total : null;
-	}
-
-	private static long ReadMemoryField(string path, string field)
-	{
-		try
-		{
-			foreach (string line in File.ReadLines(path))
-			{
-				if (!line.StartsWith(field, StringComparison.Ordinal))
-					continue;
-				string[] parts = line[field.Length..].Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-				return parts.Length > 0 && long.TryParse(parts[0], out long kilobytes) ? kilobytes * 1024 : 0;
-			}
-		}
-		catch (IOException)
-		{
-		}
-		catch (UnauthorizedAccessException)
-		{
-		}
-		return 0;
 	}
 
 	public static IReadOnlyList<int> RunningProcessIds(RosemaryApplication application)
 	{
 		List<int> found = [];
 		string bundle = ApplicationPath(application);
-		try
+		foreach (int processId in UnixSystem.ProcessIds())
 		{
-			foreach (string directory in Directory.EnumerateDirectories("/proc"))
-			{
-				if (!int.TryParse(Path.GetFileName(directory), out int pid) || pid == Environment.ProcessId)
-					continue;
-				string commandLine;
-				try
-				{
-					commandLine = File.ReadAllText(Path.Combine(directory, "cmdline"));
-				}
-				catch (IOException)
-				{
-					continue;
-				}
-				catch (UnauthorizedAccessException)
-				{
-					continue;
-				}
-				if (commandLine.Contains(bundle, StringComparison.Ordinal))
-					found.Add(pid);
-			}
-		}
-		catch (IOException)
-		{
+			if (processId != Environment.ProcessId && UnixSystem.CommandLine(processId)?.Contains(bundle, StringComparison.Ordinal) == true)
+				found.Add(processId);
 		}
 		return found;
 	}

@@ -58,7 +58,7 @@ public static class PlatformFeatureVisibility
         }
         catch
         {
-            return Visibility.Visible;
+            return Visibility.Collapsed;
         }
     }
 }

@@ -14,6 +14,8 @@ public static class LinuxRuntimeChoice
     {
         if (!Platform.UsesLinuxHost || App.Settings?.Prop == null)
             return false;
+        if (Platform.IsFreeBSD)
+            return Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost;
         string choice = mode == LaunchMode.Player ? App.Settings.Prop.LinuxPlayerRuntime : App.Settings.Prop.LinuxStudioRuntime;
         return string.Equals(choice, Rosemary, StringComparison.OrdinalIgnoreCase)
             && Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost;
