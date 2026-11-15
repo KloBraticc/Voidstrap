@@ -10401,4 +10401,7 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Emotetekstuureja ei löytynyt. Käynnistä Roblox kerran ja yritä sitten uudelleen.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ei ole vielä asennettu, käännä Rosemary ja laita rosemary-tiedosto PATH-polkuun</value>
+  </data>
 </root>

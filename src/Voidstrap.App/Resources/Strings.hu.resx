@@ -10400,4 +10400,7 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Nem található emote textúra. Indítsd el egyszer a Robloxot, majd próbáld újra.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>A Rosemary még nincs telepítve, fordítsd le a Rosemaryt, és tedd a rosemary fájlt a PATH-ba</value>
+  </data>
 </root>

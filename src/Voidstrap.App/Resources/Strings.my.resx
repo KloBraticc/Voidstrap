@@ -10087,4 +10087,7 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>emote texture မတွေ့ပါ။ Roblox ကို တစ်ကြိမ်ဖွင့်ပြီး ထပ်စမ်းကြည့်ပါ။</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ကို မထည့်သွင်းရသေးပါ၊ Rosemary ကို တည်ဆောက်ပြီး rosemary ဖိုင်ကို PATH တွင် ထားပါ</value>
+  </data>
 </root>

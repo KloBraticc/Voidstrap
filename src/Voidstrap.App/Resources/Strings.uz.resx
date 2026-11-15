@@ -10087,4 +10087,7 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Hech qanday emot teksturasi topilmadi. Roblox'ni bir marta ishga tushiring, so'ng qayta urinib ko'ring.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary hali o'rnatilmagan, Rosemary ni yig'ing va rosemary faylini PATH ga joylang</value>
+  </data>
 </root>

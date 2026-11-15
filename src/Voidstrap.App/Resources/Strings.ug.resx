@@ -10087,4 +10087,7 @@ Uptime: {1}
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ھېچقانداق ئىموت ماتېرىيالى تېپىلمىدى. Roblox نى بىر قېتىم قوزغىتىپ، قايتا سىناڭ.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary تېخى ئورنىتىلمىدى، Rosemary نى قۇرۇپ rosemary ھۆججىتىنى PATH غا قويۇڭ</value>
+  </data>
 </root>

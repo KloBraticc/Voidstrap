@@ -10087,4 +10087,7 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>No s'han trobat textures d'emotes. Obre Roblox una vegada i torna-ho a provar.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary encara no està instal·lat, compila Rosemary i posa el binari rosemary al PATH</value>
+  </data>
 </root>

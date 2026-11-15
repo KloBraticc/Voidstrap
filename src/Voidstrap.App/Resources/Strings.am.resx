@@ -10087,4 +10087,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ምንም የኢሞት ቴክስቸር አልተገኘም። Roblox ን አንድ ጊዜ ያስጀምሩ፣ ከዚያ እንደገና ይሞክሩ።</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ገና አልተጫነም፣ Rosemary ን ገንብተው የ rosemary ፋይሉን በ PATH ላይ ያስቀምጡ</value>
+  </data>
 </root>

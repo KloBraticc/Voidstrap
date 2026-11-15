@@ -10087,4 +10087,7 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Ягон текстураи эмоция ёфт нашуд. Roblox-ро як маротиба оғоз кунед ва боз кӯшиш кунед.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ҳанӯз насб нашудааст, Rosemary-ро созед ва файли rosemary-ро ба PATH гузоред</value>
+  </data>
 </root>

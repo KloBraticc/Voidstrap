@@ -10402,4 +10402,7 @@ Instalați SteamVR acum?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Nu s-au găsit texturi de emote. Pornește Roblox o dată, apoi încearcă din nou.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary nu este încă instalat, compilează Rosemary și pune fișierul rosemary în PATH</value>
+  </data>
 </root>

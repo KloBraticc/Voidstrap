@@ -10088,4 +10088,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Не се пронајдени текстури на емоции. Стартувајте го Roblox еднаш и обидете се повторно.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary сè уште не е инсталиран, изградете го Rosemary и ставете ја датотеката rosemary во PATH</value>
+  </data>
 </root>

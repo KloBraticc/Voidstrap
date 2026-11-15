@@ -10399,4 +10399,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>이모트 텍스처를 찾을 수 없습니다. Roblox를 한 번 실행한 뒤 다시 시도하십시오.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary가 아직 설치되지 않았습니다. Rosemary를 빌드하고 rosemary 파일을 PATH에 넣으십시오</value>
+  </data>
 </root>

@@ -10087,4 +10087,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>எமோட் டெக்ஸ்சர்கள் எதுவும் கிடைக்கவில்லை. Roblox ஐ ஒருமுறை தொடங்கி, மீண்டும் முயற்சிக்கவும்.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary இன்னும் நிறுவப்படவில்லை, Rosemary ஐ build செய்து rosemary கோப்பை PATH இல் வைக்கவும்</value>
+  </data>
 </root>

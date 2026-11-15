@@ -370,6 +370,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 bool player = _launchMode == LaunchMode.Player;
                 if (!Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost)
                     Subtitle = "Rosemary only runs on x86_64 Linux";
+                else if (!runtime && Voidstrap.Utility.Platform.IsFreeBSD)
+                    Subtitle = Strings.Menu_Rosemary_NotInstalledFreeBSD;
                 else if (!IsInstalled)
                     Subtitle = player
                         ? "Not installed yet, Voidstrap installs Rosemary and macOS Roblox when you launch"

@@ -10088,4 +10088,7 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Kāore i kitea he kakano emote. Whakarewahia a Roblox kia kotahi, kātahi ka ngana anō.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Kāore anō a Rosemary kia tāutahia, hangaia a Rosemary ka waiho te kōnae rosemary ki PATH</value>
+  </data>
 </root>

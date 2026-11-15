@@ -10088,4 +10088,7 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Nta miterere ya emote yabonetse. Fungura Roblox rimwe, hanyuma wongere ugerageze.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ntiyarashyirwamo, kora Rosemary hanyuma ushyire dosiye rosemary muri PATH</value>
+  </data>
 </root>

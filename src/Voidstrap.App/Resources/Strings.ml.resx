@@ -10088,4 +10088,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ഇമോട്ട് ടെക്സ്ചറുകളൊന്നും കണ്ടെത്തിയില്ല. Roblox ഒരിക്കൽ തുറന്നശേഷം വീണ്ടും ശ്രമിക്കുക.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ഇതുവരെ ഇൻസ്റ്റാൾ ചെയ്തിട്ടില്ല, Rosemary ബിൽഡ് ചെയ്ത് rosemary ഫയൽ PATH ൽ വയ്ക്കുക</value>
+  </data>
 </root>

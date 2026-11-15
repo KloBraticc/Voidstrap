@@ -10402,4 +10402,7 @@ Veikimo laikas: {1}
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Emocijų tekstūrų nerasta. Vieną kartą paleiskite Roblox ir bandykite dar kartą.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary dar neįdiegta, sukompiliuokite Rosemary ir įdėkite rosemary failą į PATH</value>
+  </data>
 </root>

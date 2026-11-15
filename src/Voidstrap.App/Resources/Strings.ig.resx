@@ -10088,4 +10088,7 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Ahụghị tekstị emote ọ bụla. Malite Roblox otu ugboro, wee nwaa ọzọ.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Etinyebeghị Rosemary, wuo Rosemary ma tinye faịlụ rosemary na PATH</value>
+  </data>
 </root>

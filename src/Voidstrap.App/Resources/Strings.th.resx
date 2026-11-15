@@ -10395,4 +10395,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ไม่พบพื้นผิวอีโมต เปิด Roblox หนึ่งครั้ง แล้วลองอีกครั้ง</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>ยังไม่ได้ติดตั้ง Rosemary คุณต้อง build Rosemary แล้ววางไฟล์ rosemary ไว้ใน PATH</value>
+  </data>
 </root>

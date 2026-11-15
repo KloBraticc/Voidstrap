@@ -10415,4 +10415,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>エモートのテクスチャが見つかりません。Roblox を一度起動してから、もう一度お試しください。</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary はまだインストールされていません。Rosemary をビルドして rosemary を PATH に置いてください</value>
+  </data>
 </root>

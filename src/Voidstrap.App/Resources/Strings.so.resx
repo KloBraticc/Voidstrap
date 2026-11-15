@@ -10088,4 +10088,7 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Lama helin dhar emote ah. Hal mar fur Roblox, kadibna isku day mar kale.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary weli lama rakibin, dhis Rosemary oo faylka rosemary dhig PATH</value>
+  </data>
 </root>

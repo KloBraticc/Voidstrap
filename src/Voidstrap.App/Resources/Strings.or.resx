@@ -10088,4 +10088,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>କୌଣସି ଇମୋଟ ଟେକ୍ସଚର ମିଳିଲା ନାହିଁ। Roblox ଥରେ ଚାଲୁ କରନ୍ତୁ, ତାପରେ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ଏପର୍ଯ୍ୟନ୍ତ ଇନଷ୍ଟଲ ହୋଇନାହିଁ, Rosemary ବିଲ୍ଡ କରନ୍ତୁ ଏବଂ rosemary ଫାଇଲକୁ PATH ରେ ରଖନ୍ତୁ</value>
+  </data>
 </root>

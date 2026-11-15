@@ -10088,4 +10088,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ບໍ່ພົບພື້ນຜິວ emote. ເປີດ Roblox ໜຶ່ງເທື່ອ ແລ້ວລອງໃໝ່.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ຍັງບໍ່ໄດ້ຕິດຕັ້ງ, ສ້າງ Rosemary ແລ້ວວາງໄຟລ໌ rosemary ໄວ້ໃນ PATH</value>
+  </data>
 </root>

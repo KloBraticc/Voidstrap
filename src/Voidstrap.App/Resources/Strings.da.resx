@@ -10087,4 +10087,7 @@ Installer SteamVR nu?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Ingen emoteteksturer blev fundet. Start Roblox én gang, og prøv så igen.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary er ikke installeret endnu, byg Rosemary og læg rosemary-filen i PATH</value>
+  </data>
 </root>

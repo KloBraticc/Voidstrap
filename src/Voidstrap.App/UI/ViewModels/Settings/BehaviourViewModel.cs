@@ -1357,6 +1357,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
     private async Task CleanRobloxCacheAsync()
     {
         bool linux = Voidstrap.Utility.Platform.UsesLinuxHost;
+        bool rosemary = linux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary;
         List<Process> list = new List<Process>();
         if (!linux && (Voidstrap.Utility.Platform.IsMacOS || !string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid)))
         {
@@ -1366,7 +1367,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
         {
             list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName));
         }
-        if (list.Count != 0 || linux && Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
+        if (
+            list.Count != 0
+            || rosemary && Voidstrap.Platform.Linux.LinuxRosemary.IsPlayerRunning
+            || linux && !rosemary && Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow()
+        )
         {
             Frontend.ShowMessageBox("Close Roblox before cleaning the cache.", MessageBoxImage.Hand);
             return;
@@ -1378,13 +1383,14 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             "org.vinegarhq.Sober"
         );
         string soberAppData = Path.Combine(soberRoot, "data", "sober", "appData");
-        string path = linux ? Path.Combine(soberRoot, "cache", "sober") : Path.Combine(Path.GetTempPath(), "Roblox");
-        string path2 = linux
-            ? Path.Combine(soberAppData, "rbx-storage")
-            : Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage");
-        string dbFile = linux
-            ? Path.Combine(soberAppData, "rbx-storage.db")
-            : Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage.db");
+        string storageRoot = rosemary
+            ? Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot
+            : linux ? soberAppData : Voidstrap.Utility.RobloxLocalReset.Root;
+        string path = rosemary ? ""
+            : linux ? Path.Combine(soberRoot, "cache", "sober")
+            : Path.Combine(Path.GetTempPath(), "Roblox");
+        string path2 = Path.Combine(storageRoot, "rbx-storage");
+        string dbFile = Path.Combine(storageRoot, "rbx-storage.db");
         List<string> dirs = new List<string>();
         try
         {

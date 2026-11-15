@@ -10087,4 +10087,7 @@ Ludantoj: {2}</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Neniuj mienaj teksturoj troviĝis. Lanĉu Roblox unufoje, poste reprovu.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ankoraŭ ne estas instalita, konstruu Rosemary kaj metu la dosieron rosemary en PATH</value>
+  </data>
 </root>

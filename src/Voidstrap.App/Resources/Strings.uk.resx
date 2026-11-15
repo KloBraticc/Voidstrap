@@ -10398,4 +10398,7 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Текстури емоцій не знайдено. Запустіть Roblox один раз і спробуйте знову.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ще не встановлено, зберіть Rosemary і помістіть файл rosemary у PATH</value>
+  </data>
 </root>

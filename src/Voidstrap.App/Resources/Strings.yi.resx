@@ -10087,4 +10087,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>קיין עמאָטע טעקסטורן נישט געפֿונען. עפֿן Roblox איין מאָל און פּרוביר דערנאָך ווידער.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary איז נאָך נישט אינסטאַלירט, בויט Rosemary און לייגט די rosemary טעקע אין PATH</value>
+  </data>
 </root>

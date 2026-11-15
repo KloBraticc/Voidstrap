@@ -10088,4 +10088,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>કોઈ ઇમોટ ટેક્સચર મળ્યું નથી. Roblox એક વાર શરૂ કરો, પછી ફરી પ્રયાસ કરો.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary હજી ઇન્સ્ટોલ થયું નથી, Rosemary બિલ્ડ કરો અને rosemary ફાઇલને PATH પર મૂકો</value>
+  </data>
 </root>

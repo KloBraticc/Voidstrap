@@ -10088,4 +10088,7 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Эмоцын бүтэц олдсонгүй. Roblox-ийг нэг удаа ажиллуулаад дахин оролдоорой.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary хараахан суулгаагүй байна, Rosemary-г бүтээж rosemary файлыг PATH-д байрлуулна уу</value>
+  </data>
 </root>

@@ -10088,4 +10088,7 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ਕੋਈ ਇਮੋਟ ਟੈਕਸਚਰ ਨਹੀਂ ਮਿਲਿਆ। Roblox ਇੱਕ ਵਾਰ ਚਲਾਓ, ਫਿਰ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ਅਜੇ ਇੰਸਟਾਲ ਨਹੀਂ ਹੈ, Rosemary ਬਿਲਡ ਕਰੋ ਅਤੇ rosemary ਫ਼ਾਈਲ ਨੂੰ PATH ਵਿੱਚ ਰੱਖੋ</value>
+  </data>
 </root>

@@ -10088,4 +10088,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ಯಾವುದೇ ಎಮೋಟ್ ಟೆಕ್ಸ್ಚರ್ ಸಿಗಲಿಲ್ಲ. Roblox ಅನ್ನು ಒಮ್ಮೆ ಆರಂಭಿಸಿ, ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ಇನ್ನೂ ಸ್ಥಾಪಿಸಲಾಗಿಲ್ಲ, Rosemary ಅನ್ನು ಬಿಲ್ಡ್ ಮಾಡಿ ಮತ್ತು rosemary ಫೈಲ್ ಅನ್ನು PATH ನಲ್ಲಿ ಇರಿಸಿ</value>
+  </data>
 </root>

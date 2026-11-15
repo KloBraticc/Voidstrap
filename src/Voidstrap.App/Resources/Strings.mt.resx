@@ -10088,4 +10088,7 @@ Installa SteamVR issa?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Ma nstabu l-ebda tessituri tal-emotes. Iftaħ Roblox darba, imbagħad erġa' pprova.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary għadu mhux installat, ibni Rosemary u poġġi l-fajl rosemary fil-PATH</value>
+  </data>
 </root>

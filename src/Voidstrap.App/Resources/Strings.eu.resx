@@ -10087,4 +10087,7 @@ SteamVR instalatu orain?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Ez da emote testurarik aurkitu. Abiarazi Roblox behin eta saiatu berriro.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ez dago oraindik instalatuta, konpilatu Rosemary eta jarri rosemary fitxategia PATH-en</value>
+  </data>
 </root>

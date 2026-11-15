@@ -10088,4 +10088,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ڪو به ايموٽ ٽيڪسچر نه مليو. Roblox هڪ ڀيرو هلايو، پوءِ ٻيهر ڪوشش ڪريو.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary اڃا انسٽال ناهي، Rosemary ٺاهيو ۽ rosemary فائل کي PATH ۾ رکو</value>
+  </data>
 </root>

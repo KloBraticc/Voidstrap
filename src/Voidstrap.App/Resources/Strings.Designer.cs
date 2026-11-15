@@ -8985,6 +8985,7 @@ namespace Voidstrap.Resources {
         public static string Menu_Rosemary_Description => ResourceManager.GetString("Menu.Rosemary.Description", resourceCulture);
         public static string Menu_Rosemary_Installed => ResourceManager.GetString("Menu.Rosemary.Installed", resourceCulture);
         public static string Menu_Rosemary_NotInstalled => ResourceManager.GetString("Menu.Rosemary.NotInstalled", resourceCulture);
+        public static string Menu_Rosemary_NotInstalledFreeBSD => ResourceManager.GetString("Menu.Rosemary.NotInstalledFreeBSD", resourceCulture);
         public static string Menu_Rosemary_RobloxInstalled => ResourceManager.GetString("Menu.Rosemary.RobloxInstalled", resourceCulture);
         public static string Menu_Rosemary_RobloxNotInstalled => ResourceManager.GetString("Menu.Rosemary.RobloxNotInstalled", resourceCulture);
         public static string Menu_Rosemary_StudioInstalled => ResourceManager.GetString("Menu.Rosemary.StudioInstalled", resourceCulture);

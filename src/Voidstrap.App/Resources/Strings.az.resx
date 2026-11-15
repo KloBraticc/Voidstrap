@@ -10087,4 +10087,7 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Heç bir emote teksturası tapılmadı. Roblox-u bir dəfə işə salın, sonra yenidən cəhd edin.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary hələ quraşdırılmayıb, Rosemary-ni qurun və rosemary faylını PATH-a əlavə edin</value>
+  </data>
 </root>

@@ -10088,4 +10088,7 @@ Uptime: {1}
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ემოციების ტექსტურები ვერ მოიძებნა. ერთხელ გაუშვით Roblox და კვლავ სცადეთ.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ჯერ არ არის დაყენებული, ააწყეთ Rosemary და მოათავსეთ rosemary ფაილი PATH-ში</value>
+  </data>
 </root>

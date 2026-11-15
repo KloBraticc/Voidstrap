@@ -10088,4 +10088,7 @@ SteamVR elo installéieren?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Keng Emote Texturen fonnt. Start Roblox eemol a prob et dann nach eng Kéier.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ass nach net installéiert, bau Rosemary a lee d'Datei rosemary an de PATH</value>
+  </data>
 </root>

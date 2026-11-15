@@ -10088,4 +10088,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>לא נמצאו טקסטורות אימוטים. הפעילו את Roblox פעם אחת ונסו שוב.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary עדיין לא מותקן, בנה את Rosemary והצב את הקובץ rosemary ב PATH</value>
+  </data>
 </root>

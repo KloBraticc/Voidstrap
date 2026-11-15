@@ -10088,4 +10088,7 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Tsy nahitana tekstiran'ny emote. Alefaso indray mandeha ny Roblox dia andramo indray.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Mbola tsy voapetraka ny Rosemary, amboary ny Rosemary ary apetraho ao amin'ny PATH ny rakitra rosemary</value>
+  </data>
 </root>

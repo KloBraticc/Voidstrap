@@ -10088,4 +10088,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>कुनै इमोट टेक्स्चर भेटिएन। Roblox एक पटक चलाउनुहोस्, अनि फेरि प्रयास गर्नुहोस्।</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary अझै स्थापना भएको छैन, Rosemary बिल्ड गर्नुहोस् र rosemary फाइल PATH मा राख्नुहोस्</value>
+  </data>
 </root>

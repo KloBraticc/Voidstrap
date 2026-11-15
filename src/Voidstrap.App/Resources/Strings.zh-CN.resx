@@ -10424,4 +10424,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>未找到表情纹理。请先启动一次 Roblox，然后重试。</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary 尚未安装，请构建 Rosemary 并将 rosemary 可执行文件放入 PATH</value>
+  </data>
 </root>

@@ -10399,4 +10399,7 @@
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>لم يتم العثور على أنسجة الإيموت. شغّل Roblox مرة واحدة ثم حاول مجددًا.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>لم يُثبَّت Rosemary بعد، قم ببناء Rosemary وضع الملف التنفيذي rosemary في PATH</value>
+  </data>
 </root>

@@ -10088,4 +10088,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Нису пронађене текстуре емотеа. Покрени Roblox једном па покушај поново.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary још није инсталиран, направите Rosemary и ставите датотеку rosemary у PATH</value>
+  </data>
 </root>

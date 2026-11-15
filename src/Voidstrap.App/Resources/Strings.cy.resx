@@ -10087,4 +10087,7 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Ni chafwyd hyd i weadau emotes. Agora Roblox unwaith, yna rho gynnig arall arni.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Nid yw Rosemary wedi'i osod eto, adeiladwch Rosemary a rhowch y ffeil rosemary ar PATH</value>
+  </data>
 </root>

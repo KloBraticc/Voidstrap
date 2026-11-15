@@ -10088,4 +10088,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>هېڅ ایموټ بافت ونه موندل شو. Roblox یو ځل پیل کړئ، بیا یې بیا هڅه وکړئ.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary لا نه دی نصب شوی، Rosemary جوړ کړئ او د rosemary فایل په PATH کې کېږدئ</value>
+  </data>
 </root>

@@ -10402,4 +10402,7 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>هیچ بافت ایموتی پیدا نشد. Roblox را یک بار اجرا کنید و دوباره امتحان کنید.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary هنوز نصب نشده است، Rosemary را بسازید و فایل rosemary را در PATH قرار دهید</value>
+  </data>
 </root>

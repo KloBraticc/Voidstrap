@@ -10087,4 +10087,7 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ఎమోట్ టెక్స్చర్‌లు ఏవీ కనబడలేదు. Roblox ను ఒకసారి ప్రారంభించి, మళ్లీ ప్రయత్నించండి.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ఇంకా ఇన్స్టాల్ కాలేదు, Rosemary ని బిల్డ్ చేసి rosemary ఫైల్ను PATH లో ఉంచండి</value>
+  </data>
 </root>

@@ -10398,4 +10398,7 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Walang nakitang emote texture. Buksan ang Roblox nang isang beses, saka subukan ulit.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Hindi pa naka-install ang Rosemary, i-build ang Rosemary at ilagay ang rosemary file sa PATH</value>
+  </data>
 </root>

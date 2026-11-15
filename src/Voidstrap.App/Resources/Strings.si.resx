@@ -10088,4 +10088,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>ඉමෝට් වයන කිසිවක් හමු නොවීය. Roblox එක් වරක් ආරම්භ කර නැවත උත්සාහ කරන්න.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary තවම ස්ථාපනය කර නැත, Rosemary build කර rosemary ගොනුව PATH තුළ තබන්න</value>
+  </data>
 </root>

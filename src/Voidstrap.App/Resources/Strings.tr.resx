@@ -10398,4 +10398,7 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Emote dokusu bulunamadı. Roblox'u bir kez başlatın, ardından tekrar deneyin.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary henüz yüklü değil, Rosemary'yi derleyin ve rosemary dosyasını PATH içine koyun</value>
+  </data>
 </root>

@@ -10088,4 +10088,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Էմոցիաների տեքստուրաներ չգտնվեցին։ Մեկ անգամ գործարկեք Roblox-ը, ապա նորից փորձեք։</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary-ն դեռ տեղադրված չէ, կառուցեք Rosemary-ն և rosemary ֆայլը տեղադրեք PATH-ում</value>
+  </data>
 </root>

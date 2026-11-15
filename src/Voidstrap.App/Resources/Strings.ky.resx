@@ -10088,4 +10088,7 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Эмоция текстуралары табылган жок. Roblox'ту бир жолу иштетип, кайра аракет кылыңыз.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary азырынча орнотула элек, Rosemary куруп, rosemary файлын PATH ичине коюңуз</value>
+  </data>
 </root>

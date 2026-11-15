@@ -10088,4 +10088,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>រកមិនឃើញវាយនភាព emote ទេ។ សូមបើក Roblox ម្ដង រួចសាកល្បងម្ដងទៀត។</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary មិនទាន់បានដំឡើងនៅឡើយទេ សូមបង្កើត Rosemary ហើយដាក់ឯកសារ rosemary ក្នុង PATH</value>
+  </data>
 </root>

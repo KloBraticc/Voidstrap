@@ -10088,4 +10088,7 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Níor aimsíodh aon uigeachtaí emotes. Seol Roblox uair amháin, ansin bain triail eile as.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Níl Rosemary suiteáilte fós, tóg Rosemary agus cuir an comhad rosemary ar PATH</value>
+  </data>
 </root>

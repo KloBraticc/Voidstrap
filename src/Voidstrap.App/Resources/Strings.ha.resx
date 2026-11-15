@@ -10088,4 +10088,7 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Ba a sami tekstur na emote ba. Kunna Roblox sau ɗaya, sannan ka sake gwadawa.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Ba a shigar da Rosemary ba tukuna, gina Rosemary kuma saka fayil ɗin rosemary a PATH</value>
+  </data>
 </root>

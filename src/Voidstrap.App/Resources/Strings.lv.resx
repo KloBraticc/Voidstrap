@@ -10088,4 +10088,7 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Netika atrastas emociju tekstūras. Vienreiz palaidiet Roblox un mēģiniet vēlreiz.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary vēl nav instalēts, izveido Rosemary un ievieto rosemary failu PATH</value>
+  </data>
 </root>

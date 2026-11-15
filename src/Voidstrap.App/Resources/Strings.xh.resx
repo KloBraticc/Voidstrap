@@ -10087,4 +10087,7 @@ Faka i-SteamVR ngoku?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Akukho tekstsha ye-emote ifunyenweyo. Qalisa i-Roblox kanye, emva koko uzame kwakhona.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ayikafakwa, yakha iRosemary uze ubeke ifayile ye rosemary kwi PATH</value>
+  </data>
 </root>

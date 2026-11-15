@@ -10087,4 +10087,7 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>کوئی ایموٹ ٹیکسچر نہیں ملا۔ Roblox ایک بار چلائیں، پھر دوبارہ کوشش کریں۔</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ابھی انسٹال نہیں ہے، Rosemary بنائیں اور rosemary فائل کو PATH میں رکھیں</value>
+  </data>
 </root>

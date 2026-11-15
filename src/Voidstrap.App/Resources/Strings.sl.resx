@@ -10088,4 +10088,7 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Tekstur čustvenčkov ni bilo mogoče najti. Enkrat zaženi Roblox in poskusi znova.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary še ni nameščen, zgradi Rosemary in postavi datoteko rosemary v PATH</value>
+  </data>
 </root>

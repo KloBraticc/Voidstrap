@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Text;
+using Voidstrap.Core;
 
 namespace Voidstrap.Platform.Linux;
 
@@ -3876,38 +3877,23 @@ public static partial class LinuxWindowInterop
 	{
 		if (processId <= 0)
 			return false;
-		string processDirectory = "/proc/" + processId.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		try
+		if (IsSoberExecutableName(UnixSystem.ProcessName(processId)?.Trim()))
+			return true;
+		if (IsSoberExecutableName(Path.GetFileName(UnixSystem.ExecutablePath(processId))))
+			return true;
+		string? commandLine = UnixSystem.CommandLine(processId);
+		if (commandLine != null)
 		{
-			string name = File.ReadAllText(Path.Combine(processDirectory, "comm")).Trim();
-			if (IsSoberExecutableName(name))
-				return true;
-		}
-		catch (Exception)
-		{
-		}
-		try
-		{
-			string? executable = new FileInfo(Path.Combine(processDirectory, "exe")).LinkTarget;
-			if (IsSoberExecutableName(Path.GetFileName(executable)))
-				return true;
-		}
-		catch (Exception)
-		{
-		}
-		try
-		{
-			string commandLine = File.ReadAllText(Path.Combine(processDirectory, "cmdline"));
-			int separator = commandLine.IndexOf('\0');
+			int separator = commandLine.IndexOf(' ');
 			string executable = separator >= 0 ? commandLine[..separator] : commandLine;
 			if (IsSoberExecutableName(Path.GetFileName(executable)))
 				return true;
 			if (commandLine.Contains(LinuxRosemary.ApplicationPath(RosemaryApplication.Player), StringComparison.Ordinal))
 				return true;
 		}
-		catch (Exception)
-		{
-		}
+		if (!OperatingSystem.IsLinux())
+			return false;
+		string processDirectory = "/proc/" + processId.ToString(System.Globalization.CultureInfo.InvariantCulture);
 		try
 		{
 			string environment = File.ReadAllText(Path.Combine(processDirectory, "environ"));

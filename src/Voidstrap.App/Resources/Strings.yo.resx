@@ -10087,4 +10087,7 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Kò sí texture emote kankan tí a rí. Ṣí Roblox lẹ́ẹ̀kan, lẹ́yìn náà gbìyànjú lẹ́ẹ̀kan sí i.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>A kò tíì fi Rosemary sórí ẹ̀rọ, kọ́ Rosemary kí o sì fi fáìlì rosemary sí PATH</value>
+  </data>
 </root>

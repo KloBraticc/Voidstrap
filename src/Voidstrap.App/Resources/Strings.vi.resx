@@ -10403,4 +10403,7 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Không tìm thấy texture biểu cảm nào. Hãy mở Roblox một lần rồi thử lại.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary chưa được cài đặt, bạn hãy build Rosemary và đặt tệp rosemary vào PATH</value>
+  </data>
 </root>

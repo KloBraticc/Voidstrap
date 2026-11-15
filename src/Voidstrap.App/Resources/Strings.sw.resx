@@ -10087,4 +10087,7 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Hakuna maumbo ya emote yaliyopatikana. Fungua Roblox mara moja, kisha ujaribu tena.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary bado haijasakinishwa, jenga Rosemary na uweke faili ya rosemary kwenye PATH</value>
+  </data>
 </root>

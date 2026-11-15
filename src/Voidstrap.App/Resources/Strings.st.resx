@@ -10087,4 +10087,7 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Ha ho dithekesetjha tsa emote tse fumanweng. Bula Roblox hang, ebe o leka hape.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary ha e so kenngoe, aha Rosemary 'me u behe faele ea rosemary ho PATH</value>
+  </data>
 </root>

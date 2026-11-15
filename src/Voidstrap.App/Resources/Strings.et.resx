@@ -10087,4 +10087,7 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Emotetekstuure ei leitud. Käivita Roblox korra ja proovi siis uuesti.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary pole veel paigaldatud, ehita Rosemary ja pane rosemary fail PATH-i</value>
+  </data>
 </root>

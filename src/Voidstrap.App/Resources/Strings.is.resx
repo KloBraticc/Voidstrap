@@ -10088,4 +10088,7 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.EmoteMgr.NoTextures" xml:space="preserve">
     <value>Engar emote áferðir fundust. Ræstu Roblox einu sinni og reyndu svo aftur.</value>
   </data>
+  <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
+    <value>Rosemary er ekki uppsett enn, byggðu Rosemary og settu rosemary skrána í PATH</value>
+  </data>
 </root>

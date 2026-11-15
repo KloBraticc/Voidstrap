@@ -54,7 +54,7 @@ public sealed class RosemaryViewModel : NotifyPropertyChangedViewModel
         ? _progress
         : LinuxRosemary.IsRuntimeInstalled
             ? string.Format(Strings.Menu_Rosemary_Installed, LinuxRosemary.InstalledRuntimeVersion)
-            : Strings.Menu_Rosemary_NotInstalled;
+            : Voidstrap.Utility.Platform.IsFreeBSD ? Strings.Menu_Rosemary_NotInstalledFreeBSD : Strings.Menu_Rosemary_NotInstalled;
 
     public string PlayerStatus => LinuxRosemary.IsApplicationInstalled(RosemaryApplication.Player)
         ? string.Format(Strings.Menu_Rosemary_RobloxInstalled, LinuxRosemary.InstalledRobloxVersion(RosemaryApplication.Player))
