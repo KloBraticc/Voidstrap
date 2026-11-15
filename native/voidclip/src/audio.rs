@@ -1,7 +1,9 @@
 use std::io::Write;
 use std::process::ChildStdin;
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
+#[cfg(windows)]
+use std::sync::Mutex;
 use std::thread::{self, JoinHandle};
 use std::time::{Duration, Instant};
 
@@ -10,6 +12,7 @@ const CHANNELS: usize = 2;
 const TICK_MS: u64 = 10;
 const TICK_FRAMES: usize = (SAMPLE_RATE as usize * TICK_MS as usize) / 1000;
 const TICK_SAMPLES: usize = TICK_FRAMES * CHANNELS;
+#[cfg(windows)]
 const MAX_QUEUE_SAMPLES: usize = (SAMPLE_RATE as usize * CHANNELS) / 10;
 
 pub struct AudioPump {
