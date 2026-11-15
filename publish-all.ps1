@@ -70,7 +70,7 @@ trap {
     Exit-Script 1
 }
 
-$validOnly = @('windows', 'linux-x64', 'linux-arm64', 'linux-musl-x64', 'linux-musl-arm64', 'osx-x64', 'osx-arm64', 'android', 'nix', 'all')
+$validOnly = @('windows', 'linux-x64', 'linux-arm64', 'linux-musl-x64', 'linux-musl-arm64', 'osx-x64', 'osx-arm64', 'android', 'freebsd-x64', 'nix', 'all')
 $Only = @($Only | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim().ToLowerInvariant() } | Where-Object { $_ })
 $invalidOnly = @($Only | Where-Object { $validOnly -notcontains $_ })
 if ($Only.Count -eq 0 -or $invalidOnly.Count -gt 0) {
@@ -1407,6 +1407,151 @@ function Invoke-SignPathWindows {
     }
 }
 
+function Start-FreeBSDBuild {
+    $ErrorActionPreference = 'Continue'
+    $gh = Get-Command gh -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    $git = Get-Command git -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if (-not $gh -or -not $git) {
+        throw 'FreeBSD packages need Git and the GitHub CLI (gh) installed.'
+    }
+    $ghPath = $gh.Source
+    $owner = (& $ghPath api user --jq .login 2>$null | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0 -or -not $owner) {
+        throw 'FreeBSD packages need a signed in GitHub CLI, run: gh auth login'
+    }
+    $repo = "$owner/voidstrap-freebsd"
+
+    & $ghPath repo view $repo --json name 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "  Creating $repo for FreeBSD builds..." -ForegroundColor DarkGray
+        & $ghPath repo create $repo --public --description 'FreeBSD builds of Voidstrap' 2>&1 | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            throw "GitHub could not create $repo."
+        }
+    }
+
+    $workflowPath = '.github/workflows/build.yml'
+    $workflowContent = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes((Join-Path $Root 'build/Packaging/FreeBSD/remote-build.yml')))
+    $body = @{ message = 'build: update the FreeBSD build workflow'; content = $workflowContent }
+    $existingJson = & $ghPath api "repos/$repo/contents/$workflowPath" 2>$null | Out-String
+    if ($LASTEXITCODE -eq 0) {
+        $existing = ConvertFrom-Json -InputObject $existingJson
+        if (($existing.content -replace '\s', '') -ceq $workflowContent) {
+            $body = $null
+        } else {
+            $body.sha = $existing.sha
+        }
+    }
+    if ($body) {
+        $body | ConvertTo-Json -Compress | & $ghPath api -X PUT "repos/$repo/contents/$workflowPath" --input - 2>&1 | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            throw "GitHub could not update the FreeBSD workflow in $repo."
+        }
+    }
+
+    $commit = (& $git.Source -C $Root stash create 2>$null | Out-String).Trim()
+    if (-not $commit) {
+        $commit = (& $git.Source -C $Root rev-parse HEAD 2>$null | Out-String).Trim()
+    }
+    if (-not $commit) {
+        throw 'Git could not resolve the commit to build for FreeBSD.'
+    }
+    Write-Host "  Sending the source to $repo..." -ForegroundColor DarkGray
+    & $git.Source -C $Root -c credential.helper= -c 'credential.https://github.com.helper=!gh auth git-credential' push --force --quiet "https://github.com/$repo.git" "${commit}:refs/voidstrap/build" 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "Git could not push the source to $repo."
+    }
+
+    $request = "Voidstrap FreeBSD $([guid]::NewGuid().ToString('N'))"
+    $dispatchDeadline = [DateTime]::UtcNow.AddMinutes(1)
+    while ($true) {
+        & $ghPath workflow run build.yml --repo $repo -f "commit=$commit" -f "request=$request" 2>&1 | Out-Null
+        if ($LASTEXITCODE -eq 0) { break }
+        if ([DateTime]::UtcNow -ge $dispatchDeadline) {
+            throw "GitHub Actions could not start the FreeBSD build in $repo."
+        }
+        Start-Sleep -Seconds 3
+    }
+    Write-Host "  FreeBSD build started on GitHub Actions in $repo" -ForegroundColor DarkGray
+    return [pscustomobject]@{ GhPath = $ghPath; Repo = $repo; Request = $request }
+}
+
+function Complete-FreeBSDBuild {
+    param([Parameter(Mandatory)] $Context)
+    $ErrorActionPreference = 'Continue'
+
+    $ghPath = $Context.GhPath
+    $repo = $Context.Repo
+    $runId = $null
+    $findDeadline = [DateTime]::UtcNow.AddMinutes(2)
+    while (-not $runId -and [DateTime]::UtcNow -lt $findDeadline) {
+        $runsJson = & $ghPath run list --repo $repo --workflow build.yml --event workflow_dispatch --limit 20 --json databaseId,displayTitle 2>$null | Out-String
+        if ($LASTEXITCODE -eq 0) {
+            foreach ($candidate in (ConvertFrom-Json -InputObject $runsJson | ForEach-Object { $_ })) {
+                if ($candidate.displayTitle -ceq $Context.Request) { $runId = [string]$candidate.databaseId }
+            }
+        }
+        if (-not $runId) { Start-Sleep -Seconds 3 }
+    }
+    if (-not $runId) {
+        throw 'GitHub accepted the FreeBSD build, but its workflow run could not be found.'
+    }
+
+    $runUrl = "https://github.com/$repo/actions/runs/$runId"
+    Write-Host "Waiting for the FreeBSD package: $runUrl" -ForegroundColor Cyan
+    $run = $null
+    $deadline = [DateTime]::UtcNow.AddMinutes(100)
+    $lastProgressAt = [DateTime]::UtcNow
+    $viewFailures = 0
+    while ([DateTime]::UtcNow -lt $deadline) {
+        $runJson = & $ghPath run view $runId --repo $repo --json status,conclusion 2>$null | Out-String
+        if ($LASTEXITCODE -eq 0) {
+            $viewFailures = 0
+            $run = ConvertFrom-Json -InputObject $runJson
+            if ($run.status -eq 'completed') { break }
+        } elseif (++$viewFailures -ge 12) {
+            throw "GitHub Actions stopped returning the FreeBSD build status: $runUrl"
+        }
+        if (([DateTime]::UtcNow - $lastProgressAt).TotalSeconds -ge 60) {
+            Write-Host '  FreeBSD build is still running...' -ForegroundColor DarkGray
+            $lastProgressAt = [DateTime]::UtcNow
+        }
+        Start-Sleep -Seconds 5
+    }
+    if (-not $run -or $run.status -ne 'completed') {
+        throw "The FreeBSD build did not finish in time: $runUrl"
+    }
+    if ($run.conclusion -ne 'success') {
+        $failedLog = & $ghPath run view $runId --repo $repo --log-failed 2>$null
+        if ($failedLog) {
+            @($failedLog) | Select-Object -Last 40 | ForEach-Object { Write-Host "  $_" -ForegroundColor DarkGray }
+        }
+        throw "The FreeBSD build finished with status '$($run.conclusion)': $runUrl"
+    }
+
+    $freeBsdOut = Join-Path $Out 'FreeBSD'
+    $downloadDir = Join-Path $ArtifactDir "freebsd-$runId"
+    Remove-BuildDirectory -Path $downloadDir
+    New-Item -ItemType Directory -Path $downloadDir -Force | Out-Null
+    try {
+        & $ghPath run download $runId --repo $repo --name voidstrap-freebsd --dir $downloadDir
+        if ($LASTEXITCODE -ne 0) {
+            throw "GitHub Actions could not download the FreeBSD package: $runUrl"
+        }
+        $packages = @(Get-ChildItem -LiteralPath $downloadDir -File -Recurse -Filter '*_freebsd-x64.tar.gz')
+        if ($packages.Count -ne 1) {
+            throw "The FreeBSD build did not return exactly one package: $runUrl"
+        }
+        New-Item -ItemType Directory -Path $freeBsdOut -Force | Out-Null
+        Get-ChildItem -LiteralPath $freeBsdOut -File -Filter '*_freebsd-x64.tar.gz' | Remove-Item -Force
+        Copy-Item -LiteralPath $packages[0].FullName -Destination $freeBsdOut -Force
+        Write-Host "  FreeBSD: $($packages[0].Name)" -ForegroundColor Green
+    }
+    finally {
+        Remove-BuildDirectory -Path $downloadDir
+    }
+}
+
 function Get-LatestReleaseVersion {
     try {
         [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
@@ -1712,6 +1857,9 @@ if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Ob
 
 $AndroidExplicit = $Only -contains 'android'
 $BuildAndroid = $AndroidExplicit -or $RequestedAll
+$FreeBSDExplicit = $Only -contains 'freebsd-x64'
+$BuildFreeBSD = $FreeBSDExplicit -or $RequestedAll
+$script:FreeBSDBuild = $null
 $PackageNotes = [System.Collections.Generic.List[string]]::new()
 
 if (@($Only | Where-Object { $_ -ne 'nix' }).Count -eq 0) {
@@ -1722,7 +1870,7 @@ if (@($Only | Where-Object { $_ -ne 'nix' }).Count -eq 0) {
     Exit-Script ([int]($PackageNotes.Count -gt 0))
 }
 
-if ($Targets.Count -eq 0 -and -not $BuildAndroid) {
+if ($Targets.Count -eq 0 -and -not $BuildAndroid -and -not $BuildFreeBSD) {
     throw "Nothing matches -Only $($Only -join ', ')"
 }
 
@@ -1731,7 +1879,7 @@ if (-not $IsWindowsHost -and @($Targets | Where-Object { $_.Key -eq 'windows' })
     $SkippedHostTargets = @($Targets | Where-Object { $_.Key -eq 'windows' })
     $Targets = @($Targets | Where-Object { $_.Key -ne 'windows' })
 
-    if ($Targets.Count -eq 0 -and -not $BuildAndroid) {
+    if ($Targets.Count -eq 0 -and -not $BuildAndroid -and -not $BuildFreeBSD) {
         throw @"
 The Windows Voidstrap project cannot be built on this host.
 Microsoft.Windows.CsWinRT invokes cswinrt.exe during the WPF build, and that
@@ -1842,6 +1990,7 @@ if ($BuildSolution -and $Targets.Count -gt 0) {
 
 $buildNames = @($Targets | ForEach-Object { $_.Name })
 if ($BuildAndroid) { $buildNames += 'Android' }
+if ($BuildFreeBSD) { $buildNames += 'FreeBSD-x64' }
 if ($UseParallel) {
     Write-Host "Building $($buildNames -join ', '), up to $MaxParallel at once" -ForegroundColor Cyan
 } else {
@@ -1870,6 +2019,7 @@ if (@($Targets | Where-Object { $_.Rid.StartsWith('osx-', [System.StringComparis
     $plannedPackages.Add($(if ($macDiskImagesAvailable) { 'macOS: Voidstrap.app disk images and archives' } elseif ($packagingShell) { 'macOS: Voidstrap.app archives' } else { 'macOS: plain executables' }))
 }
 if ($BuildAndroid) { $plannedPackages.Add('Android: play and direct APKs') }
+if ($BuildFreeBSD) { $plannedPackages.Add('FreeBSD: tar.gz built on GitHub Actions') }
 Write-Host 'Packages:' -ForegroundColor Cyan
 foreach ($planned in $plannedPackages) {
     Write-Host "  $planned" -ForegroundColor Cyan
@@ -1917,6 +2067,16 @@ $jobs = @()
 $unexpectedFailure = $null
 
 try {
+    if ($BuildFreeBSD) {
+        try {
+            $script:FreeBSDBuild = Start-FreeBSDBuild
+        }
+        catch {
+            if ($FreeBSDExplicit) { throw }
+            Write-Host "  Skipping FreeBSD: $($_.Exception.Message)" -ForegroundColor DarkYellow
+            $PackageNotes.Add("FreeBSD package: $($_.Exception.Message)")
+        }
+    }
     if ($BuildAndroid) {
         if ($AndroidExplicit -or (Test-AndroidToolchain)) {
             Start-AndroidBuild
@@ -2195,6 +2355,19 @@ if ($packageFailure) {
 
 if ($SignPathContext) {
     Invoke-SignPathWindows -Context $SignPathContext -OutputPath (Join-Path $Out 'Windows/Voidstrap.exe')
+}
+
+if ($script:FreeBSDBuild) {
+    $sw.Start()
+    try {
+        Complete-FreeBSDBuild -Context $script:FreeBSDBuild
+        $sw.Stop()
+    }
+    catch {
+        $sw.Stop()
+        Write-BuildOutcome -Title 'FREEBSD BUILD FAILED' -Color Red -Detail $_.Exception.Message
+        Exit-Script 1
+    }
 }
 
 if ($PackageNotes.Count -gt 0) {
