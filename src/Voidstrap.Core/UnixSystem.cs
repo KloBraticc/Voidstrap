@@ -13,6 +13,7 @@ public static partial class UnixSystem
 	private const int KernProcArgs = 7;
 	private const int KernProcPathname = 12;
 	private const int PermissionDenied = 1;
+	private const int CurrentDirectory = -100;
 
 	public static int OpenNonBlocking { get; } = HostSystem.IsFreeBSD ? 0x4 : 0x800;
 
@@ -260,6 +261,41 @@ public static partial class UnixSystem
 		string value = Encoding.UTF8.GetString(buffer, 0, (int)Math.Min(length, (nuint)buffer.Length)).TrimEnd('\0').Trim();
 		return value.Length == 0 ? null : value;
 	}
+
+	public static bool TryGetFileStatus(string path, bool followLinks, out uint mode, out uint owner)
+	{
+		mode = 0;
+		owner = 0;
+		byte[] status = new byte[256];
+		try
+		{
+			if (HostSystem.IsFreeBSD)
+			{
+				if (FreeBSDFileStatus(CurrentDirectory, path, followLinks ? 0 : 0x200, status) != 0)
+					return false;
+				mode = BitConverter.ToUInt16(status, 24);
+				owner = BitConverter.ToUInt32(status, 28);
+				return true;
+			}
+			if (LinuxFileStatus(CurrentDirectory, path, followLinks ? 0 : 0x100, 0xB, status) != 0)
+				return false;
+			mode = BitConverter.ToUInt16(status, 28);
+			owner = BitConverter.ToUInt32(status, 20);
+			return true;
+		}
+		catch (Exception exception) when (exception is DllNotFoundException or EntryPointNotFoundException)
+		{
+			return false;
+		}
+	}
+
+	public static bool IsRegularFile(uint mode) => (mode & 0xF000) == 0x8000;
+
+	[LibraryImport("libc", EntryPoint = "statx", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+	private static partial int LinuxFileStatus(int directoryFileDescriptor, string path, int flags, uint mask, byte[] status);
+
+	[LibraryImport("libc", EntryPoint = "fstatat", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+	private static partial int FreeBSDFileStatus(int directoryFileDescriptor, string path, int flags, byte[] status);
 
 	[LibraryImport("libc", EntryPoint = "kill", SetLastError = true)]
 	private static partial int Kill(int processId, int signal);

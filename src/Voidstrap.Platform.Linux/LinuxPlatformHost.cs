@@ -674,33 +674,14 @@ internal static partial class LinuxRuntimeDirectory
 			return true;
 		}
 
-		IntPtr buffer = IntPtr.Zero;
 		try
 		{
-			buffer = Marshal.AllocHGlobal(256);
-			for (int offset = 0; offset < 256; offset += sizeof(long))
-			{
-				Marshal.WriteInt64(buffer, offset, 0);
-			}
-
-			if (NativeMethods.GetFileStatus(-100, path, 0x100, 0x7ff, buffer) != 0)
-			{
-				return false;
-			}
-
-			uint owner = unchecked((uint)Marshal.ReadInt32(buffer, 20));
-			return IsOwnedByEffectiveUser(NativeMethods.GetEffectiveUserId(), owner);
+			return Voidstrap.Core.UnixSystem.TryGetFileStatus(path, false, out _, out uint owner)
+				&& IsOwnedByEffectiveUser(NativeMethods.GetEffectiveUserId(), owner);
 		}
-		catch (Exception exception) when (exception is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException)
+		catch (Exception exception) when (exception is DllNotFoundException or EntryPointNotFoundException)
 		{
 			return false;
-		}
-		finally
-		{
-			if (buffer != IntPtr.Zero)
-			{
-				Marshal.FreeHGlobal(buffer);
-			}
 		}
 	}
 
@@ -760,9 +741,6 @@ internal static partial class LinuxRuntimeDirectory
 
 		[LibraryImport("libc", EntryPoint = "geteuid")]
 		public static partial uint GetEffectiveUserId();
-
-		[LibraryImport("libc", EntryPoint = "statx", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
-		public static partial int GetFileStatus(int directoryFileDescriptor, string path, int flags, uint mask, IntPtr status);
 	}
 
 	[GeneratedRegex("[^A-Za-z0-9_.]")]

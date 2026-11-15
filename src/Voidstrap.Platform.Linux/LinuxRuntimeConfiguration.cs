@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -136,11 +135,6 @@ public sealed record LinuxRuntimeConfigurationPaths(
 public sealed partial class LinuxRuntimeConfiguration
 {
 	private const string ClientSettingsRelativePath = "ClientSettings/ClientAppSettings.json";
-	private const int LinuxCurrentWorkingDirectory = -100;
-	private const int LinuxDoNotFollowLinks = 0x100;
-	private const uint LinuxFileTypeMaskRequest = 0x1;
-	private const ushort LinuxFileTypeMask = 0xf000;
-	private const ushort LinuxRegularFileType = 0x8000;
 	private static readonly SemaphoreSlim PreparationLock = new(1, 1);
 	private static readonly JsonSerializerOptions JsonOptions = new()
 	{
@@ -206,16 +200,6 @@ public sealed partial class LinuxRuntimeConfiguration
 	private readonly LinuxRuntimeConfigurationPaths _paths;
 	private readonly ISoberProcessProbe? _soberProcessProbe;
 	private readonly SoberApkAssetIndexProvider? _soberAssetIndexProvider;
-
-	[StructLayout(LayoutKind.Explicit, Size = 256)]
-	private struct LinuxFileStatus
-	{
-		[FieldOffset(28)]
-		public ushort Mode;
-	}
-
-	[LibraryImport("libc", EntryPoint = "statx", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
-	private static partial int GetLinuxFileStatus(int directoryFileDescriptor, string path, int flags, uint mask, out LinuxFileStatus status);
 
 	public LinuxRuntimeConfiguration(LinuxRuntimeConfigurationPaths paths)
 		: this(paths, null, null)
@@ -1779,20 +1763,7 @@ public sealed partial class LinuxRuntimeConfiguration
 	{
 		if (!HostSystem.UsesLinuxHost)
 			return (file.Attributes & FileAttributes.Device) == 0;
-		try
-		{
-			return GetLinuxFileStatus(
-				LinuxCurrentWorkingDirectory,
-				file.FullName,
-				LinuxDoNotFollowLinks,
-				LinuxFileTypeMaskRequest,
-				out LinuxFileStatus status) == 0
-				&& (status.Mode & LinuxFileTypeMask) == LinuxRegularFileType;
-		}
-		catch (Exception ex) when (ex is EntryPointNotFoundException or DllNotFoundException)
-		{
-			return false;
-		}
+		return Voidstrap.Core.UnixSystem.TryGetFileStatus(file.FullName, false, out uint mode, out _) && Voidstrap.Core.UnixSystem.IsRegularFile(mode);
 	}
 
 	private static OperationResult EnsureDirectorySafety(string directory)

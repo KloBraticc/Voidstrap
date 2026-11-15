@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,29 +10,10 @@ using Voidstrap.Platform;
 
 namespace Voidstrap.Core;
 
-public sealed partial class SystemProcessService : IProcessService
+public sealed class SystemProcessService : IProcessService
 {
 	private const int MaxCapturedCharacters = 4 * 1024 * 1024;
-	private const int LinuxCurrentWorkingDirectory = -100;
-	private const uint LinuxFileStatusMaskRequest = 0x3;
-	private const ushort LinuxFileTypeMask = 0xf000;
-	private const ushort LinuxRegularFileType = 0x8000;
 	private static bool ContinueOnCapturedContext => !HostSystem.UsesLinuxHost;
-
-	[StructLayout(LayoutKind.Explicit, Size = 256)]
-	private struct LinuxFileStatus
-	{
-		[FieldOffset(28)]
-		public ushort Mode;
-	}
-
-	[LibraryImport("libc", EntryPoint = "statx", SetLastError = true)]
-	private static partial int GetLinuxFileStatus(
-		int directoryFileDescriptor,
-		[MarshalAs(UnmanagedType.LPUTF8Str)] string path,
-		int flags,
-		uint mask,
-		out LinuxFileStatus status);
 
 	public string? FindExecutable(string name)
 	{
@@ -92,15 +72,9 @@ public sealed partial class SystemProcessService : IProcessService
 			const UnixFileMode executeBits = UnixFileMode.UserExecute | UnixFileMode.GroupExecute | UnixFileMode.OtherExecute;
 			if (HostSystem.UsesLinuxHost)
 			{
-				if (GetLinuxFileStatus(
-					LinuxCurrentWorkingDirectory,
-					Path.GetFullPath(path),
-					0,
-					LinuxFileStatusMaskRequest,
-					out LinuxFileStatus status) != 0
-					|| (status.Mode & LinuxFileTypeMask) != LinuxRegularFileType)
+				if (!UnixSystem.TryGetFileStatus(Path.GetFullPath(path), true, out uint fileMode, out _) || !UnixSystem.IsRegularFile(fileMode))
 					return false;
-				return (status.Mode & (ushort)executeBits) != 0;
+				return (fileMode & (uint)executeBits) != 0;
 			}
 			UnixFileMode mode = File.GetUnixFileMode(path);
 			return (mode & executeBits) != 0;
