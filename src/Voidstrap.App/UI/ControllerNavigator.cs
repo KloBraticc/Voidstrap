@@ -97,6 +97,8 @@ namespace Voidstrap.UI
             public int Y;
         }
 
+        private static readonly bool UsesWin32Cursor = Voidstrap.Utility.Platform.IsWindows;
+
         [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static partial bool GetCursorPos(out POINT p);
@@ -171,8 +173,11 @@ namespace Voidstrap.UI
             _initialized = true;
             try
             {
-                GetCursorPos(out _lastMousePos);
-                _haveMousePos = true;
+                if (UsesWin32Cursor)
+                {
+                    GetCursorPos(out _lastMousePos);
+                    _haveMousePos = true;
+                }
             }
             catch { }
             _watchdog = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(500) };
@@ -397,6 +402,8 @@ namespace Voidstrap.UI
 
         private static bool DetectMouseMovement()
         {
+            if (!UsesWin32Cursor)
+                return false;
             try
             {
                 if (!GetCursorPos(out POINT p))
@@ -436,6 +443,8 @@ namespace Voidstrap.UI
 
         private static void SyncSystemCursor()
         {
+            if (!UsesWin32Cursor)
+                return;
             try
             {
                 if (_adornedRoot == null || _mouseMode)
@@ -454,6 +463,8 @@ namespace Voidstrap.UI
 
         private static bool PhysicalMouseButtonDown()
         {
+            if (!UsesWin32Cursor)
+                return false;
             try
             {
                 return (GetAsyncKeyState(0x01) & 0x8000) != 0
@@ -633,6 +644,11 @@ namespace Voidstrap.UI
 
         private static void PressAtCursor()
         {
+            if (!UsesWin32Cursor)
+            {
+                ActivateAtCursorFallback();
+                return;
+            }
             try
             {
                 if (_adornedRoot == null)
