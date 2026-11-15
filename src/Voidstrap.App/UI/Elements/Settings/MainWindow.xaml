@@ -585,14 +585,6 @@
                           <Image x:Name="ItemImage" Grid.Column="0" Width="18" Margin="0,0,14,0" RenderOptions.BitmapScalingMode="HighQuality" Source="{TemplateBinding Image}" />
                           <Grid x:Name="ItemBadge" Grid.Column="0" Width="18" Height="18" Margin="0,0,14,0" VerticalAlignment="Center" Visibility="Collapsed" IsHitTestVisible="False">
                             <Grid Width="10" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-1,-1">
-                              <ui:SymbolIcon Symbol="Flag28" Filled="True" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource SolidBackgroundFillColorBaseBrush}"><ui:SymbolIcon.RenderTransform><TranslateTransform X="-1" Y="0" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
-                              <ui:SymbolIcon Symbol="Flag28" Filled="True" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource SolidBackgroundFillColorBaseBrush}"><ui:SymbolIcon.RenderTransform><TranslateTransform X="1" Y="0" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
-                              <ui:SymbolIcon Symbol="Flag28" Filled="True" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource SolidBackgroundFillColorBaseBrush}"><ui:SymbolIcon.RenderTransform><TranslateTransform X="0" Y="-1" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
-                              <ui:SymbolIcon Symbol="Flag28" Filled="True" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource SolidBackgroundFillColorBaseBrush}"><ui:SymbolIcon.RenderTransform><TranslateTransform X="0" Y="1" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
-                              <ui:SymbolIcon Symbol="Flag28" Filled="True" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource SolidBackgroundFillColorBaseBrush}"><ui:SymbolIcon.RenderTransform><TranslateTransform X="-0.7" Y="-0.7" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
-                              <ui:SymbolIcon Symbol="Flag28" Filled="True" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource SolidBackgroundFillColorBaseBrush}"><ui:SymbolIcon.RenderTransform><TranslateTransform X="0.7" Y="-0.7" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
-                              <ui:SymbolIcon Symbol="Flag28" Filled="True" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource SolidBackgroundFillColorBaseBrush}"><ui:SymbolIcon.RenderTransform><TranslateTransform X="-0.7" Y="0.7" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
-                              <ui:SymbolIcon Symbol="Flag28" Filled="True" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource SolidBackgroundFillColorBaseBrush}"><ui:SymbolIcon.RenderTransform><TranslateTransform X="0.7" Y="0.7" /></ui:SymbolIcon.RenderTransform></ui:SymbolIcon>
                               <ui:SymbolIcon Symbol="Flag28" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Filled="{Binding Filled, ElementName=ItemIcon}" Foreground="{TemplateBinding IconForeground}" />
                             </Grid>
                           </Grid>
@@ -763,6 +755,22 @@
                           <Condition Property="Image" Value="{x:Null}" />
                         </MultiTrigger.Conditions>
                         <Setter TargetName="ItemBadge" Property="Visibility" Value="Visible" />
+                        <Setter TargetName="ItemIcon" Property="OpacityMask">
+                          <Setter.Value>
+                            <DrawingBrush Stretch="None" AlignmentX="Center" AlignmentY="Center">
+                              <DrawingBrush.Drawing>
+                                <GeometryDrawing Brush="Black">
+                                  <GeometryDrawing.Geometry>
+                                    <CombinedGeometry GeometryCombineMode="Exclude">
+                                      <CombinedGeometry.Geometry1><RectangleGeometry Rect="-11,-11,40,40" /></CombinedGeometry.Geometry1>
+                                      <CombinedGeometry.Geometry2><RectangleGeometry Rect="7.5,7.5,13,13" RadiusX="3" RadiusY="3" /></CombinedGeometry.Geometry2>
+                                    </CombinedGeometry>
+                                  </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                              </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                          </Setter.Value>
+                        </Setter>
                       </MultiTrigger>
                       <Trigger Property="Image" Value="{x:Null}">
                         <Setter TargetName="ItemImage" Property="Width" Value="0" />
