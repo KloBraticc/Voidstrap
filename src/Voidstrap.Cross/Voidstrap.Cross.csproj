@@ -67,7 +67,7 @@
 		<LinuxEditorCompatLibrary Condition="($([MSBuild]::IsOSPlatform('Linux')) Or $([MSBuild]::IsOSPlatform('FreeBSD')))">$(BaseIntermediateOutputPath)editorcompat/$(RuntimeIdentifier)/libvoidstrapeditorcompat.so</LinuxEditorCompatLibrary>
 	</PropertyGroup>
 
-	<Target Name="BuildLinuxEditorCompat" BeforeTargets="PrepareForBuild" Condition="'$(VoidstrapElfRid)' == 'true' And ($([MSBuild]::IsOSPlatform('Linux')) Or $([MSBuild]::IsOSPlatform('FreeBSD')))" Inputs="$(MSBuildProjectDirectory)/../../build/Packaging/Linux/editor-compat.c;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh" Outputs="$(LinuxEditorCompatLibrary)">
+	<Target Name="BuildLinuxEditorCompat" BeforeTargets="PrepareForBuild" Condition="('$(VoidstrapElfRid)' == 'true' And ($([MSBuild]::IsOSPlatform('Linux')) Or $([MSBuild]::IsOSPlatform('FreeBSD')))) And '$(VoidstrapFreeBSDNativeDirectory)' == ''" Inputs="$(MSBuildProjectDirectory)/../../build/Packaging/Linux/editor-compat.c;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh" Outputs="$(LinuxEditorCompatLibrary)">
 		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(LinuxEditorCompatLibrary)&quot;" />
 	</Target>
 
@@ -77,7 +77,7 @@
 		<VoidImageLibrary>$(BaseIntermediateOutputPath)voidimage/$(RuntimeIdentifier)/$(VoidImageFileName)</VoidImageLibrary>
 	</PropertyGroup>
 
-	<Target Name="BuildVoidImage" BeforeTargets="AssignTargetPaths" Condition="'$(VoidImageLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.lock;@(VoidImageSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh" Outputs="$(VoidImageLibrary)">
+	<Target Name="BuildVoidImage" BeforeTargets="AssignTargetPaths" Condition="('$(VoidImageLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))) And '$(VoidstrapFreeBSDNativeDirectory)' == ''" Inputs="$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidimage/Cargo.lock;@(VoidImageSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh" Outputs="$(VoidImageLibrary)">
 		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidimage.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidImageLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidimage/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
 	</Target>
 
@@ -133,7 +133,7 @@
 		<VoidClipSources Include="$(MSBuildProjectDirectory)/../../native/voidclip/src/**/*.rs" />
 	</ItemGroup>
 
-	<Target Name="BuildVoidClip" BeforeTargets="AssignTargetPaths" Condition="'$(VoidClipLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidclip/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidclip/Cargo.lock;@(VoidClipSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidclip.sh" Outputs="$(VoidClipLibrary)">
+	<Target Name="BuildVoidClip" BeforeTargets="AssignTargetPaths" Condition="('$(VoidClipLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))) And '$(VoidstrapFreeBSDNativeDirectory)' == ''" Inputs="$(MSBuildProjectDirectory)/../../native/voidclip/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidclip/Cargo.lock;@(VoidClipSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidclip.sh" Outputs="$(VoidClipLibrary)">
 		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidclip.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidClipLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidclip/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
 	</Target>
 
@@ -164,7 +164,7 @@
 		<VoidRpcSources Include="$(MSBuildProjectDirectory)/../../native/voidrpc/src/**/*.rs" />
 	</ItemGroup>
 
-	<Target Name="BuildVoidRpc" BeforeTargets="AssignTargetPaths" Condition="'$(VoidRpcLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidrpc/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidrpc/Cargo.lock;@(VoidRpcSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidrpc.sh" Outputs="$(VoidRpcLibrary)">
+	<Target Name="BuildVoidRpc" BeforeTargets="AssignTargetPaths" Condition="('$(VoidRpcLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))) And '$(VoidstrapFreeBSDNativeDirectory)' == ''" Inputs="$(MSBuildProjectDirectory)/../../native/voidrpc/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidrpc/Cargo.lock;@(VoidRpcSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidrpc.sh" Outputs="$(VoidRpcLibrary)">
 		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidrpc.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidRpcLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidrpc/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
 	</Target>
 
@@ -195,7 +195,7 @@
 		<VoidLogSources Include="$(MSBuildProjectDirectory)/../../native/voidlog/src/**/*.rs" />
 	</ItemGroup>
 
-	<Target Name="BuildVoidLog" BeforeTargets="AssignTargetPaths" Condition="'$(VoidLogLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidlog/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidlog/Cargo.lock;@(VoidLogSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidlog.sh" Outputs="$(VoidLogLibrary)">
+	<Target Name="BuildVoidLog" BeforeTargets="AssignTargetPaths" Condition="('$(VoidLogLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))) And '$(VoidstrapFreeBSDNativeDirectory)' == ''" Inputs="$(MSBuildProjectDirectory)/../../native/voidlog/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidlog/Cargo.lock;@(VoidLogSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidlog.sh" Outputs="$(VoidLogLibrary)">
 		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidlog.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidLogLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidlog/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
 	</Target>
 
@@ -222,11 +222,22 @@
 		<VoidStateLibrary>$(BaseIntermediateOutputPath)voidstate/$(RuntimeIdentifier)/$(VoidStateFileName)</VoidStateLibrary>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(VoidstrapFreeBSDNativeDirectory)' != ''">
+		<LinuxWgpuLibrary>$(VoidstrapFreeBSDNativeDirectory)libwgpu_native.so</LinuxWgpuLibrary>
+		<LinuxGlfwLibrary>$(VoidstrapFreeBSDNativeDirectory)libglfw.so.3</LinuxGlfwLibrary>
+		<LinuxEditorCompatLibrary>$(VoidstrapFreeBSDNativeDirectory)libvoidstrapeditorcompat.so</LinuxEditorCompatLibrary>
+		<VoidImageLibrary>$(VoidstrapFreeBSDNativeDirectory)$(VoidImageFileName)</VoidImageLibrary>
+		<VoidClipLibrary>$(VoidstrapFreeBSDNativeDirectory)$(VoidClipFileName)</VoidClipLibrary>
+		<VoidRpcLibrary>$(VoidstrapFreeBSDNativeDirectory)$(VoidRpcFileName)</VoidRpcLibrary>
+		<VoidLogLibrary>$(VoidstrapFreeBSDNativeDirectory)$(VoidLogFileName)</VoidLogLibrary>
+		<VoidStateLibrary>$(VoidstrapFreeBSDNativeDirectory)$(VoidStateFileName)</VoidStateLibrary>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<VoidStateSources Include="$(MSBuildProjectDirectory)/../../native/voidstate/src/**/*.rs" />
 	</ItemGroup>
 
-	<Target Name="BuildVoidState" BeforeTargets="AssignTargetPaths" Condition="'$(VoidStateLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidstate/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidstate/Cargo.lock;@(VoidStateSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidstate.sh" Outputs="$(VoidStateLibrary)">
+	<Target Name="BuildVoidState" BeforeTargets="AssignTargetPaths" Condition="('$(VoidStateLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))) And '$(VoidstrapFreeBSDNativeDirectory)' == ''" Inputs="$(MSBuildProjectDirectory)/../../native/voidstate/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidstate/Cargo.lock;@(VoidStateSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidstate.sh" Outputs="$(VoidStateLibrary)">
 		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidstate.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidStateLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidstate/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
 	</Target>
 
@@ -533,6 +544,7 @@
 
 	<Target Name="RequireFreeBSDGraphicsLibraries" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('freebsd')) And '$(DesignTimeBuild)' != 'true'">
 		<Error Condition="!Exists('$(LinuxWgpuLibrary)') Or !Exists('$(LinuxGlfwLibrary)')" Text="FreeBSD builds need libwgpu_native.so and libglfw.so.3 in external/LibreWPF/freebsd-x64. Build them with build/Packaging/Linux/build-wgpu-native.sh and build-glfw-native.sh on FreeBSD." />
+		<Error Condition="'$(VoidstrapFreeBSDNativeDirectory)' != '' And (!Exists('$(LinuxEditorCompatLibrary)') Or !Exists('$(VoidImageLibrary)') Or !Exists('$(VoidClipLibrary)') Or !Exists('$(VoidRpcLibrary)') Or !Exists('$(VoidLogLibrary)') Or !Exists('$(VoidStateLibrary)'))" Text="The FreeBSD native libraries are missing from $(VoidstrapFreeBSDNativeDirectory)" />
 	</Target>
 
 	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('freebsd'))">
@@ -545,14 +557,16 @@
 		<ItemGroup>
 			<_VoidstrapFreeBSDBuildAssembly Include="$(OutDir)*.dll" Exclude="$(OutDir)Voidstrap*.dll;$(OutDir)*.resources.dll" />
 		</ItemGroup>
-		<Exec Condition="'@(_VoidstrapFreeBSDBuildAssembly)' != ''" EnvironmentVariables="VoidstrapLinuxPackagingRoot=$(VoidstrapLinuxPackagingRoot)" Command="$(VoidstrapFreeBSDPatchCommand) &quot;$(OutDir)&quot; @(_VoidstrapFreeBSDBuildAssembly->'&quot;%(FullPath)&quot;', ' ')" />
+		<WriteLinesToFile Condition="'@(_VoidstrapFreeBSDBuildAssembly)' != ''" File="$(IntermediateOutputPath)freebsd-patch-build.rsp" Lines="@(_VoidstrapFreeBSDBuildAssembly->'%(FullPath)')" Overwrite="true" />
+		<Exec Condition="'@(_VoidstrapFreeBSDBuildAssembly)' != ''" EnvironmentVariables="VoidstrapLinuxPackagingRoot=$(VoidstrapLinuxPackagingRoot)" Command="$(VoidstrapFreeBSDPatchCommand) &quot;$(OutDir).&quot; &quot;$(IntermediateOutputPath)freebsd-patch-build.rsp&quot;" />
 	</Target>
 
 	<Target Name="PatchFreeBSDBundle" AfterTargets="_ComputeFilesToBundle" DependsOnTargets="ReplaceLinuxProGpuWpfBundle" Condition="$(RuntimeIdentifier.StartsWith('freebsd')) And '$(PublishSingleFile)' == 'true'">
 		<ItemGroup>
 			<_VoidstrapFreeBSDBundleAssembly Include="@(_FilesToBundle)" Condition="'%(Extension)' == '.dll' And !$([System.String]::Copy('%(Filename)').StartsWith('Voidstrap')) And !$([System.String]::Copy('%(Filename)').EndsWith('.resources'))" />
 		</ItemGroup>
-		<Exec Condition="'@(_VoidstrapFreeBSDBundleAssembly)' != ''" EnvironmentVariables="VoidstrapLinuxPackagingRoot=$(VoidstrapLinuxPackagingRoot)" Command="$(VoidstrapFreeBSDPatchCommand) &quot;$(VoidstrapFreeBSDPatchDirectory)&quot; @(_VoidstrapFreeBSDBundleAssembly->'&quot;%(FullPath)&quot;', ' ')" />
+		<WriteLinesToFile Condition="'@(_VoidstrapFreeBSDBundleAssembly)' != ''" File="$(IntermediateOutputPath)freebsd-patch-bundle.rsp" Lines="@(_VoidstrapFreeBSDBundleAssembly->'%(FullPath)')" Overwrite="true" />
+		<Exec Condition="'@(_VoidstrapFreeBSDBundleAssembly)' != ''" EnvironmentVariables="VoidstrapLinuxPackagingRoot=$(VoidstrapLinuxPackagingRoot)" Command="$(VoidstrapFreeBSDPatchCommand) &quot;$(VoidstrapFreeBSDPatchDirectory).&quot; &quot;$(IntermediateOutputPath)freebsd-patch-bundle.rsp&quot;" />
 		<ItemGroup>
 			<_FilesToBundle Remove="@(_VoidstrapFreeBSDBundleAssembly)" />
 			<_FilesToBundle Include="@(_VoidstrapFreeBSDBundleAssembly->'$(VoidstrapFreeBSDPatchDirectory)%(Filename)%(Extension)')" />

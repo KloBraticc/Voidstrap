@@ -10,15 +10,18 @@ if (args.Length < 2)
 
 string output = Path.GetFullPath(args[0]);
 Directory.CreateDirectory(output);
+string[] inputs = args.Length == 2 && args[1].EndsWith(".rsp", StringComparison.Ordinal)
+	? File.ReadAllLines(args[1]).Where(line => line.Length > 0).ToArray()
+	: args.Skip(1).ToArray();
 string runtimeDirectory = Path.GetDirectoryName(typeof(object).Assembly.Location) ?? string.Empty;
-string[] assemblyDirectories = args.Skip(1)
+string[] assemblyDirectories = inputs
 	.Select(Path.GetFullPath)
 	.Select(Path.GetDirectoryName)
 	.OfType<string>()
 	.Distinct(StringComparer.Ordinal)
 	.ToArray();
 
-foreach (string argument in args.Skip(1))
+foreach (string argument in inputs)
 {
 	string input = Path.GetFullPath(argument);
 	string target = Path.Combine(output, Path.GetFileName(input));

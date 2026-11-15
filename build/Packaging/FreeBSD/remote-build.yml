@@ -50,12 +50,12 @@ jobs:
           mem: 12288
           prepare: |
             mkdir -p "${{ github.workspace }}/.freebsd-pkg"
-            env PKG_CACHEDIR="${{ github.workspace }}/.freebsd-pkg" pkg install -y bash git-tiny rust cmake-core pkgconf xorgproto libX11 libxkbcommon icu libunwind libinotify krb5
+            env PKG_CACHEDIR="${{ github.workspace }}/.freebsd-pkg" pkg install -y bash git-tiny rust cmake-core pkgconf xorgproto libX11 libxkbcommon
           run: |
             set -e
             ROOT="$PWD"
             NATIVE="$ROOT/external/LibreWPF/freebsd-x64"
-            mkdir -p "$NATIVE" "$ROOT/.freebsd-wgpu" "$ROOT/.freebsd-cargo/home" "$ROOT/.freebsd-cargo/target" "$ROOT/out"
+            mkdir -p "$NATIVE" "$ROOT/.freebsd-wgpu" "$ROOT/.freebsd-cargo/home" "$ROOT/.freebsd-cargo/target"
             cp "$ROOT/.freebsd-wgpu/"* "$NATIVE/" 2>/dev/null || true
             if [ ! -s "$NATIVE/libwgpu_native.so" ] || [ ! -s "$NATIVE/libglfw.so.3" ]; then
               env PKG_CACHEDIR="$ROOT/.freebsd-pkg" pkg install -y llvm libXrandr libXinerama libXcursor libXi vulkan-loader mesa-libs
@@ -67,21 +67,20 @@ jobs:
             fi
             [ "$(sha256 -q "$ROOT/.freebsd-pkg/$SDK")" = "$SUM" ]
             mkdir -p /usr/local/dotnet10
-            tar -xzf "$ROOT/.freebsd-pkg/$SDK" -C /usr/local/dotnet10
-            export DOTNET_ROOT=/usr/local/dotnet10 PATH="/usr/local/dotnet10:$PATH" DOTNET_OPENSSL_VERSION_OVERRIDE=35 DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+            tar -xzf "$ROOT/.freebsd-pkg/$SDK" -C /usr/local/dotnet10 --exclude './sdk' --exclude 'sdk'
+            export DOTNET_ROOT=/usr/local/dotnet10
             export CARGO_HOME="$ROOT/.freebsd-cargo/home" VOIDSTRAP_NATIVE_TARGET_ROOT="$ROOT/.freebsd-cargo/target"
             if [ "${{ steps.cargo.outputs.cache-hit }}" = "true" ]; then
               find native -type f -exec touch -t 200001010000 {} +
             fi
-            sed -i '' 's/"version": "[^"]*"/"version": "10.0.110"/' global.json
-            bash build/Packaging/FreeBSD/package.sh '' "$ROOT/out"
+            bash build/Packaging/FreeBSD/native-kit.sh "$ROOT/kit"
             cp "$NATIVE/libwgpu_native.so" "$NATIVE/libglfw.so.3" "$ROOT/.freebsd-wgpu/"
             [ ! -f "$NATIVE/GLFW-LICENSE.txt" ] || cp "$NATIVE/GLFW-LICENSE.txt" "$ROOT/.freebsd-wgpu/"
 
       - uses: actions/upload-artifact@v7
         with:
-          name: voidstrap-freebsd
-          path: out/*.tar.gz
+          name: voidstrap-freebsd-kit
+          path: kit/
           if-no-files-found: error
           compression-level: 0
           retention-days: 30

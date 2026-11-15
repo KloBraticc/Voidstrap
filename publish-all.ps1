@@ -89,6 +89,7 @@ $Out       = [System.IO.Path]::GetFullPath((Join-Path $Root 'PublishedBuilds'))
 $Staging   = Join-Path $Out '.staging'
 $LinuxOut  = Join-Path $Out 'Linux'
 $MacOut    = Join-Path $Out 'macOS'
+$FreeBSDOut = Join-Path $Out 'FreeBSD'
 $ArtifactDir = [System.IO.Path]::GetFullPath((Join-Path $Root 'artifacts/publish'))
 $WinProj   = [System.IO.Path]::GetFullPath((Join-Path $Root 'src/Voidstrap.App/Voidstrap.csproj'))
 $CrossProj = [System.IO.Path]::GetFullPath((Join-Path $Root 'src/Voidstrap.Cross/Voidstrap.Cross.csproj'))
@@ -133,12 +134,21 @@ function Stop-ProcessesUsingPath {
 
     $prefixes = @($Path | ForEach-Object { $_.TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar })
     $stopped = 0
+    $cimPaths = $null
 
     foreach ($proc in (Get-Process -ErrorAction SilentlyContinue)) {
         $exe = $null
         try { $exe = $proc.Path } catch { $exe = $null }
         if ([string]::IsNullOrWhiteSpace($exe)) {
-            try { $exe = (Get-CimInstance Win32_Process -Filter "ProcessId = $($proc.Id)" -ErrorAction Stop).ExecutablePath } catch { $exe = $null }
+            if ($null -eq $cimPaths) {
+                $cimPaths = @{}
+                try {
+                    foreach ($entry in (Get-CimInstance Win32_Process -Property ProcessId, ExecutablePath -ErrorAction Stop)) {
+                        if ($entry.ExecutablePath) { $cimPaths[[int]$entry.ProcessId] = $entry.ExecutablePath }
+                    }
+                } catch { }
+            }
+            $exe = $cimPaths[$proc.Id]
         }
         if ([string]::IsNullOrWhiteSpace($exe)) { continue }
         $owner = $prefixes | Where-Object { $exe.StartsWith($_, $PathComparison) } | Select-Object -First 1
@@ -746,9 +756,10 @@ function Repair-FutureTimestamps {
         if (-not (Test-Path -LiteralPath $dir)) { continue }
         $files = $null
         try {
-            $files = [System.IO.Directory]::EnumerateFiles($dir, '*', [System.IO.SearchOption]::AllDirectories)
-            foreach ($file in $files) {
-                if ([System.IO.File]::GetLastWriteTime($file) -le $limit) { continue }
+            $files = [System.IO.DirectoryInfo]::new($dir).EnumerateFiles('*', [System.IO.SearchOption]::AllDirectories)
+            foreach ($info in $files) {
+                if ($info.LastWriteTime -le $limit) { continue }
+                $file = $info.FullName
                 $isOutput = $name -eq 'artifacts' -or $file -match '[\\/](bin|obj)([-_][^\\/]*)?[\\/]' -or
                     ($name -eq 'android' -and $file -match '[\\/]android[\\/]((app[\\/])?(build|\.cxx)|\.gradle|rust[\\/]target)[\\/]')
                 try {
@@ -821,11 +832,19 @@ function Get-OutputSnapshot {
     return $snapshot
 }
 
+function Get-PlatformOutput {
+    param([Parameter(Mandatory)] [string]$Rid)
+
+    if ($Rid.StartsWith('osx-', [System.StringComparison]::Ordinal)) { return $MacOut }
+    if ($Rid.StartsWith('freebsd-', [System.StringComparison]::Ordinal)) { return $FreeBSDOut }
+    return $LinuxOut
+}
+
 function Get-PackageFiles {
     param([Parameter(Mandatory)] $Job)
 
     $rid = $Job.Target.Rid
-    $directory = if ($rid.StartsWith('osx-', [System.StringComparison]::Ordinal)) { $MacOut } else { $LinuxOut }
+    $directory = Get-PlatformOutput $rid
     $tokens = switch ($rid) {
         'linux-x64' { @('linux-x64', '_amd64.deb', '_x86_64.') }
         'linux-arm64' { @('linux-arm64', '_arm64.deb', '_aarch64.') }
@@ -977,7 +996,8 @@ function Start-TargetPackaging {
     $rid = $Job.Target.Rid
     $linuxTarget = $rid.StartsWith('linux-', [System.StringComparison]::Ordinal)
     $macTarget = $rid.StartsWith('osx-', [System.StringComparison]::Ordinal)
-    if (-not ($linuxTarget -or $macTarget)) { return }
+    $freeBsdTarget = $rid.StartsWith('freebsd-', [System.StringComparison]::Ordinal)
+    if (-not ($linuxTarget -or $macTarget -or $freeBsdTarget)) { return }
     $Job.PackagingStarted = $true
 
     $inputText = ($context.Sources + (Get-FileHash -LiteralPath $Job.Expected -Algorithm SHA256).Hash) -join "`n"
@@ -1022,6 +1042,11 @@ function Start-TargetPackaging {
         }
         New-Item -ItemType Directory -Path $MacOut -Force | Out-Null
         $script:PackagingChains += Start-PackagingChain $shell $Job.Target.Name @([pscustomobject]@{ Label = "$($Job.Target.Name) app"; Arguments = @($context.MacScript, $rid, $version, (Get-RootRelativePath $MacOut), (Get-RootRelativePath $Job.Expected)) })
+    }
+    elseif ($freeBsdTarget -and $shell) {
+        New-Item -ItemType Directory -Path $FreeBSDOut -Force | Out-Null
+        $kitNative = Get-RootRelativePath (Join-Path $script:FreeBSDKit.Path 'native')
+        $script:PackagingChains += Start-PackagingChain $shell $Job.Target.Name @([pscustomobject]@{ Label = "$($Job.Target.Name) tar"; Arguments = @($context.FreeBSDScript, $version, (Get-RootRelativePath $FreeBSDOut), (Get-RootRelativePath $Job.Expected), $kitNative) })
     }
 }
 
@@ -1407,17 +1432,77 @@ function Invoke-SignPathWindows {
     }
 }
 
-function Start-FreeBSDBuild {
+function Get-FreeBSDKitInputs {
+    return @(
+        'native',
+        'global.json',
+        'build/Packaging/FreeBSD/native-kit.sh',
+        'build/Packaging/FreeBSD/remote-build.yml',
+        'build/Packaging/Linux/build-wgpu-native.sh',
+        'build/Packaging/Linux/build-glfw-native.sh',
+        'build/Packaging/Linux/build-native-compat.sh',
+        'build/Packaging/Linux/editor-compat.c',
+        'build/Packaging/build-voidimage.sh',
+        'build/Packaging/build-voidclip.sh',
+        'build/Packaging/build-voidrpc.sh',
+        'build/Packaging/build-voidlog.sh',
+        'build/Packaging/build-voidstate.sh'
+    )
+}
+
+function Test-FreeBSDKit {
+    param([Parameter(Mandatory)] [string]$Path, [Parameter(Mandatory)] [string]$Key)
+
+    $keyFile = Join-Path $Path 'key.txt'
+    if (-not (Test-Path -LiteralPath $keyFile -PathType Leaf)) { return $false }
+    if ((Get-Content -LiteralPath $keyFile -Raw).Trim() -cne $Key) { return $false }
+    if (-not (Test-Path -LiteralPath (Join-Path $Path 'runtime-version.txt') -PathType Leaf)) { return $false }
+    foreach ($library in @('libwgpu_native.so', 'libglfw.so.3', 'libvoidimage.so', 'libvoidclip.so', 'libvoidrpc.so', 'libvoidlog.so', 'libvoidstate.so', 'libvoidstrapeditorcompat.so', 'libwin32compat.so')) {
+        if (-not (Test-Path -LiteralPath (Join-Path $Path "native/$library") -PathType Leaf)) { return $false }
+    }
+    return @(Get-ChildItem -LiteralPath (Join-Path $Path 'feed') -File -Filter '*.nupkg' -ErrorAction SilentlyContinue).Count -eq 3
+}
+
+function Start-FreeBSDKit {
     $ErrorActionPreference = 'Continue'
-    $gh = Get-Command gh -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     $git = Get-Command git -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
-    if (-not $gh -or -not $git) {
-        throw 'FreeBSD packages need Git and the GitHub CLI (gh) installed.'
+    if (-not $git) {
+        throw 'FreeBSD packages need Git installed.'
+    }
+    $commit = (& $git.Source -C $Root stash create 2>$null | Out-String).Trim()
+    if (-not $commit) {
+        $commit = (& $git.Source -C $Root rev-parse HEAD 2>$null | Out-String).Trim()
+    }
+    if (-not $commit) {
+        throw 'Git could not resolve the commit to build for FreeBSD.'
+    }
+    $objects = (& $git.Source -C $Root rev-parse (Get-FreeBSDKitInputs | ForEach-Object { "${commit}:$_" }) 2>$null | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0 -or -not $objects) {
+        throw 'Git could not hash the FreeBSD native sources.'
+    }
+    $hasher = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $key = [BitConverter]::ToString($hasher.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($objects))).Replace('-', '').Substring(0, 16).ToLowerInvariant()
+    }
+    finally {
+        $hasher.Dispose()
+    }
+    $kitPath = Join-Path $ArtifactDir 'freebsd-kit'
+    $context = [pscustomobject]@{ Path = $kitPath; Key = $key; GhPath = $null; Repo = $null; Request = $null; RuntimeVersion = $null }
+    if (Test-FreeBSDKit -Path $kitPath -Key $key) {
+        $context.RuntimeVersion = (Get-Content -LiteralPath (Join-Path $kitPath 'runtime-version.txt') -Raw).Trim()
+        Write-Host '  FreeBSD native libraries are up to date' -ForegroundColor DarkGray
+        return $context
+    }
+
+    $gh = Get-Command gh -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if (-not $gh) {
+        throw 'The FreeBSD native libraries changed and need the GitHub CLI (gh) to rebuild them.'
     }
     $ghPath = $gh.Source
     $owner = (& $ghPath api user --jq .login 2>$null | Out-String).Trim()
     if ($LASTEXITCODE -ne 0 -or -not $owner) {
-        throw 'FreeBSD packages need a signed in GitHub CLI, run: gh auth login'
+        throw 'The FreeBSD native libraries need a signed in GitHub CLI, run: gh auth login'
     }
     $repo = "$owner/voidstrap-freebsd"
 
@@ -1438,7 +1523,8 @@ function Start-FreeBSDBuild {
         $existing = ConvertFrom-Json -InputObject $existingJson
         if (($existing.content -replace '\s', '') -ceq $workflowContent) {
             $body = $null
-        } else {
+        }
+        else {
             $body.sha = $existing.sha
         }
     }
@@ -1449,14 +1535,7 @@ function Start-FreeBSDBuild {
         }
     }
 
-    $commit = (& $git.Source -C $Root stash create 2>$null | Out-String).Trim()
-    if (-not $commit) {
-        $commit = (& $git.Source -C $Root rev-parse HEAD 2>$null | Out-String).Trim()
-    }
-    if (-not $commit) {
-        throw 'Git could not resolve the commit to build for FreeBSD.'
-    }
-    Write-Host "  Sending the source to $repo..." -ForegroundColor DarkGray
+    Write-Host "  FreeBSD native libraries changed, sending the source to $repo..." -ForegroundColor DarkGray
     & $git.Source -C $Root -c credential.helper= -c 'credential.https://github.com.helper=!gh auth git-credential' push --force --quiet "https://github.com/$repo.git" "${commit}:refs/voidstrap/build" 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) {
         throw "Git could not push the source to $repo."
@@ -1468,18 +1547,22 @@ function Start-FreeBSDBuild {
         & $ghPath workflow run build.yml --repo $repo -f "commit=$commit" -f "request=$request" 2>&1 | Out-Null
         if ($LASTEXITCODE -eq 0) { break }
         if ([DateTime]::UtcNow -ge $dispatchDeadline) {
-            throw "GitHub Actions could not start the FreeBSD build in $repo."
+            throw "GitHub Actions could not start the FreeBSD native build in $repo."
         }
         Start-Sleep -Seconds 3
     }
-    Write-Host "  FreeBSD build started on GitHub Actions in $repo" -ForegroundColor DarkGray
-    return [pscustomobject]@{ GhPath = $ghPath; Repo = $repo; Request = $request }
+    Write-Host "  FreeBSD native libraries are building on GitHub Actions in $repo" -ForegroundColor DarkGray
+    $context.GhPath = $ghPath
+    $context.Repo = $repo
+    $context.Request = $request
+    return $context
 }
 
-function Complete-FreeBSDBuild {
+function Complete-FreeBSDKit {
     param([Parameter(Mandatory)] $Context)
     $ErrorActionPreference = 'Continue'
 
+    if ($Context.RuntimeVersion) { return }
     $ghPath = $Context.GhPath
     $repo = $Context.Repo
     $runId = $null
@@ -1494,11 +1577,11 @@ function Complete-FreeBSDBuild {
         if (-not $runId) { Start-Sleep -Seconds 3 }
     }
     if (-not $runId) {
-        throw 'GitHub accepted the FreeBSD build, but its workflow run could not be found.'
+        throw 'GitHub accepted the FreeBSD native build, but its workflow run could not be found.'
     }
 
     $runUrl = "https://github.com/$repo/actions/runs/$runId"
-    Write-Host "Waiting for the FreeBSD package: $runUrl" -ForegroundColor Cyan
+    Write-Host "  Waiting for the FreeBSD native libraries: $runUrl" -ForegroundColor DarkGray
     $run = $null
     $deadline = [DateTime]::UtcNow.AddMinutes(100)
     $lastProgressAt = [DateTime]::UtcNow
@@ -1509,47 +1592,44 @@ function Complete-FreeBSDBuild {
             $viewFailures = 0
             $run = ConvertFrom-Json -InputObject $runJson
             if ($run.status -eq 'completed') { break }
-        } elseif (++$viewFailures -ge 12) {
-            throw "GitHub Actions stopped returning the FreeBSD build status: $runUrl"
+        }
+        elseif (++$viewFailures -ge 12) {
+            throw "GitHub Actions stopped returning the FreeBSD native build status: $runUrl"
         }
         if (([DateTime]::UtcNow - $lastProgressAt).TotalSeconds -ge 60) {
-            Write-Host '  FreeBSD build is still running...' -ForegroundColor DarkGray
+            Write-Host '  FreeBSD native libraries are still building...' -ForegroundColor DarkGray
             $lastProgressAt = [DateTime]::UtcNow
         }
-        Start-Sleep -Seconds 5
+        Start-Sleep -Seconds 3
     }
     if (-not $run -or $run.status -ne 'completed') {
-        throw "The FreeBSD build did not finish in time: $runUrl"
+        throw "The FreeBSD native build did not finish in time: $runUrl"
     }
     if ($run.conclusion -ne 'success') {
         $failedLog = & $ghPath run view $runId --repo $repo --log-failed 2>$null
         if ($failedLog) {
             @($failedLog) | Select-Object -Last 40 | ForEach-Object { Write-Host "  $_" -ForegroundColor DarkGray }
         }
-        throw "The FreeBSD build finished with status '$($run.conclusion)': $runUrl"
+        throw "The FreeBSD native build finished with status '$($run.conclusion)': $runUrl"
     }
 
-    $freeBsdOut = Join-Path $Out 'FreeBSD'
-    $downloadDir = Join-Path $ArtifactDir "freebsd-$runId"
+    $downloadDir = Join-Path $ArtifactDir "freebsd-kit-$runId"
     Remove-BuildDirectory -Path $downloadDir
     New-Item -ItemType Directory -Path $downloadDir -Force | Out-Null
-    try {
-        & $ghPath run download $runId --repo $repo --name voidstrap-freebsd --dir $downloadDir
-        if ($LASTEXITCODE -ne 0) {
-            throw "GitHub Actions could not download the FreeBSD package: $runUrl"
-        }
-        $packages = @(Get-ChildItem -LiteralPath $downloadDir -File -Recurse -Filter '*_freebsd-x64.tar.gz')
-        if ($packages.Count -ne 1) {
-            throw "The FreeBSD build did not return exactly one package: $runUrl"
-        }
-        New-Item -ItemType Directory -Path $freeBsdOut -Force | Out-Null
-        Get-ChildItem -LiteralPath $freeBsdOut -File -Filter '*_freebsd-x64.tar.gz' | Remove-Item -Force
-        Copy-Item -LiteralPath $packages[0].FullName -Destination $freeBsdOut -Force
-        Write-Host "  FreeBSD: $($packages[0].Name)" -ForegroundColor Green
-    }
-    finally {
+    & $ghPath run download $runId --repo $repo --name voidstrap-freebsd-kit --dir $downloadDir
+    if ($LASTEXITCODE -ne 0) {
         Remove-BuildDirectory -Path $downloadDir
+        throw "GitHub Actions could not download the FreeBSD native libraries: $runUrl"
     }
+    Set-Content -LiteralPath (Join-Path $downloadDir 'key.txt') -Value $Context.Key -Encoding ASCII
+    if (-not (Test-FreeBSDKit -Path $downloadDir -Key $Context.Key)) {
+        Remove-BuildDirectory -Path $downloadDir
+        throw "The FreeBSD native build returned an incomplete kit: $runUrl"
+    }
+    Remove-BuildDirectory -Path $Context.Path
+    Move-Item -LiteralPath $downloadDir -Destination $Context.Path
+    $Context.RuntimeVersion = (Get-Content -LiteralPath (Join-Path $Context.Path 'runtime-version.txt') -Raw).Trim()
+    Write-Host '  FreeBSD native libraries downloaded' -ForegroundColor DarkGray
 }
 
 function Get-LatestReleaseVersion {
@@ -1826,6 +1906,7 @@ $AllTargets = @(
     [pscustomobject]@{ Name='Linux-musl-arm64';  Key='linux-musl-arm64'; Kind='cross';   Rid='linux-musl-arm64'; OutDir=(Join-Path $Staging 'Linux-musl-arm64'); Executable='Voidstrap' }
     [pscustomobject]@{ Name='macOS-x64';         Key='osx-x64';          Kind='cross';   Rid='osx-x64';          OutDir=(Join-Path $Staging 'macOS-x64');    Executable='Voidstrap' }
     [pscustomobject]@{ Name='macOS-arm64';       Key='osx-arm64';        Kind='cross';   Rid='osx-arm64';        OutDir=(Join-Path $Staging 'macOS-arm64');  Executable='Voidstrap' }
+    [pscustomobject]@{ Name='FreeBSD-x64';       Key='freebsd-x64';      Kind='cross';   Rid='freebsd-x64';      OutDir=(Join-Path $Staging 'FreeBSD-x64');  Executable='Voidstrap' }
 )
 
 $RequestedAll = $Only -contains 'all'
@@ -1858,8 +1939,7 @@ if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Ob
 $AndroidExplicit = $Only -contains 'android'
 $BuildAndroid = $AndroidExplicit -or $RequestedAll
 $FreeBSDExplicit = $Only -contains 'freebsd-x64'
-$BuildFreeBSD = $FreeBSDExplicit -or $RequestedAll
-$script:FreeBSDBuild = $null
+$script:FreeBSDKit = $null
 $PackageNotes = [System.Collections.Generic.List[string]]::new()
 
 if (@($Only | Where-Object { $_ -ne 'nix' }).Count -eq 0) {
@@ -1870,7 +1950,7 @@ if (@($Only | Where-Object { $_ -ne 'nix' }).Count -eq 0) {
     Exit-Script ([int]($PackageNotes.Count -gt 0))
 }
 
-if ($Targets.Count -eq 0 -and -not $BuildAndroid -and -not $BuildFreeBSD) {
+if ($Targets.Count -eq 0 -and -not $BuildAndroid) {
     throw "Nothing matches -Only $($Only -join ', ')"
 }
 
@@ -1879,7 +1959,7 @@ if (-not $IsWindowsHost -and @($Targets | Where-Object { $_.Key -eq 'windows' })
     $SkippedHostTargets = @($Targets | Where-Object { $_.Key -eq 'windows' })
     $Targets = @($Targets | Where-Object { $_.Key -ne 'windows' })
 
-    if ($Targets.Count -eq 0 -and -not $BuildAndroid -and -not $BuildFreeBSD) {
+    if ($Targets.Count -eq 0 -and -not $BuildAndroid) {
         throw @"
 The Windows Voidstrap project cannot be built on this host.
 Microsoft.Windows.CsWinRT invokes cswinrt.exe during the WPF build, and that
@@ -1907,6 +1987,10 @@ if ($LinuxPackages -and $selectedLinuxTargets.Count -eq 0) {
 $packagingShell = $null
 if ($wantLinuxPackages -or $ShouldBuildAppImage -or @($Targets | Where-Object { $_.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) }).Count -gt 0) {
     $packagingShell = Resolve-PackagingShell
+}
+elseif (@($Targets | Where-Object { $_.Rid.StartsWith('freebsd-', [System.StringComparison]::Ordinal) }).Count -gt 0) {
+    $gitBash = if ($IsWindowsHost) { Resolve-GitBashPath } else { $null }
+    $packagingShell = if ($gitBash) { New-PackagingShell -Name 'Git Bash' -Command $gitBash } else { Resolve-PackagingShell }
 }
 if ($wantLinuxPackages) {
     $packageRequirement = $null
@@ -1990,7 +2074,6 @@ if ($BuildSolution -and $Targets.Count -gt 0) {
 
 $buildNames = @($Targets | ForEach-Object { $_.Name })
 if ($BuildAndroid) { $buildNames += 'Android' }
-if ($BuildFreeBSD) { $buildNames += 'FreeBSD-x64' }
 if ($UseParallel) {
     Write-Host "Building $($buildNames -join ', '), up to $MaxParallel at once" -ForegroundColor Cyan
 } else {
@@ -2019,7 +2102,9 @@ if (@($Targets | Where-Object { $_.Rid.StartsWith('osx-', [System.StringComparis
     $plannedPackages.Add($(if ($macDiskImagesAvailable) { 'macOS: Voidstrap.app disk images and archives' } elseif ($packagingShell) { 'macOS: Voidstrap.app archives' } else { 'macOS: plain executables' }))
 }
 if ($BuildAndroid) { $plannedPackages.Add('Android: play and direct APKs') }
-if ($BuildFreeBSD) { $plannedPackages.Add('FreeBSD: tar.gz built on GitHub Actions') }
+if (@($Targets | Where-Object { $_.Rid.StartsWith('freebsd-', [System.StringComparison]::Ordinal) }).Count -gt 0) {
+    $plannedPackages.Add($(if ($packagingShell) { 'FreeBSD: tar.gz' } else { 'FreeBSD: plain executable' }))
+}
 Write-Host 'Packages:' -ForegroundColor Cyan
 foreach ($planned in $plannedPackages) {
     Write-Host "  $planned" -ForegroundColor Cyan
@@ -2059,6 +2144,7 @@ $script:PackageContext = [pscustomobject]@{
     LinuxScript   = 'build/Packaging/Linux/package.sh'
     FlatpakScript = 'build/Packaging/Flatpak/package.sh'
     MacScript     = 'build/Packaging/MacOS/package.sh'
+    FreeBSDScript = 'build/Packaging/FreeBSD/archive.sh'
     MacShellNote  = 'macOS app bundles were skipped: they need bash, which Git for Windows provides.'
     MacImageNote  = 'macOS disk images were skipped; use WSL 2 with genisoimage to create them.'
 }
@@ -2067,14 +2153,15 @@ $jobs = @()
 $unexpectedFailure = $null
 
 try {
-    if ($BuildFreeBSD) {
+    if (@($Targets | Where-Object { $_.Key -eq 'freebsd-x64' }).Count -gt 0) {
         try {
-            $script:FreeBSDBuild = Start-FreeBSDBuild
+            $script:FreeBSDKit = Start-FreeBSDKit
         }
         catch {
             if ($FreeBSDExplicit) { throw }
             Write-Host "  Skipping FreeBSD: $($_.Exception.Message)" -ForegroundColor DarkYellow
             $PackageNotes.Add("FreeBSD package: $($_.Exception.Message)")
+            $Targets = @($Targets | Where-Object { $_.Key -ne 'freebsd-x64' })
         }
     }
     if ($BuildAndroid) {
@@ -2092,6 +2179,17 @@ try {
     foreach ($t in $Targets) {
         if ($UseParallel -and @($jobs | Where-Object { $_.Status -eq 'Building' }).Count -ge $MaxParallel) {
             Wait-ForPublishJobs -Jobs $jobs -WaitForSlot
+        }
+        if ($t.Key -eq 'freebsd-x64') {
+            try {
+                Complete-FreeBSDKit -Context $script:FreeBSDKit
+            }
+            catch {
+                if ($FreeBSDExplicit) { throw }
+                Write-Host "  Skipping FreeBSD: $($_.Exception.Message)" -ForegroundColor DarkYellow
+                $PackageNotes.Add("FreeBSD package: $($_.Exception.Message)")
+                continue
+            }
         }
         Reset-OutputDirectory $t.OutDir
 
@@ -2111,7 +2209,7 @@ try {
                 '-p:EnableWindowsTargeting=true'
             ) + $PubOpts
         } else {
-            $compressBundle = if ($t.Rid -like 'linux-*') { 'false' } else { 'true' }
+            $compressBundle = if ($t.Rid -like 'linux-*' -or $t.Rid -like 'freebsd-*') { 'false' } else { 'true' }
             $argList = @(
                 'publish', $CrossProj,
                 '-c', $Configuration,
@@ -2123,6 +2221,13 @@ try {
                 '-p:IncludeAllContentForSelfExtract=true',
                 "-p:EnableCompressionInSingleFile=$compressBundle"
             ) + $PubOpts
+            if ($t.Key -eq 'freebsd-x64') {
+                $argList += @(
+                    "-p:VoidstrapFreeBSDNativeDirectory=$(Join-Path $script:FreeBSDKit.Path 'native')/",
+                    "-p:RestoreAdditionalProjectSources=$(Join-Path $script:FreeBSDKit.Path 'feed')",
+                    "-p:RuntimeFrameworkVersion=$($script:FreeBSDKit.RuntimeVersion)"
+                )
+            }
         }
 
         Write-Host "  Starting $($t.Name)..." -ForegroundColor DarkGray
@@ -2267,6 +2372,7 @@ try {
     $packagingJobs = @($jobs | Where-Object { $_.PackagingStarted -and -not $_.PackagesCached })
     $linuxPackageJobs = @($packagingJobs | Where-Object { $_.Target.Rid.StartsWith('linux-', [System.StringComparison]::Ordinal) })
     $macPackageJobs = @($packagingJobs | Where-Object { $_.Target.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) })
+    $freeBsdPackageJobs = @($packagingJobs | Where-Object { $_.Target.Rid.StartsWith('freebsd-', [System.StringComparison]::Ordinal) })
     Wait-PackagingChains
 
     $shell = $script:PackageContext.Shell
@@ -2300,8 +2406,8 @@ try {
         }
     }
 
-    foreach ($job in @($linuxPackageJobs) + @($macPackageJobs)) {
-        $platformOutput = if ($job.Target.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal)) { $MacOut } else { $LinuxOut }
+    foreach ($job in @($linuxPackageJobs) + @($macPackageJobs) + @($freeBsdPackageJobs)) {
+        $platformOutput = Get-PlatformOutput $job.Target.Rid
         New-Item -ItemType Directory -Path $platformOutput -Force | Out-Null
         $tokens = switch ($job.Target.Rid) {
             'linux-x64' { @('linux-x64', '_x86_64.') }
@@ -2357,18 +2463,6 @@ if ($SignPathContext) {
     Invoke-SignPathWindows -Context $SignPathContext -OutputPath (Join-Path $Out 'Windows/Voidstrap.exe')
 }
 
-if ($script:FreeBSDBuild) {
-    $sw.Start()
-    try {
-        Complete-FreeBSDBuild -Context $script:FreeBSDBuild
-        $sw.Stop()
-    }
-    catch {
-        $sw.Stop()
-        Write-BuildOutcome -Title 'FREEBSD BUILD FAILED' -Color Red -Detail $_.Exception.Message
-        Exit-Script 1
-    }
-}
 
 if ($PackageNotes.Count -gt 0) {
     Write-Host 'Published everything this host can build.' -ForegroundColor Green
