@@ -26,7 +26,8 @@ on:
       - prereleased
   workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   notify:
@@ -37,6 +38,7 @@ jobs:
       - name: Send notification to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GITHUB_TOKEN: ${{ github.token }}
           EVENT_NAME: ${{ github.event_name }}
           REPOSITORY: ${{ github.repository }}
           REF_NAME: ${{ github.ref_name }}
@@ -83,37 +85,102 @@ jobs:
           repository = os.environ["REPOSITORY"]
           actor = compact(os.environ["ACTOR"])
           event_name = os.environ["EVENT_NAME"]
+          sender = event.get("sender") or {}
           title = ""
           description = ""
           color = 0x5865F2
           link = None
+          fields = []
+          timestamp = None
+          sha_pattern = re.compile(r"[0-9a-fA-F]{40}")
+
+          def github_api(path):
+              request = urllib.request.Request(
+                  f"https://api.github.com/repos/{repository}/{path}",
+                  headers={
+                      "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+                      "Accept": "application/vnd.github+json",
+                      "User-Agent": "Voidstrap Discord notifications",
+                  },
+              )
+              try:
+                  with urllib.request.urlopen(request, timeout=20) as response:
+                      return json.load(response)
+              except (urllib.error.URLError, TimeoutError, json.JSONDecodeError):
+                  return None
+
+          def excerpt(value, limit=300):
+              text = compact(value)
+              return text if len(text) <= limit else text[:limit].rstrip() + "..."
+
+          def plural(count, word):
+              return f"{count:,} {word}{'' if count == 1 else 's'}"
 
           if event_name == "push":
-              commits = event.get("commits") or []
-              count = len(commits)
               ref_name = compact(os.environ.get("REF_NAME", ""))[:80]
-              title = f"[{ref_name}] {count} new commit{'s' if count != 1 else ''}"
+              before = event.get("before", "")
+              after = event.get("after", "")
+              default_branch = (event.get("repository") or {}).get("default_branch") or "main"
+              created = bool(event.get("created")) or before.strip("0") == ""
+              comparison = None
+              if sha_pattern.fullmatch(after) and not (created and ref_name == default_branch):
+                  base = default_branch if created else before
+                  if created or sha_pattern.fullmatch(before):
+                      comparison = github_api(f"compare/{base}...{after}")
               rows = []
-              for commit in commits[-8:]:
-                  sha = commit.get("id", "")
-                  if isinstance(sha, str) and re.fullmatch(r"[0-9a-fA-F]{40}", sha):
-                      message = commit.get("message")
-                      subject = compact(message.splitlines()[0] if isinstance(message, str) and message else "(no title)")[:200]
-                      author_data = commit.get("author") or {}
-                      author = compact(author_data.get("username") or actor)[:64]
-                      rows.append(f"[`{sha[:7]}`](https://github.com/{repository}/commit/{sha}) {subject} — {author}")
-              if len(commits) > 8:
-                  rows.append(f"And {len(commits) - 8} more commit(s)")
-              if not commits:
+              if comparison and isinstance(comparison.get("commits"), list):
+                  total = int(comparison.get("total_commits") or len(comparison["commits"]))
+                  commits = [
+                      {
+                          "sha": item.get("sha", ""),
+                          "message": (item.get("commit") or {}).get("message"),
+                          "author": (item.get("author") or {}).get("login") or ((item.get("commit") or {}).get("author") or {}).get("name"),
+                      }
+                      for item in comparison["commits"]
+                  ]
+                  files = comparison.get("files") or []
+                  additions = sum(int(entry.get("additions") or 0) for entry in files)
+                  deletions = sum(int(entry.get("deletions") or 0) for entry in files)
+                  if files:
+                      file_text = plural(len(files), "file") + ("+" if len(files) >= 300 else "")
+                      fields.append({"name": "Changes", "value": f"{file_text} changed, +{additions:,} / -{deletions:,} lines", "inline": False})
+                  link = comparison.get("html_url")
+              else:
+                  commits = [
+                      {
+                          "sha": item.get("id", ""),
+                          "message": item.get("message"),
+                          "author": (item.get("author") or {}).get("username") or (item.get("author") or {}).get("name"),
+                      }
+                      for item in (event.get("commits") or [])
+                  ]
+                  total = len(commits)
+                  if sha_pattern.fullmatch(before) and sha_pattern.fullmatch(after) and not created:
+                      link = f"https://github.com/{repository}/compare/{before[:12]}...{after[:12]}"
+              shown = 10
+              for commit in list(reversed(commits))[:shown]:
+                  sha = commit["sha"]
+                  if not (isinstance(sha, str) and sha_pattern.fullmatch(sha)):
+                      continue
+                  message = commit["message"]
+                  subject = compact(message.splitlines()[0] if isinstance(message, str) and message else "(no title)")[:110]
+                  author = compact(commit["author"] or "")[:40]
+                  suffix = f" · {author}" if author and author.lower() != actor.lower() else ""
+                  rows.append(f"[`{sha[:7]}`](https://github.com/{repository}/commit/{sha}) {subject}{suffix}")
+              if total > shown:
+                  rows.append(f"*and {total - shown:,} more*")
+              if not rows:
                   rows.append("Repository updated")
               description = "\n".join(rows)
+              if created:
+                  title = f"New branch {ref_name} with {plural(total, 'commit')}"
+              else:
+                  title = f"{plural(total, 'new commit')} to {ref_name}"
+              color = 0x2EA043 if ref_name == default_branch else 0x5865F2
               if event.get("forced"):
-                  title = "Branch force-pushed"
+                  title = f"Force push to {ref_name}"
                   color = 0xED4245
-                  before = event.get("before", "")
-                  after = event.get("after", "")
-                  if re.fullmatch(r"[0-9a-fA-F]{40}", before) and re.fullmatch(r"[0-9a-fA-F]{40}", after):
-                      link = f"https://github.com/{repository}/compare/{before}...{after}"
+              timestamp = (event.get("head_commit") or {}).get("timestamp")
           elif event_name in ("pull_request", "pull_request_target"):
               pull_request = event["pull_request"]
               action = event.get("action")
@@ -121,28 +188,48 @@ jobs:
                   action = "updated"
               if action == "closed" and pull_request.get("merged"):
                   action = "merged"
+              color = {"opened": 0x2EA043, "reopened": 0x2EA043, "ready_for_review": 0x2EA043, "merged": 0x8957E5, "closed": 0xED4245}.get(action, 0x5865F2)
               summary = compact(pull_request.get("title"))[:180]
-              title = f"Pull request {action.replace('_', ' ')}: {summary or '(no title)'}"
               number = pull_request.get("number")
-              description = f"Pull request #{number}" if isinstance(number, int) else "Pull request activity"
+              title = f"Pull request #{number} {action.replace('_', ' ')}: {summary or '(no title)'}"
+              if action in ("opened", "reopened", "ready_for_review"):
+                  description = excerpt(pull_request.get("body"))
+              head_ref = compact((pull_request.get("head") or {}).get("label"))[:80]
+              base_ref = compact((pull_request.get("base") or {}).get("ref"))[:80]
+              if head_ref and base_ref:
+                  fields.append({"name": "Branches", "value": f"{head_ref} into {base_ref}", "inline": True})
+              if isinstance(pull_request.get("changed_files"), int):
+                  fields.append({"name": "Changes", "value": f"{plural(pull_request['changed_files'], 'file')}, +{int(pull_request.get('additions') or 0):,} / -{int(pull_request.get('deletions') or 0):,}", "inline": True})
               link = pull_request.get("html_url")
+              timestamp = pull_request.get("merged_at") or pull_request.get("closed_at") or pull_request.get("updated_at")
           elif event_name == "issues":
               issue = event["issue"]
               action = event.get("action")
               if action not in ("opened", "reopened", "closed"):
                   action = "updated"
+              color = {"opened": 0x2EA043, "reopened": 0x2EA043, "closed": 0x8957E5}.get(action, 0x5865F2)
               summary = compact(issue.get("title"))[:180]
-              title = f"Issue {action}: {summary or '(no title)'}"
               number = issue.get("number")
-              description = f"Issue #{number}" if isinstance(number, int) else "Issue activity"
+              title = f"Issue #{number} {action}: {summary or '(no title)'}"
+              if action != "closed":
+                  description = excerpt(issue.get("body"))
+              labels = [compact(label.get("name"))[:40] for label in (issue.get("labels") or []) if isinstance(label, dict) and label.get("name")]
+              if labels:
+                  fields.append({"name": "Labels", "value": ", ".join(labels[:8]), "inline": False})
               link = issue.get("html_url")
+              timestamp = issue.get("closed_at") or issue.get("updated_at")
           elif event_name == "fork":
               title = "Repository forked"
-              description = f"Forked by {actor}"
-              link = f"https://github.com/{repository}/network/members"
+              description = f"{actor} forked {repository}"
+              forks = (event.get("repository") or {}).get("forks_count")
+              if isinstance(forks, int):
+                  fields.append({"name": "Forks", "value": f"{forks:,}", "inline": True})
+              link = f"https://github.com/{repository}/forks"
+              timestamp = (event.get("forkee") or {}).get("created_at")
           elif event_name == "repository_dispatch" and event.get("action") == "crowdin-translations-updated":
-              title = "[crowdin-translations] Crowdin translations updated"
+              title = "Crowdin translations updated"
               description = "A translation download completed."
+              color = 0x2E3340
               link = f"https://github.com/{repository}/tree/crowdin-translations"
           elif event_name == "release":
               action = event.get("action")
@@ -150,9 +237,15 @@ jobs:
                   action = "published"
               release = event.get("release") or {}
               summary = compact(release.get("name") or release.get("tag_name"))[:180]
-              title = f"Release {action}: {summary or '(untitled)'}"
-              description = "A GitHub release was published."
-              link = f"https://github.com/{repository}/releases"
+              title = f"{'Pre-release' if action == 'prereleased' else 'Release'} {summary or '(untitled)'}"
+              description = excerpt(release.get("body"), 900)
+              color = 0xD29922 if action == "prereleased" else 0x2EA043
+              assets = [asset for asset in (release.get("assets") or []) if isinstance(asset, dict)]
+              if assets:
+                  fields.append({"name": "Downloads", "value": plural(len(assets), "file"), "inline": True})
+              tag = release.get("tag_name")
+              link = f"https://github.com/{repository}/releases/tag/{urllib.parse.quote(tag)}" if isinstance(tag, str) and tag else f"https://github.com/{repository}/releases"
+              timestamp = release.get("published_at")
           elif event_name == "workflow_dispatch":
               title = "Discord webhook check"
               description = f"Requested by {actor}"
@@ -171,12 +264,25 @@ jobs:
                   or not parsed_link.path.startswith(f"/{repository}/")
               ):
                   link = None
+          author = {"name": actor[:256]}
+          login = sender.get("login")
+          if isinstance(login, str) and re.fullmatch(r"[A-Za-z0-9-]{1,39}(\[bot\])?", login):
+              author["url"] = f"https://github.com/{login}"
+          avatar = sender.get("avatar_url")
+          if isinstance(avatar, str) and avatar.startswith("https://avatars.githubusercontent.com/"):
+              author["icon_url"] = avatar
           embed = {
-              "author": {"name": actor[:256]},
+              "author": author,
               "title": title[:256],
-              "description": description[:4000],
               "color": color,
+              "footer": {"text": repository},
           }
+          if description:
+              embed["description"] = description[:4000]
+          if fields:
+              embed["fields"] = [{"name": field["name"][:256], "value": field["value"][:1024], "inline": field["inline"]} for field in fields[:10]]
+          if isinstance(timestamp, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}T[0-9:.]+(Z|[+-]\d{2}:\d{2})", timestamp):
+              embed["timestamp"] = timestamp
           if link:
               embed["url"] = link
 
