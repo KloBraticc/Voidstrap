@@ -51,11 +51,11 @@ public static partial class RobloxAudioRouting
         }
     }
 
-    public static bool SupportsEqualizer => Voidstrap.Utility.Platform.UsesLinuxHost && LinuxAudioSessions.CanFilter;
+    public static bool SupportsEqualizer => Voidstrap.Utility.Platform.IsLinux && LinuxAudioSessions.CanFilter;
 
     private static string SelectedOutput => App.Settings.Prop.RobloxAudioOutputDevice ?? "";
 
-    private static int SelectedEqualizer => Math.Clamp(App.Settings.Prop.RobloxAudioEqualizer, 0, EqualizerBands.Length - 1);
+    private static int SelectedEqualizer => Voidstrap.Utility.Platform.IsLinux ? Math.Clamp(App.Settings.Prop.RobloxAudioEqualizer, 0, EqualizerBands.Length - 1) : 0;
 
     public static async Task<IReadOnlyList<RobloxAudioOutput>> GetOutputsAsync(CancellationToken token = default)
     {
