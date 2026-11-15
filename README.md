@@ -445,6 +445,25 @@ Windows can create macOS `.dmg` files through WSL 2. Install `genisoimage` in yo
 </details>
 
 <details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-freebsd-dark.svg"><img src="assets/readme/build-freebsd-light.svg" alt="FreeBSD build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
+**You need:** the .NET SDK described above and Bash (Git Bash or WSL on Windows). The first build also needs the [GitHub CLI](https://cli.github.com) signed in with `gh auth login`.
+
+FreeBSD x64 is cross published from Windows. Run this from the repository root:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only freebsd-x64 -NoPause
+```
+
+This creates `PublishedBuilds/FreeBSD/Voidstrap_<version>_freebsd-x64.tar.gz` with .NET included. Extract it on FreeBSD, install the packages listed in its `README.txt`, then run `./Voidstrap`. Voidstrap uses the Rosemary runtime on FreeBSD and needs an X11 session.
+
+The FreeBSD native libraries and .NET runtime packs can only be compiled on FreeBSD. When they are missing or their sources change, the script builds them once in a FreeBSD VM on GitHub Actions in your `voidstrap-freebsd` repository and caches the result in `artifacts/publish/freebsd-kit`. After that, FreeBSD builds run locally in seconds.
+
+To build natively on FreeBSD amd64 instead, install the [FreeBSD .NET SDK](https://github.com/sec/dotnet-core-freebsd-source-build) and `pkg install bash rust cmake git llvm pkgconf xorgproto libX11 libXrandr libXinerama libXcursor libXi libxkbcommon vulkan-loader mesa-libs krb5`, then run `bash build/Packaging/FreeBSD/package.sh "" PublishedBuilds/FreeBSD`. An empty version uses the one in `Directory.Build.props`.
+
+</details>
+
+<details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-android-dark.svg"><img src="assets/readme/build-android-light.svg" alt="Android build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 **You need:**
