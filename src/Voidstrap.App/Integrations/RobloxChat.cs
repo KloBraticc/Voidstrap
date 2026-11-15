@@ -506,7 +506,8 @@ public static class RobloxChat
             ),
             Content = content,
             CreatedUtc = ReadTime(item, "created_at", "createdAt", "sent") ?? DateTimeOffset.UtcNow,
-            Moderated = status.Contains("moderat", StringComparison.OrdinalIgnoreCase),
+            Moderated = content.Length == 0
+                || (status.Contains("moderat", StringComparison.OrdinalIgnoreCase) && !status.StartsWith("not", StringComparison.OrdinalIgnoreCase)),
         };
     }
 
