@@ -569,7 +569,7 @@ public static class LinuxTray
 
     private static async Task<bool> StartAsync(string title, byte[]? icon, int generation)
     {
-        Connection connection = new(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
+        Connection connection = Voidstrap.Utility.LinuxSessionBus.Open(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
         try
         {
             ConnectionInfo info = await connection.ConnectAsync().ConfigureAwait(false);
@@ -757,7 +757,7 @@ public static class LinuxTray
         bool temporary = connection == null;
         if (connection == null)
         {
-            connection = new Connection(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
+            connection = Voidstrap.Utility.LinuxSessionBus.Open(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
             await connection.ConnectAsync().ConfigureAwait(false);
             replaces = 0u;
         }

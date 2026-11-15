@@ -120,7 +120,7 @@ internal static class LinuxBootstrapperSources
 
 		try
 		{
-			using Connection connection = new(LinuxSessionBus.RequireAddress());
+			using Connection connection = Voidstrap.Utility.LinuxSessionBus.Open(LinuxSessionBus.RequireAddress());
 			await connection.ConnectAsync().ConfigureAwait(false);
 			IDocumentsPortal documents = connection.CreateProxy<IDocumentsPortal>(
 				"org.freedesktop.portal.Documents",

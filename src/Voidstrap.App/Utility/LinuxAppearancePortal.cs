@@ -89,7 +89,7 @@ internal static class LinuxAppearancePortal
 
 	private static async Task<Color?> ReadAccentAsync(string address)
 	{
-		using Connection connection = new(address);
+		using Connection connection = Voidstrap.Utility.LinuxSessionBus.Open(address);
 		await connection.ConnectAsync().ConfigureAwait(false);
 		ISettingsPortal settings = connection.CreateProxy<ISettingsPortal>(PortalService, PortalPath);
 		Color? exact = ToColor(AppearanceNamespace, await ReadSettingAsync(settings, AppearanceNamespace).ConfigureAwait(false));
@@ -126,7 +126,7 @@ internal static class LinuxAppearancePortal
 		Connection? connection = null;
 		try
 		{
-			connection = new Connection(address);
+			connection = Voidstrap.Utility.LinuxSessionBus.Open(address);
 			await connection.ConnectAsync().ConfigureAwait(false);
 			ISettingsPortal settings = connection.CreateProxy<ISettingsPortal>(PortalService, PortalPath);
 			IDisposable watch = await settings.WatchSettingChangedAsync(change =>

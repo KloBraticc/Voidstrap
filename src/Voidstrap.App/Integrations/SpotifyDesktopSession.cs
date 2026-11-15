@@ -176,7 +176,7 @@ public static class SpotifyDesktopSession
         {
             if (_bus != null)
                 return _bus;
-            Connection connection = new(address);
+            Connection connection = Voidstrap.Utility.LinuxSessionBus.Open(address);
             try
             {
                 await WithTimeout(connection.ConnectAsync()).ConfigureAwait(false);

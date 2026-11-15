@@ -116,7 +116,7 @@ public static partial class LinuxScreenCast
             return null;
         }
 
-        Connection connection = new(address);
+        Connection connection = Voidstrap.Utility.LinuxSessionBus.Open(address);
         _connection = connection;
         ConnectionInfo info = await connection.ConnectAsync().ConfigureAwait(false);
         string sender = info.LocalName.TrimStart(':').Replace('.', '_');

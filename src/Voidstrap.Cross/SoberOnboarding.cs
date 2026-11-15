@@ -253,7 +253,7 @@ internal static class SoberOnboarding
     {
         foreach (string address in await CandidateAddressesAsync().ConfigureAwait(false))
         {
-            Connection bus = new(address);
+            Connection bus = Voidstrap.Utility.LinuxSessionBus.Open(address);
             try
             {
                 await bus.ConnectAsync().WaitAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
@@ -275,7 +275,7 @@ internal static class SoberOnboarding
         {
             try
             {
-                using Connection session = new(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
+                using Connection session = Voidstrap.Utility.LinuxSessionBus.Open(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
                 await session.ConnectAsync().ConfigureAwait(false);
                 string address = await session
                     .CreateProxy<IAccessibilityBus>("org.a11y.Bus", "/org/a11y/bus")

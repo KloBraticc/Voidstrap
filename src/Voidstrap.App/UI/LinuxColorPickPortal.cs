@@ -54,7 +54,7 @@ internal sealed class LinuxColorPickPortal : IRinScreenColorPicker
 			string? address = Voidstrap.Utility.LinuxSessionBus.Address;
 			if (address == null)
 				return false;
-			using Connection connection = new(address);
+			using Connection connection = Voidstrap.Utility.LinuxSessionBus.Open(address);
 			await connection.ConnectAsync().ConfigureAwait(false);
 			IScreenshotPortal portal = connection.CreateProxy<IScreenshotPortal>(PortalService, PortalPath);
 			uint version = await portal.GetAsync<uint>("version").ConfigureAwait(false);
@@ -69,7 +69,7 @@ internal sealed class LinuxColorPickPortal : IRinScreenColorPicker
 
 	private static async Task<Color?> PickWithPortalAsync()
 	{
-		using Connection connection = new(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
+		using Connection connection = Voidstrap.Utility.LinuxSessionBus.Open(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
 		ConnectionInfo info = await connection.ConnectAsync().ConfigureAwait(false);
 
 		string token = "voidstrap" + Guid.NewGuid().ToString("N");
