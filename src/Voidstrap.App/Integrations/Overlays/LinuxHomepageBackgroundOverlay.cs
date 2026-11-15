@@ -778,7 +778,7 @@ internal sealed class LinuxHomepageBackgroundOverlay : IDisposable
     private int _disposed;
 
     public static bool IsSupported =>
-        Voidstrap.Utility.Platform.IsLinux && LinuxOverlaySurface.IsSupported && LinuxWindowInterop.HasActiveX11Compositor;
+        Voidstrap.Utility.Platform.UsesLinuxHost && LinuxOverlaySurface.IsSupported && LinuxWindowInterop.HasActiveX11Compositor;
 
     public bool IsDisposed => Volatile.Read(ref _disposed) != 0;
     public bool IsSafeToRelease => IsDisposed && _renderer == null && _trackerLease == null;

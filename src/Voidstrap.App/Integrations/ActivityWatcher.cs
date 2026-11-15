@@ -803,11 +803,11 @@ public partial class ActivityWatcher : IDisposable
     private static string[] GetClientLogDirectories()
     {
         List<string> candidates = [];
-        if (OperatingSystem.IsLinux() && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
         {
             candidates.AddRange(Voidstrap.Platform.Linux.LinuxRosemary.LogDirectories());
         }
-        else if (OperatingSystem.IsLinux())
+        else if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             string soberData = Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober");
@@ -828,7 +828,7 @@ public partial class ActivityWatcher : IDisposable
 
     private static bool IsClientLogFile(FileInfo file)
     {
-        return OperatingSystem.IsLinux() && !Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
+        return Voidstrap.Utility.Platform.UsesLinuxHost && !Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
             ? file.Extension.Equals(".log", StringComparison.OrdinalIgnoreCase)
                 || file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
             : file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
@@ -844,7 +844,7 @@ public partial class ActivityWatcher : IDisposable
             App.Logger.WriteLine("ActivityWatcher::Start", "The given log file is gone, searching for the current one");
             LogLocation = null!;
         }
-        if (string.IsNullOrEmpty(LogLocation) && OperatingSystem.IsLinux())
+        if (string.IsNullOrEmpty(LogLocation) && Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             logFileInfo = await WaitForLinuxLogAsync(token);
             if (logFileInfo == null)
@@ -1029,7 +1029,7 @@ public partial class ActivityWatcher : IDisposable
                     continue;
                 }
                 if (
-                    OperatingSystem.IsLinux()
+                    Voidstrap.Utility.Platform.UsesLinuxHost
                     && NewerLinuxLog(File.GetLastWriteTimeUtc(LogLocation)) is FileInfo replacement
                     && NativeLogTail.Open(replacement.FullName, LogMarkers) is NativeLogTail reopened
                 )
@@ -1141,7 +1141,7 @@ public partial class ActivityWatcher : IDisposable
 
     private FileInfo? NewerLinuxLog(DateTime currentWriteUtc)
     {
-        if (!OperatingSystem.IsLinux() || Environment.TickCount64 < _nextLogScan)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || Environment.TickCount64 < _nextLogScan)
         {
             return null;
         }

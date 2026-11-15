@@ -28,9 +28,9 @@ public static class PlatformFeatureVisibility
     public static Visibility DesktopBackdrop { get; } =
         Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsMacOS ? Visibility.Visible : Visibility.Collapsed;
 
-    public static Visibility LinuxIntegration { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
+    public static Visibility LinuxIntegration { get; } = Voidstrap.Utility.Platform.UsesLinuxHost ? Visibility.Visible : Visibility.Collapsed;
 
-    public static Visibility NotLinux { get; } = Voidstrap.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
+    public static Visibility NotLinux { get; } = Voidstrap.Utility.Platform.UsesLinuxHost ? Visibility.Collapsed : Visibility.Visible;
 
     public static Visibility NotMacOS { get; } = Voidstrap.Utility.Platform.IsMacOS ? Visibility.Collapsed : Visibility.Visible;
 

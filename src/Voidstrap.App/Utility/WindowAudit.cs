@@ -58,7 +58,7 @@ internal static class WindowAudit
         }
         Window? renderKeeper = null;
 #if CROSSPLAT
-		if (Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.Platform.IsMacOS)
+		if (Voidstrap.Utility.Platform.UsesLinuxHost || Voidstrap.Utility.Platform.IsMacOS)
 		{
 			try
 			{
@@ -393,7 +393,7 @@ internal static class WindowAudit
             }
 
             window.Prewarm();
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 PumpUntil(() => window.IsVisible && window.Left <= -30000, 3000);
 
             window.ShowNotification("Game join icon audit\nDallas • 1 player", icon, 3);
@@ -414,7 +414,7 @@ internal static class WindowAudit
 
             bool nativePixels = false;
             bool nativeCaptureAvailable = false;
-            if (prepared && Voidstrap.Utility.Platform.IsLinux)
+            if (prepared && Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 Pump(300);
                 byte[] capture = new byte[4 * 1024 * 1024];
@@ -513,7 +513,7 @@ internal static class WindowAudit
                             && imageSurface.ActualHeight >= 39
                             && ReferenceEquals(imageSurface.Source, decoded);
                     },
-                    Voidstrap.Utility.Platform.IsLinux ? 3500 : QueuedNotificationWait()
+                    Voidstrap.Utility.Platform.UsesLinuxHost ? 3500 : QueuedNotificationWait()
                 );
             }
 
@@ -565,7 +565,7 @@ internal static class WindowAudit
 
     private static void AuditLinuxWindowModes()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Wpf.Ui.Controls.UiWindow? probe = null;
@@ -631,7 +631,7 @@ internal static class WindowAudit
 
     private static void AuditLinuxHomepageBackground()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         const int width = 15;
@@ -1271,7 +1271,7 @@ internal static class WindowAudit
 
     private static void AuditLibraryLoading()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         try
@@ -2068,7 +2068,7 @@ internal static class WindowAudit
 #if CROSSPLAT
 	private static void AuditTabPillPresentation()
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.UsesLinuxHost)
 			return;
 
 		Window? probe = null;
@@ -2291,7 +2291,7 @@ internal static class WindowAudit
 
 	private static void AuditExpanderReveal()
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.UsesLinuxHost)
 			return;
 
 		MeasureReveal(
@@ -2507,7 +2507,7 @@ internal static class WindowAudit
 
     private static void AuditThemeEditorWindow()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         string? theme = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_THEME_EDITOR");
@@ -2636,7 +2636,7 @@ internal static class WindowAudit
 
     private static void AuditAnimatedGif()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         string? gif = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_GIF");
@@ -2701,7 +2701,7 @@ internal static class WindowAudit
 
     private static void AuditBootstrapperIcons()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Voidstrap.Enums.BootstrapperIcon original = App.Settings.Prop.BootstrapperIcon;
@@ -2837,7 +2837,7 @@ internal static class WindowAudit
 
     private static void AuditHtmlThemePanel()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         string? probe = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_HTML_PANEL");
@@ -2918,7 +2918,7 @@ internal static class WindowAudit
 
     private static void AuditThemeDeletion()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         string name = "VoidstrapDeleteProbe";
@@ -3102,7 +3102,7 @@ internal static class WindowAudit
 
     private static void AuditThemeCaseParity()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         string name = "VoidstrapCaseProbe";
@@ -3234,7 +3234,7 @@ internal static class WindowAudit
 
     private static void AuditTextOverlaps()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         int windows = 0;
@@ -3302,7 +3302,7 @@ internal static class WindowAudit
 
     private static void AuditMessageBoxButtons()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -3366,7 +3366,7 @@ internal static class WindowAudit
 
     private static void AuditMaximizedWindow()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -3417,7 +3417,7 @@ internal static class WindowAudit
 
     private static void AuditEditorNativeCalls()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -3506,7 +3506,7 @@ internal static class WindowAudit
 
     private static void AuditWinFormsCompat()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         try
@@ -3543,7 +3543,7 @@ internal static class WindowAudit
 
     private static void AuditGradientOpacity()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         try
@@ -3599,7 +3599,7 @@ internal static class WindowAudit
 
     private static void AuditExpanderChevron()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -3693,7 +3693,7 @@ internal static class WindowAudit
 
     private static void AuditShadows()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -3754,7 +3754,7 @@ internal static class WindowAudit
 
     private static void AuditDropdownLifecycle()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -3966,7 +3966,7 @@ internal static class WindowAudit
 
     private static void AuditDropdownInteraction()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -4311,7 +4311,7 @@ internal static class WindowAudit
 
     private static void AuditLinuxOverlays()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow? crosshair = null;
@@ -4621,7 +4621,7 @@ internal static class WindowAudit
 
     private static void AuditLinuxHyperlinks()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -4959,7 +4959,7 @@ internal static class WindowAudit
 
     private static void AuditBootstrapperStyles()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Voidstrap.Enums.BootstrapperStyle previous = App.Settings.Prop.BootstrapperStyle;
@@ -5407,7 +5407,7 @@ internal static class WindowAudit
 
     private static void AuditLinuxGlassBootstrapper()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? glass = null;
@@ -5572,7 +5572,7 @@ internal static class WindowAudit
 
     private static void AuditPopupSurfaces()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -5891,7 +5891,7 @@ internal static class WindowAudit
 
     private static void AuditDropdownFallback()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         const string nativePopupSwitch = "PROGPU_WPF_DISABLE_NATIVE_POPUPS";
@@ -5983,7 +5983,7 @@ internal static class WindowAudit
 
     private static void AuditDropdownAcrossWindows()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? owner = null;
@@ -6391,7 +6391,7 @@ internal static class WindowAudit
 
     private static void AuditClipboard()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Window? probe = null;
@@ -6643,7 +6643,7 @@ internal static class WindowAudit
 
     private static void AuditScrolling()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return;
         }
@@ -6781,7 +6781,7 @@ internal static class WindowAudit
 
     private static void AuditLinuxAccountStorage()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         string directory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "voidstrap-account-audit-" + Guid.NewGuid().ToString("N"));
@@ -6972,7 +6972,7 @@ internal static class WindowAudit
 
     private static bool RendersImagePixels(System.Windows.Media.Imaging.BitmapSource image)
     {
-        if (!Platform.IsLinux)
+        if (!Platform.UsesLinuxHost)
             return image.PixelWidth > 0 && image.PixelHeight > 0;
         Window? probe = null;
         try
@@ -7161,7 +7161,7 @@ internal static class WindowAudit
 
     private static void AuditTextFlowScenarios()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return;
         }
@@ -7328,7 +7328,7 @@ internal static class WindowAudit
         Pump();
         window.UpdateLayout();
         if (
-            Voidstrap.Utility.Platform.IsLinux
+            Voidstrap.Utility.Platform.UsesLinuxHost
             && !string.Equals(window.FontFamily.Source, Voidstrap.UI.AppFont.CurrentFontFamily.Source, StringComparison.OrdinalIgnoreCase)
         )
         {
@@ -7340,12 +7340,12 @@ internal static class WindowAudit
             );
         }
         RequireCompactDescendants(window);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             AuditWindowsCaptionControls(window);
             ReportTextOverlaps(window, window.GetType().Name);
         }
-        if (Voidstrap.Utility.Platform.IsLinux && window is Voidstrap.UI.Elements.Installer.MainWindow installer)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && window is Voidstrap.UI.Elements.Installer.MainWindow installer)
         {
             AuditInstallerLayout(installer);
         }
@@ -7353,7 +7353,7 @@ internal static class WindowAudit
         {
             AuditAboutHeaderText(about);
         }
-        if (Voidstrap.Utility.Platform.IsLinux && window is Voidstrap.UI.Elements.Settings.MainWindow settings)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && window is Voidstrap.UI.Elements.Settings.MainWindow settings)
         {
             AuditLinuxMainWindowSurface(settings);
             AuditRestartNotificationInput(settings);

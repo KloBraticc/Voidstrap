@@ -26,7 +26,7 @@ internal static class VoidEditLauncher
     }
 
     private static string AssetName =>
-        OperatingSystem.IsWindows() ? "voidedit-windows-x64.exe" : OperatingSystem.IsLinux() ? "voidedit-linux-x64" : "voidedit-macos-arm64";
+        OperatingSystem.IsWindows() ? "voidedit-windows-x64.exe" : Voidstrap.Utility.Platform.UsesLinuxHost ? "voidedit-linux-x64" : "voidedit-macos-arm64";
 
     private static string ExecutablePath => Path.Combine(Paths.Extensions, "VoidEdit", AssetName);
 

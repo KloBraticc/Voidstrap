@@ -143,7 +143,7 @@ public static partial class LinuxInstallationUpdates
 		CancellationToken cancellationToken = default)
 	{
 		ArgumentNullException.ThrowIfNull(processes);
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			throw new PlatformNotSupportedException("Linux installation detection requires Linux");
 
 		cancellationToken.ThrowIfCancellationRequested();

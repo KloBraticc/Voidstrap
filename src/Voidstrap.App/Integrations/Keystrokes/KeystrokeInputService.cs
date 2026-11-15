@@ -81,7 +81,7 @@ public static partial class KeystrokeInputService
             {
                 StartWindowsHooks();
             }
-            else if (Voidstrap.Utility.Platform.IsLinux)
+            else if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 StartLinuxMonitoring();
             }
@@ -119,7 +119,7 @@ public static partial class KeystrokeInputService
             {
                 StopWindowsHooks();
             }
-            else if (Voidstrap.Utility.Platform.IsLinux)
+            else if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 StopLinuxMonitoring();
             }

@@ -107,7 +107,7 @@ internal static partial class LinuxStartup
         {
             TextFontInstaller.Install();
         }
-        if (!OperatingSystem.IsLinux())
+        if (!Platform.UsesLinuxHost)
         {
             return;
         }
@@ -1235,7 +1235,7 @@ internal static partial class LinuxStartup
 
     public static void BeginRendererProbe()
     {
-        if (!OperatingSystem.IsLinux() || _backgroundHelper)
+        if (!Platform.UsesLinuxHost || _backgroundHelper)
         {
             return;
         }
@@ -1260,7 +1260,7 @@ internal static partial class LinuxStartup
 
     public static bool MarkRendererHealthy(bool requireRenderer)
     {
-        if (!OperatingSystem.IsLinux() || Volatile.Read(ref _probeStarted) == 0)
+        if (!Platform.UsesLinuxHost || Volatile.Read(ref _probeStarted) == 0)
         {
             return true;
         }

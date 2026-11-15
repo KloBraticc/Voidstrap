@@ -33,7 +33,7 @@ internal static class LinuxWindowSize
 
     public static void Apply(string title, int width, int height)
     {
-        if (!OperatingSystem.IsLinux() || string.IsNullOrWhiteSpace(title) || width <= 0 || height <= 0)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || string.IsNullOrWhiteSpace(title) || width <= 0 || height <= 0)
         {
             return;
         }
@@ -63,7 +63,7 @@ internal static class LinuxWindowSize
 
     public static bool MoveTopRight(string title, int margin)
     {
-        if (!OperatingSystem.IsLinux() || string.IsNullOrWhiteSpace(title))
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || string.IsNullOrWhiteSpace(title))
         {
             return false;
         }
@@ -101,7 +101,7 @@ internal static class LinuxWindowSize
     {
         width = 0;
         height = 0;
-        if (!OperatingSystem.IsLinux() || string.IsNullOrWhiteSpace(title))
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || string.IsNullOrWhiteSpace(title))
         {
             return false;
         }

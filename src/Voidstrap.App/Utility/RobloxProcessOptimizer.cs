@@ -534,7 +534,7 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
         {
             return null;
         }
-        return Math.Min(limit, Platform.IsLinux ? Voidstrap.Core.CpuTopology.OnlineCpus.Count : ProcessorCount);
+        return Math.Min(limit, Platform.UsesLinuxHost ? Voidstrap.Core.CpuTopology.OnlineCpus.Count : ProcessorCount);
     }
 
     private static bool IsAutomaticCpuLimit(string? selection)

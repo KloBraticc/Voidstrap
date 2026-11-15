@@ -41,7 +41,7 @@ namespace Voidstrap.Integrations
 
             if (message.Contains(KnownLibraryDefect))
             {
-                if (Voidstrap.Utility.Platform.IsLinux)
+                if (Voidstrap.Utility.Platform.UsesLinuxHost)
                     Volatile.Write(ref _suppressedDefectLines, 2);
                 return;
             }
@@ -52,7 +52,7 @@ namespace Voidstrap.Integrations
                     return;
             }
 
-            if (Voidstrap.Utility.Platform.IsLinux && level >= LogLevel.Warning)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && level >= LogLevel.Warning)
             {
                 while (true)
                 {

@@ -39,7 +39,7 @@ public static class LinuxRuntimePreflight
 
     public static bool Verify()
     {
-        if (!OperatingSystem.IsLinux())
+        if (!Platform.UsesLinuxHost)
             return true;
 
         List<(string Library, string Purpose)> missing = new();

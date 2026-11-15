@@ -22,7 +22,7 @@ internal static class PortableOverlay
 
     private static readonly ConditionalWeakTable<Window, State> States = new();
 
-    public static bool Active => Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.Platform.IsMacOS;
+    public static bool Active => Voidstrap.Utility.Platform.UsesLinuxHost || Voidstrap.Utility.Platform.IsMacOS;
 
     public static DpiScale Scale(Visual visual) => Active ? new DpiScale(1, 1) : VisualTreeHelper.GetDpi(visual);
 
@@ -43,7 +43,7 @@ internal static class PortableOverlay
 
     public static nint Handle(Window window)
     {
-        nint handle = Voidstrap.Utility.Platform.IsLinux ? LinuxWindowMode.ResolveExactNativeWindow(window)
+        nint handle = Voidstrap.Utility.Platform.UsesLinuxHost ? LinuxWindowMode.ResolveExactNativeWindow(window)
             : Voidstrap.Utility.Platform.IsMacOS ? MacWindowMode.ResolveNativeWindow(window) : 0;
         State state = States.GetOrCreateValue(window);
         if (handle != state.Handle)
@@ -54,7 +54,7 @@ internal static class PortableOverlay
             if (handle != 0)
             {
                 OverlayDiagnostics.RegisterOverlayHandle(handle);
-                if (Voidstrap.Utility.Platform.IsLinux)
+                if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 {
                     LinuxWindowInterop.TryPrepareOverlayWindow(handle);
                     LinuxWindowInterop.TryResetInputShape(handle);
@@ -86,7 +86,7 @@ internal static class PortableOverlay
         State state = States.GetOrCreateValue(window);
         var bounds = ((int)Math.Round(left), (int)Math.Round(top), (int)Math.Ceiling(width), (int)Math.Ceiling(height));
         bool moved = shown || state.Bounds != bounds;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             if (moved && LinuxWindowInterop.TryMoveResize(handle, bounds.Item1, bounds.Item2, bounds.Item3, bounds.Item4))
                 state.Bounds = bounds;
@@ -132,7 +132,7 @@ internal static class PortableOverlay
         nint handle = Handle(window);
         window.Activate();
         Raise(window);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             LinuxWindowInterop.TrySetAcceptsKeyboard(handle, true);
             LinuxWindowInterop.TryFocusWindow(handle);
@@ -145,7 +145,7 @@ internal static class PortableOverlay
 
     public static void ReturnFocus()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             LinuxWindowInterop.TryActivateWindow(RobloxWindowTracker.Current.Hwnd);
             LinuxWindowInterop.TryFocusWindow(RobloxWindowTracker.Current.Hwnd);
@@ -197,7 +197,7 @@ internal static class PortableOverlay
         if (!window.IsVisible)
             return;
         nint handle = Handle(window);
-        if (Voidstrap.Utility.Platform.IsLinux && window.IsVisible)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && window.IsVisible)
             LinuxWindowInterop.TryShowOverlayWindow(handle);
         else if (Voidstrap.Utility.Platform.IsMacOS)
         {
@@ -211,7 +211,7 @@ internal static class PortableOverlay
         if (!States.TryGetValue(window, out State? state))
             return;
         OverlayDiagnostics.UnregisterOverlayHandle(state.Handle);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             LinuxWindowInterop.ForgetPreparedOverlayWindow(state.Handle);
         States.Remove(window);
     }

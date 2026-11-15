@@ -137,7 +137,7 @@ namespace Voidstrap.Integrations.Overlays
             {
                 Interval = TimeSpan.FromMilliseconds(
                     Voidstrap.Utility.Platform.IsWindows ? 1000
-                    : Voidstrap.Utility.Platform.IsLinux ? 250
+                    : Voidstrap.Utility.Platform.UsesLinuxHost ? 250
                     : 500
                 ),
             };
@@ -458,7 +458,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private static RobloxWindowRect Measure()
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 return MeasureLinux();
             if (Voidstrap.Utility.Platform.IsMacOS)
                 return MeasureMac();
@@ -668,7 +668,7 @@ namespace Voidstrap.Integrations.Overlays
                 return false;
             if (Voidstrap.Utility.Platform.IsMacOS)
                 return Voidstrap.Platform.MacOS.MacOSOverlayWindow.FrontmostWindowOwner() == processId;
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 return Voidstrap.Platform.Linux.LinuxWindowInterop.IsRuntimeWindowActive();
             IntPtr foreground = GetForegroundWindow();
             if (foreground == IntPtr.Zero)
@@ -915,7 +915,7 @@ namespace Voidstrap.Integrations.Overlays
                 _window.Topmost = true;
                 Voidstrap.UI.PortableOverlay.Prepare(_window);
             }
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 _window.WindowStartupLocation = WindowStartupLocation.Manual;
                 _window.Left = LinuxParkedPosition;
@@ -1043,14 +1043,14 @@ namespace Voidstrap.Integrations.Overlays
                 return;
             }
 
-            if (_hwnd == IntPtr.Zero && !Voidstrap.Utility.Platform.IsLinux)
+            if (_hwnd == IntPtr.Zero && !Voidstrap.Utility.Platform.UsesLinuxHost)
                 return;
 
             try
             {
                 if (!rect.Valid || (_hideWhenUnfocused && !rect.Foreground))
                 {
-                    if (Voidstrap.Utility.Platform.IsLinux)
+                    if (Voidstrap.Utility.Platform.UsesLinuxHost)
                     {
                         if (!rect.Valid && TryApplyLinuxCenterFallback())
                             return;
@@ -1085,8 +1085,8 @@ namespace Voidstrap.Integrations.Overlays
                         _window.DesiredSize.Height,
                         _window.MinHeight
                     );
-                    double scaleX = Voidstrap.Utility.Platform.IsLinux ? 1d : dpi.DpiScaleX;
-                    double scaleY = Voidstrap.Utility.Platform.IsLinux ? 1d : dpi.DpiScaleY;
+                    double scaleX = Voidstrap.Utility.Platform.UsesLinuxHost ? 1d : dpi.DpiScaleX;
+                    double scaleY = Voidstrap.Utility.Platform.UsesLinuxHost ? 1d : dpi.DpiScaleY;
                     width = Math.Max(1, (int)Math.Ceiling(logicalWidth * scaleX));
                     height = Math.Max(1, (int)Math.Ceiling(logicalHeight * scaleY));
                     int horizontalMargin = Math.Max(1, (int)Math.Round(12 * scaleX));
@@ -1117,7 +1117,7 @@ namespace Voidstrap.Integrations.Overlays
                         top = rect.Top + verticalMargin;
                     }
                 }
-                if (Voidstrap.Utility.Platform.IsLinux)
+                if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 {
                     ApplyLinuxGeometry(left, top, Math.Max(1, width), Math.Max(1, height));
                     return;

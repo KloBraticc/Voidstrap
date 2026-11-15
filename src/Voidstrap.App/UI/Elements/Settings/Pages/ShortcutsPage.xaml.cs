@@ -35,7 +35,7 @@ public partial class ShortcutsPage : UiPage
     {
         base.DataContext = new ShortcutsViewModel();
         InitializeComponent();
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             StartMenuOption.Header = Voidstrap.Resources.Strings.Ui_Shortcuts_ApplicationsMenu;
         }

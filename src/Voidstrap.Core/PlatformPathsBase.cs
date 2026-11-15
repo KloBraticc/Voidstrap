@@ -27,7 +27,7 @@ public abstract class PlatformPathsBase : IPlatformPaths
 			{
 				bool existed = Directory.Exists(path);
 				Directory.CreateDirectory(path);
-				if (OperatingSystem.IsLinux() && !existed)
+				if (HostSystem.UsesLinuxHost && !existed)
 				{
 					TrySetPrivateUnixMode(path);
 				}

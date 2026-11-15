@@ -77,7 +77,7 @@ internal static class CornerStyle
                 continue;
             try
             {
-                if (Voidstrap.Utility.Platform.IsLinux)
+                if (Voidstrap.Utility.Platform.UsesLinuxHost)
                     RoundedWindowChrome.Refresh(uiWindow);
                 else
                     uiWindow.RefreshCornerStyle();

@@ -230,7 +230,7 @@ public sealed partial class StudioRichPresence : IDisposable
         Process[] processes;
         try
         {
-            processes = Voidstrap.Utility.Platform.IsLinux
+            processes = Voidstrap.Utility.Platform.UsesLinuxHost
                 ? Process
                     .GetProcesses()
                     .Where(static candidate => Voidstrap.Platform.Linux.StudioProcessNames.IsStudio(SafeProcessName(candidate)))
@@ -265,7 +265,7 @@ public sealed partial class StudioRichPresence : IDisposable
         {
             IEnumerable<string> directories =
                 Voidstrap.Utility.Platform.IsMacOS ? [Paths.RobloxLogs]
-                : Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Utility.VinegarPaths.LogDirectories
+                : Voidstrap.Utility.Platform.UsesLinuxHost ? Voidstrap.Utility.VinegarPaths.LogDirectories
                 : [Path.Combine(Paths.LocalAppData, "Roblox", "logs")];
             FileInfo? latest = directories
                 .Where(Directory.Exists)
@@ -328,7 +328,7 @@ public sealed partial class StudioRichPresence : IDisposable
         {
             return "";
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return Voidstrap.Platform.Linux.LinuxWindowInterop.FindStudioWindowTitle();
         }

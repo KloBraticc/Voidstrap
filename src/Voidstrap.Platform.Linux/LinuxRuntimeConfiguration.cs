@@ -1777,7 +1777,7 @@ public sealed partial class LinuxRuntimeConfiguration
 
 	private static bool IsRegularFile(FileInfo file)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			return (file.Attributes & FileAttributes.Device) == 0;
 		try
 		{

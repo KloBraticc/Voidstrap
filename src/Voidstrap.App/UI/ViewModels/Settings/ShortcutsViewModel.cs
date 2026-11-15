@@ -192,7 +192,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
     private static string ShortcutSuffix => Voidstrap.Utility.Shortcut.Suffix;
 
     private static string ApplicationsFolder =>
-        Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Utility.LinuxDesktopEntry.ApplicationsFolder
+        Voidstrap.Utility.Platform.UsesLinuxHost ? Voidstrap.Utility.LinuxDesktopEntry.ApplicationsFolder
         : Voidstrap.Utility.Platform.IsMacOS
             ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications")
         : Paths.WindowsStartMenu;

@@ -75,7 +75,7 @@ public static unsafe partial class LinuxWindowShadow
 
 	public static void Track(nint window, int cornerRadius, double scale, bool suppressed, Action<string>? log = null, bool unmanaged = false)
 	{
-		if (!OperatingSystem.IsLinux() || window == 0 || _disabled)
+		if (!HostSystem.UsesLinuxHost || window == 0 || _disabled)
 			return;
 		if (log != null)
 			_log = log;

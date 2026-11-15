@@ -12,10 +12,10 @@ namespace Voidstrap.Integrations.Overlays
 
         private static string ResolveFilePath()
         {
-            if (OperatingSystem.IsLinux() && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
                 return Path.Combine(Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot, "GlobalBasicSettings_13.xml");
 
-            if (OperatingSystem.IsLinux())
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 string home = Environment.GetEnvironmentVariable("HOME")
                     ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);

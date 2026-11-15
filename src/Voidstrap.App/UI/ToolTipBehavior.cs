@@ -51,7 +51,7 @@ internal static partial class ToolTipBehavior
         toolTip.IsHitTestVisible = false;
         if (OperatingSystem.IsWindows())
             MakeClickThrough(toolTip);
-        else if (OperatingSystem.IsLinux() && !TryMakeLinuxClickThrough(toolTip))
+        else if (Voidstrap.Utility.Platform.UsesLinuxHost && !TryMakeLinuxClickThrough(toolTip))
             toolTip.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, () => RetryLinuxClickThrough(toolTip));
     }
 

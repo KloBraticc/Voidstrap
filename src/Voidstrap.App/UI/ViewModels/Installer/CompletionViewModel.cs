@@ -168,10 +168,10 @@ public class CompletionViewModel : ObservableObject, IDisposable
             System.Diagnostics.ProcessStartInfo startInfo = new()
             {
                 FileName = executable,
-                UseShellExecute = !Voidstrap.Utility.Platform.IsLinux,
+                UseShellExecute = !Voidstrap.Utility.Platform.UsesLinuxHost,
                 WorkingDirectory = System.IO.Path.GetDirectoryName(executable) ?? ""
             };
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 string? setsid = new Voidstrap.Core.SystemProcessService().FindExecutable("setsid");
                 if (!string.IsNullOrWhiteSpace(setsid))

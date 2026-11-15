@@ -27,7 +27,7 @@ internal static class LinuxInterfaceScale
 
     public static void Install()
     {
-        if (!OperatingSystem.IsLinux() || _transform is not null)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || _transform is not null)
             return;
 
         double factor = Resolve(out string source);

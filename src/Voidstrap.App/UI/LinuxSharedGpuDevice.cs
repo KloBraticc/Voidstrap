@@ -78,7 +78,7 @@ public static class LinuxSharedGpuDevice
     public static void Install()
     {
 #if CROSSPLAT
-		if (!OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS())
+		if (!Voidstrap.Utility.Platform.UsesLinuxHost && !OperatingSystem.IsMacOS())
 			return;
 
 		_shareDevice =
@@ -139,7 +139,7 @@ public static class LinuxSharedGpuDevice
 	)
 	{
 		if (
-			OperatingSystem.IsLinux()
+			Voidstrap.Utility.Platform.UsesLinuxHost
 			&& Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode
 			&& window is System.Windows.Window wpf
 			&& !RoundedWindowChrome.IsOverlaySurface(wpf)
@@ -168,7 +168,7 @@ public static class LinuxSharedGpuDevice
 			System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window),
 			window
 		);
-		if (OperatingSystem.IsLinux())
+		if (Voidstrap.Utility.Platform.UsesLinuxHost)
 			ApplyCompositorOptions(options);
 		if (_shareDevice)
 		{
@@ -185,7 +185,7 @@ public static class LinuxSharedGpuDevice
 		}
 
 		System.Windows.Media.ProGPU.ProGpuWpfWindowHost host = WithOwnImageContext(new(options));
-		if (OperatingSystem.IsLinux())
+		if (Voidstrap.Utility.Platform.UsesLinuxHost)
 			LinuxWindowReveal.Prepare(window, host);
 		return host;
 	}

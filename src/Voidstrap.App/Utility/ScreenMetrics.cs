@@ -10,7 +10,7 @@ namespace Voidstrap.Utility
 
         public static (double Width, double Height) GetPrimary()
         {
-            if (Platform.IsLinux)
+            if (Platform.UsesLinuxHost)
             {
                 Voidstrap.Platform.Linux.LinuxDisplayInfo info = Voidstrap.Platform.Linux.LinuxDisplayMetrics.Current;
                 if (info.Bounds.Width >= MinimumUsableWidth && info.Bounds.Height >= MinimumUsableHeight)
@@ -28,7 +28,7 @@ namespace Voidstrap.Utility
         {
             get
             {
-                if (Platform.IsLinux)
+                if (Platform.UsesLinuxHost)
                 {
                     Voidstrap.Platform.Linux.LinuxDisplayInfo info = Voidstrap.Platform.Linux.LinuxDisplayMetrics.Current;
                     if (info.WorkArea.Width >= MinimumUsableWidth && info.WorkArea.Height >= MinimumUsableHeight)

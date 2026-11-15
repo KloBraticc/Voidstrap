@@ -18,7 +18,7 @@ internal static class RobloxProcesses
             all.ForEach(process => process.Dispose());
             return [];
         }
-        IEnumerable<string> names = Platform.IsLinux ? SoberNames.Append(Platform.RobloxPlayerProcessName) : [Platform.RobloxPlayerProcessName];
+        IEnumerable<string> names = Platform.UsesLinuxHost ? SoberNames.Append(Platform.RobloxPlayerProcessName) : [Platform.RobloxPlayerProcessName];
         return names.SelectMany(Process.GetProcessesByName).ToList();
     }
 

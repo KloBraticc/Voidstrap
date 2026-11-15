@@ -52,7 +52,7 @@ public static class KeystrokeAudioService
                     App.Logger?.WriteLine("KeystrokeAudioService", "Audio player initialization failed: " + ex.Message);
                 }
             }
-            else if (Voidstrap.Utility.Platform.IsLinux)
+            else if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 _linuxPlayerExecutable = ResolveLinuxPlayer();
                 CacheLinuxWavFiles();
@@ -120,7 +120,7 @@ public static class KeystrokeAudioService
                 }
             }
         }
-        else if (Voidstrap.Utility.Platform.IsLinux)
+        else if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             PlayLinux(packName, customPath);
         }

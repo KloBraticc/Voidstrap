@@ -75,7 +75,7 @@ fn sample_minified(uv: vec2<f32>, dx: vec2<f32>, dy: vec2<f32>, taps: vec2<u32>)
 
     public static void Install()
     {
-        if (_installed || !OperatingSystem.IsLinux())
+        if (_installed || !Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         _installed = true;

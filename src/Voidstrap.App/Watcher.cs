@@ -254,7 +254,7 @@ public partial class Watcher : IDisposable
         try
         {
             AppSettings? settings = null;
-            if (!Voidstrap.Utility.Platform.IsLinux || App.Settings.HasFileOnDiskChanged())
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost || App.Settings.HasFileOnDiskChanged())
             {
                 settings = JsonFile.Deserialize<AppSettings>(App.Settings.FileLocation, JsonOptions.Tolerant, MaximumSettingsBytes);
                 if (settings == null)
@@ -372,7 +372,7 @@ public partial class Watcher : IDisposable
         {
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             UpdateLinuxResourceOptimizer();
             return;
@@ -484,7 +484,7 @@ public partial class Watcher : IDisposable
         if (ActivityWatcher != null)
         {
             ActivityWatcher.OnAppClose -= OnActivityAppClose;
-            if (!Voidstrap.Utility.Platform.IsLinux && !_overlayGameStateEnabled)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost && !_overlayGameStateEnabled)
             {
                 ActivityWatcher.OnGameJoin -= OnRuntimeGameJoin;
                 ActivityWatcher.OnGameLeave -= OnRuntimeGameLeave;
@@ -510,7 +510,7 @@ public partial class Watcher : IDisposable
             || App.Settings.Prop.Crosshair
             || (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.ClassicTopBarEnabled)
             || Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
-            || (!Voidstrap.Utility.Platform.IsLinux && Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled);
+            || (!Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled);
     }
 
     private void ReconcileOverlayGameState()
@@ -532,7 +532,7 @@ public partial class Watcher : IDisposable
 
     private void SynchronizeLinuxGameState()
     {
-        if (Voidstrap.Utility.Platform.IsLinux && ActivityWatcher != null)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && ActivityWatcher != null)
             Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(
                 ActivityWatcher.InGame || ActivityWatcher.IsTeleporting || ActivityWatcher.Data.PlaceId != 0
             );
@@ -563,7 +563,7 @@ public partial class Watcher : IDisposable
             RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
         RunRuntimeAction(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.OnGameJoin, "FullscreenJoin");
         RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameJoin, "AntiAliasingJoin");
@@ -596,7 +596,7 @@ public partial class Watcher : IDisposable
             }
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && !teleporting)
             RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
         if (!teleporting)
         {
@@ -692,7 +692,7 @@ public partial class Watcher : IDisposable
 
     public void KillRobloxProcess()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             try
             {
@@ -1232,7 +1232,7 @@ public partial class Watcher : IDisposable
 
     private void StartWindowManipulation()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             if (
                 ActivityWatcher != null

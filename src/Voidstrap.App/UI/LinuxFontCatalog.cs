@@ -22,7 +22,7 @@ public static class LinuxFontCatalog
     public static void Install()
     {
 #if CROSSPLAT
-		if (!OperatingSystem.IsLinux())
+		if (!Voidstrap.Utility.Platform.UsesLinuxHost)
 			return;
 
 		Type catalog = typeof(ProGPU.Text.FontApi);

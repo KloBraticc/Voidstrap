@@ -131,7 +131,7 @@ namespace Voidstrap.Integrations.Overlays
                 return false;
             if (Voidstrap.Utility.Platform.IsMacOS)
                 return Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsWindow(handle);
-            return Voidstrap.Utility.Platform.IsLinux
+            return Voidstrap.Utility.Platform.UsesLinuxHost
                 ? Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle)
                     || Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle)
                 : IsWindow(handle);
@@ -145,7 +145,7 @@ namespace Voidstrap.Integrations.Overlays
                     Voidstrap.Platform.MacOS.MacOSOverlayWindow.ShowWithoutActivating(handle);
                 return;
             }
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 if (Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle))
                     Voidstrap.Platform.Linux.LinuxWindowInterop.TryRaiseWindow(handle);
@@ -163,7 +163,7 @@ namespace Voidstrap.Integrations.Overlays
             foreach (IntPtr overlay in Volatile.Read(ref _overlayHandles))
                 if (
                     overlay == handle
-                    || Voidstrap.Utility.Platform.IsLinux
+                    || Voidstrap.Utility.Platform.UsesLinuxHost
                         && Voidstrap.Platform.Linux.LinuxWindowInterop.IsSameOrDescendantWindow(handle, overlay)
                 )
                     return true;
@@ -211,7 +211,7 @@ namespace Voidstrap.Integrations.Overlays
             AppendValue(sb, "Worker", OnOff(OverlayHub.WorkerRunning));
             AppendValue(sb, "Compositor", OnOff(OverlayHub.CompositorLive));
             AppendValue(sb, "CompositeCrosshair", OnOff(OverlayHub.CompositorCrosshairActive));
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 AppendValue(sb, "X11", OnOff(Voidstrap.Platform.Linux.LinuxWindowInterop.IsAvailable));
                 AppendValue(sb, "X11Compositor", OnOff(Voidstrap.Platform.Linux.LinuxWindowInterop.HasActiveX11Compositor));
@@ -296,7 +296,7 @@ namespace Voidstrap.Integrations.Overlays
                 sb.AppendLine(Text("MissingCrosshair"));
             if (OverlayHub.InGame && OverlayHub.LinuxHomepageRunning)
                 sb.AppendLine(Text("HomepageInGame"));
-            if (Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Platform.Linux.LinuxWindowInterop.IsAvailable)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && !Voidstrap.Platform.Linux.LinuxWindowInterop.IsAvailable)
                 sb.AppendLine(Text("X11Unavailable"));
             sb.AppendLine(Text("PixelsUnknown"));
             return sb.ToString();
@@ -312,14 +312,14 @@ namespace Voidstrap.Integrations.Overlays
 
         private static void AppendNativeWindow(StringBuilder sb, IntPtr handle, RobloxWindowRect roblox)
         {
-            if (Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Platform.Linux.LinuxWindowInterop.IsAvailable)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && !Voidstrap.Platform.Linux.LinuxWindowInterop.IsAvailable)
             {
                 AppendValue(sb, "NativeLive", Text("Unavailable"));
                 AppendValue(sb, "NativeVisible", Text("Unavailable"));
                 AppendValue(sb, "NativeTopmost", Text("Unavailable"));
                 return;
             }
-            bool live = Voidstrap.Utility.Platform.IsLinux
+            bool live = Voidstrap.Utility.Platform.UsesLinuxHost
                 ? Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle)
                 : IsLiveHandle(handle);
             AppendValue(sb, "NativeLive", OnOff(live));
@@ -357,7 +357,7 @@ namespace Voidstrap.Integrations.Overlays
             RobloxWindowRect tracked = RobloxWindowTracker.Current;
             if (!tracked.Valid || Voidstrap.Utility.Platform.IsMacOS)
                 return tracked;
-            bool live = Voidstrap.Utility.Platform.IsLinux
+            bool live = Voidstrap.Utility.Platform.UsesLinuxHost
                 ? Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(tracked.Hwnd)
                 : IsLiveHandle(tracked.Hwnd) && NativeIsWindowVisible(tracked.Hwnd) && !NativeIsIconic(tracked.Hwnd);
             return live ? tracked : new RobloxWindowRect(tracked.Hwnd, 0, 0, 0, 0, false, false);

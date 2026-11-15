@@ -10,7 +10,7 @@ internal static class LinuxTitleBar
 {
     public static void Apply(Window window)
     {
-        if (window == null || !OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS())
+        if (window == null || !Voidstrap.Utility.Platform.UsesLinuxHost && !OperatingSystem.IsMacOS())
         {
             return;
         }

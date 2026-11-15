@@ -12,7 +12,7 @@ internal static class LinuxHiddenWindow
 
     public static void Hide(string title)
     {
-        if (!OperatingSystem.IsLinux() || string.IsNullOrWhiteSpace(title) || TryHide(title))
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || string.IsNullOrWhiteSpace(title) || TryHide(title))
         {
             return;
         }

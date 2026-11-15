@@ -13,7 +13,7 @@ public static partial class LinuxArchive
 
 	private static readonly Lazy<bool> Available = new(() =>
 	{
-		if (!OperatingSystem.IsLinux() || !NativeLibrary.TryLoad(Library, typeof(LinuxArchive).Assembly, null, out IntPtr handle))
+		if (!HostSystem.UsesLinuxHost || !NativeLibrary.TryLoad(Library, typeof(LinuxArchive).Assembly, null, out IntPtr handle))
 			return false;
 		return NativeLibrary.TryGetExport(handle, "archive_read_support_format_all", out _);
 	});

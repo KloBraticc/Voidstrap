@@ -418,7 +418,7 @@ public static class LaunchHandler
             window.RequestStartupView(App.LaunchSettings.MenuFlag.Data);
             Application? application = Application.Current;
             Window? previousMainWindow = null;
-            bool ownsLinuxMainWindow = Voidstrap.Utility.Platform.IsLinux && application != null;
+            bool ownsLinuxMainWindow = Voidstrap.Utility.Platform.UsesLinuxHost && application != null;
             if (ownsLinuxMainWindow)
             {
                 previousMainWindow = application!.MainWindow;
@@ -436,7 +436,7 @@ public static class LaunchHandler
             return;
         }
         App.Logger.WriteLine("LaunchHandler::LaunchSettings", "Found an already existing menu window");
-        if (OperatingSystem.IsLinux())
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             bool raised = Voidstrap.Platform.Linux.LinuxWindowInterop.TryRaiseVoidstrapWindow(Strings.Menu_Title);
             App.Logger.WriteLine(
@@ -836,7 +836,7 @@ public static class LaunchHandler
                 ResizeMode = ResizeMode.NoResize,
                 WindowState = System.Windows.WindowState.Minimized,
             };
-            if (OperatingSystem.IsLinux())
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 Voidstrap.Integrations.Overlays.LinuxOverlaySurface.ReleaseMainWindowClaim(window);
             }
@@ -853,7 +853,7 @@ public static class LaunchHandler
             App.Logger.WriteLine("LaunchHandler::KeepAliveUntilPortableSessionEnds", "The session could not be held open: " + ex.Message);
         }
 
-        if (OperatingSystem.IsLinux())
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             Voidstrap.UI.LinuxWindowMemory.KeepSessionTrimmed(application.Dispatcher, PortableSessionEnded.Task);
 
         PortableSessionEnded.Task.ContinueWith(
@@ -1172,7 +1172,7 @@ public static class LaunchHandler
 
     private static bool StartResidentWatcher(int processId, bool isSoberPlayer)
     {
-        if (Voidstrap.Utility.Platform.IsLinux && !isSoberPlayer)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && !isSoberPlayer)
             return StartStudioResident(processId);
 
         try
@@ -1182,7 +1182,7 @@ public static class LaunchHandler
             Watcher resident = new(watcherData);
             Voidstrap.Integrations.LinuxAutoFullscreen? autoFullscreen = null;
 
-            if (Voidstrap.Utility.Platform.IsLinux && isSoberPlayer && !_rosemarySession)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && isSoberPlayer && !_rosemarySession)
             {
                 System.Windows.Application? application = System.Windows.Application.Current;
 
@@ -1202,7 +1202,7 @@ public static class LaunchHandler
                     {
                         Task residentTask = resident.Run();
                         bool soberExitObserved =
-                            Voidstrap.Utility.Platform.IsLinux
+                            Voidstrap.Utility.Platform.UsesLinuxHost
                             && !_rosemarySession
                             && await WaitForSoberExitAsync(_residentCancellation.Token);
                         if (!soberExitObserved)
@@ -1253,7 +1253,7 @@ public static class LaunchHandler
                         }
                     }
 
-                    if (Voidstrap.Utility.Platform.IsLinux)
+                    if (Voidstrap.Utility.Platform.UsesLinuxHost)
                         Voidstrap.Utility.LinuxSessionHandoff.ClearResident();
                     Volatile.Write(ref _residentActive, 0);
                     Watcher.ReopenSettingsForTestModeOnce();
@@ -1262,7 +1262,7 @@ public static class LaunchHandler
                 }
             );
 
-            if (Voidstrap.Utility.Platform.IsLinux && isSoberPlayer)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && isSoberPlayer)
                 Voidstrap.Utility.LinuxSessionHandoff.RegisterResident();
             Volatile.Write(ref _residentActive, 1);
             App.Logger.WriteLine(
@@ -1480,8 +1480,8 @@ public static class LaunchHandler
 
             Voidstrap.Platform.RuntimeKind runtimeKind =
                 launchMode == LaunchMode.Player ? Voidstrap.Platform.RuntimeKind.Player : Voidstrap.Platform.RuntimeKind.Studio;
-            bool rosemary = OperatingSystem.IsLinux() && Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(launchMode);
-            if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player && !rosemary)
+            bool rosemary = Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(launchMode);
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && runtimeKind == Voidstrap.Platform.RuntimeKind.Player && !rosemary)
             {
                 soberLaunchLease = Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.TryAcquireLaunchLease();
                 if (soberLaunchLease is null)
@@ -1497,7 +1497,7 @@ public static class LaunchHandler
                     runtimeKind == Voidstrap.Platform.RuntimeKind.Player ? "roblox://experiences/start" : "roblox-studio://launch";
             }
             Bootstrapper? linuxBootstrapper = null;
-            if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+            if (Voidstrap.Utility.Platform.UsesLinuxHost || OperatingSystem.IsMacOS())
             {
                 linuxBootstrapper = new(launchMode) { CancellationHandledByCaller = true };
                 cancellation = linuxBootstrapper.CancellationToken;
@@ -1508,7 +1508,7 @@ public static class LaunchHandler
                 launchTarget,
                 launchMode,
                 cancellation,
-                OperatingSystem.IsLinux() ? ShowPortableMatchmakerSearch : null
+                Voidstrap.Utility.Platform.UsesLinuxHost ? ShowPortableMatchmakerSearch : null
             );
             cancellation.ThrowIfCancellationRequested();
             if (!string.Equals(rewrittenTarget, launchTarget, StringComparison.Ordinal))
@@ -1516,7 +1516,7 @@ public static class LaunchHandler
                 launchTarget = rewrittenTarget;
                 App.LaunchSettings.RobloxLaunchArgs = rewrittenTarget;
             }
-            if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player && !rosemary)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && runtimeKind == Voidstrap.Platform.RuntimeKind.Player && !rosemary)
                 App.Logger.WriteLine(
                     "LaunchHandler::LaunchPortableRuntime",
                     Voidstrap.Platform.Linux.SoberLaunchLink.Describe(App.LaunchSettings.RobloxLaunchArgs.Length > 0 ? launchTarget : null)
@@ -1531,7 +1531,7 @@ public static class LaunchHandler
                 return;
             }
 
-            if (OperatingSystem.IsLinux() && linuxBootstrapper is not null)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && linuxBootstrapper is not null)
             {
                 Bootstrapper bootstrapper = linuxBootstrapper;
                 if (await bootstrapper.TryUpdateLauncherAsync())
@@ -1840,7 +1840,7 @@ public static class LaunchHandler
 
             cancellation.ThrowIfCancellationRequested();
             SetPortableLaunchStatus(Strings.Bootstrapper_Status_Starting);
-            if (OperatingSystem.IsLinux())
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.StartupStatus = message =>
                 {
                     App.Logger.WriteLine("LaunchHandler::SoberStartup", message);
@@ -1867,7 +1867,7 @@ public static class LaunchHandler
             App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", result.Value.Provider + " accepted the Roblox launch request");
             ClosePortableLaunchDialog();
             if (
-                OperatingSystem.IsLinux()
+                Voidstrap.Utility.Platform.UsesLinuxHost
                 && StartResidentWatcher(result.Value.ProcessId, runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
             )
             {
@@ -1904,7 +1904,7 @@ public static class LaunchHandler
         }
         finally
         {
-            if (OperatingSystem.IsLinux())
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.StartupStatus = null;
             Voidstrap.Utility.MacVirtualDisplaySession.TakePrestarted()?.Dispose();
             cancelRequested.Dispose();
@@ -2354,7 +2354,7 @@ public static class LaunchHandler
 
     private static void ShowPortableLaunchFailure(string message)
     {
-        bool keepDialogOpen = OperatingSystem.IsLinux();
+        bool keepDialogOpen = Voidstrap.Utility.Platform.UsesLinuxHost;
         if (!keepDialogOpen)
             ClosePortableLaunchDialog();
         App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", message);
@@ -2445,7 +2445,7 @@ public static class LaunchHandler
 
     public static async void LaunchWatcher()
     {
-        if (OperatingSystem.IsLinux())
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             PortableSessionActive = true;
             KeepAliveUntilPortableSessionEnds();

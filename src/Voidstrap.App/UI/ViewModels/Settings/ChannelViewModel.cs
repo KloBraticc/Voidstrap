@@ -246,12 +246,12 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
     }
 
     public string EfficiencyModeDescription =>
-        Voidstrap.Utility.Platform.IsLinux
+        Voidstrap.Utility.Platform.UsesLinuxHost
             ? "Gives Roblox the smallest CPU share while another app is active. This helps battery life and background apps but lowers Roblox performance while it is unfocused."
             : "Runs Roblox in Windows efficiency mode. This lowers its priority and power use, which helps battery life and background play but reduces performance in game";
 
     public string RobloxPriorityDescription =>
-        Voidstrap.Utility.Platform.IsLinux
+        Voidstrap.Utility.Platform.UsesLinuxHost
             ? "Choose how much CPU share Roblox gets compared to your other apps. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable."
             : "Choose a safe Windows scheduling priority for Roblox. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable.";
 

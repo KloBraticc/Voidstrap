@@ -340,7 +340,7 @@ public sealed partial class GStreamerPlayback : IMusicPlayback
 
     private static string? Initialize()
     {
-        if (!OperatingSystem.IsLinux() && !OperatingSystem.IsFreeBSD())
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost && !OperatingSystem.IsFreeBSD())
             return "GStreamer playback is only used on Linux";
         try
         {

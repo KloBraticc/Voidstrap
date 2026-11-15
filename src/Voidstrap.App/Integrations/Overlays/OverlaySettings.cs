@@ -22,7 +22,7 @@ namespace Voidstrap.Integrations.Overlays
             {
                 if (!App.Settings.Prop.HomepageBackgroundOverlayEnabled)
                     return false;
-                if (!Voidstrap.Utility.Platform.IsLinux || HomepageBackgroundMode != "Media")
+                if (!Voidstrap.Utility.Platform.UsesLinuxHost || HomepageBackgroundMode != "Media")
                     return true;
                 string path = App.Settings.Prop.HomepageBackgroundOverlayMediaPath ?? string.Empty;
                 return IsHomepageVideo(path) || Voidstrap.Utility.LinuxHomepageShader.IsHighResolutionImage(path);
@@ -67,7 +67,7 @@ namespace Voidstrap.Integrations.Overlays
         public static bool AnyEnabled => RiShadeClientActive || (OverlayHub.InGame ? GameEffectsEnabled : HomepageBackgroundEnabled);
 
         public static bool RequiresLinuxX11Session =>
-            Voidstrap.Utility.Platform.IsLinux
+            Voidstrap.Utility.Platform.UsesLinuxHost
             && (
                 App.Settings.Prop.FakeExclusiveFullscreen
                 || App.Settings.Prop.FakeBorderlessFullscreen
@@ -82,7 +82,7 @@ namespace Voidstrap.Integrations.Overlays
             );
 
         public static bool LinuxSessionIsWayland =>
-            Voidstrap.Utility.Platform.IsLinux
+            Voidstrap.Utility.Platform.UsesLinuxHost
             && (
                 !string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"))
                 || string.Equals(
@@ -93,7 +93,7 @@ namespace Voidstrap.Integrations.Overlays
             );
 
         public static bool SoberHasX11Window =>
-            Voidstrap.Utility.Platform.IsLinux
+            Voidstrap.Utility.Platform.UsesLinuxHost
             && (
                 !LinuxSessionIsWayland
                 || (RequiresLinuxX11Session && !string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("DISPLAY")))
@@ -111,7 +111,7 @@ namespace Voidstrap.Integrations.Overlays
         }
 
         public static bool LinuxCustomCursorNeedsX11 =>
-            Voidstrap.Utility.Platform.IsLinux
+            Voidstrap.Utility.Platform.UsesLinuxHost
             && App.Settings.Prop.CursorType != Voidstrap.Enums.CursorType.Default
             && App.Settings.Prop.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player;
     }

@@ -125,7 +125,7 @@ internal sealed class WindowEdgeResizer
     private Point ScreenLogical(MouseEventArgs e)
     {
         Point device;
-        if (Voidstrap.Utility.Platform.IsLinux
+        if (Voidstrap.Utility.Platform.UsesLinuxHost
             && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int pointerX, out int pointerY))
         {
             device = new Point(pointerX, pointerY);
@@ -166,7 +166,7 @@ internal sealed class WindowEdgeResizer
         {
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux && TryBeginWindowManagerResize(edge))
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && TryBeginWindowManagerResize(edge))
         {
             Mouse.OverrideCursor = null;
             e.Handled = true;
@@ -180,7 +180,7 @@ internal sealed class WindowEdgeResizer
         _startWidth = _window.ActualWidth;
         _startHeight = _window.ActualHeight;
         _nativeWindow = ResolveNativeWindow();
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             StartPointerPolling();
         }
@@ -284,7 +284,7 @@ internal sealed class WindowEdgeResizer
 
     private nint ResolveNativeWindow()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return 0;
         }
@@ -335,7 +335,7 @@ internal sealed class WindowEdgeResizer
 
     private void StartPointerPolling()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || _pollTimer != null)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || _pollTimer != null)
         {
             return;
         }

@@ -36,7 +36,7 @@ internal sealed partial class SessionDimmer : IDisposable
     {
         if (PortableOverlay.Active)
         {
-            if (Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Platform.Linux.LinuxWindowInterop.HasActiveX11Compositor)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && !Voidstrap.Platform.Linux.LinuxWindowInterop.HasActiveX11Compositor)
                 return;
             _portable = new System.Windows.Window
             {
@@ -49,7 +49,7 @@ internal sealed partial class SessionDimmer : IDisposable
                 Left = -32000,
                 Top = -32000
             };
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 _linuxTint = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                 _portable.AllowsTransparency = true;
@@ -112,7 +112,7 @@ internal sealed partial class SessionDimmer : IDisposable
         if (_portable == null)
             return;
         nint handle = PortableOverlay.Handle(_portable);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
         }
@@ -153,7 +153,7 @@ internal sealed partial class SessionDimmer : IDisposable
             nint handle = PortableOverlay.Handle(_portable);
             if (handle == 0)
                 return;
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 _portableOpacityApplied = Voidstrap.Integrations.Overlays.LinuxGameOverlay.SetWindowOpacity(handle, alpha / 255d);
             else
             {
@@ -193,7 +193,7 @@ internal sealed partial class SessionDimmer : IDisposable
         {
             PortableOverlay.Place(_portable, bounds.Left, bounds.Top, bounds.Width, bounds.Height);
             nint handle = PortableOverlay.Handle(_portable);
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 ApplyPointerMode(handle);
                 SetPortableBlur(bounds.Width, bounds.Height);
@@ -215,7 +215,7 @@ internal sealed partial class SessionDimmer : IDisposable
         if (_portable != null && _visible && bounds.Valid)
         {
             PortableOverlay.Place(_portable, bounds.Left, bounds.Top, bounds.Width, bounds.Height, false, false);
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 SetPortableBlur(bounds.Width, bounds.Height);
             return;
         }

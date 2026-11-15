@@ -51,7 +51,7 @@ internal static class LinuxDesktopEntry
 
     public static void EnsureInstalled(string executablePath)
     {
-        if (!Platform.IsLinux || string.IsNullOrEmpty(executablePath))
+        if (!Platform.UsesLinuxHost || string.IsNullOrEmpty(executablePath))
         {
             return;
         }
@@ -98,7 +98,7 @@ internal static class LinuxDesktopEntry
 
     public static void Install(string executablePath, bool createDesktopShortcut = false, bool replaceInstalledLauncher = true)
     {
-        if (!Platform.IsLinux || string.IsNullOrEmpty(executablePath))
+        if (!Platform.UsesLinuxHost || string.IsNullOrEmpty(executablePath))
         {
             return;
         }
@@ -395,10 +395,10 @@ internal static class LinuxDesktopEntry
     public static void RefreshIcon()
     {
 #if CROSSPLAT
-		if (Platform.IsLinux)
+		if (Platform.UsesLinuxHost)
 			Voidstrap.UI.Tray.LinuxTray.UpdateIcon(ReadTrayIconPng());
 #endif
-        if (!Platform.IsLinux)
+        if (!Platform.UsesLinuxHost)
             return;
 
         byte[]? encoded = ReadSelectedIconPng();
@@ -443,7 +443,7 @@ internal static class LinuxDesktopEntry
 
     public static bool CreateShortcut(string filePath, string name, string executablePath, string arguments, string? iconPath)
     {
-        if (!Platform.IsLinux || string.IsNullOrWhiteSpace(filePath) || string.IsNullOrWhiteSpace(executablePath))
+        if (!Platform.UsesLinuxHost || string.IsNullOrWhiteSpace(filePath) || string.IsNullOrWhiteSpace(executablePath))
             return false;
 
         try
@@ -824,7 +824,7 @@ internal static class LinuxDesktopEntry
 
     public static void Remove()
     {
-        if (!Platform.IsLinux)
+        if (!Platform.UsesLinuxHost)
         {
             return;
         }
@@ -1016,7 +1016,7 @@ internal static class LinuxDesktopEntry
 
     public static void RegisterSandboxSchemeHandlers()
     {
-        if (!Platform.IsLinux || !LinuxFlatpakHost.IsSandboxed)
+        if (!Platform.UsesLinuxHost || !LinuxFlatpakHost.IsSandboxed)
             return;
 
         foreach (string scheme in SchemeHandlers)

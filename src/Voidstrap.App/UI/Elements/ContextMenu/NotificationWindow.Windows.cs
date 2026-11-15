@@ -53,7 +53,7 @@ public partial class NotificationWindow
             MouseLeave += OnNotificationMouse;
             _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input)
             {
-                Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.IsLinux ? 500 : 40),
+                Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.UsesLinuxHost ? 500 : 40),
             };
             _hoverTimer.Tick += OnHoverTick;
             if (PortableOverlay.Active)
@@ -146,7 +146,7 @@ public partial class NotificationWindow
             double previous = clock.Elapsed.TotalSeconds;
             while (!_dismissRequested && remaining > 0)
             {
-                await Task.Delay(Voidstrap.Utility.Platform.IsLinux ? 500 : 100, token);
+                await Task.Delay(Voidstrap.Utility.Platform.UsesLinuxHost ? 500 : 100, token);
                 double now = clock.Elapsed.TotalSeconds;
                 if (!_hovered || !appearance.PauseWhileHovered)
                     remaining -= now - previous;
@@ -368,7 +368,7 @@ public partial class NotificationWindow
         bool hot = DismissButton.IsMouseOver;
         Point? pointer = null;
         if (
-            Voidstrap.Utility.Platform.IsLinux
+            Voidstrap.Utility.Platform.UsesLinuxHost
             && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int x, out int y, out down)
         )
             pointer = new Point(x - Left, y - Top);

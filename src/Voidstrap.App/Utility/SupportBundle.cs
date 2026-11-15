@@ -172,7 +172,7 @@ internal static class SupportBundle
                 return ReadWindowsCrashRecords();
             if (OperatingSystem.IsMacOS())
                 return ReadMacCrashReports();
-            if (OperatingSystem.IsLinux())
+            if (Platform.UsesLinuxHost)
                 return ReadLinuxCoreDumps();
             return new CrashRecords("Crash records are not collected on this system.", 0);
         }

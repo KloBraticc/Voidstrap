@@ -261,7 +261,7 @@ public partial class App : Application
 
     private static void CloseRuntimeOnExit()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return;
         }
@@ -287,7 +287,7 @@ public partial class App : Application
     {
         try
         {
-            if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
             {
                 List<string> flatpakArguments = ["run", Voidstrap.Platform.Linux.LinuxFlatpakHost.CurrentApplicationId];
                 flatpakArguments.AddRange(arguments);
@@ -298,7 +298,7 @@ public partial class App : Application
                 return true;
             }
 
-            string? executable = Voidstrap.Utility.Platform.IsLinux
+            string? executable = Voidstrap.Utility.Platform.UsesLinuxHost
                 ? Voidstrap.Platform.Linux.LinuxAppImageHost.ResolveApplicationPath(Environment.ProcessPath ?? string.Empty)
                 : Paths.Process;
             if (string.IsNullOrWhiteSpace(executable))
@@ -507,7 +507,7 @@ public partial class App : Application
 
     private static bool IsExpectedLinuxCancellation(Exception ex)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return false;
         }
@@ -953,7 +953,7 @@ public partial class App : Application
         TryStartup("Image guard", Voidstrap.Utility.DynamicRenderSystem.InstallLinuxImageGuard);
         TryStartup("Background web images", Voidstrap.UI.LinuxWebImageSource.Install);
         TryStartup("Progress bar motion", Voidstrap.UI.SmoothProgress.Install);
-        if (OperatingSystem.IsLinux() && !Cli.IsCliInvocation(Environment.GetCommandLineArgs().Skip(1).ToArray()))
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && !Cli.IsCliInvocation(Environment.GetCommandLineArgs().Skip(1).ToArray()))
         {
             base.Exit += OnLinuxExitMarkRenderer;
             Voidstrap.Utility.LinuxStartup.BeginRendererProbe();
@@ -1159,7 +1159,7 @@ public partial class App : Application
         }
         if (LaunchSettings.WatcherFlag.Active)
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 TryStartup("Linux animation parity", LinuxAnimationParity.Apply);
                 TryStartup("Linux screen metrics", LinuxScreenMetrics.Apply);
@@ -1481,7 +1481,7 @@ public partial class App : Application
                 );
             }
             Voidstrap.Integrations.RobloxAppStorage.Reset();
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 Voidstrap.Utility.LinuxDesktopEntry.Remove();
             }
@@ -1729,12 +1729,12 @@ public partial class App : Application
         if (!LaunchSettings.WatcherFlag.Active)
         {
             TryStartup("Rojo updater", Voidstrap.Integrations.Rojo.RojoManager.AutoUpdate);
-            if (!Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost)
                 _ = RefreshRemoteDataAsync(_lifetimeCancellation.SafeToken());
         }
         if (!LaunchSettings.WatcherFlag.Active && !LaunchSettings.IsHelperInvocation)
         {
-            if (!Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 _ = Voidstrap.Utility.SavedAccounts.EnsureCurrentAccountSavedAsync(_lifetimeCancellation.SafeToken());
                 TryStartup(
@@ -1766,14 +1766,14 @@ public partial class App : Application
             )
                 _ = CompressIdleInstallsAsync(_lifetimeCancellation.SafeToken());
         }
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             TryStartup("GPU inventory warmup", () => Task.Run(() => _ = Voidstrap.Utility.GpuInventory.HasNvidia));
     }
 
     internal void StartLinuxDeferredServices()
     {
         if (
-            !Voidstrap.Utility.Platform.IsLinux
+            !Voidstrap.Utility.Platform.UsesLinuxHost
             || LaunchSettings.WindowAuditFlag.Active
             || Interlocked.Exchange(ref _linuxDeferredStarted, 1) != 0
         )
@@ -1886,7 +1886,7 @@ public partial class App : Application
     {
         bool nativeOverlays = Voidstrap.Utility.Platform.SupportsOverlays;
         bool linuxHomepage =
-            Voidstrap.Utility.Platform.IsLinux && Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled;
+            Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled;
         if (!nativeOverlays && !linuxHomepage)
         {
             return;
@@ -1908,7 +1908,7 @@ public partial class App : Application
 
     private static void InitializeAppearance()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             TryStartup("Linux animation parity", LinuxAnimationParity.Apply);
             TryStartup("Linux screen metrics", LinuxScreenMetrics.Apply);
@@ -1969,7 +1969,7 @@ public partial class App : Application
                 }
             );
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             TryStartup(
                 "Smooth font edges",
@@ -1997,7 +1997,7 @@ public partial class App : Application
             () =>
             {
                 Wpf.Ui.Controls.SmoothScroll.SetGlobalEnabled(
-                    !Voidstrap.Utility.Platform.IsLinux && Settings.Prop.SmooothBARRyesirikikthxlucipook
+                    !Voidstrap.Utility.Platform.UsesLinuxHost && Settings.Prop.SmooothBARRyesirikikthxlucipook
                 );
                 Wpf.Ui.Controls.SmoothScroll.Register();
                 if (Voidstrap.Utility.Platform.IsWindows)
@@ -2098,8 +2098,8 @@ public partial class App : Application
             return;
         try
         {
-            TextOptions.SetTextRenderingMode(window, OperatingSystem.IsLinux() ? TextRenderingMode.Grayscale : TextRenderingMode.ClearType);
-            RenderOptions.SetClearTypeHint(window, OperatingSystem.IsLinux() ? ClearTypeHint.Auto : ClearTypeHint.Enabled);
+            TextOptions.SetTextRenderingMode(window, Voidstrap.Utility.Platform.UsesLinuxHost ? TextRenderingMode.Grayscale : TextRenderingMode.ClearType);
+            RenderOptions.SetClearTypeHint(window, Voidstrap.Utility.Platform.UsesLinuxHost ? ClearTypeHint.Auto : ClearTypeHint.Enabled);
         }
         catch (Exception ex)
         {
@@ -2139,7 +2139,7 @@ public partial class App : Application
             else
             {
                 element.ClearValue(TextOptions.TextFormattingModeProperty);
-                if (!Voidstrap.Utility.Platform.IsLinux)
+                if (!Voidstrap.Utility.Platform.UsesLinuxHost)
                 {
                     element.ClearValue(TextOptions.TextRenderingModeProperty);
                     element.ClearValue(RenderOptions.ClearTypeHintProperty);
@@ -2169,9 +2169,9 @@ public partial class App : Application
                 ? "software"
             : renderTier == 0 ? "software, GPU tier 0"
             : "hardware";
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             Logger.WriteLine("App::OnStartup", $"WPF render tier {renderTier}, rendering mode: {renderMode}");
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             Logger.WriteLine(
                 "App::OnStartup",
@@ -2439,7 +2439,7 @@ public partial class App : Application
 
     private static void ApplySnapTapFromSettings()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || !Settings.Prop.SnapTapEnabled)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || !Settings.Prop.SnapTapEnabled)
         {
             Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings();
             return;
@@ -2517,7 +2517,7 @@ public partial class App : Application
         TryShutdown(AssetCaptureStore.Shutdown);
         TryShutdown(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Shutdown);
         TryShutdown(Voidstrap.Integrations.Fullscreen.RobloxTitleBarGuard.Shutdown);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             TryShutdown(Voidstrap.Integrations.Overlays.OverlayHub.Shutdown);
         TryShutdown(Voidstrap.Integrations.Overlays.RobloxWindowTracker.Shutdown);
         TryShutdown(Voidstrap.UI.LiveLanguageRefresher.Shutdown);

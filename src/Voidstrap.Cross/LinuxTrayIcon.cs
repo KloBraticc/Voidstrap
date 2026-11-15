@@ -1,3 +1,4 @@
+using Voidstrap.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -413,7 +414,7 @@ public static class LinuxTray
 
     public static bool TryStart(string title)
     {
-        if (!OperatingSystem.IsLinux())
+        if (!HostSystem.UsesLinuxHost)
         {
             return false;
         }
@@ -521,7 +522,7 @@ public static class LinuxTray
             item = _item;
         }
 
-        if (!OperatingSystem.IsLinux() || icon == null)
+        if (!HostSystem.UsesLinuxHost || icon == null)
             return;
 
         _notificationIcon = ResolveNotificationIcon(icon);
@@ -719,7 +720,7 @@ public static class LinuxTray
 
     public static void Notify(string title, string body, Action? clicked = null, int timeoutMilliseconds = 5000)
     {
-        if (!OperatingSystem.IsLinux())
+        if (!HostSystem.UsesLinuxHost)
         {
             return;
         }

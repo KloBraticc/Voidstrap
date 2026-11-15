@@ -50,7 +50,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 
     public static bool ShouldRun(AppSettings? settings)
     {
-        return Platform.IsLinux
+        return Platform.UsesLinuxHost
             && settings != null
             && LinuxSoberResources.IsSupported
             && (settings.TasxOptimization || RobloxProcessOptimizer.ShouldRun(settings));

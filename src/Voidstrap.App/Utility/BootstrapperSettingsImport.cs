@@ -98,19 +98,19 @@ internal static class BootstrapperSettingsImport
     public static async Task<string?> FindSettingsAsync(string source, CancellationToken token)
     {
         ValidateSource(source);
-        if (Platform.IsLinux)
+        if (Platform.UsesLinuxHost)
             return await LinuxBootstrapperSources.FindSettingsAsync(source, token).ConfigureAwait(false);
         return FindSettings(source);
     }
 
     public static Task<string> ResolvePickedPathAsync(string path)
     {
-        return Platform.IsLinux ? LinuxBootstrapperSources.ResolvePickedPathAsync(path) : Task.FromResult(path);
+        return Platform.UsesLinuxHost ? LinuxBootstrapperSources.ResolvePickedPathAsync(path) : Task.FromResult(path);
     }
 
     private static Task<string> ReadSourceTextAsync(string path, long maximumBytes, CancellationToken token)
     {
-        if (Platform.IsLinux && LinuxBootstrapperSources.NeedsHostRead(path))
+        if (Platform.UsesLinuxHost && LinuxBootstrapperSources.NeedsHostRead(path))
             return ReadHostSourceTextAsync(path, maximumBytes, token);
         return JsonFile.ReadTextAsync(path, maximumBytes, token);
     }

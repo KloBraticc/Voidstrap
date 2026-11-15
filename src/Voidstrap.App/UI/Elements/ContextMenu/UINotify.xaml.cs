@@ -67,7 +67,7 @@ namespace Voidstrap.UI.Elements.Overlay
             Title = "Voidstrap Notification";
             InitializeComponent();
             PortableOverlay.Prepare(this);
-            _linuxSurface = Voidstrap.Utility.Platform.IsLinux;
+            _linuxSurface = Voidstrap.Utility.Platform.UsesLinuxHost;
             if (_linuxSurface)
             {
                 Voidstrap.Integrations.Overlays.LinuxOverlaySurface.ReleaseMainWindowClaim(this);
@@ -502,7 +502,7 @@ namespace Voidstrap.UI.Elements.Overlay
             }
             if (PortableOverlay.Active)
                 return;
-            if (_closed || _renderReady || !Voidstrap.Utility.Platform.IsLinux)
+            if (_closed || _renderReady || !Voidstrap.Utility.Platform.UsesLinuxHost)
                 return;
 
             if (!Dispatcher.CheckAccess())
@@ -784,7 +784,7 @@ namespace Voidstrap.UI.Elements.Overlay
 
         private async Task EnsureRenderLoopReadyAsync()
         {
-            if (_renderReady || !Voidstrap.Utility.Platform.IsLinux)
+            if (_renderReady || !Voidstrap.Utility.Platform.UsesLinuxHost)
                 return;
 
             _renderReadyTask ??= new RenderWarmUp(RenderWarmUpFrames, RenderWarmUpTimeoutMs).Completion;

@@ -111,7 +111,7 @@ public partial class FluentMessageBox : WpfUiWindow
         {
             base.Width = num;
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             ApplyPortableHeight();
         }

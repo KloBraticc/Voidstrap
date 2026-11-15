@@ -24,7 +24,7 @@ internal static class ColorPickerSetup
         if (Platform.IsMacOS)
             RinScreenSampler.Picker = new MacOSColorPicker();
 #if CROSSPLAT
-		else if (Platform.IsLinux)
+		else if (Platform.UsesLinuxHost)
 			RinScreenSampler.Picker = new Voidstrap.UI.LinuxColorPickPortal();
 #endif
     }

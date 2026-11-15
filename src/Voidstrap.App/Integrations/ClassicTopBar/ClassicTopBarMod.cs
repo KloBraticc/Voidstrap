@@ -427,7 +427,7 @@ internal static partial class ClassicTopBarMod
             string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
             return bundle == null ? null : Path.Combine(bundle, "Contents", "Resources");
         }
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return FindRobloxInstall();
         }

@@ -124,7 +124,7 @@ public sealed unsafe partial class LinuxKeyboardInterceptor : IDisposable
 
 	public static LinuxInputAccessState CheckAccess()
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			return LinuxInputAccessState.Unsupported;
 		if (!File.Exists("/dev/uinput") && !File.Exists("/dev/input/uinput"))
 			return LinuxInputAccessState.Unsupported;

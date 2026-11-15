@@ -10,7 +10,7 @@ public static class LinuxWindowGlContext
     public static void Install()
     {
 #if CROSSPLAT
-		if (!OperatingSystem.IsLinux() || !Voidstrap.Utility.LinuxStartup.UsesOpenGl)
+		if (!Voidstrap.Utility.Platform.UsesLinuxHost || !Voidstrap.Utility.LinuxStartup.UsesOpenGl)
 			return;
 
 		Silk.NET.Windowing.IWindowPlatform? inner = null;

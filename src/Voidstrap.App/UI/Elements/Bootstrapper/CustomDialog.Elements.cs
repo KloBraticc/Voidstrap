@@ -942,7 +942,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
             if (!Voidstrap.Utility.Platform.IsWindows)
             {
-                if (!Voidstrap.Utility.Platform.IsLinux || !Voidstrap.UI.LinuxWebPanel.IsSupported)
+                if (!Voidstrap.Utility.Platform.UsesLinuxHost || !Voidstrap.UI.LinuxWebPanel.IsSupported)
                 {
                     App.Logger.WriteLine("CustomDialog::CreateWebPanel", "The portable web engine is unavailable, this panel stays empty");
                     return host;

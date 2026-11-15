@@ -957,7 +957,7 @@ public partial class FastFlagEditorPage : UiPage
                 null,
                 snapshot
             );
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 App.FastFlags.Save();
         }
         catch (Exception ex)

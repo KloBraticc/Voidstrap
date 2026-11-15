@@ -38,13 +38,13 @@ public static class LinuxClipboard
 
 	public static event Action? Changed;
 
-	public static bool IsAvailable => OperatingSystem.IsLinux();
+	public static bool IsAvailable => HostSystem.UsesLinuxHost;
 
 	public static bool TracksChanges => false;
 
 	public static bool SetText(string? text)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			return false;
 
 		string value = text ?? string.Empty;
@@ -78,7 +78,7 @@ public static class LinuxClipboard
 
 	public static string? GetText()
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			return null;
 
 		if (_activeBackend is not null && TryGetText(_activeBackend, out string? current))

@@ -156,7 +156,7 @@ internal static class Locale
 
     static Locale()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         foreach (KeyValuePair<string, string> replacement in LatinLocaleNames)

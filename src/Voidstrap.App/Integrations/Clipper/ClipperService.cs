@@ -42,7 +42,7 @@ public static class ClipperService
         if ((now - _lastProcessCheckUtc).TotalMilliseconds < 1500)
             return _lastProcessAlive;
         _lastProcessCheckUtc = now;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             _lastProcessAlive = Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow();
             return _lastProcessAlive;

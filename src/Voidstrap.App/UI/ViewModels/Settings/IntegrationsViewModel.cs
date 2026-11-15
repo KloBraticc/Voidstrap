@@ -58,7 +58,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
     private bool _addingToSteam;
 
     public Visibility SteamShortcutVisibility =>
-        Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxSteamIntegration.IsSteamInstalled
+        Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Utility.LinuxSteamIntegration.IsSteamInstalled
             ? Visibility.Visible
             : Visibility.Collapsed;
 
@@ -73,7 +73,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
     public Visibility SnapTapAccessVisibility =>
         Voidstrap.Utility.Platform.IsMacOS
-        || (Voidstrap.Utility.Platform.IsLinux && _snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
+        || (Voidstrap.Utility.Platform.UsesLinuxHost && _snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
             ? Visibility.Visible
             : Visibility.Collapsed;
 
@@ -263,7 +263,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
             {
                 return;
             }
-            if (value && Voidstrap.Utility.Platform.IsLinux)
+            if (value && Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 RefreshSnapTapAccess();
                 if (_snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
@@ -952,7 +952,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
     public bool IsCustomIntegrationSelected => SelectedCustomIntegration != null;
 
     public string CustomIntegrationLocationPlaceholder =>
-        Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs"
+        Voidstrap.Utility.Platform.UsesLinuxHost ? "/usr/bin/obs"
         : Voidstrap.Utility.Platform.IsMacOS ? "/Applications/OBS.app"
         : @"C:\Windows\System32\cmd.exe";
 
@@ -971,7 +971,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
         {
             _ = RefreshAudioOutputsAsync();
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             _snapTapAccess = Voidstrap.KeyRouting.LinuxSnapTap.Access;
         }
@@ -979,7 +979,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
     private void RefreshSnapTapAccess()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return;
         }

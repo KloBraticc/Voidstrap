@@ -56,7 +56,7 @@ public static partial class ProcessScan
                 CloseHandle(handle);
             }
         }
-        if (Platform.IsLinux)
+        if (Platform.UsesLinuxHost)
             return System.IO.Directory.Exists("/proc/" + processId);
         try
         {

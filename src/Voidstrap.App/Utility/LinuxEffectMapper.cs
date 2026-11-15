@@ -13,7 +13,7 @@ internal static class LinuxEffectMapper
 
     static LinuxEffectMapper()
     {
-        if (Platform.IsLinux)
+        if (Platform.UsesLinuxHost)
             LinuxSoberRuntimeProvider.EffectLayersDisabled += OnEffectLayersDisabled;
     }
 
@@ -60,7 +60,7 @@ internal static class LinuxEffectMapper
 
     public static void RefreshConfiguration()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         try

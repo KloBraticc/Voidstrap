@@ -515,10 +515,10 @@ internal static partial class LinuxRuntimeDirectory
 		runtimeDirectory = string.Empty;
 		if (!Directory.Exists(configuredRoot) || IsLink(configuredRoot))
 		{
-			return !OperatingSystem.IsLinux() && TryCreatePortableConfiguredDirectory(configuredRoot, out runtimeDirectory);
+			return !HostSystem.UsesLinuxHost && TryCreatePortableConfiguredDirectory(configuredRoot, out runtimeDirectory);
 		}
 
-		if (OperatingSystem.IsLinux() && (!HasPrivateMode(configuredRoot) || !ownershipCheck(configuredRoot)))
+		if (HostSystem.UsesLinuxHost && (!HasPrivateMode(configuredRoot) || !ownershipCheck(configuredRoot)))
 		{
 			return false;
 		}
@@ -526,7 +526,7 @@ internal static partial class LinuxRuntimeDirectory
 		string candidate = Path.Combine(configuredRoot, "voidstrap");
 		if (Directory.Exists(candidate))
 		{
-			if (IsLink(candidate) || OperatingSystem.IsLinux() && (!HasPrivateMode(candidate) || !ownershipCheck(candidate)))
+			if (IsLink(candidate) || HostSystem.UsesLinuxHost && (!HasPrivateMode(candidate) || !ownershipCheck(candidate)))
 			{
 				return false;
 			}
@@ -542,7 +542,7 @@ internal static partial class LinuxRuntimeDirectory
 		try
 		{
 			CreateNewPrivateDirectory(candidate);
-			if (OperatingSystem.IsLinux() && (!HasPrivateMode(candidate) || !ownershipCheck(candidate)))
+			if (HostSystem.UsesLinuxHost && (!HasPrivateMode(candidate) || !ownershipCheck(candidate)))
 			{
 				TryDeleteDirectory(candidate);
 				return false;
@@ -580,7 +580,7 @@ internal static partial class LinuxRuntimeDirectory
 		}
 
 		CreateNewPrivateDirectory(candidate);
-		if (IsLink(candidate) || OperatingSystem.IsLinux() && (!HasPrivateMode(candidate) || !IsOwnedByEffectiveUser(candidate)))
+		if (IsLink(candidate) || HostSystem.UsesLinuxHost && (!HasPrivateMode(candidate) || !IsOwnedByEffectiveUser(candidate)))
 		{
 			TryDeleteDirectory(candidate);
 			throw new IOException("The private runtime directory is unsafe");
@@ -612,7 +612,7 @@ internal static partial class LinuxRuntimeDirectory
 
 	private static void CreateNewPrivateDirectory(string path)
 	{
-		if (OperatingSystem.IsLinux())
+		if (HostSystem.UsesLinuxHost)
 		{
 			if (NativeMethods.CreateDirectory(path, (uint)PrivateMode) != 0)
 			{
@@ -645,7 +645,7 @@ internal static partial class LinuxRuntimeDirectory
 
 	internal static bool IsOwnedByEffectiveUser(string path)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 		{
 			return true;
 		}
@@ -2328,7 +2328,7 @@ public sealed partial class LinuxProtocolRegistration : IProtocolRegistration
 			if (File.Exists(desktopFilePath))
 			{
 				previousContents = await File.ReadAllBytesAsync(desktopFilePath, cancellationToken);
-				if (OperatingSystem.IsLinux())
+				if (HostSystem.UsesLinuxHost)
 				{
 					previousMode = File.GetUnixFileMode(desktopFilePath);
 				}
@@ -2451,7 +2451,7 @@ public sealed partial class LinuxProtocolRegistration : IProtocolRegistration
 				return false;
 			}
 
-			if (OperatingSystem.IsLinux())
+			if (HostSystem.UsesLinuxHost)
 			{
 				UnixFileMode mode = File.GetUnixFileMode(path);
 				UnixFileMode execute = UnixFileMode.UserExecute | UnixFileMode.GroupExecute | UnixFileMode.OtherExecute;
@@ -2485,7 +2485,7 @@ public sealed partial class LinuxProtocolRegistration : IProtocolRegistration
 				try
 				{
 					File.WriteAllBytes(rollback, previousContents);
-					if (OperatingSystem.IsLinux() && previousMode is not null)
+					if (HostSystem.UsesLinuxHost && previousMode is not null)
 					{
 						File.SetUnixFileMode(rollback, previousMode.Value);
 					}

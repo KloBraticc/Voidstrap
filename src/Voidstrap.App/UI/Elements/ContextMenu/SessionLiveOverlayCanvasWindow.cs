@@ -130,8 +130,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         ShowActivated = true;
         Topmost = true;
         WindowStartupLocation = WindowStartupLocation.Manual;
-        AllowsTransparency = !Voidstrap.Utility.Platform.IsLinux;
-        Background = new SolidColorBrush(Color.FromArgb(Voidstrap.Utility.Platform.IsLinux ? (byte)210 : (byte)96, 18, 18, 18));
+        AllowsTransparency = !Voidstrap.Utility.Platform.UsesLinuxHost;
+        Background = new SolidColorBrush(Color.FromArgb(Voidstrap.Utility.Platform.UsesLinuxHost ? (byte)210 : (byte)96, 18, 18, 18));
         UseLayoutRounding = true;
         SnapsToDevicePixels = true;
 

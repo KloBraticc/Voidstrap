@@ -25,7 +25,7 @@ internal static class Shortcut
         Create(exePath, exeArgs, lnkPath, exePath);
     }
 
-    public static string Suffix => Platform.IsLinux ? ".desktop" : Platform.IsMacOS ? ".app" : ".lnk";
+    public static string Suffix => Platform.UsesLinuxHost ? ".desktop" : Platform.IsMacOS ? ".app" : ".lnk";
 
     public static bool Exists(string path) => Platform.IsMacOS ? Voidstrap.Platform.MacOS.MacOSShortcut.Exists(path) : File.Exists(path);
 
@@ -50,7 +50,7 @@ internal static class Shortcut
                 bool imageIcon = Path.GetExtension(iconPath).ToLowerInvariant() is ".png" or ".ico" or ".icns" or ".jpg" or ".jpeg";
                 Voidstrap.Platform.MacOS.MacOSShortcut.Create(lnkPath, exePath, exeArgs, imageIcon ? iconPath : Branding.MacIconPath);
             }
-            else if (Platform.IsLinux)
+            else if (Platform.UsesLinuxHost)
             {
                 if (!LinuxDesktopEntry.CreateShortcut(lnkPath, Path.GetFileNameWithoutExtension(lnkPath), exePath, exeArgs, iconPath))
                     throw new IOException("The desktop entry could not be written to " + lnkPath);

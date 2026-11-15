@@ -226,7 +226,7 @@ internal static partial class Cli
         Console.WriteLine("Voidstrap: " + App.Version);
         Console.WriteLine("Channel: " + App.Settings.Prop.Channel);
         Console.WriteLine("FastFlags: " + App.FastFlags.Prop.Count);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             Console.WriteLine("Roblox: managed by " + (Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary ? "Rosemary" : "Sober"));
         }
@@ -264,7 +264,7 @@ internal static partial class Cli
 
     private static async Task<int> InstallAsync(bool repair)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             return await InstallSoberAsync(repair);
         if (repair)
         {

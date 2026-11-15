@@ -12,7 +12,7 @@ public static class LinuxRuntimeChoice
 
     public static bool UsesRosemary(LaunchMode mode)
     {
-        if (!Platform.IsLinux || App.Settings?.Prop == null)
+        if (!Platform.UsesLinuxHost || App.Settings?.Prop == null)
             return false;
         string choice = mode == LaunchMode.Player ? App.Settings.Prop.LinuxPlayerRuntime : App.Settings.Prop.LinuxStudioRuntime;
         return string.Equals(choice, Rosemary, StringComparison.OrdinalIgnoreCase)
@@ -47,7 +47,7 @@ public static class LinuxRuntimeChoice
 
     public static void PrefetchRosemary()
     {
-        if (!Platform.IsLinux || !Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost || App.Settings?.Prop == null)
+        if (!Platform.UsesLinuxHost || !Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost || App.Settings?.Prop == null)
             return;
         bool player = UsesRosemary(LaunchMode.Player);
         bool studio = UsesRosemary(LaunchMode.Studio);

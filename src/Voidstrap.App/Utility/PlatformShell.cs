@@ -48,7 +48,7 @@ internal static class PlatformShell
                 return process is not null;
             }
 
-            if (Platform.IsLinux && TryRevealFileLinux(file))
+            if (Platform.UsesLinuxHost && TryRevealFileLinux(file))
             {
                 return true;
             }

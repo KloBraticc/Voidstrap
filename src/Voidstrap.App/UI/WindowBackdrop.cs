@@ -159,7 +159,7 @@ public static partial class WindowBackdrop
             window.Dispatcher.BeginInvoke(() => ApplyBackdrop(window));
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             if (!Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window))
                 ApplyLinuxSurface(window);
@@ -294,7 +294,7 @@ public static partial class WindowBackdrop
         {
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             contextMenu.Background = CreateLinuxSurfaceBrush();
             if (
@@ -578,7 +578,7 @@ public static partial class WindowBackdrop
             MacWindowBackdrop.Apply(window);
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             if (!Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window))
                 ApplyLinuxSurface(window);
@@ -638,7 +638,7 @@ public static partial class WindowBackdrop
     {
         if (Voidstrap.Utility.Platform.IsMacOS)
             return MacWindowBackdrop.IsActive(window);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return false;
         }
@@ -713,7 +713,7 @@ public static partial class WindowBackdrop
 
     private static byte GetThemedOpacity(BackdropType backdrop, byte themeAlpha)
     {
-        if (Voidstrap.Utility.Platform.IsLinux || backdrop == BackdropType.None)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost || backdrop == BackdropType.None)
             return byte.MaxValue;
         if (!Voidstrap.Utility.Platform.IsMacOS && backdrop != BackdropType.Aero && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
             return byte.MaxValue;
@@ -915,7 +915,7 @@ public static partial class WindowBackdrop
 
     public static Brush CreateSurfaceBrush(FrameworkElement element)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return CreateOpaqueSurfaceBrush(element);
         }
@@ -1107,7 +1107,7 @@ public static partial class WindowBackdrop
 
     internal static Color CreateSurfaceColor(BackdropType backdrop)
     {
-        if (Voidstrap.Utility.Platform.IsLinux && Application.Current?.TryFindResource("WindowBackgroundColorPrimary") is Color surface)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && Application.Current?.TryFindResource("WindowBackgroundColorPrimary") is Color surface)
         {
             return Color.FromRgb(surface.R, surface.G, surface.B);
         }
@@ -1127,7 +1127,7 @@ public static partial class WindowBackdrop
 
     private static byte GetSurfaceOpacity(BackdropType backdrop)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return byte.MaxValue;
         }

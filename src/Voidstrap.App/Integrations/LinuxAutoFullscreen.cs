@@ -32,7 +32,7 @@ namespace Voidstrap.Integrations
 
         public void Start()
         {
-            if (!Voidstrap.Utility.Platform.IsLinux || !App.Settings.Prop.SoberAutoFullscreen)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost || !App.Settings.Prop.SoberAutoFullscreen)
                 return;
 
             _timer.Start();

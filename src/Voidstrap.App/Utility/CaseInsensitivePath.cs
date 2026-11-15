@@ -10,7 +10,7 @@ internal static class CaseInsensitivePath
         if (string.IsNullOrEmpty(path))
             return path ?? string.Empty;
 
-        if (!Platform.IsLinux)
+        if (!Platform.UsesLinuxHost)
             return path;
 
         if (File.Exists(path) || Directory.Exists(path))

@@ -194,7 +194,7 @@ internal static partial class LinuxWindowMemory
 
     public static void KeepSessionTrimmed(Dispatcher dispatcher, Task sessionEnded)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || Interlocked.Exchange(ref _sessionTrimming, 1) != 0)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || Interlocked.Exchange(ref _sessionTrimming, 1) != 0)
             return;
 
         _ = Task.Run(
@@ -245,7 +245,7 @@ internal static partial class LinuxWindowMemory
 
     public static void TrimWorkingSet()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || _pageOutUnsupported)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || _pageOutUnsupported)
             return;
 
         long advised = 0;

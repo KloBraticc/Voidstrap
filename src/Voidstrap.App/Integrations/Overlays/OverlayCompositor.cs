@@ -2345,7 +2345,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private HomepageVideoDecoder? TryCreateHomepageVideo(string path)
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 return null;
             string extension = Path.GetExtension(path).ToLowerInvariant();
             if (extension is not (".mp4" or ".m4v" or ".webm" or ".avi" or ".mov" or ".wmv" or ".mpeg" or ".mpg" or ".mkv"))

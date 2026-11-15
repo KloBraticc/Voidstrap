@@ -1134,7 +1134,7 @@ public static class ModGenerator
 
     internal static (string Folder, string Guid) ResolveInstall(RobloxPlayerData data)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             (string ClientDirectory, string VersionGuid)? sober = Task.Run(() =>
                     Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None)

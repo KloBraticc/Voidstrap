@@ -166,7 +166,7 @@ namespace Voidstrap.Utility
             if (_cache != null)
                 return _cache;
 
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 _cache = DetectLinux();
                 return _cache;
@@ -254,7 +254,7 @@ namespace Voidstrap.Utility
 
         public static bool Open(ExternalEditorInfo editor, string filePath)
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 return OpenLinux(editor, filePath);
             if (Voidstrap.Utility.Platform.IsMacOS)
                 return OpenMac(editor, filePath);

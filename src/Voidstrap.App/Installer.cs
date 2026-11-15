@@ -185,7 +185,7 @@ internal sealed partial class Installer
             else
                 TrySafe("function shortcuts", CreateFunctionShortcuts);
         }
-        else if (Voidstrap.Utility.Platform.IsLinux)
+        else if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             TrySafe("desktop entry", () => Voidstrap.Utility.LinuxDesktopEntry.Install(Paths.Application, CreateDesktopShortcuts));
             if (FunctionShortcutTasks != null)
@@ -243,7 +243,7 @@ internal sealed partial class Installer
         if (
             string.Compare(Directory.GetParent(InstallLocation)?.FullName, Paths.UserProfile, StringComparison.OrdinalIgnoreCase) == 0
             && !(
-                Voidstrap.Utility.Platform.IsLinux
+                Voidstrap.Utility.Platform.UsesLinuxHost
                 && string.Equals(
                     Path.GetFileName(Path.TrimEndingDirectorySeparator(InstallLocation)),
                     "voidstrap",
@@ -692,7 +692,7 @@ internal sealed partial class Installer
         TrySafe("AssetWarp cleanup", Voidstrap.Integrations.AssetProxy.AssetWarpLegacyCleanup.Run);
         TrySafe("desktop entry", Voidstrap.Utility.LinuxDesktopEntry.Remove);
         TrySafe("install record", Voidstrap.Utility.InstallRecord.Delete);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             if (keepData)
             {
@@ -1408,7 +1408,7 @@ internal sealed partial class Installer
     public static async Task HandleLinuxUpgradeAsync()
     {
         if (
-            !Voidstrap.Utility.Platform.IsLinux
+            !Voidstrap.Utility.Platform.UsesLinuxHost
             || App.LaunchSettings.IsHelperInvocation
             || Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed
         )

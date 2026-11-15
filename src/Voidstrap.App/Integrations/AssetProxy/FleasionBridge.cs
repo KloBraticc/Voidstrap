@@ -12,7 +12,7 @@ internal static class FleasionBridge
 
     private static string StatePath => Path.Combine(Paths.AssetProxy, "FleasionRouting.json");
     internal static string ConfigDirectory =>
-        Voidstrap.Utility.Platform.IsLinux
+        Voidstrap.Utility.Platform.UsesLinuxHost
             ? Path.Combine(
                 Environment.GetEnvironmentVariable("XDG_CONFIG_HOME")
                     ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".config"),
@@ -72,14 +72,14 @@ internal static class FleasionBridge
 
     internal static string? ResolveExecutable()
     {
-        string[] names = Voidstrap.Utility.Platform.IsLinux ? ["Fleasion", "fleasion", "Fleasion.AppImage"] : ["Fleasion.exe"];
+        string[] names = Voidstrap.Utility.Platform.UsesLinuxHost ? ["Fleasion", "fleasion", "Fleasion.AppImage"] : ["Fleasion.exe"];
         foreach (string name in names)
         {
             string installed = Path.Combine(Paths.Fleasion, name);
             if (File.Exists(installed))
                 return installed;
         }
-        if (Voidstrap.Utility.Platform.IsLinux && Directory.Exists(Paths.Fleasion))
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && Directory.Exists(Paths.Fleasion))
         {
             string? installed = Directory
                 .EnumerateFiles(Paths.Fleasion, "Fleasion*-Linux*")
@@ -108,7 +108,7 @@ internal static class FleasionBridge
             foreach (Process process in processes)
                 process.Dispose();
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             foreach (
                 string directory in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(

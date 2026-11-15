@@ -210,7 +210,7 @@ internal static partial class PluginWeb
             );
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux && LinuxWindows.Count > 0)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && LinuxWindows.Count > 0)
             Voidstrap.UI.LinuxWebPanel.Post(() =>
             {
                 if (LinuxWindows.TryGetValue(mod, out List<IntPtr>? open))

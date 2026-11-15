@@ -40,7 +40,7 @@ internal static class LinuxApplicationIdentity
 
     public static void Refresh()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         lock (Sync)
@@ -70,7 +70,7 @@ internal static class LinuxApplicationIdentity
 
     private static bool Apply(Window window, bool force)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || window == null)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || window == null)
             return true;
 
         try

@@ -173,7 +173,7 @@ public partial class SessionDock : Window
         _activity = activity;
         _action = action;
         InitializeComponent();
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             DockRoot.Margin = new Thickness(0);
             DockRoot.RowDefinitions[0].Height = new GridLength(0);
@@ -883,7 +883,7 @@ public partial class SessionDock : Window
         _resumePopout = false;
         if (_closed || !_opened)
             return;
-        if (Voidstrap.Utility.Platform.IsLinux && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
         {
             System.Diagnostics.StackTrace trace = new(1, false);
             List<string> callers = new();
@@ -896,9 +896,9 @@ public partial class SessionDock : Window
         RefreshNowPlaying();
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
-        bool linuxSlide = animate && Voidstrap.Utility.Platform.IsLinux && IsVisible;
+        bool linuxSlide = animate && Voidstrap.Utility.Platform.UsesLinuxHost && IsVisible;
         bool slide =
-            animate && NativeSlide.Supported && !Voidstrap.Utility.Platform.IsLinux && IsVisible && RobloxWindowTracker.Current.Valid;
+            animate && NativeSlide.Supported && !Voidstrap.Utility.Platform.UsesLinuxHost && IsVisible && RobloxWindowTracker.Current.Valid;
         CancelEntrance();
         _clock.Stop();
         StopHeartbeat();
@@ -923,7 +923,7 @@ public partial class SessionDock : Window
         }
         _prewarmTimer?.Stop();
         FadeDimmer(0);
-        if (Voidstrap.Utility.Platform.IsLinux && !linuxSlide)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && !linuxSlide)
             Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
         IntPtr game = RobloxWindowTracker.Current.Hwnd;
         if (returnFocus && PortableOverlay.Active)
@@ -939,7 +939,7 @@ public partial class SessionDock : Window
             return;
         if (RobloxWindowTracker.Current.Valid && RobloxWindowTracker.IsRobloxForeground())
             return;
-        if (Voidstrap.Utility.Platform.IsLinux && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
             App.Logger.WriteLine(
                 "SessionDock",
                 string.Format(
@@ -956,7 +956,7 @@ public partial class SessionDock : Window
     // Hidden because the game lost focus, it comes back on its own when the game is focused again
     private void SuspendDock()
     {
-        if (Voidstrap.Utility.Platform.IsLinux && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
         {
             HideDock(true);
             return;
@@ -1042,7 +1042,7 @@ public partial class SessionDock : Window
         _anchor.Refresh();
         if (
             activatePanels
-            && Voidstrap.Utility.Platform.IsLinux
+            && Voidstrap.Utility.Platform.UsesLinuxHost
             && RobloxWindowTracker.Current is { Valid: true, Hwnd: var game }
             && game == IntPtr.Zero
         )
@@ -1205,7 +1205,7 @@ public partial class SessionDock : Window
 
     private void StartEntrance(Point? resumeFrom)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             StartLinuxEntrance();
             return;
@@ -1242,7 +1242,7 @@ public partial class SessionDock : Window
         if (_closed || !_opened)
             return;
         ApplyLinuxDockShape();
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             InvalidateVisual();
             LinuxOverlaySurface.WakePresentation(this);
@@ -1390,7 +1390,7 @@ public partial class SessionDock : Window
 
     private void CancelEntrance()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             _slide.Stop(true);
         CancelLinuxDockAnimation();
         _exiting = false;
@@ -1520,7 +1520,7 @@ public partial class SessionDock : Window
 
     private bool StartExit()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             return false;
         RobloxWindowRect game = RobloxWindowTracker.Current;
         if (_slide.CurrentPosition() is not Point from)
@@ -1541,13 +1541,13 @@ public partial class SessionDock : Window
     private void OnExitFinished()
     {
         _exiting = false;
-        if (Voidstrap.Utility.Platform.IsLinux && !_opened)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && !_opened)
             Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
         if (_closed || _opened)
             return;
         if (IsVisible)
             Hide();
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             _slide.RemoveClip();
     }
 
@@ -1556,7 +1556,7 @@ public partial class SessionDock : Window
         double userScale = (App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings()).SafeDockScale;
         SetPillScale(userScale);
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        double shadowRoom = Voidstrap.Utility.Platform.IsLinux ? 0 : ShadowRoomX;
+        double shadowRoom = Voidstrap.Utility.Platform.UsesLinuxHost ? 0 : ShadowRoomX;
         double width = Math.Min(MaxDockWidth * userScale, Math.Ceiling(Pill.DesiredSize.Width)) + shadowRoom;
         if (RobloxWindowTracker.Current is { Valid: true } bounds && bounds.Width > 0)
         {
@@ -1570,7 +1570,7 @@ public partial class SessionDock : Window
             Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             width = Math.Min(gameWidth, Math.Ceiling(Pill.DesiredSize.Width) + shadowRoom);
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             width = Math.Ceiling(width / 32) * 32;
             if (PortableOverlay.Active && _availableWidth > 0)
@@ -1690,7 +1690,7 @@ public partial class SessionDock : Window
     {
         if (_dimmer == null || _dimmerFade == null)
             return;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             CompositionTarget.Rendering -= OnLinuxDimmerFrame;
             _linuxDimmerFade.BeginAnimation(TranslateTransform.YProperty, null);
@@ -1707,7 +1707,7 @@ public partial class SessionDock : Window
                 ParkDimmer();
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             int generation = _linuxDimmerGeneration;
             TimeSpan duration = TimeSpan.FromMilliseconds(DimmerFadeMs);
@@ -1780,7 +1780,7 @@ public partial class SessionDock : Window
 
     private void DimmerFade_Tick(object? sender, EventArgs e)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             FinishLinuxDimmerFade(_linuxDimmerGeneration);
             return;
@@ -2073,7 +2073,7 @@ public partial class SessionDock : Window
 
     private void StartHeartbeat()
     {
-        if (_closed || (!Voidstrap.Utility.Platform.IsLinux && !SystemParameters.ClientAreaAnimation))
+        if (_closed || (!Voidstrap.Utility.Platform.UsesLinuxHost && !SystemParameters.ClientAreaAnimation))
             return;
         if (_heartbeat == null)
         {
@@ -2461,7 +2461,7 @@ public partial class SessionDock : Window
                 portableTop = Math.Max(game.Top, Top + position.Top - PopoutGap - portableHeight);
             }
             PortableOverlay.Place(_popout, portableLeft, portableTop, portableWidth, portableHeight);
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(
                     PortableOverlay.Handle(_popout),
                     (int)Math.Ceiling(portableWidth),
@@ -2735,7 +2735,7 @@ public partial class SessionDock : Window
         if (_disposed)
             return;
         _disposed = true;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
         if (ReferenceEquals(ActiveInstance, this))
             ActiveInstance = null;
@@ -2767,7 +2767,7 @@ public partial class SessionDock : Window
         _slide.Stop(false);
         CancelLinuxDockAnimation();
         StopHeartbeat();
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             Voidstrap.Platform.Linux.LinuxWindowShadow.Forget(PortableOverlay.Handle(this));
         if (_prewarmTimer != null)
         {
@@ -2870,13 +2870,13 @@ public partial class SessionDock : Window
 
     private void OnDockLoaded(object sender, RoutedEventArgs e)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(ApplyLinuxDockShape));
     }
 
     private void ApplyLinuxDockShape()
     {
-        if (_closed || !Voidstrap.Utility.Platform.IsLinux || !IsVisible || _linuxMotionActive)
+        if (_closed || !Voidstrap.Utility.Platform.UsesLinuxHost || !IsVisible || _linuxMotionActive)
             return;
         nint handle = PortableOverlay.Handle(this);
         if (

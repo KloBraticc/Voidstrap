@@ -311,7 +311,7 @@ namespace Voidstrap.Integrations.Overlays
                 OpenMacVideo();
                 return;
             }
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 OpenLinuxVideo();
                 return;

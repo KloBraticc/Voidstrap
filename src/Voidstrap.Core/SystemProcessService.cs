@@ -18,7 +18,7 @@ public sealed partial class SystemProcessService : IProcessService
 	private const uint LinuxFileStatusMaskRequest = 0x3;
 	private const ushort LinuxFileTypeMask = 0xf000;
 	private const ushort LinuxRegularFileType = 0x8000;
-	private static bool ContinueOnCapturedContext => !OperatingSystem.IsLinux();
+	private static bool ContinueOnCapturedContext => !HostSystem.UsesLinuxHost;
 
 	[StructLayout(LayoutKind.Explicit, Size = 256)]
 	private struct LinuxFileStatus
@@ -90,7 +90,7 @@ public sealed partial class SystemProcessService : IProcessService
 		try
 		{
 			const UnixFileMode executeBits = UnixFileMode.UserExecute | UnixFileMode.GroupExecute | UnixFileMode.OtherExecute;
-			if (OperatingSystem.IsLinux())
+			if (HostSystem.UsesLinuxHost)
 			{
 				if (GetLinuxFileStatus(
 					LinuxCurrentWorkingDirectory,

@@ -43,7 +43,7 @@ public static class TelemetryBlocker
     };
 
     private static string HostsPath =>
-        Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Platform.Linux.LinuxHostsBlock.HostsPath
+        Voidstrap.Utility.Platform.UsesLinuxHost ? Voidstrap.Platform.Linux.LinuxHostsBlock.HostsPath
         : OperatingSystem.IsMacOS() ? Voidstrap.Platform.MacOS.MacOSHostsBlock.HostsPath
         : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers", "etc", "hosts");
 

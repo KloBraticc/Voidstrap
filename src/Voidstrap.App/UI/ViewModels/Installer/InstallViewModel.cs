@@ -82,7 +82,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
         SoberInstallStatus = message;
     }
 
-    public bool RosemaryAvailable => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost;
+    public bool RosemaryAvailable => Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost;
 
     public Visibility RosemaryVisibility => RosemaryAvailable ? Visibility.Visible : Visibility.Collapsed;
 
@@ -203,7 +203,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
             SetCanContinueEvent?.Invoke(this, e: true);
             return false;
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             Voidstrap.Utility.LinuxRuntimeChoice.SelectDefaults(UseRosemary);
             App.Logger.WriteLine(
@@ -211,7 +211,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
                 UseRosemary ? "Roblox runs through Rosemary" : "Roblox runs through Sober and Vinegar"
             );
         }
-        if (Voidstrap.Utility.Platform.IsLinux && UseRosemary)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && UseRosemary)
         {
             using System.Threading.CancellationTokenSource cancellation = new();
             _soberCancellation = cancellation;
@@ -267,7 +267,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
                 _soberCancellation = null;
             }
         }
-        else if (Voidstrap.Utility.Platform.IsLinux)
+        else if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             SoberInstallStatus = "Installing Sober";
             using System.Threading.CancellationTokenSource cancellation = new();
@@ -317,7 +317,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 
     private void BrowseInstallLocation()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             Microsoft.Win32.OpenFolderDialog dialog = new()
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Voidstrap.Platform;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Avalonia;
@@ -129,7 +130,7 @@ public sealed class InlineVideoView : UserControl, IDisposable
     {
         if (OperatingSystem.IsWindows() || OperatingSystem.IsMacOS())
             return true;
-        if (OperatingSystem.IsLinux())
+        if (HostSystem.UsesLinuxHost)
             return LinuxWebViewRuntimeDetector.Detect() != LinuxWebViewRuntime.None;
         return false;
     }

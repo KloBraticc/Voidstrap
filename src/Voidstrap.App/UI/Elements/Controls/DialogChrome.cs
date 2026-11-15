@@ -48,7 +48,7 @@ internal static class DialogChrome
 
         try
         {
-            bar.Icon = Voidstrap.Utility.Platform.IsLinux
+            bar.Icon = Voidstrap.Utility.Platform.UsesLinuxHost
                 ? Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute))!
                 : new BitmapImage(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute));
         }

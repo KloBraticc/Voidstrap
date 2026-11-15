@@ -432,7 +432,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private static bool MotionReduced =>
         !SystemParameters.ClientAreaAnimation
-        || Voidstrap.Utility.Platform.IsLinux && Voidstrap.UI.LinuxUiPerformance.ReducedMotion;
+        || Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.UI.LinuxUiPerformance.ReducedMotion;
 
     private void SlideIn(int direction)
     {

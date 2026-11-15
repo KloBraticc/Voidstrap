@@ -47,11 +47,11 @@ public static partial class RobloxAudioRouting
         {
             if (Utility.Platform.IsWindows)
                 return Environment.OSVersion.Version.Build >= 17134;
-            return Utility.Platform.IsLinux && LinuxAudioSessions.CanRoute;
+            return Voidstrap.Utility.Platform.UsesLinuxHost && LinuxAudioSessions.CanRoute;
         }
     }
 
-    public static bool SupportsEqualizer => Utility.Platform.IsLinux && LinuxAudioSessions.CanFilter;
+    public static bool SupportsEqualizer => Voidstrap.Utility.Platform.UsesLinuxHost && LinuxAudioSessions.CanFilter;
 
     private static string SelectedOutput => App.Settings.Prop.RobloxAudioOutputDevice ?? "";
 
@@ -61,7 +61,7 @@ public static partial class RobloxAudioRouting
     {
         if (Utility.Platform.IsWindows)
             return await Task.Run(GetWindowsOutputs, token).ConfigureAwait(false);
-        if (Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             IReadOnlyList<LinuxAudioSink>? sinks = await LinuxAudioSessions.FindSinksAsync(token).ConfigureAwait(false);
             return sinks?.Select(sink => new RobloxAudioOutput(sink.Name, sink.Description)).ToList() ?? [];
@@ -80,7 +80,7 @@ public static partial class RobloxAudioRouting
             return;
         }
 
-        if (!Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         if (SelectedOutput.Length > 0 || SelectedEqualizer > 0)
@@ -97,7 +97,7 @@ public static partial class RobloxAudioRouting
 
     public static void Shutdown()
     {
-        if (Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             StopLinux();
         CancelWindows();
     }

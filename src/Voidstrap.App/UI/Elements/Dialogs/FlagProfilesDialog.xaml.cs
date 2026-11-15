@@ -33,7 +33,7 @@ public partial class FlagProfilesDialog : WpfUiWindow
         _currentFlags = new Dictionary<string, string>(currentFlags, StringComparer.Ordinal);
         InitializeComponent();
         LoadBackup.ItemsSource = _profiles;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             LinuxProfileActions.Visibility = Visibility.Visible;
             ClearFlags.IsChecked = true;
@@ -58,7 +58,7 @@ public partial class FlagProfilesDialog : WpfUiWindow
         FlagProfile? restore = _profiles.FirstOrDefault(x => x.Id == selectedId);
         if (restore != null)
             LoadBackup.SelectedItem = restore;
-        else if (Voidstrap.Utility.Platform.IsLinux && _profiles.Count > 0)
+        else if (Voidstrap.Utility.Platform.UsesLinuxHost && _profiles.Count > 0)
             LoadBackup.SelectedItem = _profiles[0];
         UpdateState();
     }
@@ -68,7 +68,7 @@ public partial class FlagProfilesDialog : WpfUiWindow
         List<FlagProfile> profiles = new();
         try
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 return new LinuxFlagProfiles(Paths.SavedBackups).Load();
             Directory.CreateDirectory(Paths.SavedBackups);
             foreach (string file in Directory.EnumerateFiles(Paths.SavedBackups))
@@ -127,11 +127,11 @@ public partial class FlagProfilesDialog : WpfUiWindow
             return;
         }
         string name = NormalizeName(SaveBackup.Text);
-        if (string.IsNullOrEmpty(name) || (!Voidstrap.Utility.Platform.IsLinux && _currentFlags.Count == 0))
+        if (string.IsNullOrEmpty(name) || (!Voidstrap.Utility.Platform.UsesLinuxHost && _currentFlags.Count == 0))
             return;
         try
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 new LinuxFlagProfiles(Paths.SavedBackups).Save(name, _currentFlags);
                 Close();
@@ -163,7 +163,7 @@ public partial class FlagProfilesDialog : WpfUiWindow
             return;
         try
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 new LinuxFlagProfiles(Paths.SavedBackups).Delete(selected.LocalFileName);
             else
                 App.FastFlags.DeleteBackup(selected.LocalFileName);
@@ -190,7 +190,7 @@ public partial class FlagProfilesDialog : WpfUiWindow
 
     private void RenameButton_Click(object sender, RoutedEventArgs e)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || LoadBackup.SelectedItem is not FlagProfile selected)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || LoadBackup.SelectedItem is not FlagProfile selected)
             return;
         string name = NormalizeName(RenameProfileName.Text);
         if (string.IsNullOrEmpty(name))
@@ -228,7 +228,7 @@ public partial class FlagProfilesDialog : WpfUiWindow
         OKButton.IsEnabled =
             Tabs.SelectedIndex == 1
                 ? LoadBackup.SelectedItem is FlagProfile
-                : (Voidstrap.Utility.Platform.IsLinux || _currentFlags.Count > 0) && !string.IsNullOrEmpty(NormalizeName(SaveBackup.Text));
+                : (Voidstrap.Utility.Platform.UsesLinuxHost || _currentFlags.Count > 0) && !string.IsNullOrEmpty(NormalizeName(SaveBackup.Text));
     }
 
     private static string NormalizeName(string value)

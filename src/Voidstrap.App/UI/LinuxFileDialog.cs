@@ -30,7 +30,7 @@ namespace Voidstrap.UI
 
         public static void Install()
         {
-            if (_installed || !Voidstrap.Utility.Platform.IsLinux)
+            if (_installed || !Voidstrap.Utility.Platform.UsesLinuxHost)
                 return;
 
             _tool = Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed ? null : ResolveTool();

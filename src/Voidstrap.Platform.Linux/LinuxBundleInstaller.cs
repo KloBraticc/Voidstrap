@@ -132,7 +132,7 @@ public static partial class LinuxBundleInstaller
 
 	public static async Task InstallAppImageAsync(string imagePath, string currentImagePath, CancellationToken cancellationToken)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 		{
 			throw new PlatformNotSupportedException("AppImage updates require Linux");
 		}
@@ -180,7 +180,7 @@ public static partial class LinuxBundleInstaller
 
 	private static async Task ReplaceFileAsync(string sourcePath, string targetPath, Func<string, bool> isValid, CancellationToken cancellationToken)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			throw new PlatformNotSupportedException();
 		string targetDirectory = Path.GetDirectoryName(targetPath) ?? throw new InvalidOperationException("The update folder is unavailable");
 		string stagedPath = targetPath + AppImageUpdateSuffix;
@@ -509,7 +509,7 @@ public static partial class LinuxBundleInstaller
 
 	private static void AtomicExchange(string firstPath, string secondPath)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 		{
 			throw new PlatformNotSupportedException("Atomic Linux update activation is unavailable");
 		}
@@ -612,7 +612,7 @@ public static partial class LinuxBundleInstaller
 		{
 			throw new UnauthorizedAccessException("The update target is unavailable");
 		}
-		if ((OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() || OperatingSystem.IsFreeBSD()) &&
+		if ((HostSystem.UsesLinuxHost || OperatingSystem.IsMacOS() || OperatingSystem.IsFreeBSD()) &&
 			(File.GetUnixFileMode(directory) & (UnixFileMode.UserWrite | UnixFileMode.GroupWrite | UnixFileMode.OtherWrite)) == 0)
 		{
 			throw new UnauthorizedAccessException("The update target is not writable");
@@ -715,7 +715,7 @@ public static partial class LinuxBundleInstaller
 
 	private static void SyncDirectoryTree(string rootDirectory, CancellationToken cancellationToken)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 		{
 			return;
 		}
@@ -733,7 +733,7 @@ public static partial class LinuxBundleInstaller
 
 	private static void SyncDirectory(string directory)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 		{
 			return;
 		}
@@ -983,7 +983,7 @@ public static partial class LinuxBundleInstaller
 
 	private static void ApplyMode(string path, UnixFileMode mode)
 	{
-		if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() || OperatingSystem.IsFreeBSD())
+		if (HostSystem.UsesLinuxHost || OperatingSystem.IsMacOS() || OperatingSystem.IsFreeBSD())
 		{
 			UnixFileMode permissions = mode & (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute);
 			File.SetUnixFileMode(path, permissions);

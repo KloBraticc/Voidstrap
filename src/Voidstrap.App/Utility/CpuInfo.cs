@@ -12,7 +12,7 @@ internal static class CpuInfo
     {
         try
         {
-            if (OperatingSystem.IsLinux())
+            if (Platform.UsesLinuxHost)
             {
                 foreach (string line in File.ReadLines("/proc/cpuinfo"))
                 {
@@ -47,7 +47,7 @@ internal static class CpuInfo
     {
         try
         {
-            if (OperatingSystem.IsLinux())
+            if (Platform.UsesLinuxHost)
             {
                 HashSet<string> seen = new HashSet<string>();
                 string? physicalId = null;

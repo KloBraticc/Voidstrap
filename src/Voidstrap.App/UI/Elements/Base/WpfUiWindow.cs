@@ -352,7 +352,7 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
         {
             try
             {
-                Icon = Voidstrap.Utility.Platform.IsLinux
+                Icon = Voidstrap.Utility.Platform.UsesLinuxHost
                     ? Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute))
                     : System.Windows.Media.Imaging.BitmapFrame.Create(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute));
             }

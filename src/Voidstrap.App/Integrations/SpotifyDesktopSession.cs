@@ -70,7 +70,7 @@ public static class SpotifyDesktopSession
         {
             if (Voidstrap.Utility.Platform.IsMacOS)
                 track = await ReadMacAsync().ConfigureAwait(false);
-            else if (Voidstrap.Utility.Platform.IsLinux)
+            else if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 track = await ReadLinuxAsync().ConfigureAwait(false);
         }
         catch (DBusException ex)
@@ -79,7 +79,7 @@ public static class SpotifyDesktopSession
         }
         catch (Exception ex)
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 ResetBus(ex);
             else
                 App.Logger.WriteLine(LOG_IDENT, "The desktop player could not be read: " + ex.GetType().Name);
@@ -103,7 +103,7 @@ public static class SpotifyDesktopSession
                 return;
             }
             string? player = _player;
-            Connection? bus = Voidstrap.Utility.Platform.IsLinux && player != null ? await GetBusAsync().ConfigureAwait(false) : null;
+            Connection? bus = Voidstrap.Utility.Platform.UsesLinuxHost && player != null ? await GetBusAsync().ConfigureAwait(false) : null;
             if (bus != null && player != null)
                 await WithTimeout(linux(bus.CreateProxy<IMprisPlayer>(player, MprisPath))).ConfigureAwait(false);
         }

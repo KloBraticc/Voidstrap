@@ -72,11 +72,11 @@ internal static class LinuxGameOverlay
 
     public static bool Active { get; private set; }
 
-    public static bool WantsLayer => Voidstrap.Utility.Platform.IsLinux;
+    public static bool WantsLayer => Voidstrap.Utility.Platform.UsesLinuxHost;
 
     public static IReadOnlyDictionary<string, string>? PrepareLaunch()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || !WantsLayer)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || !WantsLayer)
             return null;
         lock (Gate)
         {

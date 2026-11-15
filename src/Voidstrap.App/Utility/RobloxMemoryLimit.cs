@@ -60,7 +60,7 @@ internal static partial class RobloxMemoryLimit
 
     public static (int TotalMb, int AvailableMb) SystemMemory()
     {
-        if (Platform.IsLinux && TryReadLinuxMemory(out int totalMb, out int availableMb))
+        if (Platform.UsesLinuxHost && TryReadLinuxMemory(out int totalMb, out int availableMb))
             return (totalMb, availableMb);
         MemoryStatusEx status = new() { Length = (uint)Marshal.SizeOf<MemoryStatusEx>() };
         if (!Platform.IsWindows || !GlobalMemoryStatusEx(ref status))

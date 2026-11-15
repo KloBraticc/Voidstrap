@@ -35,7 +35,7 @@ internal static class LinuxNvidiaSettings
 
     public static string NipPath => Path.Combine(Paths.NipProfiles, "Voidstrap.nip");
 
-    public static bool Applies => OperatingSystem.IsLinux() && GpuInventory.HasNvidia;
+    public static bool Applies => Platform.UsesLinuxHost && GpuInventory.HasNvidia;
 
     public static Choices Read()
     {

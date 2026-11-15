@@ -55,7 +55,7 @@ internal static class LinuxWindowMode
 
     public static void Attach(Window window)
     {
-        if (!OperatingSystem.IsLinux() || IsOverlaySurface(window) || States.TryGetValue(window, out _))
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || IsOverlaySurface(window) || States.TryGetValue(window, out _))
             return;
 
         States.Add(window, new WindowModeState());
@@ -101,7 +101,7 @@ internal static class LinuxWindowMode
 
     public static bool IsCompositorMaximized(Window window)
     {
-        if (!OperatingSystem.IsLinux() || IsFullscreen(window))
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || IsFullscreen(window))
             return false;
         nint nativeWindow = ResolveNativeWindow(window);
         return nativeWindow != 0 && IsMaximizedSurface(nativeWindow);
@@ -109,7 +109,7 @@ internal static class LinuxWindowMode
 
     public static void ToggleMaximize(Window window)
     {
-        if (!OperatingSystem.IsLinux() || window.ResizeMode is ResizeMode.NoResize or ResizeMode.CanMinimize)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || window.ResizeMode is ResizeMode.NoResize or ResizeMode.CanMinimize)
             return;
         if (IsFullscreen(window))
         {
@@ -125,7 +125,7 @@ internal static class LinuxWindowMode
 
     public static void ToggleFullscreen(Window window)
     {
-        if (!OperatingSystem.IsLinux())
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
         Attach(window);
         if (!States.TryGetValue(window, out WindowModeState? state))
@@ -138,7 +138,7 @@ internal static class LinuxWindowMode
 
     public static bool RestoreForDrag(Window window, Point pointer)
     {
-        if (!OperatingSystem.IsLinux()
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost
             || IsFullscreen(window)
             || !States.TryGetValue(window, out WindowModeState? state)
             || !IsMaximized(window))

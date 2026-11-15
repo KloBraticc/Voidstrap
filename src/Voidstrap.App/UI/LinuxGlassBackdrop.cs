@@ -19,7 +19,7 @@ internal static class LinuxGlassBackdrop
 
     private static ImageBrush? _noiseBrush;
 
-    public static bool IsSupported => Voidstrap.Utility.Platform.IsLinux;
+    public static bool IsSupported => Voidstrap.Utility.Platform.UsesLinuxHost;
 
     public static void Attach(Window window, Image? backgroundLayer)
     {

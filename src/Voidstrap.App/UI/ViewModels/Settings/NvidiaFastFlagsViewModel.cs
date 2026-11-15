@@ -16,7 +16,7 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 {
     private static readonly string NipPath = Path.Combine(Paths.NipProfiles, "Voidstrap.nip");
 
-    private static readonly bool IsLinux = OperatingSystem.IsLinux();
+    private static readonly bool IsLinux = Voidstrap.Utility.Platform.UsesLinuxHost;
 
     private static readonly Dictionary<string, int> LinuxBenchmarkOverlayMap = new()
     {

@@ -205,7 +205,7 @@ public static class AudioPlayerHelper
         {
             return System.IO.File.Exists(MacPlayer) ? ("afplay", MacPlayer) : null;
         }
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return null;
         }

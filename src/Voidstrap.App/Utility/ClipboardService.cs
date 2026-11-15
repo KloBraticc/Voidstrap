@@ -9,7 +9,7 @@ public static class ClipboardService
     {
         string value = text ?? string.Empty;
 
-        if (Platform.IsLinux && Voidstrap.Platform.Linux.LinuxClipboard.SetText(value))
+        if (Platform.UsesLinuxHost && Voidstrap.Platform.Linux.LinuxClipboard.SetText(value))
         {
             Voidstrap.UI.LinuxClipboardBridge.Invalidate();
             return true;
@@ -60,7 +60,7 @@ public static class ClipboardService
 
     public static string GetText()
     {
-        if (Platform.IsLinux)
+        if (Platform.UsesLinuxHost)
         {
             string? native = Voidstrap.Platform.Linux.LinuxClipboard.GetText();
             if (native is not null)

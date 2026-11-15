@@ -374,7 +374,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
     public bool IsWindows => Voidstrap.Utility.Platform.IsWindows;
 
-    public bool NvidiaTabSupported => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux;
+    public bool NvidiaTabSupported => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.UsesLinuxHost;
 
     public bool HasNvidiaGpu => Voidstrap.Utility.GpuInventory.HasNvidia;
 
@@ -615,7 +615,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
                 _waterPreviewFrames = null;
                 _waterPreviewStatus =
                     style == 5 ? "Choose images to see a preview"
-                    : Voidstrap.Utility.Platform.IsLinux
+                    : Voidstrap.Utility.Platform.UsesLinuxHost
                         ? (
                             Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow()
                                 ? "Close Roblox to load the water preview, Sober's files are read while it is closed"

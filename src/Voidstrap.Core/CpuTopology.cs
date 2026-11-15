@@ -1,3 +1,4 @@
+using Voidstrap.Platform;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -63,7 +64,7 @@ public static class CpuTopology
 
 	private static int[] ReadList(string name)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			return [];
 		try
 		{

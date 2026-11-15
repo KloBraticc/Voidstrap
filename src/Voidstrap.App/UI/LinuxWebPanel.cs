@@ -68,7 +68,7 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
         LayoutUpdated += OnLayoutUpdated;
     }
 
-    public static bool IsSupported => Voidstrap.Utility.Platform.IsLinux && EnsureGtk();
+    public static bool IsSupported => Voidstrap.Utility.Platform.UsesLinuxHost && EnsureGtk();
 
     internal static bool EnsureGtk()
     {

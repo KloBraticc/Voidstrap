@@ -266,7 +266,7 @@ public partial class CustomThemePanel : UserControl
         _dirty = true;
         _codePending = false;
         _applyTimer.Stop();
-        _applyTimer.Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.IsLinux ? 350 : 200);
+        _applyTimer.Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.UsesLinuxHost ? 350 : 200);
         _applyTimer.Start();
     }
 

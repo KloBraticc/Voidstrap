@@ -466,7 +466,7 @@ public static class CommunityModGuard
         {
             return CommunityModVerdict.Block(
                 "Only zip, rar and 7z packages and "
-                    + (Voidstrap.Utility.Platform.IsLinux ? "replacement" : "Fleasion")
+                    + (Voidstrap.Utility.Platform.UsesLinuxHost ? "replacement" : "Fleasion")
                     + " JSON configs can be installed, this one is "
                     + extension
                     + "."

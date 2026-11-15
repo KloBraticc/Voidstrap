@@ -14,7 +14,7 @@ internal static class LinuxWindowUpdatePump
     internal static void Attach(Window window)
     {
 #if CROSSPLAT
-		if ((!OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS()) || Pumps.TryGetValue(window, out _))
+		if ((!Voidstrap.Utility.Platform.UsesLinuxHost && !OperatingSystem.IsMacOS()) || Pumps.TryGetValue(window, out _))
 			return;
 
 		Pumps.Add(window, new Pump(window));

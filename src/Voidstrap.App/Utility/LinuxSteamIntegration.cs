@@ -15,7 +15,7 @@ internal static class LinuxSteamIntegration
     public const string VoidstrapShortcutName = "Voidstrap";
     private static readonly TimeSpan SteamExitTimeout = TimeSpan.FromSeconds(30);
 
-    public static bool IsSteamInstalled => Platform.IsLinux && LinuxSteamLibrary.FindSteamRoots().Count > 0;
+    public static bool IsSteamInstalled => Platform.UsesLinuxHost && LinuxSteamLibrary.FindSteamRoots().Count > 0;
 
     public static async Task<string> AddToSteamAsync(byte[]? iconPng, bool closeSteam, CancellationToken cancellationToken)
     {

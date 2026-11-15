@@ -36,14 +36,14 @@ internal static class LinuxScreenMetrics
 
     public static void Apply()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         ApplyCore(false);
         StartWatchdog();
     }
 
-    public static bool Refresh() => Voidstrap.Utility.Platform.IsLinux && ApplyCore(true);
+    public static bool Refresh() => Voidstrap.Utility.Platform.UsesLinuxHost && ApplyCore(true);
 
     private static void StartWatchdog()
     {

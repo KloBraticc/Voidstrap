@@ -32,7 +32,7 @@ public static partial class LinuxSoberResources
 
 	private static long _hostScopeCheckedAt = long.MinValue;
 
-	public static bool IsSupported => OperatingSystem.IsLinux()
+	public static bool IsSupported => HostSystem.UsesLinuxHost
 		&& (LinuxFlatpakHost.IsSandboxed
 			? HostSupport.Value
 			: File.Exists(Path.Combine(CgroupRoot, "cgroup.controllers")) && !string.IsNullOrWhiteSpace(Systemctl.Value));
@@ -297,7 +297,7 @@ public static partial class LinuxSoberResources
 	public static bool TryGetLaunchCpuList(out string cpuList)
 	{
 		cpuList = "";
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			return false;
 		CaptureStartupAffinity();
 		int[]? startup = _startupCpus;

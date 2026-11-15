@@ -153,7 +153,7 @@ public static class StudioProjects
                     keys.Add(new StudioHistoryKey(subName, values, null));
                 }
             }
-            else if (OperatingSystem.IsLinux())
+            else if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 foreach (string prefix in VinegarPrefixes())
                     keys.AddRange(ReadWineStudioKeys(prefix, filter));
@@ -235,7 +235,7 @@ public static class StudioProjects
 
     public static void Open(StudioProject project)
     {
-        if (OperatingSystem.IsLinux() && project.FilePath is string localFile)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && project.FilePath is string localFile)
         {
             App.Logger.WriteLine(LOG_IDENT, "Opening a local file in Vinegar: " + project.Name);
             if (!Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.TryOpenFile(localFile, out string error))

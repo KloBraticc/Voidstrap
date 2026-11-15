@@ -62,7 +62,7 @@ internal sealed partial class NativeSlide
                 return null;
             nint native = PortableOverlay.Handle(_window);
             if (
-                Voidstrap.Utility.Platform.IsLinux
+                Voidstrap.Utility.Platform.UsesLinuxHost
                 && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(native, out int left, out int top, out _, out _)
             )
                 return new Point(left, top);
@@ -145,7 +145,7 @@ internal sealed partial class NativeSlide
     {
         if (PortableOverlay.Active)
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 Voidstrap.Platform.Linux.LinuxWindowInterop.TryClearShape(PortableOverlay.Handle(_window));
             if (_clippedContent != null)
                 _clippedContent.Clip = _originalClip;
@@ -209,7 +209,7 @@ internal sealed partial class NativeSlide
         int y1 = Math.Clamp(_clip.Y + _clip.Height - top, 0, _height);
         if (PortableOverlay.Active)
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(_handle, left, top, _width, _height);
                 Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetBoundingRectangles(

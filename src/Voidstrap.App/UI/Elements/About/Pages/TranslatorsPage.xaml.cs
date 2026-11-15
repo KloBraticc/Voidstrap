@@ -19,7 +19,7 @@ public partial class TranslatorsPage : UiPage
 
     private void ApplyReadableHeadings()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         ThaiHeading.Text = "Thai";

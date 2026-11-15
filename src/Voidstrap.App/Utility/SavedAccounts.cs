@@ -61,14 +61,14 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
 
     public static CurrentAccountInfo? Current => _current;
 
-    public static bool SwitchingSupported => !(Platform.IsLinux && LinuxRuntimeChoice.PlayerUsesRosemary);
+    public static bool SwitchingSupported => !(Platform.UsesLinuxHost && LinuxRuntimeChoice.PlayerUsesRosemary);
 
     private static string AccountMetaPath => Path.Combine(Paths.AccountBackups, "accounts.json");
 
     private static string PreviousSessionPath => Path.Combine(Paths.AccountBackups, "_previous_session.dat");
 
     internal static string LiveCookiePath =>
-        Platform.IsLinux ? RobloxCookie.SoberCookiePath
+        Platform.UsesLinuxHost ? RobloxCookie.SoberCookiePath
         : Platform.IsMacOS ? Voidstrap.Platform.MacOS.MacOSBinaryCookies.RobloxPlayerStore
         : App.RobloxCookiesFilePath;
 
@@ -578,9 +578,9 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
                 MacRobloxProcesses.CloseIdleMenuBarHelpers();
             return snapshot.GameRunning || ProcessesRunning("RobloxStudio");
         }
-        if (Platform.IsLinux && Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
+        if (Platform.UsesLinuxHost && Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
             return true;
-        IEnumerable<string> names = Platform.IsLinux ? RobloxProcessNames.Concat(LinuxRobloxProcessNames) : RobloxProcessNames;
+        IEnumerable<string> names = Platform.UsesLinuxHost ? RobloxProcessNames.Concat(LinuxRobloxProcessNames) : RobloxProcessNames;
         foreach (string name in names)
         {
             Process[] processes = Array.Empty<Process>();
@@ -602,7 +602,7 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
 
     public static async Task<bool> CloseRobloxAsync()
     {
-        IEnumerable<string> names = Platform.IsLinux ? RobloxProcessNames.Concat(LinuxRobloxProcessNames) : RobloxProcessNames;
+        IEnumerable<string> names = Platform.UsesLinuxHost ? RobloxProcessNames.Concat(LinuxRobloxProcessNames) : RobloxProcessNames;
         foreach (string name in names)
         {
             Process[] processes = Array.Empty<Process>();

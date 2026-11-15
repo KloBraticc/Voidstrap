@@ -647,7 +647,7 @@ public static class VoidstrapMatchmaker
 
     internal static void RememberLaunchPick(MatchmakerCandidate candidate)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || string.IsNullOrEmpty(candidate.JobId))
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || string.IsNullOrEmpty(candidate.JobId))
             return;
         lock (_launchPickLock)
         {
@@ -658,7 +658,7 @@ public static class VoidstrapMatchmaker
 
     internal static MatchmakerCandidate? FindLaunchPick(string? jobId)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || string.IsNullOrEmpty(jobId))
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || string.IsNullOrEmpty(jobId))
             return null;
         lock (_launchPickLock)
         {

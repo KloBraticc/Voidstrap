@@ -31,7 +31,7 @@ public static class GithubUpdater
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
-            if (OperatingSystem.IsLinux())
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 return await GetLatestLinuxVersionTagAsync(cancellationToken).ConfigureAwait(false);
             if (OperatingSystem.IsMacOS())
                 return await GetLatestMacVersionTagAsync(cancellationToken).ConfigureAwait(false);
@@ -138,7 +138,7 @@ public static class GithubUpdater
                 return false;
             }
 
-            if (OperatingSystem.IsLinux())
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 return await InstallLinuxReleaseAsync(release, tag, cancellationToken).ConfigureAwait(false);
             if (OperatingSystem.IsMacOS())
                 return await InstallMacReleaseAsync(release, tag, cancellationToken).ConfigureAwait(false);

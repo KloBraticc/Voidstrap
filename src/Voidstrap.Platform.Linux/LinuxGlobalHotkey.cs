@@ -24,7 +24,7 @@ public sealed partial class LinuxGlobalHotkey : IDisposable
         _pressed = pressed;
         _modifiers = modifiers;
         _masks = [];
-        if (!OperatingSystem.IsLinux() || !LinuxWindowInterop.IsAvailable)
+        if (!HostSystem.UsesLinuxHost || !LinuxWindowInterop.IsAvailable)
             return;
         _display = XOpenDisplay(0);
         if (_display == 0)

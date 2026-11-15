@@ -12,7 +12,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
     {
         public static async Task<bool> RunAsync(List<NvidiaEditorEntry> entries)
         {
-            if (OperatingSystem.IsLinux())
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 return await RunLinuxAsync();
 
             if (!NvidiaProfileInspector.IsAvailable)

@@ -76,7 +76,7 @@ internal static class TextFontInstaller
     {
         try
         {
-            if (OperatingSystem.IsLinux())
+            if (Platform.UsesLinuxHost)
             {
                 string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 string fontDirectory = Path.Combine(home, ".local", "share", "fonts", "voidstrap");
@@ -106,7 +106,7 @@ internal static class TextFontInstaller
     {
         try
         {
-            if (OperatingSystem.IsLinux())
+            if (Platform.UsesLinuxHost)
             {
                 string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 string fontDirectory = Path.Combine(home, ".local", "share", "fonts", "voidstrap");

@@ -140,7 +140,7 @@ internal static class DiscordInvites
             using RegistryKey open = key.CreateSubKey(@"shell\open\command");
             open.SetValue("", command);
         }
-        else if (OperatingSystem.IsLinux())
+        else if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             string folder = Path.Combine(
                 Environment.GetEnvironmentVariable("XDG_DATA_HOME") is { Length: > 0 } xdg

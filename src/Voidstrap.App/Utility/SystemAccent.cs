@@ -68,7 +68,7 @@ internal static partial class SystemAccent
             {
                 result = GetMacOSAccent() ?? MacOSBlue;
             }
-            else if (OperatingSystem.IsLinux())
+            else if (Platform.UsesLinuxHost)
             {
                 result = GetLinuxAccent() ?? Fallback;
             }
@@ -123,7 +123,7 @@ internal static partial class SystemAccent
             Voidstrap.UI.ThemeTransition.RememberSystemTheme();
             _subscribed = true;
         }
-        else if (OperatingSystem.IsLinux())
+        else if (Platform.UsesLinuxHost)
         {
             LinuxAppearancePortal.WatchAccent(OnLinuxAccentChanged);
             _subscribed = true;
@@ -188,7 +188,7 @@ internal static partial class SystemAccent
         {
             SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
         }
-        else if (OperatingSystem.IsLinux())
+        else if (Platform.UsesLinuxHost)
         {
             LinuxAppearancePortal.StopWatching();
         }

@@ -65,7 +65,7 @@ public static partial class LinuxGpuCatalog
 	private static List<LinuxGpuCard> Enumerate()
 	{
 		List<LinuxGpuCard> cards = [];
-		if (!OperatingSystem.IsLinux() || !Directory.Exists(DrmRoot))
+		if (!HostSystem.UsesLinuxHost || !Directory.Exists(DrmRoot))
 			return cards;
 
 		List<(string Node, string Address, string VendorId, string ProductId, bool IsPrimary)> raw = [];

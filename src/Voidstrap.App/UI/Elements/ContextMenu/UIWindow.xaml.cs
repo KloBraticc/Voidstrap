@@ -184,7 +184,7 @@ namespace Voidstrap.UI.Elements.Overlay
             _readoutPanel.Children.Add(_separatorTextBlock);
             _readoutPanel.Children.Add(_timeTextBlock);
 
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 SizeToContent = SizeToContent.WidthAndHeight;
                 MaxWidth = LinuxReadoutMaxWidth;
@@ -284,7 +284,7 @@ namespace Voidstrap.UI.Elements.Overlay
 
             _readoutBorder.Measure(new Size(LinuxReadoutMaxWidth, double.PositiveInfinity));
             Size desired = _readoutBorder.DesiredSize;
-            if (!Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 double nextW = Math.Max(48, Math.Ceiling(desired.Width));
                 double nextH = Math.Max(24, Math.Ceiling(desired.Height));
@@ -302,7 +302,7 @@ namespace Voidstrap.UI.Elements.Overlay
 
         private void OnOverlayLoaded(object? sender, RoutedEventArgs e)
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this, _appliedCornerRadius);
             else
                 MakeClickThrough();
@@ -319,7 +319,7 @@ namespace Voidstrap.UI.Elements.Overlay
         private void OnOverlaySizeChanged(object sender, SizeChangedEventArgs e)
         {
             _anchor.Refresh();
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 Voidstrap.Integrations.Overlays.LinuxOverlaySurface.ApplyRoundedShape(this, _appliedCornerRadius);
         }
 

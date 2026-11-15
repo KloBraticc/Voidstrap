@@ -135,7 +135,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
     {
         get
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 return SelectedLaunchModeIndex == 1 ? "Vinegar" : "Sober";
             }

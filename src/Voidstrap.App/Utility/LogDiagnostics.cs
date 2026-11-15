@@ -49,7 +49,7 @@ internal static class LogDiagnostics
 
     private static string PlatformDetails()
     {
-        if (OperatingSystem.IsLinux())
+        if (Platform.UsesLinuxHost)
         {
             string session = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE") ?? "unknown";
             string desktop = Environment.GetEnvironmentVariable("XDG_CURRENT_DESKTOP") ?? "unknown";

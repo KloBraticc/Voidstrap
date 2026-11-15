@@ -785,7 +785,7 @@ public partial class DiscordRichPresence : IDisposable
                 UpdatePresence();
         }
         bool studioRunning;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             QueueLinuxStudioProbe();
             studioRunning = _linuxStudioRunning;

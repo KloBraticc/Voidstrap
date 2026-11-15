@@ -18,7 +18,7 @@ public partial class BootstrapperImportControl : UserControl
     public BootstrapperImportControl()
     {
         InitializeComponent();
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             Visibility = Visibility.Collapsed;
     }
 

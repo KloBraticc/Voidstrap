@@ -17,7 +17,7 @@ public partial class BloxshadeDialog : WpfUiWindow
     public BloxshadeDialog()
     {
         InitializeComponent();
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             Grid.SetRow(SettingText, 1);
             Grid.SetRowSpan(SettingText, 1);

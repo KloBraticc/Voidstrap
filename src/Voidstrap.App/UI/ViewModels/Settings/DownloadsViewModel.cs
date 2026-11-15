@@ -41,7 +41,7 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             public string Title { get; }
             public string Subtitle { get; private set; }
-            public bool CanChangeLocation => !Voidstrap.Utility.Platform.IsLinux;
+            public bool CanChangeLocation => !Voidstrap.Utility.Platform.UsesLinuxHost;
             public ImageSource? IconImage { get; }
             public LaunchMode LaunchMode => _launchMode;
             public string RuntimeKey => _processName;
@@ -271,7 +271,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 if (IsBusy)
                     return;
-                if (Voidstrap.Utility.Platform.IsLinux)
+                if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 {
                     Refresh();
                     return;
@@ -286,7 +286,7 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             public void Refresh()
             {
-                if (Voidstrap.Utility.Platform.IsLinux)
+                if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 {
                     RefreshLinuxRuntime();
                     return;
@@ -941,7 +941,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     OnPropertyChanged(nameof(LogoImage));
                 }
             }
-            public bool CanChangeLocation => !Voidstrap.Utility.Platform.IsLinux;
+            public bool CanChangeLocation => !Voidstrap.Utility.Platform.UsesLinuxHost;
 
             private readonly DownloadsViewModel _parent;
             private CancellationTokenSource? _cts = null!;
@@ -1747,7 +1747,7 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public DownloadsViewModel()
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 Items.Add(
                     new DownloadItem(

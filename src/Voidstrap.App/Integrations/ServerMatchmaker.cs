@@ -151,7 +151,7 @@ public sealed class ServerMatchmaker : IDisposable
 
     private void CancelLinuxPrefetch()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             CancelPrefetch();
     }
 
@@ -451,7 +451,7 @@ public sealed class ServerMatchmaker : IDisposable
             return;
         }
 
-        bool linuxRejoin = Voidstrap.Utility.Platform.IsLinux && _linuxRejoinTarget != null;
+        bool linuxRejoin = Voidstrap.Utility.Platform.UsesLinuxHost && _linuxRejoinTarget != null;
         string rejoinTarget = linuxRejoin ? _linuxRejoinTarget ?? "" : (App.LaunchSettings.MatchmakerTargetFlag.Data ?? "").Trim();
         bool landedOnRejoinTarget =
             rejoinTarget.Length == 0 || string.Equals(currentDc.City, rejoinTarget, StringComparison.OrdinalIgnoreCase);
@@ -771,7 +771,7 @@ public sealed class ServerMatchmaker : IDisposable
             ? authUri
             : LaunchInterceptor.BuildExperienceUri(placeId, explicitJobId, accessCode);
 
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             await TriggerLinuxRejoinAsync(placeId, launchUri, targetName, token).ConfigureAwait(false);
             return;

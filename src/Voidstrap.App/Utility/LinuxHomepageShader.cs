@@ -26,7 +26,7 @@ internal static class LinuxHomepageShader
     public static HomepageMedia? ResolveMedia()
     {
         if (
-            !Platform.IsLinux
+            !Platform.UsesLinuxHost
             || VirtualMachineProfile.ShouldForceSafeGraphics
             || !App.Settings.Prop.HomepageBackgroundOverlayEnabled
             || OverlaySettings.HomepageBackgroundMode != "Media"
@@ -81,7 +81,7 @@ internal static class LinuxHomepageShader
 
     public static string? Build(HomepageMedia? media)
     {
-        if (!Platform.IsLinux || !App.Settings.Prop.HomepageBackgroundOverlayEnabled || VirtualMachineProfile.ShouldForceSafeGraphics)
+        if (!Platform.UsesLinuxHost || !App.Settings.Prop.HomepageBackgroundOverlayEnabled || VirtualMachineProfile.ShouldForceSafeGraphics)
             return null;
         string mode = OverlaySettings.HomepageBackgroundMode;
         if (mode == "Media" && media is null)
@@ -274,7 +274,7 @@ internal static class LinuxHomepageShader
 
     public static bool IsHighResolutionImage(string? path)
     {
-        if (!Platform.IsLinux)
+        if (!Platform.UsesLinuxHost)
             return true;
         if (string.IsNullOrWhiteSpace(path))
             return false;

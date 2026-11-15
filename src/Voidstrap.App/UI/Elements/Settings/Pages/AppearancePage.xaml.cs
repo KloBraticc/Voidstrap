@@ -35,7 +35,7 @@ public partial class AppearancePage : UiPage
         base.DataContext = _appearanceViewModel;
         InitializeComponent();
         SidebarGrid.Resources[SidebarIconPickerDialog.IconFontResourceKey] = SidebarIconPickerDialog.FullIconFont;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             SidebarGrid.Visibility = Visibility.Collapsed;
             LinuxSidebarList.Visibility = Visibility.Visible;

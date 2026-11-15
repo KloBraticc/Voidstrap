@@ -34,7 +34,7 @@ public sealed partial class OverlayShortcut
         if ((Modifiers & Shift) != 0)
             parts.Add("Shift");
         if ((Modifiers & Windows) != 0)
-            parts.Add(Voidstrap.Utility.Platform.IsMacOS ? "Command" : Voidstrap.Utility.Platform.IsLinux ? "Super" : "Win");
+            parts.Add(Voidstrap.Utility.Platform.IsMacOS ? "Command" : Voidstrap.Utility.Platform.UsesLinuxHost ? "Super" : "Win");
         parts.Add(KeyName(Key));
         return string.Join(" + ", parts);
     }

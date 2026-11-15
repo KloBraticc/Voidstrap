@@ -484,7 +484,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private static IDisposable? RegisterPortableShortcut(OverlayShortcut shortcut, Action callback)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             return Voidstrap.Platform.Linux.LinuxGlobalHotkey.Register(shortcut.Modifiers, shortcut.Key, callback);
         if (Voidstrap.Utility.Platform.IsMacOS)
             return Voidstrap.Platform.MacOS.MacOSGlobalHotkey.Register(shortcut.Modifiers, shortcut.Key, callback);
@@ -974,7 +974,7 @@ public partial class MenuContainer : WpfUiWindow
     private void RequestTrayRefresh()
     {
 #if CROSSPLAT
-        if (!_closed && Voidstrap.Utility.Platform.IsLinux)
+        if (!_closed && Voidstrap.Utility.Platform.UsesLinuxHost)
             Voidstrap.UI.Tray.LinuxTray.RequestMenuRefresh();
 #endif
     }
@@ -1233,10 +1233,10 @@ public partial class MenuContainer : WpfUiWindow
 #if CROSSPLAT
             _trayInfoRefreshedUtc = DateTime.UtcNow;
 #endif
-            long? robloxMemory = Voidstrap.Utility.Platform.IsLinux
+            long? robloxMemory = Voidstrap.Utility.Platform.UsesLinuxHost
                 ? await Voidstrap.Platform.Linux.LinuxSoberMemory.ReadAsync(new Voidstrap.Core.SystemProcessService(), _lifetime)
                 : await Task.Run(ReadRobloxMemory, _lifetime);
-            if (!_closed && (Voidstrap.Utility.Platform.IsLinux || _activityWatcher?.InGame == true))
+            if (!_closed && (Voidstrap.Utility.Platform.UsesLinuxHost || _activityWatcher?.InGame == true))
             {
                 string text = "Roblox: " + (robloxMemory.HasValue ? FormatBytes(robloxMemory.Value) : "N/A");
                 if (MemoryTextBlock.Text != text)
@@ -1520,7 +1520,7 @@ public partial class MenuContainer : WpfUiWindow
         {
             App.Logger.WriteLine("MenuContainer::ShowJoinNotification", "Flag lookup failed: " + ex.Message);
         }
-        if (Voidstrap.Utility.Platform.IsLinux && text2.Length > 0)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && text2.Length > 0)
             serverLocation = CompactServerLocation(serverLocation);
         string uptime = string.Empty;
         try
@@ -1881,7 +1881,7 @@ public partial class MenuContainer : WpfUiWindow
     {
         if (_activityWatcher?.InGame == true)
             return;
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             _memoryTimer.Stop();
         _playTimer.Stop();
         InviteDeeplinkMenuItem.Visibility = Visibility.Collapsed;
@@ -1894,7 +1894,7 @@ public partial class MenuContainer : WpfUiWindow
         _serverInformationWindow?.Close();
         UpdateCurrentGameInfo(string.Empty, null);
         UpdatePlayTime(TimeSpan.Zero);
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             MemoryTextBlock.Text = "Roblox: 0 MB";
         RequestTrayRefresh();
     }
@@ -2032,7 +2032,7 @@ public partial class MenuContainer : WpfUiWindow
             return items;
         SyncMenuState();
         AppendTrayItems(base.ContextMenu.Items, items);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             for (int index = 0; index < items.Count; index++)
             {
@@ -2061,7 +2061,7 @@ public partial class MenuContainer : WpfUiWindow
         if (_activityWatcher?.InGame != true)
         {
             UpdatePlayTime(TimeSpan.Zero);
-            if (!Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 MemoryTextBlock.Text = "Roblox: 0 MB";
                 return;

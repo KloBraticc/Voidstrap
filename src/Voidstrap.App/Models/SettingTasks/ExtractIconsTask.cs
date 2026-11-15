@@ -36,7 +36,7 @@ public class ExtractIconsTask : BoolBaseTask
 
     public static void ExtractAll(bool overwrite)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             ExtractAllPortable(overwrite);
             return;

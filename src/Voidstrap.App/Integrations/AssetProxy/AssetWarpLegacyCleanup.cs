@@ -41,7 +41,7 @@ internal static partial class AssetWarpLegacyCleanup
     {
         lock (Gate)
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 Voidstrap.Platform.Linux.LinuxSoberProxyCleanup.RemoveLegacyOverride();
             if (Voidstrap.Utility.Platform.IsWindows && Voidstrap.Utility.ProcessElevation.IsAdministrator())
                 RemoveHostsEntries();
@@ -54,7 +54,7 @@ internal static partial class AssetWarpLegacyCleanup
                 App.Logger?.WriteLine(LogIdent, "Fleasion routing is still pending restore, AssetWarp data is kept until the next start");
                 return;
             }
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 RestoreSoberTrust();
             RemoveCertificates();
             if (Voidstrap.Utility.Platform.IsWindows)

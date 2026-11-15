@@ -11,7 +11,7 @@ internal static class LinuxPointerRefresh
     internal static void Attach(Window window)
     {
 #if CROSSPLAT
-		if (!OperatingSystem.IsLinux() || window is null || States.TryGetValue(window, out _))
+		if (!Voidstrap.Utility.Platform.UsesLinuxHost || window is null || States.TryGetValue(window, out _))
 			return;
 
 		State state = new(window);
@@ -23,7 +23,7 @@ internal static class LinuxPointerRefresh
     internal static void Schedule(Window window)
     {
 #if CROSSPLAT
-		if (OperatingSystem.IsLinux() && window is not null && States.TryGetValue(window, out State? state))
+		if (Voidstrap.Utility.Platform.UsesLinuxHost && window is not null && States.TryGetValue(window, out State? state))
 			state.Schedule();
 #endif
     }

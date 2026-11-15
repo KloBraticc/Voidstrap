@@ -12,7 +12,7 @@ namespace Voidstrap.UI;
 internal static class LinuxUiPerformance
 {
     private static readonly bool TraceEnabled = Environment.GetEnvironmentVariable("VOIDSTRAP_PERF_TRACE") == "1";
-    private static readonly string Category = OperatingSystem.IsLinux() ? "LinuxUiPerformance" : "StartupPerformance";
+    private static readonly string Category = Voidstrap.Utility.Platform.UsesLinuxHost ? "LinuxUiPerformance" : "StartupPerformance";
     private static readonly long Started = Stopwatch.GetTimestamp();
     private static readonly ConditionalWeakTable<Window, WindowProbe> Windows = new();
     private static bool _installed;
@@ -26,13 +26,13 @@ internal static class LinuxUiPerformance
 
     internal static bool ReducedMotion =>
         Voidstrap.Utility.RenderAcceleration.RendersInSoftware
-        || OperatingSystem.IsLinux() && (_reducedMotion || LinuxStartup.ActiveStage == "software");
+        || Voidstrap.Utility.Platform.UsesLinuxHost && (_reducedMotion || LinuxStartup.ActiveStage == "software");
 
     internal static event EventHandler? ReducedMotionChanged;
 
     internal static void Install()
     {
-        if (_installed || (!OperatingSystem.IsLinux() && !TraceEnabled))
+        if (_installed || (!Voidstrap.Utility.Platform.UsesLinuxHost && !TraceEnabled))
             return;
 
         _installed = true;
@@ -50,25 +50,25 @@ internal static class LinuxUiPerformance
 
     internal static void Mark(string stage)
     {
-        if (OperatingSystem.IsLinux() || TraceEnabled)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost || TraceEnabled)
             App.Logger.WriteLine(Category, stage + " at " + (int)Stopwatch.GetElapsedTime(Started).TotalMilliseconds + " ms");
     }
 
     internal static void Duration(string stage, long started)
     {
-        if (OperatingSystem.IsLinux() || TraceEnabled)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost || TraceEnabled)
             App.Logger.WriteLine(Category, stage + " took " + (int)Stopwatch.GetElapsedTime(started).TotalMilliseconds + " ms");
     }
 
     internal static void WindowConstructed(Window window)
     {
-        if (OperatingSystem.IsLinux() || TraceEnabled)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost || TraceEnabled)
             Windows.GetValue(window, static item => new WindowProbe(item));
     }
 
     internal static void FirstPresented(Window window, long elapsedMilliseconds)
     {
-        if (OperatingSystem.IsLinux())
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             App.Logger.WriteLine(Category, window.GetType().Name + " first presented frame after " + elapsedMilliseconds + " ms");
         if (window is Voidstrap.UI.Elements.Settings.MainWindow settings)
             settings.StartDeferredStartupWork();

@@ -1,3 +1,4 @@
+using Voidstrap.Platform;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +21,7 @@ public static class LinuxWebViewRuntimeDetector
 
 	public static LinuxWebViewRuntime Detect()
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 		{
 			return LinuxWebViewRuntime.None;
 		}
@@ -37,7 +38,7 @@ public static class LinuxWebViewRuntimeDetector
 
 	public static bool ShouldPreferWebKitGtk()
 	{
-		return OperatingSystem.IsLinux()
+		return HostSystem.UsesLinuxHost
 			&& !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"))
 			&& CanLoadAny(WebKitGtkLibraries);
 	}

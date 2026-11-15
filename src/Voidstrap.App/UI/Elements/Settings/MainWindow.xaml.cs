@@ -94,8 +94,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         return key switch
         {
-            "SoberNavItem" => Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
-            "RosemaryNavItem" => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
+            "SoberNavItem" => Voidstrap.Utility.Platform.UsesLinuxHost && !Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
+            "RosemaryNavItem" => Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
             "ExtensionsNavItem" or "ManagerNavItem" => false,
             _ => true,
         };
@@ -765,7 +765,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }
         );
         InstallLaunchButton.DropDownClick += LaunchTargetButton_Click;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             MatchLaunchButtonToFooter();
             Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged += OnLinuxReducedMotionChanged;
@@ -800,7 +800,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.Integrations.Plugins.PluginHost.BannersChanged += OnModBannersChanged;
 
         Voidstrap.Integrations.Plugins.PluginHost.PaneInvalidated += OnModBannerPaneInvalidated;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             CreateBackgroundMedia();
         AllowsTransparency = false;
         ApplyThemeBackground();
@@ -4882,7 +4882,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void CheckLinuxGradientPointer()
     {
         if (
-            !Voidstrap.Utility.Platform.IsLinux
+            !Voidstrap.Utility.Platform.UsesLinuxHost
             || !App.Settings.Prop.GRADmentFR
             || !IsActive
             || _targetOffset.LengthSquared == 0
@@ -5696,7 +5696,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            _robloxRunningCached = Voidstrap.Utility.Platform.IsLinux
+            _robloxRunningCached = Voidstrap.Utility.Platform.UsesLinuxHost
                 ? Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow()
                 : (
                     Voidstrap.Utility.Platform.IsMacOS
@@ -7216,7 +7216,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             bool studio = base.DataContext is MainWindowViewModel mainWindowViewModel && mainWindowViewModel.SelectedLaunchModeIndex == 1;
             bool installed = IsLaunchTargetInstalled(studio);
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 string runtime =
                     Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(
@@ -7244,7 +7244,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 if (
                     Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(
@@ -7300,7 +7300,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void InitializeWindowState()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             DiscardOversizedLinuxState();
         }
@@ -7489,7 +7489,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RestartNotificationDismiss.IsHitTestVisible = true;
         RestartNotificationCard.IsHitTestVisible = true;
         RestartNotificationCard.Visibility = Visibility.Visible;
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             PrepareLinuxRestartNotificationInput();
         }
@@ -7516,7 +7516,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void PrepareLinuxRestartNotificationInput()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || RestartNotificationCard == null)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || RestartNotificationCard == null)
         {
             return;
         }
@@ -7544,7 +7544,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         RestartNotificationCard.BeginAnimation(OpacityProperty, null);
         RestartNotificationTranslate?.BeginAnimation(TranslateTransform.XProperty, null);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             RestartNotificationCard.IsHitTestVisible = false;
         }
@@ -7929,7 +7929,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         double scale = Voidstrap.UI.LinuxInterfaceScale.For(this);
         if (
-            Voidstrap.Utility.Platform.IsLinux
+            Voidstrap.Utility.Platform.UsesLinuxHost
             && Voidstrap.UI.LinuxWindowMode.TryGetRestorePlacement(this, out bool fullscreenMaximized, out Rect fullscreenBounds)
         )
         {
@@ -7941,7 +7941,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             SaveSanitizedWindowState();
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.UI.LinuxWindowMode.IsCompositorMaximized(this))
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.UI.LinuxWindowMode.IsCompositorMaximized(this))
         {
             _state.MaximizedUpdateV2 = true;
             SaveSanitizedWindowState();
@@ -8167,7 +8167,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 );
             Voidstrap.Enums.LaunchMode mode =
                 vm.SelectedLaunchModeIndex == 1 ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player;
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 bool rosemary = Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(mode);
                 current ??= downloads.Items.FirstOrDefault(download => download.LaunchMode == mode && download.IsRosemary == rosemary);
@@ -8228,7 +8228,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     break;
                 case DownloadsViewModel.DownloadItem download:
                     mainWindowViewModel.SelectedLaunchClient = "";
-                    if (Voidstrap.Utility.Platform.IsLinux)
+                    if (Voidstrap.Utility.Platform.UsesLinuxHost)
                     {
                         Voidstrap.Utility.LinuxRuntimeChoice.Select(download.LaunchMode, download.RuntimeKey);
                         bool rosemary = Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(download.LaunchMode);

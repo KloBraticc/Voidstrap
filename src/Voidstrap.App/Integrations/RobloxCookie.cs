@@ -135,9 +135,9 @@ public static partial class RobloxCookie
     {
         if (!Voidstrap.Utility.Platform.IsWindows)
         {
-            if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
                 return Voidstrap.Platform.Linux.LinuxRosemary.ReadCookie(SecurityCookieName, "roblox.com");
-            return Voidstrap.Utility.Platform.IsLinux ? ReadFromSober() : ReadFromMac();
+            return Voidstrap.Utility.Platform.UsesLinuxHost ? ReadFromSober() : ReadFromMac();
         }
         string? text = ReadFromDat();
         if (!string.IsNullOrEmpty(text))
@@ -453,7 +453,7 @@ public static partial class RobloxCookie
             {
                 return Voidstrap.Platform.MacOS.MacOSBinaryCookies.Find(datPath, SecurityCookieName, "roblox.com");
             }
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 return Extract(File.ReadAllText(datPath));
             }
@@ -508,7 +508,7 @@ public static partial class RobloxCookie
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(outputDatPath)!);
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 File.WriteAllText(outputDatPath, SecurityCookieName + "=" + cookie + ";");
                 if (!OperatingSystem.IsWindows())
@@ -548,7 +548,7 @@ public static partial class RobloxCookie
             {
                 return false;
             }
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 string source = File.ReadAllText(templateDatPath);
                 Match match = NamedRegex.Match(source);

@@ -18,7 +18,7 @@ internal static class LinuxOverlayToolTips
 
     internal static void Attach(Window window)
     {
-        if (!OperatingSystem.IsLinux() || window is TipWindow)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || window is TipWindow)
             return;
         if (!_installed)
         {

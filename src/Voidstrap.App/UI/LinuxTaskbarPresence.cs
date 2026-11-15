@@ -19,7 +19,7 @@ internal static class LinuxTaskbarPresence
 
     public static void HideWhileSessionRuns()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Application? application = Application.Current;
@@ -56,7 +56,7 @@ internal static class LinuxTaskbarPresence
 
     public static void RestoreAfterSession()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Application? application = Application.Current;
@@ -84,7 +84,7 @@ internal static class LinuxTaskbarPresence
 
     public static void StopForShutdown()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         Application? application = Application.Current;

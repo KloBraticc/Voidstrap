@@ -69,7 +69,7 @@ public static partial class LinuxWindowInterop
 	{
 		get
 		{
-			if (!OperatingSystem.IsLinux())
+			if (!HostSystem.UsesLinuxHost)
 				return false;
 			return Display != 0;
 		}
@@ -79,7 +79,7 @@ public static partial class LinuxWindowInterop
 	{
 		get
 		{
-			if (!OperatingSystem.IsLinux())
+			if (!HostSystem.UsesLinuxHost)
 				return false;
 
 			lock (Sync)
@@ -314,7 +314,7 @@ public static partial class LinuxWindowInterop
 				if (_initialized)
 					return _display;
 				_initialized = true;
-				if (_unavailable || !OperatingSystem.IsLinux() || string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY")))
+				if (_unavailable || !HostSystem.UsesLinuxHost || string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY")))
 				{
 					_unavailable = true;
 					return 0;

@@ -811,7 +811,7 @@ public static partial class GameBananaCatalog
     {
         string raw = Path.Combine(staging, "raw");
         Directory.CreateDirectory(raw);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             await UnpackWithLibarchiveAsync(archivePath, extension, raw, token).ConfigureAwait(false);
         }
@@ -933,7 +933,7 @@ public static partial class GameBananaCatalog
 
     private static IEnumerable<string> EnumerateInWindowsOrder(string folder)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
             {

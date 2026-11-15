@@ -177,7 +177,7 @@ namespace Voidstrap.UI.Elements.Crosshair
                 ShowActivated = false;
                 Width = CanvasSize;
                 Height = CanvasSize;
-                if (Voidstrap.Utility.Platform.IsLinux)
+                if (Voidstrap.Utility.Platform.UsesLinuxHost)
                     Opacity = 0;
 
                 Loaded += OnCrosshairLoaded;
@@ -231,7 +231,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 
         internal void SetLinuxPresentation(bool visible)
         {
-            if (!Voidstrap.Utility.Platform.IsLinux || _disposed)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost || _disposed)
                 return;
 
             nint handle = ResolveLinuxHandle();
@@ -249,7 +249,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 
         internal bool ApplyLinuxShape()
         {
-            if (!Voidstrap.Utility.Platform.IsLinux || _disposed)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost || _disposed)
                 return false;
 
             try

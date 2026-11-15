@@ -19,15 +19,19 @@ namespace Voidstrap.Utility
         public static readonly bool IsMacOS = OperatingSystem.IsMacOS();
         [UnsupportedOSPlatformGuard("windows")]
         public static readonly bool IsLinux = OperatingSystem.IsLinux();
+        [UnsupportedOSPlatformGuard("windows")]
+        public static readonly bool IsFreeBSD = HostSystem.IsFreeBSD;
+        [UnsupportedOSPlatformGuard("windows")]
+        public static readonly bool UsesLinuxHost = HostSystem.UsesLinuxHost;
 
         public static IPlatformHost? RuntimeHost => RuntimeHostValue.Value;
 
         public static bool SupportsOverlays => IsWindows;
         public static bool SupportsWebBrowser => IsWindows;
-        public static bool SupportsInputHooks => IsWindows || IsLinux || IsMacOS;
+        public static bool SupportsInputHooks => IsWindows || UsesLinuxHost || IsMacOS;
         public static bool SupportsRegistry => IsWindows;
-        public static bool SupportsTrayIcon => IsWindows || IsLinux || IsMacOS;
-        public static bool SupportsAudioDucking => IsWindows || IsLinux;
+        public static bool SupportsTrayIcon => IsWindows || UsesLinuxHost || IsMacOS;
+        public static bool SupportsAudioDucking => IsWindows || UsesLinuxHost;
         public static bool SupportsWindowsClient => IsWindows;
 
         public static bool UsesPortableUi => !IsWindows;
@@ -38,7 +42,7 @@ namespace Voidstrap.Utility
 
         private static IPlatformHost? CreateRuntimeHost()
         {
-            if (IsLinux)
+            if (UsesLinuxHost)
             {
                 return new LinuxPlatformHost(new SystemProcessService(), LinuxGithubPlatformUpdater.Create());
             }

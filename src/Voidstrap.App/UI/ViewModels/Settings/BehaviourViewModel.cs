@@ -834,12 +834,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
     }
 
     public string PrioritizeRobloxDescription =>
-        Voidstrap.Utility.Platform.IsLinux
+        Voidstrap.Utility.Platform.UsesLinuxHost
             ? "Gives Roblox a larger CPU share while it is in the foreground. A custom Roblox Priority choice takes precedence."
             : "Uses safe Above Normal scheduling while Roblox is in the foreground. A custom Roblox Priority choice takes precedence.";
 
     public string ReduceResourcesDescription =>
-        Voidstrap.Utility.Platform.IsLinux
+        Voidstrap.Utility.Platform.UsesLinuxHost
             ? "Lowers Roblox's CPU share while another app is active, then restores it when you return."
             : "Lowers Roblox's Windows scheduling priority while another app is active, then restores it when you return.";
 
@@ -1356,7 +1356,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
     private async Task CleanRobloxCacheAsync()
     {
-        bool linux = Voidstrap.Utility.Platform.IsLinux;
+        bool linux = Voidstrap.Utility.Platform.UsesLinuxHost;
         List<Process> list = new List<Process>();
         if (!linux && (Voidstrap.Utility.Platform.IsMacOS || !string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid)))
         {
@@ -1989,7 +1989,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
         try
         {
             CpuOptions.Clear();
-            int processorCount = Voidstrap.Utility.Platform.IsLinux
+            int processorCount = Voidstrap.Utility.Platform.UsesLinuxHost
                 ? Voidstrap.Core.CpuTopology.OnlineCpus.Count
                 : Environment.ProcessorCount;
             int physicalCoreCount = GetPhysicalCoreCount();
@@ -2014,17 +2014,17 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             CpuModelName = text;
             CpuSummary =
                 $"{text}, {physicalCoreCount} physical cores, {processorCount} logical processors. Automatic uses every available processor.";
-            if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Core.CpuTopology.IsolatedCpus.Count > 0)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Core.CpuTopology.IsolatedCpus.Count > 0)
             {
                 CpuSummary =
                     $"{text}, {physicalCoreCount} physical cores, {processorCount} logical processors. CPUs {string.Join(", ", Voidstrap.Core.CpuTopology.IsolatedCpus)} are isolated by the kernel. Automatic keeps Sober on the CPUs Voidstrap started with, a core count moves Sober onto the isolated CPUs first.";
             }
-            if (!Voidstrap.Utility.Platform.IsLinux && processorCount > IntPtr.Size * 8)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost && processorCount > IntPtr.Size * 8)
             {
                 CpuSummary += " Manual limits are unavailable because this system uses processor groups.";
             }
             CpuOptions.Add("Automatic");
-            if (Voidstrap.Utility.Platform.IsLinux || processorCount <= IntPtr.Size * 8)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost || processorCount <= IntPtr.Size * 8)
             {
                 for (int i = 1; i <= processorCount; i++)
                 {
@@ -3161,7 +3161,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
     }
 
     public bool LinuxTitleNeedsXWayland =>
-        Voidstrap.Utility.Platform.IsLinux
+        Voidstrap.Utility.Platform.UsesLinuxHost
         && Voidstrap.Integrations.Overlays.OverlaySettings.LinuxSessionIsWayland
         && !App.Settings.Prop.SoberPreferXWayland;
 
@@ -3361,7 +3361,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                 SelectedBackgroundPreview = null;
                 return;
             }
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 SelectedBackgroundPreview = Voidstrap.Utility.SafeImaging.FromFile(selected.FilePath, 360);
                 return;

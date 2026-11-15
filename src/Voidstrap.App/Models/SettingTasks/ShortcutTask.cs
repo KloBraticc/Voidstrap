@@ -285,7 +285,7 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
         string target = _shortcutPath;
         string icon = Paths.Application;
         string resolvedName = ResolvedName;
-        var pathComparison = Voidstrap.Utility.Platform.IsLinux ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+        var pathComparison = Voidstrap.Utility.Platform.UsesLinuxHost ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
         if (_customizable)
         {
             if (!IsValidName(resolvedName))

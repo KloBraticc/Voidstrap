@@ -25,7 +25,7 @@ public static class LinuxAppImageHost
 	public static bool TryGetStoreWrapperPath(string? executablePath, out string wrapperPath)
 	{
 		wrapperPath = string.Empty;
-		if (!OperatingSystem.IsLinux() || string.IsNullOrWhiteSpace(executablePath))
+		if (!HostSystem.UsesLinuxHost || string.IsNullOrWhiteSpace(executablePath))
 		{
 			return false;
 		}
@@ -93,7 +93,7 @@ public static class LinuxAppImageHost
 	public static bool TryGetCurrentPath(out string appImagePath)
 	{
 		appImagePath = string.Empty;
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 		{
 			return false;
 		}

@@ -122,7 +122,7 @@ internal static class ModAutoFixer
         {
             App.Logger?.WriteLine(LogIdent, "The managed mod folders could not be listed: " + ex.Message);
         }
-        if (!Voidstrap.Utility.Platform.IsLinux)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             RepairModLayout(robloxFolder, folders);
         }

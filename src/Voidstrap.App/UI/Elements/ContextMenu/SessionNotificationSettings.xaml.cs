@@ -603,7 +603,7 @@ public partial class SessionNotificationSettings : Window
         if (held.HasFlag(ModifierKeys.Windows))
             text +=
                 Voidstrap.Utility.Platform.IsMacOS ? "Command + "
-                : Voidstrap.Utility.Platform.IsLinux ? "Super + "
+                : Voidstrap.Utility.Platform.UsesLinuxHost ? "Super + "
                 : "Win + ";
         return text;
     }

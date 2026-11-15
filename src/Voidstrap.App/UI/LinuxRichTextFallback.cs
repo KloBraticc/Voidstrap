@@ -16,7 +16,7 @@ internal static class LinuxRichTextFallback
 
     public static void Apply(RichTextBox rich)
     {
-        if (!OperatingSystem.IsLinux() || rich is null)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || rich is null)
             return;
 
         try

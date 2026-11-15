@@ -72,7 +72,7 @@ public sealed partial class SessionPanelWindow : Window
         // A transparent WPF window is rendered in software and re-uploaded on every frame, which makes
         // scrolling the server and game lists stutter over the game. On Windows the panel is an opaque
         // window made click-through with a layered style instead, which DWM composites on the GPU.
-        AllowsTransparency = !Voidstrap.Utility.Platform.IsWindows && !Voidstrap.Utility.Platform.IsLinux;
+        AllowsTransparency = !Voidstrap.Utility.Platform.IsWindows && !Voidstrap.Utility.Platform.UsesLinuxHost;
         if (AllowsTransparency)
             Background = Brushes.Transparent;
         else
@@ -564,7 +564,7 @@ public sealed partial class SessionPanelWindow : Window
 
     private void ApplyLinuxRoundedCorners()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || !IsVisible)
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || !IsVisible)
             return;
         _handle = PortableOverlay.Handle(this);
         if (

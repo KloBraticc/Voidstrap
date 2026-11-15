@@ -447,7 +447,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         OnPropertyChanged(nameof(AppIconPreview));
         OnPropertyChanged(nameof(ResetAppIconVisibility));
         LiveLanguageRefresher.ApplyBranding();
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             LinuxApplicationIdentity.Refresh();
         else if (Voidstrap.Utility.Platform.IsMacOS)
             Voidstrap.Utility.Branding.ApplyDockIcon();

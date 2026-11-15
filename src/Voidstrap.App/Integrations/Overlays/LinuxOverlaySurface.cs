@@ -13,7 +13,7 @@ namespace Voidstrap.Integrations.Overlays
 {
     internal static class LinuxOverlaySurface
     {
-        public static bool IsSupported => Voidstrap.Utility.Platform.IsLinux && LinuxWindowInterop.IsAvailable;
+        public static bool IsSupported => Voidstrap.Utility.Platform.UsesLinuxHost && LinuxWindowInterop.IsAvailable;
 
         private static readonly ConditionalWeakTable<Window, PassivePreparation> PassivePreparations = new();
 

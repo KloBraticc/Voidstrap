@@ -46,7 +46,7 @@ public static class AudioDucker
 
     public static void ApplyFromSettings()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             if (App.Settings.Prop.DuckRobloxAudioOnUnfocus)
                 LinuxAudioDucker.Start();
@@ -63,7 +63,7 @@ public static class AudioDucker
 
     public static void MarkResetOnNextLaunch()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
         lock (_gate)
         {
@@ -74,7 +74,7 @@ public static class AudioDucker
 
     public static void NotifyRobloxLaunched(int processId)
     {
-        if (processId < 0 || Voidstrap.Utility.Platform.IsLinux)
+        if (processId < 0 || Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         InvalidateRobloxPidCache();
@@ -106,7 +106,7 @@ public static class AudioDucker
 
     public static bool Start()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             return LinuxAudioDucker.Start();
         CancellationTokenSource? owner = null;
         try
@@ -147,7 +147,7 @@ public static class AudioDucker
 
     public static void Stop()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             LinuxAudioDucker.Stop();
             return;
@@ -180,7 +180,7 @@ public static class AudioDucker
 
     public static void Shutdown()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             LinuxAudioDucker.Stop();
             return;

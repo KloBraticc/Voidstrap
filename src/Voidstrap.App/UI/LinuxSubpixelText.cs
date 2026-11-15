@@ -45,7 +45,7 @@ public static class LinuxSubpixelText
 
     public static void Install()
     {
-        if (_installed || !OperatingSystem.IsLinux())
+        if (_installed || !Voidstrap.Utility.Platform.UsesLinuxHost)
             return;
 
         _installed = true;

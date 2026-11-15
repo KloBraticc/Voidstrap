@@ -78,7 +78,7 @@ namespace Voidstrap.Integrations.Overlays
 
         internal static bool LinuxHomepageRunning => _linuxHomepage is { IsDisposed: false };
         internal static bool LinuxGameplayLeaseOperational =>
-            !Voidstrap.Utility.Platform.IsLinux
+            !Voidstrap.Utility.Platform.UsesLinuxHost
             || _linuxGameplayLeaseOperational
                 && Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
 
@@ -128,11 +128,11 @@ namespace Voidstrap.Integrations.Overlays
             !_inGame
             && !_gameTransition
             && OverlaySettings.HomepageBackgroundEnabled
-            && (!Voidstrap.Utility.Platform.IsLinux || !_linuxHomepageNativeShaderActive && IsLinuxHomepageLifecycleActive());
+            && (!Voidstrap.Utility.Platform.UsesLinuxHost || !_linuxHomepageNativeShaderActive && IsLinuxHomepageLifecycleActive());
 
         internal static void SetLinuxHomepageNativeShaderActive(bool active)
         {
-            if (!Voidstrap.Utility.Platform.IsLinux || _linuxHomepageNativeShaderActive == active)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost || _linuxHomepageNativeShaderActive == active)
                 return;
             _linuxHomepageNativeShaderActive = active;
             App.Logger.WriteLine(
@@ -182,7 +182,7 @@ namespace Voidstrap.Integrations.Overlays
         {
             _inGame = true;
             _gameTransition = false;
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 SetLinuxGameplayLease(true);
             Refresh();
         }
@@ -191,25 +191,25 @@ namespace Voidstrap.Integrations.Overlays
         {
             _inGame = false;
             _gameTransition = false;
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 SetLinuxGameplayLease(false);
             Refresh();
         }
 
         internal static void SynchronizeLinuxGameState(bool inGame)
         {
-            if (!Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.Platform.IsMacOS || _shutdown)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost && !Voidstrap.Utility.Platform.IsMacOS || _shutdown)
                 return;
             _inGame = inGame;
             _gameTransition = false;
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 SetLinuxGameplayLease(inGame);
             Refresh();
         }
 
         internal static void ReleaseLinuxGameplayLease()
         {
-            if (!Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost)
                 return;
             _inGame = false;
             _gameTransition = false;
@@ -220,7 +220,7 @@ namespace Voidstrap.Integrations.Overlays
         {
             _inGame = true;
             _gameTransition = true;
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 SetLinuxGameplayLease(true);
             if (OverlaySettings.RiShadeClientActive)
                 Refresh();
@@ -232,7 +232,7 @@ namespace Voidstrap.Integrations.Overlays
         {
             _inGame = true;
             _gameTransition = false;
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 SetLinuxGameplayLease(true);
             Refresh();
         }
@@ -242,7 +242,7 @@ namespace Voidstrap.Integrations.Overlays
             _shutdown = true;
             _inGame = false;
             RefreshCrosshair();
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 ShutdownLinuxGameplayLease();
             Stop();
             RobloxFpsCap.Shutdown();
@@ -285,7 +285,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private static bool SetLinuxGameplayLease(bool active)
         {
-            if (!Voidstrap.Utility.Platform.IsLinux || (_shutdown && active))
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost || (_shutdown && active))
                 return false;
             lock (_linuxGameplayLeaseGate)
             {
@@ -481,7 +481,7 @@ namespace Voidstrap.Integrations.Overlays
         {
             if (_shutdown || _gameTransition || !_hostProcess)
                 return false;
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 return StartLinuxHomepage();
             if (Voidstrap.Utility.Platform.IsMacOS)
                 return StartMacHomepage();
@@ -804,7 +804,7 @@ namespace Voidstrap.Integrations.Overlays
 
         internal static void OnLinuxHomepageOverlayStopped(LinuxHomepageBackgroundOverlay overlay)
         {
-            if (!Voidstrap.Utility.Platform.IsLinux)
+            if (!Voidstrap.Utility.Platform.UsesLinuxHost)
                 return;
             System.Windows.Application? application = System.Windows.Application.Current;
             if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
@@ -831,7 +831,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private static void Stop()
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 StopLinuxHomepage();
                 return;

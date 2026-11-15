@@ -27,7 +27,7 @@ namespace Voidstrap.Integrations.Studio
                     return;
                 }
                 StudioPluginInstaller.RestoreAfterClassicClient();
-                if (Voidstrap.Utility.Platform.IsLinux)
+                if (Voidstrap.Utility.Platform.UsesLinuxHost)
                 {
                     StartLinux();
                     return;

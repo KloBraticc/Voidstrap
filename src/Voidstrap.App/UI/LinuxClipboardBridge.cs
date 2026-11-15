@@ -33,7 +33,7 @@ public static class LinuxClipboardBridge
     public static void Install()
     {
 #if CROSSPLAT
-		if (_installed || !(OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()))
+		if (_installed || !(Voidstrap.Utility.Platform.UsesLinuxHost || OperatingSystem.IsMacOS()))
 			return;
 
 		if (Environment.GetEnvironmentVariable("VOIDSTRAP_NATIVE_CLIPBOARD") == "0")
@@ -58,7 +58,7 @@ public static class LinuxClipboardBridge
 			Register(key);
 
 		ProGPU.Wpf.Interop.PortableWpfServiceRegistry.ClipboardServiceRegistered += OnClipboardServiceRegistered;
-		if (OperatingSystem.IsLinux())
+		if (Voidstrap.Utility.Platform.UsesLinuxHost)
 			Voidstrap.Platform.Linux.LinuxClipboard.Changed += OnClipboardChanged;
 		EventManager.RegisterClassHandler(
 			typeof(UIElement),
@@ -74,7 +74,7 @@ public static class LinuxClipboardBridge
 		);
 		App.Logger.WriteLine(
 			LogIdent,
-			OperatingSystem.IsLinux() && Voidstrap.Platform.Linux.LinuxClipboard.TracksChanges
+			Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Platform.Linux.LinuxClipboard.TracksChanges
 				? "Copy and paste now use the system clipboard and follow changes from other apps"
 				: "Copy and paste now use the system clipboard, other apps are read again on every paste"
 		);

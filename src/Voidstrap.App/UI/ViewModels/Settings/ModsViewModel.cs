@@ -423,14 +423,14 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
     public bool ClassicTopBarCoreGuiEditable => !_classicTopBarBusy && !App.Settings.Prop.ClassicTopBarEnabled;
 
     public Visibility ShiftLockVisibility =>
-        !Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary
+        !Voidstrap.Utility.Platform.UsesLinuxHost || Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary
             ? Visibility.Visible
             : Visibility.Collapsed;
 
     public void RefreshShiftLockVisibility() => OnPropertyChanged(nameof(ShiftLockVisibility));
 
     public Visibility ClassicTopBarVisibility =>
-        Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.ClassicTopBarEnabled
+        Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.UsesLinuxHost && App.Settings.Prop.ClassicTopBarEnabled
             ? Visibility.Visible
             : Visibility.Collapsed;
 
@@ -1154,7 +1154,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
             }
             if (value)
             {
-                string message = Voidstrap.Utility.Platform.IsLinux
+                string message = Voidstrap.Utility.Platform.UsesLinuxHost
                     ? "Sober dark mode is required. Voidstrap will use X11 or XWayland the next time Sober launches."
                     : "Roblox light mode is not supported. Make sure Roblox dark mode is selected.";
                 Frontend.ShowMessageBox(message, MessageBoxImage.Warning);
@@ -1539,7 +1539,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         OnPropertyChanged(nameof(KeystrokesMouseCustomWavName));
     }
 
-    public bool KeystrokesLinuxInputNoticeVisible => Voidstrap.Utility.Platform.IsLinux && !KeystrokeInputService.HasInputAccess;
+    public bool KeystrokesLinuxInputNoticeVisible => Voidstrap.Utility.Platform.UsesLinuxHost && !KeystrokeInputService.HasInputAccess;
 
     private bool _isPopulatingKeystrokeThemes;
     public ObservableCollection<string> CustomKeystrokeThemes { get; } = new();
@@ -2052,7 +2052,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
             catch (Exception ex)
             {
                 App.Logger.WriteLine("ModsViewModel::HomepageMediaPreview", "The video preview could not be opened: " + ex.Message);
-                _homepagePreviewMessage = Voidstrap.Utility.Platform.IsLinux
+                _homepagePreviewMessage = Voidstrap.Utility.Platform.UsesLinuxHost
                     ? "This video could not be previewed."
                     : "Video previews are not supported on Linux yet.";
             }
@@ -2278,7 +2278,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
     }
 
     public string[] AntiAliasingMethodNames =>
-        Voidstrap.Utility.Platform.IsLinux
+        Voidstrap.Utility.Platform.UsesLinuxHost
             ? Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodNames[
                 ..Voidstrap.Utility.LinuxEffectMapper.SupportedAntiAliasingMethods
             ]
@@ -2289,7 +2289,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         get
         {
             int index = Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodIndex;
-            return Voidstrap.Utility.Platform.IsLinux && index >= Voidstrap.Utility.LinuxEffectMapper.SupportedAntiAliasingMethods
+            return Voidstrap.Utility.Platform.UsesLinuxHost && index >= Voidstrap.Utility.LinuxEffectMapper.SupportedAntiAliasingMethods
                 ? 0
                 : index;
         }
@@ -2750,7 +2750,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
                 ModExplorerVisible = !ModExplorerVisible;
                 if (ModExplorerVisible)
                 {
-                    if (Voidstrap.Utility.Platform.IsLinux)
+                    if (Voidstrap.Utility.Platform.UsesLinuxHost)
                         await Task.Run(() => global::Voidstrap.Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None));
                     else if (Voidstrap.Utility.Platform.IsWindows)
                         await Task.Run(() => Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData()));
@@ -3828,7 +3828,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
             if (!File.Exists(path))
                 return;
             if (
-                Voidstrap.Utility.Platform.IsLinux
+                Voidstrap.Utility.Platform.UsesLinuxHost
                 && !Voidstrap.Integrations.Overlays.OverlaySettings.IsHomepageVideo(path)
                 && !LinuxHomepageShader.IsHighResolutionImage(path)
             )
@@ -4813,7 +4813,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
     private static string GetRobloxPlayerDir()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             return GetSoberClientDir();
         if (Voidstrap.Utility.Platform.IsMacOS)
         {

@@ -24,7 +24,7 @@ public static class RoundedWindowChrome
         }
         _installed = true;
         EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnWindowLoaded));
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             Wpf.Ui.Controls.ClientAreaBorder.PortableCornerRadiusProvider = ClientAreaCornerRadius;
     }
 
@@ -41,7 +41,7 @@ public static class RoundedWindowChrome
         }
         try
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 window.SourceInitialized -= OnLinuxWindowReady;
                 window.SourceInitialized += OnLinuxWindowReady;
@@ -94,7 +94,7 @@ public static class RoundedWindowChrome
             {
                 window.AllowsTransparency = true;
 
-                if (Voidstrap.Utility.Platform.IsLinux && !window.AllowsTransparency)
+                if (Voidstrap.Utility.Platform.UsesLinuxHost && !window.AllowsTransparency)
                 {
                     App.Logger?.WriteLine(
                         "RoundedWindowChrome::ApplyTransparentStyle",
@@ -118,7 +118,7 @@ public static class RoundedWindowChrome
         {
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux && IsOverlaySurface(window))
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && IsOverlaySurface(window))
         {
             window.ShowActivated = false;
             window.ShowInTaskbar = false;
@@ -127,7 +127,7 @@ public static class RoundedWindowChrome
         }
         ConstrainContentWidth(window);
         ApplyStartupLocation(window);
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             LinuxPointerRefresh.Attach(window);
             LinuxWindowUpdatePump.Attach(window);
@@ -147,7 +147,7 @@ public static class RoundedWindowChrome
         if (
             window.ResizeMode == ResizeMode.CanResize
             || window.ResizeMode == ResizeMode.CanResizeWithGrip
-            || Voidstrap.Utility.Platform.IsLinux && window.WindowState == System.Windows.WindowState.Maximized
+            || Voidstrap.Utility.Platform.UsesLinuxHost && window.WindowState == System.Windows.WindowState.Maximized
         )
         {
             WindowEdgeResizer.Attach(window);
@@ -274,7 +274,7 @@ public static class RoundedWindowChrome
     private static void QueueNativeShapeSync(Window window)
     {
         if (
-            !Voidstrap.Utility.Platform.IsLinux
+            !Voidstrap.Utility.Platform.UsesLinuxHost
             || window.Dispatcher.HasShutdownStarted
             || window.Dispatcher.HasShutdownFinished
             || ShapeSyncTimers.TryGetValue(window, out _)
@@ -517,7 +517,7 @@ public static class RoundedWindowChrome
 
     private static void ApplyNativeRounding(Window window)
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || IsOverlaySurface(window))
+        if (!Voidstrap.Utility.Platform.UsesLinuxHost || IsOverlaySurface(window))
         {
             return;
         }
@@ -619,7 +619,7 @@ public static class RoundedWindowChrome
         {
             return;
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             Wpf.Ui.Controls.ClientAreaBorder.Refresh(window);
         if (!window.AllowsTransparency)
         {
@@ -644,7 +644,7 @@ public static class RoundedWindowChrome
     {
         if (LinuxWindowMode.IsFullscreen(window))
             return true;
-        return Voidstrap.Utility.Platform.IsLinux
+        return Voidstrap.Utility.Platform.UsesLinuxHost
             ? LinuxWindowMode.IsCompositorMaximized(window)
             : window.WindowState == System.Windows.WindowState.Maximized;
     }

@@ -105,7 +105,7 @@ public class Cleaner
                 }
             }
         }
-        if (Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.CleanerDirectories.Contains("RobloxLogs"))
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && App.Settings.Prop.CleanerDirectories.Contains("RobloxLogs"))
         {
             try
             {
@@ -222,7 +222,7 @@ public class Cleaner
             return false;
         }
         if (!file.Contains("Roblox") && !file.Contains("Voidstrap") && !file.Contains(Paths.Base)
-            && !(Voidstrap.Utility.Platform.IsLinux && file.Contains("/org.vinegarhq.Sober/", StringComparison.Ordinal)))
+            && !(Voidstrap.Utility.Platform.UsesLinuxHost && file.Contains("/org.vinegarhq.Sober/", StringComparison.Ordinal)))
         {
             throw new Exception(file + " was in disallowed directory");
         }

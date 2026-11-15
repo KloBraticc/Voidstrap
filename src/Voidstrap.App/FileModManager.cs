@@ -74,7 +74,7 @@ public static class FileModManager
 
     private static readonly string[] WaterKtxFiles = WaterFiles.Select(static rel => Path.ChangeExtension(rel, ".ktx")).ToArray();
 
-    private static bool UsesKtxWater => OperatingSystem.IsLinux();
+    private static bool UsesKtxWater => Voidstrap.Utility.Platform.UsesLinuxHost;
 
     private static string[] WaterTargets => UsesKtxWater ? WaterKtxFiles : WaterFiles;
 
@@ -182,7 +182,7 @@ public static class FileModManager
 
     private static (string? Directory, string? Guid) FindPlayerVersion()
     {
-        if (OperatingSystem.IsLinux())
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             return FindUnpackedSoberClient();
         if (OperatingSystem.IsMacOS())
         {

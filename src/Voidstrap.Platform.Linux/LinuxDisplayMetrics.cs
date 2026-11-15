@@ -35,7 +35,7 @@ public static class LinuxDisplayMetrics
 
 	public static double RefreshRateForWindow(nint window)
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			return 60d;
 
 		lock (Sync)
@@ -179,7 +179,7 @@ public static class LinuxDisplayMetrics
 
 	private static LinuxDisplayInfo Query()
 	{
-		if (!OperatingSystem.IsLinux())
+		if (!HostSystem.UsesLinuxHost)
 			return new LinuxDisplayInfo(Fallback, Fallback, 1.0, "fallback");
 
 		double scale = ReadScale();

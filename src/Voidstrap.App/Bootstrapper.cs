@@ -899,7 +899,7 @@ public partial class Bootstrapper
         if (IsNewerVersion(text2))
         {
             if (
-                Voidstrap.Utility.Platform.IsLinux
+                Voidstrap.Utility.Platform.UsesLinuxHost
                 && string.Equals(App.State.Prop.DeclinedLinuxUpdateTag, text, StringComparison.OrdinalIgnoreCase)
             )
             {
@@ -910,7 +910,7 @@ public partial class Bootstrapper
                 return false;
             }
             if (
-                Voidstrap.Utility.Platform.IsLinux
+                Voidstrap.Utility.Platform.UsesLinuxHost
                 && string.Equals(App.State.Prop.StagedLinuxUpdateTag, text, StringComparison.OrdinalIgnoreCase)
             )
             {
@@ -1412,7 +1412,7 @@ public partial class Bootstrapper
                 return false;
             }
 
-            if (OperatingSystem.IsLinux())
+            if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
                 IRobloxRuntimeProvider provider = runtimeKind == RuntimeKind.Player ? host.PlayerRuntime : host.StudioRuntime;
                 RuntimeInstallation installation = await provider.FindInstallationAsync(cancellationToken);
@@ -1891,7 +1891,7 @@ public partial class Bootstrapper
 
     private static bool StudioRunning()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             return Voidstrap.Platform.Linux.StudioProcessNames.AnyRunning();
         }

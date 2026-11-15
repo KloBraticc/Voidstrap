@@ -29,7 +29,7 @@ public static class Utilities
 
     public static void ShellExecute(string website)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             Voidstrap.Utility.PlatformShell.TryOpenUrl(website);
             return;
@@ -58,7 +58,7 @@ public static class Utilities
 
     public static bool OpenTextFile(string path)
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
             return Voidstrap.Utility.PlatformShell.TryOpenUrl(path);
         try
         {

@@ -21,7 +21,7 @@ internal static class Paths
     public static string LocalAppData => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
     public static string Desktop =>
-        Voidstrap.Utility.Platform.IsLinux
+        Voidstrap.Utility.Platform.UsesLinuxHost
             ? Voidstrap.Utility.LinuxDesktopEntry.DesktopFolder
             : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
@@ -55,7 +55,7 @@ internal static class Paths
     }
 
     public static string LaunchExecutable =>
-        Voidstrap.Utility.Platform.IsLinux ? LinuxAppImageHost.ResolveApplicationPath(Process) : Process;
+        Voidstrap.Utility.Platform.UsesLinuxHost ? LinuxAppImageHost.ResolveApplicationPath(Process) : Process;
 
     public static string TempUpdates => Path.Combine(Temp, "Updates");
 
@@ -227,7 +227,7 @@ internal static class Paths
     public static string RobloxLogs
     {
         get =>
-            Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
+            Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
                 ? LinuxRosemary.GuestLogs
                 : _robloxLogs;
         private set => _robloxLogs = value;
@@ -238,7 +238,7 @@ internal static class Paths
     public static string RobloxCache
     {
         get =>
-            Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
+            Voidstrap.Utility.Platform.UsesLinuxHost && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
                 ? Path.Combine(LinuxRosemary.GuestHome, "Library", "Caches")
                 : _robloxCache;
         private set => _robloxCache = value;
@@ -348,7 +348,7 @@ internal static class Paths
         {
             throw new ArgumentException("Application path cannot be null or empty.", nameof(applicationPath));
         }
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             applicationPath = LinuxAppImageHost.ResolveApplicationPath(applicationPath);
         }
@@ -365,7 +365,7 @@ internal static class Paths
         Media = Path.Combine(Data, "Media");
         Extensions = storage.Extensions;
         Logs = storage.Logs;
-        Downloads = Voidstrap.Utility.Platform.IsLinux ? Path.Combine(storage.Cache, "Downloads") : storage.Downloads;
+        Downloads = Voidstrap.Utility.Platform.UsesLinuxHost ? Path.Combine(storage.Cache, "Downloads") : storage.Downloads;
         Integrations = Path.Combine(Data, "Integrations");
         Roblox = Path.Combine(Data, "Roblox");
         Versions = Path.Combine(RobloxBase, "RblxVersions");
@@ -375,11 +375,11 @@ internal static class Paths
         WebViewData = Path.Combine(Cache, "WebView");
         string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         RobloxLogs =
-            Voidstrap.Utility.Platform.IsLinux
+            Voidstrap.Utility.Platform.UsesLinuxHost
                 ? Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober", "appData", "logs")
             : OperatingSystem.IsMacOS() ? Path.Combine(home, "Library", "Logs", "Roblox")
             : Path.Combine(LocalAppData, "Roblox", "logs");
-        RobloxCache = Voidstrap.Utility.Platform.IsLinux
+        RobloxCache = Voidstrap.Utility.Platform.UsesLinuxHost
             ? Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "cache", "sober")
             : Path.Combine(Path.GetTempPath(), "Roblox");
         InitializeDerivedPaths(Voidstrap.Utility.Platform.IsWindows);
@@ -842,7 +842,7 @@ internal static class Paths
 
     public static void ResetUserData()
     {
-        if (Voidstrap.Utility.Platform.IsLinux)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             ResetLinuxUserData();
             return;

@@ -25,7 +25,7 @@ public static partial class LinuxScreenCast
     private const string LogIdent = "LinuxScreenCast";
 
     public static bool Required =>
-        Voidstrap.Utility.Platform.IsLinux && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"));
+        Voidstrap.Utility.Platform.UsesLinuxHost && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"));
 
     private static string TokenPath => Path.Combine(Paths.Config, "ScreenCastToken");
 

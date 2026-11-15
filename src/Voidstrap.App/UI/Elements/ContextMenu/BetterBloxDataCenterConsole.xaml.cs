@@ -17,7 +17,7 @@ public partial class BetterBloxDataCenterConsole : WpfUiWindow
     public BetterBloxDataCenterConsole()
     {
         InitializeComponent();
-        if (Voidstrap.Utility.Platform.IsLinux && Content is System.Windows.Controls.Grid root)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost && Content is System.Windows.Controls.Grid root)
         {
             root.RowDefinitions.Insert(2, new System.Windows.Controls.RowDefinition { Height = GridLength.Auto });
             System.Windows.Controls.Grid.SetRow(ErrorText, 2);
