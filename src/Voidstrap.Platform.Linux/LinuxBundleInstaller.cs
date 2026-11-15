@@ -20,16 +20,17 @@ public static partial class LinuxBundleInstaller
 	private const int CurrentWorkingDirectoryDescriptor = -100;
 	private const int ElfHeaderSize = 64;
 	private const int ElfProgramHeaderSize = 56;
-	private const int OpenDirectoryFlag = 65536;
-	private const int CloseOnExecuteFlag = 524288;
+	private static readonly int OpenDirectoryFlag = HostSystem.IsFreeBSD ? 0x20000 : 0x10000;
 	private const uint LoadableSegmentType = 1;
+	private const byte FreeBSDElfAbi = 9;
 
 	private static readonly HashSet<string> SupportedRuntimeIdentifiers = new(StringComparer.Ordinal)
 	{
 		"linux-x64",
 		"linux-arm64",
 		"linux-musl-x64",
-		"linux-musl-arm64"
+		"linux-musl-arm64",
+		"freebsd-x64"
 	};
 
 	private static readonly string[] ManagedRoots =
@@ -50,8 +51,15 @@ public static partial class LinuxBundleInstaller
 
 	public static string GetCurrentRuntimeIdentifier()
 	{
+		if (HostSystem.IsFreeBSD)
+		{
+			return RuntimeInformation.OSArchitecture == Architecture.X64
+				? "freebsd-x64"
+				: throw new PlatformNotSupportedException("The current FreeBSD architecture is unsupported");
+		}
+
 		string runtimeIdentifier = RuntimeInformation.RuntimeIdentifier.ToLowerInvariant();
-		if (SupportedRuntimeIdentifiers.Contains(runtimeIdentifier))
+		if (SupportedRuntimeIdentifiers.Contains(runtimeIdentifier) && runtimeIdentifier.StartsWith("linux", StringComparison.Ordinal))
 		{
 			return runtimeIdentifier;
 		}
@@ -381,7 +389,7 @@ public static partial class LinuxBundleInstaller
 		{
 			throw new FileNotFoundException("The update bundle is unavailable", archivePath);
 		}
-		if (!IsBundleDirectory(installDirectory, executablePath) || !IsWritable(parentDirectory))
+		if (HostSystem.IsFreeBSD || !IsBundleDirectory(installDirectory, executablePath) || !IsWritable(parentDirectory))
 		{
 			await ReplaceExecutableAsync(archivePath, executablePath, cancellationToken).ConfigureAwait(false);
 			return;
@@ -738,7 +746,7 @@ public static partial class LinuxBundleInstaller
 			return;
 		}
 
-		int descriptor = OpenDirectory(directory, OpenDirectoryFlag | CloseOnExecuteFlag);
+		int descriptor = OpenDirectory(directory, OpenDirectoryFlag | Voidstrap.Core.UnixSystem.OpenCloseOnExec);
 		if (descriptor < 0)
 		{
 			int error = Marshal.GetLastPInvokeError();
@@ -860,6 +868,10 @@ public static partial class LinuxBundleInstaller
 		if (executableType is not 2 and not 3 || machine != expectedMachine)
 		{
 			throw new InvalidDataException("The update bundle contains a Voidstrap program for another architecture");
+		}
+		if ((header[7] == FreeBSDElfAbi) != HostSystem.IsFreeBSD)
+		{
+			throw new InvalidDataException("The update bundle contains a Voidstrap program for another system");
 		}
 
 		ulong programHeaderOffset = BinaryPrimitives.ReadUInt64LittleEndian(header[32..40]);

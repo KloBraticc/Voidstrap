@@ -158,17 +158,20 @@ public static partial class LinuxInstallationUpdates
 			return new LinuxInstallationInfo(LinuxInstallationKind.Flatpak, resolvedExecutable, packageName, scope);
 		}
 
-		string? debianPackage = await QueryPackageOwnerAsync(processes, "dpkg-query", ["-S", resolvedExecutable], ParseDebianOwner, cancellationToken).ConfigureAwait(false);
-		if (debianPackage is not null)
-			return new LinuxInstallationInfo(LinuxInstallationKind.Debian, resolvedExecutable, debianPackage, LinuxPackageScope.System);
+		if (!HostSystem.IsFreeBSD)
+		{
+			string? debianPackage = await QueryPackageOwnerAsync(processes, "dpkg-query", ["-S", resolvedExecutable], ParseDebianOwner, cancellationToken).ConfigureAwait(false);
+			if (debianPackage is not null)
+				return new LinuxInstallationInfo(LinuxInstallationKind.Debian, resolvedExecutable, debianPackage, LinuxPackageScope.System);
 
-		string? rpmPackage = await QueryPackageOwnerAsync(processes, "rpm", ["-qf", "--queryformat", "%{NAME}\n", resolvedExecutable], ParseSinglePackageName, cancellationToken).ConfigureAwait(false);
-		if (rpmPackage is not null)
-			return new LinuxInstallationInfo(LinuxInstallationKind.Rpm, resolvedExecutable, rpmPackage, LinuxPackageScope.System);
+			string? rpmPackage = await QueryPackageOwnerAsync(processes, "rpm", ["-qf", "--queryformat", "%{NAME}\n", resolvedExecutable], ParseSinglePackageName, cancellationToken).ConfigureAwait(false);
+			if (rpmPackage is not null)
+				return new LinuxInstallationInfo(LinuxInstallationKind.Rpm, resolvedExecutable, rpmPackage, LinuxPackageScope.System);
 
-		string? archPackage = await QueryPackageOwnerAsync(processes, "pacman", ["-Qqo", resolvedExecutable], ParseSinglePackageName, cancellationToken).ConfigureAwait(false);
-		if (archPackage is not null)
-			return new LinuxInstallationInfo(LinuxInstallationKind.Arch, resolvedExecutable, archPackage, LinuxPackageScope.System);
+			string? archPackage = await QueryPackageOwnerAsync(processes, "pacman", ["-Qqo", resolvedExecutable], ParseSinglePackageName, cancellationToken).ConfigureAwait(false);
+			if (archPackage is not null)
+				return new LinuxInstallationInfo(LinuxInstallationKind.Arch, resolvedExecutable, archPackage, LinuxPackageScope.System);
+		}
 
 		string? directory = Path.GetDirectoryName(resolvedExecutable);
 		return new LinuxInstallationInfo(
