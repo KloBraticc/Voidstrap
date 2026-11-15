@@ -63,12 +63,6 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
     private static partial bool EmptyWorkingSet(IntPtr hProcess);
 
     [LibraryImport("user32.dll")]
-    private static partial IntPtr GetForegroundWindow();
-
-    [LibraryImport("user32.dll")]
-    private static partial uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
-    [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool IsIconic(IntPtr hWnd);
 
@@ -398,13 +392,7 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 
         try
         {
-            IntPtr foregroundWindow = GetForegroundWindow();
-            if (foregroundWindow == IntPtr.Zero)
-            {
-                return false;
-            }
-            GetWindowThreadProcessId(foregroundWindow, out uint processId);
-            return processId == (uint)_processId;
+            return Voidstrap.Integrations.Overlays.RobloxWindowTracker.IsProcessForeground(_processId);
         }
         catch
         {
@@ -516,9 +504,11 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
     internal static ProcessPriorityClass ResolveRuntimePriority(AppSettings settings, bool focused)
     {
         ProcessPriorityClass selected = ResolvePriority(settings);
-        if (!focused && settings.RobloxEfficiencyMode)
+        if (focused || selected is ProcessPriorityClass.High or ProcessPriorityClass.AboveNormal)
+            return selected;
+        if (settings.RobloxEfficiencyMode)
             return ProcessPriorityClass.Idle;
-        if (!focused && (settings.ReduceMemoryOutOfFocus || settings.TasxOptimization))
+        if (settings.ReduceMemoryOutOfFocus || settings.TasxOptimization)
             return selected == ProcessPriorityClass.Idle ? selected : ProcessPriorityClass.BelowNormal;
         return selected;
     }

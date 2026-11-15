@@ -252,8 +252,8 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
     public string RobloxPriorityDescription =>
         Voidstrap.Utility.Platform.UsesLinuxHost
-            ? "Choose how much CPU share Roblox gets compared to your other apps. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable."
-            : "Choose a safe Windows scheduling priority for Roblox. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable.";
+            ? "Choose how much CPU share Roblox gets compared to your other apps. High and Above Normal stay applied while Roblox is unfocused, background efficiency settings only lower Normal and below. Realtime is intentionally unavailable."
+            : "Choose a safe Windows scheduling priority for Roblox. High and Above Normal stay applied while Roblox is unfocused, background efficiency settings only lower Normal and below. Realtime is intentionally unavailable.";
 
     public bool RobloxEfficiencyMode
     {
