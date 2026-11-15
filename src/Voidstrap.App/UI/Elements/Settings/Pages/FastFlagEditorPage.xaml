@@ -107,7 +107,7 @@
             <Separator />
             <MenuItem Header="{resources:Loc Menu_FastFlagEditor_CopySelected}" Click="CopySelectedFlagsMenuItem_Click" />
             <Separator />
-            <MenuItem Header="{resources:Loc Menu_FastFlagEditor_DeleteSelected}" Click="DeleteButton_Click" />
+            <MenuItem Header="{resources:Loc Menu_FastFlagEditor_DeleteSelected}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Click="DeleteButton_Click" />
           </ContextMenu>
         </DataGrid.ContextMenu>
         <DataGrid.Columns>
