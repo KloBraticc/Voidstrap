@@ -14,12 +14,14 @@ case "$RID" in
   linux-musl-arm64) TRIPLE=aarch64-unknown-linux-musl; FILE=libvoidimage.so ;;
   osx-x64) TRIPLE=x86_64-apple-darwin; FILE=libvoidimage.dylib ;;
   osx-arm64) TRIPLE=aarch64-apple-darwin; FILE=libvoidimage.dylib ;;
+  freebsd-x64) TRIPLE=x86_64-unknown-freebsd; FILE=libvoidimage.so ;;
   *) echo "voidimage: no native build for $RID, the managed decoder is used"; exit 0 ;;
 esac
 
 case "$TRIPLE" in
   *-apple-darwin) [ "$(uname -s)" = "Darwin" ] || { echo "voidimage: $RID is only built on macOS, the managed decoder is used"; exit 0; } ;;
   *-linux-*) [ "$(uname -s)" = "Linux" ] || { echo "voidimage: $RID is only built on Linux, the managed decoder is used"; exit 0; } ;;
+  *-freebsd) [ "$(uname -s)" = "FreeBSD" ] || { echo "voidimage: $RID is only built on FreeBSD, the managed decoder is used"; exit 0; } ;;
 esac
 
 PATH="$PATH:$HOME/.cargo/bin"

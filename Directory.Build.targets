@@ -23,7 +23,7 @@
 		<ProGpuWpfEnableWin32CompatShim>false</ProGpuWpfEnableWin32CompatShim>
 	</PropertyGroup>
 
-	<Target Name="BuildLinuxWin32Compatibility" BeforeTargets="CoreCompile" Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Linux')) And '$(ProGpuWpfUsePortableFrameworkReferences)' == 'true' And Exists('$(_ProGpuWpfWin32CompatSource)')">
+	<Target Name="BuildLinuxWin32Compatibility" BeforeTargets="CoreCompile" Condition="($(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('freebsd'))) And ($([MSBuild]::IsOSPlatform('Linux')) Or $([MSBuild]::IsOSPlatform('FreeBSD'))) And '$(ProGpuWpfUsePortableFrameworkReferences)' == 'true' And Exists('$(_ProGpuWpfWin32CompatSource)')">
 		<PropertyGroup>
 			<_VoidstrapWin32CompatDirectory>$(BaseIntermediateOutputPath)win32compat/$(RuntimeIdentifier)/</_VoidstrapWin32CompatDirectory>
 			<_VoidstrapWin32CompatLibrary>$(_VoidstrapWin32CompatDirectory)libwin32compat.so</_VoidstrapWin32CompatLibrary>

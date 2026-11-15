@@ -16,7 +16,7 @@ git checkout --quiet "$REVISION"
 git submodule update --init --quiet ffi/webgpu-headers
 
 if [[ "$RID" != linux-musl-* ]]; then
-    sed -i '/^# We want the wgpu-core GLES backend on Unix/,/^features = \["gles"\]/d' Cargo.toml
+    sed -i.orig '/^# We want the wgpu-core GLES backend on Unix/,/^features = \["gles"\]/d' Cargo.toml
     if grep -q 'cfg(all(unix, not(target_os = "ios"), not(target_os = "macos")))' Cargo.toml; then
         echo "The Unix OpenGL backend could not be removed from Cargo.toml" >&2
         exit 1
@@ -26,7 +26,7 @@ if [[ "$RID" != linux-musl-* ]]; then
         echo "src/conv.rs changed, the OpenGL report guard was not found exactly once" >&2
         exit 1
     fi
-    sed -i 's/#\[cfg(gles)\]/#[cfg(any(feature = "angle", windows))]/' src/conv.rs
+    sed -i.orig 's/#\[cfg(gles)\]/#[cfg(any(feature = "angle", windows))]/' src/conv.rs
 
 fi
 
@@ -36,6 +36,7 @@ LIBRARY="$TARGET_ROOT/release/libwgpu_native.so"
 COMPILER="${VOIDSTRAP_NATIVE_COMPILER:-}"
 case "$RID" in
     linux-x64) COMPILER="${COMPILER:-cc}" ;;
+    freebsd-x64) [ "$(uname -s)" = "FreeBSD" ] || { echo "freebsd-x64 is only built on FreeBSD" >&2; exit 1; }; COMPILER="${COMPILER:-cc}" ;;
     linux-arm64) TARGET=aarch64-unknown-linux-gnu; COMPILER="${COMPILER:-aarch64-linux-gnu-gcc}" ;;
     linux-musl-x64) TARGET=x86_64-unknown-linux-musl; COMPILER="${COMPILER:-musl-gcc}" ;;
     linux-musl-arm64) TARGET=aarch64-unknown-linux-musl; COMPILER="${COMPILER:-aarch64-linux-musl-gcc}" ;;

@@ -12,6 +12,11 @@ CMAKE_ARGS=(-DBUILD_SHARED_LIBS=ON -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=
 case "$RID" in
     linux-musl-x64) PROCESSOR=x86_64 ;;
     linux-musl-arm64) PROCESSOR=aarch64 ;;
+    freebsd-x64)
+        [ "$(uname -s)" = "FreeBSD" ] || { echo "freebsd-x64 is only built on FreeBSD" >&2; exit 1; }
+        PROCESSOR=x86_64
+        CMAKE_ARGS+=(-DGLFW_BUILD_WAYLAND=OFF -DGLFW_BUILD_X11=ON)
+        ;;
     *) echo "Unsupported runtime: $RID" >&2; exit 1 ;;
 esac
 if [[ -n "${VOIDSTRAP_NATIVE_COMPILER:-}" ]]; then

@@ -434,7 +434,7 @@ fn build_platform(cfg: &Config, caps: &Capabilities, audio_rate: u32) -> Vec<Can
     list
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", target_os = "freebsd"))]
 fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Candidate> {
     let display = if !cfg.display.is_empty() {
         cfg.display.clone()
@@ -531,7 +531,7 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
     list
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", target_os = "freebsd"))]
 fn pipewire_source(cfg: &Config) -> Vec<String> {
     [
         "-q".to_string(),
@@ -593,7 +593,7 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
     list
 }
 
-#[cfg(not(any(windows, target_os = "linux", target_os = "macos")))]
+#[cfg(not(any(windows, target_os = "linux", target_os = "freebsd", target_os = "macos")))]
 fn build_platform(_cfg: &Config, _caps: &Capabilities, _audio_rate: u32) -> Vec<Candidate> {
     Vec::new()
 }

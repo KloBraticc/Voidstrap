@@ -8,10 +8,13 @@ SOURCE="${3:-$ROOT/build/Packaging/Linux/editor-compat.c}"
 case "$RID" in
   linux-x64|linux-musl-x64) ARCH=x86_64 ;;
   linux-arm64|linux-musl-arm64) ARCH=aarch64 ;;
+  freebsd-x64) ARCH=x86_64 ;;
   *) echo "Unsupported Linux runtime identifier" >&2; exit 1 ;;
 esac
 
-if [ "$ARCH" = "$(uname -m)" ]; then
+HOST_ARCH="$(uname -m)"
+[ "$HOST_ARCH" = "amd64" ] && HOST_ARCH=x86_64
+if [ "$ARCH" = "$HOST_ARCH" ]; then
   COMPILER="${VOIDSTRAP_EDITOR_COMPILER:-cc}"
 elif [ "$ARCH" = "aarch64" ]; then
   COMPILER="${VOIDSTRAP_EDITOR_COMPILER:-aarch64-linux-gnu-gcc}"

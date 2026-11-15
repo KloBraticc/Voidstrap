@@ -22,6 +22,7 @@
 		<ProGpuWpfUsePortableWinFormsCompat>false</ProGpuWpfUsePortableWinFormsCompat>
 		<ProGpuWpfUseLibreWinForms>false</ProGpuWpfUseLibreWinForms>
 		<NoWarn>$(NoWarn);CS8305</NoWarn>
+		<VoidstrapElfRid Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('freebsd'))">true</VoidstrapElfRid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('osx'))">
@@ -32,7 +33,11 @@
 		<LinuxPresentationFrameworkAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationFramework.dll</LinuxPresentationFrameworkAssembly>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('freebsd'))">
+		<PublishReadyToRun Condition="'$(PublishReadyToRun)' == ''">false</PublishReadyToRun>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(VoidstrapElfRid)' == 'true'">
 		<PublishSingleFile>true</PublishSingleFile>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
@@ -46,7 +51,7 @@
 		<LinuxGlfwLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libglfw.so.3</LinuxGlfwLibrary>
 	</PropertyGroup>
 
-	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) And Exists('$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native_gl.so')">
+	<ItemGroup Condition="'$(VoidstrapElfRid)' == 'true' And Exists('$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native_gl.so')">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native_gl.so">
 			<Link>libwgpu_native_gl.so</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -54,18 +59,18 @@
 		</None>
 	</ItemGroup>
 
-	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+	<PropertyGroup Condition="'$(VoidstrapElfRid)' == 'true'">
 		<LinuxEditorCompatLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\libvoidstrapeditorcompat.so</LinuxEditorCompatLibrary>
 		<LinuxEditorCompatLibrary Condition="$(RuntimeIdentifier.EndsWith('-arm64'))">$(MSBuildProjectDirectory)\..\..\external\LibreWPF\linux-arm64\libvoidstrapeditorcompat.so</LinuxEditorCompatLibrary>
-		<LinuxEditorCompatLibrary Condition="$([MSBuild]::IsOSPlatform('Linux'))">$(BaseIntermediateOutputPath)editorcompat/$(RuntimeIdentifier)/libvoidstrapeditorcompat.so</LinuxEditorCompatLibrary>
+		<LinuxEditorCompatLibrary Condition="($([MSBuild]::IsOSPlatform('Linux')) Or $([MSBuild]::IsOSPlatform('FreeBSD')))">$(BaseIntermediateOutputPath)editorcompat/$(RuntimeIdentifier)/libvoidstrapeditorcompat.so</LinuxEditorCompatLibrary>
 	</PropertyGroup>
 
-	<Target Name="BuildLinuxEditorCompat" BeforeTargets="PrepareForBuild" Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Linux'))" Inputs="$(MSBuildProjectDirectory)/../../build/Packaging/Linux/editor-compat.c;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh" Outputs="$(LinuxEditorCompatLibrary)">
+	<Target Name="BuildLinuxEditorCompat" BeforeTargets="PrepareForBuild" Condition="'$(VoidstrapElfRid)' == 'true' And ($([MSBuild]::IsOSPlatform('Linux')) Or $([MSBuild]::IsOSPlatform('FreeBSD')))" Inputs="$(MSBuildProjectDirectory)/../../build/Packaging/Linux/editor-compat.c;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh" Outputs="$(LinuxEditorCompatLibrary)">
 		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(LinuxEditorCompatLibrary)&quot;" />
 	</Target>
 
-	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
-		<VoidImageFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidimage.so</VoidImageFileName>
+	<PropertyGroup Condition="'$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidImageFileName Condition="'$(VoidstrapElfRid)' == 'true'">libvoidimage.so</VoidImageFileName>
 		<VoidImageFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidimage.dylib</VoidImageFileName>
 		<VoidImageLibrary>$(BaseIntermediateOutputPath)voidimage/$(RuntimeIdentifier)/$(VoidImageFileName)</VoidImageLibrary>
 	</PropertyGroup>
@@ -88,7 +93,7 @@
 		<Exec Command="wsl.exe -d $(VoidstrapWslDistro) -e bash &quot;$(_VoidImageRootWsl)build/Packaging/build-voidimage.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(_VoidImageLibraryWsl)&quot; &quot;$(_VoidImageTargetWsl)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
 	</Target>
 
-	<Target Name="RequireLinuxVoidImage" DependsOnTargets="BuildVoidImage;BuildVoidImageThroughWsl" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(DesignTimeBuild)' != 'true' And '$(VoidstrapAllowMissingVoidImage)' != 'true'">
+	<Target Name="RequireLinuxVoidImage" DependsOnTargets="BuildVoidImage;BuildVoidImageThroughWsl" BeforeTargets="AssignTargetPaths" Condition="'$(VoidstrapElfRid)' == 'true' And '$(DesignTimeBuild)' != 'true' And '$(VoidstrapAllowMissingVoidImage)' != 'true'">
 		<Error Condition="!Exists('$(VoidImageLibrary)')" Text="libvoidimage.so was not built for $(RuntimeIdentifier). Linux builds cannot show any image without it. Install Rust (and WSL with Rust when building on Windows), or set VoidstrapAllowMissingVoidImage=true to build anyway." />
 	</Target>
 
@@ -116,8 +121,8 @@
 		</ItemGroup>
 	</Target>
 
-	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
-		<VoidClipFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidclip.so</VoidClipFileName>
+	<PropertyGroup Condition="'$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidClipFileName Condition="'$(VoidstrapElfRid)' == 'true'">libvoidclip.so</VoidClipFileName>
 		<VoidClipFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidclip.dylib</VoidClipFileName>
 		<VoidClipLibrary>$(BaseIntermediateOutputPath)voidclip/$(RuntimeIdentifier)/$(VoidClipFileName)</VoidClipLibrary>
 	</PropertyGroup>
@@ -147,8 +152,8 @@
 		</ItemGroup>
 	</Target>
 
-	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
-		<VoidRpcFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidrpc.so</VoidRpcFileName>
+	<PropertyGroup Condition="'$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidRpcFileName Condition="'$(VoidstrapElfRid)' == 'true'">libvoidrpc.so</VoidRpcFileName>
 		<VoidRpcFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidrpc.dylib</VoidRpcFileName>
 		<VoidRpcLibrary>$(BaseIntermediateOutputPath)voidrpc/$(RuntimeIdentifier)/$(VoidRpcFileName)</VoidRpcLibrary>
 	</PropertyGroup>
@@ -178,8 +183,8 @@
 		</ItemGroup>
 	</Target>
 
-	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
-		<VoidLogFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidlog.so</VoidLogFileName>
+	<PropertyGroup Condition="'$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidLogFileName Condition="'$(VoidstrapElfRid)' == 'true'">libvoidlog.so</VoidLogFileName>
 		<VoidLogFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidlog.dylib</VoidLogFileName>
 		<VoidLogLibrary>$(BaseIntermediateOutputPath)voidlog/$(RuntimeIdentifier)/$(VoidLogFileName)</VoidLogLibrary>
 	</PropertyGroup>
@@ -209,8 +214,8 @@
 		</ItemGroup>
 	</Target>
 
-	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
-		<VoidStateFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidstate.so</VoidStateFileName>
+	<PropertyGroup Condition="'$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidStateFileName Condition="'$(VoidstrapElfRid)' == 'true'">libvoidstate.so</VoidStateFileName>
 		<VoidStateFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidstate.dylib</VoidStateFileName>
 		<VoidStateLibrary>$(BaseIntermediateOutputPath)voidstate/$(RuntimeIdentifier)/$(VoidStateFileName)</VoidStateLibrary>
 	</PropertyGroup>
@@ -240,7 +245,7 @@
 		</ItemGroup>
 	</Target>
 
-	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+	<ItemGroup Condition="'$(VoidstrapElfRid)' == 'true'">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\GLFW-LICENSE.txt" Condition="Exists('$(LinuxGlfwLibrary)')">
 			<Link>GLFW-LICENSE.txt</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -261,7 +266,7 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
+	<ItemGroup Condition="'$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx'))">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\System.Windows.Forms.dll">
 			<Link>System.Windows.Forms.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -291,10 +296,10 @@
 		<Page Visible="false" Include="..\Voidstrap.App\**\*.xaml" Exclude="..\Voidstrap.App\obj\**;..\Voidstrap.App\obj-*\**;..\Voidstrap.App\bin\**;..\Voidstrap.App\bin-*\**;..\Voidstrap.App\App.xaml;..\Voidstrap.App\UI\Elements\RobloxWeb\**;..\Voidstrap.App\UI\Elements\Controls\InlineVideoPlayer.xaml;..\Voidstrap.App\UI\Elements\ContextMenu\Web\**;..\Voidstrap.App\UI\Elements\About\MainWindow.xaml;..\Voidstrap.App\UI\Elements\Installer\MainWindow.xaml" />
 		<Page Remove="..\Voidstrap.App\UI\Elements\Installer\Pages\ChannelPage.xaml" />
 		<Page Include="Xaml\AboutMainWindow.xaml" />
-		<Page Include="Xaml\InstallerMainWindow.xaml" Condition="!$(RuntimeIdentifier.StartsWith('linux')) And !$(RuntimeIdentifier.StartsWith('osx'))" />
-		<Page Include="Xaml\InstallerMainWindow.Linux.xaml" Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))" />
-		<Page Include="Xaml\InstallerChannelPage.xaml" Condition="!$(RuntimeIdentifier.StartsWith('linux')) And !$(RuntimeIdentifier.StartsWith('osx'))" />
-		<Page Include="Xaml\InstallerChannelPage.Linux.xaml" Condition="$(RuntimeIdentifier.StartsWith('linux'))" />
+		<Page Include="Xaml\InstallerMainWindow.xaml" Condition="'$(VoidstrapElfRid)' != 'true' And !$(RuntimeIdentifier.StartsWith('osx'))" />
+		<Page Include="Xaml\InstallerMainWindow.Linux.xaml" Condition="'$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx'))" />
+		<Page Include="Xaml\InstallerChannelPage.xaml" Condition="'$(VoidstrapElfRid)' != 'true' And !$(RuntimeIdentifier.StartsWith('osx'))" />
+		<Page Include="Xaml\InstallerChannelPage.Linux.xaml" Condition="'$(VoidstrapElfRid)' == 'true'" />
 		<Page Include="Xaml\InstallerChannelPage.MacOS.xaml" Condition="$(RuntimeIdentifier.StartsWith('osx'))" />
 		<ApplicationDefinition Visible="false" Include="..\Voidstrap.App\App.xaml">
 			<Link>App.xaml</Link>
@@ -450,7 +455,7 @@
     </ItemGroup>
   </Target>
 
-	<Target Name="ReplaceLinuxProGpuWpfOutput" AfterTargets="ResolveReferences" BeforeTargets="CopyFilesToOutputDirectory" Condition="($(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx')))">
+	<Target Name="ReplaceLinuxProGpuWpfOutput" AfterTargets="ResolveReferences" BeforeTargets="CopyFilesToOutputDirectory" Condition="('$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx')))">
 		<ItemGroup>
 			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'ProGPU.Wpf.dll'" />
 			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'PresentationCore.dll'" />
@@ -461,11 +466,11 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="CopyLinuxProGpuWpfOutput" AfterTargets="_ProGpuWpfSdkCopyPackageRuntimeAssets" Condition="($(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx')))">
+	<Target Name="CopyLinuxProGpuWpfOutput" AfterTargets="_ProGpuWpfSdkCopyPackageRuntimeAssets" Condition="('$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx')))">
 		<Copy SourceFiles="$(LinuxProGpuWpfAssembly);$(LinuxPresentationCoreAssembly);$(LinuxPresentationFrameworkAssembly)" DestinationFiles="$(TargetDir)ProGPU.Wpf.dll;$(TargetDir)PresentationCore.dll;$(TargetDir)PresentationFramework.dll" SkipUnchangedFiles="false" />
 	</Target>
 
-	<Target Name="ReplaceLinuxProGpuWpfPublish" AfterTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="($(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx')))">
+	<Target Name="ReplaceLinuxProGpuWpfPublish" AfterTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="('$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx')))">
 		<ItemGroup>
 			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ProGPU.Wpf.dll'" />
 			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'PresentationCore.dll'" />
@@ -476,7 +481,7 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="PrepareLinuxReadyToRunInputs" BeforeTargets="_PrepareForReadyToRunCompilation" DependsOnTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="($(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))) And '$(PublishReadyToRun)' == 'true'">
+	<Target Name="PrepareLinuxReadyToRunInputs" BeforeTargets="_PrepareForReadyToRunCompilation" DependsOnTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="('$(VoidstrapElfRid)' == 'true' Or $(RuntimeIdentifier.StartsWith('osx'))) And '$(PublishReadyToRun)' == 'true'">
 		<ItemGroup>
 			<_VoidstrapReadyToRunDuplicate Include="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'System.Private.Windows.Core.dll' And $([System.String]::Copy('%(ResolvedFileToPublish.Identity)').Contains('librewpf.transport'))" />
 			<ResolvedFileToPublish Remove="@(_VoidstrapReadyToRunDuplicate)" />
@@ -486,7 +491,7 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="ReplaceLinuxProGpuWpfBundle" AfterTargets="_ComputeFilesToBundle" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(PublishSingleFile)' == 'true' And '$(PublishReadyToRun)' != 'true'">
+	<Target Name="ReplaceLinuxProGpuWpfBundle" AfterTargets="_ComputeFilesToBundle" Condition="'$(VoidstrapElfRid)' == 'true' And '$(PublishSingleFile)' == 'true' And '$(PublishReadyToRun)' != 'true'">
 		<ItemGroup>
 			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'ProGPU.Wpf.dll'" />
 			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'PresentationCore.dll'" />
@@ -517,6 +522,15 @@
 			<NativeCopyLocalItems Remove="@(_VoidstrapPackagedWgpuNative)" />
 			<NativeCopyLocalItems Include="@(_VoidstrapPackagedWgpuNative->'$(LinuxWgpuLibrary)')" />
 		</ItemGroup>
+	</Target>
+
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('freebsd'))">
+		<None Include="$(LinuxWgpuLibrary)" Condition="Exists('$(LinuxWgpuLibrary)')" Link="libwgpu_native.so" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		<None Include="$(LinuxGlfwLibrary)" Condition="Exists('$(LinuxGlfwLibrary)')" Link="libglfw.so.3" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+	</ItemGroup>
+
+	<Target Name="RequireFreeBSDGraphicsLibraries" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('freebsd')) And '$(DesignTimeBuild)' != 'true'">
+		<Error Condition="!Exists('$(LinuxWgpuLibrary)') Or !Exists('$(LinuxGlfwLibrary)')" Text="FreeBSD builds need libwgpu_native.so and libglfw.so.3 in external/LibreWPF/$(RuntimeIdentifier). Build them with build/Packaging/Linux/build-wgpu-native.sh and build-glfw-native.sh on FreeBSD." />
 	</Target>
 
 	<Import Project="..\Voidstrap.App\CompressedStrings.targets" />
