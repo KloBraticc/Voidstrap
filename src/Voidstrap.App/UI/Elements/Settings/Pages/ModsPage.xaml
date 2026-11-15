@@ -369,25 +369,39 @@
             </StackPanel>
           </TabItem.Header>
           <StackPanel Margin="12">
-            <TextBlock FontSize="20" FontWeight="Bold" Text="{resources:Loc Ui_Mods_MyMods}" />
-            <TextBlock Margin="0,4,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Mods_Managed_Description}" TextWrapping="Wrap" />
-            <Grid Margin="0,14,0,0">
+            <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
-              <WrapPanel VerticalAlignment="Center">
-                <ui:Button Height="32" Margin="0,0,6,6" Padding="12,0" Appearance="Primary" Icon="Add24" Content="{resources:Loc Ui_Mods_AddMod}" Command="{Binding AddManagedModCommand}" />
-                <ui:Button Height="32" Margin="0,0,6,6" Padding="12,0" Icon="FolderZip24" Content="{resources:Loc Menu_Mods_Managed_ImportZip}" Command="{Binding ImportManagedZipCommand}" />
-                <ui:Button Height="32" Margin="0,0,6,6" Padding="12,0" Icon="FolderArrowUp24" Content="{resources:Loc Menu_Mods_Managed_ImportFolder}" Command="{Binding ImportManagedFolderCommand}" />
-                <ui:Button Height="32" Margin="0,0,6,6" Padding="12,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Mods_OpenLibrary}" Command="{Binding OpenManagedModsRootCommand}" />
-                <ui:Button Width="32" Height="32" Margin="0,0,6,6" Padding="0" Icon="ArrowSync24" ToolTip="{resources:Loc Ui_Mods_RefreshTheList}" AutomationProperties.Name="{resources:Loc Ui_Mods_RefreshTheList}" Command="{Binding RefreshManagedModsCommand}" />
-              </WrapPanel>
-              <ui:TextBox Grid.Column="1" Width="220" Margin="10,0,0,6" VerticalAlignment="Center" Icon="Search24" PlaceholderText="{resources:Loc Ui_Mods_SearchMods}" Text="{Binding ManagedModSearchText, UpdateSourceTrigger=PropertyChanged}" />
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock FontSize="20" FontWeight="Bold" Text="{resources:Loc Ui_Mods_MyMods}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding ManagedModsSummary}" />
+              </StackPanel>
+              <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                <ui:Button Height="32" Margin="0,0,6,0" Padding="12,0" Icon="ArrowDownload24" Content="{resources:Loc Common_Import}" Click="OpenButtonMenu_Click">
+                  <ui:Button.ContextMenu>
+                    <ContextMenu>
+                      <MenuItem Header="{resources:Loc Menu_Mods_Managed_ImportZip}" Command="{Binding ImportManagedZipCommand}" />
+                      <MenuItem Header="{resources:Loc Menu_Mods_Managed_ImportFolder}" Command="{Binding ImportManagedFolderCommand}" />
+                    </ContextMenu>
+                  </ui:Button.ContextMenu>
+                </ui:Button>
+                <ui:Button Height="32" Padding="12,0" Appearance="Primary" Icon="Add24" Content="{resources:Loc Ui_Mods_AddMod}" Command="{Binding AddManagedModCommand}" />
+              </StackPanel>
             </Grid>
-            <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding ManagedModsSummary}" />
-            <ProgressBar Width="120" Height="3" Margin="0,10,0,0" HorizontalAlignment="Left" IsIndeterminate="True" Visibility="{Binding ManagedModsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Border Margin="0,10,0,0" Padding="20,36,20,36" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+            <Grid Margin="0,14,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <ui:TextBox VerticalAlignment="Center" Icon="Search24" PlaceholderText="{resources:Loc Ui_Mods_SearchMods}" Text="{Binding ManagedModSearchText, UpdateSourceTrigger=PropertyChanged}" />
+              <ui:Button Grid.Column="1" Width="34" Height="34" Margin="6,0,0,0" Padding="0" Appearance="Transparent" Icon="FolderOpen24" ToolTip="{resources:Loc Ui_Mods_OpenLibrary}" AutomationProperties.Name="{resources:Loc Ui_Mods_OpenLibrary}" Command="{Binding OpenManagedModsRootCommand}" />
+              <ui:Button Grid.Column="2" Width="34" Height="34" Margin="2,0,0,0" Padding="0" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc Ui_Mods_RefreshTheList}" AutomationProperties.Name="{resources:Loc Ui_Mods_RefreshTheList}" Command="{Binding RefreshManagedModsCommand}" />
+            </Grid>
+            <ProgressBar Height="2" Margin="0,6,0,0" IsIndeterminate="True" Visibility="{Binding ManagedModsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Border Margin="0,12,0,0" Padding="20,36,20,36" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
               <Border.Style>
                 <Style TargetType="Border">
                   <Setter Property="Visibility" Value="Collapsed" />
@@ -399,18 +413,15 @@
                 </Style>
               </Border.Style>
               <StackPanel HorizontalAlignment="Center">
-                <Border Width="56" Height="56" HorizontalAlignment="Center" CornerRadius="10" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-                  <ui:SymbolIcon FontSize="26" Symbol="BoxMultiple24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                </Border>
-                <TextBlock Margin="0,16,0,0" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold" Text="{Binding ManagedModsEmptyTitle}" />
-                <TextBlock Margin="0,8,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" controls:InlineCodeText.Source="{resources:Loc Menu_Mods_Managed_EmptyHint}" TextWrapping="Wrap" />
-                <TextBlock Margin="0,6,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Menu_Mods_Managed_PriorityHint}" TextWrapping="Wrap" />
+                <ui:SymbolIcon HorizontalAlignment="Center" FontSize="32" Symbol="BoxMultiple24" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" FontSize="16" FontWeight="SemiBold" Text="{Binding ManagedModsEmptyTitle}" />
+                <TextBlock Margin="0,6,0,0" MaxWidth="440" HorizontalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" controls:InlineCodeText.Source="{resources:Loc Menu_Mods_Managed_EmptyHint}" TextWrapping="Wrap" />
               </StackPanel>
             </Border>
-            <ItemsControl x:Name="ManagedModsList" AllowDrop="True" DragOver="ManagedModsList_DragOver" Drop="ManagedModsList_Drop" ItemsSource="{Binding ManagedMods}">
+            <ItemsControl x:Name="ManagedModsList" Margin="0,12,0,0" AllowDrop="True" DragOver="ManagedModsList_DragOver" Drop="ManagedModsList_Drop" ItemsSource="{Binding ManagedMods}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type settings:ManagedModItem}">
-                  <Border Margin="0,0,0,8" Padding="12" AllowDrop="True" CornerRadius="8" DragEnter="ManagedModCard_DragEnter" DragLeave="ManagedModCard_DragLeave" DragOver="ManagedModCard_DragOver" Drop="ManagedModCard_Drop">
+                  <Border Margin="0,0,0,6" Padding="8,10,14,10" AllowDrop="True" CornerRadius="8" DragEnter="ManagedModCard_DragEnter" DragLeave="ManagedModCard_DragLeave" DragOver="ManagedModCard_DragOver" Drop="ManagedModCard_Drop">
                     <Border.Style>
                       <Style TargetType="Border">
                         <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
@@ -422,53 +433,48 @@
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                       </Grid.ColumnDefinitions>
-                      <Border Width="30" Height="36" Margin="0,0,6,0" Cursor="SizeAll" AutomationProperties.Name="{resources:Loc Ui_Mods_DragModToChangeApplyOrder}" PreviewMouseLeftButtonDown="ManagedModDragHandle_MouseLeftButtonDown" PreviewMouseMove="ManagedModDragHandle_MouseMove">
-                        <ui:SymbolIcon Width="20" Height="20" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="ReOrderDotsVertical24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                      <Border Width="24" Height="36" Margin="0,0,6,0" Background="Transparent" Cursor="SizeAll" ToolTip="{resources:Loc Menu_Mods_Managed_ConflictRule}" AutomationProperties.Name="{resources:Loc Ui_Mods_DragModToChangeApplyOrder}" PreviewMouseLeftButtonDown="ManagedModDragHandle_MouseLeftButtonDown" PreviewMouseMove="ManagedModDragHandle_MouseMove">
+                        <ui:SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Symbol="ReOrderDotsVertical24" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                       </Border>
-                      <Border Grid.Column="1" Width="44" Height="44" Margin="0,0,10,0" VerticalAlignment="Center" CornerRadius="6" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}" Visibility="{Binding PackIconVisibility}">
+                      <Border Grid.Column="1" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center" CornerRadius="6" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}" Visibility="{Binding PackIconVisibility}">
                         <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding Pack.IconUrl, Mode=OneWay}" />
                       </Border>
-                      <ToggleButton Grid.Column="2" Width="36" Height="36" Margin="0,0,12,0" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Enabled, Mode=OneWay}" Command="{Binding DataContext.ToggleManagedModCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" AutomationProperties.Name="{resources:Loc Ui_Mods_EnableOrDisableThisMod}">
-                        <ui:SymbolIcon Width="20" Height="20" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Power24" Filled="{Binding Enabled, Mode=OneWay}" />
-                      </ToggleButton>
-                      <StackPanel Grid.Column="3" Margin="0,0,14,0" VerticalAlignment="Center">
-                        <TextBlock FontSize="15" FontWeight="SemiBold" Text="{Binding Name, Mode=OneWay}" />
-                        <TextBlock Margin="0,3,0,0" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource SystemAccentBrush}" Text="{Binding PackDetail, Mode=OneWay}" Visibility="{Binding PackVisibility}" />
-                        <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
-                          <Run Text="{Binding FileSummary, Mode=OneWay}" /><Run Text="{resources:Loc Ui_Mods_Id}" /><Run Text="{Binding ShortId, Mode=OneWay}" />
-                        </TextBlock>
-                        <WrapPanel Margin="0,6,0,0">
-                          <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Mods_Managed_AppliesTo}" />
-                          <ToggleButton Height="24" Margin="0,0,4,0" Padding="10,0" FontSize="12" Content="{resources:Loc Menu_Mods_Managed_TargetRoblox}" IsChecked="{Binding AppliesToRoblox}" />
-                          <ToggleButton Height="24" Margin="0,0,4,0" Padding="10,0" FontSize="12" Content="{resources:Loc Menu_Mods_Managed_TargetStudio}" IsChecked="{Binding AppliesToStudio}" />
-                          <ToggleButton Height="24" Padding="10,0" FontSize="12" Content="{resources:Loc Menu_Mods_Managed_TargetClassic}" IsChecked="{Binding AppliesToClassic}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
-                        </WrapPanel>
-                        <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource SystemFillColorCautionBrush}" Text="{Binding ConflictText}" Visibility="{Binding HasConflicts, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="Wrap" />
-                        <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Text="{Binding ScanError, Mode=OneWay}" Visibility="{Binding HasScanError, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="Wrap" />
+                      <StackPanel Grid.Column="2" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <TextBlock FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding Name, Mode=OneWay}" />
+                        <TextBlock Margin="0,2,0,0" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource SystemAccentBrush}" Text="{Binding PackDetail, Mode=OneWay}" Visibility="{Binding PackVisibility}" />
+                        <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding FileSummary, Mode=OneWay}" />
+                        <TextBlock Margin="0,4,0,0" FontSize="12" Foreground="{DynamicResource SystemFillColorCautionBrush}" Text="{Binding ConflictText}" Visibility="{Binding HasConflicts, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="Wrap" />
+                        <TextBlock Margin="0,4,0,0" FontSize="12" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Text="{Binding ScanError, Mode=OneWay}" Visibility="{Binding HasScanError, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="Wrap" />
                       </StackPanel>
-                      <StackPanel Grid.Column="4" VerticalAlignment="Center" Orientation="Horizontal">
-                        <ui:Button Height="36" Margin="0,0,6,0" Padding="12,0" Appearance="Primary" Icon="Open24" Content="{resources:Loc Ui_Mods_View}" AutomationProperties.Name="{resources:Loc Ui_Mods_ViewThisModPack}" Visibility="{Binding PackVisibility}" Command="{Binding DataContext.ViewModPackCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" />
-                        <ui:Button Width="36" Height="36" Margin="0,0,6,0" Padding="0" Appearance="Secondary" Icon="FolderOpen24" AutomationProperties.Name="{resources:Loc Ui_Mods_OpenModFolder}" Command="{Binding DataContext.OpenManagedModCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" />
-                        <ui:Button Width="36" Height="36" Margin="0,0,6,0" Padding="0" Appearance="Secondary" Icon="Options24" ToolTip="{resources:Loc Ui_Mods_EditOptions}" AutomationProperties.Name="{resources:Loc Ui_Mods_EditModOptions}" Visibility="{Binding EditVisibility}" Command="{Binding DataContext.EditManagedModCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" />
-                        <ui:Button Width="36" Height="36" Margin="0,0,6,0" Padding="0" Appearance="Secondary" Icon="Edit24" AutomationProperties.Name="{resources:Loc Ui_Mods_RenameMod}" Command="{Binding DataContext.RenameManagedModCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" />
-                        <ui:Button Width="36" Height="36" Margin="0,0,6,0" Padding="0" Appearance="Secondary" Icon="Copy24" AutomationProperties.Name="{resources:Loc Ui_Mods_CopyFullModIdentifier}" Command="{Binding DataContext.CopyManagedModIdCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" />
-                        <ui:Button Width="36" Height="36" Padding="0" Appearance="Danger" Icon="Delete24" AutomationProperties.Name="{resources:Loc Ui_Mods_RemoveMod}" Command="{Binding DataContext.RemoveManagedModCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" />
+                      <StackPanel Grid.Column="3" VerticalAlignment="Center" Orientation="Horizontal">
+                        <ui:Button Height="32" Margin="0,0,4,0" Padding="12,0" Appearance="Secondary" Content="{resources:Loc Ui_Mods_View}" AutomationProperties.Name="{resources:Loc Ui_Mods_ViewThisModPack}" Visibility="{Binding PackVisibility}" Command="{Binding DataContext.ViewModPackCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" />
+                        <ui:Button Width="32" Height="32" Margin="0,0,2,0" Padding="0" Appearance="Transparent" Icon="Options24" ToolTip="{resources:Loc Ui_Mods_EditOptions}" AutomationProperties.Name="{resources:Loc Ui_Mods_EditModOptions}" Visibility="{Binding EditVisibility}" Command="{Binding DataContext.EditManagedModCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" />
+                        <ui:Button Width="32" Height="32" Margin="0,0,10,0" Padding="0" Appearance="Transparent" Icon="MoreHorizontal24" ToolTip="{resources:Loc Ui_ModGen_MoreOptions}" AutomationProperties.Name="{resources:Loc Ui_ModGen_MoreOptions}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" Click="OpenButtonMenu_Click">
+                          <ui:Button.ContextMenu>
+                            <ContextMenu>
+                              <MenuItem Header="{resources:Loc Ui_Mods_OpenModFolder}" Command="{Binding PlacementTarget.Tag.OpenManagedModCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                              <MenuItem Header="{resources:Loc Ui_Mods_RenameMod}" Command="{Binding PlacementTarget.Tag.RenameManagedModCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                              <MenuItem Header="{resources:Loc Ui_Mods_CopyFullModIdentifier}" Command="{Binding PlacementTarget.Tag.CopyManagedModIdCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                              <MenuItem Header="{resources:Loc Menu_Mods_Managed_AppliesTo}">
+                                <MenuItem Header="{resources:Loc Menu_Mods_Managed_TargetRoblox}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding AppliesToRoblox}" />
+                                <MenuItem Header="{resources:Loc Menu_Mods_Managed_TargetStudio}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding AppliesToStudio}" />
+                                <MenuItem Header="{resources:Loc Menu_Mods_Managed_TargetClassic}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding AppliesToClassic}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
+                              </MenuItem>
+                              <Separator />
+                              <MenuItem Header="{resources:Loc Ui_Mods_RemoveMod}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Command="{Binding PlacementTarget.Tag.RemoveManagedModCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                            </ContextMenu>
+                          </ui:Button.ContextMenu>
+                        </ui:Button>
+                        <ui:ToggleSwitch VerticalAlignment="Center" IsChecked="{Binding Enabled, Mode=OneWay}" Command="{Binding DataContext.ToggleManagedModCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" AutomationProperties.Name="{resources:Loc Ui_Mods_EnableOrDisableThisMod}" />
                       </StackPanel>
                     </Grid>
                   </Border>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Border Margin="0,12,0,0" Padding="14,10" CornerRadius="6" Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-              <StackPanel Orientation="Horizontal">
-                <ui:SymbolIcon Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Symbol="Layer24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                <TextBlock VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Text="{resources:Loc Menu_Mods_Managed_ConflictRule}" />
-              </StackPanel>
-            </Border>
           </StackPanel>
         </TabItem>
         <TabItem x:Name="StudioPluginsTab" FontWeight="Medium" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">

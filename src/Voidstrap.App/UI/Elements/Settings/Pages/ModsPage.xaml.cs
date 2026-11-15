@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -314,6 +315,15 @@ public partial class ModsPage : UiPage
         previewCancellation?.Cancel();
         previewCancellation?.Dispose();
         ModPreviewPanel.ClearPreview();
+    }
+
+    private void OpenButtonMenu_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement { ContextMenu: { } menu } button)
+            return;
+        menu.PlacementTarget = button;
+        menu.Placement = PlacementMode.Bottom;
+        menu.IsOpen = true;
     }
 
     private void ManagedModDragHandle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
