@@ -36,6 +36,9 @@ public static class PlatformFeatureVisibility
 
     public static Visibility MacOSIntegration { get; } = Voidstrap.Utility.Platform.IsMacOS ? Visibility.Visible : Visibility.Collapsed;
 
+    public static Visibility VoidEdit { get; } =
+        Voidstrap.Integrations.VoidEditLauncher.IsAvailable ? Visibility.Visible : Visibility.Collapsed;
+
     public static Visibility PortableImages { get; } =
         Voidstrap.Utility.Platform.UsesPortableUi ? Visibility.Visible : Visibility.Collapsed;
 

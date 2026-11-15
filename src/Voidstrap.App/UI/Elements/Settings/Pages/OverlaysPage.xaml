@@ -398,8 +398,8 @@
         </StackPanel>
       </ui:CardExpander>
 
-      <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidEdit_Section}" />
-      <StackPanel x:Name="VoidEditPanel" DataContext="{x:Null}" Margin="0,8,0,0">
+      <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidEdit_Section}" Visibility="{x:Static platform:PlatformFeatureVisibility.VoidEdit}" />
+      <StackPanel x:Name="VoidEditPanel" DataContext="{x:Null}" Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.VoidEdit}">
         <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Message="{resources:Loc Ui_VoidEdit_AlphaNotice}" />
         <ui:CardAction x:Name="VoidEditCard" Margin="0,8,0,0" MinHeight="78" Icon="Video24" IsEnabled="False" Click="VoidEditCard_Click">
           <StackPanel>
@@ -458,7 +458,7 @@
             <controls:OptionControl Header="{resources:Loc Ui_Clipper_StatusIndicator}" Description="{resources:Loc Ui_Clipper_StatusIndicatorHint}">
               <ui:ToggleSwitch IsChecked="{Binding ClipperShowIndicator, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl Header="{resources:Loc Ui_VoidEdit_AskRecordings_Title}" Description="{resources:Loc Ui_VoidEdit_AskRecordings_Description}">
+            <controls:OptionControl Header="{resources:Loc Ui_VoidEdit_AskRecordings_Title}" Description="{resources:Loc Ui_VoidEdit_AskRecordings_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.VoidEdit}">
               <ui:ToggleSwitch IsChecked="{Binding VoidEditAskForRecordings, Mode=TwoWay}" />
             </controls:OptionControl>
             <controls:OptionControl Header="{resources:Loc Ui_Clipper_ClipsFolder}" Description="{resources:Loc Ui_Clipper_ClipsFolderHint}">

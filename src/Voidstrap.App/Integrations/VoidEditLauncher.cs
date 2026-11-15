@@ -41,6 +41,8 @@ internal static class VoidEditLauncher
         Installed,
     }
 
+    public static bool IsAvailable { get; } = !Voidstrap.Utility.Platform.IsFreeBSD;
+
     public static bool IsInstalled => File.Exists(ExecutablePath);
 
     public static async Task<InstallState> GetStateAsync()

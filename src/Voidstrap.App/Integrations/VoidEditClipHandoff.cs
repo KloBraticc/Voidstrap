@@ -15,7 +15,7 @@ internal static class VoidEditClipHandoff
 
     public static void Add(SavedClipInfo clip)
     {
-        if (!App.Settings.Prop.VoidEditAskForRecordings || string.IsNullOrEmpty(clip.FullPath))
+        if (!VoidEditLauncher.IsAvailable || !App.Settings.Prop.VoidEditAskForRecordings || string.IsNullOrEmpty(clip.FullPath))
             return;
         lock (Gate)
         {

@@ -43,7 +43,8 @@ public partial class OverlaysPage : UiPage
         DataContext ??= new ModsViewModel();
         (DataContext as ModsViewModel)?.PopulateKeystrokeThemes();
         ShowCrosshairKey(null);
-        _ = RefreshVoidEditStateAsync();
+        if (Voidstrap.Integrations.VoidEditLauncher.IsAvailable)
+            _ = RefreshVoidEditStateAsync();
     }
 
     private Voidstrap.Integrations.VoidEditLauncher.InstallState _voidEditState = Voidstrap.Integrations.VoidEditLauncher.InstallState.NotInstalled;
