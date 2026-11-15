@@ -630,7 +630,7 @@ public partial class SessionDock : Window
     private void UpdateNowPlayingVisibility()
     {
         bool busy = PopoutOpen || _panels.Any(static entry => entry.Key != HubKey && entry.Value.IsRequested);
-        bool show = _opened && !_closed && _nowPlaying != null && !busy && App.Settings.Prop.SessionDockSpotify;
+        bool show = _opened && !_closed && !_slide.IsRunning && _nowPlaying != null && !busy && App.Settings.Prop.SessionDockSpotify;
         if (show)
         {
             NowPlayingPopup.CustomPopupPlacementCallback ??= PlaceNowPlaying;
@@ -1249,6 +1249,7 @@ public partial class SessionDock : Window
         _anchor?.Refresh();
         Settle();
         QueueFitWidth();
+        UpdateNowPlayingVisibility();
     }
 
     private void Settle()
