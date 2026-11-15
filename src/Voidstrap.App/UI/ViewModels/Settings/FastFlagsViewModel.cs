@@ -374,7 +374,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
     public bool IsWindows => Voidstrap.Utility.Platform.IsWindows;
 
-    public bool NvidiaTabSupported => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.UsesLinuxHost;
+    public bool NvidiaTabSupported => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux;
 
     public bool HasNvidiaGpu => Voidstrap.Utility.GpuInventory.HasNvidia;
 
