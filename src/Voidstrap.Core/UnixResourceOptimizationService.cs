@@ -107,15 +107,17 @@ public sealed class UnixResourceOptimizationService : IResourceOptimizationServi
 
 	private async Task<OperationResult> ApplyCpuAffinityAsync(int processId, int cpuLimit, CancellationToken cancellationToken)
 	{
-		string? taskset = _processes.FindExecutable("taskset");
-		if (taskset is null)
+		string tool = HostSystem.IsFreeBSD ? "cpuset" : "taskset";
+		string? executable = _processes.FindExecutable(tool);
+		if (executable is null)
 		{
-			return OperationResult.Fail("TasksetUnavailable", "The taskset utility is unavailable", CapabilityState.RequiresExternalRuntime);
+			return OperationResult.Fail("TasksetUnavailable", "The " + tool + " utility is unavailable", CapabilityState.RequiresExternalRuntime);
 		}
 
 		string cores = string.Join(',', CpuTopology.Select(cpuLimit));
+		string pid = processId.ToString(CultureInfo.InvariantCulture);
 		OperationResult<ProcessExecution> result = await _processes.ExecuteAsync(
-			new ProcessCommand(taskset, ["--all-tasks", "--cpu-list", cores, "--pid", processId.ToString(CultureInfo.InvariantCulture)]),
+			new ProcessCommand(executable, HostSystem.IsFreeBSD ? ["-l", cores, "-p", pid] : ["--all-tasks", "--cpu-list", cores, "--pid", pid]),
 			cancellationToken);
 		return ConvertCommandResult(result, "CpuAffinityFailed");
 	}
@@ -129,7 +131,9 @@ public sealed class UnixResourceOptimizationService : IResourceOptimizationServi
 		}
 
 		OperationResult<ProcessExecution> result = await _processes.ExecuteAsync(
-			new ProcessCommand(renice, ["-n", niceValue.ToString(CultureInfo.InvariantCulture), "-p", processId.ToString(CultureInfo.InvariantCulture)]),
+			new ProcessCommand(renice, HostSystem.IsFreeBSD
+				? [niceValue.ToString(CultureInfo.InvariantCulture), "-p", processId.ToString(CultureInfo.InvariantCulture)]
+				: ["-n", niceValue.ToString(CultureInfo.InvariantCulture), "-p", processId.ToString(CultureInfo.InvariantCulture)]),
 			cancellationToken);
 		return ConvertCommandResult(result, "ProcessPriorityFailed");
 	}

@@ -173,7 +173,7 @@ public class CompletionViewModel : ObservableObject, IDisposable
             };
             if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
-                string? setsid = new Voidstrap.Core.SystemProcessService().FindExecutable("setsid");
+                string? setsid = Voidstrap.Utility.Platform.IsFreeBSD ? null : new Voidstrap.Core.SystemProcessService().FindExecutable("setsid");
                 if (!string.IsNullOrWhiteSpace(setsid))
                 {
                     startInfo.FileName = setsid;
