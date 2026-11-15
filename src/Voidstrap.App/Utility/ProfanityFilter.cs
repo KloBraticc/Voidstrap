@@ -27,11 +27,23 @@ public static class ProfanityFilter
         "傻逼", "煞笔", "操你", "肏", "他妈的", "草泥马", "妈逼", "贱人", "婊子", "幹你娘", "干你娘", "靠北", "씨발", "시발", "병신", "개새끼", "좆", "ちんこ", "まんこ", "くそったれ", "死ね", "เหี้ย", "ควย", "สัส", "เย็ด",
     };
 
-    private static readonly Regex Pattern = new(
-        "(?<![\\p{L}\\p{N}])(?:" + string.Join("|", ExactWords) + "|" + string.Join("|", GlobalWords) + ")(?![\\p{L}\\p{N}])|[\\p{L}\\p{N}\\*@!]*(?:" + string.Join("|", Stems) + ")[\\p{L}\\p{N}\\*@!]*|" + string.Join("|", GlobalFragments),
-        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled,
-        TimeSpan.FromMilliseconds(250)
+    private const RegexOptions MatchOptions = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant;
+
+    private static readonly TimeSpan MatchTimeout = TimeSpan.FromMilliseconds(250);
+
+    private static readonly Regex WordPattern = new(
+        "(?<![\\p{L}\\p{N}])(?:" + string.Join("|", ExactWords) + "|" + string.Join("|", GlobalWords) + ")(?![\\p{L}\\p{N}])|" + string.Join("|", GlobalFragments),
+        MatchOptions | RegexOptions.Compiled,
+        MatchTimeout
     );
+
+    private static readonly Regex StemPattern = new(string.Join("|", Stems), MatchOptions | RegexOptions.NonBacktracking, MatchTimeout);
+
+    private static readonly Regex WordRunPattern = new("[\\p{L}\\p{N}\\*@!]+", RegexOptions.CultureInvariant | RegexOptions.NonBacktracking, MatchTimeout);
+
+    private static string Mask(Match match) => new('#', match.Length);
+
+    private static string MaskStemRun(Match run) => StemPattern.IsMatch(run.Value) ? Mask(run) : run.Value;
 
     public static string Clean(string? text)
     {
@@ -39,7 +51,8 @@ public static class ProfanityFilter
             return text ?? string.Empty;
         try
         {
-            return Pattern.Replace(text, static match => new string('#', match.Length));
+            string cleaned = WordPattern.Replace(text, Mask);
+            return StemPattern.IsMatch(cleaned) ? WordRunPattern.Replace(cleaned, MaskStemRun) : cleaned;
         }
         catch (RegexMatchTimeoutException)
         {
@@ -53,7 +66,7 @@ public static class ProfanityFilter
             return false;
         try
         {
-            return Pattern.IsMatch(text);
+            return StemPattern.IsMatch(text) || WordPattern.IsMatch(text);
         }
         catch (RegexMatchTimeoutException)
         {
