@@ -533,6 +533,30 @@
 		<Error Condition="!Exists('$(LinuxWgpuLibrary)') Or !Exists('$(LinuxGlfwLibrary)')" Text="FreeBSD builds need libwgpu_native.so and libglfw.so.3 in external/LibreWPF/$(RuntimeIdentifier). Build them with build/Packaging/Linux/build-wgpu-native.sh and build-glfw-native.sh on FreeBSD." />
 	</Target>
 
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('freebsd'))">
+		<VoidstrapFreeBSDPatchProject>$(MSBuildProjectDirectory)/../../build/Packaging/FreeBSD/PlatformPatch/PlatformPatch.csproj</VoidstrapFreeBSDPatchProject>
+		<VoidstrapFreeBSDPatchCommand>&quot;$(DOTNET_HOST_PATH)&quot; run --project &quot;$(VoidstrapFreeBSDPatchProject)&quot; -c Release --</VoidstrapFreeBSDPatchCommand>
+		<VoidstrapFreeBSDPatchDirectory>$([MSBuild]::NormalizeDirectory('$(MSBuildProjectDirectory)', '$(BaseIntermediateOutputPath)', 'freebsd-platform', '$(RuntimeIdentifier)'))</VoidstrapFreeBSDPatchDirectory>
+	</PropertyGroup>
+
+	<Target Name="PatchFreeBSDBuildOutput" AfterTargets="Build" Condition="$(RuntimeIdentifier.StartsWith('freebsd')) And '$(DesignTimeBuild)' != 'true'">
+		<ItemGroup>
+			<_VoidstrapFreeBSDBuildAssembly Include="$(OutDir)*.dll" Exclude="$(OutDir)Voidstrap*.dll;$(OutDir)*.resources.dll" />
+		</ItemGroup>
+		<Exec Condition="'@(_VoidstrapFreeBSDBuildAssembly)' != ''" EnvironmentVariables="VoidstrapLinuxPackagingRoot=$(VoidstrapLinuxPackagingRoot)" Command="$(VoidstrapFreeBSDPatchCommand) &quot;$(OutDir)&quot; @(_VoidstrapFreeBSDBuildAssembly->'&quot;%(FullPath)&quot;', ' ')" />
+	</Target>
+
+	<Target Name="PatchFreeBSDBundle" AfterTargets="_ComputeFilesToBundle" DependsOnTargets="ReplaceLinuxProGpuWpfBundle" Condition="$(RuntimeIdentifier.StartsWith('freebsd')) And '$(PublishSingleFile)' == 'true'">
+		<ItemGroup>
+			<_VoidstrapFreeBSDBundleAssembly Include="@(_FilesToBundle)" Condition="'%(Extension)' == '.dll' And !$([System.String]::Copy('%(Filename)').StartsWith('Voidstrap')) And !$([System.String]::Copy('%(Filename)').EndsWith('.resources'))" />
+		</ItemGroup>
+		<Exec Condition="'@(_VoidstrapFreeBSDBundleAssembly)' != ''" EnvironmentVariables="VoidstrapLinuxPackagingRoot=$(VoidstrapLinuxPackagingRoot)" Command="$(VoidstrapFreeBSDPatchCommand) &quot;$(VoidstrapFreeBSDPatchDirectory)&quot; @(_VoidstrapFreeBSDBundleAssembly->'&quot;%(FullPath)&quot;', ' ')" />
+		<ItemGroup>
+			<_FilesToBundle Remove="@(_VoidstrapFreeBSDBundleAssembly)" />
+			<_FilesToBundle Include="@(_VoidstrapFreeBSDBundleAssembly->'$(VoidstrapFreeBSDPatchDirectory)%(Filename)%(Extension)')" />
+		</ItemGroup>
+	</Target>
+
 	<Import Project="..\Voidstrap.App\CompressedStrings.targets" />
 
 </Project>
