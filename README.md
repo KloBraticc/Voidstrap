@@ -291,8 +291,9 @@ Adding the flake as an input is not enough on its own: enable the module or add 
 | App | Build hosts | Targets |
 | --- | --- | --- |
 | Windows | Windows | x64 |
-| Linux | Linux or Windows. macOS can cross publish the executable. | x64 and ARM64, glibc or musl |
+| Linux | Linux, or Windows with WSL | x64 and ARM64, glibc or musl |
 | macOS | macOS, Windows or Linux. Windows disk-image packaging uses WSL 2. | Intel and Apple silicon |
+| FreeBSD | Windows or FreeBSD | x64 |
 | Android | Windows, Linux or macOS with the Android NDK host tools | ARM64, ARMv7 and x64 in each APK |
 
 Clone with [Git](https://git-scm.com/downloads):
@@ -411,7 +412,7 @@ Install WSL and the packaging tools above inside its Linux distribution, along w
 powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only linux-x64 -LinuxPackages -NoPause
 ```
 
-The script publishes with Windows .NET and packages through WSL. Without WSL and its tools, omit `-LinuxPackages` to allow a plain executable in `PublishedBuilds\Linux`. Git Bash alone cannot create the full glibc Linux package set.
+The script publishes with Windows .NET, builds the Rust libraries in WSL and packages through WSL. WSL with Rust is always required, because the build stops without `libvoidimage.so`. Without the packaging tools in WSL, omit `-LinuxPackages` to allow a plain executable in `PublishedBuilds\Linux`. Git Bash alone cannot create the full glibc Linux package set.
 
 **Building with Nix**
 
