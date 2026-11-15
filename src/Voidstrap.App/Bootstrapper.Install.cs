@@ -101,8 +101,16 @@ public partial class Bootstrapper
             }
             if (Directory.Exists(stagingDirectory))
             {
-                await SafeDeleteDirectoryAsync(stagingDirectory, LOG_IDENT, ct)
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                try
+                {
+                    await SafeDeleteDirectoryAsync(stagingDirectory, LOG_IDENT, ct)
+                        .ConfigureAwait(continueOnCapturedContext: false);
+                }
+                catch (Exception ex) when (IsInstallationAccessError(ex))
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "The previous unfinished installation is still in use, installing next to it: " + ex.Message);
+                    stagingDirectory = _latestVersionDirectory + "." + Guid.NewGuid().ToString("N")[..8] + ".installing";
+                }
             }
             Directory.CreateDirectory(stagingDirectory);
             _packageExtractionDirectory = stagingDirectory;
@@ -358,7 +366,11 @@ public partial class Bootstrapper
 
         try
         {
-            foreach (string directory in Directory.GetDirectories(versionsRoot, "version-*.installing"))
+            foreach (
+                string directory in Directory
+                    .GetDirectories(versionsRoot, "version-*.installing")
+                    .Concat(Directory.GetDirectories(versionsRoot, "version-*.previous.*"))
+            )
             {
                 if (
                     string.Equals(directory, currentStagingDirectory, StringComparison.OrdinalIgnoreCase)
@@ -424,8 +436,20 @@ public partial class Bootstrapper
                     .ConfigureAwait(continueOnCapturedContext: false);
                 movedExisting = true;
             }
-            await MoveDirectoryWithRetryAsync(stagingPath, targetPath, "Bootstrapper::CommitInstallation::Activate", ct)
-                .ConfigureAwait(continueOnCapturedContext: false);
+            try
+            {
+                await MoveDirectoryWithRetryAsync(stagingPath, targetPath, "Bootstrapper::CommitInstallation::Activate", ct, 5)
+                    .ConfigureAwait(continueOnCapturedContext: false);
+            }
+            catch (Exception moveException)
+                when (IsInstallationAccessError(moveException) && Directory.Exists(stagingPath) && !Directory.Exists(targetPath))
+            {
+                App.Logger.WriteLine(
+                    "Bootstrapper::CommitInstallation",
+                    "Another program is holding files in the prepared installation, copying it into place instead: " + moveException.Message
+                );
+                await ActivateByCopyAsync(stagingPath, targetPath, ct).ConfigureAwait(continueOnCapturedContext: false);
+            }
         }
         catch (Exception commitException)
         {
@@ -466,7 +490,69 @@ public partial class Bootstrapper
         }
     }
 
-    private static async Task MoveDirectoryWithRetryAsync(string source, string destination, string context, CancellationToken ct)
+    private static async Task ActivateByCopyAsync(string source, string destination, CancellationToken ct)
+    {
+        const string LOG_IDENT = "Bootstrapper::CommitInstallation::Copy";
+
+        string[] markers = [InstallManifest.FileName, VersionOwnershipFileName];
+        try
+        {
+            Directory.CreateDirectory(destination);
+            foreach (string directory in Directory.EnumerateDirectories(source, "*", SearchOption.AllDirectories))
+                Directory.CreateDirectory(Path.Combine(destination, Path.GetRelativePath(source, directory)));
+            List<string> files = [.. Directory.EnumerateFiles(source, "*", SearchOption.AllDirectories)];
+            files.Sort((left, right) => IsMarker(left).CompareTo(IsMarker(right)));
+            foreach (string file in files)
+            {
+                string target = Path.Combine(destination, Path.GetRelativePath(source, file));
+                await WithRetryAsync(
+                        delegate
+                        {
+                            File.Copy(file, target, overwrite: true);
+                            return Task.CompletedTask;
+                        },
+                        LOG_IDENT,
+                        5,
+                        500,
+                        IsInstallationAccessError,
+                        ct
+                    )
+                    .ConfigureAwait(continueOnCapturedContext: false);
+            }
+        }
+        catch
+        {
+            try
+            {
+                if (Directory.Exists(destination))
+                    Directory.Delete(destination, recursive: true);
+            }
+            catch (Exception cleanupException) when (cleanupException is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The partly copied installation will be cleaned later: " + cleanupException.Message);
+            }
+            throw;
+        }
+        App.Logger.WriteLine(LOG_IDENT, "Copied the prepared installation into place");
+        try
+        {
+            await SafeDeleteDirectoryAsync(source, LOG_IDENT, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The prepared installation will be cleaned later: " + ex.Message);
+        }
+
+        bool IsMarker(string path) => markers.Contains(Path.GetFileName(path), StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static async Task MoveDirectoryWithRetryAsync(
+        string source,
+        string destination,
+        string context,
+        CancellationToken ct,
+        int attempts = 8
+    )
     {
         await WithRetryAsync(
                 delegate
@@ -492,7 +578,7 @@ public partial class Bootstrapper
                     return Task.CompletedTask;
                 },
                 context,
-                8,
+                attempts,
                 500,
                 IsInstallationAccessError,
                 ct
