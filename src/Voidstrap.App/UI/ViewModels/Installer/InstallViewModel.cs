@@ -248,7 +248,9 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
                 );
                 if (!runtime.Succeeded)
                     Frontend.ShowMessageBox(
-                        runtime.Failure?.Message ?? "Rosemary could not be installed",
+                        runtime.Failure?.Code == "RosemaryMissing"
+                            ? Strings.Menu_Rosemary_NotInstalledFreeBSD
+                            : runtime.Failure?.Message ?? "Rosemary could not be installed",
                         MessageBoxImage.Error,
                         MessageBoxButton.OK
                     );
