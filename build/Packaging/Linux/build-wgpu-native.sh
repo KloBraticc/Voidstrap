@@ -69,7 +69,7 @@ if strings "$LIBRARY" | grep -F "$HOME" > /dev/null; then
     exit 1
 fi
 
-EXPORTS="$(nm -D --defined-only "$LIBRARY" | awk '$3 ~ /^wgpu/' | wc -l)"
+EXPORTS="$(nm -D --defined-only "$LIBRARY" | awk '$3 ~ /^wgpu/' | wc -l | tr -d '[:space:]')"
 if [ "$EXPORTS" != "$EXPECTED_EXPORTS" ]; then
     echo "$LIBRARY exports $EXPORTS functions, expected $EXPECTED_EXPORTS" >&2
     exit 1
