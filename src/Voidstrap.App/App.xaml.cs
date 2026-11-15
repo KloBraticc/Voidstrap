@@ -520,6 +520,10 @@ public partial class App : Application
         {
             return true;
         }
+        if (ex.GetType().FullName == "Tmds.DBus.ConnectException")
+        {
+            return true;
+        }
         if (ex is IOException { InnerException: not null } io)
         {
             return IsExpectedLinuxCancellation(io.InnerException!);
