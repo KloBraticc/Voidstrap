@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Voidstrap.RobloxInterfaces;
@@ -47,6 +47,18 @@ public class ChannelViewModel : NotifyPropertyChangedViewModel
         string savedChannel = App.Settings.Prop.Channel;
         _channel = string.IsNullOrWhiteSpace(savedChannel) ? Deployment.DefaultChannel : savedChannel;
     }
+
+    public bool UsesRosemary { get; } = Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary;
+
+    public string RuntimeIcon => UsesRosemary
+        ? "pack://application:,,,/Resources/RosemaryIcon.png"
+        : "pack://application:,,,/Resources/SoberIcon.png";
+
+    public string RuntimeTitle => UsesRosemary ? Strings.Ui_Downloads_Rosemary_PlayerTitle : "Sober for Roblox on Linux";
+
+    public string RuntimeText => UsesRosemary
+        ? Strings.Installer_Linux_Runtime_RosemaryHint
+        : "Sober will be automatically installed when you click Launch in Voidstrap. No separate installation is required.";
 
     public ObservableCollection<MirrorOption> Mirrors { get; }
 
