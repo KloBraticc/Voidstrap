@@ -271,7 +271,7 @@ public static partial class UnixSystem
 		{
 			if (HostSystem.IsFreeBSD)
 			{
-				if (FreeBSDFileStatus(CurrentDirectory, path, followLinks ? 0 : 0x200, status) != 0)
+				if (FreeBSDFileStatus(CurrentDirectory, path, status, followLinks ? 0 : 0x200) != 0)
 					return false;
 				mode = BitConverter.ToUInt16(status, 24);
 				owner = BitConverter.ToUInt32(status, 28);
@@ -329,7 +329,7 @@ public static partial class UnixSystem
 	private static partial int LinuxFileStatus(int directoryFileDescriptor, string path, int flags, uint mask, byte[] status);
 
 	[LibraryImport("libc", EntryPoint = "fstatat", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
-	private static partial int FreeBSDFileStatus(int directoryFileDescriptor, string path, int flags, byte[] status);
+	private static partial int FreeBSDFileStatus(int directoryFileDescriptor, string path, byte[] status, int flags);
 
 	[LibraryImport("libc", EntryPoint = "kill", SetLastError = true)]
 	private static partial int Kill(int processId, int signal);
