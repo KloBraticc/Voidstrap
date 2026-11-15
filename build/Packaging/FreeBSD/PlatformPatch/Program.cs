@@ -11,13 +11,31 @@ if (args.Length < 2)
 string output = Path.GetFullPath(args[0]);
 Directory.CreateDirectory(output);
 string runtimeDirectory = Path.GetDirectoryName(typeof(object).Assembly.Location) ?? string.Empty;
+string[] assemblyDirectories = args.Skip(1)
+	.Select(Path.GetFullPath)
+	.Select(Path.GetDirectoryName)
+	.OfType<string>()
+	.Distinct(StringComparer.Ordinal)
+	.ToArray();
 
 foreach (string argument in args.Skip(1))
 {
 	string input = Path.GetFullPath(argument);
 	string target = Path.Combine(output, Path.GetFileName(input));
+	if (Path.GetFileName(input) is not ("PresentationCore.dll" or "ProGPU.Backend.dll" or "ProGPU.Text.dll" or "ProGPU.Wpf.dll" or "Silk.NET.Core.dll" or "Wpf.Ui.dll"))
+	{
+		if (!string.Equals(input, target, StringComparison.Ordinal))
+			File.Copy(input, target, true);
+		continue;
+	}
 	using DefaultAssemblyResolver resolver = new();
-	resolver.AddSearchDirectory(Path.GetDirectoryName(input) ?? string.Empty);
+	string inputDirectory = Path.GetDirectoryName(input) ?? string.Empty;
+	resolver.AddSearchDirectory(inputDirectory);
+	foreach (string directory in assemblyDirectories)
+	{
+		if (!string.Equals(directory, inputDirectory, StringComparison.Ordinal) && !string.Equals(directory, runtimeDirectory, StringComparison.Ordinal))
+			resolver.AddSearchDirectory(directory);
+	}
 	if (runtimeDirectory.Length > 0)
 		resolver.AddSearchDirectory(runtimeDirectory);
 
@@ -76,8 +94,17 @@ static bool IsOperatingSystemCall(Instruction? instruction, string name)
 
 static int PatchLinuxChecks(MethodBody body)
 {
-	List<Instruction> calls = body.Instructions
-		.Where(instruction => IsOperatingSystemCall(instruction, "IsLinux") && !IsOperatingSystemCall(instruction.Next, "IsFreeBSD"))
+	List<Instruction> linuxCalls = body.Instructions
+		.Where(instruction => IsOperatingSystemCall(instruction, "IsLinux"))
+		.ToList();
+	if (body.Method.DeclaringType.FullName == "ProGPU.Backend.NativeWindowPlatformFactory" && body.Method.Name == "Create")
+	{
+		if (linuxCalls.Count != 2 || !ReferencesNativeWindow(linuxCalls[0], linuxCalls[1], "get_X11") || !ReferencesNativeWindow(linuxCalls[1], null, "get_Wayland"))
+			throw new InvalidOperationException("The native window platform checks have changed");
+		linuxCalls.RemoveAt(1);
+	}
+	List<Instruction> calls = linuxCalls
+		.Where(instruction => !IsOperatingSystemCall(instruction.Next, "IsFreeBSD"))
 		.ToList();
 	if (calls.Count == 0)
 		return 0;
@@ -93,4 +120,14 @@ static int PatchLinuxChecks(MethodBody body)
 	}
 	body.OptimizeMacros();
 	return calls.Count;
+}
+
+static bool ReferencesNativeWindow(Instruction start, Instruction? end, string name)
+{
+	for (Instruction? instruction = start.Next; instruction is not null && instruction != end; instruction = instruction.Next)
+	{
+		if (instruction.Operand is MethodReference method && method.DeclaringType.FullName == "Silk.NET.Core.Contexts.INativeWindow" && method.Name == name)
+			return true;
+	}
+	return false;
 }
