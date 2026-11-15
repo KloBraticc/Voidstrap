@@ -7,6 +7,7 @@ VERSION="${1:-}"
 OUTPUT="${2:?Usage: bash package.sh <version or empty> <output directory>}"
 APPLICATION_ID="io.github.KloBraticc.Voidstrap"
 NATIVE="$ROOT/external/LibreWPF/freebsd-x64"
+RUNTIME_DEPENDENCIES="libX11 libXext libXrandr libXinerama libXcursor libXi libXcomposite libXdamage libxkbcommon fontconfig freetype2 vulkan-loader mesa-libs sqlite3 libarchive onnxruntime ffmpeg"
 DEPENDENCIES="bash dotnet rust cmake git llvm pkgconf xorgproto libX11 libXrandr libXinerama libXcursor libXi libxkbcommon vulkan-loader mesa-libs"
 
 [ "$(uname -s)" = "FreeBSD" ] || { echo "FreeBSD packages are only built on FreeBSD"; exit 1; }
@@ -86,4 +87,4 @@ if [ -e "$TARGET" ]; then
   exit 1
 fi
 echo "Built $FINAL_TARGET"
-echo "Runtime packages: pkg install libX11 libXrandr libXinerama libXcursor libXi libxkbcommon vulkan-loader mesa-libs"
+echo "Runtime packages: pkg install $RUNTIME_DEPENDENCIES"

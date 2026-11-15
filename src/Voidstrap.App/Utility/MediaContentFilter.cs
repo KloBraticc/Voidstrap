@@ -206,7 +206,7 @@ internal static class MediaContentFilter
     {
         if (Platform.IsWindows)
             return (OnnxRuntimeUrl, "runtimes/win-x64/native/onnxruntime.dll", OnnxRuntimeHash);
-        if (RuntimeInformation.RuntimeIdentifier.Contains("musl", StringComparison.OrdinalIgnoreCase))
+        if (Platform.IsFreeBSD || RuntimeInformation.RuntimeIdentifier.Contains("musl", StringComparison.OrdinalIgnoreCase))
             return null;
         return (Platform.IsMacOS, RuntimeInformation.ProcessArchitecture) switch
         {
