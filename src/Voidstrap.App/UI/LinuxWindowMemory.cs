@@ -320,7 +320,7 @@ internal static partial class LinuxWindowMemory
         {
             if (Voidstrap.Utility.Platform.IsMacOS)
                 _ = MallocZonePressureRelief(0, 0);
-            else
+            else if (Voidstrap.Utility.Platform.IsLinux)
                 _ = MallocTrim(0);
         }
         catch (Exception ex) when (ex is EntryPointNotFoundException or DllNotFoundException) { }
