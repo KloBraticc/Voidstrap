@@ -52,6 +52,7 @@ internal static class LinuxAppearancePortal
 			Task<Color?> read = Task.Run(() => ReadAccentAsync(address));
 			if (read.Wait(ReadTimeout))
 				return read.Result;
+			_ = read.ContinueWith(static task => _ = task.Exception, TaskContinuationOptions.OnlyOnFaulted);
 			App.Logger?.WriteLine(LogIdent, "The desktop portal did not answer the accent request in time");
 		}
 		catch (Exception ex)
