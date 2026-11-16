@@ -10090,4 +10090,31 @@ Faka i-SteamVR ngoku?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ayikafakwa, yakha iRosemary uze ubeke ifayile ye rosemary kwi PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Ukutshintshwa kwe-Cursor ye-Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Ifihla i-cursor ye-Roblox kwaye izobe eyakho i-cursor ngaphezulu, kubandakanya ii-cursor ze-GIF nezishukumayo. I-cursor yakho yangaphambili iyabuya xa oku kucinyiwe.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Umfanekiso we-cursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Nawuphi na umfanekiso, i-GIF okanye ifayile ye-cursor. Isimbo sakho se-cursor sangoku sisetyenziswa xa singenanto.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Ubungakanani be-cursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Beka embindini kwisalathisi</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Ibeka umbindi womfanekiso kwisalathisi endaweni yekona ephezulu ekhohlo.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Izimbo ze-cursor zitshixiwe ngelixa Ukutshintshwa kwe-Cursor ye-Roblox kuvuliwe.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Akukwazeki ukusebenzisa loo mfanekiso</value>
+  </data>
 </root>

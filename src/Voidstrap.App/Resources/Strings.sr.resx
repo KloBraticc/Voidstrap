@@ -10091,4 +10091,31 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary још није инсталиран, направите Rosemary и ставите датотеку rosemary у PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Замена Roblox курсора</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Сакрива Roblox курсор и црта твој сопствени курсор преко њега, укључујући GIF и анимиране курсоре. Твој претходни курсор се враћа када је ово искључено.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Слика курсора</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Било која слика, GIF или датотека курсора. Када је празно, користи се твој тренутни стил курсора.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Величина курсора</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Центрирај на показивач</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Поставља средину слике на показивач уместо горњег левог угла.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Стилови курсора су закључани док је замена Roblox курсора укључена.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Није могуће користити ту слику</value>
+  </data>
 </root>

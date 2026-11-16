@@ -10091,4 +10091,31 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary હજી ઇન્સ્ટોલ થયું નથી, Rosemary બિલ્ડ કરો અને rosemary ફાઇલને PATH પર મૂકો</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox કર્સર ઓવરરાઇડ</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox કર્સર છુપાવે છે અને ઉપર તમારું પોતાનું કર્સર દોરે છે, GIF અને એનિમેટેડ કર્સર સહિત. આ બંધ હોય ત્યારે તમારું અગાઉનું કર્સર પાછું આવે છે.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>કર્સર છબી</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>કોઈપણ છબી, GIF અથવા કર્સર ફાઇલ. ખાલી હોય ત્યારે તમારી હાલની કર્સર શૈલી વપરાય છે.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>કર્સરનું કદ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>પોઇન્ટર પર કેન્દ્રમાં રાખો</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>ઉપરના ડાબા ખૂણાને બદલે છબીનો મધ્ય ભાગ પોઇન્ટર પર મૂકે છે.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox કર્સર ઓવરરાઇડ ચાલુ હોય ત્યારે કર્સર શૈલીઓ લૉક રહે છે.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>તે છબીનો ઉપયોગ કરી શકાયો નહીં</value>
+  </data>
 </root>

@@ -10091,4 +10091,31 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ഇതുവരെ ഇൻസ്റ്റാൾ ചെയ്തിട്ടില്ല, Rosemary ബിൽഡ് ചെയ്ത് rosemary ഫയൽ PATH ൽ വയ്ക്കുക</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox കഴ്‌സർ ഓവർറൈഡ്</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox കഴ്‌സർ മറച്ച് അതിന് മുകളിൽ നിങ്ങളുടെ സ്വന്തം കഴ്‌സർ വരയ്ക്കുന്നു, GIF, ആനിമേറ്റഡ് കഴ്‌സറുകൾ ഉൾപ്പെടെ. ഇത് ഓഫാക്കുമ്പോൾ നിങ്ങളുടെ മുൻ കഴ്‌സർ തിരികെ വരും.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>കഴ്‌സർ ചിത്രം</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>ഏത് ചിത്രവും GIF അല്ലെങ്കിൽ കഴ്‌സർ ഫയലും. ശൂന്യമാണെങ്കിൽ നിങ്ങളുടെ നിലവിലെ കഴ്‌സർ ശൈലി ഉപയോഗിക്കും.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>കഴ്‌സർ വലുപ്പം</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>പോയിന്ററിൽ മധ്യത്തിലാക്കുക</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>മുകളിലെ ഇടത് മൂലയ്ക്ക് പകരം ചിത്രത്തിന്റെ മധ്യഭാഗം പോയിന്ററിൽ വയ്ക്കുന്നു.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox കഴ്‌സർ ഓവർറൈഡ് ഓണായിരിക്കുമ്പോൾ കഴ്‌സർ ശൈലികൾ ലോക്ക് ചെയ്തിരിക്കും.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ആ ചിത്രം ഉപയോഗിക്കാനായില്ല</value>
+  </data>
 </root>

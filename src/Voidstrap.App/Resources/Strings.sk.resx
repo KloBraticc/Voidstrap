@@ -10091,4 +10091,31 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ešte nie je nainštalovaný, zostavte Rosemary a vložte súbor rosemary do PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Náhrada kurzora Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Skryje kurzor Roblox a nakreslí nad ním váš vlastný kurzor vrátane GIF a animovaných kurzorov. Po vypnutí sa vráti váš predchádzajúci kurzor.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Obrázok kurzora</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Akýkoľvek obrázok, GIF alebo súbor kurzora. Ak je prázdne, použije sa váš aktuálny štýl kurzora.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Veľkosť kurzora</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Vycentrovať na ukazovateľ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Umiestni stred obrázka na ukazovateľ namiesto ľavého horného rohu.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Štýly kurzora sú uzamknuté, kým je náhrada kurzora Roblox zapnutá.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Tento obrázok sa nepodarilo použiť</value>
+  </data>
 </root>

@@ -10091,4 +10091,31 @@ SteamVR elo installéieren?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ass nach net installéiert, bau Rosemary a lee d'Datei rosemary an de PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox Cursor Ersatz</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Verstoppt de Roblox Cursor a mécht däin eegene Cursor driwwer, och GIF an animéiert Cursoren. Däi fréiere Cursor kënnt zréck, wann dat ausgeschalt ass.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Cursorbild</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>All Bild, GIF oder Cursordatei. Ouni Bild gëtt däin aktuelle Cursorstil benotzt.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Cursorgréisst</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Um Zeiger zentréieren</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Setzt d'Mëtt vum Bild op den Zeiger amplaz vum ieweschte lénkse Eck.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Cursorstiler si gespaart, soulaang de Roblox Cursor Ersatz un ass.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Dat Bild konnt net benotzt ginn</value>
+  </data>
 </root>

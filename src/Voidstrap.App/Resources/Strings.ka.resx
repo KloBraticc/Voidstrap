@@ -10091,4 +10091,31 @@ Uptime: {1}
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ჯერ არ არის დაყენებული, ააწყეთ Rosemary და მოათავსეთ rosemary ფაილი PATH-ში</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox კურსორის ჩანაცვლება</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>მალავს Roblox კურსორს და ზემოდან ხატავს თქვენს საკუთარ კურსორს, GIF და ანიმირებული კურსორების ჩათვლით. როცა ეს გამორთულია, თქვენი წინა კურსორი ბრუნდება.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>კურსორის სურათი</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>ნებისმიერი სურათი, GIF ან კურსორის ფაილი. ცარიელის შემთხვევაში გამოიყენება თქვენი მიმდინარე კურსორის სტილი.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>კურსორის ზომა</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>ცენტრში მაჩვენებელზე</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>სურათის შუა ნაწილს ათავსებს მაჩვენებელზე ზედა მარცხენა კუთხის ნაცვლად.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>კურსორის სტილები დაბლოკილია, სანამ Roblox კურსორის ჩანაცვლება ჩართულია.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ამ სურათის გამოყენება ვერ მოხერხდა</value>
+  </data>
 </root>

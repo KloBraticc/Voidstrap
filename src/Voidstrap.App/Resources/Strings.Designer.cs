@@ -10332,5 +10332,14 @@ namespace Voidstrap.Resources {
         public static string Ui_Island_Previous => ResourceManager.GetString("Ui.Island.Previous", resourceCulture);
         public static string Ui_Island_Next => ResourceManager.GetString("Ui.Island.Next", resourceCulture);
         public static string Ui_Island_PlayPause => ResourceManager.GetString("Ui.Island.PlayPause", resourceCulture);
+        public static string Ui_Mods_RobloxCursorOverride => ResourceManager.GetString("Ui.Mods.RobloxCursorOverride", resourceCulture);
+        public static string Ui_Mods_RobloxCursorOverrideDescription => ResourceManager.GetString("Ui.Mods.RobloxCursorOverrideDescription", resourceCulture);
+        public static string Ui_Mods_OverrideCursorImage => ResourceManager.GetString("Ui.Mods.OverrideCursorImage", resourceCulture);
+        public static string Ui_Mods_OverrideCursorImageDescription => ResourceManager.GetString("Ui.Mods.OverrideCursorImageDescription", resourceCulture);
+        public static string Ui_Mods_OverrideCursorSize => ResourceManager.GetString("Ui.Mods.OverrideCursorSize", resourceCulture);
+        public static string Ui_Mods_OverrideCursorCentered => ResourceManager.GetString("Ui.Mods.OverrideCursorCentered", resourceCulture);
+        public static string Ui_Mods_OverrideCursorCenteredDescription => ResourceManager.GetString("Ui.Mods.OverrideCursorCenteredDescription", resourceCulture);
+        public static string Ui_Mods_CursorLockedByOverride => ResourceManager.GetString("Ui.Mods.CursorLockedByOverride", resourceCulture);
+        public static string Ui_Mods_CouldNotUseCursorImage => ResourceManager.GetString("Ui.Mods.CouldNotUseCursorImage", resourceCulture);
     }
 }

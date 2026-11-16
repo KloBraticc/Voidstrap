@@ -22,6 +22,8 @@ namespace Voidstrap.Integrations.Overlays
 
         internal static bool RobloxProcessRunning => _robloxProcessRunning;
 
+        internal static bool ShuttingDown => _shutdown;
+
         internal static bool GameTransition => _gameTransition;
         internal static bool CompositorLive => _compositorLive;
         private static IntPtr _compositorWindow;
@@ -109,6 +111,7 @@ namespace Voidstrap.Integrations.Overlays
                         try
                         {
                             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
+                            RobloxCursorOverlay.Reconcile();
                         }
                         catch (Exception ex)
                         {

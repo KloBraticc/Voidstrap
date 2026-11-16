@@ -10090,4 +10090,31 @@ Gosod SteamVR nawr?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Nid yw Rosemary wedi'i osod eto, adeiladwch Rosemary a rhowch y ffeil rosemary ar PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Disodli Cyrchwr Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Yn cuddio cyrchwr Roblox ac yn tynnu eich cyrchwr eich hun ar ei ben, gan gynnwys cyrchwyr GIF ac animeiddiedig. Mae eich cyrchwr blaenorol yn dod yn ôl pan fydd hyn i ffwrdd.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Delwedd cyrchwr</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Unrhyw ddelwedd, GIF neu ffeil cyrchwr. Defnyddir eich arddull cyrchwr presennol pan fydd yn wag.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Maint y cyrchwr</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Canoli ar y pwyntydd</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Yn rhoi canol y ddelwedd ar y pwyntydd yn lle'r gornel chwith uchaf.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Mae arddulliau cyrchwr wedi'u cloi tra bo Disodli Cyrchwr Roblox ymlaen.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Methu defnyddio'r ddelwedd honno</value>
+  </data>
 </root>

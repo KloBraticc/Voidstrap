@@ -10091,4 +10091,31 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary اڃا انسٽال ناهي، Rosemary ٺاهيو ۽ rosemary فائل کي PATH ۾ رکو</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox ڪرسر جي بدلي</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox ڪرسر کي لڪائي ٿو ۽ ان جي مٿان توهان جو پنهنجو ڪرسر ٺاهي ٿو، GIF ۽ متحرڪ ڪرسرن سميت. جڏهن هي بند هجي ته توهان جو اڳوڻو ڪرسر واپس اچي ٿو.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>ڪرسر جي تصوير</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>ڪا به تصوير، GIF يا ڪرسر فائل. خالي هجڻ تي توهان جو موجوده ڪرسر انداز استعمال ٿئي ٿو.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>ڪرسر جي ماپ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>پوائنٽر تي وچ ۾ رکو</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>مٿين کاٻي ڪنڊ بدران تصوير جو وچ پوائنٽر تي رکي ٿو.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>جيستائين Roblox ڪرسر جي بدلي چالو آهي، ڪرسر انداز بند آهن.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>اها تصوير استعمال نه ٿي سگهي</value>
+  </data>
 </root>

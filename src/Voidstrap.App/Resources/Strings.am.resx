@@ -10090,4 +10090,31 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ገና አልተጫነም፣ Rosemary ን ገንብተው የ rosemary ፋይሉን በ PATH ላይ ያስቀምጡ</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>የRoblox ጠቋሚ መተኪያ</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>የRoblox ጠቋሚን ይደብቃል እና የራስዎን ጠቋሚ ከላይ ይሳላል፣ GIF እና አኒሜሽን ጠቋሚዎችን ጨምሮ። ይህ ሲጠፋ የቀድሞ ጠቋሚዎ ይመለሳል።</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>የጠቋሚ ምስል</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>ማንኛውም ምስል፣ GIF ወይም የጠቋሚ ፋይል። ባዶ ሲሆን የአሁኑ የጠቋሚ ዘይቤዎ ጥቅም ላይ ይውላል።</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>የጠቋሚ መጠን</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>በጠቋሚው ላይ መሃል አድርግ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>ከላይኛው ግራ ጥግ ይልቅ የምስሉን መሃል በጠቋሚው ላይ ያደርጋል።</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>የRoblox ጠቋሚ መተኪያ ሲበራ የጠቋሚ ዘይቤዎች ተቆልፈዋል።</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ያንን ምስል መጠቀም አልተቻለም</value>
+  </data>
 </root>

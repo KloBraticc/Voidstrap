@@ -10405,4 +10405,31 @@ Instalați SteamVR acum?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary nu este încă instalat, compilează Rosemary și pune fișierul rosemary în PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Înlocuirea cursorului Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Ascunde cursorul Roblox și desenează propriul tău cursor deasupra, inclusiv cursoare GIF și animate. Cursorul tău anterior revine când opțiunea este dezactivată.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Imaginea cursorului</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Orice imagine, GIF sau fișier de cursor. Când este gol, se folosește stilul tău actual de cursor.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Dimensiunea cursorului</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Centrează pe indicator</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Pune mijlocul imaginii pe indicator în loc de colțul din stânga sus.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Stilurile de cursor sunt blocate cât timp înlocuirea cursorului Roblox este activă.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Imaginea nu a putut fi folosită</value>
+  </data>
 </root>

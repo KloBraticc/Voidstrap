@@ -10091,4 +10091,31 @@ Installer SteamVR nå?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary er ikke installert ennå, bygg Rosemary og legg rosemary-filen i PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox-pekererstatning</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Skjuler Roblox-pekeren og tegner din egen peker over den, inkludert GIF og animerte pekere. Den forrige pekeren din kommer tilbake når dette er av.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Pekerbilde</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Hvilket som helst bilde, GIF eller pekerfil. Din nåværende pekerstil brukes når feltet er tomt.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Pekerstørrelse</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Sentrer på pekeren</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Plasserer midten av bildet på pekeren i stedet for øvre venstre hjørne.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Pekerstiler er låst mens Roblox-pekererstatning er på.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Kunne ikke bruke det bildet</value>
+  </data>
 </root>

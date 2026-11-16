@@ -10403,4 +10403,31 @@ Telepítse most az SteamVR-t?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>A Rosemary még nincs telepítve, fordítsd le a Rosemaryt, és tedd a rosemary fájlt a PATH-ba</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox kurzor felülírása</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Elrejti a Roblox kurzort, és fölé rajzolja a saját kurzorodat, beleértve a GIF és animált kurzorokat is. A korábbi kurzorod visszatér, amikor ez ki van kapcsolva.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Kurzorkép</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Bármilyen kép, GIF vagy kurzorfájl. Ha üres, a jelenlegi kurzorstílusod lesz használva.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Kurzorméret</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Középre a mutatón</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>A kép közepét helyezi a mutatóra a bal felső sarok helyett.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>A kurzorstílusok zárolva vannak, amíg a Roblox kurzor felülírása be van kapcsolva.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Nem sikerült használni ezt a képet</value>
+  </data>
 </root>

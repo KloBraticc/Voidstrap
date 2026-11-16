@@ -10406,4 +10406,31 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary chưa được cài đặt, bạn hãy build Rosemary và đặt tệp rosemary vào PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Thay thế con trỏ Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Ẩn con trỏ Roblox và vẽ con trỏ của bạn lên trên, bao gồm con trỏ GIF và con trỏ động. Con trỏ trước đó của bạn sẽ quay lại khi tắt tùy chọn này.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Hình ảnh con trỏ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Bất kỳ hình ảnh, GIF hoặc tệp con trỏ nào. Khi để trống, kiểu con trỏ hiện tại của bạn được dùng.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Kích thước con trỏ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Căn giữa vào con trỏ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Đặt phần giữa của hình ảnh vào con trỏ thay vì góc trên bên trái.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Các kiểu con trỏ bị khóa khi Thay thế con trỏ Roblox đang bật.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Không thể sử dụng hình ảnh đó</value>
+  </data>
 </root>

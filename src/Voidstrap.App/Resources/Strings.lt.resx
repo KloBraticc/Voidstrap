@@ -10405,4 +10405,31 @@ Veikimo laikas: {1}
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary dar neįdiegta, sukompiliuokite Rosemary ir įdėkite rosemary failą į PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox žymeklio pakeitimas</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Paslepia Roblox žymeklį ir ant jo piešia jūsų žymeklį, įskaitant GIF ir animuotus žymeklius. Kai tai išjungta, grįžta jūsų ankstesnis žymeklis.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Žymeklio vaizdas</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Bet koks vaizdas, GIF ar žymeklio failas. Jei tuščia, naudojamas jūsų dabartinis žymeklio stilius.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Žymeklio dydis</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Centruoti ant rodyklės</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Vaizdo vidurį uždeda ant rodyklės vietoj viršutinio kairiojo kampo.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Žymeklio stiliai užrakinti, kol įjungtas Roblox žymeklio pakeitimas.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Nepavyko naudoti šio vaizdo</value>
+  </data>
 </root>

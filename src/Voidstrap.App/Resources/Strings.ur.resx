@@ -10090,4 +10090,31 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ابھی انسٹال نہیں ہے، Rosemary بنائیں اور rosemary فائل کو PATH میں رکھیں</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox کرسر اوور رائیڈ</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox کرسر کو چھپاتا ہے اور اس کے اوپر آپ کا اپنا کرسر بناتا ہے، GIF اور اینیمیٹڈ کرسرز سمیت۔ اسے بند کرنے پر آپ کا پچھلا کرسر واپس آ جاتا ہے۔</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>کرسر تصویر</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>کوئی بھی تصویر، GIF یا کرسر فائل۔ خالی ہونے پر آپ کا موجودہ کرسر انداز استعمال ہوتا ہے۔</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>کرسر کا سائز</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>پوائنٹر پر درمیان میں رکھیں</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>اوپری بائیں کونے کے بجائے تصویر کا درمیانی حصہ پوائنٹر پر رکھتا ہے۔</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox کرسر اوور رائیڈ آن رہنے تک کرسر انداز مقفل رہتے ہیں۔</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>وہ تصویر استعمال نہیں ہو سکی</value>
+  </data>
 </root>

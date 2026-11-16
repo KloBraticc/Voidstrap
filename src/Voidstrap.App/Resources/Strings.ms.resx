@@ -10395,4 +10395,31 @@ Pasang SteamVR sekarang?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary belum dipasang lagi, bina Rosemary dan letakkan fail rosemary dalam PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Penggantian Kursor Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Menyembunyikan kursor Roblox dan melukis kursor anda sendiri di atasnya, termasuk kursor GIF dan beranimasi. Kursor anda sebelum ini kembali apabila ini dimatikan.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Imej kursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Sebarang imej, GIF atau fail kursor. Gaya kursor semasa anda digunakan apabila kosong.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Saiz kursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Tengahkan pada penuding</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Meletakkan bahagian tengah imej pada penuding dan bukannya penjuru kiri atas.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Gaya kursor dikunci selagi Penggantian Kursor Roblox dihidupkan.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Tidak dapat menggunakan imej itu</value>
+  </data>
 </root>

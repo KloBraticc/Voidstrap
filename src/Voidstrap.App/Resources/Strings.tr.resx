@@ -10401,4 +10401,31 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary henüz yüklü değil, Rosemary'yi derleyin ve rosemary dosyasını PATH içine koyun</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox İmleç Değiştirme</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox imlecini gizler ve GIF ile animasyonlu imleçler dahil kendi imlecinizi üstüne çizer. Bu kapatıldığında önceki imleciniz geri gelir.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>İmleç görseli</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Herhangi bir görsel, GIF veya imleç dosyası. Boş olduğunda mevcut imleç stiliniz kullanılır.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>İmleç boyutu</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>İşaretçiye ortala</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Görselin sol üst köşesi yerine ortasını işaretçiye yerleştirir.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox İmleç Değiştirme açıkken imleç stilleri kilitlidir.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Bu görsel kullanılamadı</value>
+  </data>
 </root>

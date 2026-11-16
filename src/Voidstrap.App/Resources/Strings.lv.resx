@@ -10091,4 +10091,31 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary vēl nav instalēts, izveido Rosemary un ievieto rosemary failu PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox kursora aizstāšana</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Paslēpj Roblox kursoru un uzzīmē virs tā tavu kursoru, ieskaitot GIF un animētus kursorus. Kad tas ir izslēgts, atgriežas tavs iepriekšējais kursors.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Kursora attēls</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Jebkurš attēls, GIF vai kursora fails. Ja tukšs, tiek izmantots tavs pašreizējais kursora stils.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Kursora izmērs</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Centrēt uz rādītāja</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Novieto attēla vidu uz rādītāja augšējā kreisā stūra vietā.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Kursora stili ir bloķēti, kamēr ieslēgta Roblox kursora aizstāšana.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Neizdevās izmantot šo attēlu</value>
+  </data>
 </root>

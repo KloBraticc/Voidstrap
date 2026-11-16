@@ -10398,4 +10398,31 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>ยังไม่ได้ติดตั้ง Rosemary คุณต้อง build Rosemary แล้ววางไฟล์ rosemary ไว้ใน PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>การแทนที่เคอร์เซอร์ Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>ซ่อนเคอร์เซอร์ของ Roblox และวาดเคอร์เซอร์ของคุณเองทับด้านบน รวมถึงเคอร์เซอร์ GIF และแบบเคลื่อนไหว เคอร์เซอร์เดิมของคุณจะกลับมาเมื่อปิดตัวเลือกนี้</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>รูปภาพเคอร์เซอร์</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>รูปภาพ GIF หรือไฟล์เคอร์เซอร์ใดก็ได้ หากว่างจะใช้สไตล์เคอร์เซอร์ปัจจุบันของคุณ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>ขนาดเคอร์เซอร์</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>จัดกึ่งกลางที่ตัวชี้</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>วางกึ่งกลางของรูปภาพไว้ที่ตัวชี้แทนมุมซ้ายบน</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>สไตล์เคอร์เซอร์ถูกล็อกไว้ขณะเปิดการแทนที่เคอร์เซอร์ Roblox</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ไม่สามารถใช้รูปภาพนั้นได้</value>
+  </data>
 </root>

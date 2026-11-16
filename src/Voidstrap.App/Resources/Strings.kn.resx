@@ -10091,4 +10091,31 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ಇನ್ನೂ ಸ್ಥಾಪಿಸಲಾಗಿಲ್ಲ, Rosemary ಅನ್ನು ಬಿಲ್ಡ್ ಮಾಡಿ ಮತ್ತು rosemary ಫೈಲ್ ಅನ್ನು PATH ನಲ್ಲಿ ಇರಿಸಿ</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox ಕರ್ಸರ್ ಓವರ್‌ರೈಡ್</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox ಕರ್ಸರ್ ಅನ್ನು ಮರೆಮಾಡಿ ಅದರ ಮೇಲೆ ನಿಮ್ಮದೇ ಕರ್ಸರ್ ಅನ್ನು ಚಿತ್ರಿಸುತ್ತದೆ, GIF ಮತ್ತು ಅನಿಮೇಟೆಡ್ ಕರ್ಸರ್‌ಗಳು ಸೇರಿದಂತೆ. ಇದನ್ನು ಆಫ್ ಮಾಡಿದಾಗ ನಿಮ್ಮ ಹಿಂದಿನ ಕರ್ಸರ್ ಮರಳುತ್ತದೆ.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>ಕರ್ಸರ್ ಚಿತ್ರ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>ಯಾವುದೇ ಚಿತ್ರ, GIF ಅಥವಾ ಕರ್ಸರ್ ಫೈಲ್. ಖಾಲಿ ಇದ್ದಾಗ ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಕರ್ಸರ್ ಶೈಲಿ ಬಳಸಲಾಗುತ್ತದೆ.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>ಕರ್ಸರ್ ಗಾತ್ರ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>ಪಾಯಿಂಟರ್ ಮೇಲೆ ಮಧ್ಯದಲ್ಲಿಡಿ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>ಮೇಲಿನ ಎಡ ಮೂಲೆಯ ಬದಲು ಚಿತ್ರದ ಮಧ್ಯಭಾಗವನ್ನು ಪಾಯಿಂಟರ್ ಮೇಲೆ ಇರಿಸುತ್ತದೆ.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox ಕರ್ಸರ್ ಓವರ್‌ರೈಡ್ ಆನ್ ಆಗಿರುವಾಗ ಕರ್ಸರ್ ಶೈಲಿಗಳು ಲಾಕ್ ಆಗಿರುತ್ತವೆ.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ಆ ಚಿತ್ರವನ್ನು ಬಳಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</value>
+  </data>
 </root>

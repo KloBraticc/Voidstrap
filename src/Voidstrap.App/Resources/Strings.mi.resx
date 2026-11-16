@@ -10091,4 +10091,31 @@ Tāuta SteamVR ināianei?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Kāore anō a Rosemary kia tāutahia, hangaia a Rosemary ka waiho te kōnae rosemary ki PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Whakakapi Pehu Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Ka huna i te pehu Roblox ka tuhi i tō ake pehu ki runga, tae atu ki ngā pehu GIF me ngā pehu hākoritanga. Ka hoki mai tō pehu o mua ina whakawetongia tēnei.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Atahanga pehu</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Ko tētahi atahanga, GIF, kōnae pehu rānei. Ka whakamahia tō kāhua pehu o nāianei ina putu kau.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Rahi pehu</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Whakawaenga ki te tohu</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Ka whakatakoto i te waenganui o te atahanga ki te tohu, kaua ko te kokonga mauī o runga.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Kua rakaina ngā kāhua pehu i te wā e kā ana te Whakakapi Pehu Roblox.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Kāore i taea te whakamahi i taua atahanga</value>
+  </data>
 </root>

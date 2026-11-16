@@ -10090,4 +10090,31 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ఇంకా ఇన్స్టాల్ కాలేదు, Rosemary ని బిల్డ్ చేసి rosemary ఫైల్ను PATH లో ఉంచండి</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox కర్సర్ ఓవర్‌రైడ్</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox కర్సర్‌ను దాచి దాని పైన మీ స్వంత కర్సర్‌ను గీస్తుంది, GIF మరియు యానిమేటెడ్ కర్సర్‌లతో సహా. ఇది ఆఫ్ చేసినప్పుడు మీ మునుపటి కర్సర్ తిరిగి వస్తుంది.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>కర్సర్ చిత్రం</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>ఏదైనా చిత్రం, GIF లేదా కర్సర్ ఫైల్. ఖాళీగా ఉంటే మీ ప్రస్తుత కర్సర్ శైలి ఉపయోగించబడుతుంది.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>కర్సర్ పరిమాణం</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>పాయింటర్‌పై మధ్యలో ఉంచు</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>పై ఎడమ మూలకు బదులుగా చిత్రం మధ్యభాగాన్ని పాయింటర్‌పై ఉంచుతుంది.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox కర్సర్ ఓవర్‌రైడ్ ఆన్‌లో ఉన్నంతవరకు కర్సర్ శైలులు లాక్ అయి ఉంటాయి.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ఆ చిత్రాన్ని ఉపయోగించలేకపోయాము</value>
+  </data>
 </root>

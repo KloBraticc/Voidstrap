@@ -10090,4 +10090,31 @@ SteamVR instalatu orain?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ez dago oraindik instalatuta, konpilatu Rosemary eta jarri rosemary fitxategia PATH-en</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox kurtsorearen ordezkapena</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox kurtsorea ezkutatzen du eta zure kurtsorea marrazten du gainean, GIF eta kurtsore animatuak barne. Zure aurreko kurtsorea itzultzen da hau desaktibatuta dagoenean.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Kurtsorearen irudia</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Edozein irudi, GIF edo kurtsore fitxategi. Hutsik badago, zure uneko kurtsore estiloa erabiltzen da.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Kurtsorearen tamaina</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Erdiratu erakuslean</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Irudiaren erdia erakuslean jartzen du goiko ezkerreko izkinaren ordez.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Kurtsore estiloak blokeatuta daude Roblox kurtsorearen ordezkapena aktibatuta dagoen bitartean.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Ezin izan da irudi hori erabili</value>
+  </data>
 </root>

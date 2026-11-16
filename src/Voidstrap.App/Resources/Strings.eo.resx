@@ -10090,4 +10090,31 @@ Ludantoj: {2}</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ankoraŭ ne estas instalita, konstruu Rosemary kaj metu la dosieron rosemary en PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Anstataŭigo de Roblox-kursoro</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Kaŝas la Roblox-kursoron kaj desegnas vian propran kursoron supre, inkluzive de GIF kaj animaciitaj kursoroj. Via antaŭa kursoro revenas kiam ĉi tio estas malŝaltita.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Kursora bildo</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Ajna bildo, GIF aŭ kursora dosiero. Via nuna kursora stilo estas uzata kiam ĝi estas malplena.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Kursora grandeco</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Centrigi sur la montrilo</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Metas la mezon de la bildo sur la montrilon anstataŭ la supra maldekstra angulo.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Kursoraj stiloj estas ŝlositaj dum Anstataŭigo de Roblox-kursoro estas ŝaltita.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Ne eblis uzi tiun bildon</value>
+  </data>
 </root>

@@ -10091,4 +10091,31 @@ Hametraka SteamVR izao?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Mbola tsy voapetraka ny Rosemary, amboary ny Rosemary ary apetraho ao amin'ny PATH ny rakitra rosemary</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Fanoloana ny Kursora Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Manafina ny kursora Roblox ary manao sary ny kursoranao manokana eo amboniny, anisan'izany ny kursora GIF sy mihetsika. Miverina ny kursoranao teo aloha rehefa maty ity.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Sarin'ny kursora</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Sary, GIF na rakitra kursora rehetra. Ampiasaina ny endrika kursoranao ankehitriny rehefa foana.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Haben'ny kursora</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Afovoany eo amin'ny tondro</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Mametraka ny afovoan'ny sary eo amin'ny tondro fa tsy ny zorony ambony havia.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Voahidy ny endriky ny kursora raha mbola mandeha ny Fanoloana ny Kursora Roblox.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Tsy afaka nampiasa izany sary izany</value>
+  </data>
 </root>

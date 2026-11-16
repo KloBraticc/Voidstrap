@@ -10403,4 +10403,31 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary все още не е инсталиран, компилирайте Rosemary и поставете файла rosemary в PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Замяна на курсора на Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Скрива курсора на Roblox и рисува Вашия собствен курсор отгоре, включително GIF и анимирани курсори. Предишният Ви курсор се връща, когато това е изключено.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Изображение на курсора</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Всяко изображение, GIF или файл на курсор. Когато е празно, се използва текущият Ви стил на курсора.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Размер на курсора</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Центриране върху показалеца</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Поставя средата на изображението върху показалеца вместо горния ляв ъгъл.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Стиловете на курсора са заключени, докато замяната на курсора на Roblox е включена.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Това изображение не може да бъде използвано</value>
+  </data>
 </root>

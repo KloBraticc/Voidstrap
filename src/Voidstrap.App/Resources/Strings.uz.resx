@@ -10090,4 +10090,31 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary hali o'rnatilmagan, Rosemary ni yig'ing va rosemary faylini PATH ga joylang</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox kursorini almashtirish</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox kursorini yashirib, ustiga o'z kursoringizni chizadi, GIF va animatsiyali kursorlar ham shu jumladan. Bu o'chirilganda oldingi kursoringiz qaytadi.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Kursor rasmi</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Istalgan rasm, GIF yoki kursor fayli. Bo'sh bo'lsa, joriy kursor uslubingiz ishlatiladi.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Kursor o'lchami</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Ko'rsatkichda markazlash</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Rasmning yuqori chap burchagi o'rniga o'rtasini ko'rsatkichga qo'yadi.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox kursorini almashtirish yoqilgan paytda kursor uslublari qulflangan.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Bu rasmdan foydalanib bo'lmadi</value>
+  </data>
 </root>

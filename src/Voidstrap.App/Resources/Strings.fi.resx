@@ -10404,4 +10404,31 @@ Asennetaan SteamVR nyt?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ei ole vielä asennettu, käännä Rosemary ja laita rosemary-tiedosto PATH-polkuun</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox-osoittimen korvaus</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Piilottaa Roblox-osoittimen ja piirtää oman osoittimesi sen päälle, myös GIF- ja animoidut osoittimet. Aiempi osoittimesi palaa, kun tämä on pois päältä.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Osoittimen kuva</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Mikä tahansa kuva, GIF tai osoitintiedosto. Kun tyhjä, käytetään nykyistä osoitintyyliäsi.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Osoittimen koko</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Keskitä osoittimeen</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Asettaa kuvan keskikohdan osoittimeen vasemman yläkulman sijaan.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Osoitintyylit ovat lukittuina, kun Roblox-osoittimen korvaus on päällä.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Kuvaa ei voitu käyttää</value>
+  </data>
 </root>

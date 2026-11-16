@@ -10405,4 +10405,31 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary هنوز نصب نشده است، Rosemary را بسازید و فایل rosemary را در PATH قرار دهید</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>جایگزینی نشانگر Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>نشانگر Roblox را پنهان می‌کند و نشانگر خودتان را روی آن می‌کشد، از جمله نشانگرهای GIF و متحرک. با خاموش کردن این گزینه، نشانگر قبلی شما برمی‌گردد.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>تصویر نشانگر</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>هر تصویر، GIF یا فایل نشانگر. اگر خالی باشد، سبک نشانگر فعلی شما استفاده می‌شود.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>اندازه نشانگر</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>وسط‌چین روی نشانگر</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>وسط تصویر را به‌جای گوشه بالا چپ روی نشانگر قرار می‌دهد.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>تا زمانی که جایگزینی نشانگر Roblox روشن است، سبک‌های نشانگر قفل هستند.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>استفاده از این تصویر ممکن نشد</value>
+  </data>
 </root>

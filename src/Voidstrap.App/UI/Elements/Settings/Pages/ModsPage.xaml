@@ -88,7 +88,33 @@
               <TextBlock Margin="5,0" Text="&amp;" />
               <TextBlock Text="{resources:Loc Ui_Mods_Interface}" />
             </StackPanel>
-            <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+              <controls:OptionControl Margin="0,8,0,0" Header="{resources:Loc Ui_Mods_RobloxCursorOverride}" Description="{resources:Loc Ui_Mods_RobloxCursorOverrideDescription}">
+                <ui:ToggleSwitch IsChecked="{Binding CursorSettings.OverrideEnabled, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <StackPanel Visibility="{Binding CursorSettings.OverrideEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <controls:OptionControl Header="{resources:Loc Ui_Mods_OverrideCursorImage}" Description="{resources:Loc Ui_Mods_OverrideCursorImageDescription}">
+                  <StackPanel Orientation="Horizontal">
+                    <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+                      <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.OverridePreview}" />
+                    </Border>
+                    <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ChooseOverrideImageCommand}" />
+                    <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.RemoveOverrideImageCommand}" Visibility="{Binding CursorSettings.HasOverrideImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                  </StackPanel>
+                </controls:OptionControl>
+                <controls:OptionControl Header="{resources:Loc Ui_Mods_OverrideCursorSize}">
+                  <StackPanel Orientation="Horizontal">
+                    <Slider Width="200" VerticalAlignment="Center" Minimum="8" Maximum="256" TickFrequency="4" IsSnapToTickEnabled="True" Value="{Binding CursorSettings.OverrideSize, Mode=TwoWay}" />
+                    <TextBlock Width="56" Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding CursorSettings.OverrideSize, StringFormat={}{0:0} px}" />
+                  </StackPanel>
+                </controls:OptionControl>
+                <controls:OptionControl Header="{resources:Loc Ui_Mods_OverrideCursorCentered}" Description="{resources:Loc Ui_Mods_OverrideCursorCenteredDescription}">
+                  <ui:ToggleSwitch IsChecked="{Binding CursorSettings.OverrideCentered, Mode=TwoWay}" />
+                </controls:OptionControl>
+                <ui:InfoBar Margin="0,8,0,0" IsOpen="True" IsClosable="False" Severity="Informational" Message="{resources:Loc Ui_Mods_CursorLockedByOverride}" />
+              </StackPanel>
+            </StackPanel>
+            <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" IsEnabled="{Binding CursorSettings.IsStyleEditable}">
               <HeaderedContentControl.Header>
                 <StackPanel>
                   <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_Cursor}" />

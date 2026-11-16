@@ -10090,4 +10090,31 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Το Rosemary δεν έχει εγκατασταθεί ακόμη, κάντε build το Rosemary και βάλτε το αρχείο rosemary στο PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Αντικατάσταση δείκτη Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Κρύβει τον δείκτη του Roblox και σχεδιάζει τον δικό σου δείκτη από πάνω, συμπεριλαμβανομένων GIF και κινούμενων δεικτών. Ο προηγούμενος δείκτης σου επιστρέφει όταν αυτό είναι απενεργοποιημένο.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Εικόνα δείκτη</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Οποιαδήποτε εικόνα, GIF ή αρχείο δείκτη. Όταν είναι κενό, χρησιμοποιείται το τρέχον στυλ δείκτη σου.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Μέγεθος δείκτη</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Κεντράρισμα στον δείκτη</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Τοποθετεί το κέντρο της εικόνας στον δείκτη αντί για την πάνω αριστερή γωνία.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Τα στυλ δείκτη είναι κλειδωμένα όσο η αντικατάσταση δείκτη Roblox είναι ενεργή.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η χρήση αυτής της εικόνας</value>
+  </data>
 </root>

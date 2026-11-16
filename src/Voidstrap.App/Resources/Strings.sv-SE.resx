@@ -10403,4 +10403,31 @@ Installera SteamVR nu?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary är inte installerat än, bygg Rosemary och lägg rosemary-filen i PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Ersättning av Roblox-markör</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Döljer Roblox-markören och ritar din egen markör ovanpå, inklusive GIF och animerade markörer. Din tidigare markör kommer tillbaka när detta är avstängt.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Markörbild</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Vilken bild, GIF eller markörfil som helst. Din nuvarande markörstil används när fältet är tomt.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Markörstorlek</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Centrera på pekaren</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Placerar mitten av bilden på pekaren i stället för övre vänstra hörnet.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Markörstilar är låsta medan ersättning av Roblox-markör är på.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Kunde inte använda den bilden</value>
+  </data>
 </root>

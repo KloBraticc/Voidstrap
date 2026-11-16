@@ -10418,4 +10418,31 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary はまだインストールされていません。Rosemary をビルドして rosemary を PATH に置いてください</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox カーソルの置き換え</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox のカーソルを非表示にし、GIF やアニメーションカーソルを含む独自のカーソルをその上に表示します。オフにすると以前のカーソルに戻ります。</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>カーソル画像</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>任意の画像、GIF、カーソルファイル。空の場合は現在のカーソルスタイルが使われます。</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>カーソルのサイズ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>ポインターの中央に配置</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>画像の左上ではなく中央をポインターの位置に合わせます。</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox カーソルの置き換えがオンの間、カーソルスタイルはロックされます。</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>その画像は使用できませんでした</value>
+  </data>
 </root>

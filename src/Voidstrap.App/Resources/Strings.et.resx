@@ -10090,4 +10090,31 @@ Kas installida SteamVR kohe?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary pole veel paigaldatud, ehita Rosemary ja pane rosemary fail PATH-i</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox kursori asendus</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Peidab Roblox kursori ja joonistab selle peale sinu oma kursori, sealhulgas GIF ja animeeritud kursorid. Sinu eelmine kursor tuleb tagasi, kui see on välja lülitatud.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Kursori pilt</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Mis tahes pilt, GIF või kursorifail. Kui see on tühi, kasutatakse sinu praegust kursori stiili.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Kursori suurus</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Joonda kursori keskele</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Paigutab pildi keskkoha kursorile ülemise vasaku nurga asemel.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Kursori stiilid on lukus, kuni Roblox kursori asendus on sees.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Seda pilti ei õnnestunud kasutada</value>
+  </data>
 </root>

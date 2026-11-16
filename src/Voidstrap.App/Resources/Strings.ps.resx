@@ -10091,4 +10091,31 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary لا نه دی نصب شوی، Rosemary جوړ کړئ او د rosemary فایل په PATH کې کېږدئ</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>د Roblox کرسر ځایناستی</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>د Roblox کرسر پټوي او پر سر یې ستاسو خپل کرسر انځوروي، د GIF او متحرکو کرسرونو په ګډون. کله چې دا بند شي، ستاسو پخوانی کرسر بېرته راځي.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>د کرسر انځور</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>هر انځور، GIF یا د کرسر فایل. کله چې خالي وي، ستاسو اوسنی د کرسر سټایل کارول کېږي.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>د کرسر اندازه</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>په نښه کوونکي منځ ته کول</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>د پورته کیڼ کونج پر ځای د انځور منځ په نښه کوونکي ږدي.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>تر هغه چې د Roblox کرسر ځایناستی روښانه وي، د کرسر سټایلونه قلف دي.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>هغه انځور ونه کارول شو</value>
+  </data>
 </root>

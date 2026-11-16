@@ -10090,4 +10090,31 @@ Sakinisha SteamVR sasa?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary bado haijasakinishwa, jenga Rosemary na uweke faili ya rosemary kwenye PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Ubadilishaji wa Kishale cha Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Huficha kishale cha Roblox na kuchora kishale chako mwenyewe juu yake, ikiwa ni pamoja na vishale vya GIF na vilivyohuishwa. Kishale chako cha awali hurudi hiki kikizimwa.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Picha ya kishale</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Picha yoyote, GIF au faili ya kishale. Mtindo wako wa sasa wa kishale hutumika ikiwa tupu.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Ukubwa wa kishale</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Weka katikati kwenye kielekezi</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Huweka katikati ya picha kwenye kielekezi badala ya kona ya juu kushoto.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Mitindo ya kishale imefungwa wakati Ubadilishaji wa Kishale cha Roblox umewashwa.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Imeshindwa kutumia picha hiyo</value>
+  </data>
 </root>

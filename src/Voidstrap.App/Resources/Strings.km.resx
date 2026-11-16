@@ -10091,4 +10091,31 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary មិនទាន់បានដំឡើងនៅឡើយទេ សូមបង្កើត Rosemary ហើយដាក់ឯកសារ rosemary ក្នុង PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>ការជំនួសទស្សន៍ទ្រនិច Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>លាក់ទស្សន៍ទ្រនិច Roblox ហើយគូរទស្សន៍ទ្រនិចផ្ទាល់ខ្លួនរបស់អ្នកពីលើ រួមទាំងទស្សន៍ទ្រនិច GIF និងចលនា។ ទស្សន៍ទ្រនិចមុនរបស់អ្នកនឹងត្រឡប់មកវិញនៅពេលបិទវា។</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>រូបភាពទស្សន៍ទ្រនិច</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>រូបភាព GIF ឬឯកសារទស្សន៍ទ្រនិចណាមួយ។ រចនាប័ទ្មទស្សន៍ទ្រនិចបច្ចុប្បន្នរបស់អ្នកត្រូវបានប្រើនៅពេលទទេ។</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>ទំហំទស្សន៍ទ្រនិច</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>ដាក់កណ្ដាលលើព្រួញ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>ដាក់កណ្ដាលរូបភាពលើព្រួញជំនួសឱ្យជ្រុងខាងលើខាងឆ្វេង។</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>រចនាប័ទ្មទស្សន៍ទ្រនិចត្រូវបានចាក់សោ ខណៈពេលការជំនួសទស្សន៍ទ្រនិច Roblox កំពុងបើក។</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>មិនអាចប្រើរូបភាពនោះបានទេ</value>
+  </data>
 </root>

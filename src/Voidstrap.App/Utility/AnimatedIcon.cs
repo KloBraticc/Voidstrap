@@ -51,6 +51,58 @@ internal static class AnimatedIcon
         return frames.Count > 0 ? frames[0].Frame : null;
     }
 
+    public static (double X, double Y)? ReadHotspot(string? path)
+    {
+        string extension = Path.GetExtension(path ?? "").ToLowerInvariant();
+        if (extension is not (".cur" or ".ani") || !File.Exists(path))
+            return null;
+        try
+        {
+            if (new FileInfo(path).Length > MaxFileBytes)
+                return null;
+            byte[] bytes = File.ReadAllBytes(path);
+            byte[]? icon = extension == ".cur" ? bytes : FirstAniIcon(bytes);
+            return icon == null ? null : ReadCursorHotspot(icon);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or OverflowException)
+        {
+            return null;
+        }
+    }
+
+    private static (double X, double Y)? ReadCursorHotspot(byte[] data)
+    {
+        if (data.Length < 22 || BinaryPrimitives.ReadUInt16LittleEndian(data.AsSpan(2)) != 2)
+            return null;
+        int width = data[6] == 0 ? 256 : data[6];
+        int height = data[7] == 0 ? 256 : data[7];
+        int x = BinaryPrimitives.ReadUInt16LittleEndian(data.AsSpan(10));
+        int y = BinaryPrimitives.ReadUInt16LittleEndian(data.AsSpan(12));
+        return (Math.Clamp((double)x / width, 0, 1), Math.Clamp((double)y / height, 0, 1));
+    }
+
+    private static byte[]? FirstAniIcon(byte[] bytes)
+    {
+        if (bytes.Length < 12 || !Matches(bytes, 0, "RIFF") || !Matches(bytes, 8, "ACON"))
+            return null;
+        int offset = 12;
+        while (offset + 8 <= bytes.Length)
+        {
+            int size = checked((int)BinaryPrimitives.ReadUInt32LittleEndian(bytes.AsSpan(offset + 4)));
+            int body = offset + 8;
+            if (size < 0 || body + size > bytes.Length)
+                return null;
+            if (Matches(bytes, offset, "LIST") && size >= 4 && Matches(bytes, body, "fram"))
+            {
+                List<byte[]> icons = [];
+                ReadFrames(bytes, body + 4, body + size, icons);
+                return icons.FirstOrDefault();
+            }
+            offset = body + size + (size & 1);
+        }
+        return null;
+    }
+
     private static List<(BitmapSource Frame, int DelayMilliseconds)> DecodeCursorFrame(byte[] bytes, int decodeWidth)
     {
         BitmapSource? frame = DecodeIconData(bytes, decodeWidth);

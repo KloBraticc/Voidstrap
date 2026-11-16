@@ -10090,4 +10090,31 @@ Indi SteamVR guruň?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary entek gurnalmady, Rosemary-ni guruň we rosemary faýlyny PATH-a goýuň</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox kursoryny çalyşmak</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox kursoryny gizläp, onuň üstünde öz kursoryňyzy çekýär, GIF we animasiýaly kursorlar hem goşulyp. Bu öçürilende öňki kursoryňyz yzyna gelýär.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Kursor suraty</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Islendik surat, GIF ýa-da kursor faýly. Boş bolsa, häzirki kursor stiliňiz ulanylýar.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Kursoryň ölçegi</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Görkezijide merkeze goý</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Suratyň ýokarky çep burçunyň ýerine ortasyny görkezijiniň üstünde ýerleşdirýär.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox kursoryny çalyşmak açyk wagty kursor stilleri gulplanandyr.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Bu suraty ulanyp bolmady</value>
+  </data>
 </root>

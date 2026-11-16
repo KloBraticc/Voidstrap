@@ -10401,4 +10401,31 @@ I-install ang SteamVR ngayon?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Hindi pa naka-install ang Rosemary, i-build ang Rosemary at ilagay ang rosemary file sa PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox Cursor Override</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Itinatago ang cursor ng Roblox at iginuguhit ang sarili mong cursor sa ibabaw, kasama ang GIF at animated na cursor. Babalik ang dati mong cursor kapag naka-off ito.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Larawan ng cursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Anumang larawan, GIF o cursor file. Ginagamit ang kasalukuyan mong istilo ng cursor kapag walang laman.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Laki ng cursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Igitna sa pointer</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Inilalagay ang gitna ng larawan sa pointer sa halip na sa kaliwang itaas na sulok.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Naka-lock ang mga istilo ng cursor habang naka-on ang Roblox Cursor Override.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Hindi magamit ang larawang iyon</value>
+  </data>
 </root>

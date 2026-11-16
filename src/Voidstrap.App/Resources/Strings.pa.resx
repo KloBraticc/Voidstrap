@@ -10091,4 +10091,31 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ਅਜੇ ਇੰਸਟਾਲ ਨਹੀਂ ਹੈ, Rosemary ਬਿਲਡ ਕਰੋ ਅਤੇ rosemary ਫ਼ਾਈਲ ਨੂੰ PATH ਵਿੱਚ ਰੱਖੋ</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox ਕਰਸਰ ਓਵਰਰਾਈਡ</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox ਕਰਸਰ ਨੂੰ ਲੁਕਾਉਂਦਾ ਹੈ ਅਤੇ ਉਸਦੇ ਉੱਪਰ ਤੁਹਾਡਾ ਆਪਣਾ ਕਰਸਰ ਬਣਾਉਂਦਾ ਹੈ, GIF ਅਤੇ ਐਨੀਮੇਟਡ ਕਰਸਰਾਂ ਸਮੇਤ। ਇਹ ਬੰਦ ਹੋਣ ਤੇ ਤੁਹਾਡਾ ਪਿਛਲਾ ਕਰਸਰ ਵਾਪਸ ਆ ਜਾਂਦਾ ਹੈ।</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>ਕਰਸਰ ਚਿੱਤਰ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>ਕੋਈ ਵੀ ਚਿੱਤਰ, GIF ਜਾਂ ਕਰਸਰ ਫਾਈਲ। ਖਾਲੀ ਹੋਣ ਤੇ ਤੁਹਾਡੀ ਮੌਜੂਦਾ ਕਰਸਰ ਸ਼ੈਲੀ ਵਰਤੀ ਜਾਂਦੀ ਹੈ।</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>ਕਰਸਰ ਦਾ ਆਕਾਰ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>ਪੁਆਇੰਟਰ ਉੱਤੇ ਕੇਂਦਰ ਵਿੱਚ ਰੱਖੋ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>ਉੱਪਰਲੇ ਖੱਬੇ ਕੋਨੇ ਦੀ ਬਜਾਏ ਚਿੱਤਰ ਦਾ ਵਿਚਕਾਰਲਾ ਹਿੱਸਾ ਪੁਆਇੰਟਰ ਉੱਤੇ ਰੱਖਦਾ ਹੈ।</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox ਕਰਸਰ ਓਵਰਰਾਈਡ ਚਾਲੂ ਹੋਣ ਦੌਰਾਨ ਕਰਸਰ ਸ਼ੈਲੀਆਂ ਲਾਕ ਰਹਿੰਦੀਆਂ ਹਨ।</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ਉਹ ਚਿੱਤਰ ਵਰਤਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ</value>
+  </data>
 </root>

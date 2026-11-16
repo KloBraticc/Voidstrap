@@ -10091,4 +10091,31 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ଏପର୍ଯ୍ୟନ୍ତ ଇନଷ୍ଟଲ ହୋଇନାହିଁ, Rosemary ବିଲ୍ଡ କରନ୍ତୁ ଏବଂ rosemary ଫାଇଲକୁ PATH ରେ ରଖନ୍ତୁ</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox କର୍ସର ଓଭରରାଇଡ୍</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox କର୍ସରକୁ ଲୁଚାଇ ତା ଉପରେ ଆପଣଙ୍କ ନିଜ କର୍ସର ଆଙ୍କେ, GIF ଏବଂ ଆନିମେଟେଡ୍ କର୍ସର ସହିତ। ଏହା ବନ୍ଦ ହେଲେ ଆପଣଙ୍କ ପୂର୍ବ କର୍ସର ଫେରିଆସେ।</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>କର୍ସର ଛବି</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>ଯେକୌଣସି ଛବି, GIF କିମ୍ବା କର୍ସର ଫାଇଲ୍। ଖାଲି ଥିଲେ ଆପଣଙ୍କ ବର୍ତ୍ତମାନର କର୍ସର ଶୈଳୀ ବ୍ୟବହୃତ ହୁଏ।</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>କର୍ସର ଆକାର</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>ପଏଣ୍ଟର ଉପରେ କେନ୍ଦ୍ରରେ ରଖନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>ଉପର ବାମ କୋଣ ବଦଳରେ ଛବିର ମଝି ଅଂଶକୁ ପଏଣ୍ଟର ଉପରେ ରଖେ।</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox କର୍ସର ଓଭରରାଇଡ୍ ଚାଲୁ ଥିବା ବେଳେ କର୍ସର ଶୈଳୀଗୁଡ଼ିକ ଲକ୍ ରହେ।</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ସେହି ଛବି ବ୍ୟବହାର କରାଯାଇପାରିଲା ନାହିଁ</value>
+  </data>
 </root>

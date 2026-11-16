@@ -10091,4 +10091,31 @@ Namestite SteamVR zdaj?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary še ni nameščen, zgradi Rosemary in postavi datoteko rosemary v PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Zamenjava kazalca Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Skrije kazalec Roblox in nad njim nariše tvoj kazalec, vključno z GIF in animiranimi kazalci. Ko je to izklopljeno, se vrne tvoj prejšnji kazalec.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Slika kazalca</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Katera koli slika, GIF ali datoteka kazalca. Če je prazno, se uporabi tvoj trenutni slog kazalca.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Velikost kazalca</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Sredinsko na kazalec</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Postavi sredino slike na kazalec namesto zgornjega levega kota.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Slogi kazalca so zaklenjeni, dokler je zamenjava kazalca Roblox vklopljena.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Te slike ni bilo mogoče uporabiti</value>
+  </data>
 </root>

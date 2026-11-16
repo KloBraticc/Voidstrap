@@ -10091,4 +10091,31 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary әлі орнатылмаған, Rosemary жинап, rosemary файлын PATH ішіне қойыңыз</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox курсорын ауыстыру</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox курсорын жасырып, үстіне өз курсорыңызды салады, GIF және анимацияланған курсорларды қоса. Бұл өшірілгенде алдыңғы курсорыңыз қайтады.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Курсор суреті</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Кез келген сурет, GIF немесе курсор файлы. Бос болса, ағымдағы курсор стиліңіз қолданылады.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Курсор өлшемі</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Көрсеткіште ортаға қою</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Суреттің сол жақ жоғарғы бұрышының орнына ортасын көрсеткішке қояды.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox курсорын ауыстыру қосулы тұрғанда курсор стильдері құлыпталады.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Бұл суретті пайдалану мүмкін болмады</value>
+  </data>
 </root>

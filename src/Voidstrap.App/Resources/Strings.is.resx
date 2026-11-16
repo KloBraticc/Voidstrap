@@ -10091,4 +10091,31 @@ Settu upp SteamVR núna?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary er ekki uppsett enn, byggðu Rosemary og settu rosemary skrána í PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Yfirskrift Roblox bendils</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Felur Roblox bendilinn og teiknar þinn eigin bendil ofan á, þar á meðal GIF og hreyfða bendla. Fyrri bendillinn þinn kemur aftur þegar slökkt er á þessu.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Bendilsmynd</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Hvaða mynd, GIF eða bendilsskrá sem er. Núverandi bendilsstíll þinn er notaður þegar þetta er tómt.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Stærð bendils</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Miðja á bendilinn</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Setur miðju myndarinnar á bendilinn í stað efra vinstra horns.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Bendilsstílar eru læstir á meðan kveikt er á yfirskrift Roblox bendils.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Ekki tókst að nota þessa mynd</value>
+  </data>
 </root>

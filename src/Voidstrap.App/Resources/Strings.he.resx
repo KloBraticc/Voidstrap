@@ -10091,4 +10091,31 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary עדיין לא מותקן, בנה את Rosemary והצב את הקובץ rosemary ב PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>החלפת סמן Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>מסתיר את סמן Roblox ומצייר מעליו סמן משלך, כולל סמני GIF וסמנים מונפשים. הסמן הקודם שלך חוזר כשאפשרות זו כבויה.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>תמונת סמן</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>כל תמונה, GIF או קובץ סמן. כשהשדה ריק, נעשה שימוש בסגנון הסמן הנוכחי שלך.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>גודל הסמן</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>מרכוז על המצביע</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>ממקם את מרכז התמונה על המצביע במקום הפינה השמאלית העליונה.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>סגנונות הסמן נעולים כל עוד החלפת סמן Roblox פעילה.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>לא ניתן להשתמש בתמונה זו</value>
+  </data>
 </root>

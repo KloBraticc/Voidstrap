@@ -10091,4 +10091,31 @@ Suiteáil SteamVR anois?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Níl Rosemary suiteáilte fós, tóg Rosemary agus cuir an comhad rosemary ar PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Ionadú Cúrsóra Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Folaíonn sé cúrsóir Roblox agus tarraingíonn sé do chúrsóir féin os a chionn, cúrsóirí GIF agus beoite san áireamh. Filleann do chúrsóir roimhe seo nuair a bhíonn sé seo múchta.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Íomhá an chúrsóra</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Aon íomhá, GIF nó comhad cúrsóra. Úsáidtear do stíl reatha cúrsóra nuair atá sé folamh.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Méid an chúrsóra</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Láraigh ar an bpointeoir</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Cuireann sé lár na híomhá ar an bpointeoir in ionad an chúinne uachtair chlé.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Tá stíleanna cúrsóra faoi ghlas fad is atá Ionadú Cúrsóra Roblox ar siúl.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Níorbh fhéidir an íomhá sin a úsáid</value>
+  </data>
 </root>

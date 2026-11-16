@@ -107,6 +107,9 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
         ImportSetCommand = new RelayCommand(ImportSet);
         ExportSetCommand = new RelayCommand(ExportSet);
         OpenSetsFolderCommand = new RelayCommand(OpenSetsFolder);
+        ChooseOverrideImageCommand = new RelayCommand(ChooseOverrideImage);
+        RemoveOverrideImageCommand = new RelayCommand(RemoveOverrideImage);
+        RefreshOverridePreview();
         RefreshSlots();
         ReloadSets(null);
     }
@@ -125,6 +128,55 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
     }
 
     public bool IsCustom => App.Settings.Prop.CursorType == CursorType.Custom;
+
+    public bool OverrideEnabled
+    {
+        get => CursorManager.OverrideActive;
+        set
+        {
+            if (CursorManager.OverrideActive != value)
+                Run(Strings.Ui_Mods_CouldNotUseCursorImage, () => CursorManager.SetOverrideEnabled(value));
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsStyleEditable));
+        }
+    }
+
+    public bool IsStyleEditable => !CursorManager.OverrideActive;
+
+    public ImageSource? OverridePreview { get; private set; }
+
+    public bool HasOverrideImage => OverridePreview != null;
+
+    public double OverrideSize
+    {
+        get => Math.Clamp(App.Settings.Prop.RobloxCursorOverrideSize, 8, 256);
+        set
+        {
+            int size = Math.Clamp((int)Math.Round(value), 8, 256);
+            if (App.Settings.Prop.RobloxCursorOverrideSize == size)
+                return;
+            App.Settings.Prop.RobloxCursorOverrideSize = size;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged();
+        }
+    }
+
+    public bool OverrideCentered
+    {
+        get => App.Settings.Prop.RobloxCursorOverrideCentered;
+        set
+        {
+            if (App.Settings.Prop.RobloxCursorOverrideCentered == value)
+                return;
+            App.Settings.Prop.RobloxCursorOverrideCentered = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged();
+        }
+    }
+
+    public ICommand ChooseOverrideImageCommand { get; }
+
+    public ICommand RemoveOverrideImageCommand { get; }
 
     public IReadOnlyList<CursorSlotViewModel> CustomSlots { get; }
 
@@ -202,6 +254,32 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
             new RelayCommand(() => ChooseSetImage(slot)),
             new RelayCommand(() => ClearSetImage(slot))
         );
+    }
+
+    private void ChooseOverrideImage()
+    {
+        Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
+        {
+            Title = Strings.Ui_Mods_OverrideCursorImage,
+            Filter = Strings.Ui_ModGen_ImagesFilter + "|" + AnimatedIcon.FileFilterPatterns + ";*.tif;*.tiff;*.jfif|" + Strings.Menu_AllFiles + "|*.*",
+        };
+        if (dialog.ShowDialog() != true)
+            return;
+        Run(Strings.Ui_Mods_CouldNotUseCursorImage, () => CursorManager.SetOverrideImage(dialog.FileName));
+        RefreshOverridePreview();
+    }
+
+    private void RemoveOverrideImage()
+    {
+        Run(Strings.Ui_Mods_CouldNotUseCursorImage, CursorManager.ClearOverrideImage);
+        RefreshOverridePreview();
+    }
+
+    private void RefreshOverridePreview()
+    {
+        OverridePreview = AnimatedIcon.LoadFirstFrame(CursorManager.OverrideImagePath, 64);
+        OnPropertyChanged(nameof(OverridePreview));
+        OnPropertyChanged(nameof(HasOverrideImage));
     }
 
     private void ChooseImage(CursorSlot slot)

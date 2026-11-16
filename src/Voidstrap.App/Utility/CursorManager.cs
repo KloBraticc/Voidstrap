@@ -87,6 +87,11 @@ internal static class CursorManager
 
     internal static void ApplyOnLaunch()
     {
+        if (OverrideActive)
+        {
+            ApplyInvisibleCursor();
+            return;
+        }
         VoidstrapDefaultCursor.Apply();
         if (CurrentStyle != CursorType.Custom)
             return;
@@ -116,6 +121,120 @@ internal static class CursorManager
             pair => (IReadOnlyList<string>)pair.Value.Select(hash => Convert.ToHexString(hash)).ToArray(),
             StringComparer.Ordinal
         );
+    }
+
+    internal static bool OverrideActive => Platform.IsWindows && App.Settings.Prop.RobloxCursorOverride;
+
+    private const string OverrideFileName = "cursor";
+
+    private static readonly Lazy<byte[]> InvisiblePng = new Lazy<byte[]>(CreateInvisiblePng);
+
+    private static string OverrideFolder => Path.Combine(Paths.Themes, "CursorOverride");
+
+    internal static string? OverrideImagePath
+    {
+        get
+        {
+            try
+            {
+                return Directory.Exists(OverrideFolder) ? Directory.EnumerateFiles(OverrideFolder, OverrideFileName + ".*").FirstOrDefault() : null;
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                return null;
+            }
+        }
+    }
+
+    internal static void SetOverrideEnabled(bool enabled)
+    {
+        App.Settings.Prop.RobloxCursorOverride = enabled;
+        App.Settings.SaveDeferred();
+        if (enabled)
+            ApplyInvisibleCursor();
+        else
+            ApplyStyle(CurrentStyle);
+        App.Logger.WriteLine(
+            "CursorManager",
+            enabled ? "Roblox cursor override enabled, the Roblox cursor is now invisible" : "Roblox cursor override disabled, restored the " + CurrentStyle + " cursor"
+        );
+    }
+
+    internal static void SetOverrideImage(string sourcePath)
+    {
+        if (new FileInfo(sourcePath).Length > MaximumImageBytes)
+            throw new InvalidDataException("The image is larger than 32 MB");
+        if (AnimatedIcon.Load(sourcePath, 64).Count == 0)
+            throw new InvalidDataException("The image could not be read");
+        ClearOverrideImage();
+        Directory.CreateDirectory(OverrideFolder);
+        Filesystem.CopyWritableFile(sourcePath, Path.Combine(OverrideFolder, OverrideFileName + Path.GetExtension(sourcePath).ToLowerInvariant()));
+    }
+
+    internal static void ClearOverrideImage()
+    {
+        if (!Directory.Exists(OverrideFolder))
+            return;
+        foreach (string file in Directory.EnumerateFiles(OverrideFolder, OverrideFileName + ".*").ToList())
+            Filesystem.DeleteWritableFile(file);
+    }
+
+    internal static (IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> Frames, double HotspotX, double HotspotY, int Width) LoadOverrideCursor()
+    {
+        int size = Math.Clamp(App.Settings.Prop.RobloxCursorOverrideSize, 8, 256);
+        string? path = OverrideImagePath;
+        if (path != null)
+        {
+            IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames = AnimatedIcon.Load(path, size);
+            if (frames.Count > 0)
+            {
+                (double X, double Y)? hotspot = AnimatedIcon.ReadHotspot(path);
+                double fallback = App.Settings.Prop.RobloxCursorOverrideCentered ? 0.5 : 0;
+                return (frames, hotspot?.X ?? fallback, hotspot?.Y ?? fallback, size);
+            }
+        }
+        int textureSize = size * 2;
+        BitmapSource? texture = LoadStyleTexture(textureSize);
+        return texture == null ? ([], 0, 0, size) : ([(texture, 0)], 0.5, 0.5, textureSize);
+    }
+
+    private static BitmapSource? LoadStyleTexture(int size)
+    {
+        if (CurrentStyle == CursorType.Custom && File.Exists(WorkingPath(CursorSlot.Arrow)))
+            return SafeImaging.FromFile(WorkingPath(CursorSlot.Arrow), size);
+        Dictionary<CursorType, Dictionary<string, string>> map = CursorPresetTask.CreateMap();
+        CursorType style = map.ContainsKey(CurrentStyle) ? CurrentStyle : CursorType.VoidstrapDefault;
+        string arrow = map[style].First(static pair => pair.Key.EndsWith("ArrowCursor.png", StringComparison.OrdinalIgnoreCase)).Value;
+        return SafeImaging.FromBytes(Resource.Get(arrow), size);
+    }
+
+    private static void ApplyInvisibleCursor()
+    {
+        foreach (CursorSlot slot in PointerSlots)
+        {
+            try
+            {
+                string destination = ModsPath(slot);
+                if (File.Exists(destination) && File.ReadAllBytes(destination).AsSpan().SequenceEqual(InvisiblePng.Value))
+                    continue;
+                WriteFile(destination, InvisiblePng.Value);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine("CursorManager", "Could not hide the Roblox " + slot + " cursor: " + ex.Message);
+            }
+        }
+    }
+
+    private static byte[] CreateInvisiblePng()
+    {
+        const int Size = 64;
+        BitmapSource bitmap = BitmapSource.Create(Size, Size, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, new byte[Size * Size * 4], Size * 4);
+        PngBitmapEncoder encoder = new PngBitmapEncoder();
+        encoder.Frames.Add(BitmapFrame.Create(bitmap));
+        using MemoryStream stream = new MemoryStream();
+        encoder.Save(stream);
+        return stream.ToArray();
     }
 
     internal static void ApplyStyle(CursorType style)

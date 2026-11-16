@@ -10090,4 +10090,31 @@ Installeer SteamVR nou?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary is nog nie geïnstalleer nie, bou Rosemary en plaas die rosemary-lêer op PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox-wyseroorskrywing</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Versteek die Roblox-wyser en teken jou eie wyser bo-op, insluitend GIF- en geanimeerde wysers. Jou vorige wyser kom terug wanneer dit af is.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Wyserprent</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Enige prent, GIF of wyserlêer. Jou huidige wyserstyl word gebruik as dit leeg is.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Wysergrootte</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Sentreer op die wyser</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Plaas die middel van die prent op die wyser in plaas van die boonste linkerhoek.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Wyserstyle is gesluit terwyl Roblox-wyseroorskrywing aan is.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Kon nie daardie prent gebruik nie</value>
+  </data>
 </root>

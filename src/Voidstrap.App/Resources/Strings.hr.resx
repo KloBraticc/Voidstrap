@@ -10403,4 +10403,31 @@ Instalirati SteamVR sada?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary još nije instaliran, izgradi Rosemary i stavi datoteku rosemary u PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Zamjena Roblox pokazivača</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Skriva Roblox pokazivač i crta tvoj vlastiti pokazivač iznad njega, uključujući GIF i animirane pokazivače. Tvoj prethodni pokazivač vraća se kad je ovo isključeno.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Slika pokazivača</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Bilo koja slika, GIF ili datoteka pokazivača. Kad je prazno, koristi se tvoj trenutni stil pokazivača.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Veličina pokazivača</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Centriraj na pokazivač</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Postavlja sredinu slike na pokazivač umjesto gornjeg lijevog kuta.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Stilovi pokazivača zaključani su dok je zamjena Roblox pokazivača uključena.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Tu sliku nije moguće koristiti</value>
+  </data>
 </root>

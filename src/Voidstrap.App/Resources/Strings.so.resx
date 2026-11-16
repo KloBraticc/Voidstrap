@@ -10091,4 +10091,31 @@ Hadda rakib SteamVR?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary weli lama rakibin, dhis Rosemary oo faylka rosemary dhig PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Beddelka Cursor-ka Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Wuxuu qariyaa cursor-ka Roblox wuxuuna dusha ka sawiraa cursor-kaaga, oo ay ku jiraan cursor-ada GIF iyo kuwa dhaqdhaqaaqa. Cursor-kaagii hore wuu soo noqdaa marka tan la damiyo.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Sawirka cursor-ka</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Sawir kasta, GIF ama fayl cursor ah. Marka uu madhan yahay waxaa la isticmaalaa qaabka cursor-kaaga hadda.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Cabbirka cursor-ka</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Bartamaha ku dhig tilmaamaha</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Wuxuu bartamaha sawirka saaraa tilmaamaha halkii uu ka saari lahaa geeska bidix ee sare.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Qaababka cursor-ka waa la xiray inta Beddelka Cursor-ka Roblox shidan yahay.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Sawirkaas lama isticmaali karin</value>
+  </data>
 </root>

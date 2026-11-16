@@ -10090,4 +10090,31 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary এখনও ইনস্টল করা হয়নি, Rosemary বিল্ড করুন এবং rosemary ফাইলটি PATH এ রাখুন</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox কার্সর ওভাররাইড</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox কার্সর লুকিয়ে উপরে আপনার নিজের কার্সর আঁকে, GIF এবং অ্যানিমেটেড কার্সর সহ। এটি বন্ধ করলে আপনার আগের কার্সর ফিরে আসে।</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>কার্সর ছবি</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>যেকোনো ছবি, GIF বা কার্সর ফাইল। খালি থাকলে আপনার বর্তমান কার্সর স্টাইল ব্যবহার হয়।</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>কার্সরের আকার</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>পয়েন্টারে কেন্দ্রে রাখুন</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>উপরের বাম কোণের বদলে ছবির মাঝখান পয়েন্টারে রাখে।</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox কার্সর ওভাররাইড চালু থাকাকালীন কার্সর স্টাইল লক থাকে।</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ছবিটি ব্যবহার করা যায়নি</value>
+  </data>
 </root>

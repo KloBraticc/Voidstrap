@@ -10091,4 +10091,31 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary-ն դեռ տեղադրված չէ, կառուցեք Rosemary-ն և rosemary ֆայլը տեղադրեք PATH-ում</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox կուրսորի փոխարինում</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Թաքցնում է Roblox կուրսորը և վրան նկարում ձեր սեփական կուրսորը, ներառյալ GIF և անիմացիոն կուրսորները։ Ձեր նախորդ կուրսորը վերադառնում է, երբ սա անջատված է։</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Կուրսորի պատկեր</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Ցանկացած պատկեր, GIF կամ կուրսորի ֆայլ։ Դատարկ լինելու դեպքում օգտագործվում է ձեր ընթացիկ կուրսորի ոճը։</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Կուրսորի չափ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Կենտրոնացնել ցուցիչի վրա</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Պատկերի կենտրոնը տեղադրում է ցուցիչի վրա՝ վերին ձախ անկյան փոխարեն։</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Կուրսորի ոճերը կողպված են, քանի դեռ Roblox կուրսորի փոխարինումը միացված է։</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Հնարավոր չեղավ օգտագործել այդ պատկերը</value>
+  </data>
 </root>

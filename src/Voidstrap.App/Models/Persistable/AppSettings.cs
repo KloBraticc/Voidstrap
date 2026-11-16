@@ -443,6 +443,9 @@ namespace Voidstrap.Models.Persistable
         public string CustomFontLocation { get; set; } = string.Empty;
         public CursorType CursorType { get; set; } = CursorType.VoidstrapDefault;
         public bool HasSelectedCursorType { get; set; }
+        public bool RobloxCursorOverride { get; set; }
+        public int RobloxCursorOverrideSize { get; set; } = 32;
+        public bool RobloxCursorOverrideCentered { get; set; }
 
         // Custom Integrations
         public ObservableCollection<CustomIntegration> CustomIntegrations { get; set; } = [];

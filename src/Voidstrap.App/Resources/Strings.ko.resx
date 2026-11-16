@@ -10402,4 +10402,31 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary가 아직 설치되지 않았습니다. Rosemary를 빌드하고 rosemary 파일을 PATH에 넣으십시오</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox 커서 대체</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox 커서를 숨기고 GIF 및 애니메이션 커서를 포함한 사용자 지정 커서를 그 위에 표시합니다. 이 옵션을 끄면 이전 커서로 돌아갑니다.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>커서 이미지</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>모든 이미지, GIF 또는 커서 파일입니다. 비어 있으면 현재 커서 스타일이 사용됩니다.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>커서 크기</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>포인터 중앙에 배치</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>이미지의 왼쪽 위 모서리 대신 가운데를 포인터에 맞춥니다.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox 커서 대체가 켜져 있는 동안 커서 스타일은 잠깁니다.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>해당 이미지를 사용할 수 없습니다</value>
+  </data>
 </root>

@@ -10091,4 +10091,31 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary अद्याप इन्स्टॉल केलेले नाही, Rosemary बिल्ड करा आणि rosemary फाइल PATH मध्ये ठेवा</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox कर्सर ओव्हरराइड</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox कर्सर लपवते आणि त्यावर तुमचा स्वतःचा कर्सर काढते, GIF आणि ॲनिमेटेड कर्सरसह. हे बंद केल्यावर तुमचा आधीचा कर्सर परत येतो.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>कर्सर प्रतिमा</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>कोणतीही प्रतिमा, GIF किंवा कर्सर फाइल. रिकामे असल्यास तुमची सध्याची कर्सर शैली वापरली जाते.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>कर्सरचा आकार</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>पॉइंटरवर मध्यभागी ठेवा</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>वरच्या डाव्या कोपऱ्याऐवजी प्रतिमेचा मध्यभाग पॉइंटरवर ठेवते.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox कर्सर ओव्हरराइड चालू असताना कर्सर शैली लॉक असतात.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ती प्रतिमा वापरता आली नाही</value>
+  </data>
 </root>

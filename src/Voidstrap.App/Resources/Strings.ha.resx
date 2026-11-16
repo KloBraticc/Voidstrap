@@ -10091,4 +10091,31 @@ Shigar SteamVR yanzu?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Ba a shigar da Rosemary ba tukuna, gina Rosemary kuma saka fayil ɗin rosemary a PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Maye gurbin Kibiyar Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Yana ɓoye kibiyar Roblox kuma yana zana kibiyarka a sama, har da kibiyoyin GIF da masu motsi. Kibiyarka ta baya tana dawowa idan an kashe wannan.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Hoton kibiya</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Kowane hoto, GIF ko fayil na kibiya. Ana amfani da salon kibiyarka na yanzu idan babu komai.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Girman kibiya</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Sanya a tsakiyar mai nuni</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Yana sanya tsakiyar hoton a kan mai nuni maimakon kusurwar hagu ta sama.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>An kulle salon kibiya yayin da Maye gurbin Kibiyar Roblox yake kunne.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Ba a iya amfani da wannan hoton ba</value>
+  </data>
 </root>

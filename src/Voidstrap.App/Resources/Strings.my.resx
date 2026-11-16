@@ -10090,4 +10090,31 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>Rosemary ကို မထည့်သွင်းရသေးပါ၊ Rosemary ကို တည်ဆောက်ပြီး rosemary ဖိုင်ကို PATH တွင် ထားပါ</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Roblox ကာဆာ အစားထိုးခြင်း</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Roblox ကာဆာကို ဖျောက်ပြီး GIF နှင့် လှုပ်ရှားကာဆာများ အပါအဝင် သင့်ကိုယ်ပိုင်ကာဆာကို အပေါ်တွင် ဆွဲပေးသည်။ ၎င်းကို ပိတ်လိုက်သောအခါ သင့်ယခင်ကာဆာ ပြန်ရောက်လာမည်။</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>ကာဆာ ပုံ</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>မည်သည့်ပုံ၊ GIF သို့မဟုတ် ကာဆာဖိုင်မဆို။ ဗလာဖြစ်နေပါက သင့်လက်ရှိ ကာဆာပုံစံကို အသုံးပြုမည်။</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>ကာဆာ အရွယ်အစား</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>ညွှန်ပြချက်ပေါ်တွင် အလယ်ထားရန်</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>ပုံ၏ ဘယ်ဘက်အပေါ်ထောင့်အစား အလယ်ကို ညွှန်ပြချက်ပေါ်တွင် ထားပေးသည်။</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Roblox ကာဆာ အစားထိုးခြင်း ဖွင့်ထားစဉ် ကာဆာပုံစံများကို သော့ခတ်ထားသည်။</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>ထိုပုံကို အသုံးမပြုနိုင်ပါ</value>
+  </data>
 </root>

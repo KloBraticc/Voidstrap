@@ -10090,4 +10090,31 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>A kò tíì fi Rosemary sórí ẹ̀rọ, kọ́ Rosemary kí o sì fi fáìlì rosemary sí PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Ìrọ́pò Kọ́sọ̀ Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Ó fi kọ́sọ̀ Roblox pamọ́ ó sì ya kọ́sọ̀ tirẹ sí orí rẹ̀, pẹ̀lú àwọn kọ́sọ̀ GIF àti tí ń gbé. Kọ́sọ̀ rẹ tẹ́lẹ̀ máa padà nígbà tí a bá pa èyí.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Àwòrán kọ́sọ̀</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Àwòrán èyíkéyìí, GIF tàbí fáìlì kọ́sọ̀. A máa lo ara kọ́sọ̀ rẹ lọ́wọ́lọ́wọ́ nígbà tí ó bá ṣófo.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Ìwọ̀n kọ́sọ̀</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Fi sí àárín lórí atọ́ka</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Ó gbé àárín àwòrán sórí atọ́ka dípò igun òkè apá òsì.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>A ti tì àwọn ara kọ́sọ̀ nígbà tí Ìrọ́pò Kọ́sọ̀ Roblox wà ní títàn.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Kò ṣeé ṣe láti lo àwòrán yẹn</value>
+  </data>
 </root>

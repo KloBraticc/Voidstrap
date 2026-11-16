@@ -10405,4 +10405,31 @@ Instalar o SteamVR agora?</value>
   <data name="Menu.Rosemary.NotInstalledFreeBSD" xml:space="preserve">
     <value>O Rosemary ainda não está instalado, compile o Rosemary e coloque o binário rosemary no PATH</value>
   </data>
+  <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
+    <value>Substituição do cursor do Roblox</value>
+  </data>
+  <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
+    <value>Oculta o cursor do Roblox e desenha seu próprio cursor por cima, incluindo cursores GIF e animados. Seu cursor anterior volta quando isso é desativado.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImage" xml:space="preserve">
+    <value>Imagem do cursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorImageDescription" xml:space="preserve">
+    <value>Qualquer imagem, GIF ou arquivo de cursor. Quando vazio, seu estilo de cursor atual é usado.</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorSize" xml:space="preserve">
+    <value>Tamanho do cursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCentered" xml:space="preserve">
+    <value>Centralizar no ponteiro</value>
+  </data>
+  <data name="Ui.Mods.OverrideCursorCenteredDescription" xml:space="preserve">
+    <value>Coloca o centro da imagem no ponteiro em vez do canto superior esquerdo.</value>
+  </data>
+  <data name="Ui.Mods.CursorLockedByOverride" xml:space="preserve">
+    <value>Os estilos de cursor ficam bloqueados enquanto a substituição do cursor do Roblox estiver ativada.</value>
+  </data>
+  <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
+    <value>Não foi possível usar essa imagem</value>
+  </data>
 </root>
