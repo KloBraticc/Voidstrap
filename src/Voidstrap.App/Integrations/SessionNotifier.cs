@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -30,7 +30,7 @@ public sealed class SessionNotifier : IDisposable
     private const int MaxApiResponseBytes = 2 * 1024 * 1024;
     private const int MaxFriendNotesPerCheck = 3;
     private static readonly TimeSpan FriendsInterval = TimeSpan.FromSeconds(30);
-    private static readonly TimeSpan BadgesInterval = TimeSpan.FromSeconds(60);
+    private static readonly TimeSpan BadgesInterval = TimeSpan.FromSeconds(8);
     private static readonly HttpClient Client = CreateClient();
 
     private readonly Func<ActivityData?> _session;
@@ -87,7 +87,7 @@ public sealed class SessionNotifier : IDisposable
                     else
                         _badges = null;
                 }
-                await Task.Delay(TimeSpan.FromSeconds(5), token).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(2), token).ConfigureAwait(false);
             }
         }
         catch (OperationCanceledException) { }
@@ -196,7 +196,7 @@ public sealed class SessionNotifier : IDisposable
                 || data.ValueKind != JsonValueKind.Array
             )
                 return;
-            List<(long Id, string Name)> badges = new();
+            List<(long Id, string Name, string Description)> badges = new();
             foreach (JsonElement item in data.EnumerateArray())
             {
                 if (
@@ -212,7 +212,13 @@ public sealed class SessionNotifier : IDisposable
                         : string.Empty;
                 if (name.Length == 0 && item.TryGetProperty("name", out JsonElement plain) && plain.ValueKind == JsonValueKind.String)
                     name = plain.GetString() ?? string.Empty;
-                badges.Add((badgeId, name));
+                string description =
+                    item.TryGetProperty("displayDescription", out JsonElement shown) && shown.ValueKind == JsonValueKind.String
+                        ? shown.GetString() ?? string.Empty
+                        : string.Empty;
+                if (description.Length == 0 && item.TryGetProperty("description", out JsonElement raw) && raw.ValueKind == JsonValueKind.String)
+                    description = raw.GetString() ?? string.Empty;
+                badges.Add((badgeId, name, description.Trim()));
             }
             HashSet<long>? known = _badges;
             if (known == null)
@@ -220,19 +226,19 @@ public sealed class SessionNotifier : IDisposable
                 _badges = badges.Select(badge => badge.Id).ToHashSet();
                 return;
             }
-            List<(long Id, string Name)> earned = badges.Where(badge => !known.Contains(badge.Id)).ToList();
-            foreach ((long id, _) in earned)
+            List<(long Id, string Name, string Description)> earned = badges.Where(badge => !known.Contains(badge.Id)).ToList();
+            foreach ((long id, _, _) in earned)
                 known.Add(id);
             if (earned.Count == 0)
                 return;
             Dictionary<long, string> icons = await GetBadgeIconsAsync(earned.Select(badge => badge.Id), token).ConfigureAwait(false);
-            foreach ((long id, string name) in earned.Take(3))
+            foreach ((long id, string name, string description) in earned.Take(3))
             {
                 Post(
                     new SessionNote
                     {
                         Title = name.Length > 0 ? name : "New badge",
-                        Text = "You earned a badge",
+                        Text = description.Length > 0 ? description : "You earned a badge",
                         ImageUrl = icons.TryGetValue(id, out string? url) ? url : null,
                         Kind = NotificationKind.Server,
                     }
