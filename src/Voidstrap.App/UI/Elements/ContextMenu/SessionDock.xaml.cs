@@ -1615,8 +1615,7 @@ public partial class SessionDock : Window
         bool sideways = side != OverlayDockSide.None;
         bool linux = Voidstrap.Utility.Platform.UsesLinuxHost;
         double thickness = linux ? DockHeight : DockWindowThickness;
-        if (Pill.Parent is FrameworkElement host)
-            host.LayoutTransform = sideways ? new RotateTransform(90) : Transform.Identity;
+        ArrangeDockAxis(sideways, linux);
         if (!linux)
             DockRoot.Margin = sideways ? new Thickness(14, 20, 18, 20) : new Thickness(20, 18, 20, 14);
         DockRoot.RowDefinitions[0].Height = sideways || linux ? new GridLength(0) : new GridLength(1, GridUnitType.Star);
@@ -1627,6 +1626,81 @@ public partial class SessionDock : Window
             Height = thickness;
         NowPlayingPopup.PlacementTarget = sideways ? DockRoot : Pill;
         _availableWidth = 0;
+    }
+
+    private void ArrangeDockAxis(bool vertical, bool linux)
+    {
+        Orientation flow = vertical ? Orientation.Vertical : Orientation.Horizontal;
+        if (Pill.Parent is FrameworkElement host)
+        {
+            host.LayoutTransform = Transform.Identity;
+            host.HorizontalAlignment = linux && !vertical ? HorizontalAlignment.Stretch : HorizontalAlignment.Center;
+            host.VerticalAlignment = linux && vertical ? VerticalAlignment.Stretch : vertical ? VerticalAlignment.Center : VerticalAlignment.Stretch;
+        }
+        double thickness = linux ? DockHeight : 64;
+        Pill.Width = vertical ? thickness : double.NaN;
+        Pill.Height = vertical ? double.NaN : linux ? DockHeight : double.NaN;
+        Pill.Padding = vertical ? new Thickness(0, 14, 0, 12) : new Thickness(14, 0, 12, 0);
+        PillLayout.VerticalAlignment = vertical ? VerticalAlignment.Stretch : VerticalAlignment.Center;
+        PillLayout.HorizontalAlignment = vertical ? HorizontalAlignment.Center : HorizontalAlignment.Stretch;
+        SwapAxis(PillLayout, vertical);
+        SwapAxis(DockContent, vertical);
+        DockContent.VerticalAlignment = vertical ? VerticalAlignment.Stretch : VerticalAlignment.Center;
+        DockContent.HorizontalAlignment = vertical ? HorizontalAlignment.Center : HorizontalAlignment.Stretch;
+        DockScroll.HorizontalScrollBarVisibility = vertical ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Hidden;
+        DockScroll.VerticalScrollBarVisibility = vertical ? ScrollBarVisibility.Hidden : ScrollBarVisibility.Disabled;
+        DockScroll.ScrollToHome();
+        foreach (FrameworkElement divider in new FrameworkElement[] { ProfileDivider, GameDivider, ActionsDivider })
+        {
+            divider.Width = vertical ? 30 : 1;
+            divider.Height = vertical ? 1 : 30;
+            divider.Margin = vertical ? new Thickness(0, 10, 0, 10) : new Thickness(10, 0, 10, 0);
+            divider.HorizontalAlignment = vertical ? HorizontalAlignment.Center : ReferenceEquals(divider, GameDivider) ? HorizontalAlignment.Left : HorizontalAlignment.Stretch;
+            divider.VerticalAlignment = vertical && ReferenceEquals(divider, GameDivider) ? VerticalAlignment.Top : VerticalAlignment.Center;
+        }
+        Visibility text = vertical ? Visibility.Collapsed : Visibility.Visible;
+        ProfileText.Visibility = text;
+        ProfileChevron.Visibility = text;
+        GameText.Visibility = text;
+        GameChevron.Visibility = text;
+        ProfileAvatarHost.Margin = vertical ? new Thickness(0) : new Thickness(0, 0, 12, 0);
+        GamePicture.Margin = vertical ? new Thickness(0) : new Thickness(0, 0, 12, 0);
+        ProfileCard.HorizontalAlignment = HorizontalAlignment.Center;
+        GameCard.HorizontalAlignment = HorizontalAlignment.Center;
+        ActionButtons.Orientation = flow;
+        ActionButtons.Margin = vertical ? new Thickness(0, 6, 0, 6) : new Thickness(6, 0, 6, 0);
+        ActionButtons.HorizontalAlignment = HorizontalAlignment.Center;
+        foreach (object child in ActionButtons.Children)
+            if (child is FrameworkElement button)
+                button.Margin = vertical ? new Thickness(0, 2, 0, 2) : new Thickness(2, 0, 2, 0);
+        TrailingButtons.Orientation = flow;
+        TrailingButtons.HorizontalAlignment = HorizontalAlignment.Center;
+        CloseButton.Margin = vertical ? new Thickness(0, 8, 0, 0) : new Thickness(8, 0, 0, 0);
+    }
+
+    private static void SwapAxis(Grid grid, bool vertical)
+    {
+        int count = Math.Max(grid.ColumnDefinitions.Count, grid.RowDefinitions.Count);
+        List<GridLength> lengths = new(count);
+        foreach (ColumnDefinition column in grid.ColumnDefinitions)
+            lengths.Add(column.Width);
+        foreach (RowDefinition row in grid.RowDefinitions)
+            lengths.Add(row.Height);
+        grid.ColumnDefinitions.Clear();
+        grid.RowDefinitions.Clear();
+        foreach (GridLength length in lengths)
+        {
+            if (vertical)
+                grid.RowDefinitions.Add(new RowDefinition { Height = length });
+            else
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = length });
+        }
+        foreach (UIElement child in grid.Children)
+        {
+            int index = Math.Max(Grid.GetColumn(child), Grid.GetRow(child));
+            Grid.SetColumn(child, vertical ? 0 : index);
+            Grid.SetRow(child, vertical ? index : 0);
+        }
     }
 
     public static readonly CustomPopupPlacementCallback ToolTipPlacement = PlaceToolTip;
@@ -1650,7 +1724,7 @@ public partial class SessionDock : Window
         SetPillScale(userScale);
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double shadowRoom = Voidstrap.Utility.Platform.UsesLinuxHost ? 0 : ShadowRoomX;
-        double width = Math.Min(MaxDockWidth * userScale, Math.Ceiling(Pill.DesiredSize.Width)) + shadowRoom;
+        double width = Math.Min(MaxDockWidth * userScale, Math.Ceiling(PillLength(sideways))) + shadowRoom;
         if (RobloxWindowTracker.Current is { Valid: true } bounds && DockExtent(bounds) > 0)
         {
             _availableWidth = DockExtent(bounds);
@@ -1662,7 +1736,7 @@ public partial class SessionDock : Window
             double combinedScale = userScale * fitScale;
             SetPillScale(combinedScale);
             Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            width = Math.Min(gameWidth, Math.Ceiling(Pill.DesiredSize.Width) + shadowRoom);
+            width = Math.Min(gameWidth, Math.Ceiling(PillLength(sideways)) + shadowRoom);
         }
         if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
@@ -1686,6 +1760,8 @@ public partial class SessionDock : Window
         else
             _fitAnchorPending = true;
     }
+
+    private double PillLength(bool vertical) => vertical ? Pill.DesiredSize.Height : Pill.DesiredSize.Width;
 
     private void SetPillScale(double scale)
     {
@@ -2070,6 +2146,14 @@ public partial class SessionDock : Window
 
     private void DockScroll_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
     {
+        if (CurrentSide != OverlayDockSide.None)
+        {
+            if (DockScroll.ScrollableHeight <= 0)
+                return;
+            DockScroll.ScrollToVerticalOffset(Math.Clamp(DockScroll.VerticalOffset - e.Delta, 0, DockScroll.ScrollableHeight));
+            e.Handled = true;
+            return;
+        }
         if (DockScroll.ScrollableWidth <= 0)
             return;
         DockScroll.ScrollToHorizontalOffset(Math.Clamp(DockScroll.HorizontalOffset - e.Delta, 0, DockScroll.ScrollableWidth));
@@ -2078,7 +2162,7 @@ public partial class SessionDock : Window
 
     private void OnPillSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (e.WidthChanged)
+        if (CurrentSide == OverlayDockSide.None ? e.WidthChanged : e.HeightChanged)
             QueueFitWidth();
     }
 
@@ -2612,9 +2696,10 @@ public partial class SessionDock : Window
             if (RobloxWindowTracker.Current is { Valid: true } clampGame)
                 _popoutX = Math.Clamp(_popoutX, clampGame.Left, clampGame.Left + Math.Max(0, clampGame.Width - sideWidth));
             _popoutY = sideY;
-            _popoutSlideFrom = (int)Math.Round(PopoutSlideDistance * dpi.DpiScaleY);
-            int sideTop = _popoutSlide is { IsEnabled: true } ? sideY + SlideOffset() : sideY;
-            SetWindowPos(_popoutHandle, HwndTopmost, _popoutX, sideTop, sideWidth, height, 0x0010 | 0x0040);
+            _popoutSlideHorizontal = true;
+            _popoutSlideFrom = (int)Math.Round(PopoutSlideDistance * dpi.DpiScaleX) * (onLeft ? -1 : 1);
+            int sideLeft = _popoutSlide is { IsEnabled: true } ? _popoutX + SlideOffset() : _popoutX;
+            SetWindowPos(_popoutHandle, HwndTopmost, sideLeft, sideY, sideWidth, height, 0x0010 | 0x0040);
             return;
         }
         if (RobloxWindowTracker.Current is { Valid: true } gameRect)
@@ -2626,6 +2711,7 @@ public partial class SessionDock : Window
         int targetY = topEdge ? bottom + gap : top - gap - height;
         _popoutX = left;
         _popoutY = targetY;
+        _popoutSlideHorizontal = false;
         _popoutSlideFrom = topEdge ? -(int)Math.Round(PopoutSlideDistance * dpi.DpiScaleY) : (int)Math.Round(PopoutSlideDistance * dpi.DpiScaleY);
         int y = _popoutSlide is { IsEnabled: true } ? targetY + SlideOffset() : targetY;
         SetWindowPos(_popoutHandle, HwndTopmost, left, y, width, height, 0x0010 | 0x0040);
@@ -2646,6 +2732,8 @@ public partial class SessionDock : Window
     private int _popoutY;
 
     private int _popoutSlideFrom;
+
+    private bool _popoutSlideHorizontal;
 
     private int SlideOffset()
     {
@@ -2675,8 +2763,10 @@ public partial class SessionDock : Window
             return;
         }
         bool done = DateTime.UtcNow - _popoutSlideStart >= PopoutSlideDuration;
-        int y = done ? _popoutY : _popoutY + SlideOffset();
-        SetWindowPos(_popoutHandle, IntPtr.Zero, _popoutX, y, 0, 0, 0x0001 | 0x0004 | 0x0010);
+        int offset = done ? 0 : SlideOffset();
+        int x = _popoutSlideHorizontal ? _popoutX + offset : _popoutX;
+        int y = _popoutSlideHorizontal ? _popoutY : _popoutY + offset;
+        SetWindowPos(_popoutHandle, IntPtr.Zero, x, y, 0, 0, 0x0001 | 0x0004 | 0x0010);
         if (done)
             _popoutSlide?.Stop();
     }

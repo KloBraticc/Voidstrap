@@ -528,7 +528,6 @@ public partial class SessionOverlayLayoutEditor : Window
             _gameIcon,
             stageScale
         );
-        _stageDockWrapper.LayoutTransform = layout.DockSideways ? new RotateTransform(90) : Transform.Identity;
         _stageDockWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double dGap = Math.Max(4, layout.SafeDockEdgeSpacing * stageScale);
         double dMinX = 6;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -598,6 +598,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Height = 40,
             Margin = new Thickness(0, 0, 12, 0),
             VerticalAlignment = VerticalAlignment.Center,
+            Tag = DockLeadTag,
         };
         Ellipse avatarBg = new() { Fill = new SolidColorBrush(Color.FromRgb(45, 45, 45)) };
         avatarBg.SetResourceReference(Shape.FillProperty, "ControlFillColorSecondaryBrush");
@@ -626,7 +627,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         avatarGrid.Children.Add(profileImage);
         profileRow.Children.Add(avatarGrid);
 
-        StackPanel profileTextStack = new() { VerticalAlignment = VerticalAlignment.Center, MaxWidth = 150 };
+        StackPanel profileTextStack = new() { VerticalAlignment = VerticalAlignment.Center, MaxWidth = 150, Tag = DockTextTag };
         profileName = new TextBlock
         {
             Text = "Roblox",
@@ -669,6 +670,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Margin = new Thickness(0, 0, 12, 0),
             VerticalAlignment = VerticalAlignment.Center,
             Background = new SolidColorBrush(Color.FromRgb(42, 42, 42)),
+            Tag = DockLeadTag,
         };
         gameIconHost.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorSecondaryBrush");
         gameImage = new Image
@@ -683,7 +685,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         gameIconHost.Child = gameImage;
         gameRow.Children.Add(gameIconHost);
 
-        StackPanel gameTextStack = new() { VerticalAlignment = VerticalAlignment.Center, MaxWidth = 250 };
+        StackPanel gameTextStack = new() { VerticalAlignment = VerticalAlignment.Center, MaxWidth = 250, Tag = DockTextTag };
         gameTitle = new TextBlock
         {
             Text = "Roblox",
@@ -788,6 +790,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Margin = new Thickness(12, 0, 2, 0),
             VerticalAlignment = VerticalAlignment.Center,
             Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170)),
+            Tag = DockTextTag,
         };
         chevron.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         return chevron;
@@ -801,6 +804,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Margin = new Thickness(10, 0, 10, 0),
             VerticalAlignment = VerticalAlignment.Center,
             Fill = new SolidColorBrush(Color.FromArgb(0x2E, 255, 255, 255)),
+            Tag = DockDividerTag,
         };
 
     private static Border CreateDockRoundButton(string glyph, double fontSize, Thickness margin)
@@ -839,6 +843,60 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             _ => layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge,
         };
 
+    private const string DockLeadTag = "dock-lead";
+
+    private const string DockTextTag = "dock-text";
+
+    private const string DockDividerTag = "dock-divider";
+
+    private static void ApplyExactDockOrientation(Grid dockRoot, bool vertical)
+    {
+        dockRoot.Width = vertical ? 64 : double.NaN;
+        dockRoot.Height = vertical ? double.NaN : 64;
+        if (dockRoot.Children[^1] is not Border { Child: StackPanel row } pill)
+            return;
+        pill.Padding = vertical ? new Thickness(0, 14, 0, 12) : new Thickness(14, 0, 12, 0);
+        row.Orientation = vertical ? Orientation.Vertical : Orientation.Horizontal;
+        row.VerticalAlignment = vertical ? VerticalAlignment.Top : VerticalAlignment.Center;
+        row.HorizontalAlignment = vertical ? HorizontalAlignment.Center : HorizontalAlignment.Stretch;
+        foreach (UIElement child in row.Children)
+        {
+            if (child is FrameworkElement { Tag: DockDividerTag } divider)
+            {
+                divider.Width = vertical ? 30 : 1;
+                divider.Height = vertical ? 1 : 30;
+                divider.Margin = vertical ? new Thickness(0, 10, 0, 10) : new Thickness(10, 0, 10, 0);
+                divider.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+            else if (child is Border { Child: StackPanel cardRow })
+            {
+                foreach (UIElement part in cardRow.Children)
+                {
+                    if (part is FrameworkElement { Tag: DockTextTag } text)
+                        text.Visibility = vertical ? Visibility.Collapsed : Visibility.Visible;
+                    else if (part is FrameworkElement { Tag: DockLeadTag } lead)
+                        lead.Margin = vertical ? new Thickness(0) : new Thickness(0, 0, 12, 0);
+                }
+            }
+            else if (child is StackPanel strip)
+            {
+                bool actions = strip.Children.Count > 2;
+                strip.Orientation = vertical ? Orientation.Vertical : Orientation.Horizontal;
+                strip.HorizontalAlignment = HorizontalAlignment.Center;
+                if (actions)
+                    strip.Margin = vertical ? new Thickness(0, 6, 0, 6) : new Thickness(6, 0, 6, 0);
+                for (int i = 0; i < strip.Children.Count; i++)
+                {
+                    if (strip.Children[i] is not FrameworkElement item)
+                        continue;
+                    item.Margin = actions
+                        ? vertical ? new Thickness(0, 2, 0, 2) : new Thickness(2, 0, 2, 0)
+                        : i == 0 ? new Thickness(0) : vertical ? new Thickness(0, 8, 0, 0) : new Thickness(8, 0, 0, 0);
+                }
+            }
+        }
+    }
+
     internal static void ApplyExactDockConfiguration(
         Grid dockRoot,
         Image profileImage,
@@ -869,6 +927,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             gameImage.Source = fallbackGameIcon;
         }
 
+        ApplyExactDockOrientation(dockRoot, layout.DockSideways);
         double totalScale = layout.SafeDockScale * stageScale;
         dockRoot.LayoutTransform = Math.Abs(totalScale - 1.0) > 0.005 ? new ScaleTransform(totalScale, totalScale) : Transform.Identity;
     }
@@ -1344,7 +1403,6 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             _gameIcon,
             1.0
         );
-        _dockWrapper.LayoutTransform = layout.DockSideways ? new RotateTransform(90) : Transform.Identity;
         MeasureBox(_dockWrapper);
         double dSide = 12;
         double dEdge = layout.SafeDockEdgeSpacing;

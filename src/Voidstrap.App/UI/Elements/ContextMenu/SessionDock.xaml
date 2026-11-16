@@ -281,7 +281,7 @@
       <Border x:Name="DockShadow5" Margin="-12,-7,-12,-14" CornerRadius="44" Background="#06000000" />
     <Border x:Name="Pill" Padding="14,0,12,0" CornerRadius="32" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
             BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1" SnapsToDevicePixels="True">
-      <Grid VerticalAlignment="Center">
+      <Grid x:Name="PillLayout" VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
@@ -301,7 +301,7 @@
         <!-- You: avatar, display name and username -->
         <Border x:Name="ProfileCard" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Ui_Session_YourProfile}" MouseLeftButtonUp="ProfileCard_MouseLeftButtonUp">
           <StackPanel Orientation="Horizontal">
-            <Grid Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center">
+            <Grid x:Name="ProfileAvatarHost" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center">
               <Ellipse Fill="{DynamicResource SubtleFillColorSecondaryBrush}" />
               <TextBlock x:Name="ProfileFallback" Text="&#xE77B;" Style="{StaticResource DockGlyph}" FontSize="16"
                          Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
@@ -316,7 +316,7 @@
                 </Image.Clip>
               </Image>
             </Grid>
-            <StackPanel VerticalAlignment="Center" MaxWidth="150">
+            <StackPanel x:Name="ProfileText" VerticalAlignment="Center" MaxWidth="150">
               <TextBlock x:Name="ProfileName" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
               <TextBlock x:Name="ProfileHandle" Margin="0,1,0,0" FontSize="12" TextTrimming="CharacterEllipsis"
                          Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Session_SignedOut}" />
@@ -324,7 +324,7 @@
             <TextBlock x:Name="ProfileChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
           </StackPanel>
         </Border>
-        <Rectangle Grid.Column="1" Style="{StaticResource DockDivider}" />
+        <Rectangle x:Name="ProfileDivider" Grid.Column="1" Style="{StaticResource DockDivider}" />
 
         <!-- The game, clickable like an option card, opens the game and server popout above the dock -->
         <Border x:Name="GameCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Ui_Session_GameAndServer}" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
@@ -335,7 +335,7 @@
                 <RectangleGeometry Rect="0,0,40,40" RadiusX="10" RadiusY="10" />
               </Image.Clip>
             </Image>
-            <StackPanel VerticalAlignment="Center" MaxWidth="250">
+            <StackPanel x:Name="GameText" VerticalAlignment="Center" MaxWidth="250">
               <TextBlock x:Name="GameTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
               <StackPanel Margin="0,1,0,0" Orientation="Horizontal">
                 <!-- Live server indicator: a dot with a short heartbeat every couple of seconds -->
@@ -361,7 +361,7 @@
             <TextBlock x:Name="GameChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
           </StackPanel>
         </Border>
-        <Rectangle Grid.Column="3" Style="{StaticResource DockDivider}" HorizontalAlignment="Left" />
+        <Rectangle x:Name="GameDivider" Grid.Column="3" Style="{StaticResource DockDivider}" HorizontalAlignment="Left" />
 
         <StackPanel x:Name="ActionButtons" Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,6,0">
           <ui:Button ToolTip="{resources:Loc Ui_Session_ChatWithFriends}" Tag="chat" Click="OnAction" Style="{StaticResource DockIcon}">
@@ -395,7 +395,7 @@
             <TextBlock Text="&#xE713;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
         </StackPanel>
-        <Rectangle Grid.Column="5" Style="{StaticResource DockDivider}" />
+        <Rectangle x:Name="ActionsDivider" Grid.Column="5" Style="{StaticResource DockDivider}" />
 
       </Grid>
       </ScrollViewer>
