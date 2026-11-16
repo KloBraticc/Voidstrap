@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
@@ -74,7 +74,11 @@ public partial class SessionNotificationSettings : Window
 
     private void OnVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (_closed || !IsVisible || _iconSource == null)
+        if (_closed || !IsVisible)
+            return;
+        _appearance = NotificationStyle.Current.Copy();
+        LoadControls();
+        if (_iconSource == null)
             return;
         ImageSource? icon = _iconSource();
         if (!ReferenceEquals(icon, _shownIcon))
@@ -382,7 +386,7 @@ public partial class SessionNotificationSettings : Window
         MockCard.CornerRadius = NotificationStyle.Corners(_appearance);
         MockCard.BorderThickness = NotificationStyle.Borders(_appearance);
         MockCard.Background = NotificationStyle.Background(this, _appearance);
-        NotificationStyle.FillShadow(MockShadow, MockCard.CornerRadius);
+        NotificationStyle.FillShadow(MockShadow, MockCard.CornerRadius, _appearance);
         double text = _appearance.SafeTextScale;
         MockHeaderText.FontSize = 11 * text;
         MockTitle.FontSize = 14 * text;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -274,7 +274,7 @@ public partial class NotificationWindow
         NotificationRoot.ClipToBounds = false;
         NotificationBorder.Effect = null;
         NotificationBorder.CornerRadius = Voidstrap.UI.NotificationStyle.Corners(appearance);
-        Voidstrap.UI.NotificationStyle.FillShadow(CardShadow, NotificationBorder.CornerRadius);
+        Voidstrap.UI.NotificationStyle.FillShadow(CardShadow, NotificationBorder.CornerRadius, appearance);
         NotificationBorder.BorderThickness = Voidstrap.UI.NotificationStyle.Borders(appearance);
         NotificationBorder.Background = Voidstrap.UI.NotificationStyle.Background(this, appearance);
         // Laid out at the normal width and scaled as a whole, so everything keeps its proportions

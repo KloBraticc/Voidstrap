@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Voidstrap.Models.Persistable;
 
@@ -105,7 +105,7 @@ public sealed class NotificationAppearance
     // Width of the card on screen, the card is laid out at its width and then scaled
     public double SafeWidth => SafeCardWidth * SafeScale;
 
-    public double SafeBackgroundOpacity => Clamp(BackgroundOpacity, 0.6, 1.0, 1.0);
+    public double SafeBackgroundOpacity => Clamp(BackgroundOpacity, 0.0, 1.0, 1.0);
 
     public int SafeIntroMilliseconds => (int)Clamp(IntroMilliseconds, 100, 1000, 260);
 

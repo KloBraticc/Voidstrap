@@ -497,7 +497,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         card.CornerRadius = NotificationStyle.Corners(appearance);
         card.BorderThickness = NotificationStyle.Borders(appearance);
         card.Background = NotificationStyle.Background(resourceContext, appearance);
-        NotificationStyle.FillShadow(shadow, card.CornerRadius);
+        NotificationStyle.FillShadow(shadow, card.CornerRadius, appearance);
         double textScale = appearance.SafeTextScale;
         headerText.FontSize = 11 * textScale;
         titleText.FontSize = 14 * textScale;
