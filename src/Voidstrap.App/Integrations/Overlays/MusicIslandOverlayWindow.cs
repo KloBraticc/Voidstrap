@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -27,6 +27,8 @@ internal sealed partial class MusicIslandOverlayWindow : Window
     private const double WindowWidth = 620;
 
     private const double WindowHeight = 37 + DragRoom * 2;
+
+    private const int MeterFrameRate = 20;
 
     private static readonly double[] MeterEnvelope = [0.5, 1, 0.7, 0.4, 0.6, 0.35];
 
@@ -201,6 +203,7 @@ internal sealed partial class MusicIslandOverlayWindow : Window
             Storyboard.SetTargetProperty(bounce, new PropertyPath("RenderTransform.ScaleY"));
             _meter.Children.Add(bounce);
         }
+        Timeline.SetDesiredFrameRate(_meter, MeterFrameRate);
 
         _toggleGlyph = CreateGlyph("\uE769");
         StackPanel controlRow = new() { Orientation = Orientation.Horizontal, Width = ControlsWidth, HorizontalAlignment = HorizontalAlignment.Left };
@@ -361,9 +364,14 @@ internal sealed partial class MusicIslandOverlayWindow : Window
     {
         _playing = playing;
         _toggleGlyph.Text = playing ? "\uE769" : "\uE768";
+        UpdateMeter();
+    }
+
+    private void UpdateMeter()
+    {
         if (!_shown)
             return;
-        if (playing)
+        if (_playing && !_expanded)
             _meter.Resume(this);
         else
             _meter.Pause(this);
@@ -383,8 +391,7 @@ internal sealed partial class MusicIslandOverlayWindow : Window
         if (shown)
         {
             _meter.Begin(this, true);
-            if (!_playing)
-                _meter.Pause(this);
+            UpdateMeter();
         }
         else
         {
@@ -401,9 +408,10 @@ internal sealed partial class MusicIslandOverlayWindow : Window
         if (_expanded == expanded)
             return;
         _expanded = expanded;
-        _controls.BeginAnimation(WidthProperty, new DoubleAnimation(expanded ? ControlsWidth : 0, TimeSpan.FromMilliseconds(420)) { EasingFunction = new SpringEase() });
+        _controls.BeginAnimation(WidthProperty, new DoubleAnimation(expanded ? ControlsWidth : 0, TimeSpan.FromMilliseconds(320)) { EasingFunction = new SpringEase() });
         _controls.BeginAnimation(OpacityProperty, new DoubleAnimation(expanded ? 1 : 0, TimeSpan.FromMilliseconds(expanded ? 240 : 140)));
         _meterPanel.BeginAnimation(OpacityProperty, new DoubleAnimation(expanded ? 0.35 : 1, TimeSpan.FromMilliseconds(200)));
+        UpdateMeter();
     }
 
     private void OnIslandMouseEnter(object sender, MouseEventArgs e)
