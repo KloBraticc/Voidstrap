@@ -50,7 +50,7 @@ public partial class AddKeystrokeThemeDialog : WpfUiWindow
     {
         var dialog = new OpenFileDialog
         {
-            Filter = "Theme Files (*.json;*.zip)|*.json;*.zip|All Files (*.*)|*.*",
+            Filter = "Theme Files (*.xml;*.json;*.zip)|*.xml;*.json;*.zip|All Files (*.*)|*.*",
             Multiselect = false
         };
 

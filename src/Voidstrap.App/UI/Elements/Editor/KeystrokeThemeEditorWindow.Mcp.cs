@@ -13,9 +13,9 @@ public partial class KeystrokeThemeEditorWindow : IMcpEditor
 
     string IMcpEditor.DisplayName => _themeName;
 
-    string IMcpEditor.Language => ".js";
+    string IMcpEditor.Language => ".xml";
 
-    string IMcpEditor.Guidance => McpGuides.KeystrokeTheme + "\n" + KeystrokeScriptTemplates.Reference;
+    string IMcpEditor.Guidance => McpGuides.KeystrokeTheme + "\n" + KeystrokeXmlTemplates.Reference;
 
     private void RegisterMcpEditor()
     {
@@ -44,7 +44,7 @@ public partial class KeystrokeThemeEditorWindow : IMcpEditor
         if (CompileNow() is string error)
             return new McpEditResult(false, error);
 
-        return new McpEditResult(true, "The code runs and the preview was updated. Call save_editor to keep it.");
+        return new McpEditResult(true, "The theme builds and the preview was updated. Call save_editor to keep it.");
     }
 
     McpEditResult IMcpEditor.Save()
@@ -57,8 +57,8 @@ public partial class KeystrokeThemeEditorWindow : IMcpEditor
             : new McpEditResult(false, "Could not save the theme.");
     }
 
-    IReadOnlyList<string> IMcpEditor.Languages => new[] { "javascript" };
+    IReadOnlyList<string> IMcpEditor.Languages => new[] { "xml" };
 
     McpEditResult IMcpEditor.SetLanguage(string language) =>
-        new(false, "Keystroke overlays are written in JavaScript only.");
+        new(false, "Keystroke themes are written in XML only, the same XML as launcher themes.");
 }

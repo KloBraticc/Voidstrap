@@ -158,6 +158,7 @@ internal static class WindowAudit
         AuditAnimatedGif();
         AuditBootstrapperIcons();
         AuditThemeEditorWindow();
+        AuditKeystrokeThemes();
         AuditPlacement();
         AuditOwnedDialogs();
         AuditDownloadBindings();
@@ -2631,6 +2632,106 @@ internal static class WindowAudit
         catch (Exception ex)
         {
             Emit($"crosshair export audit: FAIL, {ex.GetType().Name}: {ex.Message.Split('\n')[0]}");
+        }
+    }
+
+    private static void AuditKeystrokeThemes()
+    {
+        Window? probe = null;
+        try
+        {
+            List<(string Name, string Xml)> themes = Voidstrap.Integrations.Keystrokes.KeystrokeThemeManager
+                .GetBuiltInThemes()
+                .Select(theme => (theme.Name, theme.GetXml()))
+                .ToList();
+            themes.Add(("template Classic", Voidstrap.Integrations.Keystrokes.KeystrokeXmlTemplates.Classic));
+            themes.Add(("template Minimal", Voidstrap.Integrations.Keystrokes.KeystrokeXmlTemplates.Minimal));
+            themes.Add(("template Mouse", Voidstrap.Integrations.Keystrokes.KeystrokeXmlTemplates.Mouse));
+            themes.Add(("template Cps", Voidstrap.Integrations.Keystrokes.KeystrokeXmlTemplates.Cps));
+            Voidstrap.Integrations.Keystrokes.KeystrokeTheme legacy = new()
+            {
+                Name = "legacy",
+                ShowMouseCircle = true,
+                LayoutRows = new() { new() { "Q", "W", "E" }, new() { "LMB", "RMB" } },
+            };
+            legacy.GetOrCreateKeycap("Q").Text = "ability";
+            legacy.GetOrCreateKeycap("E").Width = 60;
+            themes.Add(("converted legacy theme", legacy.GetXml()));
+
+            Voidstrap.Integrations.Keystrokes.KeystrokeXmlView view = new();
+            probe = new Window
+            {
+                Width = 500,
+                Height = 400,
+                Left = -4000,
+                Top = -4000,
+                ShowInTaskbar = false,
+                ShowActivated = false,
+                WindowStyle = WindowStyle.None,
+                Content = view,
+            };
+            probe.Show();
+            string directory = System.IO.Path.Combine(Paths.CustomKeystrokeThemes, "audit");
+            foreach ((string name, string xml) in themes)
+            {
+                string? error = view.Load(xml, directory);
+                Pump(60);
+                if (error != null)
+                {
+                    Emit($"keystroke theme {name}: FAIL, {error}");
+                    continue;
+                }
+                FrameworkElement? content = view.Content as FrameworkElement;
+                bool drawn = content is { ActualWidth: > 8, ActualHeight: > 8 };
+                bool expectsKeys = name != "template Cps";
+                bool pressed = true;
+                if (expectsKeys)
+                {
+                    Voidstrap.Integrations.Keystrokes.KeystrokeKeyVisual? key = view.Keys.FirstOrDefault(k => k.Key.Visibility == Visibility.Visible);
+                    if (key == null)
+                        pressed = false;
+                    else
+                    {
+                        view.SetKey(key.Input, true);
+                        pressed = key.Highlight.Opacity > 0.99 && ReferenceEquals(key.Label.Foreground, key.PressedForeground);
+                        view.SetKey(key.Input, false);
+                        pressed &= ReferenceEquals(key.Label.Foreground, key.Foreground);
+                    }
+                }
+                Emit(
+                    drawn && pressed
+                        ? $"keystroke theme {name}: OK, {view.Keys.Count} keys, {content!.ActualWidth:0}x{content.ActualHeight:0}"
+                        : $"keystroke theme {name}: FAIL, drawn {drawn}, press state {pressed}, {view.Keys.Count} keys"
+                );
+            }
+
+            string? broken = view.Load("<VoidstrapKeystrokes Version=\"1\"><Key /></VoidstrapKeystrokes>", directory);
+            Emit(broken != null ? "keystroke theme missing Input: OK, rejected" : "keystroke theme missing Input: FAIL, accepted");
+            string? launcherOnly = view.Load("<VoidstrapKeystrokes Version=\"1\"><ProgressBar /></VoidstrapKeystrokes>", directory);
+            Emit(launcherOnly != null ? "keystroke theme launcher element: OK, rejected" : "keystroke theme launcher element: FAIL, accepted");
+            string? wrongRoot = view.Load("<VoidstrapCustomBootstrapper Version=\"1\" />", directory);
+            Emit(wrongRoot != null ? "keystroke theme wrong root: OK, rejected" : "keystroke theme wrong root: FAIL, accepted");
+            view.Dispose();
+
+            Voidstrap.UI.Elements.Bootstrapper.CustomDialog launcher = new();
+            try
+            {
+                launcher.ApplyCustomTheme("audit", Resource.GetString("CustomBootstrapperTemplate_Simple.xml"));
+                Emit("launcher theme after shared builder: OK");
+            }
+            finally
+            {
+                launcher.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            Emit($"keystroke theme audit: FAIL, {ex.GetType().Name}: {ex.Message.Split((char)10)[0]}");
+        }
+        finally
+        {
+            probe?.Close();
+            Pump(80);
         }
     }
 

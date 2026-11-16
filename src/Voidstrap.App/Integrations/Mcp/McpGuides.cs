@@ -135,13 +135,16 @@ public static class McpGuides
     public const string KeystrokeTheme = """
 		KEYSTROKE OVERLAY THEMES
 
-		The on screen key display. An overlay is JavaScript code that can draw anything. It defines render(input), which returns the
-		elements to show, and runs in a sandbox with no file or network access. Workflow:
+		The on screen key display. A theme is one file, Theme.xml, written in the same XML as launcher themes, with the root
+		<VoidstrapKeystrokes Version="1">. There is no script and no HTML. Workflow:
 		1. open_editor type "keystroke", name "<Name>", activate true (optionally baseTheme to start from a built in theme).
-		2. get_editor_code to read the current overlay. The guidance on the editor lists the full API.
+		2. get_editor_code to read the current theme. The guidance on the editor lists every element and attribute.
 		3. set_editor_code or edit_editor, read the reply, then save_editor.
-		Colors are #RRGGBB or #AARRGGBB, or the word Accent for the system accent color. The preview in the editor window
-		updates after every change. A reply that is not a success means nothing was applied.
+		<KeyStyle> sets the look shared by every <Key Input="W" />, and a Key can override any of it. <CpsText> shows clicks per
+		second and <MouseCircle> follows the mouse. Layout uses Grid, StackPanel, Border, TextBlock, Image and the shapes, brushes,
+		transforms and effects from launcher themes. TitleBar, Button, ProgressBar, ProgressRing and WebPanel are launcher only.
+		Colors are #RRGGBB or #AARRGGBB, the word Accent, or {ResourceName}. Images use theme://file.png. The preview in the
+		editor window updates after every change. A reply that is not a success means nothing was applied.
 		""";
 
     public const string AppTheme = """

@@ -224,7 +224,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return Strings.ResourceManager.GetStringSafe(resourceName);
         }
 
-        private static string? GetFullPath(CustomDialog dialog, string? sourcePath)
+        private static string? GetFullPath(ICustomThemeHost dialog, string? sourcePath)
         {
             if (sourcePath == null)
                 return null;
@@ -247,7 +247,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return resolved;
         }
 
-        private static System.Windows.Media.FontFamily? ResolveFontFamily(CustomDialog dialog, string? value, XElement xmlElement)
+        private static System.Windows.Media.FontFamily? ResolveFontFamily(ICustomThemeHost dialog, string? value, XElement xmlElement)
         {
             if (string.IsNullOrWhiteSpace(value))
                 return null;
@@ -308,7 +308,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             }.Uri;
         }
 
-        private static Uri ResolveResourceUri(CustomDialog dialog, string path)
+        private static Uri ResolveResourceUri(ICustomThemeHost dialog, string path)
         {
             if (Uri.TryCreate(path, UriKind.Absolute, out Uri? parsed) && parsed.Scheme.Length > 1)
             {
@@ -330,7 +330,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return CreateFileUri(candidate);
         }
 
-        private static GetImageSourceDataResult GetImageSourceData(CustomDialog dialog, string name, XElement xmlElement)
+        private static GetImageSourceDataResult GetImageSourceData(ICustomThemeHost dialog, string name, XElement xmlElement)
         {
             string path = GetXmlAttribute(xmlElement, name);
 
@@ -367,7 +367,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return new GetImageSourceDataResult { Uri = result };
         }
 
-        private static object? GetContentFromXElement(CustomDialog dialog, XElement xmlElement)
+        private static object? GetContentFromXElement(ICustomThemeHost dialog, XElement xmlElement)
         {
             var contentAttr = xmlElement.Attribute("Content");
             var contentElement = xmlElement.Element($"{xmlElement.Name}.Content");
@@ -392,7 +392,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return uiElement;
         }
 
-        private static void ApplyEffects_UIElement(CustomDialog dialog, UIElement uiElement, XElement xmlElement)
+        private static void ApplyEffects_UIElement(ICustomThemeHost dialog, UIElement uiElement, XElement xmlElement)
         {
             var effectElement = xmlElement.Element($"{xmlElement.Name}.Effect");
             if (effectElement == null)
@@ -411,7 +411,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         }
 
         private static void ApplyTransformation_UIElement(
-            CustomDialog dialog,
+            ICustomThemeHost dialog,
             string name,
             DependencyProperty property,
             UIElement uiElement,
@@ -434,7 +434,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             uiElement.SetValue(property, tg);
         }
 
-        private static void ApplyTransformations_UIElement(CustomDialog dialog, UIElement uiElement, XElement xmlElement)
+        private static void ApplyTransformations_UIElement(ICustomThemeHost dialog, UIElement uiElement, XElement xmlElement)
         {
             ApplyTransformation_UIElement(dialog, "RenderTransform", FrameworkElement.RenderTransformProperty, uiElement, xmlElement);
             ApplyTransformation_UIElement(dialog, "LayoutTransform", FrameworkElement.LayoutTransformProperty, uiElement, xmlElement);

@@ -47,7 +47,6 @@
           <MenuItem Header="{resources:Loc Ui_Keystrokes_Editor_ExampleMinimal}" Tag="Minimal" Click="OnExampleClicked" />
           <MenuItem Header="{resources:Loc Ui_Keystrokes_Editor_ExampleMouse}" Tag="Mouse" Click="OnExampleClicked" />
           <MenuItem Header="{resources:Loc Ui_Keystrokes_Editor_ExampleCps}" Tag="Cps" Click="OnExampleClicked" />
-          <MenuItem Header="{resources:Loc Ui_Keystrokes_Editor_ExampleAnimated}" Tag="Animated" Click="OnExampleClicked" />
         </MenuItem>
       </Menu>
     </DockPanel>
@@ -60,7 +59,7 @@
       </Grid.ColumnDefinitions>
 
       <avalonedit:TextEditor x:Name="CodeEditor"
-                             controls:CodeEditorBehavior.Language=".js"
+                             controls:CodeEditorBehavior.Language=".xml"
                              Style="{StaticResource NewTextEditor}"
                              FontFamily="JetBrains Mono, Cascadia Mono, Consolas"
                              FontSize="13"

@@ -15,7 +15,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
     /// <summary>
     /// Interaction logic for CustomDialog.xaml
     /// </summary>
-    public partial class CustomDialog : IBootstrapperDialog
+    public partial class CustomDialog : IBootstrapperDialog, ICustomThemeHost
     {
         private readonly BootstrapperDialogViewModel _viewModel;
         private Window? _mainWindow;

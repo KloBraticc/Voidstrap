@@ -903,123 +903,14 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
 
     internal static Border BuildExactKeystrokesElement()
     {
-        StackPanel root = new() { Orientation = Orientation.Vertical, UseLayoutRounding = true };
-
-        StackPanel rowW = new()
-        {
-            Orientation = Orientation.Horizontal,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 0, 0, 3),
-            Tag = "rowW",
-        };
-        rowW.Children.Add(CreateKeyTile("W", 46, 46));
-
-        StackPanel rowASD = new()
-        {
-            Orientation = Orientation.Horizontal,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 0, 0, 3),
-            Tag = "rowASD",
-        };
-        var aTile = CreateKeyTile("A", 46, 46);
-        aTile.Margin = new Thickness(0, 0, 3, 0);
-        var sTile = CreateKeyTile("S", 46, 46);
-        sTile.Margin = new Thickness(0, 0, 3, 0);
-        var dTile = CreateKeyTile("D", 46, 46);
-        rowASD.Children.Add(aTile);
-        rowASD.Children.Add(sTile);
-        rowASD.Children.Add(dTile);
-
-        StackPanel rowMouse = new()
-        {
-            Orientation = Orientation.Horizontal,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 0, 0, 3),
-            Tag = "rowMouse",
-        };
-        var lmbTile = CreateKeyTile("LMB\n0 CPS", 71, 46);
-        lmbTile.Margin = new Thickness(0, 0, 3, 0);
-        var rmbTile = CreateKeyTile("RMB\n0 CPS", 71, 46);
-        rowMouse.Children.Add(lmbTile);
-        rowMouse.Children.Add(rmbTile);
-
-        StackPanel rowBottom = new()
-        {
-            Orientation = Orientation.Horizontal,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Tag = "rowBottom",
-        };
-        var shiftTile = CreateKeyTile("SHIFT", 51, 34);
-        shiftTile.Margin = new Thickness(0, 0, 3, 0);
-        var spaceTile = CreateKeyTile("—", 91, 34);
-        rowBottom.Children.Add(shiftTile);
-        rowBottom.Children.Add(spaceTile);
-
-        root.Children.Add(rowW);
-        root.Children.Add(rowASD);
-        root.Children.Add(rowMouse);
-        root.Children.Add(rowBottom);
-
         Border host = new()
         {
             CornerRadius = new CornerRadius(10),
             Padding = new Thickness(4),
             Background = Brushes.Transparent,
-            Child = root,
+            Child = new KeystrokeXmlView { UseLayoutRounding = true },
         };
         return host;
-    }
-
-    private static Border CreateKeyTile(string text, double width, double height)
-    {
-        var theme = KeystrokeThemeManager.ActiveTheme;
-        string keyTag = text.Split('\n')[0];
-        KeycapConfig? cap = null;
-        if (theme.Keycaps.TryGetValue(keyTag, out var foundCap))
-        {
-            cap = foundCap;
-            if (cap.Width.HasValue && cap.Width.Value > 0)
-                width = cap.Width.Value;
-            if (cap.Height.HasValue && cap.Height.Value > 0)
-                height = cap.Height.Value;
-        }
-
-        Border tile = new()
-        {
-            Width = width,
-            Height = height,
-            CornerRadius =
-                cap?.CornerRadius.HasValue == true ? new CornerRadius(cap.CornerRadius.Value) : new CornerRadius(theme.KeyCornerRadius),
-            BorderThickness = new Thickness(theme.KeyBorderThickness),
-            Background = theme.GetKeyBrush(keyTag, false),
-            BorderBrush = theme.GetKeyBorderBrush(),
-        };
-
-        System.Windows.Media.FontFamily fontFamily = new(theme.FontFamily);
-        FontWeight fontWeight = theme.FontWeight switch
-        {
-            "Normal" => FontWeights.Normal,
-            "Medium" => FontWeights.Medium,
-            "Bold" => FontWeights.Bold,
-            "ExtraBold" => FontWeights.ExtraBold,
-            _ => FontWeights.SemiBold,
-        };
-
-        string label = cap != null && !string.IsNullOrEmpty(cap.Text) ? cap.Text : text;
-        TextBlock tb = new()
-        {
-            Text = label,
-            FontSize = label.Length > 2 ? 11.5 : 14,
-            FontWeight = fontWeight,
-            FontFamily = fontFamily,
-            Foreground = theme.GetKeyTextBrush(),
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center,
-            TextAlignment = TextAlignment.Center,
-            Visibility = cap?.HideText == true ? Visibility.Collapsed : Visibility.Visible,
-        };
-        tile.Child = tb;
-        return tile;
     }
 
     internal static void ApplyExactKeystrokesConfiguration(Border host, double factor)
@@ -1037,41 +928,24 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         double scale = layout.SafeKeystrokesScale * factor * presetFactor;
         host.LayoutTransform = Math.Abs(scale - 1.0) > 0.005 ? new ScaleTransform(scale, scale) : Transform.Identity;
 
-        var theme = KeystrokeThemeManager.ActiveTheme;
-        Brush bgBrush = theme.GetKeyBackgroundBrush();
-        Brush borderBrush = theme.GetKeyBorderBrush();
-        Brush textBrush = theme.GetKeyTextBrush();
-        CornerRadius cornerRadius = new(theme.KeyCornerRadius);
-        Thickness borderThickness = new(theme.KeyBorderThickness);
-
-        if (host.Child is StackPanel root)
-        {
-            foreach (UIElement child in root.Children)
-            {
-                if (child is StackPanel sp && sp.Tag is string tag)
-                {
-                    if (tag == "rowW" || tag == "rowASD")
-                        sp.Visibility = settings.KeystrokesShowKeys ? Visibility.Visible : Visibility.Collapsed;
-                    else if (tag == "rowMouse")
-                        sp.Visibility = settings.KeystrokesShowMouseButtons ? Visibility.Visible : Visibility.Collapsed;
-                    else if (tag == "rowBottom")
-                        sp.Visibility = settings.KeystrokesShowSpaceAndShift ? Visibility.Visible : Visibility.Collapsed;
-
-                    foreach (UIElement keyChild in sp.Children)
-                    {
-                        if (keyChild is Border b)
-                        {
-                            b.Background = bgBrush;
-                            b.BorderBrush = borderBrush;
-                            b.BorderThickness = borderThickness;
-                            b.CornerRadius = cornerRadius;
-                            if (b.Child is TextBlock tb)
-                                tb.Foreground = textBrush;
-                        }
-                    }
-                }
-            }
-        }
+        if (host.Child is not KeystrokeXmlView view)
+            return;
+        KeystrokeTheme theme = KeystrokeThemeManager.ActiveTheme;
+        string source = theme.GetXml();
+        string signature = string.Join(
+            '|',
+            source,
+            settings.KeystrokesShowKeys,
+            settings.KeystrokesShowMouseButtons,
+            settings.KeystrokesShowSpaceAndShift,
+            settings.KeystrokesShowCps
+        );
+        if (view.Tag as string == signature)
+            return;
+        view.Tag = signature;
+        string directory = System.IO.Path.Combine(Paths.CustomKeystrokeThemes, theme.Name);
+        if (view.Load(source, directory) != null)
+            view.Load(KeystrokeXmlTemplates.Classic, directory);
     }
 
     private Border WrapExactElement(OverlayStudioLayer layer, UIElement child)

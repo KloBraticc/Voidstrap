@@ -21,9 +21,15 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         // prevent users from creating elements with the same name multiple times
         private List<string> UsedNames { get; } = new List<string>();
 
+        string ICustomThemeHost.ThemeDir => ThemeDir;
+
+        List<string> ICustomThemeHost.UsedNames => UsedNames;
+
+        bool ICustomThemeHost.AllowsElement(string name) => !KeystrokeElementNames.Contains(name);
+
         private string ThemeDir { get; set; } = "";
 
-        delegate object HandleXmlElementDelegate(CustomDialog dialog, XElement xmlElement);
+        delegate object HandleXmlElementDelegate(ICustomThemeHost dialog, XElement xmlElement);
 
         private static Dictionary<string, HandleXmlElementDelegate> _elementHandlerMap = new Dictionary<string, HandleXmlElementDelegate>()
         {
@@ -61,12 +67,20 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             ["Rectangle"] = HandleXmlElement_Rectangle,
 
             ["RowDefinition"] = HandleXmlElement_RowDefinition,
-            ["ColumnDefinition"] = HandleXmlElement_ColumnDefinition
+            ["ColumnDefinition"] = HandleXmlElement_ColumnDefinition,
+
+            ["KeyStyle"] = HandleXmlElement_KeyStyle,
+            ["Key"] = HandleXmlElement_Key,
+            ["CpsText"] = HandleXmlElement_CpsText,
+            ["MouseCircle"] = HandleXmlElement_MouseCircle
         };
 
-        private static T HandleXml<T>(CustomDialog dialog, XElement xmlElement) where T : class
+        private static CustomDialog RequireDialog(ICustomThemeHost host, XElement xmlElement) =>
+            host as CustomDialog ?? throw new CustomThemeException("CustomTheme.Errors.UnknownElement", xmlElement.Name);
+
+        private static T HandleXml<T>(ICustomThemeHost dialog, XElement xmlElement) where T : class
         {
-            if (!_elementHandlerMap.ContainsKey(xmlElement.Name.ToString()))
+            if (!_elementHandlerMap.ContainsKey(xmlElement.Name.ToString()) || !dialog.AllowsElement(xmlElement.Name.ToString()))
                 throw new CustomThemeException("CustomTheme.Errors.UnknownElement", xmlElement.Name);
 
             var element = _elementHandlerMap[xmlElement.Name.ToString()](dialog, xmlElement);

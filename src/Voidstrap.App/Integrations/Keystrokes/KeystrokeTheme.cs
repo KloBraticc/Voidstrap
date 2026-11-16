@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Voidstrap.Integrations.Keystrokes;
 
@@ -64,11 +62,9 @@ public sealed class KeystrokeTheme
     public double MouseCircleSize { get; set; } = 96.0;
 
     [JsonIgnore]
-    public string? ScriptSource { get; set; }
+    public string? XmlSource { get; set; }
 
-    public string? CustomCss { get; set; }
-
-    public string? CustomHtml { get; set; }
+    public string GetXml() => XmlSource ?? KeystrokeXmlTemplates.FromTheme(this);
 
     public KeycapConfig GetOrCreateKeycap(string key)
     {
@@ -93,9 +89,6 @@ public sealed class KeystrokeTheme
             new() { "Shift", "Space" }
         };
     }
-
-    [JsonIgnore]
-    private readonly Dictionary<string, Brush?> _brushCache = new(StringComparer.OrdinalIgnoreCase);
 
     public static Color GetEffectiveAccentColor()
     {
@@ -148,149 +141,6 @@ public sealed class KeystrokeTheme
         return brush;
     }
 
-    public SolidColorBrush GetKeyBackgroundBrush() => CreateBrush(KeyBackground, Color.FromArgb(255, 32, 32, 32));
-
-    public SolidColorBrush GetKeyPressedBackgroundBrush() => CreateBrush(KeyPressedBackground, GetEffectiveAccentColor());
-
-    public SolidColorBrush GetKeyBorderBrush() => CreateBrush(KeyBorderColor, Color.FromArgb(255, 54, 54, 56));
-
-    public SolidColorBrush GetKeyTextBrush() => CreateBrush(KeyTextColor, Colors.White);
-
-    public SolidColorBrush GetKeyPressedTextBrush() => CreateBrush(KeyPressedTextColor, Colors.White);
-
-    public SolidColorBrush GetCpsTextBrush() => CreateBrush(CpsTextColor, Color.FromArgb(255, 160, 160, 165));
-
-    public SolidColorBrush GetKeyPressedCpsTextBrush() => CreateBrush(KeyPressedCpsTextColor, Colors.White);
-
-    public string? ResolveImagePath(string? relativeOrAbsolutePath)
-    {
-        if (string.IsNullOrWhiteSpace(relativeOrAbsolutePath))
-            return null;
-
-        string trimmed = relativeOrAbsolutePath.Trim();
-        if (Path.IsPathRooted(trimmed) && File.Exists(trimmed))
-            return trimmed;
-
-        string themeDir = Path.Combine(Voidstrap.Paths.CustomKeystrokeThemes, Name);
-        string combined = Path.Combine(themeDir, trimmed);
-        if (File.Exists(combined))
-            return combined;
-
-        return null;
-    }
-
-    public ImageBrush? GetImageBrush(string? path)
-    {
-        if (string.IsNullOrWhiteSpace(path))
-            return null;
-
-        string? resolved = ResolveImagePath(path);
-        if (resolved == null)
-            return null;
-
-        lock (_brushCache)
-        {
-            string cacheKey = $"img:{resolved}:{KeyImageStretch}:{KeyImageOpacity}";
-            if (_brushCache.TryGetValue(cacheKey, out var cached))
-                return cached as ImageBrush;
-
-            try
-            {
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                bitmap.UriSource = new Uri(resolved, UriKind.Absolute);
-                bitmap.EndInit();
-                bitmap.Freeze();
-
-                Stretch stretch = KeyImageStretch switch
-                {
-                    "Fill" => Stretch.Fill,
-                    "UniformToFill" => Stretch.UniformToFill,
-                    "None" => Stretch.None,
-                    _ => Stretch.Uniform
-                };
-
-                var brush = new ImageBrush(bitmap)
-                {
-                    Stretch = stretch,
-                    Opacity = Math.Clamp(KeyImageOpacity, 0.0, 1.0)
-                };
-                brush.Freeze();
-                _brushCache[cacheKey] = brush;
-                return brush;
-            }
-            catch
-            {
-                _brushCache[cacheKey] = null;
-                return null;
-            }
-        }
-    }
-
-    public Brush GetKeyBrush(string key, bool isPressed)
-    {
-        if (Keycaps.TryGetValue(key, out var cap))
-        {
-            if (isPressed)
-            {
-                if (!string.IsNullOrWhiteSpace(cap.PressedImage))
-                {
-                    var imgBrush = GetImageBrush(cap.PressedImage);
-                    if (imgBrush != null)
-                        return imgBrush;
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(cap.Image))
-                {
-                    var imgBrush = GetImageBrush(cap.Image);
-                    if (imgBrush != null)
-                        return imgBrush;
-                }
-            }
-        }
-
-        if (isPressed)
-        {
-            if (KeyPressedImages.TryGetValue(key, out string? pressedImg) && !string.IsNullOrWhiteSpace(pressedImg))
-            {
-                var imgBrush = GetImageBrush(pressedImg);
-                if (imgBrush != null)
-                    return imgBrush;
-            }
-
-            if (!string.IsNullOrWhiteSpace(KeyPressedBackgroundImage))
-            {
-                var imgBrush = GetImageBrush(KeyPressedBackgroundImage);
-                if (imgBrush != null)
-                    return imgBrush;
-            }
-
-            return GetKeyPressedBackgroundBrush();
-        }
-        else
-        {
-            if (KeyImages.TryGetValue(key, out string? unpressedImg) && !string.IsNullOrWhiteSpace(unpressedImg))
-            {
-                var imgBrush = GetImageBrush(unpressedImg);
-                if (imgBrush != null)
-                    return imgBrush;
-            }
-
-            if (!string.IsNullOrWhiteSpace(KeyBackgroundImage))
-            {
-                var imgBrush = GetImageBrush(KeyBackgroundImage);
-                if (imgBrush != null)
-                    return imgBrush;
-            }
-
-            return GetKeyBackgroundBrush();
-        }
-    }
-
     public KeystrokeTheme Clone(string? newName = null)
     {
         var cloned = new KeystrokeTheme
@@ -320,9 +170,7 @@ public sealed class KeystrokeTheme
             Keycaps = new Dictionary<string, KeycapConfig>(StringComparer.OrdinalIgnoreCase),
             ShowMouseCircle = ShowMouseCircle,
             MouseCircleSize = MouseCircleSize,
-            CustomCss = CustomCss,
-            CustomHtml = CustomHtml,
-            ScriptSource = ScriptSource,
+            XmlSource = XmlSource,
             LayoutRows = new List<List<string>>()
         };
 

@@ -1873,7 +1873,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         var sfd = new Microsoft.Win32.SaveFileDialog
         {
             FileName = $"{theme}.zip",
-            Filter = "Zip archive (*.zip)|*.zip|JSON theme (*.json)|*.json",
+            Filter = "Zip archive (*.zip)|*.zip|XML theme (*.xml)|*.xml",
         };
 
         if (sfd.ShowDialog() == true)

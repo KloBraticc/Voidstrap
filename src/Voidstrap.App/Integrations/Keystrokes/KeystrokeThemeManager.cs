@@ -12,8 +12,9 @@ public static class KeystrokeThemeManager
 {
     private static readonly object Gate = new();
     private static readonly Dictionary<string, KeystrokeTheme> BuiltIns = new(StringComparer.OrdinalIgnoreCase);
-    private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
-    private const string ScriptFileName = "overlay.js";
+    private const string ThemeFileName = "Theme.xml";
+
+    private const string LegacyFileName = "Theme.json";
     private static KeystrokeTheme? _activeTheme;
     private static string? _activeThemeName;
 
@@ -208,13 +209,17 @@ public static class KeystrokeThemeManager
 
     private static KeystrokeTheme? LoadCustomTheme(string dir, string name)
     {
-        string file = Path.Combine(dir, "Theme.json");
-        string script = Path.Combine(dir, ScriptFileName);
+        const string LOG_IDENT = "KeystrokeThemeManager::LoadCustomTheme";
+
+        string file = Path.Combine(dir, ThemeFileName);
+        string legacy = Path.Combine(dir, LegacyFileName);
         try
         {
-            KeystrokeTheme? theme = File.Exists(file)
-                ? JsonSerializer.Deserialize<KeystrokeTheme>(File.ReadAllText(file))
-                : File.Exists(script) ? new KeystrokeTheme() : null;
+            if (File.Exists(file))
+                return new KeystrokeTheme { Name = name, IsBuiltIn = false, XmlSource = File.ReadAllText(file) };
+            if (!File.Exists(legacy))
+                return null;
+            KeystrokeTheme? theme = JsonSerializer.Deserialize<KeystrokeTheme>(File.ReadAllText(legacy));
             if (theme == null)
                 return null;
             theme.Name = name;
@@ -223,13 +228,14 @@ public static class KeystrokeThemeManager
             theme.KeyImages = new(theme.KeyImages ?? [], StringComparer.OrdinalIgnoreCase);
             theme.KeyPressedImages = new(theme.KeyPressedImages ?? [], StringComparer.OrdinalIgnoreCase);
             theme.LayoutRows ??= [];
-            if (File.Exists(script))
-                theme.ScriptSource = File.ReadAllText(script);
+            theme.XmlSource = KeystrokeXmlTemplates.FromTheme(theme);
+            File.WriteAllText(file, theme.XmlSource);
+            App.Logger?.WriteLine(LOG_IDENT, "Converted theme " + name + " to Theme.xml");
             return theme;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
         {
-            App.Logger?.WriteLine("KeystrokeThemeManager::LoadCustomTheme", "Could not load theme " + name + ": " + ex.Message);
+            App.Logger?.WriteLine(LOG_IDENT, "Could not load theme " + name + ": " + ex.Message);
             return null;
         }
     }
@@ -304,12 +310,7 @@ public static class KeystrokeThemeManager
                 Directory.CreateDirectory(root);
                 string dir = Path.Combine(root, theme.Name);
                 Directory.CreateDirectory(dir);
-                string file = Path.Combine(dir, "Theme.json");
-                string json = JsonSerializer.Serialize(theme, JsonOptions);
-                File.WriteAllText(file, json);
-
-                if (theme.ScriptSource != null)
-                    File.WriteAllText(Path.Combine(dir, ScriptFileName), theme.ScriptSource);
+                File.WriteAllText(Path.Combine(dir, ThemeFileName), theme.GetXml());
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
@@ -373,18 +374,6 @@ public static class KeystrokeThemeManager
 
                 Directory.Move(oldDir, newDir);
 
-                string file = Path.Combine(newDir, "Theme.json");
-                if (File.Exists(file))
-                {
-                    string json = File.ReadAllText(file);
-                    var theme = JsonSerializer.Deserialize<KeystrokeTheme>(json);
-                    if (theme != null)
-                    {
-                        theme.Name = newName;
-                        File.WriteAllText(file, JsonSerializer.Serialize(theme, JsonOptions));
-                    }
-                }
-
                 if (string.Equals(App.Settings.Prop.KeystrokesThemeName, oldName, StringComparison.OrdinalIgnoreCase))
                 {
                     App.Settings.Prop.KeystrokesThemeName = newName;
@@ -392,7 +381,7 @@ public static class KeystrokeThemeManager
                     renamedActive = true;
                 }
             }
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
                 App.Logger?.WriteLine("KeystrokeThemeManager::RenameCustomTheme", ex.Message);
                 return false;
@@ -411,8 +400,8 @@ public static class KeystrokeThemeManager
             try
             {
                 string dir = Path.Combine(Paths.CustomKeystrokeThemes, name);
-                string file = Path.Combine(dir, "Theme.json");
-                if (!File.Exists(file))
+                string file = Path.Combine(dir, ThemeFileName);
+                if (LoadCustomTheme(dir, name) == null || !File.Exists(file))
                     return false;
 
                 if (targetPath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
@@ -465,14 +454,18 @@ public static class KeystrokeThemeManager
                 }
 
                 Directory.CreateDirectory(targetDir);
-                string targetFile = Path.Combine(targetDir, "Theme.json");
+                bool legacy = sourcePath.EndsWith(".json", StringComparison.OrdinalIgnoreCase);
+                string targetFile = Path.Combine(targetDir, legacy ? LegacyFileName : ThemeFileName);
 
                 if (sourcePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
                 {
                     using var zip = ZipFile.OpenRead(sourcePath);
-                    var entry = zip.GetEntry("Theme.json") ?? zip.GetEntry(ScriptFileName) ?? zip.Entries.FirstOrDefault(e => e.Name.EndsWith(".json", StringComparison.OrdinalIgnoreCase));
+                    var entry = zip.GetEntry(ThemeFileName) ?? zip.GetEntry(LegacyFileName);
                     if (entry == null)
+                    {
+                        Directory.Delete(targetDir, recursive: true);
                         return false;
+                    }
 
                     foreach (var zEntry in zip.Entries)
                     {
@@ -492,14 +485,11 @@ public static class KeystrokeThemeManager
                     File.Copy(sourcePath, targetFile, overwrite: true);
                 }
 
-                KeystrokeTheme? theme = File.Exists(targetFile)
-                    ? JsonSerializer.Deserialize<KeystrokeTheme>(File.ReadAllText(targetFile))
-                    : new KeystrokeTheme();
-                if (theme == null)
+                if (LoadCustomTheme(targetDir, candidateName) == null)
+                {
+                    Directory.Delete(targetDir, recursive: true);
                     return false;
-
-                theme.Name = candidateName;
-                File.WriteAllText(targetFile, JsonSerializer.Serialize(theme, JsonOptions));
+                }
 
                 importedName = candidateName;
                 return true;

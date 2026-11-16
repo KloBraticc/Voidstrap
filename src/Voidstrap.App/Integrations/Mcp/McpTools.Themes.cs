@@ -135,16 +135,9 @@ public static partial class McpTools
 
                     if (!string.IsNullOrWhiteSpace(code))
                     {
-                        try
-                        {
-                            using KeystrokeScriptHost host = new(code);
-                            host.Render();
-                        }
-                        catch (Exception ex)
-                        {
-                            return new McpToolResult($"Invalid keystroke overlay code: {ex.Message}", true);
-                        }
-                        theme.ScriptSource = code;
+                        if (KeystrokeXmlView.Validate(code, Path.Combine(Paths.CustomKeystrokeThemes, name)) is string problem)
+                            return new McpToolResult($"Invalid keystroke theme XML: {problem}", true);
+                        theme.XmlSource = code;
                     }
 
                     if (!KeystrokeThemeManager.SaveCustomTheme(theme))

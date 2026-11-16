@@ -312,9 +312,9 @@ public static class McpToolCatalog
             ),
             T(
                 "set_editor_language",
-                "Switch the code language of an editor that supports several, such as the Keystroke theme editor: csharp, html (HTML and CSS), rust, or json.",
+                "Switch the code language of an editor that supports several. Keystroke themes and launcher themes are XML only.",
                 Kind.Write,
-                EditorTarget(new JsonObject { ["language"] = P("string", "csharp, html, rust, or json.") }),
+                EditorTarget(new JsonObject { ["language"] = P("string", "A language the editor lists, see list_editor_files.") }),
                 "language"
             ),
             T(
@@ -351,7 +351,7 @@ public static class McpToolCatalog
                     ),
                     ["name"] = P("string", "Theme name."),
                     ["xml"] = P("string", "Theme.xml content for create_bootstrapper_theme."),
-                    ["code"] = P("string", "JavaScript overlay code for create_keystroke_theme. It must define render(input)."),
+                    ["code"] = P("string", "Theme.xml content for create_keystroke_theme, with the root VoidstrapKeystrokes."),
                     ["baseTheme"] = P("string", "Keystroke theme to clone."),
                     ["activate"] = P("boolean", "Activate the created theme (default true)."),
                     ["sourcePath"] = P(

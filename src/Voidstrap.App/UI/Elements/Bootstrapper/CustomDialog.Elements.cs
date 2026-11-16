@@ -16,7 +16,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
     public partial class CustomDialog
     {
         #region Transformation
-        private static ScaleTransform HandleXmlElement_ScaleTransform(CustomDialog dialog, XElement xmlElement)
+        private static ScaleTransform HandleXmlElement_ScaleTransform(ICustomThemeHost dialog, XElement xmlElement)
         {
             var st = new ScaleTransform();
 
@@ -28,7 +28,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return st;
         }
 
-        private static SkewTransform HandleXmlElement_SkewTransform(CustomDialog dialog, XElement xmlElement)
+        private static SkewTransform HandleXmlElement_SkewTransform(ICustomThemeHost dialog, XElement xmlElement)
         {
             var st = new SkewTransform();
 
@@ -40,7 +40,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return st;
         }
 
-        private static RotateTransform HandleXmlElement_RotateTransform(CustomDialog dialog, XElement xmlElement)
+        private static RotateTransform HandleXmlElement_RotateTransform(ICustomThemeHost dialog, XElement xmlElement)
         {
             var rt = new RotateTransform();
 
@@ -51,7 +51,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return rt;
         }
 
-        private static TranslateTransform HandleXmlElement_TranslateTransform(CustomDialog dialog, XElement xmlElement)
+        private static TranslateTransform HandleXmlElement_TranslateTransform(ICustomThemeHost dialog, XElement xmlElement)
         {
             var tt = new TranslateTransform();
 
@@ -63,7 +63,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         #endregion
 
         #region Effects
-        private static BlurEffect HandleXmlElement_BlurEffect(CustomDialog dialog, XElement xmlElement)
+        private static BlurEffect HandleXmlElement_BlurEffect(ICustomThemeHost dialog, XElement xmlElement)
         {
             var effect = new BlurEffect();
 
@@ -74,7 +74,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return effect;
         }
 
-        private static DropShadowEffect HandleXmlElement_DropShadowEffect(CustomDialog dialog, XElement xmlElement)
+        private static DropShadowEffect HandleXmlElement_DropShadowEffect(ICustomThemeHost dialog, XElement xmlElement)
         {
             var effect = new DropShadowEffect();
 
@@ -98,7 +98,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             brush.Opacity = ParseXmlAttribute<double>(xmlElement, "Opacity", 1.0);
         }
 
-        private static SolidColorBrush HandleXmlElement_SolidColorBrush(CustomDialog dialog, XElement xmlElement)
+        private static SolidColorBrush HandleXmlElement_SolidColorBrush(ICustomThemeHost dialog, XElement xmlElement)
         {
             var brush = new SolidColorBrush();
             HandleXml_Brush(brush, xmlElement);
@@ -110,7 +110,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return brush;
         }
 
-        private static ImageBrush HandleXmlElement_ImageBrush(CustomDialog dialog, XElement xmlElement)
+        private static ImageBrush HandleXmlElement_ImageBrush(ICustomThemeHost dialog, XElement xmlElement)
         {
             var imageBrush = new ImageBrush();
             HandleXml_Brush(imageBrush, xmlElement);
@@ -166,7 +166,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return imageBrush;
         }
 
-        private static GradientStop HandleXmlElement_GradientStop(CustomDialog dialog, XElement xmlElement)
+        private static GradientStop HandleXmlElement_GradientStop(ICustomThemeHost dialog, XElement xmlElement)
         {
             var gs = new GradientStop();
 
@@ -179,7 +179,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return gs;
         }
 
-        private static LinearGradientBrush HandleXmlElement_LinearGradientBrush(CustomDialog dialog, XElement xmlElement)
+        private static LinearGradientBrush HandleXmlElement_LinearGradientBrush(ICustomThemeHost dialog, XElement xmlElement)
         {
             var brush = new LinearGradientBrush();
             HandleXml_Brush(brush, xmlElement);
@@ -207,7 +207,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         }
 
         private static void ApplyBrush_UIElement(
-            CustomDialog dialog,
+            ICustomThemeHost dialog,
             FrameworkElement uiElement,
             string name,
             DependencyProperty dependencyProperty,
@@ -242,7 +242,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         #endregion
 
         #region Shapes
-        private static void HandleXmlElement_Shape(CustomDialog dialog, Shape shape, XElement xmlElement)
+        private static void HandleXmlElement_Shape(ICustomThemeHost dialog, Shape shape, XElement xmlElement)
         {
             HandleXmlElement_FrameworkElement(dialog, shape, xmlElement);
 
@@ -260,7 +260,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             shape.StrokeThickness = ParseXmlAttribute<double>(xmlElement, "StrokeThickness", 1);
         }
 
-        private static Ellipse HandleXmlElement_Ellipse(CustomDialog dialog, XElement xmlElement)
+        private static Ellipse HandleXmlElement_Ellipse(ICustomThemeHost dialog, XElement xmlElement)
         {
             var ellipse = new Ellipse();
             HandleXmlElement_Shape(dialog, ellipse, xmlElement);
@@ -268,7 +268,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return ellipse;
         }
 
-        private static Line HandleXmlElement_Line(CustomDialog dialog, XElement xmlElement)
+        private static Line HandleXmlElement_Line(ICustomThemeHost dialog, XElement xmlElement)
         {
             var line = new Line();
             HandleXmlElement_Shape(dialog, line, xmlElement);
@@ -281,7 +281,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return line;
         }
 
-        private static Rectangle HandleXmlElement_Rectangle(CustomDialog dialog, XElement xmlElement)
+        private static Rectangle HandleXmlElement_Rectangle(ICustomThemeHost dialog, XElement xmlElement)
         {
             var rectangle = new Rectangle();
             HandleXmlElement_Shape(dialog, rectangle, xmlElement);
@@ -295,7 +295,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         #endregion
 
         #region Elements
-        private static void HandleXmlElement_FrameworkElement(CustomDialog dialog, FrameworkElement uiElement, XElement xmlElement)
+        private static void HandleXmlElement_FrameworkElement(ICustomThemeHost dialog, FrameworkElement uiElement, XElement xmlElement)
         {
             // prevent two elements from having the same name
             string? name = xmlElement.Attribute("Name")?.Value?.ToString();
@@ -350,7 +350,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             ApplyEffects_UIElement(dialog, uiElement, xmlElement);
         }
 
-        private static void HandleXmlElement_Control(CustomDialog dialog, Control uiElement, XElement xmlElement)
+        private static void HandleXmlElement_Control(ICustomThemeHost dialog, Control uiElement, XElement xmlElement)
         {
             HandleXmlElement_FrameworkElement(dialog, uiElement, xmlElement);
 
@@ -401,8 +401,9 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             };
         }
 
-        private static DummyFrameworkElement HandleXmlElement_BloxstrapCustomBootstrapper(CustomDialog dialog, XElement xmlElement)
+        private static DummyFrameworkElement HandleXmlElement_BloxstrapCustomBootstrapper(ICustomThemeHost host, XElement xmlElement)
         {
+            CustomDialog dialog = RequireDialog(host, xmlElement);
             xmlElement.SetAttributeValue("Visibility", "Collapsed"); // don't show the bootstrapper yet!!!
             xmlElement.SetAttributeValue("IsEnabled", "True");
             HandleXmlElement_Control(dialog, dialog, xmlElement);
@@ -496,14 +497,15 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             }
         }
 
-        private static UIElement HandleXmlElement_BloxstrapCustomBootstrapper_Fake(CustomDialog dialog, XElement xmlElement)
+        private static UIElement HandleXmlElement_BloxstrapCustomBootstrapper_Fake(ICustomThemeHost dialog, XElement xmlElement)
         {
             // this only exists to error out the theme if someone tries to use two BloxstrapCustomBootstrappers
             throw new Exception($"{xmlElement.Parent!.Name} cannot have a child of {xmlElement.Name}");
         }
 
-        private static DummyFrameworkElement HandleXmlElement_TitleBar(CustomDialog dialog, XElement xmlElement)
+        private static DummyFrameworkElement HandleXmlElement_TitleBar(ICustomThemeHost host, XElement xmlElement)
         {
+            CustomDialog dialog = RequireDialog(host, xmlElement);
             xmlElement.SetAttributeValue("Name", "TitleBar"); // prevent two titlebars from existing
             xmlElement.SetAttributeValue("IsEnabled", "True");
             HandleXmlElement_Control(dialog, dialog.RootTitleBar, xmlElement);
@@ -531,7 +533,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return new DummyFrameworkElement(); // dont add anything
         }
 
-        private static Button HandleXmlElement_Button(CustomDialog dialog, XElement xmlElement)
+        private static Button HandleXmlElement_Button(ICustomThemeHost dialog, XElement xmlElement)
         {
             var button = new Button();
             HandleXmlElement_Control(dialog, button, xmlElement);
@@ -550,7 +552,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return button;
         }
 
-        private static void HandleXmlElement_RangeBase(CustomDialog dialog, RangeBase rangeBase, XElement xmlElement)
+        private static void HandleXmlElement_RangeBase(ICustomThemeHost dialog, RangeBase rangeBase, XElement xmlElement)
         {
             HandleXmlElement_Control(dialog, rangeBase, xmlElement);
 
@@ -558,7 +560,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             rangeBase.Maximum = ParseXmlAttribute<double>(xmlElement, "Maximum", 100);
         }
 
-        private static Wpf.Ui.Controls.ProgressBar HandleXmlElement_ProgressBar(CustomDialog dialog, XElement xmlElement)
+        private static Wpf.Ui.Controls.ProgressBar HandleXmlElement_ProgressBar(ICustomThemeHost dialog, XElement xmlElement)
         {
             var progressBar = new Wpf.Ui.Controls.ProgressBar();
             ProgressBarStyler.Apply(progressBar);
@@ -589,7 +591,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return progressBar;
         }
 
-        private static Wpf.Ui.Controls.ProgressRing HandleXmlElement_ProgressRing(CustomDialog dialog, XElement xmlElement)
+        private static Wpf.Ui.Controls.ProgressRing HandleXmlElement_ProgressRing(ICustomThemeHost dialog, XElement xmlElement)
         {
             var progressBar = new Wpf.Ui.Controls.ProgressRing();
             HandleXmlElement_RangeBase(dialog, progressBar, xmlElement);
@@ -611,7 +613,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return progressBar;
         }
 
-        private static void HandleXmlElement_TextBlock_Base(CustomDialog dialog, TextBlock textBlock, XElement xmlElement)
+        private static void HandleXmlElement_TextBlock_Base(ICustomThemeHost dialog, TextBlock textBlock, XElement xmlElement)
         {
             HandleXmlElement_FrameworkElement(dialog, textBlock, xmlElement);
 
@@ -650,7 +652,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 textBlock.Padding = (Thickness)padding;
         }
 
-        private static TextBlock HandleXmlElement_TextBlock(CustomDialog dialog, XElement xmlElement)
+        private static TextBlock HandleXmlElement_TextBlock(ICustomThemeHost dialog, XElement xmlElement)
         {
             var textBlock = new TextBlock();
             HandleXmlElement_TextBlock_Base(dialog, textBlock, xmlElement);
@@ -666,7 +668,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return textBlock;
         }
 
-        private static MarkdownTextBlock HandleXmlElement_MarkdownTextBlock(CustomDialog dialog, XElement xmlElement)
+        private static MarkdownTextBlock HandleXmlElement_MarkdownTextBlock(ICustomThemeHost dialog, XElement xmlElement)
         {
             var textBlock = new MarkdownTextBlock();
             HandleXmlElement_TextBlock_Base(dialog, textBlock, xmlElement);
@@ -678,7 +680,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return textBlock;
         }
 
-        private static Image HandleXmlElement_Image(CustomDialog dialog, XElement xmlElement)
+        private static Image HandleXmlElement_Image(ICustomThemeHost dialog, XElement xmlElement)
         {
             var image = new Image();
             HandleXmlElement_FrameworkElement(dialog, image, xmlElement);
@@ -746,7 +748,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return image;
         }
 
-        private static RowDefinition HandleXmlElement_RowDefinition(CustomDialog dialog, XElement xmlElement)
+        private static RowDefinition HandleXmlElement_RowDefinition(ICustomThemeHost dialog, XElement xmlElement)
         {
             var rowDefinition = new RowDefinition();
 
@@ -760,7 +762,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return rowDefinition;
         }
 
-        private static ColumnDefinition HandleXmlElement_ColumnDefinition(CustomDialog dialog, XElement xmlElement)
+        private static ColumnDefinition HandleXmlElement_ColumnDefinition(ICustomThemeHost dialog, XElement xmlElement)
         {
             var columnDefinition = new ColumnDefinition();
 
@@ -774,7 +776,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return columnDefinition;
         }
 
-        private static void HandleXmlElement_Grid_RowDefinitions(Grid grid, CustomDialog dialog, XElement xmlElement)
+        private static void HandleXmlElement_Grid_RowDefinitions(Grid grid, ICustomThemeHost dialog, XElement xmlElement)
         {
             foreach (var element in xmlElement.Elements())
             {
@@ -783,7 +785,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             }
         }
 
-        private static void HandleXmlElement_Grid_ColumnDefinitions(Grid grid, CustomDialog dialog, XElement xmlElement)
+        private static void HandleXmlElement_Grid_ColumnDefinitions(Grid grid, ICustomThemeHost dialog, XElement xmlElement)
         {
             foreach (var element in xmlElement.Elements())
             {
@@ -792,7 +794,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             }
         }
 
-        private static Grid HandleXmlElement_Grid(CustomDialog dialog, XElement xmlElement)
+        private static Grid HandleXmlElement_Grid(ICustomThemeHost dialog, XElement xmlElement)
         {
             var grid = new Grid();
             HandleXmlElement_FrameworkElement(dialog, grid, xmlElement);
@@ -836,7 +838,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return grid;
         }
 
-        private static StackPanel HandleXmlElement_StackPanel(CustomDialog dialog, XElement xmlElement)
+        private static StackPanel HandleXmlElement_StackPanel(ICustomThemeHost dialog, XElement xmlElement)
         {
             var stackPanel = new StackPanel();
             HandleXmlElement_FrameworkElement(dialog, stackPanel, xmlElement);
@@ -892,8 +894,9 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             }
         }
 
-        private static Border HandleXmlElement_WebPanel(CustomDialog dialog, XElement xmlElement)
+        private static Border HandleXmlElement_WebPanel(ICustomThemeHost themeHost, XElement xmlElement)
         {
+            CustomDialog dialog = RequireDialog(themeHost, xmlElement);
             var host = new Border();
             HandleXmlElement_FrameworkElement(dialog, host, xmlElement);
 
@@ -1317,7 +1320,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             view.Dispose();
         }
 
-        private static Border HandleXmlElement_Border(CustomDialog dialog, XElement xmlElement)
+        private static Border HandleXmlElement_Border(ICustomThemeHost dialog, XElement xmlElement)
         {
             var border = new Border();
             HandleXmlElement_FrameworkElement(dialog, border, xmlElement);

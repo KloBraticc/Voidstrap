@@ -391,7 +391,7 @@ public static partial class McpStdioServer
                 "Custom Launcher Theme Guide",
                 "Exact Theme.xml elements and attributes, the HTML web panel and its window.voidstrap JavaScript API, a step by step workflow, and examples."
             ),
-            Guide("keystroke_theme", "Keystroke Theme Guide", "How to edit keystroke overlay themes in C#, HTML, Rust or JSON."),
+            Guide("keystroke_theme", "Keystroke Theme Guide", "How to edit keystroke overlay themes, written in the same XML as launcher themes."),
             Guide("app_theme", "Voidstrap App Theme Guide", "How to recolor Voidstrap itself."),
             Guide("fixing", "Fixing Voidstrap Guide", "How to find and fix in app errors and broken state."),
             Guide(

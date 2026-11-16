@@ -17,7 +17,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     private readonly string _themeName;
     private readonly KeystrokeTheme _workingTheme;
     private readonly string _themeDirectory;
-    private readonly KeystrokeScriptView _preview = new();
+    private readonly KeystrokeXmlView _preview = new();
     private readonly DispatcherTimer _compileTimer = new() { Interval = TimeSpan.FromMilliseconds(500) };
     private string _savedCode;
     private Point? _lastMouse;
@@ -31,15 +31,15 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         _themeName = themeName;
         _workingTheme = KeystrokeThemeManager.GetTheme(themeName).Clone(themeName);
         _themeDirectory = Path.Combine(Paths.CustomKeystrokeThemes, themeName);
-        _savedCode = _workingTheme.ScriptSource ?? KeystrokeScriptTemplates.FromTheme(_workingTheme);
+        _savedCode = _workingTheme.GetXml();
 
         Title = $"{Strings.Ui_Keystrokes_Editor_Title} - {themeName}";
         TitleBarControl.Title = Title;
-        ReferenceView.Text = KeystrokeScriptTemplates.Reference;
+        ReferenceView.Text = KeystrokeXmlTemplates.Reference;
         CodeEditor.Text = _savedCode;
         PreviewHost.Content = _preview;
 
-        _preview.ScriptStateChanged += OnScriptStateChanged;
+        _preview.ThemeStateChanged += OnThemeStateChanged;
         _compileTimer.Tick += OnCompileTick;
         CodeEditor.TextChanged += OnCodeEditorTextChanged;
         CodeEditor.TextArea.Caret.PositionChanged += OnCaretPositionChanged;
@@ -54,7 +54,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         Closed -= OnWindowClosed;
         _compileTimer.Stop();
         _compileTimer.Tick -= OnCompileTick;
-        _preview.ScriptStateChanged -= OnScriptStateChanged;
+        _preview.ThemeStateChanged -= OnThemeStateChanged;
         CodeEditor.TextChanged -= OnCodeEditorTextChanged;
         CodeEditor.TextArea.Caret.PositionChanged -= OnCaretPositionChanged;
         _preview.Dispose();
@@ -78,7 +78,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         return _preview.Load(CodeEditor.Text, _themeDirectory);
     }
 
-    private void OnScriptStateChanged(string? error)
+    private void OnThemeStateChanged(string? error)
     {
         if (error == _lastError && StatusText.Tag != null)
             return;
@@ -161,11 +161,10 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             return;
         CodeEditor.Text = tag switch
         {
-            "Minimal" => KeystrokeScriptTemplates.Minimal,
-            "Mouse" => KeystrokeScriptTemplates.Mouse,
-            "Cps" => KeystrokeScriptTemplates.Cps,
-            "Animated" => KeystrokeScriptTemplates.Animated,
-            _ => KeystrokeScriptTemplates.Classic,
+            "Minimal" => KeystrokeXmlTemplates.Minimal,
+            "Mouse" => KeystrokeXmlTemplates.Mouse,
+            "Cps" => KeystrokeXmlTemplates.Cps,
+            _ => KeystrokeXmlTemplates.Classic,
         };
         CompileNow();
     }
@@ -184,7 +183,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         string destination = Path.Combine(_themeDirectory, fileName);
         if (!string.Equals(Path.GetFullPath(dialog.FileName), Path.GetFullPath(destination), StringComparison.OrdinalIgnoreCase))
             File.Copy(dialog.FileName, destination, true);
-        CodeEditor.Document.Insert(CodeEditor.CaretOffset, "\"" + fileName + "\"");
+        CodeEditor.Document.Insert(CodeEditor.CaretOffset, "\"theme://" + fileName + "\"");
     }
 
     private void OnOpenFolderClicked(object sender, RoutedEventArgs e)
@@ -203,7 +202,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
     private bool SaveCode()
     {
-        _workingTheme.ScriptSource = CodeEditor.Text;
+        _workingTheme.XmlSource = CodeEditor.Text;
         if (!KeystrokeThemeManager.SaveCustomTheme(_workingTheme))
             return false;
         _savedCode = CodeEditor.Text;
