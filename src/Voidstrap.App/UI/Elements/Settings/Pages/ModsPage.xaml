@@ -96,7 +96,7 @@
                 </StackPanel>
               </HeaderedContentControl.Header>
               <StackPanel>
-              <ui:CardExpander Margin="0,-8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+              <ui:CardExpander IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                 <HeaderedContentControl.Header>
                   <Grid>
                     <Grid.ColumnDefinitions>
