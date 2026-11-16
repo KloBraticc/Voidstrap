@@ -360,6 +360,12 @@ public partial class DiscordRichPresence : IDisposable
         RetryLater(sender);
     }
 
+    private void OnClientJoin(object sender, JoinMessage e)
+    {
+        if (!_disposed && ReferenceEquals(sender, _rpcClient))
+            DiscordInvites.HandleJoin(e);
+    }
+
     private void OnClientJoinRequested(object sender, JoinRequestMessage e)
     {
         if (!_disposed && DiscordInvites.Enabled && sender is DiscordRpcClient client && ReferenceEquals(client, _rpcClient))
@@ -397,6 +403,7 @@ public partial class DiscordRichPresence : IDisposable
             client.OnConnectionFailed += OnClientConnectionFailed;
             client.OnClose += OnClientClose;
             client.OnJoinRequested += OnClientJoinRequested;
+            client.OnJoin += OnClientJoin;
             DiscordInvites.Register(client);
             _rpcClient = client;
             try
@@ -429,6 +436,7 @@ public partial class DiscordRichPresence : IDisposable
         client.OnConnectionFailed -= OnClientConnectionFailed;
         client.OnClose -= OnClientClose;
         client.OnJoinRequested -= OnClientJoinRequested;
+        client.OnJoin -= OnClientJoin;
         DiscordIpc.Close(client);
     }
 

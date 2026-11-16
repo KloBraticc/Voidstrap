@@ -112,13 +112,13 @@ internal static class DiscordInvites
     {
         const string LOG_IDENT = "DiscordInvites::Register";
 
-        if (!Enabled || string.IsNullOrEmpty(Paths.Application))
+        if (!App.Settings.Prop.UseDiscordRichPresence || string.IsNullOrEmpty(Paths.Application))
             return;
         try
         {
             client.RegisterUriScheme(null, Paths.Application);
             WriteLaunchCommand();
-            client.Subscribe(EventType.JoinRequest);
+            client.Subscribe(Enabled ? EventType.Join | EventType.JoinRequest : EventType.Join);
         }
         catch (Exception ex)
         {
@@ -162,6 +162,29 @@ internal static class DiscordInvites
         }
     }
 
+    internal static void HandleJoin(JoinMessage message)
+    {
+        const string LOG_IDENT = "DiscordInvites::HandleJoin";
+
+        if (!TryParseSecret(message.Secret, out string link))
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Ignored a join with an invalid secret");
+            return;
+        }
+        try
+        {
+            ProcessStartInfo info = new(Paths.Application) { UseShellExecute = false };
+            info.ArgumentList.Add("-player");
+            info.ArgumentList.Add(link);
+            using Process? process = Process.Start(info);
+            App.Logger.WriteLine(LOG_IDENT, "Joining the invited server");
+        }
+        catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or IOException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Could not start the join: " + ex.Message);
+        }
+    }
+
     internal static void HandleJoinRequest(DiscordRpcClient client, JoinRequestMessage request)
     {
         _ = Task.Run(() =>
@@ -201,6 +224,7 @@ internal static class DiscordInvites
         try
         {
             client.RegisterUriScheme(null, Paths.Application);
+            WriteLaunchCommand();
             client.Subscribe(EventType.Join);
             client.Initialize();
             Task finished = await Task.WhenAny(result.Task, Task.Delay(JoinWaitTimeout)).ConfigureAwait(false);
