@@ -32,6 +32,25 @@ namespace Voidstrap.UI
                 typeof(GifImageBehavior),
                 new PropertyMetadata(null, OnSourcePathChanged));
 
+        public static readonly DependencyProperty AnimatedSourceProperty =
+            DependencyProperty.RegisterAttached(
+                "AnimatedSource",
+                typeof(string),
+                typeof(GifImageBehavior),
+                new PropertyMetadata(null, OnAnimatedSourceChanged));
+
+        public static string GetAnimatedSource(DependencyObject obj) => (string)obj.GetValue(AnimatedSourceProperty);
+
+        public static void SetAnimatedSource(DependencyObject obj, string value) => obj.SetValue(AnimatedSourceProperty, value);
+
+        private static void OnAnimatedSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is not Image image)
+                return;
+            string? path = e.NewValue as string;
+            SetFrames(image, string.IsNullOrEmpty(path) ? Array.Empty<(BitmapSource, int)>() : Voidstrap.Utility.AnimatedIcon.Load(path, 128));
+        }
+
         public static string GetSourcePath(DependencyObject obj) => (string)obj.GetValue(SourcePathProperty);
 
         public static void SetSourcePath(DependencyObject obj, string value) => obj.SetValue(SourcePathProperty, value);

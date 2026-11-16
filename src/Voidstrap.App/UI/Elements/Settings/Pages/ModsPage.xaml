@@ -96,7 +96,7 @@
                 <controls:OptionControl Header="{resources:Loc Ui_Mods_OverrideCursorImage}" Description="{resources:Loc Ui_Mods_OverrideCursorImageDescription}">
                   <StackPanel Orientation="Horizontal">
                     <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
-                      <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.OverridePreview}" />
+                      <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" platform:GifImageBehavior.AnimatedSource="{Binding CursorSettings.OverridePreviewPath}" />
                     </Border>
                     <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ChooseOverrideImageCommand}" />
                     <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.RemoveOverrideImageCommand}" Visibility="{Binding CursorSettings.HasOverrideImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -105,7 +105,7 @@
                 <controls:OptionControl Header="{resources:Loc Ui_Mods_OverrideHoverCursor}" Description="{resources:Loc Ui_Mods_OverrideHoverCursorDescription}">
                   <StackPanel Orientation="Horizontal">
                     <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
-                      <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.HoverPreview}" />
+                      <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" platform:GifImageBehavior.AnimatedSource="{Binding CursorSettings.HoverPreviewPath}" />
                     </Border>
                     <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ChooseHoverImageCommand}" />
                     <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.RemoveHoverImageCommand}" Visibility="{Binding CursorSettings.HasHoverImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -114,7 +114,7 @@
                 <controls:OptionControl Header="{resources:Loc Ui_Mods_OverrideClickCursor}" Description="{resources:Loc Ui_Mods_OverrideClickCursorDescription}">
                   <StackPanel Orientation="Horizontal">
                     <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
-                      <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.ClickPreview}" />
+                      <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" platform:GifImageBehavior.AnimatedSource="{Binding CursorSettings.ClickPreviewPath}" />
                     </Border>
                     <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ChooseClickImageCommand}" />
                     <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.RemoveClickImageCommand}" Visibility="{Binding CursorSettings.HasClickImage, Converter={StaticResource BooleanToVisibilityConverter}}" />

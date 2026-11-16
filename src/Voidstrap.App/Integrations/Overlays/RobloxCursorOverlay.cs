@@ -155,6 +155,24 @@ internal static partial class RobloxCursorOverlay
         public required CursorFrames Frames { get; init; }
 
         public required IntPtr[] Bitmaps { get; init; }
+
+        public int FrameAt(long elapsed)
+        {
+            int[] delays = Frames.Delays;
+            if (delays.Length < 2)
+                return 0;
+            long total = 0;
+            foreach (int delay in delays)
+                total += delay;
+            long position = elapsed % total;
+            for (int index = 0; index < delays.Length; index++)
+            {
+                if (position < delays[index])
+                    return index;
+                position -= delays[index];
+            }
+            return 0;
+        }
     }
 
     private sealed class OverlayThread
@@ -166,6 +184,7 @@ internal static partial class RobloxCursorOverlay
         private readonly Dictionary<IntPtr, int> _markers = new();
         private readonly int[] _markerFrames = new int[4];
         private IntPtr _screenDc;
+        private bool _presentFailureLogged;
 
         public OverlayThread(CursorFrames?[] sets)
         {
@@ -261,8 +280,8 @@ internal static partial class RobloxCursorOverlay
             int lastLeft = int.MinValue;
             int lastTop = int.MinValue;
             FrameSet? current = null;
-            int frame = 0;
-            long nextFrameAt = 0;
+            int frame = -1;
+            long started = Environment.TickCount64;
             BlendFunction blend = new BlendFunction { SourceConstantAlpha = 255, AlphaFormat = AcSrcAlpha };
             while (!token.IsCancellationRequested)
             {
@@ -271,23 +290,16 @@ internal static partial class RobloxCursorOverlay
                 if (state == PointerState.Visible)
                 {
                     FrameSet wanted = sets[(int)ResolveKind(cursor, sets)] ?? sets[0]!;
-                    bool resized = false;
-                    if (!ReferenceEquals(wanted, current))
+                    bool resized = !ReferenceEquals(wanted, current);
+                    int wantedFrame = wanted.FrameAt(Environment.TickCount64 - started);
+                    if (resized || wantedFrame != frame)
                     {
                         current = wanted;
-                        frame = 0;
-                        nextFrameAt = Environment.TickCount64 + current.Frames.Delays[0];
-                        Present(window, memoryDc, current, 0, blend, sized: true);
-                        resized = true;
+                        frame = wantedFrame;
+                        Present(window, memoryDc, current, frame, blend, resized);
                     }
-                    else if (current.Bitmaps.Length > 1 && Environment.TickCount64 >= nextFrameAt)
-                    {
-                        frame = (frame + 1) % current.Bitmaps.Length;
-                        nextFrameAt = Environment.TickCount64 + current.Frames.Delays[frame];
-                        Present(window, memoryDc, current, frame, blend, sized: false);
-                    }
-                    int left = x - current.Frames.HotspotX;
-                    int top = y - current.Frames.HotspotY;
+                    int left = x - wanted.Frames.HotspotX;
+                    int top = y - wanted.Frames.HotspotY;
                     if (!shown)
                     {
                         SetWindowPos(window, HwndTopmost, left, top, 0, 0, SwpNoSize | SwpNoActivate | SwpNoOwnerZOrder | SwpShowWindow);
@@ -316,14 +328,13 @@ internal static partial class RobloxCursorOverlay
         {
             SelectObject(memoryDc, set.Bitmaps[frame]);
             NativePoint origin = default;
-            if (sized)
+            NativeSize size = new NativeSize { Width = set.Frames.Width, Height = set.Frames.Height };
+            if (!sized && UpdateLayeredWindowContent(window, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, memoryDc, ref origin, 0, ref blend, UlwAlpha))
+                return;
+            if (!UpdateLayeredWindowSized(window, _screenDc, IntPtr.Zero, ref size, memoryDc, ref origin, 0, ref blend, UlwAlpha) && !_presentFailureLogged)
             {
-                NativeSize size = new NativeSize { Width = set.Frames.Width, Height = set.Frames.Height };
-                UpdateLayeredWindowSized(window, _screenDc, IntPtr.Zero, ref size, memoryDc, ref origin, 0, ref blend, UlwAlpha);
-            }
-            else
-            {
-                UpdateLayeredWindowContent(window, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, memoryDc, ref origin, 0, ref blend, UlwAlpha);
+                _presentFailureLogged = true;
+                App.Logger.WriteLine("RobloxCursorOverlay::Present", "Could not draw the cursor frame, error " + Marshal.GetLastPInvokeError());
             }
         }
 
@@ -663,7 +674,7 @@ internal static partial class RobloxCursorOverlay
     [LibraryImport("user32.dll", EntryPoint = "DispatchMessageW")]
     private static partial IntPtr DispatchMessageW(ref NativeMessage message);
 
-    [LibraryImport("user32.dll", EntryPoint = "UpdateLayeredWindow")]
+    [LibraryImport("user32.dll", EntryPoint = "UpdateLayeredWindow", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool UpdateLayeredWindowSized(
         IntPtr hwnd,
@@ -677,7 +688,7 @@ internal static partial class RobloxCursorOverlay
         uint flags
     );
 
-    [LibraryImport("user32.dll", EntryPoint = "UpdateLayeredWindow")]
+    [LibraryImport("user32.dll", EntryPoint = "UpdateLayeredWindow", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool UpdateLayeredWindowContent(
         IntPtr hwnd,

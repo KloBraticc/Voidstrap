@@ -147,17 +147,17 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 
     public bool IsStyleEditable => !CursorManager.OverrideActive;
 
-    public ImageSource? OverridePreview { get; private set; }
+    public string? OverridePreviewPath { get; private set; }
 
-    public bool HasOverrideImage => OverridePreview != null;
+    public bool HasOverrideImage => OverridePreviewPath != null;
 
-    public ImageSource? HoverPreview { get; private set; }
+    public string? HoverPreviewPath { get; private set; }
 
-    public bool HasHoverImage => HoverPreview != null;
+    public bool HasHoverImage => HoverPreviewPath != null;
 
-    public ImageSource? ClickPreview { get; private set; }
+    public string? ClickPreviewPath { get; private set; }
 
-    public bool HasClickImage => ClickPreview != null;
+    public bool HasClickImage => ClickPreviewPath != null;
 
     public double OverrideSize
     {
@@ -302,14 +302,21 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 
     private void RefreshOverridePreviews()
     {
-        OverridePreview = AnimatedIcon.LoadFirstFrame(CursorManager.OverrideImagePath(CursorOverrideKind.Normal), 64);
-        HoverPreview = AnimatedIcon.LoadFirstFrame(CursorManager.OverrideImagePath(CursorOverrideKind.Hover), 64);
-        ClickPreview = AnimatedIcon.LoadFirstFrame(CursorManager.OverrideImagePath(CursorOverrideKind.Click), 64);
-        OnPropertyChanged(nameof(OverridePreview));
+        OverridePreviewPath = HoverPreviewPath = ClickPreviewPath = null;
+        NotifyOverridePreviews();
+        OverridePreviewPath = CursorManager.OverrideImagePath(CursorOverrideKind.Normal);
+        HoverPreviewPath = CursorManager.OverrideImagePath(CursorOverrideKind.Hover);
+        ClickPreviewPath = CursorManager.OverrideImagePath(CursorOverrideKind.Click);
+        NotifyOverridePreviews();
+    }
+
+    private void NotifyOverridePreviews()
+    {
+        OnPropertyChanged(nameof(OverridePreviewPath));
         OnPropertyChanged(nameof(HasOverrideImage));
-        OnPropertyChanged(nameof(HoverPreview));
+        OnPropertyChanged(nameof(HoverPreviewPath));
         OnPropertyChanged(nameof(HasHoverImage));
-        OnPropertyChanged(nameof(ClickPreview));
+        OnPropertyChanged(nameof(ClickPreviewPath));
         OnPropertyChanged(nameof(HasClickImage));
     }
 
