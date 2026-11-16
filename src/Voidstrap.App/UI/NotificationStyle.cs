@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -81,7 +81,7 @@ internal static class NotificationStyle
     public static int Length(NotificationAppearance appearance, bool intro)
     {
         NotificationMotion motion = intro ? appearance.Intro : appearance.Outro;
-        if (motion == NotificationMotion.None || !SystemParameters.ClientAreaAnimation)
+        if (motion == NotificationMotion.None)
             return 0;
         return intro ? appearance.SafeIntroMilliseconds : appearance.SafeOutroMilliseconds;
     }
@@ -177,10 +177,11 @@ internal static class NotificationStyle
         (2, 1, 0x14), (4, 2, 0x10), (6, 3, 0x0D), (9, 4, 0x0A), (12, 6, 0x07), (16, 8, 0x04)
     };
 
-    public static void FillShadow(System.Windows.Controls.Panel host, CornerRadius corners)
+    public static void FillShadow(System.Windows.Controls.Panel host, CornerRadius corners, NotificationAppearance appearance)
     {
         host.Children.Clear();
         host.IsHitTestVisible = false;
+        host.Opacity = appearance.SafeBackgroundOpacity;
         foreach ((double spread, double drop, byte alpha) in Rings)
         {
             SolidColorBrush fill = new(Color.FromArgb(alpha, 0, 0, 0));
