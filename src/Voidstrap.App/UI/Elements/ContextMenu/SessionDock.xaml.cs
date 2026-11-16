@@ -655,7 +655,7 @@ public partial class SessionDock : Window
 
     private void AlignIslandToDock()
     {
-        OverlayDockSide side = CurrentSide;
+        OverlayDockSide side = VisualSide;
         if (side != OverlayDockSide.None)
         {
             bool left = side == OverlayDockSide.Left;
@@ -674,7 +674,7 @@ public partial class SessionDock : Window
 
     private static CustomPopupPlacement[] PlaceNowPlaying(Size popupSize, Size targetSize, Point offset)
     {
-        OverlayDockSide side = CurrentSide;
+        OverlayDockSide side = ActiveInstance?.VisualSide ?? CurrentSide;
         if (side != OverlayDockSide.None)
         {
             double x = side == OverlayDockSide.Left ? targetSize.Width - IslandDragRoom + 8 : -popupSize.Width + IslandDragRoom - 8;
@@ -1596,8 +1596,10 @@ public partial class SessionDock : Window
     private static OverlayDockSide CurrentSide =>
         App.Settings.Prop.OverlayLayout is { DockSideways: true } layout ? layout.DockSide : OverlayDockSide.None;
 
+    private OverlayDockSide VisualSide => _appliedSide ?? OverlayDockSide.None;
+
     private Point OffscreenPoint(Point target, RobloxWindowRect game) =>
-        CurrentSide switch
+        VisualSide switch
         {
             OverlayDockSide.Left => new Point(game.Left - Width, target.Y),
             OverlayDockSide.Right => new Point(game.Left + game.Width, target.Y),
@@ -1707,7 +1709,7 @@ public partial class SessionDock : Window
 
     private static CustomPopupPlacement[] PlaceToolTip(Size popupSize, Size targetSize, Point offset)
     {
-        OverlayDockSide side = CurrentSide;
+        OverlayDockSide side = ActiveInstance?.VisualSide ?? CurrentSide;
         if (side == OverlayDockSide.None)
             return Voidstrap.UI.OverlayToolTipPlacement.Above(popupSize, targetSize, offset);
         double top = (targetSize.Height - popupSize.Height) / 2;
@@ -2074,6 +2076,8 @@ public partial class SessionDock : Window
             HideDock();
             return;
         }
+        if (_appliedSide != CurrentSide)
+            RefreshLayoutLive();
         UpdateReadout();
         if (PopoutOpen && _popoutView == PopoutView.Server && _data is { } data && !_friendsRefreshing && DateTime.UtcNow - _friendsLoadedUtc >= FriendsInterval)
         {
@@ -2146,7 +2150,7 @@ public partial class SessionDock : Window
 
     private void DockScroll_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
     {
-        if (CurrentSide != OverlayDockSide.None)
+        if (VisualSide != OverlayDockSide.None)
         {
             if (DockScroll.ScrollableHeight <= 0)
                 return;
@@ -2162,7 +2166,7 @@ public partial class SessionDock : Window
 
     private void OnPillSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (CurrentSide == OverlayDockSide.None ? e.WidthChanged : e.HeightChanged)
+        if (VisualSide == OverlayDockSide.None ? e.WidthChanged : e.HeightChanged)
             QueueFitWidth();
     }
 
@@ -2366,6 +2370,7 @@ public partial class SessionDock : Window
             _popout.Content = view;
         GameChevron.Text = profile ? "\uE70E" : "\uE70D";
         ProfileChevron.Text = profile ? "\uE70D" : "\uE70E";
+        MarkOpenCard(profile ? ProfileCard : GameCard);
         UpdateReadout();
         bool wasVisible = _popout.IsVisible;
         try
@@ -2579,8 +2584,28 @@ public partial class SessionDock : Window
         }
     }
 
+    private double OpenCardTop()
+    {
+        Border card = _popoutView == PopoutView.Profile ? ProfileCard : GameCard;
+        if (!card.IsVisible || !card.IsDescendantOf(this))
+            return Pill.TransformToAncestor(this).Transform(new Point(0, 0)).Y;
+        return card.TransformToAncestor(this).Transform(new Point(0, 0)).Y;
+    }
+
+    private void MarkOpenCard(Border? open)
+    {
+        foreach (Border card in new[] { ProfileCard, GameCard })
+        {
+            if (ReferenceEquals(card, open))
+                card.SetResourceReference(Border.BackgroundProperty, "SubtleFillColorSecondaryBrush");
+            else
+                card.ClearValue(Border.BackgroundProperty);
+        }
+    }
+
     private void HidePopout()
     {
+        MarkOpenCard(null);
         GameChevron.Text = "\uE70E";
         ProfileChevron.Text = "\uE70E";
         if (_popout is { IsVisible: true } popout)
@@ -2620,7 +2645,7 @@ public partial class SessionDock : Window
         if (!PopoutOpen)
             return;
         bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
-        OverlayDockSide side = CurrentSide;
+        OverlayDockSide side = VisualSide;
         if (PortableOverlay.Active && _popout != null)
         {
             if (_linuxMotionActive)
@@ -2640,7 +2665,7 @@ public partial class SessionDock : Window
                 portableLeft = Math.Clamp(portableLeft, game.Left, game.Left + Math.Max(0, game.Width - portableWidth));
                 portableHeight = Math.Max(1, Math.Min(PopoutHeight, game.Height));
                 portableTop = Math.Clamp(
-                    Top + position.Top + (position.Height - portableHeight) / 2,
+                    Top + OpenCardTop() - 8,
                     game.Top,
                     game.Top + Math.Max(0, game.Height - portableHeight)
                 );
@@ -2684,13 +2709,14 @@ public partial class SessionDock : Window
             int right = rect.Left + (int)Math.Round(pill.Right * dpi.DpiScaleX);
             int sideGap = (int)Math.Round(PopoutGap * dpi.DpiScaleX);
             int sideWidth = (int)Math.Ceiling(SidePopoutWidth * dpi.DpiScaleX);
-            int sideY = top + (bottom - top - height) / 2;
+            int cardTop = rect.Top + (int)Math.Round((OpenCardTop() - 8) * dpi.DpiScaleY);
+            int sideY = cardTop;
             if (RobloxWindowTracker.Current is { Valid: true } sideGame)
             {
                 int room = onLeft ? sideGame.Left + sideGame.Width - right - sideGap : left - sideGap - sideGame.Left;
                 sideWidth = Math.Max(1, Math.Min(sideWidth, room));
                 height = Math.Min(height, Math.Max(1, sideGame.Height));
-                sideY = Math.Clamp(top + (bottom - top - height) / 2, sideGame.Top, sideGame.Top + Math.Max(0, sideGame.Height - height));
+                sideY = Math.Clamp(cardTop, sideGame.Top, sideGame.Top + Math.Max(0, sideGame.Height - height));
             }
             _popoutX = onLeft ? right + sideGap : left - sideGap - sideWidth;
             if (RobloxWindowTracker.Current is { Valid: true } clampGame)

@@ -688,18 +688,17 @@ public partial class SessionOverlayLayoutEditor : Window
         }
         else if (layer == OverlayStudioLayer.Dock)
         {
-            double minX = 6;
-            if (layout.DockSideways)
+            if (SessionLiveOverlayCanvasWindow.DragDock(layout, pointer, nextLeft, nextTop, elemW, elemH, stageW, stageH, 6, true))
             {
-                double maxY = Math.Max(minX + 1, stageH - elemH - 6);
-                layout.DockHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextTop - minX) / (maxY - minX) * 100.0, 0, 100)));
-                layout.DockSide = (nextLeft + elemW * 0.5) < stageW * 0.5 ? OverlayDockSide.Left : OverlayDockSide.Right;
-            }
-            else
-            {
-                double maxX = Math.Max(minX + 1, stageW - elemW - 6);
-                layout.DockHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100)));
-                layout.DockTopEdge = (nextTop + elemH * 0.5) < stageH * 0.45;
+                LayoutStagePreview();
+                _stageDragStartPointer = pointer;
+                double movedLeft = Canvas.GetLeft(box);
+                double movedTop = Canvas.GetTop(box);
+                _stageDragStartOrigin = new Point(double.IsNaN(movedLeft) ? 0 : movedLeft, double.IsNaN(movedTop) ? 0 : movedTop);
+                SessionDock.ActiveInstance?.RefreshLayoutLive();
+                UpdateValueLabels();
+                e.Handled = true;
+                return;
             }
         }
         else if (layer == OverlayStudioLayer.Crosshair)
@@ -940,16 +939,7 @@ public partial class SessionOverlayLayoutEditor : Window
         }
         else if (_selectedLayer == OverlayStudioLayer.Dock)
         {
-            if (layout.DockSideways)
-            {
-                layout.DockHorizontal = anchorY;
-                layout.DockSide = anchorX < 50 ? OverlayDockSide.Left : OverlayDockSide.Right;
-            }
-            else
-            {
-                layout.DockHorizontal = anchorX;
-                layout.DockTopEdge = anchorY < 50;
-            }
+            SessionLiveOverlayCanvasWindow.AnchorDock(layout, anchorX, anchorY);
             SessionDock.ActiveInstance?.RefreshLayoutLive();
         }
         else if (_selectedLayer == OverlayStudioLayer.Crosshair)

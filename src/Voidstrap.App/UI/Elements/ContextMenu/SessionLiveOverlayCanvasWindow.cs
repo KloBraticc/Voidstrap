@@ -1647,17 +1647,14 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         }
         else if (layer == OverlayStudioLayer.Dock)
         {
-            double minX = 12;
-            bool sideways = layout.DockSideways;
-            double maxX = Math.Max(minX + 1, (sideways ? stageH - elemH : stageW - elemW) - 12);
-            double pctX = Math.Clamp(((sideways ? nextTop : nextLeft) - minX) / (maxX - minX) * 100.0, 0, 100);
-            if (_magneticSnap)
-                pctX = SnapPercent(pctX);
-            layout.DockHorizontal = Math.Round(pctX);
-            if (sideways)
-                layout.DockSide = (nextLeft + elemW * 0.5) < stageW * 0.5 ? OverlayDockSide.Left : OverlayDockSide.Right;
-            else
-                layout.DockTopEdge = (nextTop + elemH * 0.5) < stageH * 0.45;
+            if (DragDock(layout, pointer, nextLeft, nextTop, elemW, elemH, stageW, stageH, 12, _magneticSnap))
+            {
+                ApplyLayerLive(layer);
+                LayoutStage();
+                RestartDrag(box, pointer);
+                e.Handled = true;
+                return;
+            }
         }
         else if (layer == OverlayStudioLayer.Crosshair)
         {
@@ -1737,6 +1734,95 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         _toolbar.Opacity = 1.0;
         _toolbar.IsHitTestVisible = true;
         LayoutStage();
+    }
+
+    private void RestartDrag(Border box, Point pointer)
+    {
+        _dragStartPointer = pointer;
+        double left = Canvas.GetLeft(box);
+        double top = Canvas.GetTop(box);
+        _dragStartElementOrigin = new Point(double.IsNaN(left) ? 0 : left, double.IsNaN(top) ? 0 : top);
+    }
+
+    internal static bool DragDock(
+        OverlayLayoutSettings layout,
+        Point pointer,
+        double nextLeft,
+        double nextTop,
+        double elemW,
+        double elemH,
+        double stageW,
+        double stageH,
+        double margin,
+        bool snap
+    )
+    {
+        bool wasSideways = layout.DockSideways;
+        double cx = Math.Clamp(pointer.X / Math.Max(1, stageW), 0, 1);
+        double cy = Math.Clamp(pointer.Y / Math.Max(1, stageH), 0, 1);
+        double current = layout.DockSide switch
+        {
+            OverlayDockSide.Left when wasSideways => cx,
+            OverlayDockSide.Right when wasSideways => 1 - cx,
+            _ => layout.DockTopEdge ? cy : 1 - cy,
+        };
+        (double Distance, OverlayDockSide Side, bool Top)[] edges =
+        [
+            (cx, OverlayDockSide.Left, false),
+            (1 - cx, OverlayDockSide.Right, false),
+            (cy, OverlayDockSide.None, true),
+            (1 - cy, OverlayDockSide.None, false),
+        ];
+        (double Distance, OverlayDockSide Side, bool Top) nearest = edges[0];
+        foreach (var edge in edges)
+        {
+            if (edge.Distance < nearest.Distance)
+                nearest = edge;
+        }
+        if (nearest.Distance < current - 0.08)
+        {
+            layout.DockSide = nearest.Side;
+            if (nearest.Side == OverlayDockSide.None)
+                layout.DockTopEdge = nearest.Top;
+        }
+        bool sideways = layout.DockSideways;
+        bool flipped = sideways != wasSideways;
+        double length = sideways ? (flipped ? elemW : elemH) : (flipped ? elemH : elemW);
+        double along = sideways
+            ? (flipped ? pointer.Y - length * 0.5 : nextTop)
+            : (flipped ? pointer.X - length * 0.5 : nextLeft);
+        double max = Math.Max(margin + 1, (sideways ? stageH : stageW) - length - margin);
+        double percent = Math.Clamp((along - margin) / (max - margin) * 100.0, 0, 100);
+        if (snap)
+            percent = SnapPercent(percent);
+        layout.DockHorizontal = Math.Round(percent);
+        return flipped;
+    }
+
+    internal static void AnchorDock(OverlayLayoutSettings layout, double anchorX, double anchorY)
+    {
+        bool middleRow = Math.Abs(anchorY - 50) < 0.5;
+        bool middleColumn = Math.Abs(anchorX - 50) < 0.5;
+        if (middleRow && !middleColumn)
+        {
+            layout.DockSide = anchorX < 50 ? OverlayDockSide.Left : OverlayDockSide.Right;
+            layout.DockHorizontal = 50;
+            return;
+        }
+        if (layout.DockSideways && !middleColumn)
+        {
+            layout.DockSide = anchorX < 50 ? OverlayDockSide.Left : OverlayDockSide.Right;
+            layout.DockHorizontal = anchorY;
+            return;
+        }
+        if (middleRow)
+        {
+            layout.DockHorizontal = 50;
+            return;
+        }
+        layout.DockSide = OverlayDockSide.None;
+        layout.DockTopEdge = anchorY < 50;
+        layout.DockHorizontal = anchorX;
     }
 
     private static double SnapPercent(double value)
