@@ -645,9 +645,44 @@ namespace Voidstrap.Integrations.Overlays
                 return false;
             if (!IsWindow(roblox) || !IsWindowVisible(roblox) || IsIconic(roblox))
                 return false;
+            if (IsShellWindow(foreground))
+                return false;
             if (DwmGetWindowAttribute(foreground, DwmwaCloaked, out int cloaked, sizeof(int)) == 0 && cloaked != 0)
                 return true;
             return IsOverlayCovering(foreground, roblox);
+        }
+
+        private static readonly string[] ShellWindowClasses =
+        [
+            "Shell_TrayWnd",
+            "Shell_SecondaryTrayWnd",
+            "XamlExplorerHostIslandWindow",
+            "MultitaskingViewFrame",
+            "TaskSwitcherWnd",
+            "TaskListThumbnailWnd",
+            "ForegroundStaging",
+            "NotifyIconOverflowWindow",
+            "TopLevelWindowForOverflowXamlIsland",
+            "Windows.UI.Core.CoreWindow",
+            "Shell_InputSwitchTopLevelWindow",
+            "Progman",
+            "WorkerW",
+        ];
+
+        [ThreadStatic]
+        private static char[]? _shellClassName;
+
+        private static bool IsShellWindow(IntPtr hwnd)
+        {
+            char[] buffer = _shellClassName ??= new char[64];
+            int length = Math.Clamp(GetClassName(hwnd, buffer, buffer.Length), 0, buffer.Length);
+            ReadOnlySpan<char> name = buffer.AsSpan(0, length);
+            foreach (string shellClass in ShellWindowClasses)
+            {
+                if (name.SequenceEqual(shellClass))
+                    return true;
+            }
+            return false;
         }
 
         private static bool IsOverlayCovering(IntPtr foreground, IntPtr roblox)
