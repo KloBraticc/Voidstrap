@@ -59,7 +59,7 @@ public sealed class OverlayLayoutSettings
     public double SafeReadoutScale => Clamp(ReadoutScale, 0.70, 1.50, DefaultReadoutScale);
 
     [JsonIgnore]
-    public double SafeReadoutOpacity => Clamp(ReadoutOpacity, 0.35, 1.0, DefaultReadoutOpacity);
+    public double SafeReadoutOpacity => Clamp(ReadoutOpacity, 0.0, 1.0, DefaultReadoutOpacity);
 
     [JsonIgnore]
     public double SafeReadoutCornerRadius => Clamp(ReadoutCornerRadius, 0, 20, DefaultReadoutCornerRadius);

@@ -352,7 +352,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
 
         int radius = (int)Math.Round(layout.SafeReadoutCornerRadius);
         readoutBorder.CornerRadius = new CornerRadius(radius);
-        readoutBorder.Opacity = layout.SafeReadoutOpacity;
+        OverlayWindow.ApplyReadoutBackground(readoutBorder, layout.SafeReadoutOpacity);
 
         double totalScale = layout.SafeReadoutScale * stageScale;
         readoutBorder.LayoutTransform =

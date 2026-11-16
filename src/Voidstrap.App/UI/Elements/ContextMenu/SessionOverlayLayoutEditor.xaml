@@ -367,7 +367,7 @@
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{resources:Loc Ui_Appearance_Background}" Style="{StaticResource Label}" />
-                <Slider x:Name="ReadoutOpacitySlider" Grid.Column="1" Minimum="35" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
+                <Slider x:Name="ReadoutOpacitySlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
                 <TextBlock x:Name="ReadoutOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
             </Border>
@@ -596,7 +596,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_Appearance_Background}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc ColorPicker_Opacity}" Style="{StaticResource Label}" />
                 <Slider x:Name="CrosshairOpacitySlider" Grid.Column="1" Minimum="10" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
                 <TextBlock x:Name="CrosshairOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>

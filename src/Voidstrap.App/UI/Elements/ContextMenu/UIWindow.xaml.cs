@@ -235,6 +235,23 @@ namespace Voidstrap.UI.Elements.Overlay
             return (left, top);
         }
 
+        internal static void ApplyReadoutBackground(Border border, double opacity)
+        {
+            Color fill = Voidstrap.Utility.Platform.UsesLinuxHost
+                ? Color.FromRgb(12, 13, 16)
+                : border.TryFindResource("SolidBackgroundFillColorBaseBrush") is SolidColorBrush surface ? surface.Color : Color.FromRgb(25, 28, 36);
+            Color stroke = border.TryFindResource("SurfaceStrokeColorDefaultBrush") is SolidColorBrush edge ? edge.Color : Color.FromRgb(54, 59, 72);
+            border.Background = CreateReadoutBrush(fill, opacity);
+            border.BorderBrush = CreateReadoutBrush(stroke, opacity);
+        }
+
+        private static SolidColorBrush CreateReadoutBrush(Color color, double opacity)
+        {
+            SolidColorBrush brush = new(color) { Opacity = opacity };
+            brush.Freeze();
+            return brush;
+        }
+
         public void RefreshConfiguration()
         {
             if (_disposed)
@@ -260,7 +277,7 @@ namespace Voidstrap.UI.Elements.Overlay
             int radius = (int)Math.Round(layout.SafeReadoutCornerRadius);
             _appliedCornerRadius = radius;
             _readoutBorder.CornerRadius = new CornerRadius(radius);
-            _readoutBorder.Opacity = layout.SafeReadoutOpacity;
+            ApplyReadoutBackground(_readoutBorder, layout.SafeReadoutOpacity);
 
             if (_showTime)
             {
