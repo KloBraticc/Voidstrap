@@ -19,7 +19,7 @@
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <controls:OptionControl Grid.Column="0" Header="{resources:Loc Common_Shortcuts_Desktop}">
+      <controls:OptionControl Grid.Column="0" Margin="0,0,8,0" Header="{resources:Loc Common_Shortcuts_Desktop}">
         <ui:ToggleSwitch IsChecked="{Binding DesktopIconTask.NewState, Mode=TwoWay}" />
       </controls:OptionControl>
       <controls:OptionControl x:Name="StartMenuOption" Grid.Column="1" Header="{resources:Loc Common_Shortcuts_StartMenu}">
