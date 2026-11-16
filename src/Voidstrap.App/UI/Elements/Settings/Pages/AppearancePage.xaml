@@ -19,7 +19,7 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#app-theme" Margin="0,0,0,8" Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#app-theme" Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
                 <StackPanel Orientation="Horizontal">
                   <Border Width="56" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
                   <ui:Button Content="{resources:Loc Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" IsEnabled="{Binding AccentGradientDisabled}" Margin="0,0,6,0" />
