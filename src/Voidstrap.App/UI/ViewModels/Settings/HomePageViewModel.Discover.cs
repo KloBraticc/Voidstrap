@@ -196,6 +196,9 @@ namespace Voidstrap.UI.ViewModels.Pages
                     .ToList();
                 List<DiscoverGameEntry> featuredCandidates = (topPlaying.Count > 0 ? topPlaying : fallback)
                     .Where(game => !game.Name.Contains("Brookhaven", StringComparison.OrdinalIgnoreCase))
+                    .GroupBy(game => game.UniverseId)
+                    .Select(group => group.First())
+                    .OrderByDescending(game => game.Players)
                     .Take(FeaturedCandidateLimit)
                     .ToList();
 
@@ -226,28 +229,24 @@ namespace Voidstrap.UI.ViewModels.Pages
                     foreach (DiscoverGameEntry game in picks)
                         Recommended.Add(game);
                     OnPropertyChanged(nameof(RecommendedVisibility));
-                    if (FeaturedGame == null && featuredCandidates.Count > 0)
-                        FeaturedGame = featuredCandidates[0];
                 });
 
-                long cachedFeatured = _discoverCache?.Featured?.UniverseId ?? 0;
-                foreach (DiscoverGameEntry candidate in featuredCandidates.OrderByDescending(game => game.UniverseId == cachedFeatured))
+                DiscoverGameEntry? featured = featuredCandidates.FirstOrDefault();
+                string? video = featured == null ? null : await GameVideoStore.GetLocalVideoAsync(featured.UniverseId, CancellationToken.None).ConfigureAwait(false);
+                if (string.IsNullOrEmpty(video))
+                    video = null;
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    string? video = await GameVideoStore.GetLocalVideoAsync(candidate.UniverseId, CancellationToken.None).ConfigureAwait(false);
-                    if (string.IsNullOrEmpty(video))
-                        continue;
-                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    if (featured != null && FeaturedGame?.UniverseId != featured.UniverseId)
                     {
-                        if (FeaturedGame?.UniverseId != candidate.UniverseId)
-                            FeaturedGame = candidate;
-                        if (FeaturedVideoPath != video)
-                            FeaturedVideoPath = video;
-                    });
-                    SaveDiscover(new DiscoverCache(ToCache(candidate), video, picks.Select(ToCache).ToList()));
-                    return;
-                }
-                App.Logger.WriteLine(LOG_IDENT, "None of the top games has a trailer video");
-                SaveDiscover(new DiscoverCache(featuredCandidates.Count > 0 ? ToCache(featuredCandidates[0]) : null, null, picks.Select(ToCache).ToList()));
+                        App.Logger.WriteLine(LOG_IDENT, "Most played game is now " + featured.Name + " with " + featured.Players + " players");
+                    }
+                    if (featured != null)
+                        FeaturedGame = featured;
+                    if (FeaturedVideoPath != video)
+                        FeaturedVideoPath = video;
+                });
+                SaveDiscover(new DiscoverCache(featured != null ? ToCache(featured) : null, video, picks.Select(ToCache).ToList()));
             }
             finally
             {
