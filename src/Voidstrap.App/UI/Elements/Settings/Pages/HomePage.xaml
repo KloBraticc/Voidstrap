@@ -545,8 +545,8 @@
                                             <TextBlock Text="{Binding FeaturedGame.LikePercent}" FontSize="13" Foreground="#DDFFFFFF" Margin="5,-2,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-                                            <ui:Button Appearance="Primary" Icon="Play24" Padding="22,8" FontWeight="SemiBold" Content="{resources:Loc Ui_Home_Play}" Command="{Binding PlayDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
-                                            <ui:Button Margin="8,0,0,0" Icon="Open24" Padding="12,8" Appearance="Secondary" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding OpenDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
+                                            <ui:Button x:Name="FeaturedPlayButton" Appearance="Primary" Icon="Play24" Padding="22,8" FontWeight="SemiBold" Content="{resources:Loc Ui_Home_Play}" Command="{Binding PlayDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
+                                            <ui:Button Margin="8,0,0,0" Icon="Open24" Padding="0" Width="{Binding ActualHeight, ElementName=FeaturedPlayButton}" Height="{Binding ActualHeight, ElementName=FeaturedPlayButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#33FFFFFF" BorderBrush="#40FFFFFF" BorderThickness="1" Foreground="White" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding OpenDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
