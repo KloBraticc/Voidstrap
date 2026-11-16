@@ -382,11 +382,32 @@
           <ui:Button ToolTip="{resources:Loc Ui_SessionNotify_ServerDetails}" Tag="details" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE968;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
+          <ui:Button ToolTip="{resources:Loc Ui_Session_CommunityRating}" Tag="reviews" Click="OnAction" Style="{StaticResource DockIcon}">
+            <TextBlock Text="&#xE734;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
           <ui:Button x:Name="WebButton" ToolTip="{resources:Loc Ui_Session_Browser}" Tag="web" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE774;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button x:Name="ClipsButton" ToolTip="{resources:Loc Ui_Clipper_Title}" Tag="clips" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE714;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
+          <ui:Button ToolTip="{resources:Loc Ui_OverlayStudio_ShowServerLocation}" Tag="quick:location" Click="OnAction" Style="{StaticResource DockIcon}" Visibility="Collapsed">
+            <TextBlock Text="&#xE707;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
+          <ui:Button ToolTip="{resources:Loc Ui_OverlayStudio_ShowClock}" Tag="quick:clock" Click="OnAction" Style="{StaticResource DockIcon}" Visibility="Collapsed">
+            <TextBlock Text="&#xE823;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
+          <ui:Button ToolTip="{resources:Loc Ui_OverlayStudio_EnableCrosshair}" Tag="quick:crosshair" Click="OnAction" Style="{StaticResource DockIcon}" Visibility="Collapsed">
+            <TextBlock Text="&#xE710;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
+          <ui:Button ToolTip="{resources:Loc Ui_Keystrokes_Title}" Tag="quick:keystrokes" Click="OnAction" Style="{StaticResource DockIcon}" Visibility="Collapsed">
+            <TextBlock Text="&#xE765;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
+          <ui:Button ToolTip="{resources:Loc Ui_SessionNotify_DockNews_Title}" Tag="quick:news" Click="OnAction" Style="{StaticResource DockIcon}" Visibility="Collapsed">
+            <TextBlock Text="&#xE8A5;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
+          <ui:Button ToolTip="{resources:Loc Ui_MusicIsland_Title}" Tag="quick:music" Click="OnAction" Style="{StaticResource DockIcon}" Visibility="Collapsed">
+            <TextBlock Text="&#xE768;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button ToolTip="{resources:Loc Ui_Session_OverlayLayout}" Tag="layout" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE759;" Style="{StaticResource DockGlyph}" />

@@ -10135,4 +10135,7 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>အိုဗာလေး ပိတ်သည့်အခါ ဆက်လက်လုပ်ဆောင်ပါ</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>ဤအရာကို ဖွင့်ရန် သို့မဟုတ် ပိတ်ရန် ခလုတ်တစ်ခုကို စက်ရှင် ဒေါ့ခ်တွင် ထည့်ပေးသည်။</value>
+  </data>
 </root>

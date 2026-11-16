@@ -10136,4 +10136,7 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Weiderlafen, wann den Overlay zougemaach gëtt</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Setzt e Knäppchen an d'Sessiounsleescht, dat dëst an oder aus schalt.</value>
+  </data>
 </root>

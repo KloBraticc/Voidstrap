@@ -10136,4 +10136,7 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Komeza gukora igihe overlay ifunze</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Yongera buto ku murongo w'isomo ifungura cyangwa ifunga ibi.</value>
+  </data>
 </root>

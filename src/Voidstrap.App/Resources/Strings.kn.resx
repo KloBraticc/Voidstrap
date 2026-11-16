@@ -10136,4 +10136,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ಓವರ್‌ಲೇ ಮುಚ್ಚಿದಾಗಲೂ ಚಾಲನೆಯಲ್ಲಿಡಿ</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>ಇದನ್ನು ಆನ್ ಅಥವಾ ಆಫ್ ಮಾಡುವ ಬಟನ್ ಅನ್ನು ಸೆಷನ್ ಡಾಕ್‌ಗೆ ಸೇರಿಸುತ್ತದೆ.</value>
+  </data>
 </root>

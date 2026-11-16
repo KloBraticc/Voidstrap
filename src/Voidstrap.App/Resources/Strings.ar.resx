@@ -10447,4 +10447,7 @@
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>استمر في العمل عند إغلاق الواجهة</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>يضيف زرًا إلى شريط الجلسة يشغّل هذا الخيار أو يوقفه.</value>
+  </data>
 </root>

@@ -10136,4 +10136,7 @@ Uptime: {1}
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>გააგრძელოს მუშაობა გადაფარვის დახურვისას</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>სესიის პანელს უმატებს ღილაკს, რომელიც ამას რთავს ან თიშავს.</value>
+  </data>
 </root>

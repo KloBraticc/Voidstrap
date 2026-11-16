@@ -10136,4 +10136,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ओव्हरले बंद झाल्यावरही चालू ठेवा</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>हे चालू किंवा बंद करणारे बटण सेशन डॉकमध्ये जोडते.</value>
+  </data>
 </root>

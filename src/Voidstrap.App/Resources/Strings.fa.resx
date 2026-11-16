@@ -10450,4 +10450,7 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>هنگام بسته شدن لایه رویی به کار ادامه بده</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>دکمه‌ای به نوار جلسه اضافه می‌کند که این را روشن یا خاموش می‌کند.</value>
+  </data>
 </root>

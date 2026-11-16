@@ -10136,4 +10136,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>اوورلي بند ٿيڻ تي به هلندو رک</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>سيشن ڊاڪ ۾ هڪ بٽڻ شامل ڪري ٿو جيڪو هن کي چالو يا بند ڪري ٿو.</value>
+  </data>
 </root>

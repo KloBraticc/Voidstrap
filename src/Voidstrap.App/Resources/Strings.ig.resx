@@ -10136,4 +10136,7 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Gaa n'ihu na-arụ ọrụ mgbe overlay mechiri</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Na-agbakwunye bọtịnụ na dock nnọkọ nke na-agbanye ma ọ bụ na-agbanyụ nke a.</value>
+  </data>
 </root>

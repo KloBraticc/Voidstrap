@@ -10448,4 +10448,7 @@ SteamVR jetzt installieren?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Weiterlaufen, wenn das Overlay geschlossen wird</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Fügt dem Sitzungsdock eine Schaltfläche hinzu, mit der du das ein oder ausschaltest.</value>
+  </data>
 </root>

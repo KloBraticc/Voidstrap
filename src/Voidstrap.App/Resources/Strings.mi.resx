@@ -10136,4 +10136,7 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Rere tonu ina kati te papatahi</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Ka tāpiri he pātene ki te tauranga wātū hei whakakā, hei whakaweto rānei i tēnei.</value>
+  </data>
 </root>

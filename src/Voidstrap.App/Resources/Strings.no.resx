@@ -10136,4 +10136,7 @@ Installer SteamVR nå?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Fortsett å kjøre når overlegget lukkes</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Legger til en knapp i øktdokken som slår dette på eller av.</value>
+  </data>
 </root>

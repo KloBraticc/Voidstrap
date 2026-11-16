@@ -10136,4 +10136,7 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Давхарга хаагдахад үргэлжлүүлэн ажиллах</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Үүнийг асаах эсвэл унтраах товчийг сешний самбарт нэмнэ.</value>
+  </data>
 </root>

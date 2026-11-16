@@ -10136,4 +10136,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ओवरले बंद होने पर भी चालू रखें</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>सेशन डॉक में एक बटन जोड़ता है जो इसे चालू या बंद करता है।</value>
+  </data>
 </root>

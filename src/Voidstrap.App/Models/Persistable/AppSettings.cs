@@ -337,6 +337,18 @@ namespace Voidstrap.Models.Persistable
 
         public bool SessionDockSpotify { get; set; } = true;
 
+        public bool DockToggleServerLocation { get; set; }
+
+        public bool DockToggleClock { get; set; }
+
+        public bool DockToggleCrosshair { get; set; }
+
+        public bool DockToggleKeystrokes { get; set; }
+
+        public bool DockToggleNews { get; set; }
+
+        public bool DockToggleMusicIsland { get; set; }
+
         public bool ScreenshotNotifications { get; set; } = true;
 
         public NotificationAppearance NotificationAppearance { get; set; } = new();

@@ -10136,4 +10136,7 @@ Instalar SteamVR agora?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Seguir en execución ao pechar a superposición</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Engade á barra da sesión un botón que activa ou desactiva isto.</value>
+  </data>
 </root>

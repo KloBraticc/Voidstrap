@@ -197,6 +197,7 @@ public partial class SessionDock : Window
         if (!Voidstrap.Utility.Platform.IsWindows)
             WebButton.Visibility = Visibility.Collapsed;
         ClipsButton.Visibility = App.Settings.Prop.ClipperEnabled ? Visibility.Visible : Visibility.Collapsed;
+        ApplyQuickToggleVisibility();
         Voidstrap.Integrations.Clipper.ClipperService.StateChanged += OnClipperStateChanged;
         FitWidth();
         DetachServerPanel();
@@ -787,7 +788,9 @@ public partial class SessionDock : Window
         {
             if (child is not Wpf.Ui.Controls.Button { Tag: string action } button)
                 continue;
-            bool open = _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? panel) && panel.IsRequested;
+            bool open = IsQuickAction(action)
+                ? QuickState(action[QuickPrefix.Length..])
+                : _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? panel) && panel.IsRequested;
             Wpf.Ui.Common.ControlAppearance appearance = open
                 ? Wpf.Ui.Common.ControlAppearance.Primary
                 : Wpf.Ui.Common.ControlAppearance.Transparent;
@@ -2952,6 +2955,11 @@ public partial class SessionDock : Window
         if (action == "close")
         {
             CloseDock();
+            return;
+        }
+        if (IsQuickAction(action))
+        {
+            RunQuickToggle(action);
             return;
         }
         // A highlighted button closes its open panel again, like toggling a tab

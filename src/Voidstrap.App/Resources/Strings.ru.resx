@@ -10448,4 +10448,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Продолжать работу после закрытия оверлея</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Добавляет на панель сеанса кнопку, которая включает или выключает эту функцию.</value>
+  </data>
 </root>

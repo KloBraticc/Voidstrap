@@ -10135,4 +10135,7 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>اوورلے بند ہونے پر بھی چلتا رکھیں</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>سیشن ڈاک میں ایک بٹن شامل کرتا ہے جو اسے آن یا آف کرتا ہے۔</value>
+  </data>
 </root>

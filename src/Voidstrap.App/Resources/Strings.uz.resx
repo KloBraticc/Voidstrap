@@ -10135,4 +10135,7 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Overley yopilganda ishlashda davom etsin</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Seans paneliga buni yoqadigan yoki o'chiradigan tugma qo'shadi.</value>
+  </data>
 </root>

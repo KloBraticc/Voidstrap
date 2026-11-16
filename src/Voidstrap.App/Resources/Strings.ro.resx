@@ -10450,4 +10450,7 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Continuă să ruleze când se închide suprapunerea</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Adaugă în bara sesiunii un buton care pornește sau oprește această opțiune.</value>
+  </data>
 </root>

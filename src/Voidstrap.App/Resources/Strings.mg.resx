@@ -10136,4 +10136,7 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Tohizo ny fandehanana rehefa mikatona ny overlay</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Manampy bokotra amin'ny tsipiky ny fivoriana izay mampandeha na mamono ity.</value>
+  </data>
 </root>

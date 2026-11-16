@@ -10136,4 +10136,7 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Ponechať spustené po zatvorení prekrytia</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Pridá na panel relácie tlačidlo, ktoré túto funkciu zapne alebo vypne.</value>
+  </data>
 </root>

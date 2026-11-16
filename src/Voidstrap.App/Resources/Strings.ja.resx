@@ -10463,4 +10463,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>オーバーレイを閉じても実行を続けます</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>これをオンまたはオフにするボタンをセッションドックに追加します。</value>
+  </data>
 </root>

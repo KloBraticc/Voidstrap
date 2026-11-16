@@ -10450,4 +10450,7 @@ SteamVR nu installeren?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Blijven draaien wanneer de overlay sluit</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Voegt een knop aan het sessiedock toe waarmee je dit aan of uit zet.</value>
+  </data>
 </root>

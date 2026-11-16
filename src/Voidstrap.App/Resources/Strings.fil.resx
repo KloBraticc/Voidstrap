@@ -10446,4 +10446,7 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Patuloy na tumakbo kapag nagsara ang overlay</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Nagdadagdag ng button sa session dock na nagbubukas o nagsasara nito.</value>
+  </data>
 </root>

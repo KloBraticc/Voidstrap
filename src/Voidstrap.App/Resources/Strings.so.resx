@@ -10136,4 +10136,7 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Sii shaqee marka overlay la xiro</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Waxay ku daraysaa badhan qalabka fadhiga oo tan shidaya ama damisa.</value>
+  </data>
 </root>

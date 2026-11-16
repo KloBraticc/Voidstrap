@@ -10135,4 +10135,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Συνέχιση λειτουργίας όταν κλείνει η επικάλυψη</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Προσθέτει ένα κουμπί στη μπάρα της συνεδρίας που το ενεργοποιεί ή το απενεργοποιεί.</value>
+  </data>
 </root>

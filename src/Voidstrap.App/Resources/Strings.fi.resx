@@ -10449,4 +10449,7 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Jatka toimintaa, kun peittokuva suljetaan</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Lisää istuntotelakkaan painikkeen, jolla tämän voi ottaa käyttöön tai pois käytöstä.</value>
+  </data>
 </root>

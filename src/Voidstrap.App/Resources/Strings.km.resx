@@ -10136,4 +10136,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>បន្តដំណើរការនៅពេលផ្ទាំងត្រួតបិទ</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>បន្ថែមប៊ូតុងទៅរបារសម័យ ដែលបើក ឬបិទមុខងារនេះ។</value>
+  </data>
 </root>

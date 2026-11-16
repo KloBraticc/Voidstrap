@@ -10135,4 +10135,7 @@ Faka i-SteamVR ngoku?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Qhubeka usebenza xa i-overlay ivalwa</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Yongeza iqhosha kwi dock yeseshoni elivula okanye elicima oku.</value>
+  </data>
 </root>

@@ -10135,4 +10135,7 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Continua en marxa quan es tanca la superposició</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Afegeix un botó a la barra de la sessió que ho activa o ho desactiva.</value>
+  </data>
 </root>

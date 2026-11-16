@@ -10136,4 +10136,7 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ਓਵਰਲੇ ਬੰਦ ਹੋਣ 'ਤੇ ਵੀ ਚੱਲਦਾ ਰੱਖੋ</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>ਸੈਸ਼ਨ ਡੌਕ ਵਿੱਚ ਇੱਕ ਬਟਨ ਜੋੜਦਾ ਹੈ ਜੋ ਇਸਨੂੰ ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰਦਾ ਹੈ।</value>
+  </data>
 </root>

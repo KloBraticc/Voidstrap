@@ -10136,4 +10136,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ເຮັດວຽກຕໍ່ເມື່ອໂອເວີເລປິດ</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>ເພີ່ມປຸ່ມໃສ່ແຖບເຊດຊັນທີ່ເປີດ ຫຼື ປິດສິ່ງນີ້.</value>
+  </data>
 </root>

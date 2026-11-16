@@ -10448,4 +10448,7 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Fusson tovább, amikor az átfedés bezárul</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Gombot ad a munkamenet dokkhoz, amellyel ezt be vagy ki kapcsolhatod.</value>
+  </data>
 </root>

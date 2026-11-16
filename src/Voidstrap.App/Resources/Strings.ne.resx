@@ -10136,4 +10136,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ओभरले बन्द हुँदा पनि चलिरहोस्</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>यसलाई खोल्ने वा बन्द गर्ने बटन सत्र डकमा थप्छ।</value>
+  </data>
 </root>

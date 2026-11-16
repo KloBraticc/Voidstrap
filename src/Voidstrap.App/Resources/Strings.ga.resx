@@ -10136,4 +10136,7 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Lean ar aghaidh ag rith nuair a dhúntar an forleagan</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Cuireann sé cnaipe le duga an tseisiúin a chasann é seo air nó as.</value>
+  </data>
 </root>

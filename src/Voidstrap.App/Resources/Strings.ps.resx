@@ -10136,4 +10136,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>کله چې پوښ وتړل شي چلېدل جاري وساتئ</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>د ناستې ډاک ته یوه تڼۍ ورزیاتوي چې دا چالانوي یا بندوي.</value>
+  </data>
 </root>

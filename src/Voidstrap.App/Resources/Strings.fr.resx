@@ -10447,4 +10447,7 @@ Installer SteamVR maintenant ?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Continuer à fonctionner à la fermeture de la superposition</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Ajoute à la barre de session un bouton qui active ou désactive cette option.</value>
+  </data>
 </root>

@@ -10451,4 +10451,7 @@ Installare SteamVR adesso?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Continua a funzionare quando l'overlay si chiude</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Aggiunge alla barra della sessione un pulsante che attiva o disattiva questa opzione.</value>
+  </data>
 </root>

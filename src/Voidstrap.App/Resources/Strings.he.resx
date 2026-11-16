@@ -10136,4 +10136,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>להמשיך לפעול כשהשכבה נסגרת</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>מוסיף לסרגל הסשן כפתור שמפעיל או מכבה את זה.</value>
+  </data>
 </root>

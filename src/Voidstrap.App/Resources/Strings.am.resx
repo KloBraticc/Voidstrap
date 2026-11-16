@@ -10135,4 +10135,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ተደራቢው ሲዘጋ መስራቱን ቀጥል</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>ይህን የሚያበራ ወይም የሚያጠፋ አዝራር ወደ የክፍለ ጊዜ መትከያው ያክላል።</value>
+  </data>
 </root>

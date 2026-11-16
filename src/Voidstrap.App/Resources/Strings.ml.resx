@@ -10136,4 +10136,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ഓവർലേ അടയ്ക്കുമ്പോഴും പ്രവർത്തനം തുടരുക</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>ഇത് ഓൺ അല്ലെങ്കിൽ ഓഫ് ചെയ്യുന്ന ഒരു ബട്ടൺ സെഷൻ ഡോക്കിൽ ചേർക്കുന്നു.</value>
+  </data>
 </root>

@@ -10136,4 +10136,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ଓଭରଲେ ବନ୍ଦ ହେଲେ ମଧ୍ୟ ଚାଲୁ ରଖନ୍ତୁ</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>ସେସନ ଡକରେ ଏକ ବଟନ ଯୋଗ କରେ ଯାହା ଏହାକୁ ଚାଲୁ କିମ୍ବା ବନ୍ଦ କରେ।</value>
+  </data>
 </root>

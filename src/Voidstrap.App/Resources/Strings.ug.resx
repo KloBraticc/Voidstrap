@@ -10135,4 +10135,7 @@ Uptime: {1}
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>قاپلىما تاقالغاندا ئىجرانى داۋاملاشتۇر</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>ئولتۇرۇش تاختىسىغا بۇنى ئاچىدىغان ياكى تاقايدىغان كۇنۇپكا قوشىدۇ.</value>
+  </data>
 </root>

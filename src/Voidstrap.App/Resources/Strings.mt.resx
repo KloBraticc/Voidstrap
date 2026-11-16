@@ -10136,4 +10136,7 @@ Installa SteamVR issa?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Kompli aħdem meta jingħalaq l-overlay</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Iżżid buttuna mal-bar tas-sessjoni li tixgħel jew titfi dan.</value>
+  </data>
 </root>

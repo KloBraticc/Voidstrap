@@ -1235,7 +1235,7 @@ public partial class SessionOverlayLayoutEditor : Window
         catch { }
     }
 
-    private static void SyncCrosshairIni()
+    internal static void SyncCrosshairIni()
     {
         try
         {

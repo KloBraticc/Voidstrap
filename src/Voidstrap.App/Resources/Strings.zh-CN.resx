@@ -10472,4 +10472,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>关闭叠加层后继续运行</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>在会话栏中添加一个按钮,用于开启或关闭此功能。</value>
+  </data>
 </root>

@@ -10446,4 +10446,7 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Katman kapandığında çalışmaya devam et</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Oturum çubuğuna bunu açıp kapatan bir düğme ekler.</value>
+  </data>
 </root>

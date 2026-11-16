@@ -10136,4 +10136,7 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Ci gaba da aiki idan an rufe overlay</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Yana ƙara maɓalli a mashigin zama wanda ke kunna ko kashe wannan.</value>
+  </data>
 </root>

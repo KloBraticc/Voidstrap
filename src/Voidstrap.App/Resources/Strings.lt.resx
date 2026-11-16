@@ -10450,4 +10450,7 @@ Veikimo laikas: {1}
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Toliau veikti, kai perdanga uždaroma</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Prideda prie seanso juostos mygtuką, kuriuo tai įjungiate arba išjungiate.</value>
+  </data>
 </root>

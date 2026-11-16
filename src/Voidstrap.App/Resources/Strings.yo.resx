@@ -10135,4 +10135,7 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Máa ṣiṣẹ́ lọ nígbà tí overlay bá ti pa</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Ó ń fi bọ́tìnnì kún ọ̀pá ìpàdé tí ó ń tan tàbí pa èyí.</value>
+  </data>
 </root>

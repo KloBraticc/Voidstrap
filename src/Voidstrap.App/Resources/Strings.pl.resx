@@ -10449,4 +10449,7 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Działaj dalej po zamknięciu nakładki</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Dodaje do paska sesji przycisk, który włącza lub wyłącza tę opcję.</value>
+  </data>
 </root>

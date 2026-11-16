@@ -10136,4 +10136,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Настави са радом када се преклоп затвори</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Додаје дугме на траку сесије које ово укључује или искључује.</value>
+  </data>
 </root>

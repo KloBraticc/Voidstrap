@@ -10136,4 +10136,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Շարունակել աշխատել, երբ վերադրումը փակվում է</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Սեսիայի վահանակին ավելացնում է կոճակ, որը միացնում կամ անջատում է սա։</value>
+  </data>
 </root>

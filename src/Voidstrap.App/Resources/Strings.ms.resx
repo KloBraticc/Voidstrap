@@ -10440,4 +10440,7 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Terus berjalan apabila tindanan ditutup</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Menambah butang pada dok sesi yang menghidupkan atau mematikan ciri ini.</value>
+  </data>
 </root>

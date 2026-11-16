@@ -10135,4 +10135,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ஓவர்லே மூடப்படும்போதும் தொடர்ந்து இயங்கு</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>இதை இயக்க அல்லது அணைக்கும் பொத்தானை அமர்வு டாக்கில் சேர்க்கும்.</value>
+  </data>
 </root>

@@ -10136,4 +10136,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>උඩැතිරිය වැසූ විටත් දිගටම ක්‍රියාත්මක වන්න</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>මෙය සක්‍රිය හෝ අක්‍රිය කරන බොත්තමක් සැසි ඩොක් එකට එක් කරයි.</value>
+  </data>
 </root>

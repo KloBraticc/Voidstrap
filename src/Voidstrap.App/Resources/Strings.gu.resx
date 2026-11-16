@@ -10136,4 +10136,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ઓવરલે બંધ થાય ત્યારે ચાલુ રાખો</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>સત્ર ડૉકમાં એક બટન ઉમેરે છે જે આને ચાલુ અથવા બંધ કરે છે.</value>
+  </data>
 </root>

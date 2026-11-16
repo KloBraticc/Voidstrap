@@ -10447,4 +10447,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>오버레이를 닫아도 계속 실행합니다</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>이 기능을 켜거나 끄는 버튼을 세션 도크에 추가합니다.</value>
+  </data>
 </root>

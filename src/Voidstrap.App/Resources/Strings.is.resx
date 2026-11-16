@@ -10136,4 +10136,7 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Halda áfram að keyra þegar yfirlagið lokast</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Bætir hnappi við lotustikuna sem kveikir eða slekkur á þessu.</value>
+  </data>
 </root>

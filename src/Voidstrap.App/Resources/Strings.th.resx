@@ -10443,4 +10443,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ทำงานต่อเมื่อปิดโอเวอร์เลย์</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>เพิ่มปุ่มลงในแถบเซสชันที่ใช้เปิดหรือปิดตัวเลือกนี้</value>
+  </data>
 </root>

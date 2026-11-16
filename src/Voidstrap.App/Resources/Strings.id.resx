@@ -10451,4 +10451,7 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Tetap berjalan saat overlay ditutup</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Menambahkan tombol ke dok sesi yang menyalakan atau mematikan ini.</value>
+  </data>
 </root>

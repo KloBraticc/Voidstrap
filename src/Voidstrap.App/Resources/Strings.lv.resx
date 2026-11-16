@@ -10136,4 +10136,7 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Turpināt darbību, kad pārklājums tiek aizvērts</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Pievieno sesijas joslai pogu, kas to ieslēdz vai izslēdz.</value>
+  </data>
 </root>

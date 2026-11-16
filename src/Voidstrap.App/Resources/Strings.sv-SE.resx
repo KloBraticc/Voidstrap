@@ -10448,4 +10448,7 @@ Installera SteamVR nu?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Fortsätt köra när överlägget stängs</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Lägger till en knapp i sessionsdockan som slår på eller av detta.</value>
+  </data>
 </root>

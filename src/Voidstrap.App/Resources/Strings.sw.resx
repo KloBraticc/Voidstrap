@@ -10135,4 +10135,7 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Endelea kufanya kazi wakati overlay inafungwa</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Huongeza kitufe kwenye upau wa kipindi kinachowasha au kuzima hiki.</value>
+  </data>
 </root>

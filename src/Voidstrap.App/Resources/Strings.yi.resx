@@ -10135,4 +10135,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ווייטער לויפן ווען דער איבערלייג ווערט פארמאכט</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>לייגט צו אַ קנעפּל צום סעסיע דאָק וואָס צינדט אָן אָדער לעשט אויס דאָס.</value>
+  </data>
 </root>

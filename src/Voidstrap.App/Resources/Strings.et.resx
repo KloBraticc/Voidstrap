@@ -10135,4 +10135,7 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Jätka töötamist, kui ülekate sulgub</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Lisab seansi dokki nupu, mis lülitab selle sisse või välja.</value>
+  </data>
 </root>

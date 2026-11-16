@@ -26,9 +26,29 @@
             </StackPanel>
           </Grid>
         </HeaderedContentControl.Header>
-        <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_Mods_SessionDockSpotify_Title}" Description="{resources:Loc Ui_Mods_SessionDockSpotify_Description}" IsEnabled="{Binding SessionDockEnabled}">
-          <ui:ToggleSwitch IsChecked="{Binding SessionDockSpotify, Mode=TwoWay}" />
-        </controls:OptionControl>
+        <StackPanel>
+          <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_Mods_SessionDockSpotify_Title}" Description="{resources:Loc Ui_Mods_SessionDockSpotify_Description}" IsEnabled="{Binding SessionDockEnabled}">
+            <ui:ToggleSwitch IsChecked="{Binding SessionDockSpotify, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_OverlayStudio_ShowServerLocation}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
+            <ui:ToggleSwitch IsChecked="{Binding DockToggleServerLocation, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_OverlayStudio_ShowClock}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
+            <ui:ToggleSwitch IsChecked="{Binding DockToggleClock, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_OverlayStudio_EnableCrosshair}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
+            <ui:ToggleSwitch IsChecked="{Binding DockToggleCrosshair, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_Title}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
+            <ui:ToggleSwitch IsChecked="{Binding DockToggleKeystrokes, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_SessionNotify_DockNews_Title}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
+            <ui:ToggleSwitch IsChecked="{Binding DockToggleNews, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_MusicIsland_Title}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
+            <ui:ToggleSwitch IsChecked="{Binding DockToggleMusicIsland, Mode=TwoWay}" />
+          </controls:OptionControl>
+        </StackPanel>
       </ui:CardExpander>
 
       <ui:CardExpander Margin="0,8,0,0" IsExpanded="{Binding MusicIslandOverlay, Mode=OneWay}">

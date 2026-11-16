@@ -10135,4 +10135,7 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Örtük bağlananda işləməyə davam et</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Sessiya panelinə bunu açıb bağlayan düymə əlavə edir.</value>
+  </data>
 </root>

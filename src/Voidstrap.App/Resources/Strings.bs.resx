@@ -10135,4 +10135,7 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Nastavi raditi kada se preklop zatvori</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Dodaje dugme na traku sesije koje ovo uključuje ili isključuje.</value>
+  </data>
 </root>

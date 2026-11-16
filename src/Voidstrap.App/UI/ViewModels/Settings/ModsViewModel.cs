@@ -1176,6 +1176,90 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public bool DockToggleServerLocation
+    {
+        get => App.Settings.Prop.DockToggleServerLocation;
+        set
+        {
+            if (App.Settings.Prop.DockToggleServerLocation == value)
+                return;
+            App.Settings.Prop.DockToggleServerLocation = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DockToggleServerLocation));
+            Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.RefreshQuickToggles();
+        }
+    }
+
+    public bool DockToggleClock
+    {
+        get => App.Settings.Prop.DockToggleClock;
+        set
+        {
+            if (App.Settings.Prop.DockToggleClock == value)
+                return;
+            App.Settings.Prop.DockToggleClock = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DockToggleClock));
+            Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.RefreshQuickToggles();
+        }
+    }
+
+    public bool DockToggleCrosshair
+    {
+        get => App.Settings.Prop.DockToggleCrosshair;
+        set
+        {
+            if (App.Settings.Prop.DockToggleCrosshair == value)
+                return;
+            App.Settings.Prop.DockToggleCrosshair = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DockToggleCrosshair));
+            Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.RefreshQuickToggles();
+        }
+    }
+
+    public bool DockToggleKeystrokes
+    {
+        get => App.Settings.Prop.DockToggleKeystrokes;
+        set
+        {
+            if (App.Settings.Prop.DockToggleKeystrokes == value)
+                return;
+            App.Settings.Prop.DockToggleKeystrokes = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DockToggleKeystrokes));
+            Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.RefreshQuickToggles();
+        }
+    }
+
+    public bool DockToggleNews
+    {
+        get => App.Settings.Prop.DockToggleNews;
+        set
+        {
+            if (App.Settings.Prop.DockToggleNews == value)
+                return;
+            App.Settings.Prop.DockToggleNews = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DockToggleNews));
+            Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.RefreshQuickToggles();
+        }
+    }
+
+    public bool DockToggleMusicIsland
+    {
+        get => App.Settings.Prop.DockToggleMusicIsland;
+        set
+        {
+            if (App.Settings.Prop.DockToggleMusicIsland == value)
+                return;
+            App.Settings.Prop.DockToggleMusicIsland = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DockToggleMusicIsland));
+            Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.RefreshQuickToggles();
+        }
+    }
+
     public bool MusicIslandOverlay
     {
         get => App.Settings.Prop.MusicIslandOverlay;

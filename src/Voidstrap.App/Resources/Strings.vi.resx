@@ -10451,4 +10451,7 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Tiếp tục chạy khi lớp phủ đóng</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Thêm vào thanh phiên một nút để bật hoặc tắt tính năng này.</value>
+  </data>
 </root>

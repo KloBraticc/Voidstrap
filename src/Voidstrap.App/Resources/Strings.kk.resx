@@ -10136,4 +10136,7 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Оверлей жабылғанда жұмысын жалғастыру</value>
   </data>
+  <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
+    <value>Сеанс панеліне мұны қосатын немесе өшіретін түйме қосады.</value>
+  </data>
 </root>
