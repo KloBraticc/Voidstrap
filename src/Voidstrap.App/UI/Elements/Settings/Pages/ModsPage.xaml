@@ -151,7 +151,7 @@
                 </StackPanel>
               </ui:CardExpander>
               <StackPanel IsEnabled="{Binding CursorSettings.IsStyleEditable}">
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/mods/#built-in-mods" Margin="0,8,0,0" Header="{resources:Loc Ui_Mods_CursorStyle}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/mods/#built-in-mods" Header="{resources:Loc Ui_Mods_CursorStyle}">
                 <ComboBox Width="240" Padding="10,5,10,5" ItemsSource="{Binding CursorSettings.Styles, Mode=OneTime}" SelectedItem="{Binding CursorSettings.SelectedStyle, Mode=TwoWay}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
