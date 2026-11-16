@@ -42,12 +42,12 @@ public static class SpotifyNowPlaying
         SpotifyDesktopTrack? app = await ReadAppAsync();
         SpotifyDesktopTrack? desktop = await SpotifyDesktopSession.ReadAsync(null);
         SpotifyDesktopTrack? chosen;
-        if (app is { Playing: true })
-            chosen = app;
-        else if (desktop is { Playing: true })
+        if (desktop is { Playing: true })
             chosen = desktop;
+        else if (app is { Playing: true })
+            chosen = app;
         else if (app != null && desktop != null)
-            chosen = _fromApp ? app : desktop;
+            chosen = _fromApp && app.Title != desktop.Title ? app : desktop;
         else
             chosen = app ?? desktop;
         _lastTrack = chosen;

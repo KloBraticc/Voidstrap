@@ -32,7 +32,7 @@ public static class SpotifyDesktopSession
 
     private static readonly ObjectPath MprisPath = new("/org/mpris/MediaPlayer2");
 
-    private static readonly string[] SpotifyClients = ["ncspot", "psst", "spot", "spotube", "librespot"];
+    private static readonly string[] SpotifyClients = ["ncspot", "psst", "spot", "spotube", "spotifast", "librespot"];
 
     private static readonly TimeSpan BusTimeout = TimeSpan.FromSeconds(2);
 
@@ -264,7 +264,7 @@ public static class SpotifyDesktopSession
         int dot = client.IndexOf('.');
         if (dot >= 0)
             client = client[..dot];
-        return client.Contains("spotify", StringComparison.OrdinalIgnoreCase)
+        return client.Contains("spoti", StringComparison.OrdinalIgnoreCase)
             || SpotifyClients.Contains(client, StringComparer.OrdinalIgnoreCase);
     }
 
@@ -358,11 +358,30 @@ public static class SpotifyDesktopSession
 
     private static byte[]? _coverBytes;
 
+    private static string? _followedApp;
+
     private static async Task<GlobalSystemMediaTransportControlsSession?> FindAsync()
     {
         _manager ??= await GlobalSystemMediaTransportControlsSessionManager.RequestAsync().AsTask().ConfigureAwait(false);
-        GlobalSystemMediaTransportControlsSession[] sessions = [.. _manager.GetSessions().Where(static session => session.SourceAppUserModelId.Contains("Spotify", StringComparison.OrdinalIgnoreCase))];
-        return sessions.FirstOrDefault(static session => session.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing) ?? sessions.FirstOrDefault();
+        GlobalSystemMediaTransportControlsSession[] sessions = [.. _manager.GetSessions().Where(static session => IsSpotifyApp(session.SourceAppUserModelId))];
+        GlobalSystemMediaTransportControlsSession? chosen =
+            sessions.FirstOrDefault(static session => session.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+            ?? sessions.FirstOrDefault(static session => session.SourceAppUserModelId == _followedApp)
+            ?? sessions.FirstOrDefault();
+        if (chosen != null && chosen.SourceAppUserModelId != _followedApp)
+        {
+            _followedApp = chosen.SourceAppUserModelId;
+            App.Logger.WriteLine(LOG_IDENT, "Following the desktop player " + _followedApp);
+        }
+        return chosen;
+    }
+
+    private static bool IsSpotifyApp(string? appId) => appId != null && appId.Contains("spoti", StringComparison.OrdinalIgnoreCase);
+
+    private static void ReportRefused(GlobalSystemMediaTransportControlsSession session, string command, bool accepted)
+    {
+        if (!accepted)
+            App.Logger.WriteLine(LOG_IDENT, "The desktop player " + session.SourceAppUserModelId + " refused the " + command + " command");
     }
 
     public static async Task<SpotifyDesktopTrack?> ReadAsync(string? knownTitle)
@@ -418,7 +437,7 @@ public static class SpotifyDesktopSession
         {
             GlobalSystemMediaTransportControlsSession? session = await FindAsync().ConfigureAwait(false);
             if (session != null)
-                await (next ? session.TrySkipNextAsync() : session.TrySkipPreviousAsync()).AsTask().ConfigureAwait(false);
+                ReportRefused(session, next ? "next track" : "previous track", await (next ? session.TrySkipNextAsync() : session.TrySkipPreviousAsync()).AsTask().ConfigureAwait(false));
         }
         catch (Exception ex)
         {
@@ -432,7 +451,7 @@ public static class SpotifyDesktopSession
         {
             GlobalSystemMediaTransportControlsSession? session = await FindAsync().ConfigureAwait(false);
             if (session != null)
-                await session.TryTogglePlayPauseAsync().AsTask().ConfigureAwait(false);
+                ReportRefused(session, "play pause", await session.TryTogglePlayPauseAsync().AsTask().ConfigureAwait(false));
         }
         catch (Exception ex)
         {
