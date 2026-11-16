@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Text.RegularExpressions;
 using System.Windows.Threading;
 using Voidstrap.UI.Elements.Settings;
@@ -19,12 +20,29 @@ namespace Voidstrap.UI.Elements.Controls
 
         private const double TargetTile = 180;
 
+        private const double TileRadius = 10;
+
         public static readonly DependencyProperty TileSizeProperty = DependencyProperty.Register(nameof(TileSize), typeof(double), typeof(LibraryGamesControl), new PropertyMetadata(TargetTile));
+
+        public static readonly DependencyProperty TileClipProperty = DependencyProperty.Register(nameof(TileClip), typeof(Geometry), typeof(LibraryGamesControl), new PropertyMetadata(CreateTileClip(TargetTile)));
 
         public double TileSize
         {
             get => (double)GetValue(TileSizeProperty);
             set => SetValue(TileSizeProperty, value);
+        }
+
+        public Geometry TileClip
+        {
+            get => (Geometry)GetValue(TileClipProperty);
+            set => SetValue(TileClipProperty, value);
+        }
+
+        private static Geometry CreateTileClip(double size)
+        {
+            RectangleGeometry clip = new(new Rect(0, 0, size, size), TileRadius, TileRadius);
+            clip.Freeze();
+            return clip;
         }
 
         private readonly ObservableCollection<DiscoverGameEntry> _games = new();
@@ -117,7 +135,11 @@ namespace Voidstrap.UI.Elements.Controls
             if (width <= 0)
                 return;
             int columns = Math.Max(1, (int)Math.Floor(width / (TargetTile + TileGap)));
-            TileSize = Math.Floor(width / columns - TileGap);
+            double size = Math.Floor(width / columns - TileGap);
+            if (size == TileSize)
+                return;
+            TileSize = size;
+            TileClip = CreateTileClip(size);
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -155,8 +177,26 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void SortBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_lastGames != null)
+            if (_lastGames == null)
+                return;
+            if (_games.Count != _lastGames.Count)
+            {
                 Show(_lastGames, _lastQuery);
+                return;
+            }
+            _showVersion++;
+            List<DiscoverGameEntry> ordered = Sorted(_lastGames).ToList();
+            for (int i = 0; i < ordered.Count; i++)
+            {
+                int current = _games.IndexOf(ordered[i]);
+                if (current < 0)
+                {
+                    Show(_lastGames, _lastQuery);
+                    return;
+                }
+                if (current != i)
+                    _games.Move(current, i);
+            }
         }
 
         private static long ParsePlaceId(string query)
@@ -290,9 +330,9 @@ namespace Voidstrap.UI.Elements.Controls
         private void More_Click(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            if (sender is not Button button || GameOf(sender) is not DiscoverGameEntry game)
+            if (GameOf(sender) is not DiscoverGameEntry game)
                 return;
-            System.Windows.Controls.ContextMenu menu = new() { PlacementTarget = button, DataContext = game };
+            System.Windows.Controls.ContextMenu menu = new() { PlacementTarget = this, DataContext = game };
             AddItem(menu, Strings.Ui_Pages_Play, Wpf.Ui.Common.SymbolRegular.Play24, "play");
             AddItem(menu, Strings.Ui_Mods_Details, Wpf.Ui.Common.SymbolRegular.Info24, "details");
             AddItem(menu, Strings.ContextMenu_GameBrowser_Favorites, Wpf.Ui.Common.SymbolRegular.Heart24, "favorite");

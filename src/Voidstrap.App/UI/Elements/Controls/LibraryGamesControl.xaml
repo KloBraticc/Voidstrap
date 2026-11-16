@@ -21,6 +21,30 @@
         </Setter.Value>
       </Setter>
     </Style>
+    <DataTemplate x:Key="TileOverlayTemplate">
+      <Border>
+        <Border.Background>
+          <LinearGradientBrush StartPoint="1,0" EndPoint="0,0.6">
+            <GradientStop Color="#66000000" Offset="0" />
+            <GradientStop Color="#00000000" Offset="1" />
+          </LinearGradientBrush>
+        </Border.Background>
+        <StackPanel Margin="0,8,8,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Vertical">
+          <Button Style="{StaticResource TileActionButton}" Click="Favorite_Click" ToolTip="{resources:Loc ContextMenu_GameBrowser_Favorites}">
+            <ui:SymbolIcon Symbol="Heart24" FontSize="14" Filled="{Binding IsFavorite}" />
+          </Button>
+          <Button Style="{StaticResource TileActionButton}" Click="Play_Click" ToolTip="{resources:Loc Ui_Pages_Play}">
+            <ui:SymbolIcon Symbol="Play24" FontSize="14" Filled="True" />
+          </Button>
+          <Button Style="{StaticResource TileActionButton}" Click="View_Click" ToolTip="{resources:Loc Ui_Mods_View}">
+            <ui:SymbolIcon Symbol="Eye24" FontSize="14" />
+          </Button>
+          <Button Style="{StaticResource TileActionButton}" Click="More_Click" ToolTip="{resources:Loc Ui_Nav_More}">
+            <ui:SymbolIcon Symbol="MoreHorizontal24" FontSize="14" />
+          </Button>
+        </StackPanel>
+      </Border>
+    </DataTemplate>
     <DataTemplate x:Key="GameTileTemplate">
       <Grid x:Name="Tile" Width="{Binding TileSize, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="0,0,14,18" Background="Transparent" Cursor="Hand" MouseLeftButtonUp="Tile_Click">
         <Grid.RowDefinitions>
@@ -28,38 +52,10 @@
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border CornerRadius="10" Background="{DynamicResource ControlFillColorDefaultBrush}">
-          <Border.OpacityMask>
-            <VisualBrush>
-              <VisualBrush.Visual>
-                <Border Width="100" Height="100" CornerRadius="6" Background="Black" />
-              </VisualBrush.Visual>
-            </VisualBrush>
-          </Border.OpacityMask>
+        <Border CornerRadius="10" Background="{DynamicResource ControlFillColorDefaultBrush}" Clip="{Binding TileClip, RelativeSource={RelativeSource AncestorType=UserControl}}">
           <Grid>
             <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl}" />
-            <Border x:Name="Overlay" Opacity="0" IsHitTestVisible="False">
-              <Border.Background>
-                <LinearGradientBrush StartPoint="1,0" EndPoint="0,0.6">
-                  <GradientStop Color="#66000000" Offset="0" />
-                  <GradientStop Color="#00000000" Offset="1" />
-                </LinearGradientBrush>
-              </Border.Background>
-              <StackPanel Margin="0,8,8,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Vertical">
-                <Button Style="{StaticResource TileActionButton}" Click="Favorite_Click" ToolTip="{resources:Loc ContextMenu_GameBrowser_Favorites}">
-                  <ui:SymbolIcon Symbol="Heart24" FontSize="14" Filled="{Binding IsFavorite}" />
-                </Button>
-                <Button Style="{StaticResource TileActionButton}" Click="Play_Click" ToolTip="{resources:Loc Ui_Pages_Play}">
-                  <ui:SymbolIcon Symbol="Play24" FontSize="14" Filled="True" />
-                </Button>
-                <Button Style="{StaticResource TileActionButton}" Click="View_Click" ToolTip="{resources:Loc Ui_Mods_View}">
-                  <ui:SymbolIcon Symbol="Eye24" FontSize="14" />
-                </Button>
-                <Button Style="{StaticResource TileActionButton}" Click="More_Click" ToolTip="{resources:Loc Ui_Nav_More}">
-                  <ui:SymbolIcon Symbol="MoreHorizontal24" FontSize="14" />
-                </Button>
-              </StackPanel>
-            </Border>
+            <ContentControl x:Name="Overlay" Focusable="False" />
           </Grid>
         </Border>
         <TextBlock Grid.Row="1" Margin="2,8,2,0" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
@@ -72,8 +68,8 @@
       </Grid>
       <DataTemplate.Triggers>
         <Trigger SourceName="Tile" Property="IsMouseOver" Value="True">
-          <Setter TargetName="Overlay" Property="Opacity" Value="1" />
-          <Setter TargetName="Overlay" Property="IsHitTestVisible" Value="True" />
+          <Setter TargetName="Overlay" Property="ContentTemplate" Value="{StaticResource TileOverlayTemplate}" />
+          <Setter TargetName="Overlay" Property="Content" Value="{Binding}" />
         </Trigger>
       </DataTemplate.Triggers>
     </DataTemplate>
