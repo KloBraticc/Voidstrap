@@ -23,6 +23,23 @@ internal static partial class SystemAccent
 
     private static Color? _appliedColor;
 
+    private static string? _appliedGradient;
+
+    private static readonly string[] GradientBrushKeys =
+    [
+        "SystemAccentBrush",
+        "SystemAccentColorBrush",
+        "SystemAccentColorPrimaryBrush",
+        "SystemAccentColorSecondaryBrush",
+        "SystemAccentColorTertiaryBrush",
+        "SystemFillColorAttentionBrush",
+        "AccentFillColorDefaultBrush",
+        "AccentFillColorSecondaryBrush",
+        "AccentFillColorTertiaryBrush",
+        "AccentFillColorPrimaryBrush",
+        "RinPrimaryColorBrush",
+    ];
+
     private static Wpf.Ui.Appearance.ThemeType? _appliedTheme;
 
     private static int _refreshPending;
@@ -92,19 +109,23 @@ internal static partial class SystemAccent
         {
             Wpf.Ui.Appearance.ThemeType theme = Wpf.Ui.Appearance.Theme.GetAppTheme();
             Color color = Get();
-            if (_appliedColor != color || _appliedTheme != theme || application.Resources["SystemAccentColor"] is not Color current || current != color)
+            string? gradient = TryGetGradient(out ThemeGradient? stops) ? App.Settings.Prop.CustomAccentGradient : null;
+            if (_appliedColor != color || _appliedGradient != gradient || _appliedTheme != theme || application.Resources["SystemAccentColor"] is not Color current || current != color || (gradient != null && application.Resources["SystemAccentBrush"] is not GradientBrush))
             {
                 Wpf.Ui.Appearance.Accent.Apply(color, theme == Wpf.Ui.Appearance.ThemeType.Light ? Wpf.Ui.Appearance.ThemeType.Light : Wpf.Ui.Appearance.ThemeType.Dark);
                 Color fill = ResolveFill(application);
                 SolidColorBrush fillBrush = new SolidColorBrush(fill);
                 fillBrush.Freeze();
-                SolidColorBrush textBrush = new SolidColorBrush(ReadableOn(fill));
+                SolidColorBrush textBrush = new SolidColorBrush(ReadableOn(stops != null ? Average(stops, color, fill) : fill));
                 textBrush.Freeze();
                 application.Resources["AccentFillColorPrimary"] = fill;
                 application.Resources["AccentFillColorPrimaryBrush"] = fillBrush;
                 application.Resources["TextOnAccentFillColorPrimary"] = textBrush.Color;
                 application.Resources["TextOnAccentFillColorPrimaryBrush"] = textBrush;
+                if (stops != null)
+                    ApplyGradient(application, color, stops);
                 _appliedColor = color;
+                _appliedGradient = gradient;
                 _appliedTheme = theme;
                 changed = true;
             }
@@ -136,10 +157,106 @@ internal static partial class SystemAccent
         return changed;
     }
 
-    internal static bool TryGetCustomColor(out Color color)
+    private static void ApplyGradient(Application application, Color start, ThemeGradient gradient)
+    {
+        foreach (string key in GradientBrushKeys)
+        {
+            if (application.Resources[key] is not SolidColorBrush solid)
+                continue;
+            ThemeGradient shaded = gradient.Clone();
+            foreach (ThemeGradientStop stop in shaded.Stops)
+                stop.Color = Shade(stop.Color, start, solid.Color);
+            GradientBrush brush = shaded.ToBrush();
+            brush.Opacity = solid.Opacity;
+            brush.Freeze();
+            application.Resources[key] = brush;
+        }
+    }
+
+    private static Color Shade(Color end, Color start, Color shadedStart) =>
+        Color.FromArgb(
+            shadedStart.A,
+            (byte)Math.Clamp(end.R + shadedStart.R - start.R, 0, 255),
+            (byte)Math.Clamp(end.G + shadedStart.G - start.G, 0, 255),
+            (byte)Math.Clamp(end.B + shadedStart.B - start.B, 0, 255)
+        );
+
+    private static Color Average(ThemeGradient gradient, Color start, Color fill)
+    {
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        foreach (ThemeGradientStop stop in gradient.Stops)
+        {
+            Color shaded = Shade(stop.Color, start, fill);
+            red += shaded.R;
+            green += shaded.G;
+            blue += shaded.B;
+        }
+        int count = Math.Max(1, gradient.Stops.Count);
+        return Color.FromRgb((byte)(red / count), (byte)(green / count), (byte)(blue / count));
+    }
+
+    internal static bool TryGetGradient([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out ThemeGradient? gradient)
+    {
+        gradient = null;
+        string? value = App.Settings?.Prop.CustomAccentGradient;
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+        string[] parts = value.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (parts.Length < 3 || !double.TryParse(parts[0], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double angle))
+            return false;
+        ThemeGradient parsed = new() { Angle = Math.Clamp(angle, 0, 360) };
+        foreach (string part in parts.Skip(1).Take(ThemeGradient.MaximumStops))
+        {
+            int at = part.IndexOf('@');
+            if (at < 0
+                || !TryParseColor(part[..at], out Color color)
+                || !double.TryParse(part[(at + 1)..], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double offset))
+                return false;
+            parsed.Stops.Add(new ThemeGradientStop { Color = color, Offset = Math.Clamp(offset, 0, 100) / 100.0 });
+        }
+        if (parsed.Stops.Count < 2)
+            return false;
+        gradient = parsed;
+        return true;
+    }
+
+    internal static ThemeGradient CreateDefaultGradient()
+    {
+        Color start = Get();
+        ThemeGradient gradient = new() { Angle = 45 };
+        gradient.Stops.Add(new ThemeGradientStop { Color = start, Offset = 0 });
+        gradient.Stops.Add(new ThemeGradientStop { Color = Color.FromRgb(start.B, start.R, start.G), Offset = 1 });
+        return gradient;
+    }
+
+    internal static void SaveGradient(ThemeGradient? gradient)
+    {
+        if (gradient == null || gradient.Stops.Count < 2)
+        {
+            App.Settings.Prop.CustomAccentGradient = null;
+        }
+        else
+        {
+            List<ThemeGradientStop> ordered = gradient.Stops.OrderBy(stop => stop.Offset).ToList();
+            App.Settings.Prop.CustomAccentGradient = string.Join(
+                ';',
+                new[] { gradient.Angle.ToString("0", System.Globalization.CultureInfo.InvariantCulture) }.Concat(
+                    ordered.Select(stop => Describe(stop.Color) + "@" + (stop.Offset * 100.0).ToString("0", System.Globalization.CultureInfo.InvariantCulture))
+                )
+            );
+            App.Settings.Prop.CustomAccentColor = Describe(ordered[0].Color);
+        }
+        App.Settings.SaveDeferred();
+        Refresh();
+    }
+
+    internal static bool TryGetCustomColor(out Color color) => TryParseColor(App.Settings?.Prop.CustomAccentColor, out color);
+
+    private static bool TryParseColor(string? value, out Color color)
     {
         color = default;
-        string? value = App.Settings?.Prop.CustomAccentColor;
         if (value == null || value.Length != 7 || value[0] != '#'
             || !uint.TryParse(value.AsSpan(1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out uint rgb))
             return false;

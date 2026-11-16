@@ -21,11 +21,17 @@
             <StackPanel>
               <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#app-theme" Margin="0,0,0,8" Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
                 <StackPanel Orientation="Horizontal">
-                  <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
-                  <ui:Button Content="{resources:Loc Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" Margin="0,0,6,0" />
+                  <Border Width="56" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
+                  <ui:Button Content="{resources:Loc Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" IsEnabled="{Binding AccentGradientDisabled}" Margin="0,0,6,0" />
                   <ui:Button Content="{resources:Loc Menu_Appearance_Accent_System}" Command="{Binding ResetAccentCommand}" />
                 </StackPanel>
               </controls:OptionControl>
+              <controls:OptionControl Margin="0,0,0,8" Header="{resources:Loc Ui_ModGen_FillGradient}">
+                <ui:ToggleSwitch IsChecked="{Binding AccentGradientEnabled, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <ui:Card Margin="0,0,0,8" Visibility="{Binding AccentGradientEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <controls:AccentGradientEditor />
+              </ui:Card>
               <ui:CardExpander Margin="0,0,0,8" IsExpanded="False">
                 <HeaderedContentControl.Header>
                   <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_Background}" />

@@ -279,6 +279,21 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public ICommand ResetAccentCommand => new RelayCommand(ResetAccent);
 
+    public bool AccentGradientEnabled
+    {
+        get => App.Settings.Prop.CustomAccentGradient != null;
+        set
+        {
+            if (value == AccentGradientEnabled)
+                return;
+            SystemAccent.SaveGradient(value ? SystemAccent.CreateDefaultGradient() : null);
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(AccentGradientDisabled));
+        }
+    }
+
+    public bool AccentGradientDisabled => !AccentGradientEnabled;
+
     private void ChooseAccent()
     {
         using var dialog = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(
@@ -299,13 +314,16 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         SystemAccent.Refresh();
     }
 
-    private static void ResetAccent()
+    private void ResetAccent()
     {
-        if (App.Settings.Prop.CustomAccentColor == null)
+        if (App.Settings.Prop.CustomAccentColor == null && App.Settings.Prop.CustomAccentGradient == null)
             return;
         App.Settings.Prop.CustomAccentColor = null;
+        App.Settings.Prop.CustomAccentGradient = null;
         App.Settings.SaveDeferred();
         SystemAccent.Refresh();
+        OnPropertyChanged(nameof(AccentGradientEnabled));
+        OnPropertyChanged(nameof(AccentGradientDisabled));
     }
 
     public ICommand BrowseCustomIconLocationCommand => new RelayCommand(BrowseCustomIconLocation);
