@@ -328,6 +328,7 @@ public partial class SessionOverlayLayoutEditor : Window
             CrosshairShapeCircle.IsChecked = shape == 2;
             CrosshairSizeSlider.Value = Math.Clamp(prop.CrosshairSize, 4, 60);
             CrosshairThicknessSlider.Value = Math.Clamp(prop.CrosshairLineThickness, 1, 12);
+            CrosshairOutlineSlider.Value = Math.Clamp(prop.CrosshairOutlineThickness, 0, CrosshairRenderer.MaxOutlineThickness);
             CrosshairGapSlider.Value = Math.Clamp(prop.CrosshairGap, 0, 30);
             CrosshairOpacitySlider.Value = Math.Round(Math.Clamp(prop.CrosshairOpacity, 0.1, 1.0) * 100);
             CrosshairOffsetXSlider.Value = layout.SafeCrosshairOffsetX;
@@ -372,6 +373,7 @@ public partial class SessionOverlayLayoutEditor : Window
 
         CrosshairSizeText.Text = ((int)Math.Round(CrosshairSizeSlider.Value)).ToString(inv) + " px";
         CrosshairThicknessText.Text = ((int)Math.Round(CrosshairThicknessSlider.Value)).ToString(inv) + " px";
+        CrosshairOutlineText.Text = ((int)Math.Round(CrosshairOutlineSlider.Value)).ToString(inv) + " px";
         CrosshairGapText.Text = ((int)Math.Round(CrosshairGapSlider.Value)).ToString(inv) + " px";
         CrosshairOpacityText.Text = ((int)Math.Round(CrosshairOpacitySlider.Value)).ToString(inv) + "%";
         int cx = (int)Math.Round(CrosshairOffsetXSlider.Value);
@@ -1242,6 +1244,7 @@ public partial class SessionOverlayLayoutEditor : Window
         OverlayLayoutSettings layout = prop.OverlayLayout ??= new OverlayLayoutSettings();
         prop.CrosshairSize = (int)Math.Round(CrosshairSizeSlider.Value);
         prop.CrosshairLineThickness = (int)Math.Round(CrosshairThicknessSlider.Value);
+        prop.CrosshairOutlineThickness = (int)Math.Round(CrosshairOutlineSlider.Value);
         prop.CrosshairGap = (int)Math.Round(CrosshairGapSlider.Value);
         prop.CrosshairOpacity = Math.Round(CrosshairOpacitySlider.Value) / 100.0;
         layout.CrosshairOffsetX = (int)Math.Round(CrosshairOffsetXSlider.Value);

@@ -10130,6 +10130,9 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Хулганы товчийг дарсаар байх үед харагдана. Хоосон бол курсорын зургийг ашиглана.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Хүрээний зузаан</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Давхарга хаагдахад үргэлжлүүлэн ажиллах</value>
   </data>

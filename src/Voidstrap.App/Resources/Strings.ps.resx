@@ -10130,6 +10130,9 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>کله چې د موږک تڼۍ نیول شوې وي ښودل کېږي. که خالي وي، د کرسر انځور کاروي.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>د بهرنۍ کرښې پنډوالی</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>کله چې پوښ وتړل شي چلېدل جاري وساتئ</value>
   </data>

@@ -10129,6 +10129,9 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Huonyeshwa wakati kitufe cha kipanya kimeshikiliwa. Hutumia picha ya kielekezi kikiwa tupu.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Unene wa mstari wa nje</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Endelea kufanya kazi wakati overlay inafungwa</value>
   </data>

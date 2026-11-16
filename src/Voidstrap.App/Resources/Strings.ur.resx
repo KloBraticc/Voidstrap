@@ -10129,6 +10129,9 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>ماؤس کا بٹن دبائے رکھنے کے دوران دکھایا جاتا ہے۔ خالی ہونے پر کرسر کی تصویر استعمال کرتا ہے۔</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>آؤٹ لائن کی موٹائی</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>اوورلے بند ہونے پر بھی چلتا رکھیں</value>
   </data>

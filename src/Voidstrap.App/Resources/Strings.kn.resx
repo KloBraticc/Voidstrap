@@ -10130,6 +10130,9 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>ಮೌಸ್ ಬಟನ್ ಒತ್ತಿ ಹಿಡಿದಿರುವಾಗ ತೋರಿಸಲಾಗುತ್ತದೆ. ಖಾಲಿಯಿದ್ದರೆ ಕರ್ಸರ್ ಚಿತ್ರವನ್ನು ಬಳಸುತ್ತದೆ.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>ಹೊರರೇಖೆಯ ದಪ್ಪ</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ಓವರ್‌ಲೇ ಮುಚ್ಚಿದಾಗಲೂ ಚಾಲನೆಯಲ್ಲಿಡಿ</value>
   </data>

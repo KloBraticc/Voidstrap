@@ -10129,6 +10129,9 @@ SteamVR instalatu orain?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Saguaren botoia sakatuta dagoen bitartean erakusten da. Hutsik badago, kurtsorearen irudia erabiltzen du.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Ingeradaren lodiera</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Jarraitu martxan gainjarria ixtean</value>
   </data>

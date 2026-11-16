@@ -10437,6 +10437,9 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>แสดงขณะกดปุ่มเมาส์ค้างไว้ ใช้รูปเคอร์เซอร์เมื่อว่างอยู่</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>ความหนาของเส้นขอบ</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ทำงานต่อเมื่อปิดโอเวอร์เลย์</value>
   </data>

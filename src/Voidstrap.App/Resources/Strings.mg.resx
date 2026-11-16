@@ -10130,6 +10130,9 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Aseho mandritra ny fihazonana ny bokotry ny totozy. Mampiasa ny sarin'ny kursora rehefa foana.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Hatevin'ny sisiny</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Tohizo ny fandehanana rehefa mikatona ny overlay</value>
   </data>

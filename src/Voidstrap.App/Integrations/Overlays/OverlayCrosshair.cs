@@ -75,7 +75,8 @@ namespace Voidstrap.Integrations.Overlays
             float thickness = Math.Max(1f, Math.Clamp(prop.CrosshairLineThickness, 1, 16) * RuntimeScale);
             float gap = Math.Clamp(prop.CrosshairGap, 0, 40) * RuntimeScale;
             double opacity = Math.Clamp(prop.CrosshairOpacity, 0.05, 1.0);
-            string signature = $"{shape}|{size}|{thickness}|{gap}|{opacity:0.00}|{prop.CrosshairColorHex}|{prop.CrosshairOutlineColorHex}";
+            float edge = Math.Clamp(prop.CrosshairOutlineThickness, 0, Voidstrap.UI.CrosshairRenderer.MaxOutlineThickness);
+            string signature = $"{shape}|{size}|{thickness}|{gap}|{opacity:0.00}|{prop.CrosshairColorHex}|{prop.CrosshairOutlineColorHex}|{prop.CrosshairOutlineThickness}";
             if (signature == _last)
                 return;
             _last = signature;
@@ -86,7 +87,7 @@ namespace Voidstrap.Integrations.Overlays
             _graphics.Clear(Color.Transparent);
             using (var fillBrush = new SolidBrush(fill))
             using (var outlineBrush = new SolidBrush(outline))
-            using (var outlinePen = new Pen(outline, thickness + 2f))
+            using (var outlinePen = new Pen(outline, thickness + edge * 2f))
             using (var fillPen = new Pen(fill, thickness))
             {
                 outlinePen.StartCap = LineCap.Round;
@@ -106,18 +107,17 @@ namespace Voidstrap.Integrations.Overlays
                 }
                 else if (shape == 1)
                 {
-                    float outerRadius = size / 3f + 2f;
+                    float outerRadius = size / 3f + edge * 2f;
                     float innerRadius = size / 3f;
                     _graphics.FillEllipse(outlineBrush, cx - outerRadius, cy - outerRadius, outerRadius * 2f, outerRadius * 2f);
                     _graphics.FillEllipse(fillBrush, cx - innerRadius, cy - innerRadius, innerRadius * 2f, innerRadius * 2f);
                 }
                 else
                 {
-                    float outerRadius = size / 2f;
-                    float innerRadius = Math.Max(0f, size / 2f - 2f);
-                    _graphics.DrawEllipse(outlinePen, cx - outerRadius, cy - outerRadius, outerRadius * 2f, outerRadius * 2f);
-                    if (innerRadius > 0f)
-                        _graphics.DrawEllipse(fillPen, cx - innerRadius, cy - innerRadius, innerRadius * 2f, innerRadius * 2f);
+                    float radius = size / 2f;
+                    if (edge > 0f)
+                        _graphics.DrawEllipse(outlinePen, cx - radius, cy - radius, radius * 2f, radius * 2f);
+                    _graphics.DrawEllipse(fillPen, cx - radius, cy - radius, radius * 2f, radius * 2f);
                 }
             }
 
@@ -126,8 +126,9 @@ namespace Voidstrap.Integrations.Overlays
 
         private void DrawArm(Pen outlinePen, Pen fillPen, float x1, float y1, float x2, float y2)
         {
-            _graphics!.DrawLine(outlinePen, x1, y1, x2, y2);
-            _graphics.DrawLine(fillPen, x1, y1, x2, y2);
+            if (outlinePen.Width > fillPen.Width)
+                _graphics!.DrawLine(outlinePen, x1, y1, x2, y2);
+            _graphics!.DrawLine(fillPen, x1, y1, x2, y2);
         }
 
         private static Color ParseColor(string? hex, Color fallback, double opacity)

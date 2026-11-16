@@ -10130,6 +10130,9 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Тінтуір түймесі басулы тұрғанда көрсетіледі. Бос болса, курсор суретін пайдаланады.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Контур қалыңдығы</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Оверлей жабылғанда жұмысын жалғастыру</value>
   </data>

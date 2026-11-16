@@ -10130,6 +10130,9 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>ສະແດງໃນຂະນະທີ່ກົດປຸ່ມເມົ້າຄ້າງໄວ້. ໃຊ້ຮູບເຄີເຊີເມື່ອວ່າງເປົ່າ.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>ຄວາມໜາຂອງເສັ້ນຂອບ</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ເຮັດວຽກຕໍ່ເມື່ອໂອເວີເລປິດ</value>
   </data>

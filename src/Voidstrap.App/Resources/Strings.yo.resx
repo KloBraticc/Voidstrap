@@ -10129,6 +10129,9 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Yóò hàn nígbà tí a bá di bọ́tìnnì èkú mú. Yóò lo àwòrán kọsọ tí ó bá ṣófo.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Nípọn ìlà ìta</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Máa ṣiṣẹ́ lọ nígbà tí overlay bá ti pa</value>
   </data>

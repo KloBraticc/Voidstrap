@@ -10444,6 +10444,9 @@ SteamVR nu installeren?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Wordt getoond zolang de muisknop ingedrukt is. Gebruikt de cursorafbeelding als dit leeg is.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Dikte van de omlijning</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Blijven draaien wanneer de overlay sluit</value>
   </data>

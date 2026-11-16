@@ -10130,6 +10130,9 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Приказује се док је тастер миша притиснут. Када је празно, користи слику курсора.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Дебљина контуре</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Настави са радом када се преклоп затвори</value>
   </data>

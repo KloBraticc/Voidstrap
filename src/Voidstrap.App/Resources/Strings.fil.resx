@@ -10440,6 +10440,9 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Ipinapakita habang pinipindot ang button ng mouse. Ginagamit ang larawan ng cursor kapag walang laman.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Kapal ng outline</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Patuloy na tumakbo kapag nagsara ang overlay</value>
   </data>

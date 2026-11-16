@@ -10129,6 +10129,9 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>மவுஸ் பொத்தானை அழுத்திப் பிடித்திருக்கும்போது காட்டப்படும். காலியாக இருந்தால் கர்சர் படத்தைப் பயன்படுத்தும்.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>வெளிக்கோட்டின் தடிமன்</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ஓவர்லே மூடப்படும்போதும் தொடர்ந்து இயங்கு</value>
   </data>

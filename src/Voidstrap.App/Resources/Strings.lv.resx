@@ -10130,6 +10130,9 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Tiek rādīts, kamēr peles poga ir nospiesta. Ja tukšs, izmanto kursora attēlu.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Kontūras biezums</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Turpināt darbību, kad pārklājums tiek aizvērts</value>
   </data>

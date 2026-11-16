@@ -10129,6 +10129,9 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Sichqoncha tugmasi bosib turilganda ko‘rsatiladi. Bo‘sh bo‘lsa, kursor rasmidan foydalanadi.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Kontur qalinligi</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Overley yopilganda ishlashda davom etsin</value>
   </data>

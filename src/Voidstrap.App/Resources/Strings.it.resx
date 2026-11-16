@@ -10445,6 +10445,9 @@ Installare SteamVR adesso?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Mostrato mentre tieni premuto il tasto del mouse. Usa l'immagine del cursore se vuoto.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Spessore del contorno</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Continua a funzionare quando l'overlay si chiude</value>
   </data>

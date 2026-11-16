@@ -10466,6 +10466,9 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>按住鼠标按钮时显示。为空时使用光标图片。</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>轮廓粗细</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>关闭叠加层后继续运行</value>
   </data>

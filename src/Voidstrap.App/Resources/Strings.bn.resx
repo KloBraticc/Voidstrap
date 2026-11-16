@@ -10129,6 +10129,9 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>মাউস বোতাম চেপে ধরে রাখার সময় দেখানো হয়। খালি থাকলে কার্সারের ছবি ব্যবহার করে।</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>আউটলাইনের পুরুত্ব</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ওভারলে বন্ধ হলেও চালু রাখুন</value>
   </data>

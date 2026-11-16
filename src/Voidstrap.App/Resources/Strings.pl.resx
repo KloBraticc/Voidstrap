@@ -10443,6 +10443,9 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Wyświetlany, gdy przytrzymujesz przycisk myszy. Gdy puste, używa obrazu kursora.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Grubość obrysu</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Działaj dalej po zamknięciu nakładki</value>
   </data>

@@ -10442,6 +10442,9 @@ Jugadores: {2}</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Se muestra mientras mantienes pulsado el botón del ratón. Usa la imagen del cursor si está vacío.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Grosor del contorno</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Seguir en ejecución al cerrar la superposición</value>
   </data>

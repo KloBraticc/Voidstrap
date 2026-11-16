@@ -10130,6 +10130,9 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>माउस बटण दाबून धरलेले असताना दाखवला जातो. रिकामे असल्यास कर्सरची प्रतिमा वापरतो.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>बाह्यरेषेची जाडी</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ओव्हरले बंद झाल्यावरही चालू ठेवा</value>
   </data>

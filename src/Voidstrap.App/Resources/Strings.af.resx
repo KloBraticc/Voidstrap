@@ -10129,6 +10129,9 @@ Installeer SteamVR nou?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Word gewys terwyl die muisknoppie ingedruk word. Gebruik die wyserprent as dit leeg is.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Buitelyndikte</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Hou aan loop wanneer die oorleg toemaak</value>
   </data>

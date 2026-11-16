@@ -26,7 +26,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 
         private Image? _imageCrosshair;
         private Image? _shapeCrosshair;
-        private (int Shape, string? Fill, string? Outline, int Size, int Gap, int Thickness, double Opacity, double Dpi)? _shapeKey;
+        private (int Shape, string? Fill, string? Outline, int Size, int Gap, int Thickness, double Opacity, double Dpi, int Edge)? _shapeKey;
         private string? _imagePath;
         private IReadOnlyList<BitmapSource> _imageShapeSources = Array.Empty<BitmapSource>();
         private int _imageLoadGeneration;
@@ -459,7 +459,8 @@ namespace Voidstrap.UI.Elements.Crosshair
                     settings.CrosshairSize,
                     settings.CrosshairGap,
                     settings.CrosshairLineThickness,
-                    opacity
+                    opacity,
+                    settings.CrosshairOutlineThickness
                 );
                 return;
             }
@@ -500,10 +501,10 @@ namespace Voidstrap.UI.Elements.Crosshair
             ShowOnly(_imageCrosshair);
         }
 
-        private void ShowShape(int shape, string? fill, string? outline, int size, int gap, int thickness, double opacity)
+        private void ShowShape(int shape, string? fill, string? outline, int size, int gap, int thickness, double opacity, int edge)
         {
             double dpi = Math.Max(1.0, VisualTreeHelper.GetDpi(this).DpiScaleX);
-            var key = (shape, fill, outline, size, gap, thickness, opacity, dpi);
+            var key = (shape, fill, outline, size, gap, thickness, opacity, dpi, edge);
             if (_shapeCrosshair == null)
             {
                 _shapeCrosshair = new Image
@@ -529,7 +530,8 @@ namespace Voidstrap.UI.Elements.Crosshair
                     size,
                     gap,
                     thickness,
-                    opacity
+                    opacity,
+                    edge
                 );
                 _shapeKey = key;
             }

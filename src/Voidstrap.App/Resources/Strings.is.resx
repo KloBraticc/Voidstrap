@@ -10130,6 +10130,9 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Birtist á meðan músarhnappinum er haldið niðri. Notar bendilmyndina ef tómt.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Þykkt útlínu</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Halda áfram að keyra þegar yfirlagið lokast</value>
   </data>

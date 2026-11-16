@@ -10,6 +10,8 @@ namespace Voidstrap.UI
         public const int ShapeDot = 1;
         public const int ShapeCircle = 2;
         public const int MaxSize = 60;
+        public const int DefaultOutlineThickness = 1;
+        public const int MaxOutlineThickness = 6;
 
         public static BitmapSource Render(
             int dimension,
@@ -20,7 +22,8 @@ namespace Voidstrap.UI
             int crosshairSize,
             int crosshairGap,
             int crosshairThickness,
-            double crosshairOpacity
+            double crosshairOpacity,
+            int outlineThickness = DefaultOutlineThickness
         )
         {
             int width = Math.Max(1, dimension);
@@ -33,7 +36,8 @@ namespace Voidstrap.UI
                 crosshairSize,
                 crosshairGap,
                 crosshairThickness,
-                crosshairOpacity
+                crosshairOpacity,
+                outlineThickness
             );
             BitmapSource bitmap = BitmapSource.Create(width, width, 96.0, 96.0, PixelFormats.Pbgra32, null, pixels, width * 4);
             bitmap.Freeze();
@@ -49,7 +53,8 @@ namespace Voidstrap.UI
             int crosshairSize,
             int crosshairGap,
             int crosshairThickness,
-            double crosshairOpacity
+            double crosshairOpacity,
+            int outlineThickness = DefaultOutlineThickness
         )
         {
             const int samples = 4;
@@ -65,8 +70,9 @@ namespace Voidstrap.UI
             double thickness = Math.Max(1.0, Math.Clamp(crosshairThickness, 1, 16) * scale);
             double centerX = width / 2.0;
             double centerY = height / 2.0;
-            double reach = size + thickness + 4.0;
-            double band = thickness / 2.0 + 3.0;
+            double edge = Math.Clamp(outlineThickness, 0, MaxOutlineThickness);
+            double reach = size + thickness + edge * 2.0 + 3.0;
+            double band = thickness / 2.0 + edge + 2.0;
             bool cross = shape == ShapeCross;
 
             for (int y = 0; y < height; y++)
@@ -89,8 +95,8 @@ namespace Voidstrap.UI
                         {
                             double px = x + (sampleX + 0.5) / samples - centerX;
                             double py = y + (sampleY + 0.5) / samples - centerY;
-                            bool fillHit = Hit(shape, px, py, size, gap, thickness, false);
-                            bool outlineHit = !fillHit && Hit(shape, px, py, size, gap, thickness, true);
+                            bool fillHit = Hit(shape, px, py, size, gap, thickness, 0.0);
+                            bool outlineHit = !fillHit && edge > 0.0 && Hit(shape, px, py, size, gap, thickness, edge);
                             if (!fillHit && !outlineHit)
                                 continue;
                             Color color = fillHit ? fill : outline;
@@ -112,9 +118,9 @@ namespace Voidstrap.UI
             return pixels;
         }
 
-        private static bool Hit(int shape, double x, double y, double size, double gap, double thickness, bool outline)
+        private static bool Hit(int shape, double x, double y, double size, double gap, double thickness, double edge)
         {
-            double radius = outline ? thickness / 2.0 + 1.0 : thickness / 2.0;
+            double radius = thickness / 2.0 + edge;
             switch (shape)
             {
                 case ShapeCross:
@@ -123,10 +129,9 @@ namespace Voidstrap.UI
                         || DistanceToSegment(x, y, 0, -size, 0, -gap) <= radius
                         || DistanceToSegment(x, y, 0, gap, 0, size) <= radius;
                 case ShapeDot:
-                    return Math.Sqrt(x * x + y * y) <= size / 3.0 + (outline ? 2.0 : 0.0);
+                    return Math.Sqrt(x * x + y * y) <= size / 3.0 + edge * 2.0;
                 case ShapeCircle:
-                    double circleRadius = outline ? size / 2.0 : Math.Max(0.0, size / 2.0 - 2.0);
-                    return Math.Abs(Math.Sqrt(x * x + y * y) - circleRadius) <= radius;
+                    return Math.Abs(Math.Sqrt(x * x + y * y) - size / 2.0) <= radius;
                 default:
                     return false;
             }

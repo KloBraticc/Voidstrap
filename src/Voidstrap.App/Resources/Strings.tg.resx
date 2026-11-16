@@ -10129,6 +10129,9 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>То тугмаи муш пахш аст, нишон дода мешавад. Агар холӣ бошад, тасвири курсорро истифода мебарад.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Ғафсии контур</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Ҳангоми пӯшидани оверлей корро идома диҳед</value>
   </data>

@@ -584,6 +584,18 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairOutlineThickness}" Style="{StaticResource Label}" />
+                <Slider x:Name="CrosshairOutlineSlider" Grid.Column="1" Minimum="0" Maximum="6" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
+                <TextBlock x:Name="CrosshairOutlineText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairGap}" Style="{StaticResource Label}" />
                 <Slider x:Name="CrosshairGapSlider" Grid.Column="1" Minimum="0" Maximum="30" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
                 <TextBlock x:Name="CrosshairGapText" Grid.Column="2" Style="{StaticResource Value}" />

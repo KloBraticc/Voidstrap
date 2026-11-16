@@ -10445,6 +10445,9 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Hiển thị khi giữ nút chuột. Dùng hình con trỏ khi để trống.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Độ dày đường viền</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Tiếp tục chạy khi lớp phủ đóng</value>
   </data>

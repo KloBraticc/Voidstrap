@@ -10434,6 +10434,9 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Dipaparkan semasa butang tetikus ditekan. Menggunakan imej kursor jika kosong.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Ketebalan garis luar</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Terus berjalan apabila tindanan ditutup</value>
   </data>

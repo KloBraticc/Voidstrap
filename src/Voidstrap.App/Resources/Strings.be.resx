@@ -10129,6 +10129,9 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Паказваецца, пакуль кнопка мышы ўтрымліваецца. Калі пуста, выкарыстоўваецца выява курсора.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Таўшчыня контуру</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Працягваць працу, калі аверлэй закрываецца</value>
   </data>

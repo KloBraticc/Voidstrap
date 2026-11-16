@@ -10130,6 +10130,9 @@ Installa SteamVR issa?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Jidher waqt li l-buttuna tal-maws tkun magħfusa. Juża l-immaġni tal-kursur meta jkun vojt.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Ħxuna tal-kontorn</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Kompli aħdem meta jingħalaq l-overlay</value>
   </data>

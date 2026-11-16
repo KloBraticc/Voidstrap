@@ -4676,7 +4676,8 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
             CursorSize,
             Gap,
             CrosshairThickness,
-            CursorOpacity
+            CursorOpacity,
+            App.Settings.Prop.CrosshairOutlineThickness
         );
     }
 

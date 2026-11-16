@@ -10129,6 +10129,9 @@ Ludantoj: {2}</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Montriĝas dum la musbutono estas tenata. Uzas la kursoran bildon kiam malplena.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Dikeco de la konturo</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Daŭre funkcii kiam la superkovro fermiĝas</value>
   </data>

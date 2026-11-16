@@ -10129,6 +10129,9 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>ווערט געוויזן בשעת דער מויז קנעפּל ווערט געהאַלטן. ניצט דאָס קורסאָר בילד ווען ליידיק.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>גרעב פון קאנטור</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ווייטער לויפן ווען דער איבערלייג ווערט פארמאכט</value>
   </data>

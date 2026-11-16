@@ -896,7 +896,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             settings.CrosshairSize,
             settings.CrosshairGap,
             settings.CrosshairLineThickness,
-            opacity
+            opacity,
+            settings.CrosshairOutlineThickness
         );
     }
 

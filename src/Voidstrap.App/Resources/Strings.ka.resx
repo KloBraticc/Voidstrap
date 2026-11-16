@@ -10130,6 +10130,9 @@ Uptime: {1}
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>ჩანს, სანამ თაგვის ღილაკი დაჭერილია. თუ ცარიელია, კურსორის სურათს იყენებს.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>კონტურის სისქე</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>გააგრძელოს მუშაობა გადაფარვის დახურვისას</value>
   </data>

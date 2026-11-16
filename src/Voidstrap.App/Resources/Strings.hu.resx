@@ -10442,6 +10442,9 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Akkor jelenik meg, amíg nyomva tartod az egérgombot. Ha üres, a kurzor képét használja.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Körvonal vastagsága</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Fusson tovább, amikor az átfedés bezárul</value>
   </data>

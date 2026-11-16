@@ -10442,6 +10442,9 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Показва се, докато бутонът на мишката е задържан. Ако е празно, се използва изображението на курсора.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Дебелина на контура</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Продължава да работи, когато наслагването се затвори</value>
   </data>

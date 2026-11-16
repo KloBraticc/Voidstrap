@@ -10443,6 +10443,9 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Näytetään, kun hiiren painiketta pidetään pohjassa. Käyttää osoittimen kuvaa, jos tyhjä.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Ääriviivan paksuus</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Jatka toimintaa, kun peittokuva suljetaan</value>
   </data>

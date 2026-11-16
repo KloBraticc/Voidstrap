@@ -10129,6 +10129,9 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Liboniswa ngenkathi inkinobho yegundane ibanjiwe. Lisebenzisa isithombe sekhesa uma lingenalutho.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Ubukhulu bomugqa wangaphandle</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Qhubeka usebenza lapho i-overlay ivalwa</value>
   </data>

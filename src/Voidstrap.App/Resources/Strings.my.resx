@@ -10129,6 +10129,9 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>မောက်စ်ခလုတ်ကို ဖိထားစဉ် ပြသသည်။ ဗလာဖြစ်ပါက ကာဆာပုံကို အသုံးပြုသည်။</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>အနားသတ်မျဉ်း အထူ</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>အိုဗာလေး ပိတ်သည့်အခါ ဆက်လက်လုပ်ဆောင်ပါ</value>
   </data>

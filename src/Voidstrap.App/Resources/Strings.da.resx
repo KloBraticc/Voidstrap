@@ -10129,6 +10129,9 @@ Installer SteamVR nu?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Vises, mens museknappen holdes nede. Bruger markørbilledet, når feltet er tomt.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Konturtykkelse</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Fortsæt med at køre, når overlejringen lukkes</value>
   </data>

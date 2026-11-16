@@ -10130,6 +10130,9 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Ցուցադրվում է, քանի դեռ մկնիկի կոճակը սեղմված է: Դատարկ լինելու դեպքում օգտագործում է կուրսորի պատկերը:</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>Եզրագծի հաստություն</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>Շարունակել աշխատել, երբ վերադրումը փակվում է</value>
   </data>

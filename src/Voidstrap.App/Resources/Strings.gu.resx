@@ -10130,6 +10130,9 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>માઉસ બટન દબાવી રાખો ત્યારે દેખાય છે. ખાલી હોય ત્યારે કર્સરની છબી વાપરે છે.</value>
   </data>
+  <data name="Ui.OverlayStudio.CrosshairOutlineThickness" xml:space="preserve">
+    <value>આઉટલાઇનની જાડાઈ</value>
+  </data>
   <data name="Ui.Browser.KeepRunning" xml:space="preserve">
     <value>ઓવરલે બંધ થાય ત્યારે ચાલુ રાખો</value>
   </data>
