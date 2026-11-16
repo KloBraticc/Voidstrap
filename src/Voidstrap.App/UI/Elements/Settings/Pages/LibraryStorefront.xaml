@@ -95,7 +95,7 @@
     <ItemsControl ItemsSource="{Binding Storefront.GenreTiles}">
       <ItemsControl.ItemsPanel>
         <ItemsPanelTemplate>
-          <UniformGrid Columns="4" />
+          <UniformGrid Columns="4" util:ResponsiveLayout.MinItemWidth="220" />
         </ItemsPanelTemplate>
       </ItemsControl.ItemsPanel>
       <ItemsControl.ItemTemplate>
