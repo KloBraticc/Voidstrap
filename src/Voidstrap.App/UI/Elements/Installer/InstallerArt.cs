@@ -110,39 +110,80 @@ internal sealed class InstallerArt
 
     private static InstallerArt Check()
     {
+        const double DashLength = 8;
         System.Windows.Shapes.Path tick = new()
         {
-            Data = Geometry.Parse("M 52,86 L 74,108 L 116,62"),
-            Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1F2A24")),
-            StrokeThickness = 14,
+            Data = Geometry.Parse("M 52,86 L 74,108 L 118,62"),
+            Stroke = Brushes.White,
+            StrokeThickness = 13,
             StrokeStartLineCap = PenLineCap.Round,
             StrokeEndLineCap = PenLineCap.Round,
             StrokeLineJoin = PenLineJoin.Round,
-            StrokeDashArray = new DoubleCollection { 7, 7 },
-            StrokeDashOffset = 7,
+            StrokeDashArray = new DoubleCollection { DashLength, DashLength },
+            StrokeDashOffset = DashLength,
         };
-        Grid back = new() { Width = 168, Height = 168, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-        back.Children.Add(new Ellipse { Fill = Gradient("#4BE38A", "#13A86A") });
-        back.Children.Add(tick);
-        InstallerArt art = Glyph(SymbolRegular.Star24, "#4BE38A", "#13A86A", SymbolRegular.Star24, "#FFD54A", "#FF9F1A", (icon, badge, d) =>
+        Ellipse halo = new()
         {
-            Keys(badge, Angle, d + 760, 900, 0, 72, 144);
-            Keys(badge, Size, d + 760, 900, 1, 1.25, 1);
-        });
+            Width = 196,
+            Height = 196,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1F2BD37E")),
+        };
+        Ellipse ripple = new()
+        {
+            Width = 168,
+            Height = 168,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2BD37E")),
+            StrokeThickness = 3,
+            Opacity = 0,
+            RenderTransformOrigin = new Point(0.5, 0.5),
+            RenderTransform = new ScaleTransform(1, 1),
+        };
+        Grid disc = new() { Width = 168, Height = 168, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+        disc.Children.Add(new Ellipse { Fill = Gradient("#3EDC8A", "#119C5A") });
+        disc.Children.Add(new Ellipse { Margin = new Thickness(1), Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FFFFFF")), StrokeThickness = 1 });
+        disc.Children.Add(tick);
+        Grid back = new() { Width = 220, Height = 220, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+        back.Children.Add(halo);
+        back.Children.Add(ripple);
+        back.Children.Add(disc);
         return new InstallerArt
         {
             Back = back,
-            Badge = art.Badge,
-            BadgeAngle = art.BadgeAngle,
+            Badge = new Grid(),
+            BadgeRise = 0,
             Motion = delay =>
             {
-                art.Motion?.Invoke(delay);
-                Keys(back, Size, delay + 700, 500, 1, 1.07, 1);
-                tick.BeginAnimation(Shape.StrokeDashOffsetProperty, new DoubleAnimation(7, 0, TimeSpan.FromMilliseconds(520))
+                if (delay < 0)
                 {
-                    BeginTime = TimeSpan.FromMilliseconds(delay + 180),
+                    tick.StrokeDashOffset = 0;
+                    return;
+                }
+                tick.BeginAnimation(Shape.StrokeDashOffsetProperty, new DoubleAnimation(DashLength, 0, TimeSpan.FromMilliseconds(460))
+                {
+                    BeginTime = TimeSpan.FromMilliseconds(delay + 240),
                     EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut },
                 });
+                Keys(halo, Size, delay + 120, 700, 0.85, 1.04, 1);
+                TimeSpan rippleStart = TimeSpan.FromMilliseconds(delay + 620);
+                Duration rippleLength = new(TimeSpan.FromMilliseconds(760));
+                QuadraticEase fade = new() { EasingMode = EasingMode.EaseOut };
+                ripple.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimationUsingKeyFrames
+                {
+                    BeginTime = rippleStart,
+                    KeyFrames =
+                    {
+                        new DiscreteDoubleKeyFrame(0.7, KeyTime.FromTimeSpan(TimeSpan.Zero)),
+                        new EasingDoubleKeyFrame(0, KeyTime.FromTimeSpan(rippleLength.TimeSpan), fade),
+                    },
+                });
+                ScaleTransform grow = (ScaleTransform)ripple.RenderTransform;
+                DoubleAnimation spread = new(1, 1.3, rippleLength) { BeginTime = rippleStart, EasingFunction = fade };
+                grow.BeginAnimation(ScaleTransform.ScaleXProperty, spread);
+                grow.BeginAnimation(ScaleTransform.ScaleYProperty, spread);
             },
         };
     }
