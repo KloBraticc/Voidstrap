@@ -299,7 +299,7 @@ internal static partial class RobloxCursorOverlay
                     {
                         current = wanted;
                         frame = wantedFrame;
-                        Present(window, memoryDc, current, frame, blend, resized);
+                        Present(window, memoryDc, current, frame, blend);
                     }
                     int left = x - wanted.Frames.HotspotX;
                     int top = y - wanted.Frames.HotspotY;
@@ -327,13 +327,11 @@ internal static partial class RobloxCursorOverlay
             }
         }
 
-        private void Present(IntPtr window, IntPtr memoryDc, FrameSet set, int frame, BlendFunction blend, bool sized)
+        private void Present(IntPtr window, IntPtr memoryDc, FrameSet set, int frame, BlendFunction blend)
         {
             SelectObject(memoryDc, set.Bitmaps[frame]);
             NativePoint origin = default;
             NativeSize size = new NativeSize { Width = set.Frames.Width, Height = set.Frames.Height };
-            if (!sized && UpdateLayeredWindowContent(window, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, memoryDc, ref origin, 0, ref blend, UlwAlpha))
-                return;
             if (!UpdateLayeredWindowSized(window, _screenDc, IntPtr.Zero, ref size, memoryDc, ref origin, 0, ref blend, UlwAlpha) && !_presentFailureLogged)
             {
                 _presentFailureLogged = true;
@@ -677,20 +675,6 @@ internal static partial class RobloxCursorOverlay
         IntPtr destination,
         IntPtr position,
         ref NativeSize size,
-        IntPtr source,
-        ref NativePoint sourcePoint,
-        uint colorKey,
-        ref BlendFunction blend,
-        uint flags
-    );
-
-    [LibraryImport("user32.dll", EntryPoint = "UpdateLayeredWindow", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool UpdateLayeredWindowContent(
-        IntPtr hwnd,
-        IntPtr destination,
-        IntPtr position,
-        IntPtr size,
         IntPtr source,
         ref NativePoint sourcePoint,
         uint colorKey,
