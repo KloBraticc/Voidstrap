@@ -10440,4 +10440,7 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Fare düğmesi basılı tutulurken gösterilir. Boşsa imleç görüntüsünü kullanır.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Katman kapandığında çalışmaya devam et</value>
+  </data>
 </root>

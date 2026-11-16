@@ -10440,4 +10440,7 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Показується, поки кнопку миші затиснуто. Якщо порожньо, використовується зображення курсора.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Продовжувати роботу після закриття оверлея</value>
+  </data>
 </root>

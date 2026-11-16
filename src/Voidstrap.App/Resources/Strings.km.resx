@@ -10130,4 +10130,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>បង្ហាញពេលកំពុងសង្កត់ប៊ូតុងកណ្ដុរ។ ប្រើរូបភាពទស្សន៍ទ្រនិចពេលទទេ។</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>បន្តដំណើរការនៅពេលផ្ទាំងត្រួតបិទ</value>
+  </data>
 </root>

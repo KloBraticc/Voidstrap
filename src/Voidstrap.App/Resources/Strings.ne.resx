@@ -10130,4 +10130,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>माउस बटन थिचिराख्दा देखाइन्छ। खाली भएमा कर्सरको तस्बिर प्रयोग गर्छ।</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>ओभरले बन्द हुँदा पनि चलिरहोस्</value>
+  </data>
 </root>

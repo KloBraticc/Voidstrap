@@ -930,7 +930,7 @@ public partial class SessionDock : Window
         // Pinned panels belong to the dock: they hide with it and come back when it opens. The rest close.
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
         {
-            if (panel.IsPinned || keepPanels || !panel.IsRequested)
+            if (panel.IsPinned || keepPanels || !panel.IsRequested || panel.KeepsRunning)
                 panel.SetInteractive(false);
             else
                 panel.Close();

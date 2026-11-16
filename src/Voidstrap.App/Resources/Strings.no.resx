@@ -10130,4 +10130,7 @@ Installer SteamVR nå?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Vises mens museknappen holdes inne. Bruker pekerbildet når feltet er tomt.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Fortsett å kjøre når overlegget lukkes</value>
+  </data>
 </root>

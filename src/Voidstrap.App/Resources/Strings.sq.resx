@@ -10130,4 +10130,7 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Shfaqet ndërsa butoni i miut mbahet shtypur. Përdor imazhin e kursorit kur është bosh.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Vazhdo të punojë kur mbyllet mbivendosja</value>
+  </data>
 </root>

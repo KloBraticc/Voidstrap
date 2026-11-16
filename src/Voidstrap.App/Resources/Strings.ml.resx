@@ -10130,4 +10130,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>മൗസ് ബട്ടൺ അമർത്തിപ്പിടിക്കുമ്പോൾ കാണിക്കും. ശൂന്യമാണെങ്കിൽ കഴ്സർ ചിത്രം ഉപയോഗിക്കും.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>ഓവർലേ അടയ്ക്കുമ്പോഴും പ്രവർത്തനം തുടരുക</value>
+  </data>
 </root>

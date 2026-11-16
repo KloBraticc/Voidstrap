@@ -10443,4 +10443,7 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Zobrazí se, dokud je stisknuté tlačítko myši. Pokud je prázdné, použije se obrázek kurzoru.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Ponechat spuštěné po zavření překryvu</value>
+  </data>
 </root>

@@ -10444,4 +10444,7 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Afișat cât timp butonul mouse-ului este ținut apăsat. Folosește imaginea cursorului dacă este gol.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Continuă să ruleze când se închide suprapunerea</value>
+  </data>
 </root>

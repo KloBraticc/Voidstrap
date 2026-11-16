@@ -10445,4 +10445,7 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Ditampilkan saat tombol mouse ditahan. Menggunakan gambar kursor jika kosong.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Tetap berjalan saat overlay ditutup</value>
+  </data>
 </root>

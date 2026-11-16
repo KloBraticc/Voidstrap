@@ -10129,4 +10129,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>የመዳፊት አዝራሩ ተጭኖ ሳለ ይታያል። ባዶ ሲሆን የጠቋሚውን ምስል ይጠቀማል።</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>ተደራቢው ሲዘጋ መስራቱን ቀጥል</value>
+  </data>
 </root>

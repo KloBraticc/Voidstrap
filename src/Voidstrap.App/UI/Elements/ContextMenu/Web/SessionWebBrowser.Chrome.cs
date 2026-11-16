@@ -865,6 +865,17 @@ public partial class SessionWebBrowser
             Toggle("Memory saver, tabs unused for 10 minutes sleep", Settings.MemorySaver, value => Settings.MemorySaver = value)
         );
         privacy.Items.Add(
+            Toggle(
+                Strings.Ui_Browser_KeepRunning,
+                App.Settings.Prop.OverlayBrowserKeepRunning,
+                value =>
+                {
+                    App.Settings.Prop.OverlayBrowserKeepRunning = value;
+                    App.Settings.SaveDeferred();
+                }
+            )
+        );
+        privacy.Items.Add(
             Toggle("Open new tabs next to the current one", Settings.OpenNextToCurrent, value => Settings.OpenNextToCurrent = value)
         );
         if (Settings.AllowedSites.Count > 0)

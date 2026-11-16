@@ -10441,4 +10441,7 @@
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>يظهر أثناء الضغط على زر الماوس. يستخدم صورة المؤشر إذا كان فارغًا.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>استمر في العمل عند إغلاق الواجهة</value>
+  </data>
 </root>

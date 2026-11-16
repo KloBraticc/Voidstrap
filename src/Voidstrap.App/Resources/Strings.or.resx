@@ -10130,4 +10130,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>ମାଉସ ବଟନ ଦବାଇ ରଖିଥିବା ସମୟରେ ଦେଖାଯାଏ। ଖାଲି ଥିଲେ କର୍ସର ଛବି ବ୍ୟବହାର କରେ।</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>ଓଭରଲେ ବନ୍ଦ ହେଲେ ମଧ୍ୟ ଚାଲୁ ରଖନ୍ତୁ</value>
+  </data>
 </root>

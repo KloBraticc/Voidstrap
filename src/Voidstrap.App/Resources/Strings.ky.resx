@@ -10130,4 +10130,7 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Чычкандын баскычы басылып турганда көрсөтүлөт. Бош болсо, курсордун сүрөтүн колдонот.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Оверлей жабылганда иштей берсин</value>
+  </data>
 </root>

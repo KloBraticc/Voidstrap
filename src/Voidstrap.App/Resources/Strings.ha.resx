@@ -10130,4 +10130,7 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Ana nuna ta yayin da aka riƙe maɓallin linzamin kwamfuta. Tana amfani da hoton kibiya idan babu komai.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Ci gaba da aiki idan an rufe overlay</value>
+  </data>
 </root>

@@ -288,6 +288,7 @@ namespace Voidstrap.Models.Persistable
         public string CrosshairOutlineColorHex { get; set; } = "#FF000000";
         public int CrosshairSize { get; set; } = 20;
         public int CrosshairLineThickness { get; set; } = 2;
+        public bool OverlayBrowserKeepRunning { get; set; } = false;
         public int CrosshairGap { get; set; } = 4;
         public double CrosshairOpacity { get; set; } = 1.0;
         public bool GameWIP { get; set; } = false;

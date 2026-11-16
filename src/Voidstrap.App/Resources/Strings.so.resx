@@ -10130,4 +10130,7 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Waxaa la muujiyaa inta badhanka jiirka la haysto. Waxay isticmaashaa sawirka calaamadda marka uu madhan yahay.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Sii shaqee marka overlay la xiro</value>
+  </data>
 </root>

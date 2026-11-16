@@ -10129,4 +10129,7 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Es mostra mentre es manté premut el botó del ratolí. Si és buit, fa servir la imatge del cursor.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Continua en marxa quan es tanca la superposició</value>
+  </data>
 </root>

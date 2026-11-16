@@ -58,6 +58,7 @@ public sealed partial class SessionPanelWindow : Window
 
     public bool IsPinned { get; private set; }
     public bool IsClosed => _closed;
+    public bool KeepsRunning => _key == "web" && App.Settings.Prop.OverlayBrowserKeepRunning;
 
     // Asked to be on screen whenever the dock is open, as opposed to only built ahead of time
     public bool IsRequested => _requested && !_closed;
@@ -501,7 +502,7 @@ public sealed partial class SessionPanelWindow : Window
         SetHostedViewVisible(false);
         if (_closed)
             return;
-        if (_key == "web")
+        if (_key == "web" && !KeepsRunning)
         {
             Close();
             return;

@@ -10130,4 +10130,7 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Prikaže se, dokler je tipka miške pritisnjena. Če je prazno, uporabi sliko kazalca.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Nadaljuj z delovanjem, ko se prekrivni sloj zapre</value>
+  </data>
 </root>

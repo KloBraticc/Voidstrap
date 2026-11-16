@@ -10442,4 +10442,7 @@ SteamVR jetzt installieren?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Wird angezeigt, solange die Maustaste gedrückt ist. Nutzt das Cursorbild, wenn leer.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Weiterlaufen, wenn das Overlay geschlossen wird</value>
+  </data>
 </root>

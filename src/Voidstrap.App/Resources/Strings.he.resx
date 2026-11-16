@@ -10130,4 +10130,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>מוצג כל עוד לחצן העכבר לחוץ. משתמש בתמונת הסמן כשהשדה ריק.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>להמשיך לפעול כשהשכבה נסגרת</value>
+  </data>
 </root>

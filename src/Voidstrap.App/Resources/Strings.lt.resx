@@ -10444,4 +10444,7 @@ Veikimo laikas: {1}
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Rodomas, kol laikomas nuspaustas pelės mygtukas. Jei tuščia, naudojamas žymeklio paveikslėlis.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Toliau veikti, kai perdanga uždaroma</value>
+  </data>
 </root>

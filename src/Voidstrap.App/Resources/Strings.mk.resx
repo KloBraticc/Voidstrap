@@ -10130,4 +10130,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Се прикажува додека копчето на глувчето е притиснато. Ако е празно, ја користи сликата на курсорот.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Продолжи да работи кога ќе се затвори преклопот</value>
+  </data>
 </root>

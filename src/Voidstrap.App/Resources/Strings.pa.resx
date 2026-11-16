@@ -10130,4 +10130,7 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>ਮਾਊਸ ਬਟਨ ਦਬਾ ਕੇ ਰੱਖਣ ਵੇਲੇ ਦਿਖਾਇਆ ਜਾਂਦਾ ਹੈ। ਖਾਲੀ ਹੋਣ ਤੇ ਕਰਸਰ ਦੀ ਤਸਵੀਰ ਵਰਤਦਾ ਹੈ।</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>ਓਵਰਲੇ ਬੰਦ ਹੋਣ 'ਤੇ ਵੀ ਚੱਲਦਾ ਰੱਖੋ</value>
+  </data>
 </root>

@@ -10129,4 +10129,7 @@ Uptime: {1}
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>چاشقىنەك كۇنۇپكىسى بېسىپ تۇرۇلغاندا كۆرسىتىلىدۇ. بوش بولسا نۇر بەلگە رەسىمىنى ئىشلىتىدۇ.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>قاپلىما تاقالغاندا ئىجرانى داۋاملاشتۇر</value>
+  </data>
 </root>

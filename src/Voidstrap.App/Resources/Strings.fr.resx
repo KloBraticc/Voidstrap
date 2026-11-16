@@ -10441,4 +10441,7 @@ Installer SteamVR maintenant ?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Affiché tant que le bouton de la souris est maintenu. Utilise l'image du curseur si vide.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Continuer à fonctionner à la fermeture de la superposition</value>
+  </data>
 </root>

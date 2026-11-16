@@ -10457,4 +10457,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>マウスボタンを押している間に表示されます。空の場合はカーソル画像を使用します。</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>オーバーレイを閉じても実行を続けます</value>
+  </data>
 </root>

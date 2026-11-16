@@ -10130,4 +10130,7 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Ka whakaaturia i te wā e puritia ana te pātene kiore. Ka whakamahia te atahanga pehu ina kau.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Rere tonu ina kati te papatahi</value>
+  </data>
 </root>

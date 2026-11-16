@@ -10129,4 +10129,7 @@ Indi SteamVR guruň?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Syçanyň düwmesi basylyp durka görkezilýär. Boş bolsa, kursoryň suratyny ulanýar.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Örtük ýapylanda işlemegini dowam et</value>
+  </data>
 </root>

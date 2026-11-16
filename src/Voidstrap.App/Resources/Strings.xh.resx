@@ -10129,4 +10129,7 @@ Faka i-SteamVR ngoku?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Iboniswa ngelixa iqhosha lempuku libanjiwe. Isebenzisa umfanekiso wekhesa xa ingenanto.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Qhubeka usebenza xa i-overlay ivalwa</value>
+  </data>
 </root>

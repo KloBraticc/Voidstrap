@@ -10129,4 +10129,7 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Se bontšoa ha konopo ya toeba e ntse e tshwerwe. Se sebedisa setshwantsho sa sesupa ha se se na letho.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Tsoela pele ho sebetsa ha overlay e koaloa</value>
+  </data>
 </root>

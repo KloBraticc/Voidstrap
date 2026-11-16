@@ -10130,4 +10130,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>මූසික බොත්තම තද කර තබා ඇති අතරතුර පෙන්වයි. හිස් නම් කර්සර රූපය භාවිතා කරයි.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>උඩැතිරිය වැසූ විටත් දිගටම ක්‍රියාත්මක වන්න</value>
+  </data>
 </root>

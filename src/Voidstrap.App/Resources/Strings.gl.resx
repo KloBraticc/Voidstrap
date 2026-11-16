@@ -10130,4 +10130,7 @@ Instalar SteamVR agora?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Móstrase mentres se mantén premido o botón do rato. Usa a imaxe do cursor se está baleiro.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Seguir en execución ao pechar a superposición</value>
+  </data>
 </root>

@@ -10129,4 +10129,7 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Kuvatakse, kuni hiirenuppu hoitakse all. Kui tühi, kasutatakse kursori pilti.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Jätka töötamist, kui ülekate sulgub</value>
+  </data>
 </root>

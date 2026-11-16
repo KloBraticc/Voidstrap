@@ -10130,4 +10130,7 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Taispeántar é fad atá cnaipe na luiche coinnithe síos. Úsáideann sé íomhá an chúrsóra nuair atá sé folamh.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Lean ar aghaidh ag rith nuair a dhúntar an forleagan</value>
+  </data>
 </root>

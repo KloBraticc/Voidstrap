@@ -10130,4 +10130,7 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Igaragara mu gihe buto y'imbeba ikanzwe. Ikoresha ishusho y'indanga iyo ari ubusa.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Komeza gukora igihe overlay ifunze</value>
+  </data>
 </root>

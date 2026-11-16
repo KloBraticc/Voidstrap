@@ -10129,4 +10129,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Εμφανίζεται όσο κρατάτε πατημένο το κουμπί του ποντικιού. Χρησιμοποιεί την εικόνα του δρομέα όταν είναι κενό.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Συνέχιση λειτουργίας όταν κλείνει η επικάλυψη</value>
+  </data>
 </root>

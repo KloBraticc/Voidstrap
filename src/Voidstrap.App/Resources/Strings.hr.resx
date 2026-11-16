@@ -10442,4 +10442,7 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
     <value>Prikazuje se dok je tipka miša pritisnuta. Ako je prazno, koristi sliku pokazivača.</value>
   </data>
+  <data name="Ui.Browser.KeepRunning" xml:space="preserve">
+    <value>Nastavi raditi kada se preklop zatvori</value>
+  </data>
 </root>
