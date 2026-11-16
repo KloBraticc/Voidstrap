@@ -30,7 +30,7 @@ internal static partial class RobloxCursorOverlay
     private const int MinimumFrameDelay = 20;
     private const int IdleWaitMilliseconds = 100;
     private const int MinimumFrameWaitMilliseconds = 4;
-    private const int HoverLearningFrames = 90;
+    private const int HoverMarker = 1;
     private const int MaximumCachedCursors = 32;
     private static readonly IntPtr HwndTopmost = new(-1);
     private static readonly IntPtr DpiAwarenessPerMonitorV2 = new(-4);
@@ -182,9 +182,9 @@ internal static partial class RobloxCursorOverlay
         private readonly IDisposable _trackerLease;
         private readonly Thread _thread;
         private readonly Dictionary<IntPtr, int> _markers = new();
-        private readonly int[] _markerFrames = new int[4];
         private IntPtr _screenDc;
         private bool _presentFailureLogged;
+        private readonly HashSet<CursorOverrideKind> _loggedKinds = [];
 
         public OverlayThread(CursorFrames?[] sets)
         {
@@ -289,7 +289,10 @@ internal static partial class RobloxCursorOverlay
                 PointerState state = ReadPointer(out int x, out int y, out IntPtr cursor);
                 if (state == PointerState.Visible)
                 {
-                    FrameSet wanted = sets[(int)ResolveKind(cursor, sets)] ?? sets[0]!;
+                    CursorOverrideKind kind = ResolveKind(cursor, sets);
+                    if (_loggedKinds.Add(kind))
+                        App.Logger.WriteLine("RobloxCursorOverlay::Loop", "Showing the " + kind + " cursor for the first time this session");
+                    FrameSet wanted = sets[(int)kind] ?? sets[0]!;
                     bool resized = !ReferenceEquals(wanted, current);
                     int wantedFrame = wanted.FrameAt(Environment.TickCount64 - started);
                     if (resized || wantedFrame != frame)
@@ -344,14 +347,7 @@ internal static partial class RobloxCursorOverlay
                 return CursorOverrideKind.Click;
             if (sets[1] == null)
                 return CursorOverrideKind.Normal;
-            int marker = ReadMarker(cursor);
-            if (marker is not (1 or 2))
-                return CursorOverrideKind.Normal;
-            _markerFrames[marker] = Math.Min(_markerFrames[marker] + 1, int.MaxValue / 2);
-            int idle = _markerFrames[1] >= _markerFrames[2] ? 1 : 2;
-            if (_markerFrames[idle] < HoverLearningFrames)
-                return CursorOverrideKind.Normal;
-            return marker == idle ? CursorOverrideKind.Normal : CursorOverrideKind.Hover;
+            return ReadMarker(cursor) == HoverMarker ? CursorOverrideKind.Hover : CursorOverrideKind.Normal;
         }
 
         private static bool IsPrimaryButtonDown()
