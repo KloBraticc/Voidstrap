@@ -1061,6 +1061,10 @@ internal static class Paths
             catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
             {
                 failure = ex;
+                if (attempt == 0)
+                {
+                    Voidstrap.Utility.WebViewLockRelease.CloseWebViewLocking(fullPath);
+                }
                 if (attempt < 2)
                 {
                     Task.Delay(500).GetAwaiter().GetResult();
