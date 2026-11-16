@@ -1941,6 +1941,7 @@ public partial class Bootstrapper
                 || shouldKeepSnapTap
                 || shouldCompressAfterExit
                 || shouldManageFullscreen
+                || CursorManager.OverrideActive
             ) && !(App.LaunchSettings.TestModeFlag?.Active ?? false)
         )
         {
