@@ -133,11 +133,10 @@ namespace Voidstrap.UI.ViewModels.Pages
                 return;
             foreach (DiscoverCacheGame game in _discoverCache.Recommended)
                 Recommended.Add(FromCache(game));
-            if (_discoverCache.Featured != null)
+            if (_discoverCache.Featured != null && !string.IsNullOrEmpty(_discoverCache.FeaturedVideoPath) && File.Exists(_discoverCache.FeaturedVideoPath))
             {
                 _featuredGame = FromCache(_discoverCache.Featured);
-                if (!string.IsNullOrEmpty(_discoverCache.FeaturedVideoPath) && File.Exists(_discoverCache.FeaturedVideoPath))
-                    _featuredVideoPath = _discoverCache.FeaturedVideoPath;
+                _featuredVideoPath = _discoverCache.FeaturedVideoPath;
             }
         }
 
@@ -231,22 +230,24 @@ namespace Voidstrap.UI.ViewModels.Pages
                     OnPropertyChanged(nameof(RecommendedVisibility));
                 });
 
-                DiscoverGameEntry? featured = featuredCandidates.FirstOrDefault();
-                string? video = featured == null ? null : await GameVideoStore.GetLocalVideoAsync(featured.UniverseId, CancellationToken.None).ConfigureAwait(false);
-                if (string.IsNullOrEmpty(video))
-                    video = null;
-                await Application.Current.Dispatcher.InvokeAsync(() =>
+                foreach (DiscoverGameEntry candidate in featuredCandidates)
                 {
-                    if (featured != null && FeaturedGame?.UniverseId != featured.UniverseId)
+                    string? video = await GameVideoStore.GetLocalVideoAsync(candidate.UniverseId, CancellationToken.None).ConfigureAwait(false);
+                    if (string.IsNullOrEmpty(video))
+                        continue;
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
-                        App.Logger.WriteLine(LOG_IDENT, "Most played game is now " + featured.Name + " with " + featured.Players + " players");
-                    }
-                    if (featured != null)
-                        FeaturedGame = featured;
-                    if (FeaturedVideoPath != video)
-                        FeaturedVideoPath = video;
-                });
-                SaveDiscover(new DiscoverCache(featured != null ? ToCache(featured) : null, video, picks.Select(ToCache).ToList()));
+                        if (FeaturedGame?.UniverseId != candidate.UniverseId)
+                            App.Logger.WriteLine(LOG_IDENT, "Most played game with a trailer is now " + candidate.Name + " with " + candidate.Players + " players");
+                        FeaturedGame = candidate;
+                        if (FeaturedVideoPath != video)
+                            FeaturedVideoPath = video;
+                    });
+                    SaveDiscover(new DiscoverCache(ToCache(candidate), video, picks.Select(ToCache).ToList()));
+                    return;
+                }
+                App.Logger.WriteLine(LOG_IDENT, "None of the top games has a trailer video");
+                SaveDiscover(new DiscoverCache(_discoverCache?.FeaturedVideoPath != null ? _discoverCache.Featured : null, _discoverCache?.FeaturedVideoPath, picks.Select(ToCache).ToList()));
             }
             finally
             {
