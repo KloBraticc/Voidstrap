@@ -104,7 +104,14 @@
                       <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <StackPanel VerticalAlignment="Center">
-                      <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_RobloxCursorOverride}" />
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_RobloxCursorOverride}" />
+                        <TextBlock Margin="4,0,0,0">
+                          <Hyperlink Command="{x:Static models:GlobalViewModel.OpenWebpageCommand}" CommandParameter="https://www.cursors-4u.com/animated" TextDecorations="None" ToolTip="{resources:Loc Menu_MoreInfo}">
+                            <ui:SymbolIcon Margin="0,1,0,0" Symbol="QuestionCircle48" />
+                          </Hyperlink>
+                        </TextBlock>
+                      </StackPanel>
                       <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Mods_RobloxCursorOverrideDescription}" TextWrapping="Wrap" />
                     </StackPanel>
                     <ui:ToggleSwitch Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" IsChecked="{Binding CursorSettings.OverrideEnabled, Mode=TwoWay}" />
