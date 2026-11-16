@@ -99,9 +99,10 @@ internal sealed partial class Installer
         )
         {
             TrySafe("clear read only", () => Filesystem.AssertReadOnly(Paths.Application));
+            TrySafe("remove replaced executables", RemoveReplacedExecutables);
             try
             {
-                File.Copy(Paths.Process, Paths.Application, overwrite: true);
+                CopyApplication();
                 Voidstrap.Utility.InstallRecord.MakeExecutable(Paths.Application);
             }
             catch (Exception ex)
@@ -484,6 +485,32 @@ internal sealed partial class Installer
         catch { }
 
         return false;
+    }
+
+    private static void CopyApplication()
+    {
+        const string LOG_IDENT = "Installer::CopyApplication";
+        try
+        {
+            File.Copy(Paths.Process, Paths.Application, overwrite: true);
+            return;
+        }
+        catch (Exception ex) when ((ex is IOException or UnauthorizedAccessException) && File.Exists(Paths.Application))
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The old executable is in use, moving it aside: " + ex.Message);
+        }
+        string? retired = RetireInstalledExecutable();
+        try
+        {
+            File.Copy(Paths.Process, Paths.Application, overwrite: true);
+        }
+        catch
+        {
+            if (retired != null && !File.Exists(Paths.Application))
+                File.Move(retired, Paths.Application);
+            throw;
+        }
+        App.Logger.WriteLine(LOG_IDENT, "Installed the new executable while the old one keeps running");
     }
 
     private static void TrySafe(string label, Action action)
