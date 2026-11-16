@@ -436,12 +436,13 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
                   <TextBlock Text="{resources:Loc Ui_OverlayStudio_DockEdge}" Style="{StaticResource Label}" />
-                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_DockEdgeHint}" Style="{StaticResource Hint}" />
                 </StackPanel>
                 <Border Grid.Column="1" Style="{StaticResource SegmentTray}" VerticalAlignment="Center">
                   <StackPanel Orientation="Horizontal">
                     <RadioButton x:Name="DockBottomEdgeRadio" Content="{resources:Loc Ui_OverlayStudio_BottomEdge}" GroupName="StudioDockEdge" Style="{StaticResource Segment}" Checked="DockEdge_Changed" />
                     <RadioButton x:Name="DockTopEdgeRadio" Content="{resources:Loc Ui_OverlayStudio_TopEdge}" GroupName="StudioDockEdge" Style="{StaticResource Segment}" Checked="DockEdge_Changed" />
+                    <RadioButton x:Name="DockLeftEdgeRadio" Content="{resources:Loc Ui_Mods_Left}" GroupName="StudioDockEdge" Style="{StaticResource Segment}" Checked="DockEdge_Changed" />
+                    <RadioButton x:Name="DockRightEdgeRadio" Content="{resources:Loc Ui_Mods_Right}" GroupName="StudioDockEdge" Style="{StaticResource Segment}" Checked="DockEdge_Changed" />
                   </StackPanel>
                 </Border>
               </Grid>
@@ -453,7 +454,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_Horizontal}" Style="{StaticResource Label}" />
+                <TextBlock x:Name="DockPositionLabel" Text="{resources:Loc Ui_SessionNotify_Horizontal}" Style="{StaticResource Label}" />
                 <Slider x:Name="DockHorizontalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="DockSlider_Changed" />
                 <TextBlock x:Name="DockHorizontalText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>

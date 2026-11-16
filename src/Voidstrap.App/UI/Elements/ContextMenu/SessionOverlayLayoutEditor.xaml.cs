@@ -313,8 +313,10 @@ public partial class SessionOverlayLayoutEditor : Window
             UpdateCrosshairSwatch(CrosshairColorSwatch, prop.CrosshairColorHex ?? "#00FF00");
             UpdateCrosshairSwatch(CrosshairOutlineSwatch, prop.CrosshairOutlineColorHex ?? "#000000");
 
-            DockBottomEdgeRadio.IsChecked = !layout.DockTopEdge;
-            DockTopEdgeRadio.IsChecked = layout.DockTopEdge;
+            DockBottomEdgeRadio.IsChecked = !layout.DockSideways && !layout.DockTopEdge;
+            DockTopEdgeRadio.IsChecked = !layout.DockSideways && layout.DockTopEdge;
+            DockLeftEdgeRadio.IsChecked = layout.DockSide == OverlayDockSide.Left;
+            DockRightEdgeRadio.IsChecked = layout.DockSide == OverlayDockSide.Right;
             DockHorizontalSlider.Value = Math.Round(layout.SafeDockHorizontal);
             DockSpacingSlider.Value = Math.Round(layout.SafeDockEdgeSpacing);
             DockScaleSlider.Value = Math.Round(layout.SafeDockScale * 100);
@@ -366,6 +368,7 @@ public partial class SessionOverlayLayoutEditor : Window
         ReadoutOpacityText.Text = ((int)Math.Round(ReadoutOpacitySlider.Value)).ToString(inv) + "%";
         ReadoutCornerText.Text = ((int)Math.Round(ReadoutCornerSlider.Value)).ToString(inv) + " px";
 
+        DockPositionLabel.Text = App.Settings.Prop.OverlayLayout?.DockSideways == true ? Strings.Ui_SessionNotify_Vertical : Strings.Ui_SessionNotify_Horizontal;
         DockHorizontalText.Text = ((int)Math.Round(DockHorizontalSlider.Value)).ToString(inv) + "%";
         DockSpacingText.Text = ((int)Math.Round(DockSpacingSlider.Value)).ToString(inv) + " px";
         DockScaleText.Text = ((int)Math.Round(DockScaleSlider.Value)).ToString(inv) + "%";
@@ -525,12 +528,22 @@ public partial class SessionOverlayLayoutEditor : Window
             _gameIcon,
             stageScale
         );
+        _stageDockWrapper.LayoutTransform = layout.DockSideways ? new RotateTransform(90) : Transform.Identity;
         _stageDockWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double dGap = Math.Max(4, layout.SafeDockEdgeSpacing * stageScale);
         double dMinX = 6;
-        double dMaxX = Math.Max(dMinX, stageW - _stageDockWrapper.DesiredSize.Width - 6);
-        Canvas.SetLeft(_stageDockWrapper, dMinX + (dMaxX - dMinX) * (layout.SafeDockHorizontal / 100.0));
-        Canvas.SetTop(_stageDockWrapper, layout.DockTopEdge ? dGap : Math.Max(dGap, stageH - _stageDockWrapper.DesiredSize.Height - dGap));
+        if (layout.DockSideways)
+        {
+            double dMaxY = Math.Max(dMinX, stageH - _stageDockWrapper.DesiredSize.Height - 6);
+            Canvas.SetTop(_stageDockWrapper, dMinX + (dMaxY - dMinX) * (layout.SafeDockHorizontal / 100.0));
+            Canvas.SetLeft(_stageDockWrapper, layout.DockSide == OverlayDockSide.Left ? dGap : Math.Max(dGap, stageW - _stageDockWrapper.DesiredSize.Width - dGap));
+        }
+        else
+        {
+            double dMaxX = Math.Max(dMinX, stageW - _stageDockWrapper.DesiredSize.Width - 6);
+            Canvas.SetLeft(_stageDockWrapper, dMinX + (dMaxX - dMinX) * (layout.SafeDockHorizontal / 100.0));
+            Canvas.SetTop(_stageDockWrapper, layout.DockTopEdge ? dGap : Math.Max(dGap, stageH - _stageDockWrapper.DesiredSize.Height - dGap));
+        }
 
         SessionLiveOverlayCanvasWindow.ApplyExactCrosshairConfiguration(
             this,
@@ -587,7 +600,7 @@ public partial class SessionOverlayLayoutEditor : Window
             ),
             OverlayStudioLayer.Dock => string.Create(
                 CultureInfo.InvariantCulture,
-                $"{Strings.Ui_OverlayStudio_LayerDock}: {(layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)} · X {Math.Round(layout.SafeDockHorizontal)}%"
+                $"{Strings.Ui_OverlayStudio_LayerDock}: {SessionLiveOverlayCanvasWindow.DockEdgeLabel(layout)} · {(layout.DockSideways ? "Y" : "X")} {Math.Round(layout.SafeDockHorizontal)}%"
             ),
             OverlayStudioLayer.Crosshair => string.Create(
                 CultureInfo.InvariantCulture,
@@ -677,9 +690,18 @@ public partial class SessionOverlayLayoutEditor : Window
         else if (layer == OverlayStudioLayer.Dock)
         {
             double minX = 6;
-            double maxX = Math.Max(minX + 1, stageW - elemW - 6);
-            layout.DockHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100)));
-            layout.DockTopEdge = (nextTop + elemH * 0.5) < stageH * 0.45;
+            if (layout.DockSideways)
+            {
+                double maxY = Math.Max(minX + 1, stageH - elemH - 6);
+                layout.DockHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextTop - minX) / (maxY - minX) * 100.0, 0, 100)));
+                layout.DockSide = (nextLeft + elemW * 0.5) < stageW * 0.5 ? OverlayDockSide.Left : OverlayDockSide.Right;
+            }
+            else
+            {
+                double maxX = Math.Max(minX + 1, stageW - elemW - 6);
+                layout.DockHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100)));
+                layout.DockTopEdge = (nextTop + elemH * 0.5) < stageH * 0.45;
+            }
         }
         else if (layer == OverlayStudioLayer.Crosshair)
         {
@@ -837,6 +859,13 @@ public partial class SessionOverlayLayoutEditor : Window
                 App.Settings.Prop.NotificationAppearance = notif.Copy();
                 break;
             case OverlayStudioLayer.Dock:
+                if (layout.DockSideways)
+                {
+                    layout.DockHorizontal = Math.Clamp(layout.SafeDockHorizontal + dy, 0, 100);
+                    if (dx != 0)
+                        layout.DockSide = dx < 0 ? OverlayDockSide.Left : OverlayDockSide.Right;
+                    break;
+                }
                 layout.DockHorizontal = Math.Clamp(layout.SafeDockHorizontal + dx, 0, 100);
                 if (dy != 0)
                     layout.DockTopEdge = dy < 0;
@@ -912,8 +941,16 @@ public partial class SessionOverlayLayoutEditor : Window
         }
         else if (_selectedLayer == OverlayStudioLayer.Dock)
         {
-            layout.DockHorizontal = anchorX;
-            layout.DockTopEdge = anchorY < 50;
+            if (layout.DockSideways)
+            {
+                layout.DockHorizontal = anchorY;
+                layout.DockSide = anchorX < 50 ? OverlayDockSide.Left : OverlayDockSide.Right;
+            }
+            else
+            {
+                layout.DockHorizontal = anchorX;
+                layout.DockTopEdge = anchorY < 50;
+            }
             SessionDock.ActiveInstance?.RefreshLayoutLive();
         }
         else if (_selectedLayer == OverlayStudioLayer.Crosshair)
@@ -1008,6 +1045,11 @@ public partial class SessionOverlayLayoutEditor : Window
             return;
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         layout.DockTopEdge = DockTopEdgeRadio.IsChecked == true;
+        layout.DockSide =
+            DockLeftEdgeRadio.IsChecked == true ? OverlayDockSide.Left
+            : DockRightEdgeRadio.IsChecked == true ? OverlayDockSide.Right
+            : OverlayDockSide.None;
+        UpdateValueLabels();
         SessionDock.ActiveInstance?.RefreshLayoutLive();
         App.Settings.SaveDeferred();
         LayoutStagePreview();
@@ -1328,6 +1370,7 @@ public partial class SessionOverlayLayoutEditor : Window
                 notif.Horizontal = 100;
                 notif.Vertical = 0;
                 layout.DockTopEdge = false;
+                layout.DockSide = OverlayDockSide.None;
                 layout.DockHorizontal = 50;
                 layout.DockScale = 0.95;
                 break;
@@ -1346,6 +1389,7 @@ public partial class SessionOverlayLayoutEditor : Window
                 notif.Vertical = 0;
                 notif.Size = 85;
                 layout.DockTopEdge = true;
+                layout.DockSide = OverlayDockSide.None;
                 layout.DockHorizontal = 50;
                 layout.DockScale = 0.90;
                 layout.DockBackdropOpacity = 0.20;
@@ -1366,12 +1410,14 @@ public partial class SessionOverlayLayoutEditor : Window
                 notif.Horizontal = 0;
                 notif.Vertical = 100;
                 layout.DockTopEdge = false;
+                layout.DockSide = OverlayDockSide.None;
                 layout.DockHorizontal = 100;
                 layout.DockScale = 0.95;
                 break;
 
             case "topdock":
                 layout.DockTopEdge = true;
+                layout.DockSide = OverlayDockSide.None;
                 layout.DockHorizontal = 50;
                 layout.DockEdgeSpacing = 10;
                 layout.DockScale = 1.0;

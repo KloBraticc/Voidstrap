@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:platform="clr-namespace:Voidstrap.UI"
+        xmlns:overlay="clr-namespace:Voidstrap.UI.Elements.Overlay"
         Title="{resources:Loc Ui_Session_VoidstrapSession}" Width="1060" Height="96" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize"
         ShowInTaskbar="False" ShowActivated="False" Topmost="True"
@@ -12,7 +13,7 @@
     <SolidColorBrush x:Key="IslandGreen" Color="#FF32D74B" />
     <Style TargetType="ToolTip">
       <Setter Property="Placement" Value="Custom" />
-      <Setter Property="CustomPopupPlacementCallback" Value="{x:Static platform:OverlayToolTipPlacement.Above}" />
+      <Setter Property="CustomPopupPlacementCallback" Value="{x:Static overlay:SessionDock.ToolTipPlacement}" />
       <Setter Property="HasDropShadow" Value="False" />
       <Setter Property="FontFamily" Value="Segoe UI" />
       <Setter Property="FontSize" Value="12" />
@@ -412,6 +413,9 @@
     <Popup x:Name="NowPlayingPopup" Grid.Row="1" PlacementTarget="{Binding ElementName=Pill}" Placement="Custom" AllowsTransparency="True" Focusable="False" StaysOpen="True">
       <Grid x:Name="IslandStage" Width="480" Height="260">
         <Grid.Resources>
+          <Style TargetType="ToolTip" BasedOn="{StaticResource {x:Type ToolTip}}">
+            <Setter Property="CustomPopupPlacementCallback" Value="{x:Static platform:OverlayToolTipPlacement.Above}" />
+          </Style>
           <Storyboard x:Key="IslandMeter">
           <DoubleAnimation Storyboard.TargetName="MeterBar0" Storyboard.TargetProperty="ScaleY" From="0.25" To="0.5" Duration="0:0:0.41" AutoReverse="True" RepeatBehavior="Forever" />
           <DoubleAnimation Storyboard.TargetName="MeterBar1" Storyboard.TargetProperty="ScaleY" From="0.4" To="1" Duration="0:0:0.33" AutoReverse="True" RepeatBehavior="Forever" />

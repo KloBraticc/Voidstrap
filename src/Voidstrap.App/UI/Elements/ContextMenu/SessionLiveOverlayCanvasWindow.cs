@@ -831,6 +831,14 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         return circle;
     }
 
+    internal static string DockEdgeLabel(OverlayLayoutSettings layout) =>
+        layout.DockSide switch
+        {
+            OverlayDockSide.Left => Strings.Ui_Mods_Left,
+            OverlayDockSide.Right => Strings.Ui_Mods_Right,
+            _ => layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge,
+        };
+
     internal static void ApplyExactDockConfiguration(
         Grid dockRoot,
         Image profileImage,
@@ -1336,13 +1344,23 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             _gameIcon,
             1.0
         );
+        _dockWrapper.LayoutTransform = layout.DockSideways ? new RotateTransform(90) : Transform.Identity;
         MeasureBox(_dockWrapper);
         double dSide = 12;
         double dEdge = layout.SafeDockEdgeSpacing;
         double dMinX = dSide;
-        double dMaxX = Math.Max(dMinX, stageW - _dockWrapper.DesiredSize.Width - dSide);
-        Canvas.SetLeft(_dockWrapper, dMinX + (dMaxX - dMinX) * (layout.SafeDockHorizontal / 100.0));
-        Canvas.SetTop(_dockWrapper, layout.DockTopEdge ? dEdge : Math.Max(dEdge, stageH - _dockWrapper.DesiredSize.Height - dEdge));
+        if (layout.DockSideways)
+        {
+            double dMaxY = Math.Max(dMinX, stageH - _dockWrapper.DesiredSize.Height - dSide);
+            Canvas.SetTop(_dockWrapper, dMinX + (dMaxY - dMinX) * (layout.SafeDockHorizontal / 100.0));
+            Canvas.SetLeft(_dockWrapper, layout.DockSide == OverlayDockSide.Left ? dEdge : Math.Max(dEdge, stageW - _dockWrapper.DesiredSize.Width - dEdge));
+        }
+        else
+        {
+            double dMaxX = Math.Max(dMinX, stageW - _dockWrapper.DesiredSize.Width - dSide);
+            Canvas.SetLeft(_dockWrapper, dMinX + (dMaxX - dMinX) * (layout.SafeDockHorizontal / 100.0));
+            Canvas.SetTop(_dockWrapper, layout.DockTopEdge ? dEdge : Math.Max(dEdge, stageH - _dockWrapper.DesiredSize.Height - dEdge));
+        }
 
         ApplyExactCrosshairConfiguration(this, _crosshairImage, 128);
         MeasureBox(_crosshairWrapper);
@@ -1572,12 +1590,16 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         else if (layer == OverlayStudioLayer.Dock)
         {
             double minX = 12;
-            double maxX = Math.Max(minX + 1, stageW - elemW - 12);
-            double pctX = Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100);
+            bool sideways = layout.DockSideways;
+            double maxX = Math.Max(minX + 1, (sideways ? stageH - elemH : stageW - elemW) - 12);
+            double pctX = Math.Clamp(((sideways ? nextTop : nextLeft) - minX) / (maxX - minX) * 100.0, 0, 100);
             if (_magneticSnap)
                 pctX = SnapPercent(pctX);
             layout.DockHorizontal = Math.Round(pctX);
-            layout.DockTopEdge = (nextTop + elemH * 0.5) < stageH * 0.45;
+            if (sideways)
+                layout.DockSide = (nextLeft + elemW * 0.5) < stageW * 0.5 ? OverlayDockSide.Left : OverlayDockSide.Right;
+            else
+                layout.DockTopEdge = (nextTop + elemH * 0.5) < stageH * 0.45;
         }
         else if (layer == OverlayStudioLayer.Crosshair)
         {
@@ -1731,7 +1753,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             ),
             OverlayStudioLayer.Dock => string.Create(
                 CultureInfo.InvariantCulture,
-                $"{Strings.Ui_OverlayStudio_LayerDock}: {(layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)} · X {Math.Round(layout.SafeDockHorizontal)}%"
+                $"{Strings.Ui_OverlayStudio_LayerDock}: {DockEdgeLabel(layout)} · {(layout.DockSideways ? "Y" : "X")} {Math.Round(layout.SafeDockHorizontal)}%"
             ),
             OverlayStudioLayer.Crosshair => string.Create(
                 CultureInfo.InvariantCulture,

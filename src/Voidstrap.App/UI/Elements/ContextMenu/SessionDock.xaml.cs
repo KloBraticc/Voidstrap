@@ -87,6 +87,9 @@ public partial class SessionDock : Window
 
     private const double MaxDockWidth = 1180;
     private int _availableWidth;
+    private OverlayDockSide? _appliedSide;
+    private const double DockWindowThickness = 96;
+    private const double SidePopoutWidth = 900;
     private readonly NativeSlide _slide;
     private readonly TranslateTransform _linuxDockMotion = new();
     private int _linuxMotionGeneration;
@@ -186,7 +189,6 @@ public partial class SessionDock : Window
             if (Pill.Parent is FrameworkElement container)
                 container.HorizontalAlignment = HorizontalAlignment.Stretch;
             Pill.Height = DockHeight;
-            Height = DockHeight;
         }
         PortableOverlay.Prepare(this);
         PreviewKeyDown += OnDockKey;
@@ -653,6 +655,17 @@ public partial class SessionDock : Window
 
     private void AlignIslandToDock()
     {
+        OverlayDockSide side = CurrentSide;
+        if (side != OverlayDockSide.None)
+        {
+            bool left = side == OverlayDockSide.Left;
+            NowPlayingIsland.VerticalAlignment = VerticalAlignment.Center;
+            NowPlayingIsland.HorizontalAlignment = left ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+            NowPlayingIsland.Margin = left ? new Thickness(IslandDragRoom, 0, 0, 0) : new Thickness(0, 0, IslandDragRoom, 0);
+            NowPlayingIsland.RenderTransformOrigin = left ? new Point(0, 0.5) : new Point(1, 0.5);
+            return;
+        }
+        NowPlayingIsland.HorizontalAlignment = HorizontalAlignment.Center;
         bool below = IslandBelowDock;
         NowPlayingIsland.VerticalAlignment = below ? VerticalAlignment.Top : VerticalAlignment.Bottom;
         NowPlayingIsland.Margin = below ? new Thickness(0, IslandDragRoom, 0, 0) : new Thickness(0, 0, 0, IslandDragRoom);
@@ -661,6 +674,12 @@ public partial class SessionDock : Window
 
     private static CustomPopupPlacement[] PlaceNowPlaying(Size popupSize, Size targetSize, Point offset)
     {
+        OverlayDockSide side = CurrentSide;
+        if (side != OverlayDockSide.None)
+        {
+            double x = side == OverlayDockSide.Left ? targetSize.Width - IslandDragRoom + 8 : -popupSize.Width + IslandDragRoom - 8;
+            return [new CustomPopupPlacement(new Point(x, (targetSize.Height - popupSize.Height) / 2), PopupPrimaryAxis.None)];
+        }
         double y = IslandBelowDock ? targetSize.Height - IslandDragRoom + 8 : -popupSize.Height + IslandDragRoom - 8;
         return [new CustomPopupPlacement(new Point((targetSize.Width - popupSize.Width) / 2, y), PopupPrimaryAxis.None)];
     }
@@ -1083,6 +1102,16 @@ public partial class SessionDock : Window
     internal static (int Left, int Top) ComputeDockPosition(RobloxWindowRect rect, double scaleX, double scaleY, int width, int height)
     {
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
+        if (layout.DockSideways)
+        {
+            int along = Math.Max(0, (int)Math.Round(12 * scaleY));
+            int across = Math.Max(1, (int)Math.Round(layout.SafeDockEdgeSpacing * scaleX));
+            int minTop = rect.Top + along;
+            int maxTop = Math.Max(minTop, rect.Top + rect.Height - height - along);
+            int sideTop = minTop + (int)Math.Round((maxTop - minTop) * (layout.SafeDockHorizontal / 100.0));
+            int sideLeft = layout.DockSide == OverlayDockSide.Left ? rect.Left + across : rect.Left + Math.Max(0, rect.Width - width - across);
+            return (sideLeft, sideTop);
+        }
         int sideMargin = Math.Max(0, (int)Math.Round(12 * scaleX));
         int edgeMargin = Math.Max(1, (int)Math.Round(layout.SafeDockEdgeSpacing * scaleY));
         int minLeft = rect.Left + sideMargin;
@@ -1231,8 +1260,7 @@ public partial class SessionDock : Window
             Settle();
             return;
         }
-        bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
-        Point from = resumeFrom ?? new Point(target.X, topEdge ? game.Top - Height : game.Top + game.Height);
+        Point from = resumeFrom ?? OffscreenPoint(target, game);
         Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
         if (!_slide.Start(from, target, clip, EntranceLength, true, OnEntranceFinished))
         {
@@ -1428,7 +1456,7 @@ public partial class SessionDock : Window
     {
         CancelLinuxDockAnimation();
         RobloxWindowRect bounds = RobloxWindowTracker.Current;
-        if (!bounds.Valid || !IsVisible || Wpf.Ui.Animations.RenderReady.ReducedMotion)
+        if (!bounds.Valid || !IsVisible || Wpf.Ui.Animations.RenderReady.ReducedMotion || CurrentSide != OverlayDockSide.None)
         {
             completed();
             return;
@@ -1540,11 +1568,10 @@ public partial class SessionDock : Window
         RobloxWindowRect game = RobloxWindowTracker.Current;
         if (_slide.CurrentPosition() is not Point from)
             return false;
-        bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
         Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
         _exiting = _slide.Start(
             from,
-            new Point(from.X, topEdge ? game.Top - Height : game.Top + game.Height),
+            OffscreenPoint(from, game),
             clip,
             ExitLength,
             false,
@@ -1566,18 +1593,70 @@ public partial class SessionDock : Window
             _slide.RemoveClip();
     }
 
+    private static OverlayDockSide CurrentSide =>
+        App.Settings.Prop.OverlayLayout is { DockSideways: true } layout ? layout.DockSide : OverlayDockSide.None;
+
+    private Point OffscreenPoint(Point target, RobloxWindowRect game) =>
+        CurrentSide switch
+        {
+            OverlayDockSide.Left => new Point(game.Left - Width, target.Y),
+            OverlayDockSide.Right => new Point(game.Left + game.Width, target.Y),
+            _ => new Point(target.X, App.Settings.Prop.OverlayLayout?.DockTopEdge == true ? game.Top - Height : game.Top + game.Height),
+        };
+
+    private static int DockExtent(RobloxWindowRect bounds) => CurrentSide == OverlayDockSide.None ? bounds.Width : bounds.Height;
+
+    private void ApplyOrientation()
+    {
+        OverlayDockSide side = CurrentSide;
+        if (_appliedSide == side)
+            return;
+        _appliedSide = side;
+        bool sideways = side != OverlayDockSide.None;
+        bool linux = Voidstrap.Utility.Platform.UsesLinuxHost;
+        double thickness = linux ? DockHeight : DockWindowThickness;
+        if (Pill.Parent is FrameworkElement host)
+            host.LayoutTransform = sideways ? new RotateTransform(90) : Transform.Identity;
+        if (!linux)
+            DockRoot.Margin = sideways ? new Thickness(14, 20, 18, 20) : new Thickness(20, 18, 20, 14);
+        DockRoot.RowDefinitions[0].Height = sideways || linux ? new GridLength(0) : new GridLength(1, GridUnitType.Star);
+        DockRoot.RowDefinitions[1].Height = sideways ? new GridLength(1, GridUnitType.Star) : new GridLength(linux ? DockHeight : 64);
+        if (sideways)
+            Width = thickness;
+        else
+            Height = thickness;
+        NowPlayingPopup.PlacementTarget = sideways ? DockRoot : Pill;
+        _availableWidth = 0;
+    }
+
+    public static readonly CustomPopupPlacementCallback ToolTipPlacement = PlaceToolTip;
+
+    private static CustomPopupPlacement[] PlaceToolTip(Size popupSize, Size targetSize, Point offset)
+    {
+        OverlayDockSide side = CurrentSide;
+        if (side == OverlayDockSide.None)
+            return Voidstrap.UI.OverlayToolTipPlacement.Above(popupSize, targetSize, offset);
+        double top = (targetSize.Height - popupSize.Height) / 2;
+        CustomPopupPlacement after = new(new Point(targetSize.Width + 6, top), PopupPrimaryAxis.Vertical);
+        CustomPopupPlacement before = new(new Point(-popupSize.Width - 6, top), PopupPrimaryAxis.Vertical);
+        return side == OverlayDockSide.Left ? [after, before] : [before, after];
+    }
+
     private void FitWidth()
     {
+        ApplyOrientation();
+        bool sideways = _appliedSide is OverlayDockSide.Left or OverlayDockSide.Right;
         double userScale = (App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings()).SafeDockScale;
         SetPillScale(userScale);
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double shadowRoom = Voidstrap.Utility.Platform.UsesLinuxHost ? 0 : ShadowRoomX;
         double width = Math.Min(MaxDockWidth * userScale, Math.Ceiling(Pill.DesiredSize.Width)) + shadowRoom;
-        if (RobloxWindowTracker.Current is { Valid: true } bounds && bounds.Width > 0)
+        if (RobloxWindowTracker.Current is { Valid: true } bounds && DockExtent(bounds) > 0)
         {
-            _availableWidth = bounds.Width;
-            double dpiX = PortableOverlay.Active ? 1.0 : Math.Max(0.5, VisualTreeHelper.GetDpi(this).DpiScaleX);
-            double gameWidth = bounds.Width / dpiX;
+            _availableWidth = DockExtent(bounds);
+            DpiScale windowDpi = VisualTreeHelper.GetDpi(this);
+            double dpiX = PortableOverlay.Active ? 1.0 : Math.Max(0.5, sideways ? windowDpi.DpiScaleY : windowDpi.DpiScaleX);
+            double gameWidth = _availableWidth / dpiX;
             double available = Math.Max(1, gameWidth - shadowRoom - (PortableOverlay.Active ? 0 : 24));
             double fitScale = Math.Min(1, available / Math.Max(1, width - shadowRoom));
             double combinedScale = userScale * fitScale;
@@ -1591,8 +1670,10 @@ public partial class SessionDock : Window
             if (PortableOverlay.Active && _availableWidth > 0)
                 width = Math.Min(_availableWidth, width);
         }
-        bool changed = width > shadowRoom && Math.Abs(width - Width) >= 0.5;
-        if (changed)
+        bool changed = width > shadowRoom && Math.Abs(width - (sideways ? Height : Width)) >= 0.5;
+        if (changed && sideways)
+            Height = width;
+        else if (changed)
             Width = width;
         if (!changed && !_fitAnchorPending)
             return;
@@ -1630,7 +1711,7 @@ public partial class SessionDock : Window
         }
         if (_linuxMotionActive && !bounds.Matches(_linuxMotionBounds))
             FinishLinuxDockAnimation(_linuxMotionGeneration);
-        if (bounds.Valid && bounds.Width != _availableWidth)
+        if (bounds.Valid && DockExtent(bounds) != _availableWidth)
             FitWidth();
         if (_opened && !bounds.Foreground)
         {
@@ -2455,6 +2536,7 @@ public partial class SessionDock : Window
         if (!PopoutOpen)
             return;
         bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
+        OverlayDockSide side = CurrentSide;
         if (PortableOverlay.Active && _popout != null)
         {
             if (_linuxMotionActive)
@@ -2465,7 +2547,21 @@ public partial class SessionDock : Window
             double portableLeft = Math.Clamp(Left + position.Left, game.Left, game.Left + Math.Max(0, game.Width - portableWidth));
             double portableHeight;
             double portableTop;
-            if (topEdge)
+            if (side != OverlayDockSide.None)
+            {
+                bool portableOnLeft = side == OverlayDockSide.Left;
+                double room = portableOnLeft ? game.Left + game.Width - (Left + position.Right + PopoutGap) : Left + position.Left - PopoutGap - game.Left;
+                portableWidth = Math.Max(1, Math.Min(SidePopoutWidth, room));
+                portableLeft = portableOnLeft ? Left + position.Right + PopoutGap : Left + position.Left - PopoutGap - portableWidth;
+                portableLeft = Math.Clamp(portableLeft, game.Left, game.Left + Math.Max(0, game.Width - portableWidth));
+                portableHeight = Math.Max(1, Math.Min(PopoutHeight, game.Height));
+                portableTop = Math.Clamp(
+                    Top + position.Top + (position.Height - portableHeight) / 2,
+                    game.Top,
+                    game.Top + Math.Max(0, game.Height - portableHeight)
+                );
+            }
+            else if (topEdge)
             {
                 portableTop = Top + position.Bottom + PopoutGap;
                 portableHeight = Math.Max(1, Math.Min(PopoutHeight, game.Top + game.Height - portableTop));
@@ -2498,6 +2594,29 @@ public partial class SessionDock : Window
         int width = (int)Math.Ceiling(pill.Width * dpi.DpiScaleX);
         int height = (int)Math.Ceiling(PopoutHeight * dpi.DpiScaleY);
         int gap = (int)Math.Round(PopoutGap * dpi.DpiScaleY);
+        if (side != OverlayDockSide.None)
+        {
+            bool onLeft = side == OverlayDockSide.Left;
+            int right = rect.Left + (int)Math.Round(pill.Right * dpi.DpiScaleX);
+            int sideGap = (int)Math.Round(PopoutGap * dpi.DpiScaleX);
+            int sideWidth = (int)Math.Ceiling(SidePopoutWidth * dpi.DpiScaleX);
+            int sideY = top + (bottom - top - height) / 2;
+            if (RobloxWindowTracker.Current is { Valid: true } sideGame)
+            {
+                int room = onLeft ? sideGame.Left + sideGame.Width - right - sideGap : left - sideGap - sideGame.Left;
+                sideWidth = Math.Max(1, Math.Min(sideWidth, room));
+                height = Math.Min(height, Math.Max(1, sideGame.Height));
+                sideY = Math.Clamp(top + (bottom - top - height) / 2, sideGame.Top, sideGame.Top + Math.Max(0, sideGame.Height - height));
+            }
+            _popoutX = onLeft ? right + sideGap : left - sideGap - sideWidth;
+            if (RobloxWindowTracker.Current is { Valid: true } clampGame)
+                _popoutX = Math.Clamp(_popoutX, clampGame.Left, clampGame.Left + Math.Max(0, clampGame.Width - sideWidth));
+            _popoutY = sideY;
+            _popoutSlideFrom = (int)Math.Round(PopoutSlideDistance * dpi.DpiScaleY);
+            int sideTop = _popoutSlide is { IsEnabled: true } ? sideY + SlideOffset() : sideY;
+            SetWindowPos(_popoutHandle, HwndTopmost, _popoutX, sideTop, sideWidth, height, 0x0010 | 0x0040);
+            return;
+        }
         if (RobloxWindowTracker.Current is { Valid: true } gameRect)
         {
             int room = topEdge ? gameRect.Top + gameRect.Height - bottom - gap : top - gap - gameRect.Top;

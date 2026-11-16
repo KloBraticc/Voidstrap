@@ -32,6 +32,7 @@ public sealed class OverlayLayoutSettings
     public bool ReadoutHorizontalLayout { get; set; }
 
     public bool DockTopEdge { get; set; }
+    public OverlayDockSide DockSide { get; set; }
     public double DockHorizontal { get; set; } = DefaultDockHorizontal;
     public double DockEdgeSpacing { get; set; } = DefaultDockEdgeSpacing;
     public double DockScale { get; set; } = DefaultDockScale;
@@ -63,6 +64,9 @@ public sealed class OverlayLayoutSettings
 
     [JsonIgnore]
     public double SafeReadoutCornerRadius => Clamp(ReadoutCornerRadius, 0, 20, DefaultReadoutCornerRadius);
+
+    [JsonIgnore]
+    public bool DockSideways => DockSide is OverlayDockSide.Left or OverlayDockSide.Right;
 
     [JsonIgnore]
     public double SafeDockHorizontal => Clamp(DockHorizontal, 0, 100, DefaultDockHorizontal);
@@ -111,6 +115,7 @@ public sealed class OverlayLayoutSettings
         ReadoutCornerRadius = SafeReadoutCornerRadius,
         ReadoutHorizontalLayout = ReadoutHorizontalLayout,
         DockTopEdge = DockTopEdge,
+        DockSide = DockSideways ? DockSide : OverlayDockSide.None,
         DockHorizontal = SafeDockHorizontal,
         DockEdgeSpacing = SafeDockEdgeSpacing,
         DockScale = SafeDockScale,
@@ -138,6 +143,7 @@ public sealed class OverlayLayoutSettings
     public void ResetDock()
     {
         DockTopEdge = false;
+        DockSide = OverlayDockSide.None;
         DockHorizontal = DefaultDockHorizontal;
         DockEdgeSpacing = DefaultDockEdgeSpacing;
         DockScale = DefaultDockScale;

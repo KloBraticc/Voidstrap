@@ -289,11 +289,22 @@ public sealed partial class SessionPanelWindow : Window
     // Panels stop above it, so they can never be moved or sized over the dock.
     private const double DockReserve = 104;
 
+    private static OverlayDockSide DockSide =>
+        App.Settings.Prop.OverlayLayout is { DockSideways: true } layout ? layout.DockSide : OverlayDockSide.None;
+
     private static int UsableHeight(RobloxWindowRect bounds, DpiScale dpi) =>
-        Math.Max(1, bounds.Height - (int)Math.Round(DockReserve * dpi.DpiScaleY));
+        DockSide != OverlayDockSide.None ? Math.Max(1, bounds.Height) : Math.Max(1, bounds.Height - (int)Math.Round(DockReserve * dpi.DpiScaleY));
+
+    private static int UsableWidth(RobloxWindowRect bounds, DpiScale dpi) =>
+        DockSide != OverlayDockSide.None ? Math.Max(1, bounds.Width - (int)Math.Round(DockReserve * dpi.DpiScaleX)) : bounds.Width;
+
+    private static int UsableLeft(RobloxWindowRect bounds, DpiScale dpi) =>
+        DockSide == OverlayDockSide.Left
+            ? bounds.Left + Math.Min(Math.Max(0, bounds.Width - 1), (int)Math.Round(DockReserve * dpi.DpiScaleX))
+            : bounds.Left;
 
     private static int UsableTopOffset(RobloxWindowRect bounds, DpiScale dpi) =>
-        App.Settings.Prop.OverlayLayout?.DockTopEdge == true
+        DockSide == OverlayDockSide.None && App.Settings.Prop.OverlayLayout?.DockTopEdge == true
             ? Math.Min(Math.Max(0, bounds.Height - 1), (int)Math.Round(DockReserve * dpi.DpiScaleY))
             : 0;
 
@@ -605,7 +616,7 @@ public sealed partial class SessionPanelWindow : Window
         try
         {
             DpiScale dpi = PortableOverlay.Scale(this);
-            double availableWidth = bounds.Width / dpi.DpiScaleX;
+            double availableWidth = UsableWidth(bounds, dpi) / dpi.DpiScaleX;
             int usableHeight = UsableHeight(bounds, dpi);
             double availableHeight = usableHeight / dpi.DpiScaleY;
             if (PortableOverlay.Active)
@@ -622,7 +633,7 @@ public sealed partial class SessionPanelWindow : Window
             int pixelWidth = (int)Math.Ceiling(width * dpi.DpiScaleX);
             int pixelHeight = (int)Math.Ceiling(height * dpi.DpiScaleY);
             int topOffset = UsableTopOffset(bounds, dpi);
-            int left = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - pixelWidth));
+            int left = UsableLeft(bounds, dpi) + (int)Math.Round(_x * Math.Max(0, UsableWidth(bounds, dpi) - pixelWidth));
             int top = bounds.Top + topOffset + (int)Math.Round(_y * Math.Max(0, usableHeight - pixelHeight));
             bool shown = IsVisible;
             if (shown && _placed && left == _lastLeft && top == _lastTop && pixelWidth == _lastWidth && pixelHeight == _lastHeight)
@@ -672,7 +683,7 @@ public sealed partial class SessionPanelWindow : Window
         if (!bounds.Valid || !double.IsFinite(e.HorizontalChange) || !double.IsFinite(e.VerticalChange))
             return;
         DpiScale dpi = PortableOverlay.Scale(this);
-        _x = Math.Clamp(_x + e.HorizontalChange * dpi.DpiScaleX / Math.Max(1, bounds.Width - Width * dpi.DpiScaleX), 0, 1);
+        _x = Math.Clamp(_x + e.HorizontalChange * dpi.DpiScaleX / Math.Max(1, UsableWidth(bounds, dpi) - Width * dpi.DpiScaleX), 0, 1);
         _y = Math.Clamp(_y + e.VerticalChange * dpi.DpiScaleY / Math.Max(1, UsableHeight(bounds, dpi) - Height * dpi.DpiScaleY), 0, 1);
         ApplyBounds(bounds);
     }
@@ -686,7 +697,7 @@ public sealed partial class SessionPanelWindow : Window
             return;
         DpiScale dpi = PortableOverlay.Scale(this);
         int currentPixelWidth = (int)Math.Ceiling(Width * dpi.DpiScaleX);
-        int currentLeft = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - currentPixelWidth));
+        int currentLeft = UsableLeft(bounds, dpi) + (int)Math.Round(_x * Math.Max(0, UsableWidth(bounds, dpi) - currentPixelWidth));
         int usableHeight = UsableHeight(bounds, dpi);
         int currentPixelHeight = (int)Math.Ceiling(Height * dpi.DpiScaleY);
         int currentTopOffset = (int)Math.Round(_y * Math.Max(0, usableHeight - currentPixelHeight));
@@ -695,8 +706,8 @@ public sealed partial class SessionPanelWindow : Window
         double newHeight = Math.Clamp(Height + e.VerticalChange, MinHeight, MaxHeight);
 
         int newPixelWidth = (int)Math.Ceiling(newWidth * dpi.DpiScaleX);
-        int newAvailableWidth = Math.Max(1, bounds.Width - newPixelWidth);
-        _x = Math.Clamp((double)(currentLeft - bounds.Left) / newAvailableWidth, 0, 1);
+        int newAvailableWidth = Math.Max(1, UsableWidth(bounds, dpi) - newPixelWidth);
+        _x = Math.Clamp((double)(currentLeft - UsableLeft(bounds, dpi)) / newAvailableWidth, 0, 1);
 
         int newPixelHeight = (int)Math.Ceiling(newHeight * dpi.DpiScaleY);
         int newAvailableHeight = Math.Max(1, usableHeight - newPixelHeight);
@@ -716,11 +727,11 @@ public sealed partial class SessionPanelWindow : Window
             return;
         DpiScale dpi = PortableOverlay.Scale(this);
         int currentPixelWidth = (int)Math.Ceiling(Width * dpi.DpiScaleX);
-        int currentLeft = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - currentPixelWidth));
+        int currentLeft = UsableLeft(bounds, dpi) + (int)Math.Round(_x * Math.Max(0, UsableWidth(bounds, dpi) - currentPixelWidth));
         double newWidth = Math.Clamp(Width + e.HorizontalChange, MinWidth, MaxWidth);
         int newPixelWidth = (int)Math.Ceiling(newWidth * dpi.DpiScaleX);
-        int newAvailable = Math.Max(1, bounds.Width - newPixelWidth);
-        _x = Math.Clamp((double)(currentLeft - bounds.Left) / newAvailable, 0, 1);
+        int newAvailable = Math.Max(1, UsableWidth(bounds, dpi) - newPixelWidth);
+        _x = Math.Clamp((double)(currentLeft - UsableLeft(bounds, dpi)) / newAvailable, 0, 1);
         Width = newWidth;
         ApplyBounds(bounds);
     }
@@ -753,14 +764,14 @@ public sealed partial class SessionPanelWindow : Window
             return;
         DpiScale dpi = PortableOverlay.Scale(this);
         int currentPixelWidth = (int)Math.Ceiling(Width * dpi.DpiScaleX);
-        int currentLeft = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - currentPixelWidth));
+        int currentLeft = UsableLeft(bounds, dpi) + (int)Math.Round(_x * Math.Max(0, UsableWidth(bounds, dpi) - currentPixelWidth));
         int currentRight = currentLeft + currentPixelWidth;
 
         double newWidth = Math.Clamp(Width - e.HorizontalChange, MinWidth, MaxWidth);
         int newPixelWidth = (int)Math.Ceiling(newWidth * dpi.DpiScaleX);
         int newLeft = currentRight - newPixelWidth;
-        int newAvailable = Math.Max(1, bounds.Width - newPixelWidth);
-        _x = Math.Clamp((double)(newLeft - bounds.Left) / newAvailable, 0, 1);
+        int newAvailable = Math.Max(1, UsableWidth(bounds, dpi) - newPixelWidth);
+        _x = Math.Clamp((double)(newLeft - UsableLeft(bounds, dpi)) / newAvailable, 0, 1);
         Width = newWidth;
         ApplyBounds(bounds);
     }
@@ -774,7 +785,7 @@ public sealed partial class SessionPanelWindow : Window
             return;
         DpiScale dpi = PortableOverlay.Scale(this);
         int currentPixelWidth = (int)Math.Ceiling(Width * dpi.DpiScaleX);
-        int currentLeft = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - currentPixelWidth));
+        int currentLeft = UsableLeft(bounds, dpi) + (int)Math.Round(_x * Math.Max(0, UsableWidth(bounds, dpi) - currentPixelWidth));
         int currentRight = currentLeft + currentPixelWidth;
 
         int usableHeight = UsableHeight(bounds, dpi);
@@ -786,8 +797,8 @@ public sealed partial class SessionPanelWindow : Window
 
         int newPixelWidth = (int)Math.Ceiling(newWidth * dpi.DpiScaleX);
         int newLeft = currentRight - newPixelWidth;
-        int newAvailableWidth = Math.Max(1, bounds.Width - newPixelWidth);
-        _x = Math.Clamp((double)(newLeft - bounds.Left) / newAvailableWidth, 0, 1);
+        int newAvailableWidth = Math.Max(1, UsableWidth(bounds, dpi) - newPixelWidth);
+        _x = Math.Clamp((double)(newLeft - UsableLeft(bounds, dpi)) / newAvailableWidth, 0, 1);
 
         int newPixelHeight = (int)Math.Ceiling(newHeight * dpi.DpiScaleY);
         int newAvailableHeight = Math.Max(1, usableHeight - newPixelHeight);
