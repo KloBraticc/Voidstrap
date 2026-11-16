@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="Voidstrap.UI.Elements.Controls.SkyboxPreviewControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,6 +9,7 @@
     MouseLeftButtonDown="OnPreviewMouseLeftButtonDown"
     MouseMove="OnPreviewMouseMove"
     MouseLeftButtonUp="OnPreviewMouseLeftButtonUp"
+    MouseEnter="OnPreviewMouseEnter"
     MouseWheel="OnPreviewMouseWheel">
   <Grid Background="#FF0D0E12" ClipToBounds="True">
     <Viewport3D x:Name="Viewport">

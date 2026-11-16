@@ -444,6 +444,8 @@ namespace Voidstrap.UI.Elements.Controls
                 return;
             }
             _orbiting = true;
+            _enteredAt = 0;
+            _lastPassedWheel = 0;
             _lastMouse = e.GetPosition(this);
             CaptureMouse();
             e.Handled = true;
@@ -468,8 +470,22 @@ namespace Voidstrap.UI.Elements.Controls
                 ReleaseMouseCapture();
         }
 
+        private const long WheelSettleMs = 350;
+
+        private long _enteredAt;
+
+        private long _lastPassedWheel;
+
+        private void OnPreviewMouseEnter(object sender, MouseEventArgs e) => _enteredAt = Environment.TickCount64;
+
         private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            long now = Environment.TickCount64;
+            if (!_orbiting && (now - _enteredAt < WheelSettleMs || now - _lastPassedWheel < WheelSettleMs))
+            {
+                _lastPassedWheel = now;
+                return;
+            }
             _distance = Math.Clamp(_distance * (e.Delta > 0 ? 0.9 : 1.1), 2.05, 5.5);
             UpdateCamera();
             e.Handled = true;
