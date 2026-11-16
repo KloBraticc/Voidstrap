@@ -17,6 +17,12 @@ namespace Voidstrap.Utility
             typeof(ResponsiveLayout),
             new PropertyMetadata(0.0, OnAspectRatioChanged));
 
+        private static readonly DependencyProperty NormalValueProperty = DependencyProperty.RegisterAttached(
+            "NormalValue",
+            typeof(object),
+            typeof(ResponsiveLayout),
+            new PropertyMetadata(null));
+
         public static double GetMinItemWidth(DependencyObject element) => (double)element.GetValue(MinItemWidthProperty);
 
         public static void SetMinItemWidth(DependencyObject element, double value) => element.SetValue(MinItemWidthProperty, value);
@@ -24,6 +30,8 @@ namespace Voidstrap.Utility
         public static double GetAspectRatio(DependencyObject element) => (double)element.GetValue(AspectRatioProperty);
 
         public static void SetAspectRatio(DependencyObject element, double value) => element.SetValue(AspectRatioProperty, value);
+
+        private static bool IsMaximized(FrameworkElement element) => Window.GetWindow(element)?.WindowState == System.Windows.WindowState.Maximized;
 
         private static void OnMinItemWidthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -45,10 +53,14 @@ namespace Voidstrap.Utility
 
         private static void ApplyColumns(UniformGrid grid)
         {
-            double width = grid.ActualWidth;
-            if (width <= 0)
-                return;
-            int columns = Math.Max(1, (int)(width / GetMinItemWidth(grid)));
+            if (grid.GetValue(NormalValueProperty) is not int normal)
+            {
+                normal = grid.Columns;
+                grid.SetValue(NormalValueProperty, normal);
+            }
+            int columns = normal;
+            if (grid.ActualWidth > 0 && IsMaximized(grid))
+                columns = Math.Max(1, (int)(grid.ActualWidth / GetMinItemWidth(grid)));
             if (grid.Columns != columns)
                 grid.Columns = columns;
         }
@@ -73,11 +85,15 @@ namespace Voidstrap.Utility
 
         private static void ApplyHeight(FrameworkElement element)
         {
-            double width = element.ActualWidth;
-            if (width <= 0)
-                return;
-            double height = Math.Round(width / GetAspectRatio(element));
-            if (Math.Abs(element.Height - height) >= 1 || double.IsNaN(element.Height))
+            if (element.GetValue(NormalValueProperty) is not double normal)
+            {
+                normal = element.Height;
+                element.SetValue(NormalValueProperty, normal);
+            }
+            double height = normal;
+            if (element.ActualWidth > 0 && IsMaximized(element))
+                height = Math.Round(element.ActualWidth / GetAspectRatio(element));
+            if (!height.Equals(element.Height))
                 element.Height = height;
         }
     }
