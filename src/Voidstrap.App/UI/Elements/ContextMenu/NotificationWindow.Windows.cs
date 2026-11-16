@@ -17,6 +17,7 @@ public partial class NotificationWindow
     private IDisposable? _notificationTracker;
     private bool _presenting;
     private bool _dismissRequested;
+    private Voidstrap.UI.NotificationKind _kind;
     private IntPtr _notificationHandle;
     private NotificationAppearance? _appearance;
     private bool _hovered;
@@ -84,6 +85,7 @@ public partial class NotificationWindow
                 appearance.Vertical = 0;
             }
             _appearance = appearance;
+            _kind = item.Kind;
             lock (Presenting)
                 Presenting.Add(this);
             NotificationRoot.BeginAnimation(OpacityProperty, null);
@@ -135,20 +137,18 @@ public partial class NotificationWindow
                 await Task.Delay(intro, token);
             EndCachedAnimation();
             _nativeSlide?.Stop(true);
-            if (PortableOverlay.Active)
-                PlaceWindowsNotification(RobloxWindowTracker.Current);
+            PlaceWindowsNotification(RobloxWindowTracker.Current);
             if (bounds.Foreground)
                 ReturnFocusToRoblox();
             _hoverTimer?.Start();
-            double duration = appearance.SafeSecondsOnScreen;
-            double remaining = duration;
+            double remaining = appearance.SafeSecondsOnScreen;
             Stopwatch clock = Stopwatch.StartNew();
             double previous = clock.Elapsed.TotalSeconds;
             while (!_dismissRequested && remaining > 0)
             {
                 await Task.Delay(Voidstrap.Utility.Platform.UsesLinuxHost ? 500 : 100, token);
                 double now = clock.Elapsed.TotalSeconds;
-                if (!_hovered || !appearance.PauseWhileHovered)
+                if (!_hovered || !(_appearance ?? appearance).PauseWhileHovered)
                     remaining -= now - previous;
                 previous = now;
             }
@@ -164,6 +164,7 @@ public partial class NotificationWindow
             DismissButton.BeginAnimation(OpacityProperty, null);
             DismissButton.Opacity = 0;
             DismissButton.IsHitTestVisible = false;
+            appearance = _appearance ?? appearance;
             int outro = Voidstrap.UI.NotificationStyle.Length(appearance, false);
             if (
                 !(
@@ -223,6 +224,47 @@ public partial class NotificationWindow
     }
 
     // Applied on every notification so changes in the notification settings show on the next one
+    internal static void RefreshPresenting()
+    {
+        NotificationWindow[] windows;
+        lock (Presenting)
+            windows = Presenting.ToArray();
+        foreach (NotificationWindow window in windows)
+            window.ApplyLiveAppearance();
+    }
+
+    private void ApplyLiveAppearance()
+    {
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(new Action(ApplyLiveAppearance));
+            return;
+        }
+        if (_closed || !_presenting || _dismissRequested || _nativeSlide?.IsRunning == true)
+            return;
+        NotificationAppearance appearance = Voidstrap.UI.NotificationStyle.Current;
+        if (PinTopRight)
+        {
+            appearance = appearance.Copy();
+            appearance.Horizontal = 100;
+            appearance.Vertical = 0;
+        }
+        _appearance = appearance;
+        UseCornerLayout(appearance, _kind);
+        UpdateLayout();
+        PlaceWindowsNotification(RobloxWindowTracker.Current);
+    }
+
+    internal void ReplaceNotification(string title, string message, System.Windows.Media.Imaging.BitmapSource? image, Voidstrap.UI.NotificationKind kind)
+    {
+        if (_closed)
+            return;
+        _queue.Clear();
+        if (_presenting)
+            _dismissRequested = true;
+        ShowNotification(title, message, image, 5.0, null, string.Empty, default, kind);
+    }
+
     private void UseCornerLayout(NotificationAppearance appearance, Voidstrap.UI.NotificationKind kind)
     {
         // The whole card fades as one with its shadow, the window itself clips it at the screen edge

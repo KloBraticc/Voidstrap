@@ -211,6 +211,7 @@ public partial class SessionNotificationSettings : Window
         App.Settings.SaveDeferred();
         UpdateValueTexts();
         ApplyPreview();
+        Voidstrap.UI.Elements.Overlay.NotificationWindow.RefreshPresenting();
     }
 
     private void Layout_Checked(object sender, RoutedEventArgs e)

@@ -1675,14 +1675,10 @@ public partial class MenuContainer : WpfUiWindow
         try
         {
             GetNotificationWindow()
-                .ShowNotification(
+                .ReplaceNotification(
                     "Test notification",
                     "This is how Voidstrap notifications look.",
                     CurrentGameIcon.Source as BitmapSource,
-                    5.0,
-                    null,
-                    string.Empty,
-                    default,
                     Voidstrap.UI.NotificationKind.Server
                 );
         }
