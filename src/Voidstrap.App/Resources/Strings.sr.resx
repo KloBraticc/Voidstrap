@@ -10118,4 +10118,16 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Није могуће користити ту слику</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Курсор при преласку</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Приказује се док прелазите преко нечега на шта може да се кликне у Roblox-у. Када је празно, користи слику курсора.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Курсор клика</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Приказује се док је тастер миша притиснут. Када је празно, користи слику курсора.</value>
+  </data>
 </root>

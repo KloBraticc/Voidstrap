@@ -10117,4 +10117,16 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>ছবিটি ব্যবহার করা যায়নি</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>হোভার কার্সার</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox এ ক্লিকযোগ্য কিছুর উপর হোভার করার সময় দেখানো হয়। খালি থাকলে কার্সারের ছবি ব্যবহার করে।</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>ক্লিক কার্সার</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>মাউস বোতাম চেপে ধরে রাখার সময় দেখানো হয়। খালি থাকলে কার্সারের ছবি ব্যবহার করে।</value>
+  </data>
 </root>

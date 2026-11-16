@@ -10118,4 +10118,16 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Dat Bild konnt net benotzt ginn</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Cursor beim Driwwerfueren</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Gëtt ugewisen, wann s du iwwer eppes Klickbares a Roblox fiers. Benotzt d'Cursorbild, wann et eidel ass.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Klick-Cursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Gëtt ugewisen, soulaang d'Maustast gedréckt ass. Benotzt d'Cursorbild, wann et eidel ass.</value>
+  </data>
 </root>

@@ -10118,4 +10118,16 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>त्यो छवि प्रयोग गर्न सकिएन</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>होभर कर्सर</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox मा क्लिक गर्न मिल्ने कुनै कुरामाथि होभर गर्दा देखाइन्छ। खाली भएमा कर्सरको तस्बिर प्रयोग गर्छ।</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>क्लिक कर्सर</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>माउस बटन थिचिराख्दा देखाइन्छ। खाली भएमा कर्सरको तस्बिर प्रयोग गर्छ।</value>
+  </data>
 </root>

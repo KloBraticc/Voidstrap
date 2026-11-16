@@ -10433,4 +10433,16 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Không thể sử dụng hình ảnh đó</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Con trỏ khi di qua</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Hiển thị khi bạn di chuột qua thứ có thể nhấp trong Roblox. Dùng hình con trỏ khi để trống.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Con trỏ khi nhấp</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Hiển thị khi giữ nút chuột. Dùng hình con trỏ khi để trống.</value>
+  </data>
 </root>

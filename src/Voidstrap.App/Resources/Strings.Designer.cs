@@ -10341,5 +10341,9 @@ namespace Voidstrap.Resources {
         public static string Ui_Mods_OverrideCursorCenteredDescription => ResourceManager.GetString("Ui.Mods.OverrideCursorCenteredDescription", resourceCulture);
         public static string Ui_Mods_CursorLockedByOverride => ResourceManager.GetString("Ui.Mods.CursorLockedByOverride", resourceCulture);
         public static string Ui_Mods_CouldNotUseCursorImage => ResourceManager.GetString("Ui.Mods.CouldNotUseCursorImage", resourceCulture);
+        public static string Ui_Mods_OverrideHoverCursor => ResourceManager.GetString("Ui.Mods.OverrideHoverCursor", resourceCulture);
+        public static string Ui_Mods_OverrideHoverCursorDescription => ResourceManager.GetString("Ui.Mods.OverrideHoverCursorDescription", resourceCulture);
+        public static string Ui_Mods_OverrideClickCursor => ResourceManager.GetString("Ui.Mods.OverrideClickCursor", resourceCulture);
+        public static string Ui_Mods_OverrideClickCursorDescription => ResourceManager.GetString("Ui.Mods.OverrideClickCursorDescription", resourceCulture);
     }
 }

@@ -10118,4 +10118,16 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>ती प्रतिमा वापरता आली नाही</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>होव्हर कर्सर</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox मध्ये क्लिक करता येणाऱ्या गोष्टीवर होव्हर करताना दाखवला जातो. रिकामे असल्यास कर्सरची प्रतिमा वापरतो.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>क्लिक कर्सर</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>माउस बटण दाबून धरलेले असताना दाखवला जातो. रिकामे असल्यास कर्सरची प्रतिमा वापरतो.</value>
+  </data>
 </root>

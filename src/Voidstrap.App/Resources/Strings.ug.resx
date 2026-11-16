@@ -10117,4 +10117,16 @@ Uptime: {1}
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>بۇ رەسىمنى ئىشلىتەلمىدى</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>ئۈستىدە توختىغاندىكى نۇر بەلگە</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox دا چەكلى بولىدىغان نەرسىنىڭ ئۈستىدە توختىغاندا كۆرسىتىلىدۇ. بوش بولسا نۇر بەلگە رەسىمىنى ئىشلىتىدۇ.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>چېكىش نۇر بەلگىسى</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>چاشقىنەك كۇنۇپكىسى بېسىپ تۇرۇلغاندا كۆرسىتىلىدۇ. بوش بولسا نۇر بەلگە رەسىمىنى ئىشلىتىدۇ.</value>
+  </data>
 </root>

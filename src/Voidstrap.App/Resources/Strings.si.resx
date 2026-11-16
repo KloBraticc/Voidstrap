@@ -10118,4 +10118,16 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>එම රූපය භාවිත කළ නොහැකි විය</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>හෝවර් කර්සරය</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox හි ක්ලික් කළ හැකි දෙයක් මතින් හෝවර් කරන විට පෙන්වයි. හිස් නම් කර්සර රූපය භාවිතා කරයි.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>ක්ලික් කර්සරය</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>මූසික බොත්තම තද කර තබා ඇති අතරතුර පෙන්වයි. හිස් නම් කර්සර රූපය භාවිතා කරයි.</value>
+  </data>
 </root>

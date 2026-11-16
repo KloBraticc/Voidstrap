@@ -10118,4 +10118,16 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>ಆ ಚಿತ್ರವನ್ನು ಬಳಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>ಹೋವರ್ ಕರ್ಸರ್</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox ನಲ್ಲಿ ಕ್ಲಿಕ್ ಮಾಡಬಹುದಾದ ಯಾವುದರ ಮೇಲಾದರೂ ಹೋವರ್ ಮಾಡುವಾಗ ತೋರಿಸಲಾಗುತ್ತದೆ. ಖಾಲಿಯಿದ್ದರೆ ಕರ್ಸರ್ ಚಿತ್ರವನ್ನು ಬಳಸುತ್ತದೆ.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>ಕ್ಲಿಕ್ ಕರ್ಸರ್</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>ಮೌಸ್ ಬಟನ್ ಒತ್ತಿ ಹಿಡಿದಿರುವಾಗ ತೋರಿಸಲಾಗುತ್ತದೆ. ಖಾಲಿಯಿದ್ದರೆ ಕರ್ಸರ್ ಚಿತ್ರವನ್ನು ಬಳಸುತ್ತದೆ.</value>
+  </data>
 </root>

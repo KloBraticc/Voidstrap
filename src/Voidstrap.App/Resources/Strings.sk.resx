@@ -10118,4 +10118,16 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Tento obrázok sa nepodarilo použiť</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Kurzor pri prechode</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Zobrazí sa, keď prejdete nad niečím, na čo sa dá v Robloxe kliknúť. Ak je prázdne, použije sa obrázok kurzora.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Kurzor kliknutia</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Zobrazí sa, kým je stlačené tlačidlo myši. Ak je prázdne, použije sa obrázok kurzora.</value>
+  </data>
 </root>

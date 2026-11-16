@@ -10118,4 +10118,16 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Neizdevās izmantot šo attēlu</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Kursors, uzvirzot</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Tiek rādīts, kad uzvirzi kursoru uz kaut ko noklikšķināmu Roblox. Ja tukšs, izmanto kursora attēlu.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Klikšķa kursors</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Tiek rādīts, kamēr peles poga ir nospiesta. Ja tukšs, izmanto kursora attēlu.</value>
+  </data>
 </root>

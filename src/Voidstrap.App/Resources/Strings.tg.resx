@@ -10117,4 +10117,16 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Ин тасвирро истифода бурдан нашуд</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Курсор ҳангоми болои чизе бурдан</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Ҳангоми бурдани курсор болои чизи пахшшаванда дар Roblox нишон дода мешавад. Агар холӣ бошад, тасвири курсорро истифода мебарад.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Курсори пахш</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>То тугмаи муш пахш аст, нишон дода мешавад. Агар холӣ бошад, тасвири курсорро истифода мебарад.</value>
+  </data>
 </root>

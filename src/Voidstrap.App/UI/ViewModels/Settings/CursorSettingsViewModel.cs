@@ -107,9 +107,13 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
         ImportSetCommand = new RelayCommand(ImportSet);
         ExportSetCommand = new RelayCommand(ExportSet);
         OpenSetsFolderCommand = new RelayCommand(OpenSetsFolder);
-        ChooseOverrideImageCommand = new RelayCommand(ChooseOverrideImage);
-        RemoveOverrideImageCommand = new RelayCommand(RemoveOverrideImage);
-        RefreshOverridePreview();
+        ChooseOverrideImageCommand = new RelayCommand(() => ChooseOverrideImage(CursorOverrideKind.Normal));
+        RemoveOverrideImageCommand = new RelayCommand(() => RemoveOverrideImage(CursorOverrideKind.Normal));
+        ChooseHoverImageCommand = new RelayCommand(() => ChooseOverrideImage(CursorOverrideKind.Hover));
+        RemoveHoverImageCommand = new RelayCommand(() => RemoveOverrideImage(CursorOverrideKind.Hover));
+        ChooseClickImageCommand = new RelayCommand(() => ChooseOverrideImage(CursorOverrideKind.Click));
+        RemoveClickImageCommand = new RelayCommand(() => RemoveOverrideImage(CursorOverrideKind.Click));
+        RefreshOverridePreviews();
         RefreshSlots();
         ReloadSets(null);
     }
@@ -147,6 +151,14 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 
     public bool HasOverrideImage => OverridePreview != null;
 
+    public ImageSource? HoverPreview { get; private set; }
+
+    public bool HasHoverImage => HoverPreview != null;
+
+    public ImageSource? ClickPreview { get; private set; }
+
+    public bool HasClickImage => ClickPreview != null;
+
     public double OverrideSize
     {
         get => Math.Clamp(App.Settings.Prop.RobloxCursorOverrideSize, 8, 256);
@@ -177,6 +189,14 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
     public ICommand ChooseOverrideImageCommand { get; }
 
     public ICommand RemoveOverrideImageCommand { get; }
+
+    public ICommand ChooseHoverImageCommand { get; }
+
+    public ICommand RemoveHoverImageCommand { get; }
+
+    public ICommand ChooseClickImageCommand { get; }
+
+    public ICommand RemoveClickImageCommand { get; }
 
     public IReadOnlyList<CursorSlotViewModel> CustomSlots { get; }
 
@@ -256,30 +276,41 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
         );
     }
 
-    private void ChooseOverrideImage()
+    private void ChooseOverrideImage(CursorOverrideKind kind)
     {
         Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
         {
-            Title = Strings.Ui_Mods_OverrideCursorImage,
+            Title = kind switch
+            {
+                CursorOverrideKind.Hover => Strings.Ui_Mods_OverrideHoverCursor,
+                CursorOverrideKind.Click => Strings.Ui_Mods_OverrideClickCursor,
+                _ => Strings.Ui_Mods_OverrideCursorImage,
+            },
             Filter = Strings.Ui_ModGen_ImagesFilter + "|" + AnimatedIcon.FileFilterPatterns + ";*.tif;*.tiff;*.jfif|" + Strings.Menu_AllFiles + "|*.*",
         };
         if (dialog.ShowDialog() != true)
             return;
-        Run(Strings.Ui_Mods_CouldNotUseCursorImage, () => CursorManager.SetOverrideImage(dialog.FileName));
-        RefreshOverridePreview();
+        Run(Strings.Ui_Mods_CouldNotUseCursorImage, () => CursorManager.SetOverrideImage(kind, dialog.FileName));
+        RefreshOverridePreviews();
     }
 
-    private void RemoveOverrideImage()
+    private void RemoveOverrideImage(CursorOverrideKind kind)
     {
-        Run(Strings.Ui_Mods_CouldNotUseCursorImage, CursorManager.ClearOverrideImage);
-        RefreshOverridePreview();
+        Run(Strings.Ui_Mods_CouldNotUseCursorImage, () => CursorManager.ClearOverrideImage(kind));
+        RefreshOverridePreviews();
     }
 
-    private void RefreshOverridePreview()
+    private void RefreshOverridePreviews()
     {
-        OverridePreview = AnimatedIcon.LoadFirstFrame(CursorManager.OverrideImagePath, 64);
+        OverridePreview = AnimatedIcon.LoadFirstFrame(CursorManager.OverrideImagePath(CursorOverrideKind.Normal), 64);
+        HoverPreview = AnimatedIcon.LoadFirstFrame(CursorManager.OverrideImagePath(CursorOverrideKind.Hover), 64);
+        ClickPreview = AnimatedIcon.LoadFirstFrame(CursorManager.OverrideImagePath(CursorOverrideKind.Click), 64);
         OnPropertyChanged(nameof(OverridePreview));
         OnPropertyChanged(nameof(HasOverrideImage));
+        OnPropertyChanged(nameof(HoverPreview));
+        OnPropertyChanged(nameof(HasHoverImage));
+        OnPropertyChanged(nameof(ClickPreview));
+        OnPropertyChanged(nameof(HasClickImage));
     }
 
     private void ChooseImage(CursorSlot slot)

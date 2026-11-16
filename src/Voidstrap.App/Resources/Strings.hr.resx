@@ -10430,4 +10430,16 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Tu sliku nije moguće koristiti</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Pokazivač pri prelasku</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Prikazuje se dok prelaziš preko nečega na što se može kliknuti u Robloxu. Ako je prazno, koristi sliku pokazivača.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Pokazivač klika</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Prikazuje se dok je tipka miša pritisnuta. Ako je prazno, koristi sliku pokazivača.</value>
+  </data>
 </root>

@@ -10430,4 +10430,16 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Това изображение не може да бъде използвано</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Курсор при посочване</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Показва се, докато посочвате нещо, върху което може да се щракне в Roblox. Ако е празно, се използва изображението на курсора.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Курсор при щракване</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Показва се, докато бутонът на мишката е задържан. Ако е празно, се използва изображението на курсора.</value>
+  </data>
 </root>

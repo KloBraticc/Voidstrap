@@ -10118,4 +10118,16 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Sawirkaas lama isticmaali karin</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Calaamadda dul marka</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Waxaa la muujiyaa marka aad dul marayso wax la riixi karo oo Roblox ku jira. Waxay isticmaashaa sawirka calaamadda marka uu madhan yahay.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Calaamadda gujinta</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Waxaa la muujiyaa inta badhanka jiirka la haysto. Waxay isticmaashaa sawirka calaamadda marka uu madhan yahay.</value>
+  </data>
 </root>

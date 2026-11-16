@@ -10118,4 +10118,16 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Kāore i taea te whakamahi i taua atahanga</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Pehu tauiri</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Ka whakaaturia i a koe e tauiri ana ki runga i tētahi mea ka taea te pāwhiri i Roblox. Ka whakamahia te atahanga pehu ina kau.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Pehu pāwhiri</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Ka whakaaturia i te wā e puritia ana te pātene kiore. Ka whakamahia te atahanga pehu ina kau.</value>
+  </data>
 </root>

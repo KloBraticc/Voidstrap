@@ -10432,4 +10432,16 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Imaginea nu a putut fi folosită</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Cursor la trecere</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Afișat când treci peste ceva pe care se poate da clic în Roblox. Folosește imaginea cursorului dacă este gol.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Cursor la clic</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Afișat cât timp butonul mouse-ului este ținut apăsat. Folosește imaginea cursorului dacă este gol.</value>
+  </data>
 </root>

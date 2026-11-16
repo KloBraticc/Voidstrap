@@ -10117,4 +10117,16 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Bu şəkildən istifadə etmək mümkün olmadı</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Üzərində gəzmə kursoru</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox-da kliklənə bilən bir şeyin üzərində gəzəndə göstərilir. Boş olduqda kursor şəklindən istifadə edir.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Klik kursoru</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Siçan düyməsi basılı saxlanarkən göstərilir. Boş olduqda kursor şəklindən istifadə edir.</value>
+  </data>
 </root>

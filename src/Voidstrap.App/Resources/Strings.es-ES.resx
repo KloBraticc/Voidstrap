@@ -10430,4 +10430,16 @@ Jugadores: {2}</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>No se pudo usar esa imagen</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Cursor al pasar por encima</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Se muestra al pasar por encima de algo en lo que se puede hacer clic en Roblox. Usa la imagen del cursor si está vacío.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Cursor de clic</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Se muestra mientras mantienes pulsado el botón del ratón. Usa la imagen del cursor si está vacío.</value>
+  </data>
 </root>

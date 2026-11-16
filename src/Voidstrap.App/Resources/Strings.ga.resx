@@ -10118,4 +10118,16 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Níorbh fhéidir an íomhá sin a úsáid</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Cúrsóir ainliúch</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Taispeántar é agus tú ag ainliú os cionn ruda inchliceáilte in Roblox. Úsáideann sé íomhá an chúrsóra nuair atá sé folamh.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Cúrsóir cliceála</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Taispeántar é fad atá cnaipe na luiche coinnithe síos. Úsáideann sé íomhá an chúrsóra nuair atá sé folamh.</value>
+  </data>
 </root>

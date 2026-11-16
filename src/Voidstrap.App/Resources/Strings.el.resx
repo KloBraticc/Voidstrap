@@ -10117,4 +10117,16 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Δεν ήταν δυνατή η χρήση αυτής της εικόνας</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Δρομέας κατά την αιώρηση</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Εμφανίζεται όταν περνάτε πάνω από κάτι που μπορεί να πατηθεί στο Roblox. Χρησιμοποιεί την εικόνα του δρομέα όταν είναι κενό.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Δρομέας κλικ</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Εμφανίζεται όσο κρατάτε πατημένο το κουμπί του ποντικιού. Χρησιμοποιεί την εικόνα του δρομέα όταν είναι κενό.</value>
+  </data>
 </root>

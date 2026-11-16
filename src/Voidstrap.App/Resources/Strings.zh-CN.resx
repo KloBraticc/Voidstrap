@@ -10454,4 +10454,16 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>无法使用该图像</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>悬停光标</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>在 Roblox 中悬停在可点击的内容上时显示。为空时使用光标图片。</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>点击光标</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>按住鼠标按钮时显示。为空时使用光标图片。</value>
+  </data>
 </root>

@@ -10433,4 +10433,16 @@ Installare SteamVR adesso?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Impossibile usare quell'immagine</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Cursore al passaggio</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Mostrato quando passi sopra qualcosa di cliccabile in Roblox. Usa l'immagine del cursore se vuoto.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Cursore del clic</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Mostrato mentre tieni premuto il tasto del mouse. Usa l'immagine del cursore se vuoto.</value>
+  </data>
 </root>

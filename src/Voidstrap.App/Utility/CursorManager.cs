@@ -19,6 +19,13 @@ public enum CursorSlot
     ShiftLock,
 }
 
+public enum CursorOverrideKind
+{
+    Normal,
+    Hover,
+    Click,
+}
+
 internal static class CursorManager
 {
     private const long MaximumImageBytes = 32L * 1024 * 1024;
@@ -125,25 +132,30 @@ internal static class CursorManager
 
     internal static bool OverrideActive => Platform.IsWindows && App.Settings.Prop.RobloxCursorOverride;
 
-    private const string OverrideFileName = "cursor";
-
-    private static readonly Lazy<byte[]> InvisiblePng = new Lazy<byte[]>(CreateInvisiblePng);
-
     private static string OverrideFolder => Path.Combine(Paths.Themes, "CursorOverride");
 
-    internal static string? OverrideImagePath
+    internal const byte OverrideMarkerAlpha = 3;
+
+    internal static string? OverrideImagePath(CursorOverrideKind kind)
     {
-        get
+        try
         {
-            try
-            {
-                return Directory.Exists(OverrideFolder) ? Directory.EnumerateFiles(OverrideFolder, OverrideFileName + ".*").FirstOrDefault() : null;
-            }
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-            {
-                return null;
-            }
+            return Directory.Exists(OverrideFolder) ? Directory.EnumerateFiles(OverrideFolder, OverrideFileName(kind) + ".*").FirstOrDefault() : null;
         }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return null;
+        }
+    }
+
+    private static string OverrideFileName(CursorOverrideKind kind)
+    {
+        return kind switch
+        {
+            CursorOverrideKind.Hover => "hover",
+            CursorOverrideKind.Click => "click",
+            _ => "cursor",
+        };
     }
 
     internal static void SetOverrideEnabled(bool enabled)
@@ -160,29 +172,29 @@ internal static class CursorManager
         );
     }
 
-    internal static void SetOverrideImage(string sourcePath)
+    internal static void SetOverrideImage(CursorOverrideKind kind, string sourcePath)
     {
         if (new FileInfo(sourcePath).Length > MaximumImageBytes)
             throw new InvalidDataException("The image is larger than 32 MB");
         if (AnimatedIcon.Load(sourcePath, 64).Count == 0)
             throw new InvalidDataException("The image could not be read");
-        ClearOverrideImage();
+        ClearOverrideImage(kind);
         Directory.CreateDirectory(OverrideFolder);
-        Filesystem.CopyWritableFile(sourcePath, Path.Combine(OverrideFolder, OverrideFileName + Path.GetExtension(sourcePath).ToLowerInvariant()));
+        Filesystem.CopyWritableFile(sourcePath, Path.Combine(OverrideFolder, OverrideFileName(kind) + Path.GetExtension(sourcePath).ToLowerInvariant()));
     }
 
-    internal static void ClearOverrideImage()
+    internal static void ClearOverrideImage(CursorOverrideKind kind)
     {
         if (!Directory.Exists(OverrideFolder))
             return;
-        foreach (string file in Directory.EnumerateFiles(OverrideFolder, OverrideFileName + ".*").ToList())
+        foreach (string file in Directory.EnumerateFiles(OverrideFolder, OverrideFileName(kind) + ".*").ToList())
             Filesystem.DeleteWritableFile(file);
     }
 
-    internal static (IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> Frames, double HotspotX, double HotspotY, int Width) LoadOverrideCursor()
+    internal static (IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> Frames, double HotspotX, double HotspotY, int Width) LoadOverrideCursor(CursorOverrideKind kind)
     {
         int size = Math.Clamp(App.Settings.Prop.RobloxCursorOverrideSize, 8, 256);
-        string? path = OverrideImagePath;
+        string? path = OverrideImagePath(kind);
         if (path != null)
         {
             IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames = AnimatedIcon.Load(path, size);
@@ -193,6 +205,8 @@ internal static class CursorManager
                 return (frames, hotspot?.X ?? fallback, hotspot?.Y ?? fallback, size);
             }
         }
+        if (kind != CursorOverrideKind.Normal)
+            return ([], 0, 0, size);
         int textureSize = size * 2;
         BitmapSource? texture = LoadStyleTexture(textureSize);
         return texture == null ? ([], 0, 0, size) : ([(texture, 0)], 0.5, 0.5, textureSize);
@@ -214,10 +228,11 @@ internal static class CursorManager
         {
             try
             {
+                byte[] png = CreateInvisiblePng(OverrideMarker(slot));
                 string destination = ModsPath(slot);
-                if (File.Exists(destination) && File.ReadAllBytes(destination).AsSpan().SequenceEqual(InvisiblePng.Value))
+                if (File.Exists(destination) && File.ReadAllBytes(destination).AsSpan().SequenceEqual(png))
                     continue;
-                WriteFile(destination, InvisiblePng.Value);
+                WriteFile(destination, png);
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
@@ -226,10 +241,33 @@ internal static class CursorManager
         }
     }
 
-    private static byte[] CreateInvisiblePng()
+    internal static int OverrideMarker(CursorSlot slot)
+    {
+        return slot switch
+        {
+            CursorSlot.Arrow => 1,
+            CursorSlot.ArrowFar => 2,
+            CursorSlot.Text => 3,
+            _ => 0,
+        };
+    }
+
+    private static byte[] CreateInvisiblePng(int marker)
     {
         const int Size = 64;
-        BitmapSource bitmap = BitmapSource.Create(Size, Size, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, new byte[Size * Size * 4], Size * 4);
+        const int Half = Size / 2;
+        byte[] pixels = new byte[Size * Size * 4];
+        int markerLeft = marker == 3 ? Half : 0;
+        int markerTop = marker == 1 ? 0 : Half;
+        if (marker != 0)
+        {
+            for (int y = markerTop; y < markerTop + Half; y++)
+            {
+                for (int x = markerLeft; x < markerLeft + Half; x++)
+                    pixels[(y * Size + x) * 4 + 3] = OverrideMarkerAlpha;
+            }
+        }
+        BitmapSource bitmap = BitmapSource.Create(Size, Size, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, pixels, Size * 4);
         PngBitmapEncoder encoder = new PngBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(bitmap));
         using MemoryStream stream = new MemoryStream();

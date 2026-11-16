@@ -10117,4 +10117,16 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>அந்தப் படத்தைப் பயன்படுத்த முடியவில்லை</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>ஹோவர் கர்சர்</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox இல் கிளிக் செய்யக்கூடிய ஒன்றின் மேல் ஹோவர் செய்யும்போது காட்டப்படும். காலியாக இருந்தால் கர்சர் படத்தைப் பயன்படுத்தும்.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>கிளிக் கர்சர்</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>மவுஸ் பொத்தானை அழுத்திப் பிடித்திருக்கும்போது காட்டப்படும். காலியாக இருந்தால் கர்சர் படத்தைப் பயன்படுத்தும்.</value>
+  </data>
 </root>

@@ -10117,4 +10117,16 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Ayikwazanga ukusebenzisa leso sithombe</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Ikhesa uma udlula phezulu</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Liboniswa uma udlula phezu kwento engachofozwa ku Roblox. Lisebenzisa isithombe sekhesa uma lingenalutho.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Ikhesa lokuchofoza</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Liboniswa ngenkathi inkinobho yegundane ibanjiwe. Lisebenzisa isithombe sekhesa uma lingenalutho.</value>
+  </data>
 </root>

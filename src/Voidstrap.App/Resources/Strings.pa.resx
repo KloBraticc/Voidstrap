@@ -10118,4 +10118,16 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>ਉਹ ਚਿੱਤਰ ਵਰਤਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>ਹੋਵਰ ਕਰਸਰ</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox ਵਿੱਚ ਕਲਿੱਕ ਕਰਨਯੋਗ ਚੀਜ਼ ਉੱਤੇ ਹੋਵਰ ਕਰਨ ਵੇਲੇ ਦਿਖਾਇਆ ਜਾਂਦਾ ਹੈ। ਖਾਲੀ ਹੋਣ ਤੇ ਕਰਸਰ ਦੀ ਤਸਵੀਰ ਵਰਤਦਾ ਹੈ।</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>ਕਲਿੱਕ ਕਰਸਰ</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>ਮਾਊਸ ਬਟਨ ਦਬਾ ਕੇ ਰੱਖਣ ਵੇਲੇ ਦਿਖਾਇਆ ਜਾਂਦਾ ਹੈ। ਖਾਲੀ ਹੋਣ ਤੇ ਕਰਸਰ ਦੀ ਤਸਵੀਰ ਵਰਤਦਾ ਹੈ।</value>
+  </data>
 </root>

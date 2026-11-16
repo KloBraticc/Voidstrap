@@ -10118,4 +10118,16 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>ସେହି ଛବି ବ୍ୟବହାର କରାଯାଇପାରିଲା ନାହିଁ</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>ହୋଭର କର୍ସର</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox ରେ କ୍ଲିକ କରିହେବା ଭଳି କିଛି ଉପରେ ହୋଭର କରିବା ସମୟରେ ଦେଖାଯାଏ। ଖାଲି ଥିଲେ କର୍ସର ଛବି ବ୍ୟବହାର କରେ।</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>କ୍ଲିକ କର୍ସର</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>ମାଉସ ବଟନ ଦବାଇ ରଖିଥିବା ସମୟରେ ଦେଖାଯାଏ। ଖାଲି ଥିଲେ କର୍ସର ଛବି ବ୍ୟବହାର କରେ।</value>
+  </data>
 </root>

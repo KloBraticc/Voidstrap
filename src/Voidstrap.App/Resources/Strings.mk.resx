@@ -10118,4 +10118,16 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Сликата не можеше да се користи</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Курсор при поминување</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Се прикажува додека поминувате над нешто на кое може да се кликне во Roblox. Ако е празно, ја користи сликата на курсорот.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Курсор при клик</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Се прикажува додека копчето на глувчето е притиснато. Ако е празно, ја користи сликата на курсорот.</value>
+  </data>
 </root>

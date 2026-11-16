@@ -10432,4 +10432,16 @@ SteamVR nu installeren?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Kon die afbeelding niet gebruiken</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Cursor bij aanwijzen</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Wordt getoond als je iets aanwijst waarop je in Roblox kunt klikken. Gebruikt de cursorafbeelding als dit leeg is.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Klikcursor</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Wordt getoond zolang de muisknop ingedrukt is. Gebruikt de cursorafbeelding als dit leeg is.</value>
+  </data>
 </root>

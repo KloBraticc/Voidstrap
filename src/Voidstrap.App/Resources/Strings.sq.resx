@@ -10118,4 +10118,16 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Imazhi nuk mund të përdorej</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Kursori kur kalon sipër</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Shfaqet kur kalon sipër diçkaje të klikueshme në Roblox. Përdor imazhin e kursorit kur është bosh.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Kursori i klikimit</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Shfaqet ndërsa butoni i miut mbahet shtypur. Përdor imazhin e kursorit kur është bosh.</value>
+  </data>
 </root>

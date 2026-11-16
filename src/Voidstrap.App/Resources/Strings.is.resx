@@ -10118,4 +10118,16 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Ekki tókst að nota þessa mynd</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Bendill við sveimun</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Birtist þegar þú sveimar yfir einhverju smellanlegu í Roblox. Notar bendilmyndina ef tómt.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Smellbendill</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Birtist á meðan músarhnappinum er haldið niðri. Notar bendilmyndina ef tómt.</value>
+  </data>
 </root>

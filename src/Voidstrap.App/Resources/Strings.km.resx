@@ -10118,4 +10118,16 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>មិនអាចប្រើរូបភាពនោះបានទេ</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>ទស្សន៍ទ្រនិចពេលដាក់ពីលើ</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>បង្ហាញពេលអ្នកដាក់ពីលើអ្វីដែលអាចចុចបាននៅក្នុង Roblox។ ប្រើរូបភាពទស្សន៍ទ្រនិចពេលទទេ។</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>ទស្សន៍ទ្រនិចពេលចុច</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>បង្ហាញពេលកំពុងសង្កត់ប៊ូតុងកណ្ដុរ។ ប្រើរូបភាពទស្សន៍ទ្រនិចពេលទទេ។</value>
+  </data>
 </root>

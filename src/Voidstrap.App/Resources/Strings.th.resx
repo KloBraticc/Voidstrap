@@ -10425,4 +10425,16 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>ไม่สามารถใช้รูปภาพนั้นได้</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>เคอร์เซอร์เมื่อชี้</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>แสดงเมื่อคุณชี้ไปที่สิ่งที่คลิกได้ใน Roblox ใช้รูปเคอร์เซอร์เมื่อว่างอยู่</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>เคอร์เซอร์เมื่อคลิก</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>แสดงขณะกดปุ่มเมาส์ค้างไว้ ใช้รูปเคอร์เซอร์เมื่อว่างอยู่</value>
+  </data>
 </root>

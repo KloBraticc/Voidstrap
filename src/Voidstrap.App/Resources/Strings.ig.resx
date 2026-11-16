@@ -10118,4 +10118,16 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Enweghị ike iji onyonyo ahụ</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Cursor mgbe ị na-efegharị</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>A na-egosi ya mgbe ị na-efegharị n'elu ihe a pụrụ ịpị na Roblox. Ọ na-eji onyonyo cursor ma ọ bụrụ na o tọgbọrọ chakoo.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Cursor ịpị</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>A na-egosi ya mgbe a na-ejide bọtịnụ òké. Ọ na-eji onyonyo cursor ma ọ bụrụ na o tọgbọrọ chakoo.</value>
+  </data>
 </root>

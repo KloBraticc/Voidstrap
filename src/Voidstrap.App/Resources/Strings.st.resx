@@ -10117,4 +10117,16 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Ha ho a kgoneha ho sebedisa setshwantsho seo</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Sesupa ha o fofela</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Se bontšoa ha o fofela hodima ntho e ka tobetswang ho Roblox. Se sebedisa setshwantsho sa sesupa ha se se na letho.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Sesupa sa ho tobetsa</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Se bontšoa ha konopo ya toeba e ntse e tshwerwe. Se sebedisa setshwantsho sa sesupa ha se se na letho.</value>
+  </data>
 </root>

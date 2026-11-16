@@ -10118,4 +10118,16 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Тэр зургийг ашиглаж чадсангүй</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Дээгүүр нь гүйлгэх курсор</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox доторх дарж болох зүйлийн дээгүүр гүйлгэх үед харагдана. Хоосон бол курсорын зургийг ашиглана.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Дарах курсор</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Хулганы товчийг дарсаар байх үед харагдана. Хоосон бол курсорын зургийг ашиглана.</value>
+  </data>
 </root>

@@ -10433,4 +10433,16 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Tidak dapat menggunakan gambar itu</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Kursor saat diarahkan</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Ditampilkan saat Anda mengarahkan ke sesuatu yang dapat diklik di Roblox. Menggunakan gambar kursor jika kosong.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Kursor klik</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Ditampilkan saat tombol mouse ditahan. Menggunakan gambar kursor jika kosong.</value>
+  </data>
 </root>

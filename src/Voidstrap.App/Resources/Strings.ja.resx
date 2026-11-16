@@ -10445,4 +10445,16 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>その画像は使用できませんでした</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>ホバー時のカーソル</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox でクリックできるものにカーソルを合わせている間に表示されます。空の場合はカーソル画像を使用します。</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>クリック時のカーソル</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>マウスボタンを押している間に表示されます。空の場合はカーソル画像を使用します。</value>
+  </data>
 </root>

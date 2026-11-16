@@ -10117,4 +10117,16 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>ያንን ምስል መጠቀም አልተቻለም</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>የማንዣበብ ጠቋሚ</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>በRoblox ውስጥ ሊጫን በሚችል ነገር ላይ ሲያንዣብቡ ይታያል። ባዶ ሲሆን የጠቋሚውን ምስል ይጠቀማል።</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>የጠቅታ ጠቋሚ</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>የመዳፊት አዝራሩ ተጭኖ ሳለ ይታያል። ባዶ ሲሆን የጠቋሚውን ምስል ይጠቀማል።</value>
+  </data>
 </root>

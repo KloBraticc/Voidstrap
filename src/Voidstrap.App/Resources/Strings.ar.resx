@@ -10429,4 +10429,16 @@
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>تعذر استخدام هذه الصورة</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>مؤشر التمرير</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>يظهر عند تمرير المؤشر فوق شيء قابل للنقر في Roblox. يستخدم صورة المؤشر إذا كان فارغًا.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>مؤشر النقر</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>يظهر أثناء الضغط على زر الماوس. يستخدم صورة المؤشر إذا كان فارغًا.</value>
+  </data>
 </root>

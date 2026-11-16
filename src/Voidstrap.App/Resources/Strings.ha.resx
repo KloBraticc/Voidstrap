@@ -10118,4 +10118,16 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Ba a iya amfani da wannan hoton ba</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Kibiyar shawagi</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Ana nuna ta lokacin da kake shawagi a kan abin da za a iya dannawa a Roblox. Tana amfani da hoton kibiya idan babu komai.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Kibiyar dannawa</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Ana nuna ta yayin da aka riƙe maɓallin linzamin kwamfuta. Tana amfani da hoton kibiya idan babu komai.</value>
+  </data>
 </root>

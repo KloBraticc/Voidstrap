@@ -10118,4 +10118,16 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Бұл суретті пайдалану мүмкін болмады</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Үстінен өткендегі курсор</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox ішінде басуға болатын нәрсенің үстінен өткенде көрсетіледі. Бос болса, курсор суретін пайдаланады.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Басу курсоры</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Тінтуір түймесі басулы тұрғанда көрсетіледі. Бос болса, курсор суретін пайдаланады.</value>
+  </data>
 </root>

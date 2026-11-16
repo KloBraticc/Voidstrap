@@ -10118,4 +10118,16 @@ Installer SteamVR nå?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Kunne ikke bruke det bildet</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Peker ved hover</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Vises når du holder pekeren over noe klikkbart i Roblox. Bruker pekerbildet når feltet er tomt.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Klikkpeker</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Vises mens museknappen holdes inne. Bruker pekerbildet når feltet er tomt.</value>
+  </data>
 </root>

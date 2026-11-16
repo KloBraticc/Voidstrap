@@ -10117,4 +10117,16 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>وہ تصویر استعمال نہیں ہو سکی</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>ہوور کرسر</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox میں کسی قابل کلک چیز پر ہوور کرتے وقت دکھایا جاتا ہے۔ خالی ہونے پر کرسر کی تصویر استعمال کرتا ہے۔</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>کلک کرسر</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>ماؤس کا بٹن دبائے رکھنے کے دوران دکھایا جاتا ہے۔ خالی ہونے پر کرسر کی تصویر استعمال کرتا ہے۔</value>
+  </data>
 </root>

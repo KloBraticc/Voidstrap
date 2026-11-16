@@ -10432,4 +10432,16 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>استفاده از این تصویر ممکن نشد</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>نشانگر هنگام قرار گرفتن</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>وقتی نشانگر را روی چیزی قابل کلیک در Roblox نگه می‌دارید نمایش داده می‌شود. اگر خالی باشد از تصویر نشانگر استفاده می‌کند.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>نشانگر کلیک</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>تا زمانی که دکمه ماوس نگه داشته شده نمایش داده می‌شود. اگر خالی باشد از تصویر نشانگر استفاده می‌کند.</value>
+  </data>
 </root>

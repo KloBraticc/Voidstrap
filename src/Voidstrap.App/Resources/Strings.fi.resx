@@ -10431,4 +10431,16 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>Kuvaa ei voitu käyttää</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>Osoitin päälle vietäessä</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Näytetään, kun viet osoittimen jonkin napsautettavan päälle Robloxissa. Käyttää osoittimen kuvaa, jos tyhjä.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>Napsautusosoitin</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>Näytetään, kun hiiren painiketta pidetään pohjassa. Käyttää osoittimen kuvaa, jos tyhjä.</value>
+  </data>
 </root>

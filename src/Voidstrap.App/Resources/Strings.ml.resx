@@ -10118,4 +10118,16 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>ആ ചിത്രം ഉപയോഗിക്കാനായില്ല</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>ഹോവർ കഴ്സർ</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>Roblox ൽ ക്ലിക്ക് ചെയ്യാവുന്ന എന്തിന്റെയെങ്കിലും മുകളിൽ ഹോവർ ചെയ്യുമ്പോൾ കാണിക്കും. ശൂന്യമാണെങ്കിൽ കഴ്സർ ചിത്രം ഉപയോഗിക്കും.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>ക്ലിക്ക് കഴ്സർ</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>മൗസ് ബട്ടൺ അമർത്തിപ്പിടിക്കുമ്പോൾ കാണിക്കും. ശൂന്യമാണെങ്കിൽ കഴ്സർ ചിത്രം ഉപയോഗിക്കും.</value>
+  </data>
 </root>

@@ -10433,4 +10433,16 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>無法使用該圖片</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>滑鼠移過游標</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>在 Roblox 中滑鼠移到可點擊的項目上時顯示。留空時使用游標圖片。</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>點擊游標</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>按住滑鼠按鈕時顯示。留空時使用游標圖片。</value>
+  </data>
 </root>

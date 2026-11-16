@@ -102,6 +102,24 @@
                     <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.RemoveOverrideImageCommand}" Visibility="{Binding CursorSettings.HasOverrideImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                   </StackPanel>
                 </controls:OptionControl>
+                <controls:OptionControl Header="{resources:Loc Ui_Mods_OverrideHoverCursor}" Description="{resources:Loc Ui_Mods_OverrideHoverCursorDescription}">
+                  <StackPanel Orientation="Horizontal">
+                    <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+                      <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.HoverPreview}" />
+                    </Border>
+                    <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ChooseHoverImageCommand}" />
+                    <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.RemoveHoverImageCommand}" Visibility="{Binding CursorSettings.HasHoverImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                  </StackPanel>
+                </controls:OptionControl>
+                <controls:OptionControl Header="{resources:Loc Ui_Mods_OverrideClickCursor}" Description="{resources:Loc Ui_Mods_OverrideClickCursorDescription}">
+                  <StackPanel Orientation="Horizontal">
+                    <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+                      <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.ClickPreview}" />
+                    </Border>
+                    <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ChooseClickImageCommand}" />
+                    <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.RemoveClickImageCommand}" Visibility="{Binding CursorSettings.HasClickImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                  </StackPanel>
+                </controls:OptionControl>
                 <controls:OptionControl Header="{resources:Loc Ui_Mods_OverrideCursorSize}">
                   <StackPanel Orientation="Horizontal">
                     <Slider Width="200" VerticalAlignment="Center" Minimum="8" Maximum="256" TickFrequency="4" IsSnapToTickEnabled="True" Value="{Binding CursorSettings.OverrideSize, Mode=TwoWay}" />

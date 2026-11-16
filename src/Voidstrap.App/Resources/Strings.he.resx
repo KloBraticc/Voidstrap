@@ -10118,4 +10118,16 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Mods.CouldNotUseCursorImage" xml:space="preserve">
     <value>לא ניתן להשתמש בתמונה זו</value>
   </data>
+  <data name="Ui.Mods.OverrideHoverCursor" xml:space="preserve">
+    <value>סמן בריחוף</value>
+  </data>
+  <data name="Ui.Mods.OverrideHoverCursorDescription" xml:space="preserve">
+    <value>מוצג בזמן ריחוף מעל משהו לחיץ ב Roblox. משתמש בתמונת הסמן כשהשדה ריק.</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursor" xml:space="preserve">
+    <value>סמן לחיצה</value>
+  </data>
+  <data name="Ui.Mods.OverrideClickCursorDescription" xml:space="preserve">
+    <value>מוצג כל עוד לחצן העכבר לחוץ. משתמש בתמונת הסמן כשהשדה ריק.</value>
+  </data>
 </root>
