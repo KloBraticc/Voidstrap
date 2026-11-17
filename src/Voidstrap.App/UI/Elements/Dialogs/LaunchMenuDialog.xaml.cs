@@ -2,6 +2,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.ViewModels.Installer;
 
@@ -35,6 +37,19 @@ public partial class LaunchMenuDialog : WpfUiWindow
         foreach (object target in _viewModel.LaunchTargets())
         {
             StackPanel header = new() { Orientation = Orientation.Horizontal };
+            header.Children.Add(
+                new CheckBox
+                {
+                    MinWidth = 0,
+                    MinHeight = 0,
+                    Padding = new Thickness(0),
+                    Margin = new Thickness(0, 0, 10, 0),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    IsHitTestVisible = false,
+                    Focusable = false,
+                    IsChecked = ReferenceEquals(target, current),
+                }
+            );
             ImageSource? icon = LaunchMenuViewModel.TargetIcon(target);
             if (icon != null)
                 header.Children.Add(new Image { Width = 18, Height = 18, Margin = new Thickness(0, 0, 10, 0), Source = icon });
@@ -43,8 +58,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
             {
                 Header = header,
                 Tag = target,
-                IsCheckable = true,
-                IsChecked = ReferenceEquals(target, current),
+                StaysOpenOnClick = true,
             };
             item.Click += LaunchTargetItem_Click;
             menu.Items.Add(item);
@@ -52,13 +66,56 @@ public partial class LaunchMenuDialog : WpfUiWindow
         menu.Closed += LaunchTargetMenu_Closed;
         menu.Opened += LaunchTargetMenu_Opened;
         menu.IsOpen = true;
-        LaunchTargetChevronRotation.Angle = 180;
+        _launchTargetMenu = menu;
+        RotateChevron(180);
+    }
+
+    private static readonly TimeSpan ChevronDuration = TimeSpan.FromMilliseconds(220);
+
+    private static readonly TimeSpan MenuCloseDelay = TimeSpan.FromMilliseconds(220);
+
+    private System.Windows.Controls.ContextMenu? _launchTargetMenu;
+
+    private DispatcherTimer? _menuCloseTimer;
+
+    private void RotateChevron(double angle)
+    {
+        DoubleAnimation animation = new(angle, ChevronDuration) { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };
+        LaunchTargetChevronRotation.BeginAnimation(RotateTransform.AngleProperty, animation);
     }
 
     private void LaunchTargetItem_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is MenuItem { Tag: object target })
-            _viewModel.SelectTarget(target);
+        if (sender is not MenuItem { Tag: object target } chosen || _menuCloseTimer != null)
+            return;
+        _viewModel.SelectTarget(target);
+        if (chosen.Parent is ItemsControl menu)
+        {
+            foreach (MenuItem item in menu.Items.OfType<MenuItem>())
+            {
+                if (item.Header is Panel { Children.Count: > 0 } header && header.Children[0] is CheckBox box)
+                    box.IsChecked = ReferenceEquals(item, chosen);
+            }
+        }
+        _menuCloseTimer = new DispatcherTimer { Interval = MenuCloseDelay };
+        _menuCloseTimer.Tick += MenuCloseTimer_Tick;
+        _menuCloseTimer.Start();
+    }
+
+    private void MenuCloseTimer_Tick(object? sender, EventArgs e)
+    {
+        StopMenuCloseTimer();
+        if (_launchTargetMenu != null)
+            _launchTargetMenu.IsOpen = false;
+    }
+
+    private void StopMenuCloseTimer()
+    {
+        if (_menuCloseTimer == null)
+            return;
+        _menuCloseTimer.Stop();
+        _menuCloseTimer.Tick -= MenuCloseTimer_Tick;
+        _menuCloseTimer = null;
     }
 
     private void LaunchTargetMenu_Opened(object sender, RoutedEventArgs e)
@@ -73,7 +130,10 @@ public partial class LaunchMenuDialog : WpfUiWindow
             return;
         menu.Closed -= LaunchTargetMenu_Closed;
         menu.Opened -= LaunchTargetMenu_Opened;
-        LaunchTargetChevronRotation.Angle = 0;
+        StopMenuCloseTimer();
+        if (ReferenceEquals(_launchTargetMenu, menu))
+            _launchTargetMenu = null;
+        RotateChevron(0);
         foreach (MenuItem item in menu.Items.OfType<MenuItem>())
             item.Click -= LaunchTargetItem_Click;
     }
@@ -86,6 +146,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
 
     private void OnClosed(object? sender, EventArgs e)
     {
+        StopMenuCloseTimer();
         _viewModel.CloseWindowRequest -= OnCloseWindowRequest;
         base.Closed -= OnClosed;
     }
