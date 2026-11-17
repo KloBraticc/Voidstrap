@@ -21,9 +21,9 @@
             <ui:SymbolIcon Symbol="Add24" />
           </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="{resources:Loc Library_RemoveFromCollection}" Tag="CollectionRemove">
+        <MenuItem Header="{resources:Loc Library_RemoveFromCollection}" Tag="CollectionRemove" Foreground="{DynamicResource SystemFillColorCriticalBrush}">
           <MenuItem.Icon>
-            <ui:SymbolIcon Symbol="Subtract24" />
+            <ui:SymbolIcon Symbol="Subtract24" Foreground="{DynamicResource SystemFillColorCriticalBrush}" />
           </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="{resources:Loc Library_Manage}">
@@ -47,9 +47,9 @@
           </MenuItem>
         </MenuItem>
         <Separator />
-        <MenuItem Header="{resources:Loc Ui_Pages_RemoveFromLibrary}" Visibility="{Binding DataContext.RemoveVisibility}" Command="{Binding Tag.RemoveGameCommand}" CommandParameter="{Binding DataContext}">
+        <MenuItem Header="{resources:Loc Ui_Pages_RemoveFromLibrary}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Visibility="{Binding DataContext.RemoveVisibility}" Command="{Binding Tag.RemoveGameCommand}" CommandParameter="{Binding DataContext}">
           <MenuItem.Icon>
-            <ui:SymbolIcon Symbol="Delete24" />
+            <ui:SymbolIcon Symbol="Delete24" Foreground="{DynamicResource SystemFillColorCriticalBrush}" />
           </MenuItem.Icon>
         </MenuItem>
       </ContextMenu>
@@ -59,9 +59,9 @@
             <ui:SymbolIcon Symbol="Rename24" />
           </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="{resources:Loc Library_DeleteCollection}" Click="DeleteCollection_Click">
+        <MenuItem Header="{resources:Loc Library_DeleteCollection}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Click="DeleteCollection_Click">
           <MenuItem.Icon>
-            <ui:SymbolIcon Symbol="Delete24" />
+            <ui:SymbolIcon Symbol="Delete24" Foreground="{DynamicResource SystemFillColorCriticalBrush}" />
           </MenuItem.Icon>
         </MenuItem>
       </ContextMenu>
