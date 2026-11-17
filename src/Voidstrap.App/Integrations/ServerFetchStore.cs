@@ -298,6 +298,9 @@ public static class ServerFetchStore
                     List<string>? list2 = (
                         (server.Value.IPs != null && server.Value.IPs.Count > 0) ? new List<string>(server.Value.IPs) : null
                     );
+                    string? importedPingIp = string.IsNullOrWhiteSpace(server.Value.PingIP) ? null : server.Value.PingIP.Trim();
+                    if (importedPingIp != null)
+                        DatacenterLatency.RememberPingTarget(text, importedPingIp);
                     list.Add(
                         new SeedCidrEntry
                         {
@@ -388,6 +391,11 @@ public static class ServerFetchStore
                                 }
                             }
                         }
+                    }
+                    if (importedPingIp != null && value.PingIP != importedPingIp)
+                    {
+                        value.PingIP = importedPingIp;
+                        flag = true;
                     }
                     if (flag)
                     {
@@ -590,6 +598,24 @@ public static class ServerFetchStore
             SaveThrottled();
     }
 
+    public static void RecordPing(string cidr, string pingIp, int ms)
+    {
+        if (string.IsNullOrWhiteSpace(cidr) || ms < 0)
+            return;
+        EnsureLoaded();
+        lock (_lock)
+        {
+            if (!_data.Servers.TryGetValue(cidr, out LearnedServerEntry? value))
+                return;
+            value.PingIP = pingIp;
+            value.PingSamplesMs ??= new List<int>();
+            value.PingSamplesMs.Add(ms);
+            if (value.PingSamplesMs.Count > MaxPingSamples)
+                value.PingSamplesMs.RemoveRange(0, value.PingSamplesMs.Count - MaxPingSamples);
+        }
+        SaveThrottled();
+    }
+
     public static (int Datacenters, int Servers, int TotalSightings, int PingedDatacenters) GetStats()
     {
         EnsureLoaded();
@@ -675,7 +701,7 @@ public static class ServerFetchStore
             SaveNow();
     }
 
-    private static string? GetSlash24Cidr(string ip)
+    internal static string? GetSlash24Cidr(string ip)
     {
         if (!IPAddress.TryParse(ip, out IPAddress? address) || address.AddressFamily != AddressFamily.InterNetwork)
         {

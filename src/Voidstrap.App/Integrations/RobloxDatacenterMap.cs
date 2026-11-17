@@ -175,6 +175,14 @@ public static class RobloxDatacenterMap
         return null;
     }
 
+    public static IReadOnlyList<string> AllCidrs()
+    {
+        lock (_entries)
+        {
+            return _entries.Select(entry => entry.Cidr).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+        }
+    }
+
     public static IReadOnlyCollection<RobloxDatacenter> AllDatacenters()
     {
         HashSet<string> hashSet = new HashSet<string>();

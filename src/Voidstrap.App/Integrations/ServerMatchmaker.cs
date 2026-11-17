@@ -428,13 +428,15 @@ public sealed class ServerMatchmaker : IDisposable
             return;
         }
 
-        double currentKm = VoidstrapMatchmaker.HaversineKm(geo.Lat, geo.Lon, currentDc.Lat, currentDc.Lon);
-        int currentPing = VoidstrapMatchmaker.EstimatePingMs(currentKm);
+        (int Ms, bool Measured) currentLatency = await VoidstrapMatchmaker
+            .ResolvePingAsync(data.MachineAddress, geo, currentDc, decideBy)
+            .ConfigureAwait(false);
+        int currentPing = currentLatency.Ms;
         string currentKey = VoidstrapMatchmaker.DatacenterKey(currentDc);
         bool currentIsBlocked = VoidstrapMatchmaker.GetBlockedDatacenters().Contains(VoidstrapMatchmaker.BlockKey(currentDc));
         App.Logger.WriteLine(
             LOG_IDENT,
-            $"Current datacenter {VoidstrapMatchmaker.BlockKey(currentDc)}, about {currentPing}ms{(currentIsBlocked ? ", blocked" : "")}"
+            $"Current datacenter {VoidstrapMatchmaker.BlockKey(currentDc)}, {currentPing}ms {(currentLatency.Measured ? "measured" : "estimated")}{(currentIsBlocked ? ", blocked" : "")}"
         );
 
         string preferredKey = ResolvePreferredDatacenterKey(data.PlaceId);

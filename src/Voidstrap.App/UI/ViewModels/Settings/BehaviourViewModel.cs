@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
-using System.Net.Sockets;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -145,7 +144,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
         public string ServerIps { get; }
 
-        public string PingIp { get; }
+        public IReadOnlyList<string> Cidrs { get; }
+
+        public bool PingMeasured { get; set; }
 
         public string Key => City + "|" + Country;
 
@@ -232,7 +233,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             Lat = lat;
             Lon = lon;
             ServerIps = serverIps.Count > 0 ? string.Join(", ", serverIps) : string.Join(", ", cidrRanges);
-            PingIp = serverIps.Count > 0 ? serverIps[0] : "";
+            Cidrs = cidrRanges;
             _pingDisplay = "...";
             _isBlocked = isBlocked;
             _onChange = onChange;
@@ -418,7 +419,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             DatacenterItem? nearest = Datacenters.Where(d => d.DistanceKm >= 0.0).OrderBy(d => d.DistanceKm).FirstOrDefault();
             if (nearest == null)
                 return "Location found, learning which datacenters are near you.";
-            return $"Nearest known datacenter: {nearest.Location}, about {Voidstrap.Integrations.VoidstrapMatchmaker.EstimatePingMs(nearest.DistanceKm)}ms";
+            return $"Nearest known datacenter: {nearest.Location}, {nearest.PingDisplay}";
         }
     }
 
@@ -1690,18 +1691,19 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
     {
         if (_userGeoForPreferred == null)
             return;
+        double calibration = DatacenterLatency.CalibrationRatio(_userGeoForPreferred.Value.lat, _userGeoForPreferred.Value.lon);
         foreach (DatacenterItem item in Datacenters)
         {
-            item.DistanceKm = Voidstrap.Integrations.VoidstrapMatchmaker.HaversineKm(
+            item.DistanceKm = VoidstrapMatchmaker.HaversineKm(
                 _userGeoForPreferred.Value.lat,
                 _userGeoForPreferred.Value.lon,
                 item.Lat,
                 item.Lon
             );
-            if (item.PingMs < 0)
+            if (!item.PingMeasured)
             {
-                item.PingMs = Voidstrap.Integrations.VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm);
-                item.PingDisplay = $"{item.PingMs} ms";
+                item.PingMs = Math.Clamp((int)Math.Round(VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm) * calibration), 1, 999);
+                item.PingDisplay = $"~{item.PingMs} ms";
             }
         }
         SortDatacentersByDistance();
@@ -1770,10 +1772,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
             PreferredDatacenterOptions.Clear();
             foreach (DatacenterItem item in Datacenters.Where(d => d.IsAllowed))
             {
-                string ping =
-                    item.PingMs >= 0
-                        ? $"{item.PingMs} ms"
-                        : (item.DistanceKm >= 0.0 ? $"{VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm)} ms" : "");
+                string ping = item.PingMs >= 0 ? item.PingDisplay : "";
                 string display = string.IsNullOrEmpty(ping) ? item.Location : $"{item.Location} ({ping})";
                 PreferredDatacenterOptions.Add(
                     new PreferredDatacenterOption
@@ -1867,87 +1866,47 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
     private async Task MeasureDatacenterPingsAsync()
     {
-        List<DatacenterItem> pingable = Datacenters.Where(d => !string.IsNullOrEmpty(d.PingIp)).ToList();
-        if (pingable.Count == 0)
+        List<DatacenterItem> items = Datacenters.Where(d => d.Cidrs.Count > 0).ToList();
+        if (items.Count == 0)
             return;
-        using SemaphoreSlim throttler = new SemaphoreSlim(8);
-        IEnumerable<Task> tasks = pingable.Select(async item =>
+        IEnumerable<Task> tasks = items.Select(async item =>
         {
-            await throttler.WaitAsync().ConfigureAwait(false);
             try
             {
-                int ms = await MeasureTcpPingAsync(item.PingIp).ConfigureAwait(false);
+                int[] results = await Task.WhenAll(item.Cidrs.Select(cidr => DatacenterLatency.GetMsAsync(cidr, CancellationToken.None)))
+                    .ConfigureAwait(false);
+                int ms = results.Where(value => value >= 0).DefaultIfEmpty(-1).Min();
                 if (ms < 0)
                     return;
-                string text = $"{ms} ms";
                 await Application.Current.Dispatcher.InvokeAsync(
                     delegate
                     {
+                        item.PingMeasured = true;
                         item.PingMs = ms;
-                        item.PingDisplay = text;
+                        item.PingDisplay = $"{ms} ms";
                     }
                 );
             }
-            catch { }
-            finally
+            catch (Exception ex)
             {
-                throttler.Release();
+                App.Logger.WriteLine("BehaviourViewModel::MeasureDatacenterPings", "Latency check failed for " + item.Location + ": " + ex.Message);
             }
         });
         try
         {
             await Task.WhenAll(tasks).ConfigureAwait(false);
-            await Application.Current.Dispatcher.InvokeAsync(RefreshPreferredDatacenterOptions);
+            await Application.Current.Dispatcher.InvokeAsync(
+                delegate
+                {
+                    ApplyDistances();
+                    RefreshPreferredDatacenterOptions();
+                    RefreshMatchmakerSummary();
+                }
+            );
         }
-        catch { }
-    }
-
-    private static async Task<int> MeasureTcpPingAsync(string ip)
-    {
-        if (!IPAddress.TryParse(ip, out IPAddress? addr))
+        catch (Exception ex)
         {
-            return -1;
-        }
-        int best = -1;
-        int[] array = new int[2] { 443, 80 };
-        foreach (int port in array)
-        {
-            int num = await TcpConnectRttAsync(addr, port, 700).ConfigureAwait(continueOnCapturedContext: false);
-            if (num >= 0 && (best < 0 || num < best))
-            {
-                best = num;
-            }
-        }
-        return best;
-    }
-
-    private static async Task<int> TcpConnectRttAsync(IPAddress addr, int port, int timeoutMs)
-    {
-        using Socket socket = new Socket(addr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        using CancellationTokenSource cts = new CancellationTokenSource(timeoutMs);
-        Stopwatch sw = Stopwatch.StartNew();
-        try
-        {
-            await socket.ConnectAsync(addr, port, cts.Token).ConfigureAwait(continueOnCapturedContext: false);
-            sw.Stop();
-            return (int)sw.ElapsedMilliseconds;
-        }
-        catch (SocketException ex)
-        {
-            sw.Stop();
-            if (ex.SocketErrorCode == SocketError.ConnectionRefused)
-            {
-                return (int)sw.ElapsedMilliseconds;
-            }
-            return -1;
-        }
-        catch (OperationCanceledException)
-        {
-            return -1;
-        }
-        catch
-        {
-            return -1;
+            App.Logger.WriteLine("BehaviourViewModel::MeasureDatacenterPings", "Latency check failed: " + ex.Message);
         }
     }
 

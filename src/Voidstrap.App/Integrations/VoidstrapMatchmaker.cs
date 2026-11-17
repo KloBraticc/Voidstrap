@@ -64,6 +64,8 @@ public static class VoidstrapMatchmaker
 
     private static readonly TimeSpan OverallDeadline = TimeSpan.FromSeconds(25.0);
 
+    private static readonly TimeSpan LatencyWait = TimeSpan.FromSeconds(2.5);
+
     private static readonly TimeSpan GeoCacheTtl = TimeSpan.FromHours(6.0);
 
     private static readonly TimeSpan GeoConsensusGrace = TimeSpan.FromMilliseconds(1500.0);
@@ -223,6 +225,35 @@ public static class VoidstrapMatchmaker
         if (double.IsNaN(distanceKm) || distanceKm < 0.0)
             return 999.0;
         return 5.0 + distanceKm / 75.0;
+    }
+
+    public static async Task<(int Ms, bool Measured)> ResolvePingAsync(string? ip, UserGeo geo, RobloxDatacenter dc, CancellationToken token)
+    {
+        int measured = await DatacenterLatency.GetMsForIpAsync(ip, token).ConfigureAwait(false);
+        if (measured >= 0)
+            return (Math.Clamp(measured, 1, 999), true);
+        double estimate = EstimateRttMs(HaversineKm(geo.Lat, geo.Lon, dc.Lat, dc.Lon)) * DatacenterLatency.CalibrationRatio(geo.Lat, geo.Lon);
+        return (Math.Clamp((int)Math.Round(estimate), 1, 999), false);
+    }
+
+    private static async Task WaitForLatencyAsync(Task latencyTask, CancellationToken token)
+    {
+        try
+        {
+            await latencyTask.WaitAsync(LatencyWait, token).ConfigureAwait(false);
+        }
+        catch (TimeoutException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Datacenter latency is still being measured, using what is ready");
+        }
+    }
+
+    private static double ResolveFloorMs(UserGeo geo)
+    {
+        int best = DatacenterLatency.BestKnownMs();
+        if (best >= 0)
+            return best;
+        return EstimateRttMs(NearestDatacenterKm(geo)) * DatacenterLatency.CalibrationRatio(geo.Lat, geo.Lon);
     }
 
     public static double HaversineKm(double lat1, double lon1, double lat2, double lon2)
@@ -747,6 +778,7 @@ public static class VoidstrapMatchmaker
             probeBudget = Math.Min(FilteredCandidateCeiling, probeBudget * 2);
         probeBudget = Math.Max(probeBudget, MaxCandidateCount);
 
+        Task latencyTask = DatacenterLatency.MeasureAllAsync(DatacenterLatency.KnownCidrs(), scanToken);
         Task<UserGeo?> geoTask = GetUserGeoAsync(scanToken);
         Task<List<ServerListItem>> poolTask = ListPublicServersAsync(placeId, cookie, MaxServerListPages, preferEmpty, scanToken);
         Task csrfTask = PrimeCsrfAsync(placeId, cookie, scanToken);
@@ -774,7 +806,8 @@ public static class VoidstrapMatchmaker
         }
         App.Logger.WriteLine(LOG_IDENT, $"Server browser probing {probeList.Count} of {pool.Count} servers for place {placeId}");
 
-        double floorMs = EstimateRttMs(NearestDatacenterKm(geo));
+        await WaitForLatencyAsync(latencyTask, scanToken).ConfigureAwait(false);
+        double floorMs = ResolveFloorMs(geo);
         List<MatchmakerCandidate> probed = await ProbeAsync(
                 placeId,
                 probeList,
@@ -847,6 +880,7 @@ public static class VoidstrapMatchmaker
                 : new HashSet<string>(exclude, StringComparer.OrdinalIgnoreCase);
 
         bool preferEmpty = App.Settings.Prop.VoidstrapMatchmakerPreferEmpty;
+        Task latencyTask = DatacenterLatency.MeasureAllAsync(DatacenterLatency.KnownCidrs(), token);
         Task<UserGeo?> geoTask = GetUserGeoAsync(token);
         Task<List<ServerListItem>> poolTask = ListPublicServersAsync(placeId, cookie, MaxServerListPages, preferEmpty, token);
         Task csrfTask = PrimeCsrfAsync(placeId, cookie, token);
@@ -891,11 +925,13 @@ public static class VoidstrapMatchmaker
         );
         long listReadyMs = stageClock.ElapsedMilliseconds;
 
-        double nearestDcKm = NearestDatacenterKm(geo);
-        double floorMs = EstimateRttMs(nearestDcKm);
         List<MatchmakerCandidate> probed;
+        double floorMs;
         try
         {
+            await WaitForLatencyAsync(latencyTask, token).ConfigureAwait(false);
+            floorMs = ResolveFloorMs(geo);
+            App.Logger.WriteLine(LOG_IDENT, $"Closest datacenter floor is {floorMs:F0}ms");
             Interlocked.Exchange(ref _claimedTimeSeen, 0);
             Interlocked.Exchange(ref _claimedTimeSet, 0);
             probed = await ProbeAsync(placeId, probeList, cookie, geo, preferred, blocked, preferEmpty, floorMs, token)
@@ -929,7 +965,7 @@ public static class VoidstrapMatchmaker
         string players = winner.MaxPlayers > 0 ? $"{winner.Playing}/{winner.MaxPlayers} players" : "player count unknown";
         App.Logger.WriteLine(
             LOG_IDENT,
-            $"Winner: {winner.DatacenterName}, about {winner.EstimatedPingMs}ms, {players}, JobId {winner.JobId}"
+            $"Winner: {winner.DatacenterName}, {winner.EstimatedPingMs}ms {(winner.LatencyMeasured ? "measured" : "estimated")}, {players}, JobId {winner.JobId}"
         );
 
         bool winnerIsPreferred = preferred.Length > 0 && MatchesPreferredDc(winner.Datacenter, preferred);
@@ -954,7 +990,7 @@ public static class VoidstrapMatchmaker
         if (probed.Count == 0)
             return null;
 
-        MatchmakerCandidate? closestOverall = probed.OrderBy(c => c.DistanceKm).FirstOrDefault();
+        MatchmakerCandidate? closestOverall = probed.OrderBy(c => c.EstimatedPingMs).ThenBy(c => c.DistanceKm).FirstOrDefault();
         App.Logger.WriteLine(
             LOG_IDENT,
             "Datacenters seen: "
@@ -962,7 +998,7 @@ public static class VoidstrapMatchmaker
                     ", ",
                     probed
                         .GroupBy(c => DatacenterKey(c.Datacenter))
-                        .Select(g => $"{g.First().Datacenter?.City}({EstimatePingMs(g.Min(c => c.DistanceKm))}ms x{g.Count()})")
+                        .Select(g => $"{g.First().Datacenter?.City}({g.Min(c => c.EstimatedPingMs)}ms {(g.Any(c => c.LatencyMeasured) ? "measured" : "estimated")} x{g.Count()})")
                 )
         );
 
@@ -984,7 +1020,7 @@ public static class VoidstrapMatchmaker
             blockedClosestKm = closestOverall.DistanceKm;
             App.Logger.WriteLine(
                 LOG_IDENT,
-                $"Closest datacenter {blockedClosestCity} ({EstimatePingMs(blockedClosestKm)}ms) is blocked, skipping it"
+                $"Closest datacenter {blockedClosestCity} ({closestOverall.EstimatedPingMs}ms) is blocked, skipping it"
             );
         }
 
@@ -1035,6 +1071,7 @@ public static class VoidstrapMatchmaker
             MaxPlayers = winner.MaxPlayers,
             Ping = winner.Ping,
             EstimatedPingMs = winner.EstimatedPingMs,
+            LatencyMeasured = winner.LatencyMeasured,
             Score = winner.Score,
             Fps = winner.Fps,
             PlayerTokens = winner.PlayerTokens,
@@ -1173,7 +1210,16 @@ public static class VoidstrapMatchmaker
                     ServerFetchStore.RecordSighting(resolved.Value.Ip);
 
                 double km = HaversineKm(geo.Lat, geo.Lon, dc.Lat, dc.Lon);
-                double effectivePing = EstimateRttMs(km);
+                (int Ms, bool Measured) latency;
+                try
+                {
+                    latency = await ResolvePingAsync(resolved.Value.Ip, geo, dc, localToken).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+                double effectivePing = latency.Ms;
                 MatchmakerCandidate candidate = new MatchmakerCandidate
                 {
                     JobId = sv.JobId,
@@ -1184,7 +1230,8 @@ public static class VoidstrapMatchmaker
                     Playing = sv.Playing,
                     MaxPlayers = sv.MaxPlayers,
                     Ping = sv.Ping,
-                    EstimatedPingMs = Math.Clamp((int)Math.Round(effectivePing), 1, 999),
+                    EstimatedPingMs = latency.Ms,
+                    LatencyMeasured = latency.Measured,
                     Score = effectivePing + PopulationPenaltyMs(sv.Playing, sv.MaxPlayers, preferEmpty),
                     Fps = sv.FPS,
                     PlayerTokens = sv.PlayerTokens,
@@ -1198,7 +1245,7 @@ public static class VoidstrapMatchmaker
 
                 bool usable = locationVerified && !blocked.Contains(BlockKey(dc));
                 bool onTarget =
-                    preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : EstimateRttMs(km) <= floorMs + ClosestDatacenterBandMs;
+                    preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : effectivePing <= floorMs + ClosestDatacenterBandMs;
                 bool populated = preferEmpty || sv.Playing >= 4 || sv.MaxPlayers > 0 && sv.Playing >= Math.Ceiling(sv.MaxPlayers * 0.15);
                 int requiredMatches = preferred.Length > 0 ? 3 : EarlyExitClosestMatches;
                 if (!usable || !onTarget || !populated)

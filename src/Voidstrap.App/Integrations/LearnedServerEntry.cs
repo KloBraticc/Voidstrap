@@ -31,6 +31,10 @@ public sealed class LearnedServerEntry
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public List<int>? PingSamplesMs { get; set; }
 
+    [JsonPropertyName("PingIP")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? PingIP { get; set; }
+
     [JsonIgnore]
     public double AveragePingMs
     {

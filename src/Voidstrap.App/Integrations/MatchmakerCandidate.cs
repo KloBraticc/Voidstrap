@@ -22,6 +22,8 @@ public sealed class MatchmakerCandidate
 
     public int EstimatedPingMs { get; init; }
 
+    public bool LatencyMeasured { get; init; }
+
     public double Score { get; init; }
 
     public double Fps { get; init; }
