@@ -9498,7 +9498,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
     <value>ഫീച്ചർ ചെയ്ത ബാനർ</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>ഗെയിമിൽ നിങ്ങളുടെ സ്ക്രീനിന്റെ റിഫ്രഷ് നിരക്കിന് മുകളിൽ പോകാൻ Roblox-നെ അനുവദിക്കുന്ന {0} Hz വെർച്വൽ ഡിസ്പ്ലേ സൃഷ്ടിക്കുക. Roblox-ന്റെ ഗെയിമിലെ പരമാവധി ഫ്രെയിം നിരക്കും {0} ആയി സജ്ജമാക്കുക.</value>
+    <value>ഗെയിമിൽ നിങ്ങളുടെ സ്ക്രീനിന്റെ റിഫ്രഷ് നിരക്കിന് മുകളിൽ പോകാൻ Roblox-നെ അനുവദിക്കുന്ന {0} Hz വെർച്വൽ ഡിസ്പ്ലേ സൃഷ്ടിക്കുക.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>വിഭാഗം താഴേക്ക് നീക്കുക</value>
@@ -10161,5 +10161,8 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox പതിപ്പ് തിരഞ്ഞെടുക്കുക</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>വെർച്വൽ ഡിസ്പ്ലേ ആരംഭിക്കുന്നു</value>
   </data>
 </root>

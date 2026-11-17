@@ -9708,7 +9708,7 @@ Toestaan?</value>
     <value>De verversingssnelheid in Hz waarop het virtuele scherm draait. Roblox kan tot zoveel frames per seconde renderen.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Maak een virtueel scherm van {0} Hz waarmee Roblox in het spel boven de verversingssnelheid van je scherm kan uitkomen. Stel ook de maximale framerate van Roblox in het spel in op {0}.</value>
+    <value>Maak een virtueel scherm van {0} Hz waarmee Roblox in het spel boven de verversingssnelheid van je scherm kan uitkomen.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Sectie omhoog verplaatsen</value>
@@ -10471,5 +10471,8 @@ SteamVR nu installeren?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Kies je Roblox versie</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Virtueel scherm starten</value>
   </data>
 </root>

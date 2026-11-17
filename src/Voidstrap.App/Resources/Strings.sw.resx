@@ -9497,7 +9497,7 @@ Je, unairuhusu?</value>
     <value>Bango maalum</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Unda skrini pepe ya {0} Hz inayoiruhusu Roblox kuzidi kiwango cha kuonyesha upya cha skrini yako ndani ya mchezo. Pia weka Maximum Frame Rate ya Roblox ndani ya mchezo kuwa {0}.</value>
+    <value>Unda skrini pepe ya {0} Hz inayoiruhusu Roblox kuzidi kiwango cha kuonyesha upya cha skrini yako ndani ya mchezo.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Shusha sehemu</value>
@@ -10160,5 +10160,8 @@ Sakinisha SteamVR sasa?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Chagua toleo la Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Inaanzisha skrini pepe</value>
   </data>
 </root>

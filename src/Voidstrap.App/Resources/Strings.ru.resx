@@ -9708,7 +9708,7 @@ Voidstrap блокирует программы, другие папки и Ва
     <value>Частота обновления в Гц, с которой работает виртуальный дисплей. Roblox может отрисовывать до такого числа кадров в секунду.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Создайте виртуальный дисплей на {0} Гц, чтобы Roblox мог превышать частоту обновления Вашего экрана в игре. Также установите максимальную частоту кадров в игре Roblox на {0}.</value>
+    <value>Создайте виртуальный дисплей на {0} Гц, чтобы Roblox мог превышать частоту обновления Вашего экрана в игре.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Переместить раздел вверх</value>
@@ -10471,5 +10471,8 @@ Voidstrap блокирует программы, другие папки и Ва
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Выберите версию Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Запуск виртуального дисплея</value>
   </data>
 </root>

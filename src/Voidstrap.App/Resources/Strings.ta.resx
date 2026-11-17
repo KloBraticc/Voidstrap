@@ -9497,7 +9497,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
     <value>சிறப்பு பேனர்</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>விளையாட்டில் Roblox உங்கள் திரையின் புதுப்பிப்பு விகிதத்தை மிஞ்ச அனுமதிக்கும் {0} Hz மெய்நிகர் காட்சியை உருவாக்கவும். Roblox விளையாட்டினுள் Maximum Frame Rate ஐயும் {0} ஆக அமைக்கவும்.</value>
+    <value>விளையாட்டில் Roblox உங்கள் திரையின் புதுப்பிப்பு விகிதத்தை மிஞ்ச அனுமதிக்கும் {0} Hz மெய்நிகர் காட்சியை உருவாக்கவும்.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>பகுதியைக் கீழே நகர்த்து</value>
@@ -10160,5 +10160,8 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox பதிப்பைத் தேர்ந்தெடுக்கவும்</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>மெய்நிகர் காட்சி தொடங்குகிறது</value>
   </data>
 </root>

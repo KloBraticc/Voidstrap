@@ -9498,7 +9498,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
     <value>ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಿದ ಬ್ಯಾನರ್</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>ಆಟದಲ್ಲಿ ನಿಮ್ಮ ಪರದೆಯ ರಿಫ್ರೆಶ್ ದರವನ್ನು ಮೀರಲು Roblox ಗೆ ಅವಕಾಶ ನೀಡುವ {0} Hz ವರ್ಚುವಲ್ ಡಿಸ್‌ಪ್ಲೇ ರಚಿಸಿ. Roblox ನ ಆಟದೊಳಗಿನ ಗರಿಷ್ಠ ಫ್ರೇಮ್ ದರವನ್ನು ಸಹ {0} ಗೆ ಹೊಂದಿಸಿ.</value>
+    <value>ಆಟದಲ್ಲಿ ನಿಮ್ಮ ಪರದೆಯ ರಿಫ್ರೆಶ್ ದರವನ್ನು ಮೀರಲು Roblox ಗೆ ಅವಕಾಶ ನೀಡುವ {0} Hz ವರ್ಚುವಲ್ ಡಿಸ್‌ಪ್ಲೇ ರಚಿಸಿ.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>ವಿಭಾಗವನ್ನು ಕೆಳಗೆ ಸರಿಸಿ</value>
@@ -10161,5 +10161,8 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox ಆವೃತ್ತಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>ವರ್ಚುವಲ್ ಡಿಸ್‌ಪ್ಲೇ ಪ್ರಾರಂಭವಾಗುತ್ತಿದೆ</value>
   </data>
 </root>

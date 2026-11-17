@@ -9498,7 +9498,7 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
     <value>გამორჩეული ბანერი</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>შექმენით {0} Hz ვირტუალური ეკრანი, რომელიც Roblox-ს თამაშში თქვენი ეკრანის განახლების სიხშირის გადაჭარბების საშუალებას აძლევს. ასევე დააყენეთ Roblox-ის თამაშის კადრების მაქსიმალური სიხშირე {0}-ზე.</value>
+    <value>შექმენით {0} Hz ვირტუალური ეკრანი, რომელიც Roblox-ს თამაშში თქვენი ეკრანის განახლების სიხშირის გადაჭარბების საშუალებას აძლევს.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>სექციის ქვემოთ გადატანა</value>
@@ -10161,5 +10161,8 @@ Uptime: {1}
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>აირჩიეთ Roblox ვერსია</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>ვირტუალური ეკრანის გაშვება</value>
   </data>
 </root>

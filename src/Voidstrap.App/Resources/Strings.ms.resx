@@ -9708,7 +9708,7 @@ Benarkan?</value>
     <value>Kadar segar semula dalam Hz yang digunakan oleh paparan maya. Roblox boleh memaparkan sehingga sebanyak ini bingkai sesaat.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Cipta paparan maya {0} Hz yang membolehkan Roblox melebihi kadar segar semula skrin anda dalam permainan. Tetapkan juga Kadar Bingkai Maksimum Roblox dalam permainan kepada {0}.</value>
+    <value>Cipta paparan maya {0} Hz yang membolehkan Roblox melebihi kadar segar semula skrin anda dalam permainan.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Alihkan bahagian ke atas</value>
@@ -10471,5 +10471,8 @@ Pasang SteamVR sekarang?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Pilih versi Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Memulakan paparan maya</value>
   </data>
 </root>

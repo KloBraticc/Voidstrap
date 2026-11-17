@@ -9708,7 +9708,7 @@ Zezwolić?</value>
     <value>Częstotliwość odświeżania w Hz, z jaką działa wirtualny ekran. Roblox może renderować maksymalnie tyle klatek na sekundę.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Utwórz wirtualny ekran {0} Hz, który pozwoli Robloxowi przekroczyć w grze częstotliwość odświeżania twojego ekranu. Ustaw też maksymalną liczbę klatek w grze Roblox na {0}.</value>
+    <value>Utwórz wirtualny ekran {0} Hz, który pozwoli Robloxowi przekroczyć w grze częstotliwość odświeżania twojego ekranu.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Przenieś sekcję w górę</value>
@@ -10471,5 +10471,8 @@ Zainstalować SteamVR teraz?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Wybierz wersję Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Uruchamianie wirtualnego ekranu</value>
   </data>
 </root>

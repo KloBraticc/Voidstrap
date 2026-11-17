@@ -9708,7 +9708,7 @@ Dopustiti?</value>
     <value>Frekvencija osvježavanja u Hz na kojoj radi virtualni zaslon. Roblox može prikazati najviše toliko sličica u sekundi.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Napravi virtualni zaslon od {0} Hz koji Robloxu omogućuje da u igri premaši frekvenciju osvježavanja tvog zaslona. Također postavi najveću brzinu sličica u igri Roblox na {0}.</value>
+    <value>Napravi virtualni zaslon od {0} Hz koji Robloxu omogućuje da u igri premaši frekvenciju osvježavanja tvog zaslona.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Pomakni odjeljak gore</value>
@@ -10471,5 +10471,8 @@ Instalirati SteamVR sada?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Odaberi verziju Robloxa</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Pokretanje virtualnog zaslona</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -345,12 +345,7 @@ public partial class Watcher : IDisposable
 
     private void UpdateVirtualDisplay()
     {
-        if (
-            _disposed
-            || !Voidstrap.Utility.Platform.IsMacOS
-            || !App.Settings.Prop.MacVirtualDisplayEnabled
-            || App.Settings.Prop.LaunchWithoutVoidstrap
-        )
+        if (_disposed || !Voidstrap.Utility.MacVirtualDisplaySession.Enabled)
         {
             _virtualDisplay?.Dispose();
             _virtualDisplay = null;

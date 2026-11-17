@@ -9707,7 +9707,7 @@
     <value>معدل التحديث بالهرتز الذي تعمل به الشاشة الافتراضية. يمكن لـ Roblox عرض هذا العدد من الإطارات في الثانية كحد أقصى.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>أنشئ شاشة افتراضية بتردد {0} هرتز تتيح لـ Roblox تجاوز معدل تحديث شاشتك داخل اللعبة. واضبط أيضًا الحد الأقصى لمعدل الإطارات داخل لعبة Roblox على {0}.</value>
+    <value>أنشئ شاشة افتراضية بتردد {0} هرتز تتيح لـ Roblox تجاوز معدل تحديث شاشتك داخل اللعبة.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>نقل القسم لأعلى</value>
@@ -10470,5 +10470,8 @@
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>اختر إصدار Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>جارٍ تشغيل الشاشة الافتراضية</value>
   </data>
 </root>

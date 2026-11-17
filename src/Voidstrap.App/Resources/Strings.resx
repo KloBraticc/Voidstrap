@@ -9397,7 +9397,7 @@ Allow it?</value>
     <value>The refresh rate in Hz the virtual display runs at. Roblox can render up to this many frames per second.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Create a {0} Hz virtual display that lets Roblox go above your screen's refresh rate in game. Also set Roblox's in game Maximum Frame Rate to {0}.</value>
+    <value>Create a {0} Hz virtual display that lets Roblox go above your screen's refresh rate in game.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Move section up</value>
@@ -10160,5 +10160,8 @@ Install SteamVR now?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Choose Roblox version</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Starting the virtual display</value>
   </data>
 </root>

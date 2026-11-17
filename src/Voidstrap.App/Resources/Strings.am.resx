@@ -9497,7 +9497,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
     <value>ተለይቶ የቀረበ ባነር</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Roblox በጨዋታ ውስጥ ከማያ ገጽዎ የማደሻ ፍጥነት በላይ እንዲሄድ የሚያስችል የ{0} Hz ምናባዊ ማሳያ ይፍጠሩ። እንዲሁም የRoblox የጨዋታ ውስጥ ከፍተኛ የፍሬም ፍጥነትን ወደ {0} ያዘጋጁ።</value>
+    <value>Roblox በጨዋታ ውስጥ ከማያ ገጽዎ የማደሻ ፍጥነት በላይ እንዲሄድ የሚያስችል የ{0} Hz ምናባዊ ማሳያ ይፍጠሩ።</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>ክፍሉን ወደ ታች አንቀሳቅስ</value>
@@ -10160,5 +10160,8 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>የRoblox ስሪት ይምረጡ</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>ምናባዊ ማሳያውን በማስጀመር ላይ</value>
   </data>
 </root>

@@ -9498,7 +9498,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
     <value>විශේෂාංග බැනරය</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>ක්‍රීඩාවේදී Roblox හට ඔබගේ තිරයේ නැවුම් කිරීමේ අනුපාතයට වඩා ඉහළ යාමට ඉඩ දෙන {0} Hz අතථ්‍ය සංදර්ශකයක් සාදන්න. Roblox හි ක්‍රීඩාව තුළ Maximum Frame Rate ද {0} ලෙස සකසන්න.</value>
+    <value>ක්‍රීඩාවේදී Roblox හට ඔබගේ තිරයේ නැවුම් කිරීමේ අනුපාතයට වඩා ඉහළ යාමට ඉඩ දෙන {0} Hz අතථ්‍ය සංදර්ශකයක් සාදන්න.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>කොටස පහළට ගෙන යන්න</value>
@@ -10161,5 +10161,8 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox අනුවාදය තෝරන්න</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>අතථ්‍ය සංදර්ශකය ආරම්භ වෙමින්</value>
   </data>
 </root>

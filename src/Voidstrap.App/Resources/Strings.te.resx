@@ -9497,7 +9497,7 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
     <value>ఫీచర్డ్ బ్యానర్</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>గేమ్‌లో Roblox మీ స్క్రీన్ రిఫ్రెష్ రేట్‌ను మించేలా చేసే {0} Hz వర్చువల్ డిస్‌ప్లేను సృష్టించండి. Roblox గేమ్‌లోని Maximum Frame Rate ను కూడా {0} కు సెట్ చేయండి.</value>
+    <value>గేమ్‌లో Roblox మీ స్క్రీన్ రిఫ్రెష్ రేట్‌ను మించేలా చేసే {0} Hz వర్చువల్ డిస్‌ప్లేను సృష్టించండి.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>విభాగాన్ని కిందికి తరలించు</value>
@@ -10160,5 +10160,8 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox వెర్షన్ను ఎంచుకోండి</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>వర్చువల్ డిస్‌ప్లే ప్రారంభమవుతోంది</value>
   </data>
 </root>

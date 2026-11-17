@@ -9498,7 +9498,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
     <value>ځانګړی بینر</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>یوه {0} Hz مجازي ښودنه جوړه کړئ چې Roblox ته اجازه ورکوي په لوبه کې ستاسو د پردې له تازه کېدو کچې لوړ لاړ شي. د Roblox د لوبې دننه اعظمي چوکاټ کچه هم {0} ته وټاکئ.</value>
+    <value>یوه {0} Hz مجازي ښودنه جوړه کړئ چې Roblox ته اجازه ورکوي په لوبه کې ستاسو د پردې له تازه کېدو کچې لوړ لاړ شي.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>برخه ښکته ولېږدوئ</value>
@@ -10161,5 +10161,8 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>د Roblox نسخه وټاکئ</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>مجازي ښودنه پیلېږي</value>
   </data>
 </root>

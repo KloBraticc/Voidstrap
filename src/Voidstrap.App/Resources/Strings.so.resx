@@ -9498,7 +9498,7 @@ Oggolow?</value>
     <value>Calanka la soo bandhigay</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Samee shaashad casri ah oo {0} Hz ah oo u oggolaata Roblox inuu ciyaarta dhexdeeda dhaafo heerka cusboonaysiinta shaashaddaada. Sidoo kale u deji Maximum Frame Rate ee Roblox ciyaarta dhexdeeda {0}.</value>
+    <value>Samee shaashad casri ah oo {0} Hz ah oo u oggolaata Roblox inuu ciyaarta dhexdeeda dhaafo heerka cusboonaysiinta shaashaddaada.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Qaybta hoos u dhaqaaji</value>
@@ -10161,5 +10161,8 @@ Hadda rakib SteamVR?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Dooro nooca Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Waxaa la bilaabayaa shaashadda casriga ah</value>
   </data>
 </root>

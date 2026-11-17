@@ -9497,7 +9497,7 @@ Uyakuvumela?</value>
     <value>Isibhengezo esivelele</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Dala isibonisi esingokoqobo se {0} Hz esivumela iRoblox ukuthi idlule izinga lokuvuselela lesikrini sakho emdlalweni. Futhi setha iMaximum Frame Rate yeRoblox ngaphakathi komdlalo ibe ngu {0}.</value>
+    <value>Dala isibonisi esingokoqobo se {0} Hz esivumela iRoblox ukuthi idlule izinga lokuvuselela lesikrini sakho emdlalweni.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Yehlisa isigaba</value>
@@ -10160,5 +10160,8 @@ Faka i-SteamVR manje?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Khetha inguqulo ye Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Iqala isibonisi esingokoqobo</value>
   </data>
 </root>

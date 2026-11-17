@@ -9498,7 +9498,7 @@ E lejon atë?</value>
     <value>Baneri i veçuar</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Krijoni një ekran virtual {0} Hz që i lejon Roblox të kalojë shpejtësinë e rifreskimit të ekranit tuaj në lojë. Vendosni gjithashtu Maximum Frame Rate të Roblox brenda lojës në {0}.</value>
+    <value>Krijoni një ekran virtual {0} Hz që i lejon Roblox të kalojë shpejtësinë e rifreskimit të ekranit tuaj në lojë.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Zhvendos seksionin poshtë</value>
@@ -10161,5 +10161,8 @@ Të instalohet SteamVR tani?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Zgjidh versionin e Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Po niset ekrani virtual</value>
   </data>
 </root>

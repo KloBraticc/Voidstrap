@@ -9498,7 +9498,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
     <value>विशेष बैनर</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>एक {0} Hz वर्चुअल डिस्प्ले बनाएं जो गेम में Roblox को आपकी स्क्रीन के रिफ्रेश रेट से ऊपर जाने देता है। Roblox के इन गेम अधिकतम फ्रेम रेट को भी {0} पर सेट करें।</value>
+    <value>एक {0} Hz वर्चुअल डिस्प्ले बनाएं जो गेम में Roblox को आपकी स्क्रीन के रिफ्रेश रेट से ऊपर जाने देता है।</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>सेक्शन नीचे ले जाएं</value>
@@ -10161,5 +10161,8 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox संस्करण चुनें</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>वर्चुअल डिस्प्ले शुरू हो रहा है</value>
   </data>
 </root>

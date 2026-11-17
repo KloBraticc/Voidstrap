@@ -9498,7 +9498,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
     <value>Истакнути банер</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Направите виртуелни екран од {0} Hz који омогућава да Roblox у игри пређе брзину освежавања вашег екрана. Такође подесите Maximum Frame Rate у Roblox игри на {0}.</value>
+    <value>Направите виртуелни екран од {0} Hz који омогућава да Roblox у игри пређе брзину освежавања вашег екрана.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Помери одељак надоле</value>
@@ -10161,5 +10161,8 @@ Voidstrap блокира програме, друге фасцикле и ваш
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Изаберите верзију Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Покретање виртуелног екрана</value>
   </data>
 </root>

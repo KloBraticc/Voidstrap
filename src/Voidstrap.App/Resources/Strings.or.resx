@@ -9498,7 +9498,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
     <value>ବିଶେଷ ବ୍ୟାନର</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>ଖେଳରେ ଆପଣଙ୍କ ସ୍କ୍ରିନର ରିଫ୍ରେସ ହାରଠାରୁ ଅଧିକ ଯିବାକୁ Roblox କୁ ଅନୁମତି ଦେଉଥିବା {0} Hz ଭର୍ଚୁଆଲ ଡିସପ୍ଲେ ସୃଷ୍ଟି କରନ୍ତୁ। Roblox ର ଖେଳ ଭିତରର ସର୍ବାଧିକ ଫ୍ରେମ ହାରକୁ ମଧ୍ୟ {0} ରେ ସେଟ କରନ୍ତୁ।</value>
+    <value>ଖେଳରେ ଆପଣଙ୍କ ସ୍କ୍ରିନର ରିଫ୍ରେସ ହାରଠାରୁ ଅଧିକ ଯିବାକୁ Roblox କୁ ଅନୁମତି ଦେଉଥିବା {0} Hz ଭର୍ଚୁଆଲ ଡିସପ୍ଲେ ସୃଷ୍ଟି କରନ୍ତୁ।</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>ବିଭାଗକୁ ତଳକୁ ଘୁଞ୍ଚାନ୍ତୁ</value>
@@ -10161,5 +10161,8 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox ସଂସ୍କରଣ ବାଛନ୍ତୁ</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>ଭର୍ଚୁଆଲ ଡିସପ୍ଲେ ଆରମ୍ଭ ହେଉଛି</value>
   </data>
 </root>

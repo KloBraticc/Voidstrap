@@ -659,11 +659,9 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
                 if (App.Settings.Prop.MacVirtualDisplayEnabled == value)
                     return;
                 App.Settings.Prop.MacVirtualDisplayEnabled = value;
-                App.Settings.SaveDeferred();
-                OnPropertyChanged(nameof(UncapFPS));
-                return;
             }
-            App.Settings.Prop.FpsUnlockerEnabled = value;
+            else
+                App.Settings.Prop.FpsUnlockerEnabled = value;
             App.Settings.SaveDeferred();
             if (App.GlobalSettings.SetProperty("FramerateCap", value ? 9999 : 240))
                 App.GlobalSettings.Save();

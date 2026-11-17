@@ -9707,7 +9707,7 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
     <value>Sanal ekranın çalıştığı Hz cinsinden yenileme hızı. Roblox saniyede en fazla bu kadar kare işleyebilir.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Roblox'un oyunda ekranınızın yenileme hızını aşmasını sağlayan {0} Hz'lik bir sanal ekran oluşturun. Ayrıca Roblox'un oyun içi Maksimum Kare Hızı'nı {0} olarak ayarlayın.</value>
+    <value>Roblox'un oyunda ekranınızın yenileme hızını aşmasını sağlayan {0} Hz'lik bir sanal ekran oluşturun.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Bölümü yukarı taşı</value>
@@ -10470,5 +10470,8 @@ SteamVR şimdi kurulsun mu?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox sürümünü seçin</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Sanal ekran başlatılıyor</value>
   </data>
 </root>

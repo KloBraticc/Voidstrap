@@ -9497,7 +9497,7 @@ Ruxsat berasizmi?</value>
     <value>Tavsiya etilgan banner</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Roblox o‘yinda ekraningiz yangilanish chastotasidan oshib ketishiga imkon beruvchi {0} Hz virtual displey yarating. Shuningdek, Roblox o‘yin ichidagi Maximum Frame Rate qiymatini {0} ga o‘rnating.</value>
+    <value>Roblox o‘yinda ekraningiz yangilanish chastotasidan oshib ketishiga imkon beruvchi {0} Hz virtual displey yarating.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Bo‘limni pastga surish</value>
@@ -10160,5 +10160,8 @@ SteamVR hozir o'rnatilsinmi?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox versiyasini tanlang</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Virtual displey ishga tushirilmoqda</value>
   </data>
 </root>

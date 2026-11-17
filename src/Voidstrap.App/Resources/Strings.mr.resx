@@ -9498,7 +9498,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
     <value>वैशिष्ट्यीकृत बॅनर</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>गेममध्ये तुमच्या स्क्रीनच्या रिफ्रेश दरापेक्षा जास्त जाऊ देणारा {0} Hz व्हर्च्युअल डिस्प्ले तयार करा. Roblox चा गेममधील कमाल फ्रेम दर देखील {0} वर सेट करा.</value>
+    <value>गेममध्ये तुमच्या स्क्रीनच्या रिफ्रेश दरापेक्षा जास्त जाऊ देणारा {0} Hz व्हर्च्युअल डिस्प्ले तयार करा.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>विभाग खाली हलवा</value>
@@ -10161,5 +10161,8 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox आवृत्ती निवडा</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>व्हर्च्युअल डिस्प्ले सुरू होत आहे</value>
   </data>
 </root>

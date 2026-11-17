@@ -9707,7 +9707,7 @@ Cho phép?</value>
     <value>Tần số quét tính bằng Hz mà màn hình ảo chạy. Roblox có thể hiển thị tối đa chừng ấy khung hình mỗi giây.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Tạo màn hình ảo {0} Hz để Roblox có thể vượt quá tần số quét màn hình của bạn trong trò chơi. Đồng thời đặt Tốc độ khung hình tối đa trong trò chơi của Roblox thành {0}.</value>
+    <value>Tạo màn hình ảo {0} Hz để Roblox có thể vượt quá tần số quét màn hình của bạn trong trò chơi.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Di chuyển mục lên</value>
@@ -10470,5 +10470,8 @@ Cài đặt SteamVR ngay bây giờ?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Chọn phiên bản Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Đang khởi động màn hình ảo</value>
   </data>
 </root>

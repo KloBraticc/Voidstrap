@@ -9498,7 +9498,7 @@ Avelao izany?</value>
     <value>Sora-baventy nasongadina</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Mamorona efijery virtoaly {0} Hz izay mamela ny Roblox hihoatra ny hafainganam-pamelombelonana ny efijerinao ao amin'ny lalao. Apetraho koa ho {0} ny Maximum Frame Rate ao amin'ny lalao Roblox.</value>
+    <value>Mamorona efijery virtoaly {0} Hz izay mamela ny Roblox hihoatra ny hafainganam-pamelombelonana ny efijerinao ao amin'ny lalao.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Afindra midina ny fizarana</value>
@@ -10161,5 +10161,8 @@ Hametraka SteamVR izao?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Safidio ny dikan'ny Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Manomboka ny efijery virtoaly</value>
   </data>
 </root>

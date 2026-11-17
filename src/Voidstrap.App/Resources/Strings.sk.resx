@@ -9498,7 +9498,7 @@ Povoliť?</value>
     <value>Odporúčaný banner</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Vytvorte virtuálny displej s frekvenciou {0} Hz, ktorý Robloxu v hre umožní prekročiť obnovovaciu frekvenciu vašej obrazovky. V hre Roblox tiež nastavte Maximum Frame Rate na {0}.</value>
+    <value>Vytvorte virtuálny displej s frekvenciou {0} Hz, ktorý Robloxu v hre umožní prekročiť obnovovaciu frekvenciu vašej obrazovky.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Posunúť sekciu nadol</value>
@@ -10161,5 +10161,8 @@ Nainštalovať SteamVR teraz?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Vyberte verziu Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Spúšťa sa virtuálny displej</value>
   </data>
 </root>

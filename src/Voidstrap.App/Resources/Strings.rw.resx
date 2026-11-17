@@ -9498,7 +9498,7 @@ Emera?</value>
     <value>Ibendera ryihariye</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Kora ecran y'ikoranabuhanga ya {0} Hz ituma Roblox irenga umuvuduko wo kuvugurura wa ecran yawe mu mukino. Shyiraho kandi Maximum Frame Rate ya Roblox mu mukino kuri {0}.</value>
+    <value>Kora ecran y'ikoranabuhanga ya {0} Hz ituma Roblox irenga umuvuduko wo kuvugurura wa ecran yawe mu mukino.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Manura igice</value>
@@ -10161,5 +10161,8 @@ Shyiramo SteamVR ubungubu?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Hitamo verisiyo ya Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Gutangiza ecran y'ikoranabuhanga</value>
   </data>
 </root>

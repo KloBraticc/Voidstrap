@@ -9708,7 +9708,7 @@ Permiți?</value>
     <value>Rata de reîmprospătare în Hz la care rulează ecranul virtual. Roblox poate randa până la atâtea cadre pe secundă.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Creează un ecran virtual de {0} Hz care îi permite lui Roblox să depășească rata de reîmprospătare a ecranului tău în joc. Setează și rata maximă de cadre din joc a Roblox la {0}.</value>
+    <value>Creează un ecran virtual de {0} Hz care îi permite lui Roblox să depășească rata de reîmprospătare a ecranului tău în joc.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Mută secțiunea în sus</value>
@@ -10471,5 +10471,8 @@ Instalați SteamVR acum?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Alege versiunea Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Se pornește ecranul virtual</value>
   </data>
 </root>

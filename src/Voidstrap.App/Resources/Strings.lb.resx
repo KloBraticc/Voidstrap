@@ -9498,7 +9498,7 @@ Erlaabt et?</value>
     <value>Mise en avant Banner</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Erstell e virtuellen Ecran mat {0} Hz, deen et Roblox erlaabt, am Spill iwwer d'Bildwiederhuelungsfrequenz vun dengem Ecran ze goen. Setz och déi maximal Bildrate am Spill vu Roblox op {0}.</value>
+    <value>Erstell e virtuellen Ecran mat {0} Hz, deen et Roblox erlaabt, am Spill iwwer d'Bildwiederhuelungsfrequenz vun dengem Ecran ze goen.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Sektioun no ënne réckelen</value>
@@ -10161,5 +10161,8 @@ SteamVR elo installéieren?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox Versioun auswielen</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>De virtuellen Ecran gëtt gestart</value>
   </data>
 </root>

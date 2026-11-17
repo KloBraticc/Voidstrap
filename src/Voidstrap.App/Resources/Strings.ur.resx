@@ -9497,7 +9497,7 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
     <value>نمایاں بینر</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>ایک {0} Hz ورچوئل ڈسپلے بنائیں جو Roblox کو گیم میں آپ کی اسکرین کے ریفریش ریٹ سے آگے جانے دیتا ہے۔ Roblox کے گیم کے اندر Maximum Frame Rate کو بھی {0} پر سیٹ کریں۔</value>
+    <value>ایک {0} Hz ورچوئل ڈسپلے بنائیں جو Roblox کو گیم میں آپ کی اسکرین کے ریفریش ریٹ سے آگے جانے دیتا ہے۔</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>سیکشن نیچے منتقل کریں</value>
@@ -10160,5 +10160,8 @@ SteamVR ابھی انسٹال کریں؟</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox ورژن منتخب کریں</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>ورچوئل ڈسپلے شروع ہو رہا ہے</value>
   </data>
 </root>

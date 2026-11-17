@@ -9497,7 +9497,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
     <value>Προβεβλημένο banner</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Δημιουργήστε μια εικονική οθόνη {0} Hz που επιτρέπει στο Roblox να ξεπερνά τον ρυθμό ανανέωσης της οθόνης σας μέσα στο παιχνίδι. Ορίστε επίσης τον μέγιστο ρυθμό καρέ του Roblox μέσα στο παιχνίδι σε {0}.</value>
+    <value>Δημιουργήστε μια εικονική οθόνη {0} Hz που επιτρέπει στο Roblox να ξεπερνά τον ρυθμό ανανέωσης της οθόνης σας μέσα στο παιχνίδι.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Μετακίνηση ενότητας κάτω</value>
@@ -10160,5 +10160,8 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Επιλογή έκδοσης Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Εκκίνηση της εικονικής οθόνης</value>
   </data>
 </root>

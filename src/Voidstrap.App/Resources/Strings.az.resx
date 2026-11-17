@@ -9497,7 +9497,7 @@ icazə verilir?</value>
     <value>Seçilmiş banner</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Oyunda Roblox-un ekranınızın yenilənmə tezliyindən yuxarı çıxmasına imkan verən {0} Hz virtual ekran yaradın. Həmçinin Roblox-un oyundaxili Maksimum Kadr Tezliyini {0} olaraq təyin edin.</value>
+    <value>Oyunda Roblox-un ekranınızın yenilənmə tezliyindən yuxarı çıxmasına imkan verən {0} Hz virtual ekran yaradın.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Bölməni aşağı köçür</value>
@@ -10160,5 +10160,8 @@ SteamVR indi quraşdırılsın?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox versiyasını seçin</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Virtual ekran işə salınır</value>
   </data>
 </root>

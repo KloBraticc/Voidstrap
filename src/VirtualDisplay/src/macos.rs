@@ -203,6 +203,9 @@ fn aligned_refresh(requested: u32, physical: f64) -> f64 {
         return requested;
     }
     let physical = (physical * 100.0).round() / 100.0;
+    if requested <= physical {
+        return requested;
+    }
     let multiple = (requested / physical).floor().max(1.0);
     let aligned = ((physical * multiple) * 100.0).round() / 100.0;
     if aligned > 480.0 {

@@ -9497,7 +9497,7 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
     <value>Elstara standardo</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Kreu virtualan ekranon de {0} Hz, kiu permesas al Roblox superi la refreŝigan rapidon de via ekrano en la ludo. Agordu ankaŭ la maksimuman kadrorapidon de Roblox en la ludo al {0}.</value>
+    <value>Kreu virtualan ekranon de {0} Hz, kiu permesas al Roblox superi la refreŝigan rapidon de via ekrano en la ludo.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Movi sekcion malsupren</value>
@@ -10160,5 +10160,8 @@ Ludantoj: {2}</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Elektu version de Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Lanĉante la virtualan ekranon</value>
   </data>
 </root>

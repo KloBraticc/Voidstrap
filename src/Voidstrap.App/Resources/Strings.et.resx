@@ -9497,7 +9497,7 @@ Kas lubada?</value>
     <value>Esiletõstetud bänner</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Loo {0} Hz virtuaalne ekraan, mis laseb Robloxil mängus ületada sinu ekraani värskendussagedust. Määra ka Robloxi mängusisene maksimaalne kaadrisagedus väärtusele {0}.</value>
+    <value>Loo {0} Hz virtuaalne ekraan, mis laseb Robloxil mängus ületada sinu ekraani värskendussagedust.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Teisalda jaotis alla</value>
@@ -10160,5 +10160,8 @@ Kas installida SteamVR kohe?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Vali Roblox versioon</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Virtuaalse ekraani käivitamine</value>
   </data>
 </root>

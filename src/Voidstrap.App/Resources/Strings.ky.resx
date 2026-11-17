@@ -9498,7 +9498,7 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
     <value>Тандалган баннер</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Roblox оюнда экраныңыздын жаңылоо жыштыгынан ашышына мүмкүндүк берген {0} Hz виртуалдык дисплей түзүңүз. Ошондой эле Roblox оюнундагы максималдуу кадр жыштыгын {0} кылып коюңуз.</value>
+    <value>Roblox оюнда экраныңыздын жаңылоо жыштыгынан ашышына мүмкүндүк берген {0} Hz виртуалдык дисплей түзүңүз.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Бөлүмдү ылдый жылдыруу</value>
@@ -10161,5 +10161,8 @@ SteamVR азыр орнотулбу?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox версиясын тандаңыз</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Виртуалдык дисплей ишке киргизилүүдө</value>
   </data>
 </root>

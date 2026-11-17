@@ -9707,7 +9707,7 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
     <value>虛擬顯示器執行的更新率 (Hz)。Roblox 每秒最多可算繪這麼多影格。</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>建立一個 {0} Hz 的虛擬顯示器，讓 Roblox 在遊戲中突破你螢幕的更新率。同時請將 Roblox 遊戲內的最大影格率設為 {0}。</value>
+    <value>建立一個 {0} Hz 的虛擬顯示器，讓 Roblox 在遊戲中突破你螢幕的更新率。</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>上移區塊</value>
@@ -10470,5 +10470,8 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>選擇 Roblox 版本</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>正在啟動虛擬顯示器</value>
   </data>
 </root>

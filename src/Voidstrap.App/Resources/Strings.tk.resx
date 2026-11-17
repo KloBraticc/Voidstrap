@@ -9497,7 +9497,7 @@ Rugsat beriň?</value>
     <value>Saýlanan banner</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Roblox-a oýunda ekranyňyzyň täzelenme ýygylygyndan ýokary çykmaga mümkinçilik berýän {0} Hz wirtual displeý dörediň. Şeýle hem Roblox oýnunyň içindäki Maximum Frame Rate-i {0} edip goýuň.</value>
+    <value>Roblox-a oýunda ekranyňyzyň täzelenme ýygylygyndan ýokary çykmaga mümkinçilik berýän {0} Hz wirtual displeý dörediň.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Bölümi aşak geçir</value>
@@ -10160,5 +10160,8 @@ Indi SteamVR guruň?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox wersiýasyny saýlaň</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Wirtual displeý işe girizilýär</value>
   </data>
 </root>

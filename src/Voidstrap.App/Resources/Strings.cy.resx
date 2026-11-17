@@ -9497,7 +9497,7 @@ Caniatáu iddo?</value>
     <value>Baner dan sylw</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Creu sgrin rithwir {0} Hz sy'n gadael i Roblox fynd yn uwch na chyfradd adnewyddu eich sgrin yn y gêm. Gosodwch Gyfradd Fframiau Uchaf Roblox yn y gêm i {0} hefyd.</value>
+    <value>Creu sgrin rithwir {0} Hz sy'n gadael i Roblox fynd yn uwch na chyfradd adnewyddu eich sgrin yn y gêm.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Symud yr adran i lawr</value>
@@ -10160,5 +10160,8 @@ Gosod SteamVR nawr?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Dewis fersiwn Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Yn cychwyn y sgrin rithwir</value>
   </data>
 </root>

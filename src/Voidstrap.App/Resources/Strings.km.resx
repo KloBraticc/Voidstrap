@@ -9498,7 +9498,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
     <value>បដាពិសេស</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>បង្កើតអេក្រង់និម្មិត {0} Hz ដែលអនុញ្ញាតឱ្យ Roblox លើសអត្រាធ្វើឱ្យស្រស់នៃអេក្រង់របស់អ្នកក្នុងហ្គេម។ ហើយកំណត់អត្រាស៊ុមអតិបរមាក្នុងហ្គេមរបស់ Roblox ទៅ {0} ផងដែរ។</value>
+    <value>បង្កើតអេក្រង់និម្មិត {0} Hz ដែលអនុញ្ញាតឱ្យ Roblox លើសអត្រាធ្វើឱ្យស្រស់នៃអេក្រង់របស់អ្នកក្នុងហ្គេម។</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>ផ្លាស់ទីផ្នែកចុះក្រោម</value>
@@ -10161,5 +10161,8 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>ជ្រើសរើសកំណែ Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>កំពុងចាប់ផ្ដើមអេក្រង់និម្មិត</value>
   </data>
 </root>

@@ -9498,7 +9498,7 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
     <value>Онцлох баннер</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Roblox тоглоомонд таны дэлгэцийн шинэчлэлтийн давтамжаас давах боломж олгох {0} Hz виртуал дэлгэц үүсгэнэ үү. Мөн Roblox тоглоомын дээд кадрын давтамжийг {0} болгож тохируулна уу.</value>
+    <value>Roblox тоглоомонд таны дэлгэцийн шинэчлэлтийн давтамжаас давах боломж олгох {0} Hz виртуал дэлгэц үүсгэнэ үү.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Хэсгийг доош зөөх</value>
@@ -10161,5 +10161,8 @@ SteamVR-г одоо суулгах уу?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox хувилбар сонгох</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Виртуал дэлгэцийг эхлүүлж байна</value>
   </data>
 </root>

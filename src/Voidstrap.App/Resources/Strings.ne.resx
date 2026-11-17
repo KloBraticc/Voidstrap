@@ -9498,7 +9498,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
     <value>विशेष ब्यानर</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>खेलमा तपाईंको स्क्रिनको रिफ्रेस दरभन्दा माथि जान Roblox लाई अनुमति दिने {0} Hz भर्चुअल डिस्प्ले बनाउनुहोस्। Roblox को खेलभित्रको अधिकतम फ्रेम दर पनि {0} मा सेट गर्नुहोस्।</value>
+    <value>खेलमा तपाईंको स्क्रिनको रिफ्रेस दरभन्दा माथि जान Roblox लाई अनुमति दिने {0} Hz भर्चुअल डिस्प्ले बनाउनुहोस्।</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>खण्ड तल सार्नुहोस्</value>
@@ -10161,5 +10161,8 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox संस्करण छान्नुहोस्</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>भर्चुअल डिस्प्ले सुरु हुँदैछ</value>
   </data>
 </root>

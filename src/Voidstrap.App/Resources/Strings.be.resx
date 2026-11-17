@@ -9497,7 +9497,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
     <value>Рэкамендаваны банер</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Стварыце віртуальны дысплэй на {0} Hz, які дазваляе Roblox перавышаць частату абнаўлення вашага экрана ў гульні. Таксама ўсталюйце ў гульні Roblox максімальную частату кадраў {0}.</value>
+    <value>Стварыце віртуальны дысплэй на {0} Hz, які дазваляе Roblox перавышаць частату абнаўлення вашага экрана ў гульні.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Перамясціць раздзел ніжэй</value>
@@ -10160,5 +10160,8 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Выберыце версію Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Запуск віртуальнага дысплэя</value>
   </data>
 </root>

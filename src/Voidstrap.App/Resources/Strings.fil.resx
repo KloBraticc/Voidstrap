@@ -9706,7 +9706,7 @@ Payagan ba?</value>
     <value>Ang refresh rate sa Hz na ginagamit ng virtual display. Kayang mag-render ng Roblox ng hanggang ganito karaming frame bawat segundo.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Gumawa ng {0} Hz na virtual display para makalampas ang Roblox sa refresh rate ng screen mo habang naglalaro. Itakda rin sa {0} ang Maximum Frame Rate ng Roblox sa loob ng laro.</value>
+    <value>Gumawa ng {0} Hz na virtual display para makalampas ang Roblox sa refresh rate ng screen mo habang naglalaro.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Ilipat pataas ang seksyon</value>
@@ -10469,5 +10469,8 @@ I-install ang SteamVR ngayon?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Pumili ng bersyon ng Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Sinisimulan ang virtual display</value>
   </data>
 </root>

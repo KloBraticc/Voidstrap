@@ -9498,7 +9498,7 @@ Bada shi?</value>
     <value>Tuta ta musamman</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Ƙirƙiri allon kama-da-wane na {0} Hz wanda zai bar Roblox ya wuce saurin sabuntawar allonku a cikin wasa. Haka kuma saita Matsakaicin Saurin Firam na Roblox a cikin wasa zuwa {0}.</value>
+    <value>Ƙirƙiri allon kama-da-wane na {0} Hz wanda zai bar Roblox ya wuce saurin sabuntawar allonku a cikin wasa.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Matsar da sashe ƙasa</value>
@@ -10161,5 +10161,8 @@ Shigar SteamVR yanzu?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Zaɓi sigar Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Ana fara allon kama-da-wane</value>
   </data>
 </root>

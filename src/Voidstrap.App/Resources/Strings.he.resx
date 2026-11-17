@@ -9498,7 +9498,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
     <value>באנר מומלץ</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>צור מסך וירטואלי של {0} Hz שמאפשר ל Roblox לעבור את קצב הרענון של המסך שלך במשחק. הגדר גם את קצב הפריימים המרבי של Roblox במשחק ל {0}.</value>
+    <value>צור מסך וירטואלי של {0} Hz שמאפשר ל Roblox לעבור את קצב הרענון של המסך שלך במשחק.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>העבר את המקטע למטה</value>
@@ -10161,5 +10161,8 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>בחירת גרסת Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>מפעיל את המסך הווירטואלי</value>
   </data>
 </root>

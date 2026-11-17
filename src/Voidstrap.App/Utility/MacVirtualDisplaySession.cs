@@ -20,6 +20,11 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 
     public int RefreshRate { get; } = CurrentRefreshRate;
 
+    public static bool Enabled =>
+        Platform.IsMacOS
+        && App.Settings.Prop.MacVirtualDisplayEnabled
+        && !(App.Settings.Prop.LaunchWithoutVoidstrap && !App.LaunchSettings.TestModeFlag.Active);
+
     public static int CurrentRefreshRate =>
         Math.Clamp(App.Settings.Prop.MacVirtualDisplayRefreshRate, App.MacVirtualDisplayMinRefreshRate, App.MacVirtualDisplayMaxRefreshRate);
 
@@ -155,8 +160,19 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
                 if (!process.HasExited)
                 {
                     App.Logger.WriteLine(LogIdent, "The virtual display timed out, closing its process");
-                    process.Kill();
-                    await process.WaitForExitAsync().ConfigureAwait(false);
+                    if (OperatingSystem.IsMacOS())
+                        _ = kill(process.Id, TerminateSignal);
+                    using CancellationTokenSource grace = new(TimeSpan.FromSeconds(3));
+                    try
+                    {
+                        await process.WaitForExitAsync(grace.Token).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        App.Logger.WriteLine(LogIdent, "The virtual display ignored the stop request, forcing it to close");
+                        process.Kill();
+                        await process.WaitForExitAsync().ConfigureAwait(false);
+                    }
                 }
             }
             catch (Exception ex)

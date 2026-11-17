@@ -9498,7 +9498,7 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
     <value>ਵਿਸ਼ੇਸ਼ ਬੈਨਰ</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>ਇੱਕ {0} Hz ਵਰਚੁਅਲ ਡਿਸਪਲੇ ਬਣਾਓ ਜੋ Roblox ਨੂੰ ਗੇਮ ਵਿੱਚ ਤੁਹਾਡੀ ਸਕ੍ਰੀਨ ਦੀ ਰਿਫ੍ਰੈਸ਼ ਦਰ ਤੋਂ ਉੱਪਰ ਜਾਣ ਦਿੰਦਾ ਹੈ। Roblox ਦੀ ਗੇਮ ਅੰਦਰਲੀ ਵੱਧ ਤੋਂ ਵੱਧ ਫ੍ਰੇਮ ਦਰ ਨੂੰ ਵੀ {0} ਤੇ ਸੈੱਟ ਕਰੋ।</value>
+    <value>ਇੱਕ {0} Hz ਵਰਚੁਅਲ ਡਿਸਪਲੇ ਬਣਾਓ ਜੋ Roblox ਨੂੰ ਗੇਮ ਵਿੱਚ ਤੁਹਾਡੀ ਸਕ੍ਰੀਨ ਦੀ ਰਿਫ੍ਰੈਸ਼ ਦਰ ਤੋਂ ਉੱਪਰ ਜਾਣ ਦਿੰਦਾ ਹੈ।</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>ਭਾਗ ਹੇਠਾਂ ਲਿਜਾਓ</value>
@@ -10161,5 +10161,8 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox ਸੰਸਕਰਣ ਚੁਣੋ</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>ਵਰਚੁਅਲ ਡਿਸਪਲੇ ਸ਼ੁਰੂ ਹੋ ਰਿਹਾ ਹੈ</value>
   </data>
 </root>

@@ -1927,12 +1927,10 @@ public static class LaunchHandler
 
     private static async Task PrestartMacVirtualDisplayAsync(CancellationToken cancellation)
     {
-        if (
-            !App.Settings.Prop.MacVirtualDisplayEnabled
-            || (App.Settings.Prop.LaunchWithoutVoidstrap && !App.LaunchSettings.TestModeFlag.Active)
-        )
+        if (!Voidstrap.Utility.MacVirtualDisplaySession.Enabled)
             return;
-        SetPortableLaunchStatus("Starting the virtual display");
+        Bootstrapper.ReapplyFpsUnlocker();
+        SetPortableLaunchStatus(Strings.Bootstrapper_Status_StartingVirtualDisplay);
         Voidstrap.Utility.MacVirtualDisplaySession session = new();
         Voidstrap.Utility.MacVirtualDisplaySession.Prestart(session);
         session.Start();

@@ -9498,7 +9498,7 @@ Vil du tillate det?</value>
     <value>Fremhevet banner</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Opprett en virtuell skjerm på {0} Hz som lar Roblox gå over skjermens oppdateringsfrekvens i spillet. Sett også maksimal bildefrekvens i Roblox i spillet til {0}.</value>
+    <value>Opprett en virtuell skjerm på {0} Hz som lar Roblox gå over skjermens oppdateringsfrekvens i spillet.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Flytt delen ned</value>
@@ -10161,5 +10161,8 @@ Installer SteamVR nå?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Velg Roblox versjon</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Starter den virtuelle skjermen</value>
   </data>
 </root>

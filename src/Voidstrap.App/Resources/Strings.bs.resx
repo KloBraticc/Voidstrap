@@ -9497,7 +9497,7 @@ Dozvoliti?</value>
     <value>Istaknuti baner</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Kreirajte virtuelni ekran od {0} Hz koji Robloxu omogućava da u igri pređe brzinu osvježavanja vašeg ekrana. Također postavite maksimalnu brzinu sličica u igri Roblox na {0}.</value>
+    <value>Kreirajte virtuelni ekran od {0} Hz koji Robloxu omogućava da u igri pređe brzinu osvježavanja vašeg ekrana.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Pomjeri odjeljak dolje</value>
@@ -10160,5 +10160,8 @@ Instalirati SteamVR sada?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Odaberi verziju Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Pokretanje virtuelnog ekrana</value>
   </data>
 </root>

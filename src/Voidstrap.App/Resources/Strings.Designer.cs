@@ -1163,6 +1163,7 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Integrations_MacVirtualDisplayRefreshRate => ResourceManager.GetString("Ui.Integrations.MacVirtualDisplayRefreshRate", resourceCulture);
         public static string Ui_Integrations_MacVirtualDisplayRefreshRate_Description => ResourceManager.GetString("Ui.Integrations.MacVirtualDisplayRefreshRate.Description", resourceCulture);
+        public static string Bootstrapper_Status_StartingVirtualDisplay => ResourceManager.GetString("Bootstrapper.Status.StartingVirtualDisplay", resourceCulture);
         public static string Ui_Integrations_MacVirtualDisplay_Description => ResourceManager.GetString("Ui.Integrations.MacVirtualDisplay.Description", resourceCulture);
         public static string Ui_Integrations_FPSUnlocker => ResourceManager.GetString("Ui.Integrations.FPSUnlocker", resourceCulture);
 

@@ -9497,7 +9497,7 @@ E lumella?</value>
     <value>Banner e hlahellang</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Etsa skrine sa sebele sa {0} Hz se dumellang Roblox ho feta sekgahla sa ntjhafatso sa skrine sa hao papading. Hape beha Maximum Frame Rate ya Roblox ka hare ho papadi ho {0}.</value>
+    <value>Etsa skrine sa sebele sa {0} Hz se dumellang Roblox ho feta sekgahla sa ntjhafatso sa skrine sa hao papading.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Theola karolo</value>
@@ -10160,5 +10160,8 @@ Kenya SteamVR hona joale?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Kgetha mofuta wa Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Ho qala skrine sa sebele</value>
   </data>
 </root>

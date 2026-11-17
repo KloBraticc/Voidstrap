@@ -9708,7 +9708,7 @@ Consentire?</value>
     <value>La frequenza di aggiornamento in Hz del display virtuale. Roblox può renderizzare fino a questo numero di fotogrammi al secondo.</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Crea un display virtuale a {0} Hz che permette a Roblox di superare la frequenza di aggiornamento del tuo schermo in gioco. Imposta anche la frequenza massima dei fotogrammi di Roblox in gioco su {0}.</value>
+    <value>Crea un display virtuale a {0} Hz che permette a Roblox di superare la frequenza di aggiornamento del tuo schermo in gioco.</value>
   </data>
   <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
     <value>Sposta la sezione in alto</value>
@@ -10471,5 +10471,8 @@ Installare SteamVR adesso?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Scegli la versione di Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Avvio del display virtuale</value>
   </data>
 </root>

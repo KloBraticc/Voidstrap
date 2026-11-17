@@ -9498,7 +9498,7 @@ Voidstrap ја проверува секоја датотека во библи�
     <value>Истакнат банер</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Создадете виртуелен екран од {0} Hz што му овозможува на Roblox да ја надмине стапката на освежување на вашиот екран во игра. Исто така поставете ја максималната стапка на слики во игра на Roblox на {0}.</value>
+    <value>Создадете виртуелен екран од {0} Hz што му овозможува на Roblox да ја надмине стапката на освежување на вашиот екран во игра.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Премести го делот надолу</value>
@@ -10161,5 +10161,8 @@ Voidstrap ја проверува секоја датотека во библи�
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Изберете верзија на Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Се стартува виртуелниот екран</value>
   </data>
 </root>

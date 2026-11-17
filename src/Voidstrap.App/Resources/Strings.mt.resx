@@ -9498,7 +9498,7 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
     <value>Banner magħżul</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Oħloq skrin virtwali ta' {0} Hz li jħalli lil Roblox jaqbeż ir-rata ta' aġġornament tal-iskrin tiegħek fil-logħba. Issettja wkoll il-Maximum Frame Rate fil-logħba ta' Roblox għal {0}.</value>
+    <value>Oħloq skrin virtwali ta' {0} Hz li jħalli lil Roblox jaqbeż ir-rata ta' aġġornament tal-iskrin tiegħek fil-logħba.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Mexxi t-taqsima 'l isfel</value>
@@ -10161,5 +10161,8 @@ Installa SteamVR issa?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Agħżel il verżjoni ta' Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Qed jibda l-iskrin virtwali</value>
   </data>
 </root>

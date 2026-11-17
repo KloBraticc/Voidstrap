@@ -9497,7 +9497,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
     <value>אויסגעצייכנטער באַנער</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>שאַפֿט אַ {0} Hz ווירטועלן עקראַן וואָס לאָזט Roblox גיין העכער פֿון אייער עקראַן דערפרישונג ראַטע אין שפּיל. שטעלט אויך Roblox ס Maximum Frame Rate אין שפּיל אויף {0}.</value>
+    <value>שאַפֿט אַ {0} Hz ווירטועלן עקראַן וואָס לאָזט Roblox גיין העכער פֿון אייער עקראַן דערפרישונג ראַטע אין שפּיל.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>באַוועגן אָפּטייל אַראָפּ</value>
@@ -10160,5 +10160,8 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>קלײַבט די Roblox ווערסיע</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>מען הייבט אָן דעם ווירטועלן עקראַן</value>
   </data>
 </root>

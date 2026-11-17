@@ -9497,7 +9497,7 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
     <value>Баннери махсус</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Дисплейи маҷозии {0} Hz эҷод кунед, ки ба Roblox имкон медиҳад дар бозӣ аз басомади навсозии экрани шумо болотар равад. Инчунин Maximum Frame Rate-и дохили бозии Roblox-ро ба {0} танзим кунед.</value>
+    <value>Дисплейи маҷозии {0} Hz эҷод кунед, ки ба Roblox имкон медиҳад дар бозӣ аз басомади навсозии экрани шумо болотар равад.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Бахшро ба поён гузаронед</value>
@@ -10160,5 +10160,8 @@ SteamVR-ро ҳозир насб кунед?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Версияи Roblox ро интихоб кунед</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Оғози дисплейи маҷозӣ</value>
   </data>
 </root>

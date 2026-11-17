@@ -1516,15 +1516,14 @@ public partial class Bootstrapper
         return false;
     }
 
-    private static void ReapplyFpsUnlocker()
+    internal static void ReapplyFpsUnlocker()
     {
         const string LOG_IDENT = "Bootstrapper::ReapplyFpsUnlocker";
 
-        if (
-            Voidstrap.Utility.Platform.IsMacOS
-            || App.Settings.Prop.FpsUnlockerEnabled != true
-            || Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex != 0
-        )
+        bool enabled = Voidstrap.Utility.Platform.IsMacOS
+            ? Voidstrap.Utility.MacVirtualDisplaySession.Enabled
+            : App.Settings.Prop.FpsUnlockerEnabled == true && Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex == 0;
+        if (!enabled)
             return;
         try
         {

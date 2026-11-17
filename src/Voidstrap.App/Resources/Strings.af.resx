@@ -9497,7 +9497,7 @@ Laat dit toe?</value>
     <value>Uitgeligte banier</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Skep 'n virtuele skerm van {0} Hz wat Roblox in die spel bo jou skerm se herlaaitempo laat gaan. Stel ook Roblox se maksimum raamtempo in die spel op {0}.</value>
+    <value>Skep 'n virtuele skerm van {0} Hz wat Roblox in die spel bo jou skerm se herlaaitempo laat gaan.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Skuif afdeling af</value>
@@ -10160,5 +10160,8 @@ Installeer SteamVR nou?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Kies Roblox weergawe</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Begin die virtuele skerm</value>
   </data>
 </root>

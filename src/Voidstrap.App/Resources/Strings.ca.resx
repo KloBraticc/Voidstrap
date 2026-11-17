@@ -9497,7 +9497,7 @@ Ho permets?</value>
     <value>Bàner destacat</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Crea una pantalla virtual de {0} Hz que permet a Roblox superar la freqüència de refresc de la teva pantalla dins del joc. Configura també la freqüència màxima de fotogrames de Roblox dins del joc a {0}.</value>
+    <value>Crea una pantalla virtual de {0} Hz que permet a Roblox superar la freqüència de refresc de la teva pantalla dins del joc.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Mou la secció avall</value>
@@ -10160,5 +10160,8 @@ Instal·leu SteamVR ara?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Tria la versió de Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>S'està iniciant la pantalla virtual</value>
   </data>
 </root>

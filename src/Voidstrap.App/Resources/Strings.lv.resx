@@ -9498,7 +9498,7 @@ Vai atļaut?</value>
     <value>Izceltais baneris</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Izveidojiet {0} Hz virtuālo displeju, kas ļauj Roblox spēlē pārsniegt jūsu ekrāna atsvaidzes intensitāti. Iestatiet arī Roblox spēles maksimālo kadru nomaiņas ātrumu uz {0}.</value>
+    <value>Izveidojiet {0} Hz virtuālo displeju, kas ļauj Roblox spēlē pārsniegt jūsu ekrāna atsvaidzes intensitāti.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Pārvietot sadaļu uz leju</value>
@@ -10161,5 +10161,8 @@ Vai instalēt SteamVR tūlīt?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Izvēlies Roblox versiju</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Startē virtuālo displeju</value>
   </data>
 </root>

@@ -9498,7 +9498,7 @@ Whakaaetia?</value>
     <value>Haki whakaatu</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>Waihangatia he whakaaturanga mariko {0} Hz e āhei ai a Roblox te hipa i te auau whakahou o tō mata i te kēmu. Me tautuhi hoki te Maximum Frame Rate i roto i te kēmu o Roblox ki te {0}.</value>
+    <value>Waihangatia he whakaaturanga mariko {0} Hz e āhei ai a Roblox te hipa i te auau whakahou o tō mata i te kēmu.</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Nekehia te wāhanga ki raro</value>
@@ -10161,5 +10161,8 @@ Tāuta SteamVR ināianei?</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Kōwhiria te putanga Roblox</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>Kei te tīmata i te whakaaturanga mariko</value>
   </data>
 </root>

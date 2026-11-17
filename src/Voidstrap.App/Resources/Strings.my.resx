@@ -9497,7 +9497,7 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
     <value>အထူးဖော်ပြ ဗန်နာ</value>
   </data>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
-    <value>ဂိမ်းထဲတွင် သင့်ဖန်သားပြင်၏ ပြန်လည်ဆန်းသစ်နှုန်းထက် Roblox ကျော်လွန်နိုင်စေမည့် {0} Hz ပကတိမဟုတ်သော ဖန်သားပြင်ကို ဖန်တီးပါ။ Roblox ၏ ဂိမ်းအတွင်း အမြင့်ဆုံး ဖရိမ်နှုန်းကိုလည်း {0} သို့ သတ်မှတ်ပါ။</value>
+    <value>ဂိမ်းထဲတွင် သင့်ဖန်သားပြင်၏ ပြန်လည်ဆန်းသစ်နှုန်းထက် Roblox ကျော်လွန်နိုင်စေမည့် {0} Hz ပကတိမဟုတ်သော ဖန်သားပြင်ကို ဖန်တီးပါ။</value>
   </data>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>အပိုင်းကို အောက်သို့ ရွှေ့ရန်</value>
@@ -10160,5 +10160,8 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   </data>
   <data name="LaunchMenu.SelectVersion" xml:space="preserve">
     <value>Roblox ဗားရှင်းကို ရွေးပါ</value>
+  </data>
+  <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
+    <value>ပကတိမဟုတ်သော ဖန်သားပြင်ကို စတင်နေသည်</value>
   </data>
 </root>
