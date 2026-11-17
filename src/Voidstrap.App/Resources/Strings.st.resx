@@ -10138,4 +10138,28 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>E kenya konopo setsing sa seshene se bulang kapa se tima sena.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Kenya ho</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Tlosa ho</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Pokello e ncha...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Lebitso la pokello</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Fetola lebitso la pokello</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Hlakola pokello</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Hlakola pokello ya {0}? Dipapadi tsa yona di tla sala laeboraring ya hao.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>HA E NA SEHLOPHA</value>
+  </data>
 </root>

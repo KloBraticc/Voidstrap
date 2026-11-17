@@ -10451,4 +10451,28 @@ Jugadores: {2}</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Añade un botón a la barra de la sesión que activa o desactiva esta opción.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Añadir a</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Quitar de</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nueva colección...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Nombre de la colección</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Cambiar nombre de la colección</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Eliminar colección</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>¿Eliminar la colección {0}? Sus juegos se quedan en tu biblioteca.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>SIN CATEGORÍA</value>
+  </data>
 </root>

@@ -10452,4 +10452,28 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Přidá do panelu relace tlačítko, které tuto funkci zapne nebo vypne.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Přidat do</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Odebrat z</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nová kolekce...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Název kolekce</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Přejmenovat kolekci</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Smazat kolekci</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Smazat kolekci {0}? Její hry zůstanou ve Vaší knihovně.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>BEZ KATEGORIE</value>
+  </data>
 </root>

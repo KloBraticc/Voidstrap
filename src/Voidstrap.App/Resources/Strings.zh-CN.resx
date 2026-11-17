@@ -10475,4 +10475,28 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>在会话栏中添加一个按钮,用于开启或关闭此功能。</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>添加到</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>移出</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>新建收藏夹...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>收藏夹名称</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>重命名收藏夹</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>删除收藏夹</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>要删除收藏夹 {0} 吗？其中的游戏仍会保留在您的库中。</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>未分类</value>
+  </data>
 </root>

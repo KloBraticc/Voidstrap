@@ -10453,4 +10453,28 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Adaugă în bara sesiunii un buton care pornește sau oprește această opțiune.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Adaugă la</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Elimină din</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Colecție nouă...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Numele colecției</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Redenumește colecția</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Șterge colecția</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Ștergi colecția {0}? Jocurile ei rămân în biblioteca ta.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>FĂRĂ CATEGORIE</value>
+  </data>
 </root>

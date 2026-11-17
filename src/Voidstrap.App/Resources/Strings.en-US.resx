@@ -10452,4 +10452,28 @@ Install SteamVR now?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Adds a button to the session dock that turns this on or off.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Add to</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Remove from</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>New collection...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Collection name</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Rename collection</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Delete collection</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Delete the collection {0}? Its games stay in your library.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>UNCATEGORIZED</value>
+  </data>
 </root>

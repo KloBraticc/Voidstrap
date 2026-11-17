@@ -10450,4 +10450,28 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>이 기능을 켜거나 끄는 버튼을 세션 도크에 추가합니다.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>추가할 위치</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>제거할 위치</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>새 컬렉션...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>컬렉션 이름</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>컬렉션 이름 바꾸기</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>컬렉션 삭제</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} 컬렉션을 삭제하시겠습니까? 게임은 라이브러리에 그대로 남습니다.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>미분류</value>
+  </data>
 </root>

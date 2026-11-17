@@ -10139,4 +10139,28 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>ਸੈਸ਼ਨ ਡੌਕ ਵਿੱਚ ਇੱਕ ਬਟਨ ਜੋੜਦਾ ਹੈ ਜੋ ਇਸਨੂੰ ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰਦਾ ਹੈ।</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>ਇਸ ਵਿੱਚ ਜੋੜੋ</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>ਇਸ ਵਿੱਚੋਂ ਹਟਾਓ</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>ਨਵਾਂ ਸੰਗ੍ਰਹਿ...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>ਸੰਗ੍ਰਹਿ ਦਾ ਨਾਮ</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>ਸੰਗ੍ਰਹਿ ਦਾ ਨਾਮ ਬਦਲੋ</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>ਸੰਗ੍ਰਹਿ ਮਿਟਾਓ</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>ਕੀ {0} ਸੰਗ੍ਰਹਿ ਮਿਟਾਉਣਾ ਹੈ? ਇਸ ਦੀਆਂ ਗੇਮਾਂ ਤੁਹਾਡੀ ਲਾਇਬ੍ਰੇਰੀ ਵਿੱਚ ਰਹਿਣਗੀਆਂ।</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ਬਿਨਾਂ ਸ਼੍ਰੇਣੀ</value>
+  </data>
 </root>

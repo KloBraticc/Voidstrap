@@ -10138,4 +10138,28 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>దీన్ని ఆన్ లేదా ఆఫ్ చేసే బటన్‌ను సెషన్ డాక్‌కు జోడిస్తుంది.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>దీనికి జోడించు</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>దీని నుండి తీసివేయి</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>కొత్త సేకరణ...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>సేకరణ పేరు</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>సేకరణ పేరు మార్చు</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>సేకరణను తొలగించు</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} సేకరణను తొలగించాలా? దానిలోని గేమ్లు మీ లైబ్రరీలో ఉంటాయి.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>వర్గీకరించనివి</value>
+  </data>
 </root>

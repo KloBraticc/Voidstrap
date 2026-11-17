@@ -10138,4 +10138,28 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Yn ychwanegu botwm at doc y sesiwn sy'n troi hwn ymlaen neu i ffwrdd.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Ychwanegu at</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Tynnu o</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Casgliad newydd...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Enw'r casgliad</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Ailenwi'r casgliad</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Dileu'r casgliad</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Dileu'r casgliad {0}? Bydd ei gemau'n aros yn eich llyfrgell.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>HEB GATEGORI</value>
+  </data>
 </root>

@@ -1,11 +1,11 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.LibraryPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_Pages_Library}" ui:Breadcrumb.Header="{resources:Loc Ui_Pages_Library}" Scrollable="False" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.LibraryPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:vm="clr-namespace:Voidstrap.UI.ViewModels.Settings" Title="{resources:Loc Ui_Pages_Library}" ui:Breadcrumb.Header="{resources:Loc Ui_Pages_Library}" Scrollable="False" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Controls/ServerCardResources.xaml" />
       </ResourceDictionary.MergedDictionaries>
       <BooleanToVisibilityConverter x:Key="BoolToVis" />
-      <ContextMenu x:Key="GameContextMenu" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+      <ContextMenu x:Key="GameContextMenu" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}" Opened="GameContextMenu_Opened">
         <MenuItem Header="{resources:Loc Ui_Pages_Play}" Command="{Binding Tag.LaunchCommand}" CommandParameter="{Binding DataContext}">
           <MenuItem.Icon>
             <ui:SymbolIcon Symbol="Play24" />
@@ -14,6 +14,16 @@
         <MenuItem Header="{Binding DataContext.PinButtonText}" Command="{Binding Tag.TogglePinCommand}" CommandParameter="{Binding DataContext}">
           <MenuItem.Icon>
             <ui:SymbolIcon Symbol="Pin24" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{resources:Loc Library_AddToCollection}" Tag="CollectionAdd">
+          <MenuItem.Icon>
+            <ui:SymbolIcon Symbol="Add24" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{resources:Loc Library_RemoveFromCollection}" Tag="CollectionRemove">
+          <MenuItem.Icon>
+            <ui:SymbolIcon Symbol="Subtract24" />
           </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="{resources:Loc Library_Manage}">
@@ -43,9 +53,21 @@
           </MenuItem.Icon>
         </MenuItem>
       </ContextMenu>
+      <ContextMenu x:Key="CollectionGroupMenu" Opened="CollectionGroupMenu_Opened">
+        <MenuItem Header="{resources:Loc Library_RenameCollection}" Click="RenameCollection_Click">
+          <MenuItem.Icon>
+            <ui:SymbolIcon Symbol="Rename24" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{resources:Loc Library_DeleteCollection}" Click="DeleteCollection_Click">
+          <MenuItem.Icon>
+            <ui:SymbolIcon Symbol="Delete24" />
+          </MenuItem.Icon>
+        </MenuItem>
+      </ContextMenu>
       <CollectionViewSource x:Key="SidebarGamesView" Source="{Binding SidebarGames}">
         <CollectionViewSource.GroupDescriptions>
-          <PropertyGroupDescription PropertyName="SidebarGroup" />
+          <PropertyGroupDescription PropertyName="SidebarGroup" CustomSort="{x:Static vm:LibraryViewModel.SidebarGroupOrder}" />
         </CollectionViewSource.GroupDescriptions>
       </CollectionViewSource>
       <Style TargetType="{x:Type TextBlock}">
@@ -231,7 +253,7 @@
                   <Setter.Value>
                     <ControlTemplate TargetType="{x:Type GroupItem}">
                       <StackPanel x:Name="GroupRoot" Margin="0,0,14,0">
-                        <ToggleButton x:Name="GroupToggle" IsChecked="True" Focusable="False" Cursor="Hand">
+                        <ToggleButton x:Name="GroupToggle" IsChecked="True" Focusable="False" Cursor="Hand" ContextMenu="{StaticResource CollectionGroupMenu}">
                           <ToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type ToggleButton}">
                               <Border Background="Transparent" Padding="10,12,10,0">
@@ -242,7 +264,7 @@
                                         <RotateTransform Angle="0" />
                                       </UIElement.RenderTransform>
                                     </ui:SymbolIcon>
-                                    <TextBlock x:Name="GroupName" Margin="9,0,0,0" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Name}" />
+                                    <TextBlock x:Name="GroupName" Margin="9,0,0,0" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Name.Name}" />
                                     <TextBlock x:Name="GroupCount" Margin="7,0,0,0" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding ItemCount, StringFormat=({0})}" />
                                   </StackPanel>
                                   <Rectangle Height="1" Margin="0,7,0,0" Fill="{DynamicResource SubtleFillColorSecondaryBrush}" />

@@ -6,6 +6,7 @@ using System.Windows.Media.Animation;
 using Voidstrap.Integrations;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
+using MenuItem = System.Windows.Controls.MenuItem;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
@@ -27,6 +28,90 @@ public partial class LibraryPage : UiPage
         _sidebar = new PageSidebar(LibrarySidebar, SidebarResizer, this, SetSidebarIconsOnly, SaveSidebarWidth);
         _sidebar.Apply(App.Settings.Prop.LibrarySidebarWidth);
     }
+
+    private void GameContextMenu_Opened(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.ContextMenu menu)
+            return;
+        MenuItem? addMenu = menu.Items.OfType<MenuItem>().FirstOrDefault(item => Equals(item.Tag, "CollectionAdd"));
+        MenuItem? removeMenu = menu.Items.OfType<MenuItem>().FirstOrDefault(item => Equals(item.Tag, "CollectionRemove"));
+        if (addMenu == null || removeMenu == null)
+            return;
+        foreach (MenuItem item in addMenu.Items.OfType<MenuItem>().Concat(removeMenu.Items.OfType<MenuItem>()))
+            item.Click -= CollectionMenuItem_Click;
+        addMenu.Items.Clear();
+        removeMenu.Items.Clear();
+        FrameworkElement? target = menu.PlacementTarget as FrameworkElement;
+        LibraryGameEntry? game = target?.DataContext as LibraryGameEntry;
+        bool available = game != null && game.UniverseId > 0 && _viewModel.IsInLibrary(game);
+        addMenu.Visibility = available ? Visibility.Visible : Visibility.Collapsed;
+        removeMenu.Visibility = Visibility.Collapsed;
+        if (!available || game == null)
+            return;
+        IReadOnlyList<LibraryGameCollection> member = LibraryCollectionStore.For(game.UniverseId);
+        HashSet<string> memberIds = member.Select(collection => collection.Id).ToHashSet();
+        List<LibraryGameCollection> addable = LibraryCollectionStore.All().Where(collection => !memberIds.Contains(collection.Id)).ToList();
+        foreach (LibraryGameCollection collection in addable)
+            addMenu.Items.Add(CreateCollectionMenuItem(collection.Name, new CollectionMenuAction(game, collection.Id, true)));
+        if (addable.Count > 0)
+            addMenu.Items.Add(new Separator());
+        addMenu.Items.Add(CreateCollectionMenuItem(Strings.Library_NewCollection, new CollectionMenuAction(game, null, true)));
+        foreach (LibraryGameCollection collection in member)
+            removeMenu.Items.Add(CreateCollectionMenuItem(collection.Name, new CollectionMenuAction(game, collection.Id, false)));
+        removeMenu.Visibility = member.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private MenuItem CreateCollectionMenuItem(string header, CollectionMenuAction action)
+    {
+        MenuItem item = new MenuItem { Header = header, Tag = action };
+        item.Click += CollectionMenuItem_Click;
+        return item;
+    }
+
+    private void CollectionMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not MenuItem { Tag: CollectionMenuAction action })
+            return;
+        if (action.CollectionId == null)
+            _viewModel.CreateCollection(action.Game);
+        else if (action.Add)
+            _viewModel.AddToCollection(action.Game, action.CollectionId);
+        else
+            _viewModel.RemoveFromCollection(action.Game, action.CollectionId);
+    }
+
+    private void CollectionGroupMenu_Opened(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.ContextMenu menu)
+            return;
+        bool isCollection = GroupFromMenu(menu)?.CollectionId != null;
+        if (!isCollection)
+            menu.IsOpen = false;
+    }
+
+    private void RenameCollection_Click(object sender, RoutedEventArgs e)
+    {
+        if (GroupFromMenuItem(sender) is LibrarySidebarGroup group)
+            _viewModel.RenameCollection(group);
+    }
+
+    private void DeleteCollection_Click(object sender, RoutedEventArgs e)
+    {
+        if (GroupFromMenuItem(sender) is LibrarySidebarGroup group)
+            _viewModel.DeleteCollection(group);
+    }
+
+    private static LibrarySidebarGroup? GroupFromMenuItem(object sender)
+    {
+        return sender is MenuItem { Parent: System.Windows.Controls.ContextMenu menu } ? GroupFromMenu(menu) : null;
+    }
+
+    private static LibrarySidebarGroup? GroupFromMenu(System.Windows.Controls.ContextMenu menu)
+    {
+        return ((menu.PlacementTarget as FrameworkElement)?.DataContext as System.Windows.Data.CollectionViewGroup)?.Name as LibrarySidebarGroup;
+    }
+
+    private sealed record CollectionMenuAction(LibraryGameEntry Game, string? CollectionId, bool Add);
 
     private void GamePassGrid_SizeChanged(object sender, SizeChangedEventArgs e)
     {

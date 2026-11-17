@@ -10139,4 +10139,28 @@ Uptime: {1}
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>სესიის პანელს უმატებს ღილაკს, რომელიც ამას რთავს ან თიშავს.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>დამატება</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>ამოშლა</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>ახალი კოლექცია...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>კოლექციის სახელი</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>კოლექციის გადარქმევა</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>კოლექციის წაშლა</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>წაიშალოს კოლექცია {0}? მისი თამაშები თქვენს ბიბლიოთეკაში დარჩება.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>კატეგორიის გარეშე</value>
+  </data>
 </root>

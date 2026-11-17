@@ -10138,4 +10138,28 @@ SteamVR instalatu orain?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Saioaren barran botoi bat gehitzen du hau aktibatzeko edo desaktibatzeko.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Gehitu hona</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Kendu hemendik</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Bilduma berria...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Bildumaren izena</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Aldatu bildumaren izena</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Ezabatu bilduma</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} bilduma ezabatu? Bere jokoak zure liburutegian geratuko dira.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>KATEGORIARIK GABE</value>
+  </data>
 </root>

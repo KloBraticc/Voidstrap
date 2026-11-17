@@ -10138,4 +10138,28 @@ Faka i-SteamVR ngoku?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Yongeza iqhosha kwi dock yeseshoni elivula okanye elicima oku.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Yongeza ku</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Susa ku</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Ingqokelela entsha...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Igama lengqokelela</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Thiya kwakhona ingqokelela</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Cima ingqokelela</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Cima ingqokelela {0}? Imidlalo yayo iya kuhlala kwithala lakho leencwadi.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>AYICWANGCISWANGA</value>
+  </data>
 </root>

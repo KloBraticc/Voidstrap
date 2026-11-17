@@ -10138,4 +10138,28 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Afegeix un botó a la barra de la sessió que ho activa o ho desactiva.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Afegeix a</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Treu de</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Col·lecció nova...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Nom de la col·lecció</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Canvia el nom de la col·lecció</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Suprimeix la col·lecció</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Vols suprimir la col·lecció {0}? Els seus jocs es mantindran a la teva biblioteca.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>SENSE CATEGORIA</value>
+  </data>
 </root>

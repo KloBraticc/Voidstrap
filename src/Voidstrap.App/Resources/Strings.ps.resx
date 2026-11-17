@@ -10139,4 +10139,28 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>د ناستې ډاک ته یوه تڼۍ ورزیاتوي چې دا چالانوي یا بندوي.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>ورته اضافه کړئ</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>ترې لرې کړئ</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>نوې ټولګه...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>د ټولګې نوم</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>د ټولګې نوم بدل کړئ</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>ټولګه ړنګه کړئ</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>ایا د {0} ټولګه ړنګه شي؟ د هغې لوبې به ستاسو په کتابتون کې پاتې شي.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>بې کټګورۍ</value>
+  </data>
 </root>

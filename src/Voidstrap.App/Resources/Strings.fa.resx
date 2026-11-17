@@ -10453,4 +10453,28 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>دکمه‌ای به نوار جلسه اضافه می‌کند که این را روشن یا خاموش می‌کند.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>افزودن به</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>حذف از</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>مجموعه جدید...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>نام مجموعه</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>تغییر نام مجموعه</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>حذف مجموعه</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>مجموعه {0} حذف شود؟ بازی‌های آن در کتابخانه شما می‌مانند.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>بدون دسته</value>
+  </data>
 </root>

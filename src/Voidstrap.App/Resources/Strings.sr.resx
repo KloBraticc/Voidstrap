@@ -10139,4 +10139,28 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Додаје дугме на траку сесије које ово укључује или искључује.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Додај у</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Уклони из</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Нова колекција...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Назив колекције</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Преименуј колекцију</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Избриши колекцију</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Избрисати колекцију {0}? Њене игре остају у твојој библиотеци.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>БЕЗ КАТЕГОРИЈЕ</value>
+  </data>
 </root>

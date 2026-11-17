@@ -10453,4 +10453,28 @@ Veikimo laikas: {1}
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Prideda prie seanso juostos mygtuką, kuriuo tai įjungiate arba išjungiate.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Pridėti į</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Pašalinti iš</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nauja kolekcija...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Kolekcijos pavadinimas</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Pervadinti kolekciją</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Ištrinti kolekciją</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Ištrinti kolekciją {0}? Jos žaidimai liks jūsų bibliotekoje.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>BE KATEGORIJOS</value>
+  </data>
 </root>

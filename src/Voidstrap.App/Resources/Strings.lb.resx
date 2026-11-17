@@ -10139,4 +10139,28 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Setzt e Knäppchen an d'Sessiounsleescht, dat dëst an oder aus schalt.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Derbäisetzen</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Ewechhuelen aus</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nei Sammlung...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Numm vun der Sammlung</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Sammlung ëmbenennen</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Sammlung läschen</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>D'Sammlung {0} läschen? D'Spiller bleiwen an denger Bibliothéik.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>OUNI KATEGORIE</value>
+  </data>
 </root>

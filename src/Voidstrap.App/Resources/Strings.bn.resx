@@ -10138,4 +10138,28 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>সেশন ডকে একটি বোতাম যোগ করে যা এটি চালু বা বন্ধ করে।</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>এতে যোগ করুন</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>এখান থেকে সরান</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>নতুন সংগ্রহ...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>সংগ্রহের নাম</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>সংগ্রহের নাম বদলান</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>সংগ্রহ মুছুন</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} সংগ্রহটি মুছবেন? এর গেমগুলো আপনার লাইব্রেরিতে থেকে যাবে।</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>বিভাগহীন</value>
+  </data>
 </root>

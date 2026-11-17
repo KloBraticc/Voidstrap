@@ -10451,4 +10451,28 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Gombot ad a munkamenet dokkhoz, amellyel ezt be vagy ki kapcsolhatod.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Hozzáadás ehhez</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Eltávolítás innen</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Új gyűjtemény...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Gyűjtemény neve</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Gyűjtemény átnevezése</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Gyűjtemény törlése</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Törlöd a(z) {0} gyűjteményt? A játékai a könyvtáradban maradnak.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>KATEGORIZÁLATLAN</value>
+  </data>
 </root>

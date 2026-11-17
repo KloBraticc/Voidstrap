@@ -10138,4 +10138,28 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>ይህን የሚያበራ ወይም የሚያጠፋ አዝራር ወደ የክፍለ ጊዜ መትከያው ያክላል።</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>አክል ወደ</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>አስወግድ ከ</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>አዲስ ስብስብ...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>የስብስብ ስም</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>ስብስቡን እንደገና ሰይም</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>ስብስቡን ሰርዝ</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>ስብስቡን {0} ይሰረዝ? ጨዋታዎቹ በቤተ መጻሕፍትዎ ውስጥ ይቆያሉ።</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ያልተመደቡ</value>
+  </data>
 </root>

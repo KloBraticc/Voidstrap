@@ -10139,4 +10139,28 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>ເພີ່ມປຸ່ມໃສ່ແຖບເຊດຊັນທີ່ເປີດ ຫຼື ປິດສິ່ງນີ້.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>ເພີ່ມໃສ່</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>ລຶບອອກຈາກ</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>ຄໍເລັກຊັນໃໝ່...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>ຊື່ຄໍເລັກຊັນ</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>ປ່ຽນຊື່ຄໍເລັກຊັນ</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>ລຶບຄໍເລັກຊັນ</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>ລຶບຄໍເລັກຊັນ {0} ບໍ? ເກມຂອງມັນຍັງຢູ່ໃນຫ້ອງສະໝຸດຂອງທ່ານ.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ບໍ່ມີໝວດໝູ່</value>
+  </data>
 </root>

@@ -10139,4 +10139,28 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>સત્ર ડૉકમાં એક બટન ઉમેરે છે જે આને ચાલુ અથવા બંધ કરે છે.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>આમાં ઉમેરો</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>આમાંથી દૂર કરો</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>નવો સંગ્રહ...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>સંગ્રહનું નામ</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>સંગ્રહનું નામ બદલો</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>સંગ્રહ કાઢી નાખો</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>સંગ્રહ {0} કાઢી નાખવો છે? તેની રમતો તમારી લાઇબ્રેરીમાં રહેશે.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>વર્ગીકૃત નથી</value>
+  </data>
 </root>

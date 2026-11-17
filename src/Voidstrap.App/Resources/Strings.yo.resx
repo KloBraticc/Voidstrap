@@ -10138,4 +10138,28 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Ó ń fi bọ́tìnnì kún ọ̀pá ìpàdé tí ó ń tan tàbí pa èyí.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Fi kun</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Yọ kúrò nínú</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Àkójọpọ̀ tuntun...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Orúkọ àkójọpọ̀</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Yí orúkọ àkójọpọ̀ padà</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Pa àkójọpọ̀ rẹ́</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Ṣé kí a pa àkójọpọ̀ {0} rẹ́? Àwọn eré rẹ̀ yóò wà nínú ilé ìkàwé rẹ.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>LÁÌSÍ ÌSỌ̀RÍ</value>
+  </data>
 </root>

@@ -10139,4 +10139,28 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Pievieno sesijas joslai pogu, kas to ieslēdz vai izslēdz.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Pievienot</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Noņemt no</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Jauna kolekcija...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Kolekcijas nosaukums</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Pārdēvēt kolekciju</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Dzēst kolekciju</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Vai dzēst kolekciju {0}? Tās spēles paliks tavā bibliotēkā.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>BEZ KATEGORIJAS</value>
+  </data>
 </root>

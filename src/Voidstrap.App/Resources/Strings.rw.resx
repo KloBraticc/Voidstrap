@@ -10139,4 +10139,28 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Yongera buto ku murongo w'isomo ifungura cyangwa ifunga ibi.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Ongera kuri</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Kuramo muri</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Icyegeranyo gishya...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Izina ry'icyegeranyo</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Hindura izina ry'icyegeranyo</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Siba icyegeranyo</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Gusiba icyegeranyo {0}? Imikino yacyo izaguma mu isomero ryawe.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>IDAFITE ICYICIRO</value>
+  </data>
 </root>

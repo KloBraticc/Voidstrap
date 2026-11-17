@@ -10138,4 +10138,28 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Lisab seansi dokki nupu, mis lülitab selle sisse või välja.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Lisa kogusse</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Eemalda kogust</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Uus kogu...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Kogu nimi</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Nimeta kogu ümber</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Kustuta kogu</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Kas kustutada kogu {0}? Selle mängud jäävad sinu teeki.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>KATEGOORIATA</value>
+  </data>
 </root>

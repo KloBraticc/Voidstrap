@@ -10452,4 +10452,28 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Lisää istuntotelakkaan painikkeen, jolla tämän voi ottaa käyttöön tai pois käytöstä.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Lisää kokoelmaan</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Poista kokoelmasta</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Uusi kokoelma...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Kokoelman nimi</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Nimeä kokoelma uudelleen</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Poista kokoelma</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Poistetaanko kokoelma {0}? Sen pelit pysyvät kirjastossasi.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>LUOKITTELEMATTOMAT</value>
+  </data>
 </root>

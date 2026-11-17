@@ -10139,4 +10139,28 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Bætir hnappi við lotustikuna sem kveikir eða slekkur á þessu.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Bæta við</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Fjarlægja úr</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nýtt safn...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Heiti safns</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Endurnefna safn</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Eyða safni</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Eyða safninu {0}? Leikirnir verða áfram í safninu þínu.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ÓFLOKKAÐ</value>
+  </data>
 </root>

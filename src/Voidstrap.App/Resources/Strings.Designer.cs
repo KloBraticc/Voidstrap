@@ -10245,6 +10245,14 @@ namespace Voidstrap.Resources {
         public static string Library_Unpin => ResourceManager.GetString("Library.Unpin", resourceCulture);
         public static string Library_GroupPinned => ResourceManager.GetString("Library.GroupPinned", resourceCulture);
         public static string Library_GroupAll => ResourceManager.GetString("Library.GroupAll", resourceCulture);
+        public static string Library_AddToCollection => ResourceManager.GetString("Library.AddToCollection", resourceCulture);
+        public static string Library_RemoveFromCollection => ResourceManager.GetString("Library.RemoveFromCollection", resourceCulture);
+        public static string Library_NewCollection => ResourceManager.GetString("Library.NewCollection", resourceCulture);
+        public static string Library_CollectionNamePrompt => ResourceManager.GetString("Library.CollectionNamePrompt", resourceCulture);
+        public static string Library_RenameCollection => ResourceManager.GetString("Library.RenameCollection", resourceCulture);
+        public static string Library_DeleteCollection => ResourceManager.GetString("Library.DeleteCollection", resourceCulture);
+        public static string Library_DeleteCollectionConfirm => ResourceManager.GetString("Library.DeleteCollectionConfirm", resourceCulture);
+        public static string Library_GroupUncategorized => ResourceManager.GetString("Library.GroupUncategorized", resourceCulture);
         public static string Library_Never => ResourceManager.GetString("Library.Never", resourceCulture);
         public static string Library_Today => ResourceManager.GetString("Library.Today", resourceCulture);
         public static string Library_Yesterday => ResourceManager.GetString("Library.Yesterday", resourceCulture);

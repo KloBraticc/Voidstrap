@@ -10139,4 +10139,28 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Manampy bokotra amin'ny tsipiky ny fivoriana izay mampandeha na mamono ity.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Ampio amin'ny</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Esory amin'ny</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Fitambarana vaovao...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Anaran'ny fitambarana</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Ovay ny anaran'ny fitambarana</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Fafao ny fitambarana</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Hofafana ve ny fitambarana {0}? Mijanona ao amin'ny tranombokinao ireo lalaony.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>TSY MISY SOKAJY</value>
+  </data>
 </root>

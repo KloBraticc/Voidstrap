@@ -10139,4 +10139,28 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Ka tāpiri he pātene ki te tauranga wātū hei whakakā, hei whakaweto rānei i tēnei.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Tāpiri ki</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Tango mai i</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Kohinga hou...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Ingoa kohinga</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Tapa anō i te kohinga</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Muku i te kohinga</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Me muku te kohinga {0}? Ka noho tonu ōna kēmu ki tō whare pukapuka.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>KĀORE I WEHEA</value>
+  </data>
 </root>

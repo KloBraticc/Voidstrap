@@ -10138,4 +10138,28 @@ Indi SteamVR guruň?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Sessiýa paneline muny açýan ýa-da öçürýän düwme goşýar.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Goş</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Aýyr</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Täze ýygyndy...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Ýygyndynyň ady</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Ýygyndynyň adyny üýtget</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Ýygyndyny poz</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} ýygyndysy pozulsynmy? Onuň oýunlary kitaphanaňyzda galar.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>KATEGORIÝASYZ</value>
+  </data>
 </root>

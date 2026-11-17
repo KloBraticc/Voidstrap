@@ -10451,4 +10451,28 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Добавя бутон в лентата на сесията, който включва или изключва това.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Добавяне към</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Премахване от</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Нова колекция...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Име на колекцията</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Преименуване на колекцията</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Изтриване на колекцията</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Да се изтрие ли колекцията {0}? Игрите ѝ остават във Вашата библиотека.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>БЕЗ КАТЕГОРИЯ</value>
+  </data>
 </root>

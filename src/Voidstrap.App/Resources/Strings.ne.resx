@@ -10139,4 +10139,28 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>यसलाई खोल्ने वा बन्द गर्ने बटन सत्र डकमा थप्छ।</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>यसमा थप्नुहोस्</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>यसबाट हटाउनुहोस्</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>नयाँ संग्रह...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>संग्रहको नाम</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>संग्रहको नाम बदल्नुहोस्</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>संग्रह मेटाउनुहोस्</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} संग्रह मेटाउने? यसका गेमहरू तपाईंको लाइब्रेरीमा रहनेछन्।</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>वर्गीकृत नगरिएका</value>
+  </data>
 </root>

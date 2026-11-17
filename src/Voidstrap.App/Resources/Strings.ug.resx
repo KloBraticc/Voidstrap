@@ -10138,4 +10138,28 @@ Uptime: {1}
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>ئولتۇرۇش تاختىسىغا بۇنى ئاچىدىغان ياكى تاقايدىغان كۇنۇپكا قوشىدۇ.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>قوشۇش</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>چىقىرىۋېتىش</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>يېڭى توپلام...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>توپلام ئىسمى</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>توپلام ئىسمىنى ئۆزگەرتىش</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>توپلامنى ئۆچۈرۈش</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} توپلىمىنى ئۆچۈرەمسىز؟ ئۇنىڭ ئويۇنلىرى ئامبىرىڭىزدا قالىدۇ.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>تۈرگە ئايرىلمىغان</value>
+  </data>
 </root>

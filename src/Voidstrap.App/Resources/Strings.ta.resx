@@ -10138,4 +10138,28 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>இதை இயக்க அல்லது அணைக்கும் பொத்தானை அமர்வு டாக்கில் சேர்க்கும்.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>இதில் சேர்</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>இதிலிருந்து அகற்று</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>புதிய தொகுப்பு...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>தொகுப்பின் பெயர்</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>தொகுப்பின் பெயரை மாற்று</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>தொகுப்பை நீக்கு</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} தொகுப்பை நீக்கவா? அதன் கேம்கள் உங்கள் நூலகத்தில் இருக்கும்.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>வகைப்படுத்தப்படாதவை</value>
+  </data>
 </root>

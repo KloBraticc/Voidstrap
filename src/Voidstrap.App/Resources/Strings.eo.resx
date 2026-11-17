@@ -10138,4 +10138,28 @@ Ludantoj: {2}</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Aldonas butonon al la seanca doko, kiu ŝaltas aŭ malŝaltas ĉi tion.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Aldoni al</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Forigi el</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nova kolekto...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Nomo de la kolekto</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Renomi la kolekton</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Forigi la kolekton</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Ĉu forigi la kolekton {0}? Ĝiaj ludoj restos en via biblioteko.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>SENKATEGORIAJ</value>
+  </data>
 </root>

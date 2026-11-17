@@ -10139,4 +10139,28 @@ Installa SteamVR issa?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Iżżid buttuna mal-bar tas-sessjoni li tixgħel jew titfi dan.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Żid ma'</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Neħħi minn</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Kollezzjoni ġdida...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Isem il-kollezzjoni</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Ibdel l-isem tal-kollezzjoni</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Ħassar il-kollezzjoni</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Tħassar il-kollezzjoni {0}? Il-logħob tagħha jibqa' fil-librerija tiegħek.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>MINGĦAJR KATEGORIJA</value>
+  </data>
 </root>

@@ -10138,4 +10138,28 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Дадае ў панэль сеанса кнопку, якая ўключае або выключае гэта.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Дадаць у</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Выдаліць з</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Новая калекцыя...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Назва калекцыі</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Перайменаваць калекцыю</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Выдаліць калекцыю</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Выдаліць калекцыю {0}? Яе гульні застануцца ў вашай бібліятэцы.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>БЕЗ КАТЭГОРЫІ</value>
+  </data>
 </root>

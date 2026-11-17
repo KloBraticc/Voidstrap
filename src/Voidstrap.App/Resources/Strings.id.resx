@@ -10454,4 +10454,28 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Menambahkan tombol ke dok sesi yang menyalakan atau mematikan ini.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Tambahkan ke</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Hapus dari</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Koleksi baru...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Nama koleksi</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Ganti nama koleksi</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Hapus koleksi</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Hapus koleksi {0}? Game di dalamnya tetap ada di perpustakaan Anda.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>TANPA KATEGORI</value>
+  </data>
 </root>

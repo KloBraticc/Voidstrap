@@ -10449,4 +10449,28 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Oturum çubuğuna bunu açıp kapatan bir düğme ekler.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Şuraya ekle</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Şuradan kaldır</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Yeni koleksiyon...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Koleksiyon adı</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Koleksiyonu yeniden adlandır</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Koleksiyonu sil</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} koleksiyonu silinsin mi? Oyunları kütüphanenizde kalır.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>KATEGORİSİZ</value>
+  </data>
 </root>

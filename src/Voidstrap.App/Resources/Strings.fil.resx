@@ -10449,4 +10449,28 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Nagdadagdag ng button sa session dock na nagbubukas o nagsasara nito.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Idagdag sa</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Alisin sa</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Bagong koleksyon...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Pangalan ng koleksyon</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Palitan ang pangalan ng koleksyon</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Burahin ang koleksyon</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Burahin ang koleksyong {0}? Mananatili ang mga laro nito sa iyong library.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>WALANG KATEGORYA</value>
+  </data>
 </root>

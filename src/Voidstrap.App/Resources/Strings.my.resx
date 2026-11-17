@@ -10138,4 +10138,28 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>ဤအရာကို ဖွင့်ရန် သို့မဟုတ် ပိတ်ရန် ခလုတ်တစ်ခုကို စက်ရှင် ဒေါ့ခ်တွင် ထည့်ပေးသည်။</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>ထဲသို့ ထည့်ရန်</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>ထဲမှ ဖယ်ရှားရန်</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>စုစည်းမှု အသစ်...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>စုစည်းမှု အမည်</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>စုစည်းမှု အမည်ပြောင်းရန်</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>စုစည်းမှု ဖျက်ရန်</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} စုစည်းမှုကို ဖျက်မလား? ၎င်း၏ ဂိမ်းများသည် သင့်စာကြည့်တိုက်တွင် ကျန်ရှိမည်။</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>အမျိုးအစားမခွဲရသေး</value>
+  </data>
 </root>

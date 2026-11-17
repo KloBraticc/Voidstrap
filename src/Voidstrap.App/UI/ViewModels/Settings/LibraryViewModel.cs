@@ -121,7 +121,7 @@ public class LibraryGameEntry : INotifyPropertyChanged
 
     public Visibility PinIconVisibility => IsPinned ? Visibility.Visible : Visibility.Collapsed;
 
-    public string SidebarGroup => IsPinned ? Strings.Library_GroupPinned : Strings.Library_GroupAll;
+    public LibrarySidebarGroup[] SidebarGroup => Integrations.LibraryCollectionStore.SidebarGroups(UniverseId, IsPinned);
 
     public double LikePercentValue => double.TryParse(_likePercent.TrimEnd('%'), NumberStyles.Float, CultureInfo.InvariantCulture, out double value) ? value : double.NaN;
 
@@ -2267,6 +2267,70 @@ public class LibraryViewModel : INotifyPropertyChanged
             _ = LoadAsync(true);
     }
 
+    public static System.Collections.IComparer SidebarGroupOrder { get; } =
+        Comparer<object>.Create(
+            static (left, right) => (left as LibrarySidebarGroup)?.Order.CompareTo((right as LibrarySidebarGroup)?.Order ?? int.MaxValue) ?? 1
+        );
+
+    public bool IsInLibrary(LibraryGameEntry game)
+    {
+        return _masterGames.Any(entry => entry.UniverseId == game.UniverseId);
+    }
+
+    public void AddToCollection(LibraryGameEntry game, string collectionId)
+    {
+        Integrations.LibraryCollectionStore.Add(collectionId, game.UniverseId);
+        RebuildSidebar();
+    }
+
+    public void RemoveFromCollection(LibraryGameEntry game, string collectionId)
+    {
+        Integrations.LibraryCollectionStore.Remove(collectionId, game.UniverseId);
+        RebuildSidebar();
+    }
+
+    public void CreateCollection(LibraryGameEntry game)
+    {
+        string? name = AskForCollectionName("");
+        if (name == null || Integrations.LibraryCollectionStore.Create(name, game.UniverseId) == null)
+            return;
+        RebuildSidebar();
+    }
+
+    public void RenameCollection(LibrarySidebarGroup group)
+    {
+        if (group.CollectionId == null)
+            return;
+        string? name = AskForCollectionName(group.Name);
+        if (name == null)
+            return;
+        Integrations.LibraryCollectionStore.Rename(group.CollectionId, name);
+        RebuildSidebar();
+    }
+
+    public void DeleteCollection(LibrarySidebarGroup group)
+    {
+        if (group.CollectionId == null)
+            return;
+        MessageBoxResult result = UI.Frontend.ShowMessageBox(
+            string.Format(Strings.Library_DeleteCollectionConfirm, group.Name),
+            MessageBoxImage.Question,
+            MessageBoxButton.YesNo
+        );
+        if (result != MessageBoxResult.Yes)
+            return;
+        Integrations.LibraryCollectionStore.Delete(group.CollectionId);
+        RebuildSidebar();
+    }
+
+    private static string? AskForCollectionName(string initial)
+    {
+        UI.Elements.Dialogs.TextInputDialog dialog = new(Strings.Library_CollectionNamePrompt, initial);
+        dialog.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive);
+        dialog.ShowOwnedDialog();
+        return dialog.Confirmed && !string.IsNullOrWhiteSpace(dialog.Value) ? dialog.Value : null;
+    }
+
     private async Task RemoveGameAsync(LibraryGameEntry? game)
     {
         if (game == null)
@@ -2284,6 +2348,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         long universeId = game.UniverseId;
         if (game.IsFavorite)
             Integrations.LibraryStore.SetFavoriteHidden(universeId, true);
+        Integrations.LibraryCollectionStore.RemoveGame(universeId);
         await Task.Run(() =>
         {
             List<string> sessionKeys = RemoveFromHistoryFile(universeId);

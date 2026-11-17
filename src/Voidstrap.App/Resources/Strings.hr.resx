@@ -10451,4 +10451,28 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Dodaje gumb na traku sesije koji ovo uključuje ili isključuje.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Dodaj u</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Ukloni iz</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nova zbirka...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Naziv zbirke</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Preimenuj zbirku</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Izbriši zbirku</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Izbrisati zbirku {0}? Njezine igre ostaju u tvojoj biblioteci.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>BEZ KATEGORIJE</value>
+  </data>
 </root>

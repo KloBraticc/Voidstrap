@@ -10138,4 +10138,28 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Προσθέτει ένα κουμπί στη μπάρα της συνεδρίας που το ενεργοποιεί ή το απενεργοποιεί.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Προσθήκη σε</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Αφαίρεση από</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Νέα συλλογή...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Όνομα συλλογής</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Μετονομασία συλλογής</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Διαγραφή συλλογής</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Διαγραφή της συλλογής {0}; Τα παιχνίδια της παραμένουν στη βιβλιοθήκη σας.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ΧΩΡΙΣ ΚΑΤΗΓΟΡΙΑ</value>
+  </data>
 </root>

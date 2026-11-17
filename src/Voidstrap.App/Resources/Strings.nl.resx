@@ -10453,4 +10453,28 @@ SteamVR nu installeren?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Voegt een knop aan het sessiedock toe waarmee je dit aan of uit zet.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Toevoegen aan</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Verwijderen uit</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nieuwe collectie...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Naam van de collectie</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Collectie hernoemen</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Collectie verwijderen</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>De collectie {0} verwijderen? De games blijven in je bibliotheek.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ZONDER CATEGORIE</value>
+  </data>
 </root>

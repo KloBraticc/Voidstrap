@@ -10139,4 +10139,28 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Doda v vrstico seje gumb, ki to vklopi ali izklopi.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Dodaj v</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Odstrani iz</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nova zbirka...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Ime zbirke</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Preimenuj zbirko</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Izbriši zbirko</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Želiš izbrisati zbirko {0}? Njene igre ostanejo v tvoji knjižnici.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>BREZ KATEGORIJE</value>
+  </data>
 </root>

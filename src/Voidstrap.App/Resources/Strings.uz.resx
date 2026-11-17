@@ -10138,4 +10138,28 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Seans paneliga buni yoqadigan yoki o'chiradigan tugma qo'shadi.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Qo'shish</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Olib tashlash</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Yangi to'plam...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>To'plam nomi</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>To'plam nomini o'zgartirish</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>To'plamni o'chirish</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} to'plami o'chirilsinmi? Uning o'yinlari kutubxonangizda qoladi.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>TOIFASIZ</value>
+  </data>
 </root>

@@ -10139,4 +10139,28 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>ഇത് ഓൺ അല്ലെങ്കിൽ ഓഫ് ചെയ്യുന്ന ഒരു ബട്ടൺ സെഷൻ ഡോക്കിൽ ചേർക്കുന്നു.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>ഇതിലേക്ക് ചേർക്കുക</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>ഇതിൽ നിന്ന് നീക്കുക</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>പുതിയ ശേഖരം...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>ശേഖരത്തിന്റെ പേര്</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>ശേഖരത്തിന്റെ പേര് മാറ്റുക</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>ശേഖരം ഇല്ലാതാക്കുക</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} ശേഖരം ഇല്ലാതാക്കണോ? അതിലെ ഗെയിമുകൾ നിങ്ങളുടെ ലൈബ്രറിയിൽ തുടരും.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>വിഭാഗമില്ലാത്തവ</value>
+  </data>
 </root>

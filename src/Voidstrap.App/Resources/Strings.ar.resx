@@ -10450,4 +10450,28 @@
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>يضيف زرًا إلى شريط الجلسة يشغّل هذا الخيار أو يوقفه.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>إضافة إلى</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>إزالة من</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>مجموعة جديدة...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>اسم المجموعة</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>إعادة تسمية المجموعة</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>حذف المجموعة</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>هل تريد حذف المجموعة {0}؟ ستبقى ألعابها في مكتبتك.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>غير مصنفة</value>
+  </data>
 </root>

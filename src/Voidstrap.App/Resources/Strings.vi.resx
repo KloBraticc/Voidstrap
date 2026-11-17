@@ -10454,4 +10454,28 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Thêm vào thanh phiên một nút để bật hoặc tắt tính năng này.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Thêm vào</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Xóa khỏi</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Bộ sưu tập mới...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Tên bộ sưu tập</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Đổi tên bộ sưu tập</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Xóa bộ sưu tập</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Xóa bộ sưu tập {0}? Các trò chơi trong đó vẫn ở trong thư viện của bạn.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>CHƯA PHÂN LOẠI</value>
+  </data>
 </root>

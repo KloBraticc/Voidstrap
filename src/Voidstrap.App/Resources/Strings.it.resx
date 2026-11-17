@@ -10454,4 +10454,28 @@ Installare SteamVR adesso?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Aggiunge alla barra della sessione un pulsante che attiva o disattiva questa opzione.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Aggiungi a</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Rimuovi da</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nuova raccolta...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Nome della raccolta</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Rinomina raccolta</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Elimina raccolta</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Eliminare la raccolta {0}? I suoi giochi restano nella tua libreria.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>SENZA CATEGORIA</value>
+  </data>
 </root>

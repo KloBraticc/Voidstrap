@@ -10139,4 +10139,28 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Սեսիայի վահանակին ավելացնում է կոճակ, որը միացնում կամ անջատում է սա։</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Ավելացնել</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Հեռացնել</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Նոր հավաքածու...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Հավաքածուի անունը</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Վերանվանել հավաքածուն</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Ջնջել հավաքածուն</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Ջնջե՞լ {0} հավաքածուն։ Դրա խաղերը կմնան ձեր գրադարանում։</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ԱՌԱՆՑ ԿԱՏԵԳՈՐԻԱՅԻ</value>
+  </data>
 </root>

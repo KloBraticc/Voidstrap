@@ -10138,4 +10138,28 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>سیشن ڈاک میں ایک بٹن شامل کرتا ہے جو اسے آن یا آف کرتا ہے۔</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>اس میں شامل کریں</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>اس سے ہٹائیں</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>نیا مجموعہ...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>مجموعے کا نام</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>مجموعے کا نام تبدیل کریں</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>مجموعہ حذف کریں</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>کیا مجموعہ {0} حذف کریں؟ اس کے گیمز آپ کی لائبریری میں رہیں گے۔</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>بغیر زمرہ</value>
+  </data>
 </root>

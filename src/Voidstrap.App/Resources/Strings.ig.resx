@@ -10139,4 +10139,28 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Na-agbakwunye bọtịnụ na dock nnọkọ nke na-agbanye ma ọ bụ na-agbanyụ nke a.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Tinye na</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Wepụ na</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Nchịkọta ọhụrụ...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Aha nchịkọta</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Gụgharịa aha nchịkọta</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Hichapụ nchịkọta</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Ihichapụ nchịkọta {0}? Egwuregwu ya ga-anọgide n'ọbá akwụkwọ gị.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ENWEGHỊ ỤDỊ</value>
+  </data>
 </root>

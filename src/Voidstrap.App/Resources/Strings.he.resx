@@ -10139,4 +10139,28 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>מוסיף לסרגל הסשן כפתור שמפעיל או מכבה את זה.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>הוספה אל</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>הסרה מ</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>אוסף חדש...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>שם האוסף</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>שינוי שם האוסף</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>מחיקת האוסף</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>למחוק את האוסף {0}? המשחקים שבו יישארו בספרייה שלך.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ללא קטגוריה</value>
+  </data>
 </root>

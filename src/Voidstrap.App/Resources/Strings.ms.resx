@@ -10443,4 +10443,28 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Menambah butang pada dok sesi yang menghidupkan atau mematikan ciri ini.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Tambah ke</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Buang daripada</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Koleksi baharu...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Nama koleksi</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Namakan semula koleksi</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Padam koleksi</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Padam koleksi {0}? Permainannya kekal dalam pustaka anda.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>TIADA KATEGORI</value>
+  </data>
 </root>

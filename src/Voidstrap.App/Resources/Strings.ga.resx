@@ -10139,4 +10139,28 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Cuireann sé cnaipe le duga an tseisiúin a chasann é seo air nó as.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Cuir le</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Bain de</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Bailiúchán nua...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Ainm an bhailiúcháin</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Athainmnigh an bailiúchán</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Scrios an bailiúchán</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>An bhfuil tú ag iarraidh an bailiúchán {0} a scriosadh? Fanfaidh a chluichí i do leabharlann.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>GAN CHATAGÓIR</value>
+  </data>
 </root>

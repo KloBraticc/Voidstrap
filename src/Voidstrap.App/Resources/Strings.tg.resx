@@ -10138,4 +10138,28 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Ба лавҳаи ҷаласа тугмае илова мекунад, ки инро фаъол ё хомӯш мекунад.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Илова ба</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Хориҷ аз</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Маҷмӯаи нав...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Номи маҷмӯа</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Иваз кардани номи маҷмӯа</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Нест кардани маҷмӯа</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Маҷмӯаи {0} нест карда шавад? Бозиҳои он дар китобхонаи шумо мемонанд.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>БЕ КАТЕГОРИЯ</value>
+  </data>
 </root>

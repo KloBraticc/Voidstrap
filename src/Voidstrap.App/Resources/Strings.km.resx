@@ -10139,4 +10139,28 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>បន្ថែមប៊ូតុងទៅរបារសម័យ ដែលបើក ឬបិទមុខងារនេះ។</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>បន្ថែមទៅ</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>ដកចេញពី</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>បណ្តុំថ្មី...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>ឈ្មោះបណ្តុំ</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>ប្តូរឈ្មោះបណ្តុំ</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>លុបបណ្តុំ</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>លុបបណ្តុំ {0} ឬ? ហ្គេមរបស់វានៅតែស្ថិតក្នុងបណ្ណាល័យរបស់អ្នក។</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>គ្មានប្រភេទ</value>
+  </data>
 </root>

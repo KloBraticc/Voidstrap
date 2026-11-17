@@ -10466,4 +10466,28 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>これをオンまたはオフにするボタンをセッションドックに追加します。</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>追加先</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>削除元</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>新しいコレクション...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>コレクション名</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>コレクション名を変更</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>コレクションを削除</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>コレクション {0} を削除しますか？ゲームはライブラリに残ります。</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>未分類</value>
+  </data>
 </root>

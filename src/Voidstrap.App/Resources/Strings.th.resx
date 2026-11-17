@@ -10446,4 +10446,28 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>เพิ่มปุ่มลงในแถบเซสชันที่ใช้เปิดหรือปิดตัวเลือกนี้</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>เพิ่มไปยัง</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>นำออกจาก</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>คอลเลกชันใหม่...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>ชื่อคอลเลกชัน</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>เปลี่ยนชื่อคอลเลกชัน</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>ลบคอลเลกชัน</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>ลบคอลเลกชัน {0} ใช่ไหม เกมในคอลเลกชันจะยังอยู่ในคลังของคุณ</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ไม่มีหมวดหมู่</value>
+  </data>
 </root>

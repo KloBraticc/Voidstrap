@@ -10139,4 +10139,28 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Shton në shiritin e seancës një buton që e ndez ose e fik këtë.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Shto te</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Hiq nga</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Koleksion i ri...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Emri i koleksionit</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Riemërto koleksionin</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Fshi koleksionin</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Të fshihet koleksioni {0}? Lojërat e tij mbeten në bibliotekën tënde.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>PA KATEGORI</value>
+  </data>
 </root>

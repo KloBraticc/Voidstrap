@@ -10139,4 +10139,28 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Үүнийг асаах эсвэл унтраах товчийг сешний самбарт нэмнэ.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Нэмэх</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Хасах</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Шинэ цуглуулга...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Цуглуулгын нэр</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Цуглуулгын нэрийг өөрчлөх</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Цуглуулгыг устгах</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} цуглуулгыг устгах уу? Түүний тоглоомууд таны санд үлдэнэ.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>АНГИЛАЛГҮЙ</value>
+  </data>
 </root>

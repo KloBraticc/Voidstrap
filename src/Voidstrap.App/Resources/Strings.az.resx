@@ -10138,4 +10138,28 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Sessiya panelinə bunu açıb bağlayan düymə əlavə edir.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Əlavə et</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Buradan sil</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Yeni kolleksiya...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Kolleksiyanın adı</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Kolleksiyanın adını dəyiş</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Kolleksiyanı sil</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} kolleksiyası silinsin? Oyunlar kitabxananızda qalacaq.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>KATEQORİYASIZ</value>
+  </data>
 </root>

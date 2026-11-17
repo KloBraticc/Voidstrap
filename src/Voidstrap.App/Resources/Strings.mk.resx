@@ -10139,4 +10139,28 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Додава копче во лентата на сесијата што го вклучува или исклучува ова.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Додај во</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Отстрани од</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Нова колекција...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Име на колекцијата</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Преименувај ја колекцијата</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Избриши ја колекцијата</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Да се избрише колекцијата {0}? Нејзините игри остануваат во вашата библиотека.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>БЕЗ КАТЕГОРИЈА</value>
+  </data>
 </root>

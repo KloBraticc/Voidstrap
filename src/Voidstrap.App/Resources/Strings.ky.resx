@@ -10139,4 +10139,28 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Сеанс панелине муну күйгүзүүчү же өчүрүүчү баскыч кошот.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Кошуу</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Алып салуу</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Жаңы жыйнак...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Жыйнактын аты</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Жыйнактын атын өзгөртүү</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Жыйнакты өчүрүү</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} жыйнагын өчүрөсүзбү? Анын оюндары китепканаңызда калат.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>КАТЕГОРИЯСЫЗ</value>
+  </data>
 </root>

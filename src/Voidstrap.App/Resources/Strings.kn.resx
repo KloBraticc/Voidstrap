@@ -10139,4 +10139,28 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>ಇದನ್ನು ಆನ್ ಅಥವಾ ಆಫ್ ಮಾಡುವ ಬಟನ್ ಅನ್ನು ಸೆಷನ್ ಡಾಕ್‌ಗೆ ಸೇರಿಸುತ್ತದೆ.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>ಇದಕ್ಕೆ ಸೇರಿಸಿ</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>ಇದರಿಂದ ತೆಗೆದುಹಾಕಿ</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>ಹೊಸ ಸಂಗ್ರಹ...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>ಸಂಗ್ರಹದ ಹೆಸರು</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>ಸಂಗ್ರಹದ ಹೆಸರು ಬದಲಿಸಿ</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>ಸಂಗ್ರಹ ಅಳಿಸಿ</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>ಸಂಗ್ರಹ {0} ಅಳಿಸಬೇಕೆ? ಅದರ ಆಟಗಳು ನಿಮ್ಮ ಲೈಬ್ರರಿಯಲ್ಲಿ ಉಳಿಯುತ್ತವೆ.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>ವರ್ಗೀಕರಿಸದ</value>
+  </data>
 </root>

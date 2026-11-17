@@ -10138,4 +10138,28 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>לייגט צו אַ קנעפּל צום סעסיע דאָק וואָס צינדט אָן אָדער לעשט אויס דאָס.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>צולייגן צו</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>אַוועקנעמען פֿון</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>נייַע זאַמלונג...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>נאָמען פֿון דער זאַמלונג</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>איבערנאָמען די זאַמלונג</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>אויסמעקן די זאַמלונג</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>אויסמעקן די זאַמלונג {0}? אירע שפּילן בלייבן אין דיין ביבליאָטעק.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>אָן קאַטעגאָריע</value>
+  </data>
 </root>

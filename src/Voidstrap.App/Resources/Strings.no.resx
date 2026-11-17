@@ -10139,4 +10139,28 @@ Installer SteamVR nå?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Legger til en knapp i øktdokken som slår dette på eller av.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Legg til i</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Fjern fra</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Ny samling...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Navn på samlingen</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Gi samlingen nytt navn</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Slett samlingen</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Vil du slette samlingen {0}? Spillene blir værende i biblioteket ditt.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>UKATEGORISERT</value>
+  </data>
 </root>

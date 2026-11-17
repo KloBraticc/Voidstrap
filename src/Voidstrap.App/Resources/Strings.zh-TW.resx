@@ -10454,4 +10454,28 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>在工作階段列加入一個按鈕,用來開啟或關閉這項功能。</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>加入至</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>移出</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>新增收藏...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>收藏名稱</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>重新命名收藏</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>刪除收藏</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>要刪除收藏 {0} 嗎？其中的遊戲仍會留在你的收藏庫中。</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>未分類</value>
+  </data>
 </root>

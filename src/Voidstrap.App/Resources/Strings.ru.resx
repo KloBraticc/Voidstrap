@@ -10451,4 +10451,28 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Добавляет на панель сеанса кнопку, которая включает или выключает эту функцию.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Добавить в</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Удалить из</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Новая коллекция...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Название коллекции</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Переименовать коллекцию</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Удалить коллекцию</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Удалить коллекцию {0}? Её игры останутся в Вашей библиотеке.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>БЕЗ КАТЕГОРИИ</value>
+  </data>
 </root>

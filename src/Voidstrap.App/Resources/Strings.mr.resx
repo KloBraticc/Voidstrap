@@ -10139,4 +10139,28 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>हे चालू किंवा बंद करणारे बटण सेशन डॉकमध्ये जोडते.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>यात जोडा</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>यातून काढा</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>नवीन संग्रह...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>संग्रहाचे नाव</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>संग्रहाचे नाव बदला</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>संग्रह हटवा</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} संग्रह हटवायचा? त्यातील गेम तुमच्या लायब्ररीत राहतील.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>वर्गीकरण नसलेले</value>
+  </data>
 </root>

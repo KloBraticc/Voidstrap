@@ -10139,4 +10139,28 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Сеанс панеліне мұны қосатын немесе өшіретін түйме қосады.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Қосу</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Алып тастау</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Жаңа жинақ...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Жинақ атауы</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Жинақтың атын өзгерту</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Жинақты жою</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>{0} жинағын жою керек пе? Оның ойындары кітапханаңызда қалады.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>САНАТСЫЗ</value>
+  </data>
 </root>

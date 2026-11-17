@@ -10139,4 +10139,28 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Waxay ku daraysaa badhan qalabka fadhiga oo tan shidaya ama damisa.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Ku dar</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Ka saar</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Ururin cusub...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Magaca ururinta</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Beddel magaca ururinta</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Tirtir ururinta</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Ma la tirtiraa ururinta {0}? Ciyaarahiisu waxay ku sii jiri doonaan maktabaddaada.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>AAN LA KALA SOOCIN</value>
+  </data>
 </root>

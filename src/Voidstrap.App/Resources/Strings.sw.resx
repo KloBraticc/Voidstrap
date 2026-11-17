@@ -10138,4 +10138,28 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Mods.SessionDockShortcut.Description" xml:space="preserve">
     <value>Huongeza kitufe kwenye upau wa kipindi kinachowasha au kuzima hiki.</value>
   </data>
+  <data name="Library.AddToCollection" xml:space="preserve">
+    <value>Ongeza kwenye</value>
+  </data>
+  <data name="Library.RemoveFromCollection" xml:space="preserve">
+    <value>Ondoa kutoka</value>
+  </data>
+  <data name="Library.NewCollection" xml:space="preserve">
+    <value>Mkusanyiko mpya...</value>
+  </data>
+  <data name="Library.CollectionNamePrompt" xml:space="preserve">
+    <value>Jina la mkusanyiko</value>
+  </data>
+  <data name="Library.RenameCollection" xml:space="preserve">
+    <value>Badilisha jina la mkusanyiko</value>
+  </data>
+  <data name="Library.DeleteCollection" xml:space="preserve">
+    <value>Futa mkusanyiko</value>
+  </data>
+  <data name="Library.DeleteCollectionConfirm" xml:space="preserve">
+    <value>Ufute mkusanyiko {0}? Michezo yake itabaki kwenye maktaba yako.</value>
+  </data>
+  <data name="Library.GroupUncategorized" xml:space="preserve">
+    <value>BILA KUNDI</value>
+  </data>
 </root>
