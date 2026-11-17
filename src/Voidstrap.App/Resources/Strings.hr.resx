@@ -735,10 +735,11 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
     <value>Svjetlo</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap je nadograđen na v{0}</value>
+    <value>Voidstrap je nadograđen na novu verziju</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
-    <value>Verzija Voidstrapa koju ste pokrenuli je drukčija od verzije koju imate instaliranu. Želite li nadograditi svoju trenutno instaliranu verziju?</value>
+    <value>Verzija Voidstrapa koju si pokrenuo razlikuje se od trenutno instalirane verzije.
+Želiš li nadograditi trenutno instaliranu verziju?</value>
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
     <value>Suradnici</value>
@@ -884,10 +885,9 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
     <value>Koristiti uz oprez.</value>
   </data>
   <data name="Menu.FastFlagEditor.ConflictingImport" xml:space="preserve">
-    <value>Neke od zastava koje pokušavate uvesti već imaju postavljene vrednosti. Da li želite da prepišete njihove trenutne vrednosti sa onima definisanim u uvozu?
+    <value>Neke zastavice koje pokušavaš uvesti već imaju postavljene vrijednosti. Želiš li prepisati njihove trenutne vrijednosti onima iz uvoza?
 
-Postoji {0} konfliktnih definicija zastava:
-
+Postoji {0} sukobljenih zastavica:
 {1}</value>
     <comment>{0} is a number, {1} is a comma-separated list</comment>
   </data>
@@ -956,7 +956,7 @@ NE koristite ovo da biste uvozili velike 'liste zastavica' koje su napravili dru
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [exclusive fullscreen]({0}) koristeći Alt+Enter je uključeno prema zadanim postavkama.</value>
+    <value>Direct3D ekskluzivni prikaz preko cijelog zaslona pomoću Alt+Enter uključen je prema zadanim postavkama.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Preferirana verzija escape menija</value>
@@ -974,7 +974,7 @@ NE koristite ovo da biste uvozili velike 'liste zastavica' koje su napravili dru
     <value>Framerate granica</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Prebacuje se sa [keyboard shortcuts]({0}). Radi samo ako ste u [Voidstrap group]({1}).</value>
+    <value>Uključuje se [tipkovničkim prečacima]({0}). Unesi ID grupe u kojoj si.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Uključi mogućnost za skrivanje GUIa</value>
@@ -1001,11 +1001,13 @@ NE koristite ovo da biste uvozili velike 'liste zastavica' koje su napravili dru
     <value>Voidstrap ne može biti instaliran ovdje. Molimo, odaberite drugu lokaciju, ili koristite zadanu lokaciju tako da kliknete gumb za resetiranje.</value>
   </data>
   <data name="Menu.InstallLocation.NotEmpty" xml:space="preserve">
-    <value>Mapa koju ste odabrali za instalaciju Voidstrapa već postoji i NIJE prazna. Toplo se preporučuje da se Voidstrap instalira u nezavisnoj mapi.
+    <value>Mapa u koju želiš instalirati Voidstrap već postoji i NIJE prazna. Snažno se preporučuje da se Voidstrap instalira u vlastitu zasebnu mapu.
 
-Promjena na iduću lokaciju je preporučena: {0}
+Predlaže se promjena na sljedeću lokaciju:
+{0}
 
-Želite li promjeniti na preporučenu lokaciju? Odabirom "Ne" ćete ignorirati ovo upozorenje i nastaviti instalaciju.</value>
+Želiš li prijeći na predloženu lokaciju?
+Odabirom opcije 'Ne' zanemarit ćeš ovo upozorenje i nastaviti instalaciju.</value>
     <comment>{0} is a file path</comment>
   </data>
   <data name="Menu.InstallLocation.NotSet" xml:space="preserve">
@@ -1172,7 +1174,8 @@ Promjena na iduću lokaciju je preporučena: {0}
     <value>Prevedi na</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Odaberite jezik prije nastavka s instalacijom.</value>
+    <value>Odaberi jezik prije nastavka instalacije.
+Neki tekst možda nije preveden na odabrani jezik.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Jezik</value>
@@ -1311,11 +1314,9 @@ Promjena na iduću lokaciju je preporučena: {0}
     <value>Dalje</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Hvala što ste preuzeli Voidstrap.
+    <value>Hvala što si preuzeo Voidstrap.
 
-Jedine službene web-stranice za preuzimanje Voidstrapa su {0} i {1}, molimo Vas da provjerite jeste li ga preuzeli sa službenog izvora.
-
-Proces instalacije će biti brz i jednostavan, i moći ćete konfigurirati bilo koje Voidstrap postavke nakon instalacije.</value>
+Instalacija će biti brza i jednostavna, a nakon nje možeš podesiti bilo koju postavku Voidstrapa.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1367,13 +1368,9 @@ Isto tako, izbjegnite koristiti "Roblox Player" prečac za pokretanje Roblox-a, 
     <value>Deinstaliraj Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Deinstaliranje će maknuti Voidstrap s Vašeg sustava, i automatski rekonfigurirati zadani Roblox pokretač ako je još dalje instaliran.
+    <value>Deinstalacija Voidstrapa uklonit će ga iz sustava i vratiti zadani Roblox pokretač ako je još instaliran.
 
-Ako deinstalirate ili reinstalirate zato što imate poteškoće s Roblox-om, prvo pročitajte [ovu stranicu za pomoć]({0}).
-
-Proces deinstalacije se možda neće moći počistiti do kraja sam sa sobom, pa ćete možda trebati ručno počistiti bilo koje preostale datoteke gdje je Voidstrap bio instaliran.
-
-Voidstrap je bio instaliran na "{1}".</value>
+Sve što je zaključano ili u upotrebi automatski će se očistiti čim se oslobodi.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Zadrži moje postavke i modifikacije</value>
@@ -6049,7 +6046,7 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
     <value>Opcija klasične gornje trake ponovno stvara dva moda zajednice. Izgled i ponašanje gornje trake i izbornika igre iz 2014. do 2015. dolaze iz "2014 2015 Topbar and Menu (Improvised GUI)" autora HockuTM. Skrivanje moderne trake koristi "NoGuiRBX, Hide TopBar!" autora Einshine. Oba se koriste uz zahvalu prema njihovim uvjetima Creative Commons BY NC ND 4.0, njihove se datoteke preuzimaju izravno s GameBanane umjesto da se prilažu, a nijedan autor nije povezan s Voidstrapom.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Gornja traka i izbornik iz 2014 2015, autor HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Modovi zajednice</value>

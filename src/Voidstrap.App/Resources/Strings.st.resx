@@ -1430,8 +1430,7 @@ U ka rata ho etsa eng?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Ho notlolla Voidstrap ho tla e tlosa ho sistimi ea hau le ho khutlisetsa sebui sa kamehla sa Roblox haeba se ntse se kentsoe. 
  
-Ntho efe kapa efe e notletsoeng kapa e sebelisoang e tla hloekisoa ka bo eona hang ha e lokolloa. 
-</value>
+Ntho efe kapa efe e notletsoeng kapa e sebelisoang e tla hloekisoa ka bo eona hang ha e lokolloa.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Boloka litlhophiso tsa ka le li-mods</value>
@@ -2104,7 +2103,7 @@ Ka kopo lumella lintlafatso tsa Roblox .</value>
     <value>E butsoe</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>E tima ka maiketsetso</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>Boiphihlelo ba console</value>
@@ -2357,7 +2356,7 @@ Ngola poleloana e nepahetseng e bontšitsoeng ka tlase ho amohela lithibelo tsen
     <value>Fake Borderless Fullscreen</value>
   </data>
   <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
-    <value>Fake Exclusive Fullscreen</value>
+    <value>Skrine e tletseng e ikgethang ka maiketsetso</value>
   </data>
   <data name="OverlayDiagnostics.Findings" xml:space="preserve">
     <value>Licheke le mefokolo</value>
@@ -2523,11 +2522,11 @@ Ngola poleloana e nepahetseng e bontšitsoeng ka tlase ho amohela lithibelo tsen
   <data name="FlagSearch.Label4" xml:space="preserve"><value>Batla, netefatsa, 'me u fumane Fast Flags mehloling e mengata</value></data>
   <data name="FlagSearch.Label5" xml:space="preserve"><value>Hlahisa mehloli</value></data>
   <data name="FlagSearch.Label6" xml:space="preserve"><value>E lokile</value></data>
-  <data name="FlagSearch.Label7" xml:space="preserve"><value>Live Search</value></data>
+  <data name="FlagSearch.Label7" xml:space="preserve"><value>Patlo e phelang</value></data>
   <data name="FlagSearch.Label8" xml:space="preserve"><value>Phatlalatsa Lifolakha ka ho Phela</value></data>
   <data name="FlagSearch.Label9" xml:space="preserve"><value>Batla mabitso a felletseng kapa mantsoe a bohlokoa. Lipapali tse nepahetseng li hlaha pele. Thepa e kenyelletsa boleng bohle bo tsebahalang.</value></data>
   <data name="FlagSearch.Label10" xml:space="preserve"><value>Kenya lebitso la folakha kapa senotlolo...</value></data>
-  <data name="FlagSearch.Label11" xml:space="preserve"><value>Export Results</value></data>
+  <data name="FlagSearch.Label11" xml:space="preserve"><value>Romela diphetho</value></data>
   <data name="FlagSearch.Label12" xml:space="preserve"><value>Litekanyetso tsohle</value></data>
   <data name="FlagSearch.Label13" xml:space="preserve"><value>Litekanyetso tsa 'nete</value></data>
   <data name="FlagSearch.Label14" xml:space="preserve"><value>Litekanyetso tsa bohata</value></data>
@@ -3052,7 +3051,7 @@ U ka rata ho etsa eng?</value>
     <value>Sheba tse ling tsa lihlooho tsa rona tse hahiloeng ka mokhoa o ikhethileng!</value>
   </data>
   <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
-    <value>Window Backdrop</value>
+    <value>Bokamorao ba fesetere</value>
   </data>
   <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
     <value>Khetha lintho tse ka morao Voidstrap lifensetere.</value>
@@ -3199,7 +3198,7 @@ U ka rata ho etsa eng?</value>
     <value>Batla mekhoa ea sechaba ho GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Mofuputsi wa di mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Bona le ho laola difaele ho instola ya hao ya Roblox .</value>
@@ -3220,7 +3219,7 @@ U ka rata ho etsa eng?</value>
     <value>Sebelisa sekhechana sa Roblox , se hahiloeng ka setaele, kapa litšoantšo tsa hau.</value>
   </data>
   <data name="Ui.Mods.CustomCursor" xml:space="preserve">
-    <value>Custom Cursor</value>
+    <value>Cursor e ikgethileng</value>
   </data>
   <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
     <value>Sebelisa setšoantšo se le seng bakeng sa sesupa, moo ho sa fihleloeng teng le li-cursor tsa mongolo.</value>
@@ -3544,7 +3543,7 @@ U ka rata ho etsa eng?</value>
     <value>Ho boreleli le liforeimi</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Ho boreledisa meedi</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Mephetho e mebe e boreleli u sebelisa GPUea hau.</value>
@@ -3892,7 +3891,7 @@ U ka rata ho etsa eng?</value>
     <value>Lebelo le felletseng ha Roblox e tsepamisitse maikutlo, e ts'oaroa ha o ntse o ntšoa.</value>
   </data>
   <data name="Ui.Bootstrapper.AdvancedGeneral" xml:space="preserve">
-    <value>Advanced General</value>
+    <value>Kakaretso e tsoetseng pele</value>
   </data>
   <data name="Ui.Bootstrapper.Cleaner" xml:space="preserve">
     <value>Mohloeki</value>
@@ -4177,7 +4176,7 @@ U ka rata ho etsa eng?</value>
     <value>Leka-lekanya molumo o phahameng le o khutsitseng oa Roblox .</value>
   </data>
   <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
-    <value>Telemetry blocker</value>
+    <value>Sethibela telemetry</value>
   </data>
   <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
     <value>Thibela Roblox telemetry. Phihlello ea batsamaisi e hlokahala hang.</value>
@@ -4243,7 +4242,7 @@ U ka rata ho etsa eng?</value>
     <value>Eketsa ho Steam</value>
   </data>
   <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
-    <value>Account switcher</value>
+    <value>Mofetoli wa diakhaonto</value>
   </data>
   <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
     <value>Etsa, boloka, 'me u fetole li-account tsa Roblox .</value>
@@ -4513,7 +4512,7 @@ U ka rata ho etsa eng?</value>
     <value>E otlolohileng</value>
   </data>
   <data name="Ui.SessionNotify.CornerRadius" xml:space="preserve">
-    <value>Corner radius</value>
+    <value>Radiase ya hukung</value>
   </data>
   <data name="Ui.SessionNotify.Width" xml:space="preserve">
     <value>Bophara</value>
@@ -4813,13 +4812,13 @@ U ka rata ho etsa eng?</value>
     <value>Hlahisa lipalo-palo tsa ping le pakete ea marang-rang.</value>
   </data>
   <data name="Ui.Gbs.ChatTranslation" xml:space="preserve">
-    <value>Chat Translation</value>
+    <value>Phetolelo ya puisano</value>
   </data>
   <data name="Ui.Gbs.AutomaticallyTranslateChatMessages" xml:space="preserve">
     <value>Fetolela melaetsa ea moqoqo ka bo eona.</value>
   </data>
   <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
-    <value>Virtual Reality</value>
+    <value>Nnete ya sebopeho</value>
   </data>
   <data name="Ui.Gbs.EnableVR" xml:space="preserve">
     <value>Lumella VR</value>
@@ -4828,7 +4827,7 @@ U ka rata ho etsa eng?</value>
     <value>Fetolela mokhoa oa sebele oa sebele.</value>
   </data>
   <data name="Ui.Gbs.VRComfortSetting" xml:space="preserve">
-    <value>VR Comfort Setting</value>
+    <value>Tlhophiso ya boiketlo ba VR</value>
   </data>
   <data name="Ui.Gbs.ControlsCameraMovementInVR" xml:space="preserve">
     <value>E laola motsamao oa khamera ho VR.</value>
@@ -5371,7 +5370,7 @@ U ka rata ho etsa eng?</value>
     <value>E leng karete ea litšoantšo ea Studio e fanang ka eona.</value>
   </data>
   <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
-    <value>Virtual desktop</value>
+    <value>Desktop ya sebopeho</value>
   </data>
   <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
     <value>E tsamaisa Studio ka har'a komporo ea Veine ea boholo bona, mohlala 1920x1080.</value>
@@ -5602,7 +5601,7 @@ U ka rata ho etsa eng?</value>
     <value>Benchmark Overover</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
-    <value>Frame Rate Limiter</value>
+    <value>Moedi wa sekgahla sa diforeimi</value>
   </data>
   <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
     <value>Meeli ea Sekhahla sa Moralo oa Tšebeliso ea Ka morao</value>
@@ -5617,7 +5616,7 @@ U ka rata ho etsa eng?</value>
     <value>E laola hore na ke liforeimi tse kae tse emetsoeng ho fokotsa nako ea ho kenya.</value>
   </data>
   <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
-    <value>CPL Low Latency Mode</value>
+    <value>Mokgwa wa CPL wa tieho e tlase</value>
   </data>
   <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
     <value>Mokhoa oa FRL Low Latency</value>
@@ -5884,7 +5883,7 @@ U ka rata ho etsa eng?</value>
     <value>2014 2015 Topbar le Menu ka HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
-    <value>Community Mods</value>
+    <value>Di mod tsa setjhaba</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Community Mods e thathamisa litlhahiso tsa Roblox tse tsoang ho GameBanana le Kliko's Mods, tse hlokometsoeng ke TheKliko bakeng sa modloader ea Kliko. Voidstrap ha e kopane kapa ha e amoheloe ke e 'ngoe. Li-mods tsohle, litšoantšo le litlhaloso ke tsa bangoli ba tsona, ba kentsoeng lethathamong le leng le le leng. Voidstrap e bala lintlha tsa bona tsa sechaba feela 'me ha ho mohla e kenyang letho molemong oa hau.</value>
@@ -5923,7 +5922,7 @@ U ka rata ho etsa eng?</value>
     <value>Sebapadi sa Mmino</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Ho bopa diforeimi</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
     <value>Moloko oa Frame</value>
@@ -6295,13 +6294,13 @@ U ka rata ho etsa eng?</value>
     <value>Batho ba khethehileng</value>
   </data>
   <data name="Ui.Misc3.AnimationPreview" xml:space="preserve">
-    <value>Animation Preview</value>
+    <value>Ponelopele ya animation</value>
   </data>
   <data name="Ui.Misc3.Speed" xml:space="preserve">
     <value>Lebelo</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Sesheba mesh</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Hula ho potoloha, tsamaisetsa ho atametsa</value>
@@ -6657,7 +6656,7 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Ea kamehla</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
-    <value>Minimal Top Bar</value>
+    <value>Bara e hodimo e bonolo</value>
   </data>
   <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
     <value>HUD ea tlholisano</value>
@@ -6666,10 +6665,10 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Streamer Hloekileng</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Dock e hodimo</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
-    <value>Interactive Screen Stage</value>
+    <value>Sethala sa skrine se sebedisanang</value>
   </data>
   <data name="Ui.OverlayStudio.StageHint" xml:space="preserve">
     <value>Tobetsa kapa u hule sekoahelo sefe kapa sefe sethaleng se ka tlase, kapa sebelisa marang-rang a 9 ho e phamola.</value>
@@ -6774,13 +6773,13 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>'Mala oa reticle</value>
   </data>
   <data name="Ui.OverlayStudio.CrosshairOffsetX" xml:space="preserve">
-    <value>Horizontal center offset</value>
+    <value>Ho suthela bohareng ka ho rapama</value>
   </data>
   <data name="Ui.OverlayStudio.CrosshairOffsetY" xml:space="preserve">
     <value>Mohaho o otlolohileng oa setsi</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Kgutlisetsa crosshair bohareng</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>Hlahisa Frame Generation HUD</value>
@@ -6816,10 +6815,10 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Hula 'me u iketsetse Seballo Readout, Litsebiso, Session Dock, Crosshair, le maemo a HUD ho phela.</value>
   </data>
   <data name="Ui.OverlayStudio.OpenStudioButton" xml:space="preserve">
-    <value>Open Overlay Studio</value>
+    <value>Bula Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Sekhaodi sa video</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Hardware e potlakisa ho hapa ha o tobetsa {0}.</value>
@@ -6879,7 +6878,7 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Hlahisa mekoallo e khubelu ea khale ho potoloha sekirini sa hau ha u ntse u rekota.</value>
   </data>
   <data name="Ui.Clipper.RedBorderShort" xml:space="preserve">
-    <value>Red Border</value>
+    <value>Moedi o mofubedu</value>
   </data>
   <data name="Ui.Clipper.VideoQuality" xml:space="preserve">
     <value>Boleng ba video</value>
@@ -6969,7 +6968,7 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Bula Sephutheli</value>
   </data>
   <data name="Ui.Clipper.CaptureSettings" xml:space="preserve">
-    <value>Capture &amp; Quality</value>
+    <value>Ho rekota le boleng</value>
   </data>
   <data name="Ui.Clipper.QualitySection" xml:space="preserve">
     <value>Boleng, Qeto &amp; FPS</value>
@@ -7074,7 +7073,7 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Boloka e le Kopi</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>Kgaola ya pele</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
     <value>Ho fokotsa ho hlolehile.</value>
@@ -7230,10 +7229,10 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Theme e Ncha ea Keystrokes</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
-    <value>Keystrokes Theme Editor</value>
+    <value>Mohlophisi wa sehlooho sa Keystrokes</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
-    <value>Theme Controls</value>
+    <value>Ditaolo tsa sehlooho</value>
   </data>
   <data name="Ui.Keystrokes.Editor.RawJson" xml:space="preserve">
     <value>E tala JSON</value>
@@ -7257,7 +7256,7 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>'Mala oa Sengoloa sa Konokono (E hatisitsoeng)</value>
   </data>
   <data name="Ui.Keystrokes.Editor.CpsText" xml:space="preserve">
-    <value>CPS Counter Color (Default)</value>
+    <value>Mmala wa sebali sa CPS (ya kamehla)</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeyPressedCpsText" xml:space="preserve">
     <value>CPS Counter Color (E hatisitsoeng)</value>
@@ -7278,7 +7277,7 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Botenya ba Moeli</value>
   </data>
   <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
-    <value>Corner Radius</value>
+    <value>Radiase ya hukung</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
     <value>Radius e khanyang</value>
@@ -7302,7 +7301,7 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Boima ba Fonte</value>
   </data>
   <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
-    <value>Interactive Live Preview</value>
+    <value>Ponelopele e phelang e sebedisanang</value>
   </data>
   <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
     <value>Tobetsa konopo efe kapa efe kapa sebelisa Tatelano ea Teko ho bona lipopae le molumo</value>
@@ -7389,7 +7388,7 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Phoso ea syntax</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ThemeCode" xml:space="preserve">
-    <value>Theme Code</value>
+    <value>Khoutu ya sehlooho</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
     <value>Keycap Customizer</value>
@@ -7410,10 +7409,10 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
     <value>Bophahamo</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
-    <value>Corner Radius</value>
+    <value>Radiase ya hukung</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
-    <value>Custom Label</value>
+    <value>Lebitso le ikgethileng</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapHideLabel" xml:space="preserve">
     <value>Pata Label</value>
@@ -7738,7 +7737,7 @@ E khoasolla {0} MB. Haeba o hana, ho sebelisoa khakanyo e hahelletsoeng. U ka fe
     <value>E tima</value>
   </data>
   <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
-    <value>Bass boost</value>
+    <value>Matlafatso ya bass</value>
   </data>
   <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
     <value>Mehato</value>
@@ -8395,7 +8394,7 @@ Boloka Voidstrap 'me sehlophisi se bulehile ha AI e ntse e sebetsa. Liphetoho ts
     <value>likutu</value>
   </data>
   <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
-    <value>Crosshair shortcut</value>
+    <value>Tsela e kgutshwane ya crosshair</value>
   </data>
   <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
     <value>Tobetsa konopo ha u ntse u bapala ho bontša kapa ho pata crosshair.</value>
@@ -8987,7 +8986,7 @@ Li-mods tse fetang li ka etsa hore Roblox e shebahale kapa e itšoare ka mokhoa 
     <value>Mathata a hlakileng</value>
   </data>
   <data name="Ui.ModCode.Title" xml:space="preserve">
-    <value>Voidstrap Mod Code</value>
+    <value>Khoutu ya mod ya Voidstrap</value>
   </data>
   <data name="Ui.ModCode.Header" xml:space="preserve">
     <value>Faele e 'ngoe le e' ngoe ea Voidstrap mod</value>
@@ -9002,7 +9001,7 @@ Li-mods tse fetang li ka etsa hore Roblox e shebahale kapa e itšoare ka mokhoa 
     <value>Ha ho na li-mods tsa Voidstrap tse kentsoeng hajoale</value>
   </data>
   <data name="Ui.ModCode.OpenButton" xml:space="preserve">
-    <value>Mod Code</value>
+    <value>Khoutu ya mod</value>
   </data>
   <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
     <value>Batla 'me u hlophise khoutu ea li-mods tsa hau tsa Voidstrap</value>
@@ -9129,7 +9128,7 @@ E lumella?</value>
     <value>Bare e nyane</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
-    <value>Mouse tracker</value>
+    <value>Mosali wa toeba</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleCps" xml:space="preserve">
     <value>Tobetsa lebelo la metara</value>

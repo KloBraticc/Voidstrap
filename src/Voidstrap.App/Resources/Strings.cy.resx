@@ -1430,8 +1430,7 @@ Beth hoffech chi ei wneud?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Bydd dadosod Voidstrap yn ei dynnu o'ch system ac yn adfer y lansiwr Roblox rhagosodedig os yw'n dal i gael ei osod. 
  
-Bydd unrhyw beth sy'n cael ei gloi neu sy'n cael ei ddefnyddio yn cael ei lanhau'n awtomatig unwaith y caiff ei ryddhau. 
-</value>
+Bydd unrhyw beth sy'n cael ei gloi neu sy'n cael ei ddefnyddio yn cael ei lanhau'n awtomatig unwaith y caiff ei ryddhau.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Cadwch fy gosodiadau a mods</value>
@@ -3199,7 +3198,7 @@ Beth hoffech chi ei wneud?</value>
     <value>Pori mods cymunedol ar GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Archwiliwr mods</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Gweld a rheoli ffeiliau yn eich gosodiad Roblox .</value>

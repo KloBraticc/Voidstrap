@@ -1430,8 +1430,7 @@ Wat wil jy graag doen?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>As jy Voidstrap deïnstalleer, sal dit van jou stelsel verwyder word en die standaard Roblox-lanseerder herstel as dit nog geïnstalleer is. 
  
-Enigiets wat gesluit of in gebruik is, sal outomaties skoongemaak word sodra dit vrygestel is. 
-</value>
+Enigiets wat gesluit of in gebruik is, sal outomaties skoongemaak word sodra dit vrygestel is.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Hou my instellings en mods</value>
@@ -3199,7 +3198,7 @@ Wat wil jy graag doen?</value>
     <value>Blaai deur gemeenskap mods op GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Modverkenner</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Bekyk en bestuur lêers in jou Roblox-installasie.</value>
@@ -3718,7 +3717,7 @@ Wat wil jy graag doen?</value>
     <value>Grasbewegingsfaktor</value>
   </data>
   <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
-    <value>Mesh Detail</value>
+    <value>Mesh detail</value>
   </data>
   <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
     <value>Beheer hoe detailmaskers in die speletjie self verskyn.</value>
@@ -4225,7 +4224,7 @@ Wat wil jy graag doen?</value>
     <value>Kies hoe Roblox begin en beskikbaar bly.</value>
   </data>
   <data name="Ui.Integrations.SystemTray" xml:space="preserve">
-    <value>System tray</value>
+    <value>Stelselbalk</value>
   </data>
   <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
     <value>Minimaliseer Roblox na die system tray.</value>
@@ -4585,7 +4584,7 @@ Wat wil jy graag doen?</value>
     <value>Stel terug na verstek</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Modgenerator</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Kleur Robloxse spyskaart- en boonste balk-ikone weer in, stoor dit dan as 'n mod.</value>
@@ -5893,7 +5892,7 @@ Wat wil jy graag doen?</value>
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Modgenerator</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Modgenerator vir Voidstrap geskep deur Meddsam en SquireDot.</value>
@@ -6301,7 +6300,7 @@ Wat wil jy graag doen?</value>
     <value>Spoed</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh kyker</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Sleep om te draai, blaai om te zoem</value>
@@ -6657,7 +6656,7 @@ Fout: {0}</value>
     <value>Verstek</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
-    <value>Minimal Top Bar</value>
+    <value>Minimale boonste balk</value>
   </data>
   <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
     <value>Mededingende HUD</value>
@@ -6666,7 +6665,7 @@ Fout: {0}</value>
     <value>Streamer skoon</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Boonste dok</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktiewe skermverhoog</value>
@@ -6810,7 +6809,7 @@ Fout: {0}</value>
     <value>Ontspeld</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
-    <value>In Game Overlay Studio</value>
+    <value>Oorleg ateljee in die speletjie</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
     <value>Sleep en pas bedieneruitlees-, kennisgewings-, sessiedok-, kruishaar- en HUD-posisies regstreeks aan.</value>

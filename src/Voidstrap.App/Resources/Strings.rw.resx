@@ -1430,8 +1430,7 @@ Urashaka gukora iki?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Kuramo Voidstrap bizayikuraho muri sisitemu hanyuma usubize Roblox isanzwe niba ikomeje gushyirwaho. 
  
-Ikintu cyose gifunze cyangwa gikoreshwa kizahanagurwa mu buryo bwikora nikimara gusohoka. 
-</value>
+Ikintu cyose gifunze cyangwa gikoreshwa kizahanagurwa mu buryo bwikora nikimara gusohoka.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Komeza igenamiterere ryanjye</value>
@@ -2237,7 +2236,7 @@ Andika interuro nyayo yerekanwe hepfo kugirango wemere ibyo bibuza hanyuma ukome
     <value>Hitamo imiyoboro ihuza imiyoboro hamwe na IP</value>
   </data>
   <data name="Mtu.CustomValue" xml:space="preserve">
-    <value>Custom MTU (bytes)</value>
+    <value>MTU yihariye (bytes)</value>
   </data>
   <data name="Mtu.Current" xml:space="preserve">
     <value>Ibiriho: {0} bytes. Ntarengwa: {1} bytes.</value>
@@ -3199,7 +3198,7 @@ Urashaka gukora iki?</value>
     <value>Reba uburyo bwabaturage kuri GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Igishakisha mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Reba kandi ucunge dosiye mugushiraho kwa Roblox .</value>
@@ -6639,7 +6638,7 @@ Ikosa: {0}</value>
     <value>Kurura ikarita iyo ari yo yose hejuru yidirishya ryumukino wawe. Kanda Esc cyangwa ukande Byakozwe birangiye.</value>
   </data>
   <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
-    <value>Magnetic Snap</value>
+    <value>Gufatana nka rukuruzi</value>
   </data>
   <data name="Ui.OverlayStudio.Done" xml:space="preserve">
     <value>Byakozwe</value>
@@ -6819,7 +6818,7 @@ Ikosa: {0}</value>
     <value>Fungura Sitidiyo Yuzuye</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Igikata video</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Ibyuma byihuse gufata iyo ukanze {0}.</value>
@@ -7284,7 +7283,7 @@ Ikosa: {0}</value>
     <value>Garagaza Radius</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
-    <value>Glow Opacity</value>
+    <value>Ubugaragare bw urumuri</value>
   </data>
   <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
     <value>Ingaruka &amp; Imyandikire</value>

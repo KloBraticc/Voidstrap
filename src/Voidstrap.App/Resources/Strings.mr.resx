@@ -1430,8 +1430,7 @@ Roblox तुम्ही पहिल्यांदाVoidstrap सह लॉ�
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap अनइंस्टॉल केल्याने ते तुमच्या सिस्टीममधून काढून टाकले जाईल आणि ते अद्याप इंस्टॉल असल्यास डीफॉल्ट Roblox लाँचर रिस्टोअर होईल. 
  
-जे काही लॉक केलेले किंवा वापरात आहे ते रिलीझ झाल्यावर आपोआप साफ केले जाईल. 
-</value>
+जे काही लॉक केलेले किंवा वापरात आहे ते रिलीझ झाल्यावर आपोआप साफ केले जाईल.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>माझ्या सेटिंग्ज आणि मोड ठेवा</value>

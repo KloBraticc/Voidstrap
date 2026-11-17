@@ -744,7 +744,7 @@
     <value>Світла</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap було оновлено до версії {0}</value>
+    <value>Voidstrap оновлено до нової версії</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Версія Voidstrap, яку ви запустили, відрізняється від версії, яку ви зараз встановили.
@@ -913,7 +913,10 @@
     <value>Запис для '{0}' є недійсним, оскільки назва може містити лише літери, цифри та знаки підкреслення</value>
   </data>
   <data name="Menu.FastFlagEditor.InvalidJSON" xml:space="preserve">
-    <value>Введений вами JSON є недійсним. Будь ласка, перевірте його ще раз і спробуйте ще раз.</value>
+    <value>Введений Вами JSON, схоже, недійсний. Перевірте його ще раз і спробуйте знову.
+
+Докладніше:
+{0}</value>
     <comment>{0} is an exception message</comment>
   </data>
   <data name="Menu.FastFlagEditor.InvalidPrefix" xml:space="preserve">
@@ -962,7 +965,7 @@
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [повноекранний режим]({0}) через Alt+Enter вже увімкнено за замовчуванням.</value>
+    <value>Ексклюзивний повноекранний режим Direct3D через Alt+Enter увімкнено за замовчуванням.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Бажана версія меню Escape</value>
@@ -980,7 +983,7 @@
     <value>Обмеження частоти кадрів</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Вмикається за допомогою [комбінацій клавіш]({0}). Працює лише якщо ви перебуваєте у [групі Voidstrap]({1}).</value>
+    <value>Перемикається [клавіатурними скороченнями]({0}). Введіть ID групи, у якій Ви перебуваєте.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Увімкнути можливість приховування інтерфейсу</value>
@@ -1180,7 +1183,8 @@
     <value>Перекласти на</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Оберіть мову до того, як продовжити встановлення.</value>
+    <value>Виберіть мову, перш ніж продовжити встановлення.
+Деякі тексти можуть бути не перекладені вибраною Вами мовою.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Мова</value>
@@ -1319,11 +1323,9 @@
     <value>Далі</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Дякуємо за завантаження Voidstrap.
+    <value>Дякуємо, що завантажили Voidstrap.
 
-Єдині офіційні вебсайти для завантаження Voidstrap - це {0} та {1}, тому, будь ласка, переконайтеся, що ви отримали його з офіційного джерела.
-
-Цей процес встановлення буде швидким і простим, і ви зможете налаштувати будь-які параметри Voidstrap після встановлення.</value>
+Встановлення буде швидким і простим, а після нього Ви зможете налаштувати будь які параметри Voidstrap.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1375,13 +1377,9 @@ Roblox ще не встановлено; це станеться, коли ви 
     <value>Видалення Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Видалення видалить Voidstrap із вашої системи та автоматично переналаштує програму запуску Roblox за умовчанням, якщо вона все ще встановлена.
+    <value>Видалення Voidstrap прибере його із системи та відновить стандартний лаунчер Roblox, якщо він досі встановлений.
 
-Якщо ви видаляєте або перевстановлюєте через проблеми з Roblox, спочатку прочитайте [цю довідкову сторінку]({0}).
-
-Можливо, процес видалення не зможе повністю очистити себе, тому вам може знадобитися вручну очистити залишки файлів, де було встановлено Voidstrap.
-
-Voidstrap встановлено на "{1}".</value>
+Усе, що заблоковано або використовується, буде автоматично очищено, щойно звільниться.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Зберегти мої налаштування та моди</value>
@@ -6060,7 +6058,7 @@ Roblox буде завантажено під час першого запуск
     <value>Класична верхня панель відтворює два моди спільноти. Оформлення й поведінка верхньої панелі та ігрового меню 2014 2015 років взяті з "2014 2015 Topbar and Menu (Improvised GUI)" від HockuTM. Приховування сучасної панелі використовує "NoGuiRBX, Hide TopBar!" від Einshine. Обидва використовуються з подякою на умовах Creative Commons BY NC ND 4.0, їхні файли завантажуються безпосередньо з GameBanana, а не постачаються з програмою, і жоден автор не пов'язаний з Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Верхня панель і меню 2014 2015 від HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Моди спільноти</value>

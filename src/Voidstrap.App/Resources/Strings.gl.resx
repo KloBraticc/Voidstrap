@@ -1430,8 +1430,7 @@ Que che gustaría facer?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>A desinstalación de Voidstrap eliminarase do teu sistema e restaurará o iniciador Roblox predeterminado se aínda está instalado. 
  
-Calquera cousa que estea bloqueada ou en uso limparase automaticamente unha vez que se libere. 
-</value>
+Calquera cousa que estea bloqueada ou en uso limparase automaticamente unha vez que se libere.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Mantén a miña configuración e modificacións</value>
@@ -3544,7 +3543,7 @@ Que che gustaría facer?</value>
     <value>Alisados e marcos</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Suavizado de bordos</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Suaviza os bordos irregulares usando o teu GPU.</value>
@@ -5869,7 +5868,7 @@ Que che gustaría facer?</value>
     <value>Construír información</value>
   </data>
   <data name="Ui.Misc2.CommitHash" xml:space="preserve">
-    <value>Commit Hash</value>
+    <value>Hash do commit</value>
   </data>
   <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
     <value>Avisos a terceiros</value>
@@ -6663,7 +6662,7 @@ Erro: {0}</value>
     <value>HUD competitivo</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Limpo para streamers</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Dock superior</value>
@@ -6684,7 +6683,7 @@ Erro: {0}</value>
     <value>Notificacións</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Barra da sesión</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Punto de mira</value>
@@ -6780,7 +6779,7 @@ Erro: {0}</value>
     <value>Desplazamento central vertical</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Recentrar a mira</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>Mostrar HUD de xeración de cadros</value>
@@ -6819,7 +6818,7 @@ Erro: {0}</value>
     <value>Abre Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Recortador de vídeo</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Captura acelerada por hardware ao premer {0}.</value>
@@ -7320,7 +7319,7 @@ Erro: {0}</value>
     <value>Son</value>
   </data>
   <data name="Ui.Keystrokes.Editor.UseAccent" xml:space="preserve">
-    <value>Use System Accent</value>
+    <value>Usar a cor de acento do sistema</value>
   </data>
   <data name="Ui.Keystrokes.Editor.AccentLabel" xml:space="preserve">
     <value>ACENTO</value>

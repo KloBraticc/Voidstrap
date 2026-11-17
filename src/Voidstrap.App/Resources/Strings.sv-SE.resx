@@ -720,7 +720,7 @@ Om det inte har det, rapportera gärna detta undantag med ett [GitHub-ärende]({
     <value>Ljust</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap har uppgraderats till v{0}</value>
+    <value>Voidstrap har uppgraderats till en ny version</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Versionen av Voidstrap som du har öppnat är en annan version än den du nuvarande har installerad.
@@ -937,7 +937,7 @@ Använd INTE detta för att importera stora "flagglistor" gjorda av andra person
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [exklusiv helskärm]({0}) med Alt+Enter är igång som standard.</value>
+    <value>Exklusiv helskärm i Direct3D med Alt+Enter är aktiverad som standard.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Föredragen escapemeny-version</value>
@@ -955,7 +955,7 @@ Använd INTE detta för att importera stora "flagglistor" gjorda av andra person
     <value>Bildfrekvensgräns</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Sätts igång med [tangentbordsgenvägar]({0}). Fungerar endast om du är i [Voidstrap-gruppen]({1}).</value>
+    <value>Växlas med [kortkommandon]({0}). Ange ID för en grupp som du är med i.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Aktivera möjligheten att dölja GUIs</value>
@@ -1155,7 +1155,8 @@ Om du väljer "Nej" ignoreras denna varning och installationen fortsätter.</val
     <value>Översätt till</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Välj ett språk innan du fortsätter med installationen.</value>
+    <value>Välj ett språk innan du fortsätter med installationen.
+Viss text kanske inte är översatt till det valda språket.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Språk</value>
@@ -1294,11 +1295,9 @@ Om du väljer "Nej" ignoreras denna varning och installationen fortsätter.</val
     <value>Nästa</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Tack för att du har laddat ner Voidstrap.
+    <value>Tack för att du laddade ner Voidstrap.
 
-De enda officiella sidorna att ladda ner Voidstrap ifrån är {0} och {1}, så verifiera att du laddade ner Voidstrap från en officiell källa.
-
-Installationsprocessen kommer att vara snabb och enkel, och du kommer att kunna konfigurera andra inställningar efter installationen.</value>
+Installationen går snabbt och enkelt, och efteråt kan du ändra alla inställningar i Voidstrap.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1350,13 +1349,9 @@ Vad skulle du vilja göra?</value>
     <value>Avinstallera Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Genom att avinstallera Voidstrap kommer du att ta bort det från ditt system, och automatiskt byta till Roblox egna startprogram om det fortfarande är installerat.
+    <value>När du avinstallerar Voidstrap tas det bort från systemet och standardstartprogrammet för Roblox återställs om det fortfarande är installerat.
 
-Om du avinstallerar eller ominstallerar eftersom du har problem med Roblox, läs [denna hjälpsida]({0}) först.
-
-Avinstallationsprocessen kanske inte kan ta bort alla Voidstraps filer och lämmna kvar några filer där Voidstrap installerades, som du kan behöva ta bort manuellt.
-
-Voidstrap installerades i "{1}".</value>
+Allt som är låst eller används rensas automatiskt så snart det frigörs.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Behåll mina inställningar och moddar</value>
@@ -6008,7 +6003,7 @@ Vad vill du göra?</value>
     <value>Alternativet för klassiskt toppfält återskapar två communitymoddar. Grafiken och beteendet för toppfältet och spelmenyn från 2014 till 2015 kommer från "2014 2015 Topbar and Menu (Improvised GUI)" av HockuTM. Att dölja det moderna toppfältet använder "NoGuiRBX, Hide TopBar!" av Einshine. Båda används med tack enligt sina Creative Commons BY NC ND 4.0-villkor, filerna laddas ned direkt från GameBanana i stället för att följa med, och ingen av upphovspersonerna är knuten till Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Toppfält och meny från 2014 2015 av HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Communitymoddar</value>

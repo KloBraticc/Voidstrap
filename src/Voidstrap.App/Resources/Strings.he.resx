@@ -1430,8 +1430,7 @@ Roblox יותקן כאשר תפעיל אותו עםVoidstrap בפעם הראשו
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>הסרת ההתקנה של Voidstrap תסיר אותו מהמערכת שלך ותחזיר את משגר ברירת המחדל של Roblox אם הוא עדיין מותקן. 
  
-כל דבר שננעל או בשימוש ינוקה אוטומטית לאחר שחרורו. 
-</value>
+כל דבר שננעל או בשימוש ינוקה אוטומטית לאחר שחרורו.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>שמור על ההגדרות והמודים שלי</value>
@@ -5881,7 +5880,7 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
     <value>אפשרות הסרגל העליון הקלאסי בונה מחדש שני אופנים קהילתיים. הגרפיקה וההתנהגות של הסרגל העליון ותפריט המשחקים של 2014 עד 2015 מגיעים מ-"2014 2015 Topbar and Menu (Improvised GUI)" של HockuTM. הסתרת הסרגל העליון המודרני משתמש ב-"NoGuiRBX, Hide TopBar!" מאת איינשיין. שניהם משמשים בתודה תחת התנאים שלהם ב-Creative Commons BY NC ND 4.0, הקבצים שלהם יורדים ישירות מ-GameBanana ולא מצרפים, ואף אחד מהמחברים אינו מזוהה עם Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>סרגל עליון ותפריט 2014 2015 מאת HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>מודים קהילתיים</value>
@@ -6301,7 +6300,7 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
     <value>מְהִירוּת</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>מציג mesh</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• גרור כדי לסובב, גלול להגדלה</value>
@@ -6666,7 +6665,7 @@ Voidstrap לא הצליח לכתוב לתיקיית שולחן העבודה.</va
     <value>סטרימר נקי</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>מעגן עליון</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>שלב מסך אינטראקטיבי</value>
@@ -6810,7 +6809,7 @@ Voidstrap לא הצליח לכתוב לתיקיית שולחן העבודה.</va
     <value>בוטלה</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
-    <value>ב-Game Overlay Studio</value>
+    <value>סטודיו שכבות בתוך המשחק</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
     <value>גרור והתאם אישית את עמדות קריאת השרת, התראות, סשן רציף, צולבות ו-HUD בשידור חי.</value>
@@ -7074,7 +7073,7 @@ Voidstrap לא הצליח לכתוב לתיקיית שולחן העבודה.</va
     <value>שמור כהעתק</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>חיתוך המקור</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
     <value>החיתוך נכשל.</value>

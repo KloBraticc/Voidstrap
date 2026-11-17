@@ -723,7 +723,7 @@ Als dat niet het geval is, rapporteer deze uitzondering dan alstublieft door een
     <value>Licht</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap is bijgewerkt naar v{0}</value>
+    <value>Voidstrap is bijgewerkt naar een nieuwe versie</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>De versie van Voidstrap die je hebt gelanceerd is anders dan de versie die je momenteel hebt geïnstalleerd.
@@ -935,7 +935,7 @@ Gebruik dit NIET om grote "vlaggenlijsten" te importeren die gemaakt zijn door a
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [Exclusief volledig scherm]({0}) Alt + Enter gebruiken is standaard ingeschakeld.</value>
+    <value>Exclusief Direct3D volledig scherm met Alt+Enter is standaard ingeschakeld.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Gewenste escape-menu-versie</value>
@@ -953,7 +953,7 @@ Gebruik dit NIET om grote "vlaggenlijsten" te importeren die gemaakt zijn door a
     <value>Framerate-limiet</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Omschakelen met [sneltoetsen]({0}). Werkt alleen als je in de [Voidstrap-groep]({1}) zit.</value>
+    <value>Schakel met [sneltoetsen]({0}). Voer de ID in van een groep waar je lid van bent.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Mogelijkheid om GUI's te verbergen inschakelen</value>
@@ -1153,7 +1153,8 @@ Als je 'Nee' selecteert, wordt deze waarschuwing genegeerd en wordt de installat
     <value>Vertalen naar</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Kies een taal voordat je verder gaat met de installatie.</value>
+    <value>Kies een taal voordat je verdergaat met de installatie.
+Sommige tekst is mogelijk niet vertaald naar de gekozen taal.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Taal</value>
@@ -1294,9 +1295,7 @@ Als je 'Nee' selecteert, wordt deze waarschuwing genegeerd en wordt de installat
   <data name="Installer.Welcome.MainText" xml:space="preserve">
     <value>Bedankt voor het downloaden van Voidstrap.
 
-De enigste officiële websites om Voidstrap te downloaden zijn {0} en {1}, verifieer dat u ze van een officiële bron hebt.
-
-De installatie proces zal snel en eenvoudig zijn, dus u kunt na de installatie elke Voidstrap instelling veranderen.</value>
+De installatie is snel en eenvoudig, en daarna kun je alle instellingen van Voidstrap aanpassen.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1348,13 +1347,9 @@ Wat wilt u doen?</value>
     <value>Verwijder Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>De-installeren zal Voidstrap van uw systeem verwijderen en automatisch de standaard Roblox launcher opnieuw configureren als het nog steeds geïnstalleerd is.
+    <value>Als je Voidstrap verwijdert, wordt het van je systeem gehaald en wordt de standaard Roblox launcher hersteld als die nog geïnstalleerd is.
 
-Als u eerst problemen ondervindt met Roblox en probeert de de-installeren of opnieuw te installeren, lees dan [deze helppagina] ({0}).
-
-Het de-installatieproces kan zichzelf mogelijk niet volledig opschonen, dus u moet misschien handmatig de overgebleven bestanden opschonen waar Voidstrap is geïnstalleerd.
-
-Voidstrap is geïnstalleerd op "{1}".</value>
+Alles wat vergrendeld of in gebruik is, wordt automatisch opgeruimd zodra het vrijkomt.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Mijn instellingen en modificaties behouden</value>
@@ -1436,8 +1431,9 @@ Als dit niet het geval is, rapporteer dit probleem dan aan de beheerders van dez
     <value>U hebt wijzigingen dat niet opgeslagen zijn. Bent u zeker dat u wilt afsluiten zonder op te slaan?</value>
   </data>
   <data name="InstallChecker.VersionLessThanInstalled" xml:space="preserve">
-    <value>De versie van Voidstrap die u hebt geopend is ouder dan de versie die je nu hebt geïnstalleerd.
-Er kunnen problemen zijn, en uw instellingen kunnen veranderd worden. Het is aanbevolen om Voidstrap te herinstalleren. Bent u zeker dat u wilt doorgaan?</value>
+    <value>De versie van Voidstrap die je hebt gestart is ouder dan de versie die nu geïnstalleerd is.
+Er kunnen problemen optreden en je instellingen kunnen veranderen. Opnieuw installeren wordt aanbevolen.
+Weet je zeker dat je wilt doorgaan?</value>
   </data>
   <data name="Dialog.PlayerError.FailedLaunch" xml:space="preserve">
     <value>Roblox kon niet starten.</value>
@@ -1793,7 +1789,6 @@ Wil je overschakelen naar het standaardkanaal ({1})?</value>
   </data>
   <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
     <value>Roblox probeert je kanaal in te stellen op {0}, maar je huidige voorkeurskanaal is {1}.
-
 
 Wil je je voorkeurskanaal wijzigen naar {0}?</value>
   </data>
@@ -6006,7 +6001,7 @@ Wat wil je doen?</value>
     <value>De klassieke topbaroptie bouwt twee communitymods na. Het uiterlijk en gedrag van de topbar en het gamemenu uit 2014 tot 2015 komen uit "2014 2015 Topbar and Menu (Improvised GUI)" van HockuTM. Het verbergen van de moderne topbar gebruikt "NoGuiRBX, Hide TopBar!" van Einshine. Beide worden met dank gebruikt onder hun Creative Commons BY NC ND 4.0-voorwaarden, hun bestanden worden rechtstreeks van GameBanana gedownload in plaats van meegeleverd, en geen van beide makers is verbonden aan Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Bovenbalk en menu uit 2014 2015 door HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Communitymods</value>

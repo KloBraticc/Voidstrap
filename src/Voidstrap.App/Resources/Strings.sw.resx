@@ -1430,8 +1430,7 @@ Je, ungependa kufanya nini?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Kuondoa Voidstrap kutaiondoa kwenye mfumo wako na kurejesha kizindua chaguomsingi cha Roblox ikiwa bado kimesakinishwa. 
  
-Chochote ambacho kimefungwa au kinatumika kitasafishwa kiotomatiki mara tu kitakapotolewa. 
-</value>
+Chochote ambacho kimefungwa au kinatumika kitasafishwa kiotomatiki mara tu kitakapotolewa.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Weka mipangilio yangu na mods</value>
@@ -3199,7 +3198,7 @@ Je, ungependa kufanya nini?</value>
     <value>Vinjari mods za jamii kwenye GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Kichunguzi cha mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Tazama na udhibiti faili katika usakinishaji wako wa Roblox .</value>
@@ -3544,7 +3543,7 @@ Je, ungependa kufanya nini?</value>
     <value>Smoothing na muafaka</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Kulainisha kingo</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Laini kingo zilizochongoka kwa kutumia GPUyako.</value>
@@ -3892,7 +3891,7 @@ Je, ungependa kufanya nini?</value>
     <value>Kasi kamili huku Roblox ikiwa imelenga, inasongwa huku ukitolewa.</value>
   </data>
   <data name="Ui.Bootstrapper.AdvancedGeneral" xml:space="preserve">
-    <value>Advanced General</value>
+    <value>Jumla ya kina</value>
   </data>
   <data name="Ui.Bootstrapper.Cleaner" xml:space="preserve">
     <value>Kisafishaji</value>
@@ -6819,7 +6818,7 @@ Voidstrap haikuweza kuandika kwa folda ya eneo-kazi.</value>
     <value>Fungua Studio ya Uwekeleaji</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Kikata video</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Ukamataji wa maunzi uliharakishwa unapobonyeza {0}.</value>

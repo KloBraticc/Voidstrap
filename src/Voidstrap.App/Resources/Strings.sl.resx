@@ -1430,8 +1430,7 @@ Kaj bi rad naredil?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Če odstranite Voidstrap , ga boste odstranili iz sistema in obnovili privzeti zaganjalnik Roblox , če je še vedno nameščen. 
  
-Vse, kar je zaklenjeno ali v uporabi, bo samodejno počiščeno, ko bo izpuščeno. 
-</value>
+Vse, kar je zaklenjeno ali v uporabi, bo samodejno počiščeno, ko bo izpuščeno.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Ohrani moje nastavitve in modifikacije</value>
@@ -2104,7 +2103,7 @@ Omogočite nadgradnje Roblox .</value>
     <value>Vklopljeno</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>Navidezno izklopljeno</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>Izkušnja s konzolo</value>
@@ -2357,7 +2356,7 @@ Vnesite točno besedno zvezo, prikazano spodaj, da sprejmete te omejitve in nada
     <value>Lažni brezrobi cel zaslon</value>
   </data>
   <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
-    <value>Fake Exclusive Fullscreen</value>
+    <value>Navidezni izključni celozaslonski način</value>
   </data>
   <data name="OverlayDiagnostics.Findings" xml:space="preserve">
     <value>Preverjanja in omejitve</value>
@@ -3199,7 +3198,7 @@ Kaj bi rad počel?</value>
     <value>Brskajte po modifikacijah skupnosti na GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Raziskovalec modov</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Ogled in upravljanje datotek v vaši namestitvi Roblox .</value>
@@ -3544,7 +3543,7 @@ Kaj bi rad počel?</value>
     <value>Glajenje in okvirji</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Glajenje robov</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Z vašim GPUzgladi nazobčane robove.</value>
@@ -6301,7 +6300,7 @@ Kaj bi rad počel?</value>
     <value>Hitrost</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Pregledovalnik mesh</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Povlecite za vrtenje, pomaknite se za povečavo</value>
@@ -6663,10 +6662,10 @@ Napaka: {0}</value>
     <value>Konkurenčni HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Čisto za pretakanje</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Zgornja vrstica</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktivni zaslonski oder</value>
@@ -6684,7 +6683,7 @@ Napaka: {0}</value>
     <value>Obvestila</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Sejna vrstica</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Nitni križ</value>
@@ -6819,7 +6818,7 @@ Napaka: {0}</value>
     <value>Odprite Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Rezalnik videa</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Strojno pospešeno zajemanje, ko pritisnete {0}.</value>
@@ -7074,7 +7073,7 @@ Napaka: {0}</value>
     <value>Shrani kot kopijo</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>Obreži izvirnik</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
     <value>Obrezovanje ni uspelo.</value>
@@ -7284,7 +7283,7 @@ Napaka: {0}</value>
     <value>Polmer žarenja</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
-    <value>Glow Opacity</value>
+    <value>Prosojnost sija</value>
   </data>
   <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
     <value>Učinki in tipografija</value>

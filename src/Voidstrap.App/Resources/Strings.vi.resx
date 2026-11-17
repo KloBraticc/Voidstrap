@@ -738,7 +738,7 @@ Nếu chưa, xin hay báo cáo lỗi này qua [GitHub issue]({1}) với bản co
     <value>Sáng</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap đã được cập nhật lên phiên bản v{0}</value>
+    <value>Voidstrap đã được nâng cấp lên phiên bản mới</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Phiên bản Voidstrap bạn đã mở khác với phiên bản đã cài đặt hiện tại.
@@ -959,7 +959,7 @@ Bạn có chắc chắn muốn tiếp tục không?</value>
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [toàn màn hình]({0}) bằng Alt+Enter đã được bật theo mặc định.</value>
+    <value>Chế độ toàn màn hình độc quyền Direct3D bằng Alt+Enter được bật theo mặc định.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Phiên bản menu thoát ưa thích</value>
@@ -977,7 +977,7 @@ Bạn có chắc chắn muốn tiếp tục không?</value>
     <value>Giới hạn tốc độ khung hình</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Bật/Tắt bằng [tổ hợp phím]({0}). Chỉ hoạt động nếu đang ở trong [Nhóm Voidstrap]({1}).</value>
+    <value>Bật tắt bằng [phím tắt]({0}). Nhập ID của một nhóm mà bạn tham gia.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Bật tính năng ẩn giao diện người dùng</value>
@@ -1074,8 +1074,7 @@ Chọn 'Không' sẽ bỏ qua cảnh báo này và tiếp tục cài đặt.</va
     <value>Bật theo dõi hoạt động</value>
   </data>
   <data name="Menu.Integrations.RequiresActivityTracking" xml:space="preserve">
-    <value>Tính năng này yêu cầu phải bật theo dõi hoạt động và ứng dụng Discord đã được cài đặt và đang chạy.
-[Tìm hiểu thêm]({0}).</value>
+    <value>Tính năng này yêu cầu bật theo dõi hoạt động và cài đặt, chạy ứng dụng Discord trên máy tính. [Tìm hiểu thêm]({0}).</value>
   </data>
   <data name="Menu.Integrations.ShowGameActivity.Description" xml:space="preserve">
     <value>Trò chơi Roblox mà bạn đang chơi sẽ hiện trên trang cá nhân Discord của bạn. [Không hoạt động?]({0})</value>
@@ -1178,7 +1177,8 @@ Chọn 'Không' sẽ bỏ qua cảnh báo này và tiếp tục cài đặt.</va
     <value>Dịch sang</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Chọn một ngôn ngữ trước khi tiếp tục cài đặt.</value>
+    <value>Hãy chọn ngôn ngữ trước khi tiếp tục cài đặt.
+Một số văn bản có thể chưa được dịch sang ngôn ngữ bạn chọn.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Ngôn ngữ</value>
@@ -1317,11 +1317,9 @@ Chọn 'Không' sẽ bỏ qua cảnh báo này và tiếp tục cài đặt.</va
     <value>Tiếp theo</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Cảm ơn bạn đã tải xuống Voidstrap.
+    <value>Cảm ơn bạn đã tải Voidstrap.
 
-Các trang web chính thức duy nhất để tải Voidstrap là {0} và {1}, vì vậy hãy đảm bảo rằng bạn đã tải từ nguồn chính thức.
-
-Quá trình cài đặt này sẽ nhanh chóng và đơn giản, và sau khi cài đặt, bạn sẽ có thể cấu hình bất kỳ cài đặt nào của Voidstrap.</value>
+Quá trình cài đặt sẽ nhanh và đơn giản, sau đó bạn có thể cấu hình mọi cài đặt của Voidstrap.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1349,12 +1347,11 @@ Quá trình cài đặt này sẽ nhanh chóng và đơn giản, và sau khi cà
     <value>Biểu tượng Start Menu</value>
   </data>
   <data name="Installer.Completion.Text" xml:space="preserve">
-    <value>Voidstrap đã được cài đặt thành công.
+    <value>Đã cài đặt Voidstrap!
 
-Roblox vẫn chưa được cài đặt, điều đó sẽ xảy ra khi bạn khởi chạy nó bằng Voidstrap lần đầu tiên. Tuy nhiên, trước khi thực hiện, có thể 
-bạn sẽ muốn định cấu hình cài đặt của Voidstrap trước.
+Roblox sẽ được cài đặt khi bạn khởi chạy nó bằng Voidstrap lần đầu tiên. Trước đó, bạn có thể muốn điều chỉnh cài đặt của Voidstrap.
 
-Ngoài ra, tránh sử dụng phím tắt "Roblox Player" để khởi chạy Roblox, vì Voidstrap sẽ không khởi chạy cùng Roblox. Nếu bạn không thấy Voidstrap hiển thị khi khởi chạy từ trang web, chỉ cần khởi chạy Roblox bằng Voidstrap một lần từ màn hình chính để khắc phục sự cố.
+Đừng dùng lối tắt "Roblox Player", vì Voidstrap sẽ không chạy với nó. Nếu Voidstrap không xuất hiện khi khởi chạy từ trang web, hãy mở Roblox bằng Voidstrap một lần từ màn hình nền để khắc phục.
 
 Bạn muốn làm gì?</value>
   </data>
@@ -1374,13 +1371,9 @@ Bạn muốn làm gì?</value>
     <value>Gỡ cài đặt Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Gỡ cài đặt Voidstrap sẽ xóa nó khỏi hệ thống của bạn, và tự động cấu hình lại trình khởi chạy mặc định của Roblox nếu nó vẫn được cài đặt.
+    <value>Gỡ cài đặt Voidstrap sẽ xóa nó khỏi hệ thống và khôi phục trình khởi chạy Roblox mặc định nếu vẫn còn được cài đặt.
 
-Nếu bạn đang gỡ cài đặt hoặc cài đặt lại vì gặp sự cố với Roblox, hãy đọc [trang trợ giúp này]({0}) trước.
-
-Quá trình gỡ cài đặt có thể không tự dọn dẹp hoàn toàn, vì vậy có thể bạn sẽ cần phải dọn dẹp thủ công các tệp còn sót lại nơi Voidstrap đã được cài đặt.
-
-Voidstrap đã được cài đặt tại "{1}".</value>
+Mọi thứ đang bị khóa hoặc đang được sử dụng sẽ tự động được dọn dẹp ngay khi được giải phóng.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Giữ lại các cài đặt và mod của tôi</value>
@@ -6056,7 +6049,7 @@ Bạn muốn làm gì?</value>
     <value>Tùy chọn thanh trên cùng cổ điển dựng lại hai mod cộng đồng. Giao diện và hành vi của thanh trên cùng và menu trò chơi giai đoạn 2014 đến 2015 lấy từ "2014 2015 Topbar and Menu (Improvised GUI)" của HockuTM. Ẩn thanh trên cùng hiện đại dùng "NoGuiRBX, Hide TopBar!" của Einshine. Cả hai được dùng với lòng biết ơn theo điều khoản Creative Commons BY NC ND 4.0, tệp được tải thẳng từ GameBanana thay vì đóng gói kèm, và không tác giả nào liên kết với Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Thanh trên cùng và menu 2014 2015 của HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mod cộng đồng</value>

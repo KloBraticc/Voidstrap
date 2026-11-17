@@ -811,7 +811,7 @@ Windows кийинки сертификатты жок кылууну ыраст
     <value>Булар Bloxstrap/Voidstrapге көрүнүктүү салым кошуп, анын кандай болушуна жардам берген адамдар.</value>
   </data>
   <data name="Menu.About.Contributors.FeatureIdeas" xml:space="preserve">
-    <value>Feature Ideas</value>
+    <value>Функция идеялары</value>
   </data>
   <data name="Menu.About.Contributors.SpecialThanks" xml:space="preserve">
     <value>Атайын рахмат</value>
@@ -1430,8 +1430,7 @@ Roblox , аныVoidstrap менен биринчи жолу ишке кирги�
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap ти орнотуудан чыгаруу аны тутумуңуздан алып салат жана ал дагы эле орнотулган болсо, демейки Roblox ишке киргизгичти калыбына келтирет. 
  
-Кулпуланган же колдонулуп жаткан бардык нерсе чыгарылгандан кийин автоматтык түрдө тазаланат. 
-</value>
+Кулпуланган же колдонулуп жаткан бардык нерсе чыгарылгандан кийин автоматтык түрдө тазаланат.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Менин жөндөөлөрүмдү жана модаларымды сакта</value>
@@ -2519,19 +2518,19 @@ Roblox , аныVoidstrap менен биринчи жолу ишке кирги�
   <data name="FlagSearch.EmptyInput" xml:space="preserve"><value>Желекче жазуулар табылган жок.</value></data>
   <data name="FlagSearch.Label1" xml:space="preserve"><value>Fast Flagsтабуу</value></data>
   <data name="FlagSearch.Label2" xml:space="preserve"><value>Fast Flagsтабуу</value></data>
-  <data name="FlagSearch.Label3" xml:space="preserve"><value>Fast Flag Search &amp; Validation</value></data>
+  <data name="FlagSearch.Label3" xml:space="preserve"><value>Fast Flag издөө жана текшерүү</value></data>
   <data name="FlagSearch.Label4" xml:space="preserve"><value>Бир нече булактардан Fast Flags издеңиз, текшериңиз жана табыңыз</value></data>
   <data name="FlagSearch.Label5" xml:space="preserve"><value>Булактарды жаңыртуу</value></data>
   <data name="FlagSearch.Label6" xml:space="preserve"><value>Даяр</value></data>
-  <data name="FlagSearch.Label7" xml:space="preserve"><value>Live Search</value></data>
-  <data name="FlagSearch.Label8" xml:space="preserve"><value>Live Flag Search</value></data>
+  <data name="FlagSearch.Label7" xml:space="preserve"><value>Түз издөө</value></data>
+  <data name="FlagSearch.Label8" xml:space="preserve"><value>Флагдарды түз издөө</value></data>
   <data name="FlagSearch.Label9" xml:space="preserve"><value>Толук ысымдарды же ачкыч сөздөрдү издеңиз. Так дал келүүлөр биринчи пайда болот. Экспорт бардык дал келген белгилүү маанилерди камтыйт.</value></data>
   <data name="FlagSearch.Label10" xml:space="preserve"><value>Желектин атын же ачкыч сөздү киргизиңиз...</value></data>
   <data name="FlagSearch.Label11" xml:space="preserve"><value>Экспорттун натыйжалары</value></data>
   <data name="FlagSearch.Label12" xml:space="preserve"><value>Бардык баалуулуктар</value></data>
   <data name="FlagSearch.Label13" xml:space="preserve"><value>Чыныгы баалуулуктар</value></data>
   <data name="FlagSearch.Label14" xml:space="preserve"><value>Жалган баалуулуктар</value></data>
-  <data name="FlagSearch.Label15" xml:space="preserve"><value>Flag Name</value></data>
+  <data name="FlagSearch.Label15" xml:space="preserve"><value>Флагдын аты</value></data>
   <data name="FlagSearch.Label16" xml:space="preserve"><value>Нарк</value></data>
   <data name="FlagSearch.Label17" xml:space="preserve"><value>Булак</value></data>
   <data name="FlagSearch.Label18" xml:space="preserve"><value>Дал келгендер жок. Башка ат же маани чыпкасын колдонуп көрүңүз.</value></data>
@@ -2548,10 +2547,10 @@ Roblox , аныVoidstrap менен биринчи жолу ишке кирги�
   <data name="FlagSearch.Label29" xml:space="preserve"><value>Ctrl+A</value></data>
   <data name="FlagSearch.Label30" xml:space="preserve"><value>Таза</value></data>
   <data name="FlagSearch.Label31" xml:space="preserve"><value>Текшерүү натыйжалары</value></data>
-  <data name="FlagSearch.Label32" xml:space="preserve"><value>Flag Name</value></data>
-  <data name="FlagSearch.Label33" xml:space="preserve"><value>Input Value</value></data>
+  <data name="FlagSearch.Label32" xml:space="preserve"><value>Флагдын аты</value></data>
+  <data name="FlagSearch.Label33" xml:space="preserve"><value>Киргизилген маани</value></data>
   <data name="FlagSearch.Label34" xml:space="preserve"><value>Статус</value></data>
-  <data name="FlagSearch.Label35" xml:space="preserve"><value>Source Value</value></data>
+  <data name="FlagSearch.Label35" xml:space="preserve"><value>Булак мааниси</value></data>
   <data name="FlagSearch.Label36" xml:space="preserve"><value>Эскертүүлөр</value></data>
   <data name="FlagSearch.Label37" xml:space="preserve"><value>Текшерилген киргизүүнү экспорттоо</value></data>
   <data name="FlagSearch.Label38" xml:space="preserve"><value>0 жыйынтык</value></data>
@@ -2573,7 +2572,7 @@ Roblox , аныVoidstrap менен биринчи жолу ишке кирги�
   <data name="FlagSearch.Message9" xml:space="preserve"><value>Текшерүү катасы</value></data>
   <data name="FlagSearch.Message10" xml:space="preserve"><value>Текшерүү үчүн желек файлын тандаңыз</value></data>
   <data name="FlagSearch.Message11" xml:space="preserve"><value>Файлды жүктөө катасы:</value></data>
-  <data name="FlagSearch.Message12" xml:space="preserve"><value>File Error</value></data>
+  <data name="FlagSearch.Message12" xml:space="preserve"><value>Файл катасы</value></data>
   <data name="FlagSearch.Message13" xml:space="preserve"><value>Желек файлынын өлчөмү жараксыз</value></data>
   <data name="FlagSearch.Message14" xml:space="preserve"><value>Желек файлы окулуп жатканда өзгөрдү</value></data>
   <data name="FlagSearch.Message15" xml:space="preserve"><value>Желек киргизүү өтө чоң</value></data>
@@ -2582,7 +2581,7 @@ Roblox , аныVoidstrap менен биринчи жолу ишке кирги�
   <data name="FlagSearch.Message18" xml:space="preserve"><value>Желектерди экспорттоо катасы:</value></data>
   <data name="FlagSearch.Message19" xml:space="preserve"><value>Экспорт катасы</value></data>
   <data name="FlagSearch.Message20" xml:space="preserve"><value>Алмашуу буферинен чаптоо катасы:</value></data>
-  <data name="FlagSearch.Message21" xml:space="preserve"><value>Paste Error</value></data>
+  <data name="FlagSearch.Message21" xml:space="preserve"><value>Чаптоо катасы</value></data>
   <data name="FlagSearch.ExportSummary" xml:space="preserve"><value>{0:N0} желектери {1}ге экспорттолду</value></data>
   <data name="FlagSearch.ValueNote" xml:space="preserve"><value>Киргизилген маани желектин аталышына дал келбейт. Логикалык желектер чын же жалганды талап кылат, бүтүн желекчелер бүтүн 32 биттик санды талап кылат.</value></data>
   <data name="Notifications.Title" xml:space="preserve">
@@ -2887,7 +2886,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Жаңыртууларды текшериңиз</value>
   </data>
   <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Чыгарылыш эскертмелери</value>
   </data>
   <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
     <value>Logs папкасын ачуу</value>
@@ -3199,7 +3198,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>GameBanana боюнча коомчулуктун модификациясын карап чыгыңыз.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Мод изилдөөчү</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Roblox орнотууңуздагы файлдарды көрүү жана башкаруу.</value>
@@ -3346,7 +3345,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Skybox алдын ала көрүү азыр жеткиликсиз.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
-    <value>Font Manager</value>
+    <value>Шрифт башкаргыч</value>
   </data>
   <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
     <value>Жергиликтүү шрифт колдонуңуз же Google шрифтиңизди колдонуңуз</value>
@@ -3370,7 +3369,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Жардам жана оңдоолор</value>
   </data>
   <data name="Ui.Mods.ModPacks" xml:space="preserve">
-    <value>Mod Packs</value>
+    <value>Мод топтомдору</value>
   </data>
   <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
     <value>Roblox mods издөө</value>
@@ -3544,7 +3543,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Текшерүү жана алкактар</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Тиштүүлүктү жоюу</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>GPUаркылуу тиштүү четтерин жылмалайт.</value>
@@ -3562,7 +3561,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>100 - Кадимки, 200 - Экстремалдуу жана 500гө чейин жетет.</value>
   </data>
   <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
-    <value>Frame generation V1.0.0</value>
+    <value>Кадр түзүү V1.0.0</value>
   </data>
   <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
     <value>Чыныгы кадрлардын ортосуна түзүлгөн кадрларды кошот. Бир аз киргизүү кечигүүсүн кошот.</value>
@@ -3742,7 +3741,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Жарыктандыруу</value>
   </data>
   <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
-    <value>Force Gray Sky</value>
+    <value>Боз асманды мажбурлоо</value>
   </data>
   <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
     <value>Тиштелген четтерин тегиздеңиз. Жогорку маанилер жылмакайлыкты жогорулатат.</value>
@@ -3754,7 +3753,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Roblox оюндарында чөптөрдү көрсөтүү аралыкты көзөмөлдөйт. Чөптү өчүрүү үчүн эки маанини тең 0 коюңуз.</value>
   </data>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
-    <value>Grass Distance</value>
+    <value>Чөптүн аралыгы</value>
   </data>
   <data name="Ui.FastFlags.Min" xml:space="preserve">
     <value>Мин</value>
@@ -4114,7 +4113,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Досуңуз ойноп баштаганда, оюнуңузга кошулганда же сервериңизге кошулганда оюнда эскертет.</value>
   </data>
   <data name="Ui.Integrations.FriendNotifications" xml:space="preserve">
-    <value>Friend Notifications</value>
+    <value>Досторго билдирмелер</value>
   </data>
   <data name="Ui.Integrations.PlayingRoblox" xml:space="preserve">
     <value>Robloxойнолууда</value>
@@ -4306,7 +4305,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Аныктоо</value>
   </data>
   <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
-    <value>Resolution Changer</value>
+    <value>Чечилишти өзгөрткүч</value>
   </data>
   <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
     <value>Тандалган монитордун резолюциясын өзгөртөт.</value>
@@ -4585,7 +4584,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Демейкиге кайтаруу</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Мод генератору</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Robloxменюсун жана жогорку тилке сүрөтчөлөрүн кайра боёп, андан кийин аны мод катары сактаңыз.</value>
@@ -4807,19 +4806,19 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Network</value>
   </data>
   <data name="Ui.Gbs.NetworkDebugStats" xml:space="preserve">
-    <value>Network Debug Stats</value>
+    <value>Тармак мүчүлүштүк статистикасы</value>
   </data>
   <data name="Ui.Gbs.ShowNetworkPingAndPacketStats" xml:space="preserve">
     <value>Тармак пинг жана пакет статистикасын көрсөтүү.</value>
   </data>
   <data name="Ui.Gbs.ChatTranslation" xml:space="preserve">
-    <value>Chat Translation</value>
+    <value>Чатты которуу</value>
   </data>
   <data name="Ui.Gbs.AutomaticallyTranslateChatMessages" xml:space="preserve">
     <value>Чат билдирүүлөрүн автоматтык түрдө которуу.</value>
   </data>
   <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
-    <value>Virtual Reality</value>
+    <value>Виртуалдык чындык</value>
   </data>
   <data name="Ui.Gbs.EnableVR" xml:space="preserve">
     <value>VR иштетүү</value>
@@ -5083,7 +5082,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Башка кокус серверге кошулуңуз</value>
   </data>
   <data name="Ui.Session.ServerHop" xml:space="preserve">
-    <value>Server hop</value>
+    <value>Сервер алмаштыруу</value>
   </data>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Сорттоо боюнча</value>
@@ -5602,7 +5601,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Эталондук катмар</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
-    <value>Frame Rate Limiter</value>
+    <value>Кадр жыштыгын чектегич</value>
   </data>
   <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
     <value>Фондук колдонмо кадр ылдамдыгынын чеги</value>
@@ -5725,7 +5724,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Желектерди көчүрүү</value>
   </data>
   <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
-    <value>NVIDIA Flag History</value>
+    <value>NVIDIA флаг тарыхы</value>
   </data>
   <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
     <value>Бул сессиянын NVIDIA желектерине киргизилген өзгөртүүлөрдү көзөмөлдөйт.</value>
@@ -5884,7 +5883,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>2014 2015 HockuTM тарабынан Topbar жана Меню</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
-    <value>Community Mods</value>
+    <value>Коомчулуктун моддору</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Community Mods GameBanana жана Kliko's Mods'тен Roblox тапшырууларынын тизмеси, TheKliko тарабынан Kliko'нун мод жүктөөчүсү үчүн сакталган. Voidstrap менен байланышы жок же алар тарабынан колдоого алынбайт. Бардык модулдар, сүрөттөр жана сүрөттөмөлөр алардын авторлоруна таандык, алар ар бир листингде жазылган. Voidstrap алардын жалпыга ачык маалыматтарын гана окуйт жана сиздин атыңыздан эч нерсе жүктөбөйт.</value>
@@ -5893,7 +5892,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Мод генератору</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Meddsam жана SquireDot тарабынан түзүлгөн Voidstrap үчүн мод генератору.</value>
@@ -5911,7 +5910,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>PlayTime</value>
   </data>
   <data name="Ui.Misc2.MemoryDetails" xml:space="preserve">
-    <value>Memory Details</value>
+    <value>Эс тутум маалыматы</value>
   </data>
   <data name="Ui.Misc2.JoinClosestServer" xml:space="preserve">
     <value>Эң жакын серверге кошулуңуз</value>
@@ -5923,10 +5922,10 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Музыка ойноткуч</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Кадр түзүү</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
-    <value>Frame Generation</value>
+    <value>Кадр түзүү</value>
   </data>
   <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
     <value>Түзүлгөн рамкалардын катмары</value>
@@ -6010,7 +6009,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Торду көрсөтүү</value>
   </data>
   <data name="Ui.Misc2.ImageAdjust" xml:space="preserve">
-    <value>Image Adjust</value>
+    <value>Сүрөттү тууралоо</value>
   </data>
   <data name="Ui.Misc2.ImageAdjustments" xml:space="preserve">
     <value>Сүрөттү тууралоо</value>
@@ -6043,10 +6042,10 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Мод катары сактоо</value>
   </data>
   <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
-    <value>Image Recolor</value>
+    <value>Сүрөттүн түсүн өзгөртүү</value>
   </data>
   <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
-    <value>Recolor Options</value>
+    <value>Түс өзгөртүү параметрлери</value>
   </data>
   <data name="Ui.Misc2.TargetColor" xml:space="preserve">
     <value>Максаттуу түс</value>
@@ -6067,7 +6066,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Активдүү</value>
   </data>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
-    <value>Server Size</value>
+    <value>Сервердин көлөмү</value>
   </data>
   <data name="Ui.Misc2.Chat" xml:space="preserve">
     <value>Чат</value>
@@ -6106,7 +6105,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Колдонуу сөлөкөтү</value>
   </data>
   <data name="Ui.Misc2.EditMod" xml:space="preserve">
-    <value>Edit Mod</value>
+    <value>Модду түзөтүү</value>
   </data>
   <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
     <value>GameBananaдан ар бир вариантты алыңыз</value>
@@ -6301,7 +6300,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Ылдамдык</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh көргүч</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Айландыруу үчүн сүйрөңүз, чоңойтуу үчүн жылдырыңыз</value>
@@ -6639,7 +6638,7 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Каалаган кабаттуу картаны түздөн-түз оюн терезеңизге сүйрөңүз. Esc баскычын басыңыз же аяктагандан кийин "Бүттү" баскычын басыңыз.</value>
   </data>
   <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
-    <value>Magnetic Snap</value>
+    <value>Магниттик жабышуу</value>
   </data>
   <data name="Ui.OverlayStudio.Done" xml:space="preserve">
     <value>Бүттү</value>
@@ -6657,16 +6656,16 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Демейки</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
-    <value>Minimal Top Bar</value>
+    <value>Минималдуу жогорку тилке</value>
   </data>
   <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
     <value>Атаандаштык HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Стример үчүн таза</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Жогорку панель</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Интерактивдүү экран этап</value>
@@ -6675,7 +6674,7 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Төмөнкү сахнадагы каалаган катмарды чыкылдатыңыз же сүйрөңүз, же 9 чекиттүү анкердик торду колдонуңуз.</value>
   </data>
   <data name="Ui.OverlayStudio.QuickAnchor" xml:space="preserve">
-    <value>Quick 9 Point Anchor</value>
+    <value>Тез 9 чекиттүү бекитүү</value>
   </data>
   <data name="Ui.OverlayStudio.LayerReadout" xml:space="preserve">
     <value>Сервер &amp; Саат</value>
@@ -6684,7 +6683,7 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Эскертмелер</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Сессия панели</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
@@ -6819,7 +6818,7 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Overlay Studio ачуу</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Видео кесүүчү</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>{0}басканда аппараттык тездетилген тартуу.</value>
@@ -6831,7 +6830,7 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Аппараттык GPU видео жазгыч жана заматта кайталоочу кескич.</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
-    <value>Open Clipper</value>
+    <value>Clipper ди ачуу</value>
   </data>
   <data name="Ui.Clipper.ClipSaved" xml:space="preserve">
     <value>Клип сакталды</value>
@@ -7269,7 +7268,7 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Жаркырап / Акцент түсү</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
-    <value>Geometry &amp; Glow</value>
+    <value>Геометрия жана жаркыроо</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
     <value>Геометрия</value>
@@ -7284,7 +7283,7 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Жарык радиусу</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
-    <value>Glow Opacity</value>
+    <value>Жаркыроонун тунуксуздугу</value>
   </data>
   <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
     <value>Эффекттер жана типография</value>
@@ -7296,19 +7295,19 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Сквош шкаласын басыңыз</value>
   </data>
   <data name="Ui.Keystrokes.Editor.FontFamily" xml:space="preserve">
-    <value>Font Family</value>
+    <value>Шрифт үй бүлөсү</value>
   </data>
   <data name="Ui.Keystrokes.Editor.FontWeight" xml:space="preserve">
     <value>Шрифттин салмагы</value>
   </data>
   <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
-    <value>Interactive Live Preview</value>
+    <value>Интерактивдүү түз алдын ала көрүү</value>
   </data>
   <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
     <value>Каалаган баскычты чыкылдатыңыз же анимацияларды жана үндөрдү алдын ала көрүү үчүн Сыноо ырааттуулугун колдонуңуз</value>
   </data>
   <data name="Ui.Keystrokes.Editor.TestSequence" xml:space="preserve">
-    <value>Test Sequence</value>
+    <value>Сыноо ырааттуулугу</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Revert" xml:space="preserve">
     <value>Кайтаруу</value>
@@ -7362,7 +7361,7 @@ Voidstrap рабочий папкага жаза алган жок.</value>
     <value>Басылган ачкыч сүрөтү</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
-    <value>Image Stretch</value>
+    <value>Сүрөттү созуу</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
     <value>Сүрөттүн ачыктыгы</value>
@@ -8987,7 +8986,7 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
     <value>Таза көйгөйлөр</value>
   </data>
   <data name="Ui.ModCode.Title" xml:space="preserve">
-    <value>Voidstrap Mod Code</value>
+    <value>Voidstrap мод коду</value>
   </data>
   <data name="Ui.ModCode.Header" xml:space="preserve">
     <value>Ар бир Voidstrap мод файлы</value>
@@ -9002,7 +9001,7 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
     <value>Азырынча Voidstrap моддору орнотула элек</value>
   </data>
   <data name="Ui.ModCode.OpenButton" xml:space="preserve">
-    <value>Mod Code</value>
+    <value>Мод коду</value>
   </data>
   <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
     <value>Voidstrap моддериңиздин кодун карап чыгыңыз жана түзөтүңүз</value>

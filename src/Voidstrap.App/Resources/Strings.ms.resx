@@ -723,10 +723,11 @@ Jika belum, sila laporkan masalah tersebut melalui [isu GitHub]({1}) bersama den
     <value>Cerah</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap telah dinaik taraf ke v{0}</value>
+    <value>Voidstrap telah dinaik taraf ke versi baharu</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
-    <value>Versi Voidstrap yang sedang berjalan adalah berbeza daripada versi yang telah dipasang. Adakah anda ingin memperbaharui versi yang telah dipasang?</value>
+    <value>Versi Voidstrap yang anda lancarkan berbeza daripada versi yang dipasang sekarang.
+Adakah anda mahu menaik taraf versi yang dipasang sekarang?</value>
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
     <value>Penyumbang</value>
@@ -898,7 +899,9 @@ Maklumat lanjut:
     <value>Disalin di papan keratan.</value>
   </data>
   <data name="Menu.FastFlagEditor.LargeConfig" xml:space="preserve">
-    <value>Anda nampaknya mencuba untuk mengimport konfigurasi yang sangat besar. Anda seharusnya mengimport konfigurasi yang anda faham sahaja. JANGAN sesekali mengikut konfigurasi orang lain tanpa tanpa memahami fungsi konfigurasi tersebut. Berbuat demikian akan menyebabkan anda mengalami masalah dari segi stabiliti dan juga masalah yang tidak dapat dijangka lainnya.</value>
+    <value>Anda nampaknya sedang mengimport konfigurasi yang sangat besar. Anda hanya patut mengimport konfigurasi yang anda fahami sepenuhnya. JANGAN tampal konfigurasi buatan orang lain secara membuta tuli. Jika anda teruskan, anda berkemungkinan besar akan menghadapi masalah kestabilan dan perubahan yang tidak dijangka.
+
+Adakah anda pasti mahu meneruskan?</value>
   </data>
   <data name="Menu.FastFlagEditor.Search" xml:space="preserve">
     <value>Cari</value>
@@ -935,7 +938,7 @@ JANGAN mengimport sebarang senarai "Fast Flags" yang dibuat oleh pengguna lain y
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D untuk [skrin penuh eksklusif]({0}) menggunakan Alt+Enter telah diaktifkan secara lalai.</value>
+    <value>Skrin penuh eksklusif Direct3D menggunakan Alt+Enter didayakan secara lalai.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Pilih versi menu keluar</value>
@@ -953,7 +956,7 @@ JANGAN mengimport sebarang senarai "Fast Flags" yang dibuat oleh pengguna lain y
     <value>Had kadar bingkai</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Diaktifkan menggunakan [pintasan papan kekunci]({0}). Fungsi ini hanya akan berfungsi jika anda berada dalam [kumpulan Voidstrap] sahaja ({1}).</value>
+    <value>Ditogol dengan [pintasan papan kekunci]({0}). Masukkan ID kumpulan yang anda sertai.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Aktifkan keupayaan untuk menyembunyikan GUI</value>
@@ -1153,7 +1156,8 @@ Memilih 'Tidak' akan mengabaikan amaran ini dan pemasangan akan diteruskan.</val
     <value>Terjemahkan ke</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Pilih bahasa sebelum memulakan dengan pemasangan.</value>
+    <value>Pilih bahasa sebelum meneruskan pemasangan.
+Sesetengah teks mungkin belum diterjemahkan ke dalam bahasa pilihan anda.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Bahasa</value>
@@ -1294,9 +1298,7 @@ Memilih 'Tidak' akan mengabaikan amaran ini dan pemasangan akan diteruskan.</val
   <data name="Installer.Welcome.MainText" xml:space="preserve">
     <value>Terima kasih kerana memuat turun Voidstrap.
 
-Satu-satunya laman web rasmi untuk memuat turun Voidstrap adalah {0} dan {1}, jadi sila pastikan anda memuat turunnya dari sumber yang rasmi.
-
-Proses pemasangan ini akan cepat dan mudah, dan anda boleh mengkonfigurasi tetapan Voidstrap selepas pemasangan ini.</value>
+Proses pemasangan akan cepat dan mudah, dan anda boleh mengkonfigurasi sebarang tetapan Voidstrap selepas itu.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1348,12 +1350,9 @@ Apa yang anda ingin lakukan?</value>
     <value>Nyahpasang Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Menyahpasang Voidstrap akan membuang Voidstrap daripada sistem anda, dan juga secara automatik mengkonfigurasi semula Roblox sebagai pelancar asal, jika ia masih dipasang.
-Jika anda sedang menghapus atau memasang semula kerana mengalami masalah dengan Roblox, sila baca [halaman bantuan]({0}) ini terlebih dahulu.
+    <value>Menyahpasang Voidstrap akan membuangnya daripada sistem anda dan memulihkan pelancar Roblox lalai jika ia masih dipasang.
 
-Proses penghapusan pemasangan mungkin tidak dapat membersihkan sepenuhnya, jadi anda mungkin perlu membersihkan secara manual fail yang tertinggal di tempat Voidstrap dipasang.
-
-Voidstrap telah dipasang di "{1}".</value>
+Apa sahaja yang dikunci atau sedang digunakan akan dibersihkan secara automatik sebaik sahaja ia dilepaskan.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Simpan tetapan dan mod saya</value>
@@ -1435,7 +1434,9 @@ Jika tidak, sila laporkan isu pengecualian ini kepada penyelenggara fork ini. JA
     <value>Anda mempunyai perubahan yang tidak disimpan. Adakah anda pasti ingin menutup tanpa menyimpan?</value>
   </data>
   <data name="InstallChecker.VersionLessThanInstalled" xml:space="preserve">
-    <value>Versi Voidstrap yang anda lancarkan adalah lebih lama daripada versi yang anda pasang sekarang. Masalah mungkin berlaku dan tetapan anda mungkin diubah. Pemasangan semula disyorkan. Adakah anda pasti ingin meneruskan?</value>
+    <value>Versi Voidstrap yang anda lancarkan lebih lama daripada versi yang dipasang sekarang.
+Masalah mungkin berlaku dan tetapan anda mungkin berubah. Pemasangan semula disyorkan.
+Adakah anda pasti mahu meneruskan?</value>
   </data>
   <data name="Dialog.PlayerError.FailedLaunch" xml:space="preserve">
     <value>Roblox tidak berjaya untuk dilancarkan.</value>
@@ -1444,8 +1445,9 @@ Jika tidak, sila laporkan isu pengecualian ini kepada penyelenggara fork ini. JA
     <value>Roblox telah mengalami ralat.</value>
   </data>
   <data name="Dialog.PlayerError.HelpInformation" xml:space="preserve">
-    <value>Untuk mengetahui punca masalah ini berlaku dan cara mengatasinya, sila rujuk [artikel bantuan] ini ({0}).
-Periksa sama ada Roblox berfungsi dengan [pelancar asal] ({1}). Jika tidak, ini bermaksud masalah tersebut tidak berkaitan dengan Voidstrap. Jika ia berfungsi, sila rujuk semula artikel bantuan tersebut.</value>
+    <value>Untuk maklumat tentang sebab perkara ini mungkin berlaku dan cara menyelesaikannya, sila baca [artikel bantuan ini]({0}).
+
+Semak sama ada Roblox berfungsi dengan [pelancar asal]({1}). Jika tidak, ini bukan masalah Voidstrap. Jika ya, rujuk artikel bantuan tersebut.</value>
   </data>
   <data name="Common.NetworkError" xml:space="preserve">
     <value>Data tidak dapat dimuat kerana ralat pada rangkaian.</value>
@@ -1517,7 +1519,9 @@ Sila buang fail Voidstrap.exe secara manual dari lokasi pemasangan atau cuba mul
     <value>Gagal menyimpan {0}: {1}</value>
   </data>
   <data name="Dialog.IconLoadFailed" xml:space="preserve">
-    <value>Ikon bootstrapper yang dipilih tidak dapat dimuat. {0}</value>
+    <value>Ikon bootstrapper yang dipilih tidak dapat dimuatkan.
+
+{0}</value>
     <comment>{0} is an exception message</comment>
   </data>
   <data name="Menu.Shortcuts.ExtractIcons.Title" xml:space="preserve">
@@ -1620,8 +1624,9 @@ Ciri ini penting untuk shader berfungsi dengan baik.</value>
     <value>Tersuai</value>
   </data>
   <data name="Bootstrapper.FilesInUse" xml:space="preserve">
-    <value>Voidstrap cuba menaik taraf Roblox tetapi gagal kerana fail Roblox sedang digunakan.
-Sila tutup sebarang aplikasi yang mungkin menggunakan fail Roblox, dan cuba lagi.</value>
+    <value>Voidstrap cuba menaik taraf Roblox tetapi tidak dapat kerana fail Roblox masih digunakan.
+
+Sila tutup sebarang aplikasi yang mungkin menggunakan fail Roblox, kemudian lancarkan semula.</value>
     <comment>This is *not* for when Roblox is still running when trying to upgrade. This applies to files being open (i.e. image assets)</comment>
   </data>
   <data name="FileTypes.ZipArchive" xml:space="preserve">
@@ -6011,7 +6016,7 @@ Apakah yang anda mahu lakukan?</value>
     <value>Pilihan bar atas klasik membina semula dua mod komuniti. Rupa dan tingkah laku bar atas serta menu permainan tahun 2014 hingga 2015 datang daripada "2014 2015 Topbar and Menu (Improvised GUI)" oleh HockuTM. Menyembunyikan bar atas moden menggunakan "NoGuiRBX, Hide TopBar!" oleh Einshine. Kedua duanya digunakan dengan ucapan terima kasih di bawah terma Creative Commons BY NC ND 4.0, failnya dimuat turun terus dari GameBanana dan bukannya disertakan, dan tiada pengarang bergabung dengan Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Bar atas dan menu 2014 2015 oleh HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mod komuniti</value>

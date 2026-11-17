@@ -1430,8 +1430,7 @@ Yini ongathanda ukuyenza?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Ukukhipha i- Voidstrap kuzoyisusa ohlelweni lwakho futhi kubuyisele isiqalisi esizenzakalelayo se- Roblox uma sisafakiwe. 
  
-Noma yini ekhiyiwe noma esetshenziswayo izohlanzwa ngokuzenzakalelayo uma isikhishiwe. 
-</value>
+Noma yini ekhiyiwe noma esetshenziswayo izohlanzwa ngokuzenzakalelayo uma isikhishiwe.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Gcina izilungiselelo zami namamodi</value>
@@ -3892,7 +3891,7 @@ Yini ongathanda ukuyenza?</value>
     <value>Isivinini esigcwele ngenkathi i- Roblox igxilile, idonsa kanzima ngenkathi ukhishwa.</value>
   </data>
   <data name="Ui.Bootstrapper.AdvancedGeneral" xml:space="preserve">
-    <value>Advanced General</value>
+    <value>Okujwayelekile okuthuthukisiwe</value>
   </data>
   <data name="Ui.Bootstrapper.Cleaner" xml:space="preserve">
     <value>Isihlanzi</value>
@@ -7284,7 +7283,7 @@ Iphutha: {0}</value>
     <value>Irediyasi ekhanyayo</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
-    <value>Glow Opacity</value>
+    <value>Ukufiphala kokukhanya</value>
   </data>
   <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
     <value>Imiphumela &amp; Ukuthayipha</value>
@@ -7302,7 +7301,7 @@ Iphutha: {0}</value>
     <value>Isisindo Sefonti</value>
   </data>
   <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
-    <value>Interactive Live Preview</value>
+    <value>Ukubuka kuqala okubukhoma okusebenzisanayo</value>
   </data>
   <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
     <value>Chofoza noma yimuphi ukhiye noma sebenzisa Ukulandelana Kokuhlola ukuze uhlole kuqala ukugqwayiza nomsindo</value>

@@ -1430,8 +1430,7 @@ Kedu ihe ị ga-achọ ime?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Iwepu Voidstrap ga-ewepụ ya na sistemụ gị wee weghachi ihe mmalite Roblox ndabara ma ọ bụrụ na etinyere ya. 
  
-Ihe ọ bụla akpọchiri akpọchi ma ọ bụ na-arụ ọrụ ga-ehicha ya ozugbo ozugbo ewepụtara ya. 
-</value>
+Ihe ọ bụla akpọchiri akpọchi ma ọ bụ na-arụ ọrụ ga-ehicha ya ozugbo ozugbo ewepụtara ya.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Debe ntọala m na mods</value>
@@ -3199,7 +3198,7 @@ Kedu ihe ị ga-achọ ime?</value>
     <value>Chọgharịa mods obodo na GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Onye nyocha mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Lelee ma jikwaa faịlụ na nrụnye Roblox gị.</value>
@@ -3544,7 +3543,7 @@ Kedu ihe ị ga-achọ ime?</value>
     <value>Ịdị nro na okpokolo agba</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Ime ka ọnụ dị nro</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Na-eji GPUgị na-eme ka ọnụ ọnụ kụrie ya nke ọma.</value>
@@ -3787,7 +3786,7 @@ Kedu ihe ị ga-achọ ime?</value>
     <value>Ọkụ, anwụrụ ọkụ, mgbawa, sparkles na ogige ike</value>
   </data>
   <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
-    <value>Square opacity</value>
+    <value>Opacity nke square</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Lee ka square ndị ahụ siri sie ike</value>
@@ -4585,7 +4584,7 @@ Kedu ihe ị ga-achọ ime?</value>
     <value>Tọgharịa na ndabara</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Onye mepụtara mod</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Tinyegharịa menu Robloxna akara ngosi mmanya kacha elu, wee chekwaa ya dị ka mod.</value>
@@ -5893,7 +5892,7 @@ Kedu ihe ị ga-achọ ime?</value>
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Onye mepụtara mod</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod generator maka Voidstrap mepụtara Meddsam na SquireDot.</value>
@@ -5923,7 +5922,7 @@ Kedu ihe ị ga-achọ ime?</value>
     <value>Igwe egwu egwu</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Mmepụta frame</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
     <value>Ọgbọ Frame</value>
@@ -6301,7 +6300,7 @@ Kedu ihe ị ga-achọ ime?</value>
     <value>Ọsọ</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Onye nlele mesh</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Dọrọ ka ịtụgharị, pịgharịa gaa na mbugharị</value>
@@ -6666,7 +6665,7 @@ Voidstrap enweghị ike ide na nchekwa desktọpụ.</value>
     <value>Ọcha Streamer</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Dock nke elu</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Ogbo ihuenyo mmekọrịta</value>
@@ -7269,7 +7268,7 @@ Voidstrap enweghị ike ide na nchekwa desktọpụ.</value>
     <value>Agba ọkụ / ụda olu</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
-    <value>Geometry &amp; Glow</value>
+    <value>Ụdị na ìhè</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
     <value>Geometry</value>
@@ -7290,7 +7289,7 @@ Voidstrap enweghị ike ide na nchekwa desktọpụ.</value>
     <value>Mmetụta &amp; Ederede</value>
   </data>
   <data name="Ui.Keystrokes.Editor.BackdropGlass" xml:space="preserve">
-    <value>Backdrop Glass / Acrylic</value>
+    <value>Iko azụ / Acrylic</value>
   </data>
   <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
     <value>Pịa Squash Ọnụ ọgụgụ</value>

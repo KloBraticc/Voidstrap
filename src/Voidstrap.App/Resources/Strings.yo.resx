@@ -1430,8 +1430,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Yiyokuro Voidstrap yoo yọ kuro ninu eto rẹ ki o mu ifilọlẹ Roblox aiyipada pada ti o ba tun fi sii. 
  
-Ohunkohun ti o wa ni titiipa tabi ni lilo yoo di mimọ laifọwọyi ni kete ti o ba ti tu silẹ. 
-</value>
+Ohunkohun ti o wa ni titiipa tabi ni lilo yoo di mimọ laifọwọyi ni kete ti o ba ti tu silẹ.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Jeki mi eto ati mods</value>
@@ -2179,7 +2178,7 @@ Jọwọ mu awọn iṣagbega Roblox ṣiṣẹ.</value>
     <value>Ṣe akanṣe</value>
   </data>
   <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
-    <value>Window backdrop</value>
+    <value>Ẹ̀yìn fèrèsé</value>
   </data>
   <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
     <value>Yan ohun elo ti o han lẹhin awọn window Voidstrap .</value>
@@ -3052,7 +3051,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Ṣayẹwo diẹ ninu awọn akori aṣa ti a ṣe sinu wa!</value>
   </data>
   <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
-    <value>Window Backdrop</value>
+    <value>Ẹ̀yìn fèrèsé</value>
   </data>
   <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
     <value>Yan ohun elo lẹhin awọn window Voidstrap .</value>
@@ -3199,7 +3198,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Ṣawakiri awọn mods agbegbe lori GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Olùwádìí mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Wo ati ṣakoso awọn faili ni fifi sori Roblox rẹ.</value>
@@ -3346,7 +3345,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Ìfihàn àkọ́kọ́ ti skybox kò sí lọ́wọ́.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
-    <value>Font Manager</value>
+    <value>Alákòóso fọ́ńtì</value>
   </data>
   <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
     <value>Lo fonti agbegbe tabi lo awọn akọwe google</value>
@@ -3544,7 +3543,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Didan ati awọn fireemu</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Ìdán etí</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Dan awọn egbegbe jagged nipa lilo GPUrẹ.</value>
@@ -3787,7 +3786,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Ina, ẹfin, bugbamu, sparkles ati awọn aaye ipa</value>
   </data>
   <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
-    <value>Square opacity</value>
+    <value>Ìmọ́lẹ̀ onígun mẹ́rin</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Bawo ni awọn onigun mẹrin ṣe ri to</value>
@@ -4141,7 +4140,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Àkọsílẹ, ikọkọ tabi ni ipamọ</value>
   </data>
   <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
+    <value>Àmì beta</value>
   </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>Yipada awọn asami bi [BETA] tabi WIP ni orukọ ere sinu aami mimọ</value>
@@ -4177,7 +4176,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Dọgbadọgba ariwo ati idakẹjẹ Roblox ohun.</value>
   </data>
   <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
-    <value>Telemetry blocker</value>
+    <value>Adínà telemetry</value>
   </data>
   <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
     <value>Dina Roblox telemetry. Wiwọle si alabojuto nilo lẹẹkan.</value>
@@ -4243,7 +4242,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Fi si Steam</value>
   </data>
   <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
-    <value>Account switcher</value>
+    <value>Ayípadà àkọọ́lẹ̀</value>
   </data>
   <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
     <value>Ṣẹda, ṣe afẹyinti, ati yi awọn akọọlẹ Roblox pada.</value>
@@ -5095,7 +5094,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Ibi</value>
   </data>
   <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
-    <value>Roblox Account Switcher</value>
+    <value>Ayípadà àkọọ́lẹ̀ Roblox</value>
   </data>
   <data name="Ui.Session.SignedInAs" xml:space="preserve">
     <value>Wole bi</value>
@@ -5725,7 +5724,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Da awọn asia</value>
   </data>
   <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
-    <value>NVIDIA Flag History</value>
+    <value>Ìtàn flag NVIDIA</value>
   </data>
   <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
     <value>Awọn ayipada orin ti a ṣe si awọn asia NVIDIA ni igba yii.</value>
@@ -6175,7 +6174,7 @@ Kini iwọ yoo fẹ lati ṣe?</value>
     <value>Nkojọpọ awọn ikede Roblox tuntun…</value>
   </data>
   <data name="Ui.Misc2.DownloadServer" xml:space="preserve">
-    <value>Download Server</value>
+    <value>Olupin ìgbàsílẹ̀</value>
   </data>
   <data name="Ui.Misc2.ChooseTheServerUsedWhenRoblox" xml:space="preserve">
     <value>Yan olupin ti a lo nigbati Roblox ti fi sii tabi imudojuiwọn.</value>
@@ -6693,7 +6692,7 @@ Voidstrap ko le kọ si folda tabili.</value>
     <value>FrameGen HUD</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
-    <value>Dock Panels</value>
+    <value>Àwọn pánẹ́ẹ̀lì dock</value>
   </data>
   <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
     <value>Ṣe afihan ipo olupin ni ere</value>
@@ -6780,7 +6779,7 @@ Voidstrap ko le kọ si folda tabili.</value>
     <value>Inaro aarin aiṣedeede</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Dá crosshair padà sí àárín</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>Ṣe afihan Iran Fireemu HUD</value>
@@ -7110,7 +7109,7 @@ Voidstrap ko le kọ si folda tabili.</value>
     <value>Iwọn bọtini bọtini</value>
   </data>
   <data name="Ui.OverlayStudio.KeystrokesOpacity" xml:space="preserve">
-    <value>Keystrokes opacity</value>
+    <value>Ìmọ́lẹ̀ Keystrokes</value>
   </data>
   <data name="Ui.OverlayStudio.KeystrokesEdgeSpacing" xml:space="preserve">
     <value>Aaye lati eti</value>

@@ -1430,8 +1430,7 @@ Roblox ће се инсталирати када га покренете са Vo
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Деинсталирање Voidstrap ће га уклонити из вашег система и вратити подразумевано Roblox покретач ако је још увек инсталиран.  
 
-Све што је закључано или у употреби биће аутоматски очишћено када се пусти.
-</value>
+Све што је закључано или у употреби биће аутоматски очишћено када се пусти.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Задржи моја подешавања и модове</value>
@@ -3991,7 +3990,7 @@ Roblox биће преузето када га покренете Voidstrap пр
     <value>Преферирани центар података</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapWillAlwaysTryThisOne" xml:space="preserve">
-    <value>Voidstrap will always try this one first and only fall back when it has no room</value>
+    <value>Voidstrap ће увек прво пробати овај и прећи на други само када на њему нема места</value>
   </data>
   <data name="Ui.Bootstrapper.Datacenters" xml:space="preserve">
     <value>Датацентерс</value>

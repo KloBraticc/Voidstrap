@@ -1430,8 +1430,7 @@ Roblox នឹងដំឡើងនៅពេលអ្នកបើកវាជា�
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>ការលុប Voidstrap នឹងលុបវាចេញពីប្រព័ន្ធរបស់អ្នក ហើយស្ដារកម្មវិធីបើកដំណើរការ Roblox លំនាំដើមប្រសិនបើវានៅតែដំឡើង។ 
  
-អ្វីក៏ដោយដែលត្រូវបានចាក់សោ ឬកំពុងប្រើប្រាស់នឹងត្រូវបានសម្អាតដោយស្វ័យប្រវត្តិ នៅពេលដែលវាត្រូវបានបញ្ចេញ។ 
-</value>
+អ្វីក៏ដោយដែលត្រូវបានចាក់សោ ឬកំពុងប្រើប្រាស់នឹងត្រូវបានសម្អាតដោយស្វ័យប្រវត្តិ នៅពេលដែលវាត្រូវបានបញ្ចេញ។</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>រក្សាការកំណត់ និងម៉ូដរបស់ខ្ញុំ</value>
@@ -3199,7 +3198,7 @@ Roblox នឹងត្រូវបានទាញយក នៅពេលអ្ន
     <value>រកមើល mods សហគមន៍នៅលើ GameBanana ។</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>កម្មវិធីរុករក mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>មើល និងគ្រប់គ្រងឯកសារនៅក្នុងការដំឡើង Roblox របស់អ្នក។</value>
@@ -6684,7 +6683,7 @@ Voidstrap មិនអាចសរសេរទៅថតផ្ទៃតុបា�
     <value>ការជូនដំណឹង</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Dock វគ្គ</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>កោរសក់</value>

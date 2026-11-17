@@ -129,9 +129,7 @@
     <value>Voidstrap 目前无法自动更新至 v{0}；请通过 官方网站 下载最新版本并运行安装包以手动更新 Voidstrap。</value>
   </data>
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
-    <value>Roblox 当前正在运行中，打开另一个 Roblox 进程后将会关闭它。
-
-您确定要继续启动吗？</value>
+    <value>Roblox 正在运行，启动另一个实例会将其关闭。确定要继续启动吗？</value>
   </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>Roblox 的服务器目前可能已经熟透了；请参阅 {0} 来了解更多信息。</value>
@@ -357,9 +355,7 @@
     <value>Voidstrap 已成功卸载</value>
   </data>
   <data name="Bootstrapper.Uninstall.RobloxRunning" xml:space="preserve">
-    <value>Roblox 当前正在运行中，但在卸载 Voidstrap 之前必须将其关闭。
-
-您想现在关闭 Roblox 吗？</value>
+    <value>Roblox 正在运行，卸载 Voidstrap 前必须先将其关闭。要立即关闭 Roblox 吗？</value>
   </data>
   <data name="Bootstrapper.WMFNotFound" xml:space="preserve">
     <value>Roblox 需要使用 “Windows Media Foundation” 组件才能启动；您似乎缺少它们，可能是因为您使用的是 N 版本的 Windows；请先安装它们后再尝试重新启动 Roblox。</value>
@@ -739,7 +735,7 @@
     <value>浅色</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap 现已更新至 v{0}</value>
+    <value>Voidstrap 已升级到新版本</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>您启动的 Voidstrap 版本与您当前已安装的版本并不一致。
@@ -864,8 +860,7 @@
     <value>您可以在此处配置 Voidstrap 在启动时应执行的操作。</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxReinstall.Description" xml:space="preserve">
-    <value>启用此选项后 Roblox 将会在下次启动时进行全新安装。
-（此选项将会在首次安装时强制启用；若完成安装此选项则会自动禁用）</value>
+    <value>下次启动时将全新安装 Roblox。</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxReinstall.Title" xml:space="preserve">
     <value>强制重新安装 Roblox</value>
@@ -945,11 +940,9 @@
     <value>你知道您在做什么吗？</value>
   </data>
   <data name="Menu.FastFlagEditor.Warning.Text" xml:space="preserve">
-    <value>Fast Flags 是专业且有用的，它们通常仅供 Roblox 工程师来使用；而不是非专业人士。虽然它们很有用，但手动配置它们可能会导致严重的稳定性和功能问题。如果你不知道这是干什么用的，那就最好别用 Fast Flags。
+    <value>Fast Flag 功能非常强大，原本只供 Roblox 工程师使用。虽然它们很有用，但手动配置可能导致严重的稳定性和功能问题。如果您不确定自己在做什么，请勿使用编辑器。
 
-因此，在你不知道相关知识之前，请不要导入其他人制作的 Fast Flags；例如提高游戏性能或类似功能的 Fast Flags 配置，它们会让你徒增烦恼。如果你正打算这么干的话，就此打住吧。
-
-（注：Fast Flags 是这样的，Roblox 只需要随时更新就可以了；而你要考虑的可就多了。）</value>
+请勿用它导入他人制作的、声称能提升性能之类的大型“flag 列表”。它们同样存在上述问题，而且由于您无法完全了解它们改动了什么，会给您带来麻烦。如果您正打算这样做，请返回。</value>
   </data>
   <data name="Menu.FastFlags.Description" xml:space="preserve">
     <value>您可以在此处配置 Roblox 引擎的特定参数和功能。</value>
@@ -963,7 +956,7 @@
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>使用 “Alt+Enter” 快捷键以进入 Direct3D [全屏独占]({0}) 已默认启用。</value>
+    <value>默认已启用通过 Alt+Enter 进入的 Direct3D 独占全屏。</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>首选 Esc 菜单版本</value>
@@ -981,14 +974,13 @@
     <value>帧率上限</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>使用 [键盘快捷键]({0}) 来切换；只有当您在加入 [Voidstrap 群组]({1}) 后才会生效。</value>
+    <value>使用[键盘快捷键]({0})切换。请输入您所在群组的 ID。</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>启用 隐藏/显示 GUI 的功能</value>
   </data>
   <data name="Menu.FastFlags.Presets.LightingTechnology.Description" xml:space="preserve">
-    <value>选择的项目将会在所有游戏内应用。
-[请注意，此选项可能会导致一些出乎意料的光照问题！]({0})</value>
+    <value>所选技术会在所有游戏中强制启用。[可能导致光照问题！]({0})</value>
   </data>
   <data name="Menu.FastFlags.Presets.LightingTechnology.Title" xml:space="preserve">
     <value>首选光照技术</value>
@@ -1067,8 +1059,7 @@
     <value>您可以在此处配置 Roblox 的附属功能。</value>
   </data>
   <data name="Menu.Integrations.DesktopApp.Description" xml:space="preserve">
-    <value>当你离开游戏时，Roblox 将会完全关闭；而不是让您退回到主界面。
-[将会损坏某些功能！]({0})</value>
+    <value>离开游戏时 Roblox 会完全关闭，而不是返回应用。[会导致部分功能失效！]({0})</value>
   </data>
   <data name="Menu.Integrations.DesktopApp.Title" xml:space="preserve">
     <value>禁止 Roblox 在离开游戏时退回到主界面</value>
@@ -1089,8 +1080,7 @@
     <value>显示游戏活动</value>
   </data>
   <data name="Menu.Integrations.QueryServerLocation.Description" xml:space="preserve">
-    <value>当您加入游戏时，您将会收到当前服务器具体信息的通知；通知将不会在 “全屏独占” 时显示。
-（由 [ipinfo.io]({0}) 提供技术支持）</value>
+    <value>在游戏中时，您可以通过 [ipinfo.io]({0}) 查看服务器所在位置。</value>
   </data>
   <data name="Menu.Integrations.QueryServerLocation.Title" xml:space="preserve">
     <value>允许接收服务器具体信息通知</value>
@@ -1184,7 +1174,8 @@
     <value>翻译为</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>在继续安装之前请先选择语言。</value>
+    <value>继续安装前，请先选择一种语言。
+部分文本可能尚未翻译成您选择的语言。</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>语言</value>
@@ -1325,25 +1316,20 @@
   <data name="Installer.Welcome.MainText" xml:space="preserve">
     <value>感谢您下载 Voidstrap。
 
-! 获取 Voidstrap 的 唯一 官方网站 是 {0} 和 {1}；因此请确保启动器是从 官方渠道 获取的 !
-（注：一般只有使用真正意义上的 注入器 作弊才会导致封号 (Voidstrap 只是在 外部 修改 并未在游戏内修改任何内容)）
-
-安装过程简单明了；安装完成后，您将可以对 Voidstrap 的任何设置进行配置。</value>
+安装过程快速又简单，安装后您可以配置 Voidstrap 的任何设置。</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
     <value>请点击 “下一步” 以继续。</value>
   </data>
   <data name="Installer.Welcome.UpdateNotice" xml:space="preserve">
-    <value>您正在尝试安装 Voidstrap v{0}；目前最新版本是 Voidstrap v{1}。
-您想下载最新版本吗？</value>
+    <value>您正在尝试安装 Voidstrap {0} 版本，但可用的最新版本是 {1}。要下载最新版本吗？</value>
   </data>
   <data name="Installer.Install.Location.Title" xml:space="preserve">
     <value>选择安装位置</value>
   </data>
   <data name="Installer.Install.Location.Text" xml:space="preserve">
-    <value>Roblox 本体也将安装至此路径。
-如果您有分类整理电脑的习惯，请更改此项；否则，建议您保持原样。</value>
+    <value>Roblox 也会安装到此路径。如果您希望将所有游戏安装到其他驱动器，请修改此路径。否则建议保持不变。</value>
   </data>
   <data name="Installer.Install.Location.DataFound" xml:space="preserve">
     <value>发现数据残留；您的模组和设置将被恢复。</value>
@@ -1358,15 +1344,13 @@
     <value>“开始”菜单图标</value>
   </data>
   <data name="Installer.Completion.Text" xml:space="preserve">
-    <value>Voidstrap 目前已成功安装到你的电脑上。
+    <value>Voidstrap 已安装！
 
-但是 Roblox 尚未安装；这将会在您首次使用 Voidstrap 启动 Roblox 时发生。
-不过，在此之前；您可能会想先调整 Voidstrap 的设置。
+首次通过 Voidstrap 启动时会安装 Roblox。在此之前，您可能想调整 Voidstrap 的设置。
 
-此外，请避免 使用默认 Roblox 启动器 “Roblox Player” 快捷方式 来启动 Roblox；因为 Voidstrap 不会与 Roblox 一起启动。
-如果您尝试从 网页端 启动 Roblox 时并未显示 Voidstrap，只需用 Voidstrap 启动一次 Roblox 即可解决。
+请勿使用“Roblox Player”快捷方式，因为 Voidstrap 不会随它运行。如果从网站启动时没有出现 Voidstrap，请从桌面用 Voidstrap 打开一次 Roblox 来修复。
 
-您想要做什么？</value>
+您想做什么？</value>
   </data>
   <data name="Installer.Completion.Settings.Title" xml:space="preserve">
     <value>更改 Voidstrap 的设置</value>
@@ -1384,14 +1368,9 @@
     <value>卸载 Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>卸载后，Voidstrap 将会从系统中移除；并自动重新配置 Roblox 原版启动器。
+    <value>卸载 Voidstrap 会将其从系统中移除，并在默认 Roblox 启动器仍已安装时将其恢复。
 
-如果您卸载重装的原因是 Roblox 的问题，请先阅读 [此帮助页]({0})。
-
-卸载过程可能无法完全自行清理，因此您可能需要手动清理安装 Voidstrap 时残留的文件。
-
-Voidstrap 的安装路径是：
-“{1}”</value>
+任何被锁定或正在使用的内容都会在释放后自动清理。</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>保留我的 Voidstrap 设置 和 Roblox 模组 (Mods)</value>
@@ -1415,8 +1394,7 @@ Voidstrap 的安装路径是：
     <value>查阅 Wiki 以获取帮助。</value>
   </data>
   <data name="Bootstrapper.WebView2NotFound" xml:space="preserve">
-    <value>您目前尚未安装 “WebView2 Runtime”。没有它，某些 Roblox 功能将无法正常运行；例如 Roblox 桌面客户端。
-您想现在下载它吗？</value>
+    <value>您当前尚未安装 WebView2 运行时。没有它，部分 Roblox 功能（例如桌面应用）将无法正常工作。要立即下载吗？</value>
   </data>
   <data name="Dialog.CannotCreateShortcuts" xml:space="preserve">
     <value>Voidstrap 目前无法在 桌面 和 “开始”菜单 创建快捷方式；请尝试稍后通过设置手动创建快捷方式。</value>
@@ -1485,10 +1463,9 @@ Voidstrap 的安装路径是：
     <value>Roblox 已崩溃。</value>
   </data>
   <data name="Dialog.PlayerError.HelpInformation" xml:space="preserve">
-    <value>有关可能会出现这种情况的原因以及解决方法，请参阅 [此帮助页]({0})。
+    <value>要了解出现此问题的可能原因以及解决方法，请阅读[这篇帮助文章]({0})。
 
-请检查 Roblox 是否能在 [原版启动器]({1}) 中运行。
-如果不能，则这不是 Voidstrap 的问题；如果可以，那么请参阅帮助文章以获取详细信息。</value>
+请检查 Roblox 能否通过[原版启动器]({1})运行。如果不能，则这不是 Voidstrap 的问题。如果可以，请参阅帮助文章。</value>
   </data>
   <data name="Common.NetworkError" xml:space="preserve">
     <value>由于网络错误，数据无法加载。</value>
@@ -1569,13 +1546,10 @@ Voidstrap 的安装路径是：
     <value>提取 Roblox 图标至 Voidstrap 安装目录</value>
   </data>
   <data name="Menu.Shortcuts.ExtractIcons.Description" xml:space="preserve">
-    <value>启用此选项后将会在 Voidstrap 安装根目录上创建一个名为 “已提取的图标” 的文件夹。
-（此选项允许您获取 Roblox 图标文件以便快捷应用于快捷方式）[如何应用？]({0})</value>
+    <value>让您可以为快捷方式使用 Voidstrap 提供的 Roblox 图标。[查看方法。]({0})</value>
   </data>
   <data name="Dialog.RegistryWriteError" xml:space="preserve">
-    <value>Voidstrap 目前无法写入 Windows 注册表；可能是杀毒软件的干扰导致了问题。
-
-请检查以确保没有任何东西会限制 Voidstrap 的运行。</value>
+    <value>Voidstrap 无法写入 Windows 注册表。很可能是杀毒软件在干扰并导致问题。请检查是否有任何程序会限制 Voidstrap 的运行。</value>
   </data>
   <data name="About.Supporters.Monthly" xml:space="preserve">
     <value>月度捐赠者</value>
@@ -1606,13 +1580,11 @@ Voidstrap 的安装路径是：
     <comment>See the prompt for more context</comment>
   </data>
   <data name="Menu.TestMode.Prompt" xml:space="preserve">
-    <value>“测试模式” 是一种可以更方便地反复测试 Voidstrap 特定设置对 Roblox 造成影响的功能。
-（例如微调 设置/FFlags 后可以更方便地调试具体参数对 Roblox 造成的影响）
+    <value>测试模式可以让您更方便地反复测试设置对 Roblox 的影响。
 
-启用后，它将会在每次关闭设置后自动启动 Roblox；而关闭 Roblox 则会重新打开设置。
-如此循环，直到您禁用为止。
+启用后，关闭设置时会自动启动 Roblox，关闭 Roblox 后又会重新打开设置，如此循环，直到您将其关闭。
 
-您想启用 “测试模式” 吗？</value>
+要启用测试模式吗？</value>
   </data>
   <data name="About.Translators.Description" xml:space="preserve">
     <value>这里列出的每一位都慷慨地付出了时间和精力来帮助翻译 Voidstrap。衷心感谢大家！</value>
@@ -6071,7 +6043,7 @@ Voidstrap 的安装路径是：
     <value>经典顶栏选项重建了两个社区模组。2014 到 2015 年的顶栏和游戏菜单外观与行为来自 HockuTM 的 "2014 2015 Topbar and Menu (Improvised GUI)"。隐藏现代顶栏使用了 Einshine 的 "NoGuiRBX, Hide TopBar!"。两者均按其 Creative Commons BY NC ND 4.0 条款怀着感谢使用，文件直接从 GameBanana 下载而非随附，且两位作者均与 Voidstrap 无关。</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>2014 2015 顶栏和菜单，作者 HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>社区模组</value>

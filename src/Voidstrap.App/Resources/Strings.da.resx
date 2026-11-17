@@ -462,7 +462,7 @@ Klik for mere information</value>
     <value>Type</value>
   </data>
   <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Server browser</value>
+    <value>Serverbrowser</value>
   </data>
   <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
     <value>Placer {0}</value>
@@ -1430,8 +1430,7 @@ Hvad vil du gerne lave?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Afinstallation af Voidstrap vil fjerne det fra dit system og gendanne standard Roblox launcher, hvis det stadig er installeret. 
  
-Alt, der er låst eller i brug, bliver ryddet op automatisk, når det er frigivet. 
-</value>
+Alt, der er låst eller i brug, bliver ryddet op automatisk, når det er frigivet.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Behold mine indstillinger og mods</value>
@@ -1923,7 +1922,7 @@ Vil du skifte din foretrukne kanal til {0}?</value>
     <value>Tid</value>
   </data>
   <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
-    <value>Version hash</value>
+    <value>Versionshash</value>
   </data>
   <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
     <value>Tving Voidstrap til at downloade version fra specifik hash. Venligst ikke ændre, hvis du ikke har nogen idé om, hvad dette gør.</value>
@@ -2818,7 +2817,7 @@ Hvad vil du gerne lave?</value>
     <value>Popover</value>
   </data>
   <data name="Appearance.Backdrop.Hud" xml:space="preserve">
-    <value>Heads up display</value>
+    <value>Head up display</value>
   </data>
   <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
     <value>Under vinduet</value>
@@ -2887,7 +2886,7 @@ Hvad vil du gerne lave?</value>
     <value>Se efter opdateringer</value>
   </data>
   <data name="Ui.Main.ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Udgivelsesnoter</value>
   </data>
   <data name="Ui.Main.OpenLogsFolder" xml:space="preserve">
     <value>Åbn mappen Logs</value>
@@ -3127,7 +3126,7 @@ Hvad vil du gerne lave?</value>
     <value>Vælg lyd, der skal afspilles, når startprogrammet åbnes.</value>
   </data>
   <data name="Ui.Appearance.SidebarLayout" xml:space="preserve">
-    <value>Sidebar layout</value>
+    <value>Sidebjælkens layout</value>
   </data>
   <data name="Ui.Appearance.SidebarLayoutDescription" xml:space="preserve">
     <value>Omdøb, vælg ikoner eller brugerdefinerede billeder, vis, skjul og omarranger sidebjælkesider.</value>
@@ -3193,13 +3192,13 @@ Hvad vil du gerne lave?</value>
     <value>Fjerne</value>
   </data>
   <data name="Ui.Mods.FindMods" xml:space="preserve">
-    <value>Find Mods</value>
+    <value>Find mods</value>
   </data>
   <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
     <value>Gennemse community-mods på GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Modstifinder</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Se og administrer filer i din Roblox-installation.</value>
@@ -3346,7 +3345,7 @@ Hvad vil du gerne lave?</value>
     <value>Skybox forhåndsvisningen er ikke tilgængelig lige nu.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
-    <value>Font Manager</value>
+    <value>Skrifttypestyring</value>
   </data>
   <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
     <value>Brug en lokal skrifttype eller brug google skrifttyper</value>
@@ -3493,7 +3492,7 @@ Hvad vil du gerne lave?</value>
     <value>Overlejringer</value>
   </data>
   <data name="Ui.Mods.SessionDock" xml:space="preserve">
-    <value>Session dock</value>
+    <value>Sessionsdok</value>
   </data>
   <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
     <value>Nulstil genvej</value>
@@ -3562,7 +3561,7 @@ Hvad vil du gerne lave?</value>
     <value>100 er normal, 200 er ekstrem, og den går op til 500.</value>
   </data>
   <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
-    <value>Frame generation V1.0.0</value>
+    <value>Billedgenerering V1.0.0</value>
   </data>
   <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
     <value>Tilføjer genererede rammer mellem rigtige. Tilføjer en lille input forsinkelse.</value>
@@ -4135,13 +4134,13 @@ Hvad vil du gerne lave?</value>
     <value>Skaber</value>
   </data>
   <data name="Ui.Integrations.ServerType" xml:space="preserve">
-    <value>Server type</value>
+    <value>Servertype</value>
   </data>
   <data name="Ui.Integrations.PublicPrivateOrReserved" xml:space="preserve">
     <value>Offentlig, privat eller reserveret</value>
   </data>
   <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
+    <value>Betamærke</value>
   </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>Forvandler markører som [BETA] eller WIP i spilnavnet til et rent tag</value>
@@ -4345,7 +4344,7 @@ Hvad vil du gerne lave?</value>
     <value>Installatør</value>
   </data>
   <data name="Ui.Channel.DownloadServer" xml:space="preserve">
-    <value>Download server</value>
+    <value>Downloadserver</value>
   </data>
   <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
     <value>Bruges når Roblox er installeret eller opdateret</value>
@@ -4765,7 +4764,7 @@ Hvad vil du gerne lave?</value>
     <value>Lyd</value>
   </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
-    <value>Master Volume</value>
+    <value>Hovedlydstyrke</value>
   </data>
   <data name="Ui.Gbs.OverallInGameVolume" xml:space="preserve">
     <value>Samlet i spilvolumen.</value>
@@ -4819,7 +4818,7 @@ Hvad vil du gerne lave?</value>
     <value>Oversæt automatisk chatbeskeder.</value>
   </data>
   <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
-    <value>Virtual Reality</value>
+    <value>Virtual reality</value>
   </data>
   <data name="Ui.Gbs.EnableVR" xml:space="preserve">
     <value>Aktiver VR</value>
@@ -4975,7 +4974,7 @@ Hvad vil du gerne lave?</value>
     <value>Opdelt visning (Ctrl+Shift+S)</value>
   </data>
   <data name="Ui.Session.BrowserMenu" xml:space="preserve">
-    <value>Browser menu</value>
+    <value>Browsermenu</value>
   </data>
   <data name="Ui.Session.FindOnPage" xml:space="preserve">
     <value>Find på side</value>
@@ -5083,7 +5082,7 @@ Hvad vil du gerne lave?</value>
     <value>Tilmeld dig en anden tilfældig server</value>
   </data>
   <data name="Ui.Session.ServerHop" xml:space="preserve">
-    <value>Server hop</value>
+    <value>Skift server</value>
   </data>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Sorter efter</value>
@@ -5599,10 +5598,10 @@ Hvad vil du gerne lave?</value>
     <value>Justerer, hvordan lysstyrkeværdier kortlægges, hvilket påvirker kontrast, skyggedetaljer og mellemtonesynlighed.</value>
   </data>
   <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
-    <value>Benchmark Overlay</value>
+    <value>Benchmark overlay</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
-    <value>Frame Rate Limiter</value>
+    <value>Billedhastighedsbegrænser</value>
   </data>
   <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
     <value>Baggrundsgrænse for applikationsrammehastighed</value>
@@ -5926,7 +5925,7 @@ Hvad vil du gerne lave?</value>
     <value>Ramme Gen</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
-    <value>Frame Generation</value>
+    <value>Billedgenerering</value>
   </data>
   <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
     <value>Genereret Frames Overlay</value>
@@ -6301,7 +6300,7 @@ Hvad vil du gerne lave?</value>
     <value>Hastighed</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh fremviser</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Træk for at rotere, rul for at zoome</value>
@@ -6346,7 +6345,7 @@ Hvad vil du gerne lave?</value>
     <value>Tjek nogle af vores indbyggede brugerdefinerede temaer!</value>
   </data>
   <data name="Ui.Misc3.LinuxDesktopIntegration" xml:space="preserve">
-    <value>Linux desktop integration</value>
+    <value>Linux skrivebordsintegration</value>
   </data>
   <data name="Ui.Misc3.VoidstrapWillBeAddedToThe" xml:space="preserve">
     <value>Voidstrap vil blive tilføjet til applikationsmenuen og registreret for Roblox-links. Du kan også oprette en launcher på skrivebordet.</value>
@@ -6657,7 +6656,7 @@ Fejl: {0}</value>
     <value>Misligholdelse</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
-    <value>Minimal Top Bar</value>
+    <value>Minimal topbjælke</value>
   </data>
   <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
     <value>Konkurrencedygtig HUD</value>
@@ -6666,10 +6665,10 @@ Fejl: {0}</value>
     <value>Streamer ren</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Topdok</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
-    <value>Interactive Screen Stage</value>
+    <value>Interaktiv skærmscene</value>
   </data>
   <data name="Ui.OverlayStudio.StageHint" xml:space="preserve">
     <value>Klik eller træk et hvilket som helst overlay på scenen nedenfor, eller brug 9-punkts ankergitteret til at fastgøre det.</value>
@@ -6684,7 +6683,7 @@ Fejl: {0}</value>
     <value>Meddelelser</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Sessionsdok</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Trådkors</value>
@@ -6930,7 +6929,7 @@ Fejl: {0}</value>
     <value>Encoder codec</value>
   </data>
   <data name="Ui.Clipper.CodecHint" xml:space="preserve">
-    <value>Hardware GPU encoder format.</value>
+    <value>Hardwarebaseret GPU koderformat.</value>
   </data>
   <data name="Ui.Clipper.GameAudio" xml:space="preserve">
     <value>Optag spillyd</value>
@@ -7362,7 +7361,7 @@ Fejl: {0}</value>
     <value>Trykt tastbillede</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
-    <value>Image Stretch</value>
+    <value>Billedstrækning</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
     <value>Billedopacitet</value>
@@ -7747,7 +7746,7 @@ Den downloader {0} MB. Hvis du afslår, bruges det indbyggede skøn. Du kan ænd
     <value>Stemme klarhed</value>
   </data>
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
-    <value>Treble boost</value>
+    <value>Diskantforstærkning</value>
   </data>
   <data name="ColorPicker.Title" xml:space="preserve">
     <value>Vælg en farve</value>
@@ -7807,7 +7806,7 @@ Den downloader {0} MB. Hvis du afslår, bruges det indbyggede skøn. Du kan ænd
     <value>Søg Studio plugins</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
-    <value>Creator Store</value>
+    <value>Skaberbutik</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
     <value>Installeret</value>
@@ -8549,7 +8548,7 @@ Hold Voidstrap og editoren åbne, mens AI arbejder. Dens ændringer vises i forh
     <value>Spilsession og startkrog</value>
   </data>
   <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
-    <value>Blank mod</value>
+    <value>Tom mod</value>
   </data>
   <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
     <value>Mod mappenavn</value>
@@ -8570,7 +8569,7 @@ Hold Voidstrap og editoren åbne, mens AI arbejder. Dens ændringer vises i forh
     <value>Slet Voidstrap mod "{0}" og alle dens filer?</value>
   </data>
   <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
-    <value>Mod editor: {0}</value>
+    <value>Modeditor: {0}</value>
   </data>
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Gem og genindlæs</value>
@@ -9044,7 +9043,7 @@ Overlappende mods kan få Roblox til at se eller opføre sig mærkeligt, men det
     <value>Finde</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Solution Explorer</value>
+    <value>Løsningsstifinder</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>Produktion</value>
@@ -9126,7 +9125,7 @@ tillade det?</value>
     <value>Klassiske nøgler</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
-    <value>Minimal bar</value>
+    <value>Minimal bjælke</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
     <value>Mus tracker</value>

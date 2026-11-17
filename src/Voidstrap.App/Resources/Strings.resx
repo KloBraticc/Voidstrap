@@ -1034,13 +1034,13 @@ Do NOT use this to import large "flag lists" made by other people that promise t
     <value>Framerate limit</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Toggled with [keyboard shortcuts]({0}). Input id of a group you're in.</value>
+    <value>Toggled with [keyboard shortcuts]({0}). Enter the ID of a group you are in.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Hiding GUIs</value>
   </data>
   <data name="Menu.FastFlags.Presets.LightingTechnology.Description" xml:space="preserve">
-    <value>Chosen one will be force enabled in all games. [Beware, may cause lighting issues!]({0})</value>
+    <value>The chosen one will be forced on in all games. [This may cause lighting issues!]({0})</value>
   </data>
   <data name="Menu.FastFlags.Presets.LightingTechnology.Title" xml:space="preserve">
     <value>Preferred lighting technology</value>
@@ -1235,7 +1235,7 @@ Selecting 'No' will ignore this warning and continue installation.</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Choose a language before continuing with installation.
-Some text might not be translated to preferred language.</value>
+Some text might not be translated into your chosen language.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Language</value>
@@ -1404,11 +1404,11 @@ This installation process will be quick and simple, and you will be able to conf
     <value>Start Menu icon</value>
   </data>
   <data name="Installer.Completion.Text" xml:space="preserve">
-    <value>Voidstrap has been installed!    
+    <value>Voidstrap has been installed!
 
-Roblox will install when you launch it with Voidstrap for the first time. Before that, you may want to adjust Voidstrap’s settings.  
+Roblox will install when you launch it with Voidstrap for the first time. Before that, you may want to adjust Voidstrap’s settings.
 
-Don’t use the "Roblox Player" shortcut Voidstrap won’t run with it. If Voidstrap doesn’t appear when launching from the website, open Roblox with Voidstrap once from the desktop to fix it.  
+Don’t use the "Roblox Player" shortcut, because Voidstrap won’t run with it. If Voidstrap doesn’t appear when launching from the website, open Roblox with Voidstrap once from the desktop to fix it.
 
 What would you like to do?</value>
   </data>
@@ -1428,10 +1428,9 @@ What would you like to do?</value>
     <value>Uninstall Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Uninstalling Voidstrap will remove it from your system and restore the default Roblox launcher if it’s still installed.  
+    <value>Uninstalling Voidstrap will remove it from your system and restore the default Roblox launcher if it’s still installed.
 
-Anything that is locked or in use will be cleaned up automatically once it is released.
-</value>
+Anything that is locked or in use will be cleaned up automatically once it is released.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Keep my settings and mods</value>
@@ -1463,7 +1462,7 @@ Anything that is locked or in use will be cleaned up automatically once it is re
   <data name="Dialog.Exception.Info.2.Alt" xml:space="preserve">
     <value>Check the [Voidstrap Wiki]({0}) first to see if this problem has already been addressed with a fix.
 
-If not, then please report this exception to the maintainers of this fork. Do NOT report this to Voidstrap's GitHub issues, as this is an unoffical build.</value>
+If not, then please report this exception to the maintainers of this fork. Do NOT report this to Voidstrap's GitHub issues, as this is an unofficial build.</value>
     <comment>"fork" in general means "a variation of" or "a different version of". You can alternatively write the first sentence as "...to the maintainers of this version."</comment>
   </data>
   <data name="Installer.Install.Shortcuts.Description" xml:space="preserve">
@@ -1572,7 +1571,7 @@ Every person here is ranked by their overall pledge.</value>
     <value>Because Roblox needs to be installed or upgraded, Voidstrap cannot continue.</value>
   </data>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
-    <value>Voidstrap has been installed to this location before and is still present, however the installer cannot overwrite the old executable. 
+    <value>Voidstrap has been installed to this location before and is still present, however the installer cannot overwrite the old executable.
 
 Please manually delete Voidstrap.exe from the install location or try restarting your system, and then retry installation afterwards.</value>
   </data>
@@ -1641,7 +1640,7 @@ Please manually delete Voidstrap.exe from the install location or try restarting
     <comment>See the prompt for more context</comment>
   </data>
   <data name="Menu.TestMode.Prompt" xml:space="preserve">
-    <value>Test mode makes it easier to iteratively test how your settings affect Roblox. 
+    <value>Test mode makes it easier to iteratively test how your settings affect Roblox.
 
 While enabled, it will automatically launch Roblox after closing Settings, and reopen Settings after closing Roblox, in a cycle until you disable it.
 

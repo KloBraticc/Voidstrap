@@ -735,7 +735,7 @@
     <value>Светлая</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap был обновлён до версии {0}</value>
+    <value>Voidstrap обновлён до новой версии</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Запущенная версия Voidstrap отличается от версии, которая установлена у вас сейчас.
@@ -956,7 +956,7 @@
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Параметры графики и производительности движка Roblox.</value>
+    <value>Эксклюзивный полноэкранный режим Direct3D через Alt+Enter включён по умолчанию.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Предпочитаемая версия меню-выхода</value>
@@ -974,7 +974,7 @@
     <value>Лимит кадров в секунду</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Переключается с помощью [сочетания клавиш]({0}). Работает только если вы находитесь в [группе Voidstrap]({1}).</value>
+    <value>Переключается [сочетаниями клавиш]({0}). Введите ID группы, в которой Вы состоите.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Активировать возможность скрывать элементы пользовательского интерфейса</value>
@@ -1174,7 +1174,8 @@
     <value>Перевести на</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Выберите язык перед тем как продолжить установку.</value>
+    <value>Выберите язык, прежде чем продолжить установку.
+Некоторые тексты могут быть не переведены на выбранный Вами язык.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Язык</value>
@@ -1313,11 +1314,9 @@
     <value>Далее</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Спасибо за загрузку Voidstrap.
+    <value>Спасибо, что скачали Voidstrap.
 
-Единственные официальные сайты для загрузки Voidstrap - {0} и {1}, поэтому убедитесь, что Вы скачали его из официального источника.
-
-Процесс установки будет быстрым и простым, и после установки вы сможете настроить любые параметры Voidstrap.</value>
+Установка будет быстрой и простой, а после неё Вы сможете настроить любые параметры Voidstrap.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1369,13 +1368,9 @@ Roblox еще не установлен, это произойдет, когда
     <value>Удаление Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Деинсталляция удалит Voidstrap из вашей системы и автоматически перенастроит пусковую установку Roblox по умолчанию, если она все еще установлена.
+    <value>Удаление Voidstrap уберёт его из системы и восстановит стандартный лаунчер Roblox, если он всё ещё установлен.
 
-Если вы удаляете или переустанавливаете программу из-за проблем с Roblox, сначала прочитайте [эту страницу помощи]({0}).
-
-Возможно, процесс удаления может не полностью завершиться сам по себе, поэтому вам может потребоваться вручную очистить оставшиеся файлы, где был установлен Voidstrap.
-
-Voidstrap был установлен по адресу "{1}".</value>
+Всё, что заблокировано или используется, будет автоматически очищено, как только освободится.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Оставить мои настройки и моды</value>
@@ -1457,7 +1452,9 @@ Voidstrap был установлен по адресу "{1}".</value>
     <value>У вас есть несохранённые изменения. Вы уверены, что хотите закрыть без сохранения?</value>
   </data>
   <data name="InstallChecker.VersionLessThanInstalled" xml:space="preserve">
-    <value>Версия Voidstrap, которую вы запустили, старше той, что установлена у вас сейчас. Могут возникнуть проблемы, и измениться настройки. Рекомендуется переустановка. Вы уверены, что хотите продолжить?</value>
+    <value>Запущенная Вами версия Voidstrap старее установленной.
+Могут возникнуть проблемы, а Ваши настройки могут измениться. Рекомендуется переустановка.
+Вы уверены, что хотите продолжить?</value>
   </data>
   <data name="Dialog.PlayerError.FailedLaunch" xml:space="preserve">
     <value>Не удалось запустить Roblox.</value>
@@ -6052,7 +6049,7 @@ Roblox будет скачан при первом запуске через Voi
     <value>Классическая верхняя панель воссоздаёт два мода сообщества. Оформление и поведение верхней панели и игрового меню 2014 2015 годов взяты из "2014 2015 Topbar and Menu (Improvised GUI)" от HockuTM. Скрытие современной панели использует "NoGuiRBX, Hide TopBar!" от Einshine. Оба используются с благодарностью на условиях Creative Commons BY NC ND 4.0, их файлы загружаются напрямую с GameBanana, а не поставляются вместе с программой, и ни один автор не связан с Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Верхняя панель и меню 2014 2015 от HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Моды сообщества</value>
@@ -9478,7 +9475,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <value>Просмотр по жанрам</value>
 </data>
 <data name="Library.Store.Free" xml:space="preserve">
-  <value>Free to Play</value>
+  <value>Бесплатная игра</value>
 </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} играют</value>

@@ -726,7 +726,7 @@ Jos se ei ole korjattu, ole hyvä ja raportoi tämä poikkeus [GitHub-issuen]({1
     <value>Vaalea</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap on päivitetty versioon v{0}</value>
+    <value>Voidstrap on päivitetty uuteen versioon</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Voidstrapin versio, jonka käynnistit, eroaa asennetusta versiosta.
@@ -947,7 +947,7 @@ Haluatko varmasti jatkaa?</value>
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D:n [koko näytön tila]({0}) pikanäppäimellä Alt+Enter on päällä oletuksena.</value>
+    <value>Direct3D n yksinomainen koko näyttö Alt+Enter yhdistelmällä on oletuksena käytössä.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Suosittu escape-valikon versio</value>
@@ -965,7 +965,7 @@ Haluatko varmasti jatkaa?</value>
     <value>Kuvataajuuden rajoitus</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Vaihda käyttämällä [näppäinyhdistelmiä]({0}). Toimii vain, jos olet [Voidstrap Roblox-ryhmässä]({1}).</value>
+    <value>Vaihdetaan [pikanäppäimillä]({0}). Anna sellaisen ryhmän ID, jossa olet jäsenenä.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Antaa sinun piilottaa pelin GUI:t</value>
@@ -1165,7 +1165,8 @@ Vastaus 'Ei' ohittaa tämän varoituksen ja jatkaa asentamista.</value>
     <value>Käännä kielelle</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Valitse kieli ennen asennuksen jatkamista.</value>
+    <value>Valitse kieli ennen kuin jatkat asennusta.
+Osaa tekstistä ei ehkä ole käännetty valitsemallesi kielelle.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Kieli</value>
@@ -1306,9 +1307,7 @@ Vastaus 'Ei' ohittaa tämän varoituksen ja jatkaa asentamista.</value>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
     <value>Kiitos, että latasit Voidstrapin.
 
-Ainoat viralliset sivustot, joista Voidstrapin voi ladata, ovat {0} ja {1}, joten tarkista, että latasit sen virallisesta lähteestä.
-
-Tämä asennusprosessi tulee olemaan nopea ja yksinkertainen, ja voit konfiguroida kaikkia Voidstrapin asetuksia asennuksen jälkeen.</value>
+Asennus on nopea ja yksinkertainen, ja voit muuttaa mitä tahansa Voidstrapin asetuksia asennuksen jälkeen.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1360,13 +1359,9 @@ Mitä tahtoisit tehdä?</value>
     <value>Poista Voidstrapin asennus</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Asennuksen poistaminen poistaa Voidstrapin järjestelmästäsi ja automaattisesti uudelleenmäärittää Robloxin vakiokäynnistysohjelman, jos se on vielä asennettuna.
+    <value>Voidstrapin asennuksen poistaminen poistaa sen järjestelmästäsi ja palauttaa Robloxin oletuskäynnistimen, jos se on yhä asennettuna.
 
-Jos poistat asennuksen tai asennat uudelleen, koska koet ongelmia Robloxin kanssa, lue [tämä tukisivu]({0}) ensin.
-
-Poistoprosessi ei saata pystyä siivoamaan itsensä täysin, joten sinun täytyy mahdollisesti siivota jäljelle jääneet tiedostot Voidstrapin asennussijainnista.
-
-Voidstrap asennettiin polkuun "{1}".</value>
+Kaikki lukitut tai käytössä olevat tiedostot siivotaan automaattisesti, kun ne vapautuvat.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Säilytä asetukseni ja modini</value>
@@ -6042,7 +6037,7 @@ Mitä haluat tehdä?</value>
     <value>Klassisen yläpalkin asetus rakentaa uudelleen kaksi yhteisön modia. Vuosien 2014 ja 2015 yläpalkin ja pelivalikon ulkoasu ja toiminta tulevat modista "2014 2015 Topbar and Menu (Improvised GUI)", tekijä HockuTM. Modernin yläpalkin piilotus käyttää modia "NoGuiRBX, Hide TopBar!", tekijä Einshine. Molempia käytetään kiitollisina niiden Creative Commons BY NC ND 4.0 -ehtojen mukaisesti, tiedostot ladataan suoraan GameBananasta eikä niitä toimiteta mukana, eikä kumpikaan tekijä liity Voidstrapiin.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Vuosien 2014 2015 yläpalkki ja valikko, tekijä HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Yhteisön modit</value>

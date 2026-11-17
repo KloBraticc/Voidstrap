@@ -1430,8 +1430,7 @@ Roblox ќе се инсталира кога ќе го стартувате со
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Деинсталирањето на Voidstrap ќе го отстрани од вашиот систем и ќе го врати стандардниот фрлач на Roblox , ако сè уште е инсталиран. 
  
-Сè што е заклучено или во употреба ќе се исчисти автоматски откако ќе се ослободи. 
-</value>
+Сè што е заклучено или во употреба ќе се исчисти автоматски откако ќе се ослободи.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Зачувај ги моите поставки и модови</value>
@@ -3199,7 +3198,7 @@ Roblox ќе се преземе кога ќе го стартувате прек
     <value>Прелистајте ги модовите на заедницата на GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Истражувач на модови</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Приказ и управување со датотеки во вашата инсталација Roblox .</value>
@@ -9044,7 +9043,7 @@ Voidstrap ја проверува секоја датотека во библи�
     <value>Најдете</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Solution Explorer</value>
+    <value>Истражувач на решенија</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>Излез</value>
@@ -9053,7 +9052,7 @@ Voidstrap ја проверува секоја датотека во библи�
     <value>Подготвени</value>
   </data>
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
-    <value>Search Solution Explorer</value>
+    <value>Пребарај во истражувачот на решенија</value>
   </data>
   <data name="Ui.EditorSettings.Title" xml:space="preserve">
     <value>Поставки на уредникот</value>

@@ -1430,8 +1430,7 @@ Roblox-гVoidstrap -тэй анх удаа ажиллуулахад суулга
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap-г устгаснаар таны системээс устгаж, суулгасан хэвээр байгаа бол анхдагч Roblox эхлүүлэгчийг сэргээнэ. 
  
-Түгжигдсэн эсвэл ашиглагдаж байгаа бүх зүйл суллагдсаны дараа автоматаар цэвэрлэгдэх болно. 
-</value>
+Түгжигдсэн эсвэл ашиглагдаж байгаа бүх зүйл суллагдсаны дараа автоматаар цэвэрлэгдэх болно.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Миний тохиргоо болон горимуудыг хадгал</value>
@@ -3199,7 +3198,7 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
     <value>GameBanana дээр олон нийтийн горимуудыг үзэх.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Мод судлагч</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Өөрийн Roblox суулгац дээрх файлуудыг харж удирдах боломжтой.</value>
@@ -3544,7 +3543,7 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
     <value>Гөлгөр болон хүрээ</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Ирмэг зөөлрүүлэх</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Таны GPU-г ашиглан хонхорхой ирмэгийг тэгшлэнэ.</value>
@@ -5599,10 +5598,10 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
     <value>Ялгарал, сүүдрийн нарийвчилсан болон дунд өнгөний харагдах байдалд нөлөөлж, тод байдлын утгуудын зураглалыг тохируулна.</value>
   </data>
   <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
-    <value>Benchmark Overlay</value>
+    <value>Хэмжилтийн давхарга</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
-    <value>Frame Rate Limiter</value>
+    <value>Кадрын хурд хязгаарлагч</value>
   </data>
   <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
     <value>Суурь хэрэглээний хүрээний хурдны хязгаар</value>
@@ -5923,10 +5922,10 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
     <value>Хөгжим тоглуулагч</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Кадр үүсгэх</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
-    <value>Frame Generation</value>
+    <value>Кадр үүсгэх</value>
   </data>
   <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
     <value>Үүсгэсэн хүрээний давхардал</value>
@@ -6301,7 +6300,7 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
     <value>Хурд</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh харагч</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Эргүүлэхийн тулд чир, томруулахын тулд гүйлгэ</value>
@@ -6663,7 +6662,7 @@ Voidstrap ширээний хавтас руу бичиж чадсангүй.</v
     <value>Өрсөлдөх чадвартай HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Стримерт зориулсан цэвэр</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Топ Док</value>
@@ -6684,7 +6683,7 @@ Voidstrap ширээний хавтас руу бичиж чадсангүй.</v
     <value>Мэдэгдэл</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Сешний самбар</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>

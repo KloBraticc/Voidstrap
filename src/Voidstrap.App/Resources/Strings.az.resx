@@ -1430,8 +1430,7 @@ Nə etmək istərdiniz?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap-nin silinməsi onu sisteminizdən siləcək və əgər hələ də quraşdırılıbsa, defolt Roblox başlatma qurğusunu bərpa edəcək. 
  
-Kilidlənmiş və ya istifadədə olan hər şey buraxıldıqdan sonra avtomatik olaraq təmizlənəcək. 
-</value>
+Kilidlənmiş və ya istifadədə olan hər şey buraxıldıqdan sonra avtomatik olaraq təmizlənəcək.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Parametrlərimi və modlarımı saxla</value>
@@ -3199,7 +3198,7 @@ Nə etmək istərdiniz?</value>
     <value>GameBanana-da icma modlarına baxın.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Mod bələdçisi</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Roblox quraşdırmanızda fayllara baxın və idarə edin.</value>
@@ -3544,7 +3543,7 @@ Nə etmək istərdiniz?</value>
     <value>Hamarlama və çərçivələr</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Kənar hamarlama</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>GPU-dən istifadə edərək əyri kənarları hamarlayır.</value>
@@ -4585,7 +4584,7 @@ Nə etmək istərdiniz?</value>
     <value>Defoltlara sıfırlayın</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mod generatoru</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Roblox-nin menyusunu və üst sətir nişanlarını yenidən rəngləyin, sonra onu mod kimi yadda saxlayın.</value>
@@ -5083,7 +5082,7 @@ Nə etmək istərdiniz?</value>
     <value>Fərqli təsadüfi serverə qoşulun</value>
   </data>
   <data name="Ui.Session.ServerHop" xml:space="preserve">
-    <value>Server hop</value>
+    <value>Server dəyiş</value>
   </data>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Sırala</value>
@@ -5599,7 +5598,7 @@ Nə etmək istərdiniz?</value>
     <value>Kontrasta, kölgə təfərrüatına və orta tonun görünməsinə təsir edən parlaqlıq dəyərlərinin necə xəritələndiyini tənzimləyir.</value>
   </data>
   <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
-    <value>Benchmark Overlay</value>
+    <value>Benchmark örtüyü</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
     <value>Çərçivə sürətinin məhdudlaşdırıcısı</value>
@@ -5893,7 +5892,7 @@ Nə etmək istərdiniz?</value>
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mod generatoru</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Meddsam və SquireDot tərəfindən yaradılmış Voidstrap üçün mod generatoru.</value>
@@ -5923,7 +5922,7 @@ Nə etmək istərdiniz?</value>
     <value>Musiqi Pleyeri</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Kadr yaratma</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
     <value>Çərçivə Yaradılması</value>
@@ -6301,7 +6300,7 @@ Nə etmək istərdiniz?</value>
     <value>Sürət</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh baxıcı</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Döndürmək üçün sürüşdürün, böyütmək üçün sürüşdürün</value>
@@ -6651,7 +6650,7 @@ Xətası: {0}</value>
     <value>Hamısını Sıfırla</value>
   </data>
   <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
-    <value>Layout Presets</value>
+    <value>Düzən şablonları</value>
   </data>
   <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
     <value>Defolt</value>
@@ -7813,7 +7812,7 @@ Həmin faylı sizə kömək edənə göndərin. Kompüterinizin istifadəçi ad�
     <value>Quraşdırılıb</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.Import" xml:space="preserve">
-    <value>Import plugin</value>
+    <value>Plaqini idxal et</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.Folder" xml:space="preserve">
     <value>Plugin qovluğu</value>
@@ -9126,7 +9125,7 @@ icazə verilir?</value>
     <value>Klassik açarlar</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
-    <value>Minimal bar</value>
+    <value>Minimal panel</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
     <value>Siçan izləyicisi</value>

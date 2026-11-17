@@ -1430,8 +1430,7 @@ Roblox-ը կտեղադրվի, երբ այն առաջին անգամ գործար
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap-ի տեղահանումը կհեռացնի այն ձեր համակարգից և կվերականգնի լռելյայն Roblox գործարկիչը, եթե այն դեռ տեղադրված է: 
  
-Ցանկացած բան, որը կողպված է կամ օգտագործվում է, ինքնաբերաբար կմաքրվի այն թողարկվելուց հետո: 
-</value>
+Ցանկացած բան, որը կողպված է կամ օգտագործվում է, ինքնաբերաբար կմաքրվի այն թողարկվելուց հետո:</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Պահպանեք իմ կարգավորումներն ու ռեժիմները</value>
@@ -3199,7 +3198,7 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
     <value>Զննեք համայնքի ռեժիմները GameBanana-ում:</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Մոդերի դիտարկիչ</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Դիտեք և կառավարեք ֆայլերը ձեր Roblox տեղադրման մեջ:</value>
@@ -3742,7 +3741,7 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
     <value>Լուսավորություն</value>
   </data>
   <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
-    <value>Force Gray Sky</value>
+    <value>Ստիպողաբար մոխրագույն երկինք</value>
   </data>
   <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
     <value>Հարթեցրեք ատամնավոր եզրերը: Բարձր արժեքները մեծացնում են հարթությունը:</value>
@@ -4585,7 +4584,7 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
     <value>Վերականգնել լռելյայն</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Մոդերի գեներատոր</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Գունավորեք Roblox-ի ընտրացանկը և վերին գծի պատկերակները, այնուհետև պահեք այն որպես ռեժիմ:</value>
@@ -5881,7 +5880,7 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
     <value>Դասական վերին բարի տարբերակը վերակառուցում է համայնքի երկու ռեժիմ: 2014-ից մինչև 2015 թվականների վերին տողերի և խաղերի մենյուի նկարները և վարքագիծը գալիս են HockuTM-ի «2014 2015 Topbar and Menu (Improvised GUI)»-ից: Ժամանակակից վերին բարը թաքցնելու համար օգտագործվում է «NoGuiRBX, Hide TopBar!»: Էյնշինի կողմից։ Երկուսն էլ օգտագործվում են շնորհակալություն հայտնելով իրենց Creative Commons BY NC ND 4.0 տերմիններով, նրանց ֆայլերը ներբեռնվում են անմիջապես GameBanana-ից, այլ ոչ թե փաթեթավորված, և հեղինակներից ոչ մեկը կապված չէ Voidstrap-ի հետ:</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>2014 2015 վերին վահանակ և մենյու, հեղինակ՝ HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Համայնքի ռեժիմներ</value>
@@ -5893,7 +5892,7 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Մոդերի գեներատոր</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod գեներատոր Voidstrap-ի համար, որը ստեղծվել է Meddsam-ի և SquireDot-ի կողմից:</value>
@@ -6639,7 +6638,7 @@ Voidstrap-ը չկարողացավ գրել աշխատասեղանի թղթապա
     <value>Քաշեք ցանկացած ծածկույթի քարտ անմիջապես ձեր խաղի պատուհանով: Ավարտելուց հետո սեղմեք Esc կամ սեղմեք Կատարված:</value>
   </data>
   <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
-    <value>Magnetic Snap</value>
+    <value>Մագնիսական կպչում</value>
   </data>
   <data name="Ui.OverlayStudio.Done" xml:space="preserve">
     <value>Կատարված է</value>
@@ -6663,10 +6662,10 @@ Voidstrap-ը չկարողացավ գրել աշխատասեղանի թղթապա
     <value>Մրցակցային HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Մաքուր ստրիմերի համար</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Վերին վահանակ</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Էկրանի ինտերակտիվ փուլ</value>
@@ -6684,7 +6683,7 @@ Voidstrap-ը չկարողացավ գրել աշխատասեղանի թղթապա
     <value>Ծանուցումներ</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Սեսիայի վահանակ</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Խաչմերուկ</value>
@@ -6693,7 +6692,7 @@ Voidstrap-ը չկարողացավ գրել աշխատասեղանի թղթապա
     <value>FrameGen HUD</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
-    <value>Dock Panels</value>
+    <value>Վահանակի պանելներ</value>
   </data>
   <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
     <value>Ցույց տալ սերվերի գտնվելու վայրը խաղում</value>
@@ -7035,7 +7034,7 @@ Voidstrap-ը չկարողացավ գրել աշխատասեղանի թղթապա
     <value>Սեղմեք Start Recording կամ սեղմեք {0} ձայնագրման համար:</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>Clip Buffer Ready</value>
+    <value>Տեսահատվածի բուֆերը պատրաստ է</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
     <value>Սկսվում է նկարահանումը...</value>
@@ -7362,7 +7361,7 @@ Voidstrap-ը չկարողացավ գրել աշխատասեղանի թղթապա
     <value>Սեղմված Key Image</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
-    <value>Image Stretch</value>
+    <value>Պատկերի ձգում</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
     <value>Պատկերի անթափանցիկություն</value>
@@ -9002,7 +9001,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
     <value>Voidstrap ռեժիմներ դեռ տեղադրված չեն</value>
   </data>
   <data name="Ui.ModCode.OpenButton" xml:space="preserve">
-    <value>Mod Code</value>
+    <value>Մոդի կոդ</value>
   </data>
   <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
     <value>Զննեք և խմբագրեք ձեր Voidstrap ռեժիմների կոդը</value>
@@ -9044,7 +9043,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
     <value>Գտեք</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Solution Explorer</value>
+    <value>Լուծումների դիտարկիչ</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>Արդյունք</value>

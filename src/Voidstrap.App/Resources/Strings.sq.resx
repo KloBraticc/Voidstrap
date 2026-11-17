@@ -1430,8 +1430,7 @@ Mos përdorni shkurtoren "Roblox Player",Voidstrap nuk do të funksionojë me t�
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Çinstalimi i Voidstrap do ta heqë atë nga sistemi juaj dhe do të rivendosë lëshuesin e paracaktuar Roblox nëse është ende i instaluar. 
  
-Çdo gjë që është e kyçur ose në përdorim do të pastrohet automatikisht sapo të lëshohet. 
-</value>
+Çdo gjë që është e kyçur ose në përdorim do të pastrohet automatikisht sapo të lëshohet.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Ruaj cilësimet dhe modalitetet e mia</value>
@@ -2104,7 +2103,7 @@ Ju lutemi aktivizoni përmirësimet Roblox .</value>
     <value>Aktiv</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>Fikur në dukje</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>Përvoja e konsolës</value>
@@ -3199,7 +3198,7 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
     <value>Shfletoni modalitetet e komunitetit në GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Eksploruesi i modeve</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Shikoni dhe menaxhoni skedarët në instalimin tuaj Roblox .</value>
@@ -6106,7 +6105,7 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
     <value>Përdorni ikonën</value>
   </data>
   <data name="Ui.Misc2.EditMod" xml:space="preserve">
-    <value>Edit Mod</value>
+    <value>Ndrysho modin</value>
   </data>
   <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
     <value>Merrni çdo opsion nga GameBanana</value>
@@ -6663,7 +6662,7 @@ Voidstrap nuk mund të shkruante në dosjen e desktopit.</value>
     <value>HUD konkurruese</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>I pastër për transmetues</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Top Dok</value>

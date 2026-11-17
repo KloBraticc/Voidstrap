@@ -1430,8 +1430,7 @@ Ko jūs vēlētos darīt?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Atinstalējot Voidstrap , tas tiks noņemts no jūsu sistēmas un tiks atjaunots noklusējuma Roblox palaidējs, ja tas joprojām ir instalēts. 
  
-Viss, kas ir bloķēts vai tiek lietots, tiks automātiski iztīrīts, tiklīdz tas tiks atbrīvots. 
-</value>
+Viss, kas ir bloķēts vai tiek lietots, tiks automātiski iztīrīts, tiklīdz tas tiks atbrīvots.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Saglabāt manus iestatījumus un modifikācijas</value>
@@ -2104,7 +2103,7 @@ Lūdzu, iespējojiet Roblox jauninājumus.</value>
     <value>Ieslēgts</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>Šķietami izslēgts</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>Pieredze konsolē</value>
@@ -3199,7 +3198,7 @@ Ko jūs vēlētos darīt?</value>
     <value>Pārlūkojiet kopienas modifikācijas vietnē GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Modu pārlūks</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Skatiet un pārvaldiet failus savā Roblox instalācijā.</value>
@@ -3544,7 +3543,7 @@ Ko jūs vēlētos darīt?</value>
     <value>Izlīdzināšana un rāmji</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Malu nogludināšana</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Izlīdzina robainās malas, izmantojot jūsu GPU.</value>
@@ -3892,7 +3891,7 @@ Ko jūs vēlētos darīt?</value>
     <value>Pilns ātrums, kamēr Roblox ir fokusēts, droseles, kamēr esat izvilkts.</value>
   </data>
   <data name="Ui.Bootstrapper.AdvancedGeneral" xml:space="preserve">
-    <value>Advanced General</value>
+    <value>Papildu vispārīgi</value>
   </data>
   <data name="Ui.Bootstrapper.Cleaner" xml:space="preserve">
     <value>Apkopēja</value>
@@ -4264,7 +4263,7 @@ Ko jūs vēlētos darīt?</value>
     <value>Pirms Roblox palaišanas</value>
   </data>
   <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
-    <value>Run Minimized</value>
+    <value>Palaist minimizētu</value>
   </data>
   <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
     <value>Palaist kā administrators</value>
@@ -5881,7 +5880,7 @@ Ko jūs vēlētos darīt?</value>
     <value>Klasiskā augšējās joslas opcija atjauno divus kopienas modifikācijas. 2014.–2015. gada augšējās joslas un spēļu izvēlnes mākslas darbi un uzvedība nāk no HockuTM “2014 2015 Topbar and Menu (Improvized GUI)”. Mūsdienu augšējās joslas slēpšana izmanto "NoGuiRBX, Hide TopBar!" autors Einshine. Abi tiek izmantoti ar pateicību saskaņā ar Creative Commons BY NC ND 4.0 noteikumiem, to faili tiek lejupielādēti tieši no GameBanana, nevis komplektēti, un neviens autors nav saistīts ar Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>2014 2015 augšējā josla un izvēlne, autors HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Kopienas modifikācijas</value>
@@ -6663,7 +6662,7 @@ Kļūda: {0}</value>
     <value>Konkurētspējīgs HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Tīrs straumētājiem</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Augšējais doks</value>
@@ -7101,7 +7100,7 @@ Kļūda: {0}</value>
     <value>1 Mod</value>
   </data>
   <data name="Ui.Main.ModsApplied" xml:space="preserve">
-    <value>{0} Mods Applied</value>
+    <value>Lietoti {0} modi</value>
   </data>
   <data name="Ui.OverlayStudio.LayerKeystrokes" xml:space="preserve">
     <value>Taustiņu nospiešanas</value>
@@ -9002,7 +9001,7 @@ Modifikāciju pārklāšanās var likt Roblox izskatīties vai izturēties dīva
     <value>Vēl nav instalēta neviena Voidstrap modifikācija</value>
   </data>
   <data name="Ui.ModCode.OpenButton" xml:space="preserve">
-    <value>Mod Code</value>
+    <value>Moda kods</value>
   </data>
   <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
     <value>Pārlūkojiet un rediģējiet savu Voidstrap moduļu kodu</value>

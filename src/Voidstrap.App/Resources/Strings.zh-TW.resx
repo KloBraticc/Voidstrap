@@ -735,10 +735,11 @@
     <value>明亮</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap 已經更新至 v{0}</value>
+    <value>Voidstrap 已升級到新版本</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
-    <value>你目前運行的Voidstrap版本和你目前已安裝的版本不同。請問你要升級目前已安裝的版本嗎？</value>
+    <value>你啟動的 Voidstrap 版本與目前安裝的版本不同。
+要升級目前安裝的版本嗎？</value>
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
     <value>貢獻者</value>
@@ -955,7 +956,7 @@
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Alt + Enter鍵啟用為Direct3D [全螢幕獨佔模式]({0}) 已預設啟用。</value>
+    <value>預設已啟用透過 Alt+Enter 進入的 Direct3D 獨佔全螢幕。</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>首選的ESC選單版本</value>
@@ -973,7 +974,7 @@
     <value>幀數（FPS）上限</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>用快捷鍵({0})開啟，此設定需加入[Voidstrap group]({1})。</value>
+    <value>使用[鍵盤快捷鍵]({0})切換。請輸入你所在群組的 ID。</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>啟用隱藏介面功能</value>
@@ -1058,8 +1059,7 @@
     <value>設定Roblox的附設功能。</value>
   </data>
   <data name="Menu.Integrations.DesktopApp.Description" xml:space="preserve">
-    <value>當你離開遊戲時，Roblox 將會完全關閉；而不是讓您退回到主界面。
-[將會讓某些功能無法正常運作！]({0})</value>
+    <value>離開遊戲時 Roblox 會完全關閉，而不是返回應用程式。[會導致部分功能失效！]({0})</value>
   </data>
   <data name="Menu.Integrations.DesktopApp.Title" xml:space="preserve">
     <value>不要在離開遊戲後返回主介面</value>
@@ -1174,7 +1174,8 @@
     <value>翻譯為</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>在繼續安裝之前，請選擇一種語言。</value>
+    <value>繼續安裝前，請先選擇一種語言。
+部分文字可能尚未翻譯成你選擇的語言。</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>語言</value>
@@ -1313,11 +1314,9 @@
     <value>下一個</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>感謝您下載 Voidstrap。 
+    <value>感謝你下載 Voidstrap。
 
- {0} 或 {1} 都是 Voidstrap 的官方網站。請確保您的 Voidstrap 都是從官方來源下載來的。
-
-安裝過程快速簡單，安裝後您將能夠配置 Voidstrap 的任何設定。</value>
+安裝過程快速又簡單，安裝後你可以設定 Voidstrap 的任何選項。</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1369,13 +1368,9 @@ Roblox 尚未安裝，這將在您第一次使用 Voidstrap 啟動時進行。�
     <value>解除安裝 Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>解除安裝將從您的系統中刪除 Voidstrap，並重新配置默認的 Roblox 啟動器。
+    <value>解除安裝 Voidstrap 會將其從系統中移除，並在預設 Roblox 啟動器仍已安裝時將其還原。
 
-如果您是因為 Roblox 出現問題，想要解除安裝，請先閱讀 [此幫助頁面]({0})。
-
-解除安裝的過程可能無法刪除全部文件。 所以你可能需要手動清理 Voidstrap 的殘留文件。
-
-Voidstrap 安裝在 "{1}"。</value>
+任何被鎖定或正在使用的內容都會在釋放後自動清理。</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>保留我的設定和模組</value>
@@ -1468,10 +1463,9 @@ Voidstrap 安裝在 "{1}"。</value>
     <value>Roblox 已崩潰。</value>
   </data>
   <data name="Dialog.PlayerError.HelpInformation" xml:space="preserve">
-    <value>有關此錯誤發生的原因及解決方法，請參閱 [此幫助頁]({0})。
+    <value>要了解出現此問題的可能原因及解決方法，請閱讀[這篇說明文章]({0})。
 
-請檢查 Roblox 是否能在 [原版啟動器]({1}) 中執行。
-如果不能，則這不是 Voidstrap 的問題；如果可以，那麼請參閱幫助頁面以為您除錯。</value>
+請檢查 Roblox 能否透過[原版啟動器]({1})執行。如果不能，這就不是 Voidstrap 的問題。如果可以，請參閱說明文章。</value>
   </data>
   <data name="Common.NetworkError" xml:space="preserve">
     <value>由於網絡錯誤，無法載入數據。</value>
@@ -1552,8 +1546,7 @@ Voidstrap 安裝在 "{1}"。</value>
     <value>提取 Roblox 圖示到資料夾</value>
   </data>
   <data name="Menu.Shortcuts.ExtractIcons.Description" xml:space="preserve">
-    <value>啟用此選項後將會在 Voidstrap 安裝根目錄上創建一個名為 “Icons” 的資料夾。
-（此選項允許您獲取 Roblox 圖示文件以便快捷應用於捷徑）[如何使用？]({0})</value>
+    <value>讓你可以為捷徑使用 Voidstrap 提供的 Roblox 圖示。[查看方法。]({0})</value>
   </data>
   <data name="Dialog.RegistryWriteError" xml:space="preserve">
     <value>Voidstrap 無法寫入進 Windows 登錄檔。可能是防毒軟體干擾並導致問題。請檢查是否有任何會限制 Voidstrap 操作的應用程式。</value>
@@ -6050,7 +6043,7 @@ Voidstrap 安裝在 "{1}"。</value>
     <value>經典頂端列選項重建了兩個社群模組。2014 到 2015 年的頂端列和遊戲選單外觀與行為來自 HockuTM 的 "2014 2015 Topbar and Menu (Improvised GUI)"。隱藏現代頂端列使用了 Einshine 的 "NoGuiRBX, Hide TopBar!"。兩者皆依其 Creative Commons BY NC ND 4.0 條款懷著感謝使用，檔案直接從 GameBanana 下載而非隨附，且兩位作者皆與 Voidstrap 無關。</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>2014 2015 頂端列與選單，作者 HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>社群模組</value>

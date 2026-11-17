@@ -1430,8 +1430,7 @@ Roblox вақте насб мешавад, ки шумо онро боVoidstrap 
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Хориҷ кардани Voidstrap онро аз системаи шумо хориҷ мекунад ва оғозкунандаи пешфарзи Roblox-ро барқарор мекунад, агар он ҳанӯз насб шуда бошад. 
  
-Ҳар чизе, ки қуфл аст ё дар истифода аст, пас аз баровардани он ба таври худкор тоза карда мешавад. 
-</value>
+Ҳар чизе, ки қуфл аст ё дар истифода аст, пас аз баровардани он ба таври худкор тоза карда мешавад.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Танзимотҳо ва модулҳои маро нигоҳ доред</value>
@@ -1923,7 +1922,7 @@ Roblox вақте насб мешавад, ки шумо онро боVoidstrap 
     <value>Вақт</value>
   </data>
   <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
-    <value>Version hash</value>
+    <value>Хеши версия</value>
   </data>
   <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
     <value>Voidstrap-ро маҷбур кунед, ки версияро аз hash мушаххас зеркашӣ кунад. Лутфан тағир надиҳед, агар шумо намедонед, ки ин чӣ кор мекунад.</value>
@@ -3199,7 +3198,7 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
     <value>Модулҳои ҷомеаро дар GameBanana паймоиш кунед.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Тадқиқгари модҳо</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Дар насби Roblox файлҳоро бинед ва идора кунед.</value>
@@ -3742,7 +3741,7 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
     <value>Равшанӣ</value>
   </data>
   <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
-    <value>Force Grey Sky</value>
+    <value>Маҷбурии осмони хокистарӣ</value>
   </data>
   <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
     <value>Кунҷҳои доғдорро ҳамвор кунед. Қиматҳои баландтар ҳамворро зиёд мекунанд.</value>
@@ -5923,7 +5922,7 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
     <value>Плеери мусиқӣ</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Тавлиди кадр</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
     <value>Насли чаҳорчӯба</value>
@@ -9044,7 +9043,7 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
     <value>Пайдо кунед</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Explorer Solution</value>
+    <value>Тадқиқгари ҳалли</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>Натиҷа</value>

@@ -1277,7 +1277,7 @@ Windows ඊළඟට සහතිකය මකා දැමීම තහවු�
     <value>මෙය අක්‍රිය කිරීමෙන් මෙහි වින්‍යාස කර ඇති කිසිවක් Robloxවෙත යෙදීමෙන් වලක්වනු ඇත.</value>
   </data>
   <data name="Menu.FastFlags.Presets.MSAA.Title" xml:space="preserve">
-    <value>Anti-aliasing quality (MSAA)</value>
+    <value>දාර සුමට කිරීමේ ගුණාත්මකභාවය (MSAA)</value>
   </data>
   <data name="Menu.FastFlags.Presets.DisablePostFX.Title" xml:space="preserve">
     <value>පසු සැකසුම් බලපෑම් අබල කරන්න</value>
@@ -1430,8 +1430,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap සමඟ දියත් �
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap අස්ථාපනය කිරීමෙන් එය ඔබේ පද්ධතියෙන් ඉවත් කර එය තවමත් ස්ථාපනය කර ඇත්නම් පෙරනිමි Roblox දියත් කිරීම ප්‍රතිසාධනය කරයි. 
  
-අගුලු දමා ඇති හෝ භාවිතයේ ඇති ඕනෑම දෙයක් නිදහස් කළ පසු එය ස්වයංක්‍රීයව පිරිසිදු කෙරේ. 
-</value>
+අගුලු දමා ඇති හෝ භාවිතයේ ඇති ඕනෑම දෙයක් නිදහස් කළ පසු එය ස්වයංක්‍රීයව පිරිසිදු කෙරේ.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>මගේ සැකසුම් සහ මාදිලි තබා ගන්න</value>
@@ -2104,7 +2103,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap සමඟ දියත් �
     <value>ක්‍රියාත්මකයි</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>ව්‍යාජ ලෙස අක්‍රීයයි</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>කොන්සෝල අත්දැකීම</value>
@@ -3199,7 +3198,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>GameBanana හි ප්‍රජා mods බ්‍රවුස් කරන්න.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Mod ගවේෂකය</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>ඔබගේ Roblox ස්ථාපනය තුළ ගොනු බලන්න සහ කළමනාකරණය කරන්න.</value>
@@ -3370,7 +3369,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>උදව් සහ නිවැරදි කිරීම්</value>
   </data>
   <data name="Ui.Mods.ModPacks" xml:space="preserve">
-    <value>Mod Packs</value>
+    <value>Mod පැකේජ</value>
   </data>
   <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
     <value>Roblox mods සොයන්න</value>
@@ -4177,7 +4176,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>ඝෝෂාකාරී සහ නිහඬ Roblox ශ්‍රව්‍ය සමතුලිත කරන්න.</value>
   </data>
   <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
-    <value>Telemetry blocker</value>
+    <value>Telemetry අවහිරකරු</value>
   </data>
   <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
     <value>Roblox ටෙලිමිතිය අවහිර කරන්න. පරිපාලක ප්රවේශය එක් වරක් අවශ්ය වේ.</value>
@@ -4264,7 +4263,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>පෙර Roblox දියත් කිරීම</value>
   </data>
   <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
-    <value>Run Minimized</value>
+    <value>අවම කර ධාවනය කරන්න</value>
   </data>
   <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
     <value>පරිපාලක ලෙස ධාවනය කරන්න</value>
@@ -4585,7 +4584,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>පෙරනිමියට යළි පිහිටුවන්න</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mod උත්පාදකය</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Robloxහි මෙනුව සහ ඉහළ තීරු අයිකන නැවත වර්ණ ගන්වන්න, ඉන්පසු එය මෝඩයක් ලෙස සුරකින්න.</value>
@@ -4750,7 +4749,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>උපරිම FPSසීමා කරන්න.</value>
   </data>
   <data name="Ui.Gbs.GraphicsQuality" xml:space="preserve">
-    <value>Graphics Quality</value>
+    <value>ග්‍රැෆික්ස් ගුණාත්මකභාවය</value>
   </data>
   <data name="Ui.Gbs.ChooseAutomaticOrSetAFixed" xml:space="preserve">
     <value>ස්වයංක්‍රීය තෝරන්න, නැතහොත් ස්ථාවර මට්ටමක් සකසන්න. ඉහළ මට්ටම් වඩා හොඳින් පෙනෙන අතර සෙමින් ධාවනය වේ.</value>
@@ -5884,7 +5883,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>2014 2015 HockuTM විසින් Topbar සහ Menu</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
-    <value>Community Mods</value>
+    <value>ප්‍රජා mods</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>ප්‍රජා මොඩ්ස් ක්ලිකෝගේ මොඩ්ලෝඩරය සඳහා TheKliko විසින් නඩත්තු කරන GameBanana සහ Kliko's Mods වෙතින් Roblox ඉදිරිපත් කිරීම් ලැයිස්තුගත කරයි. Voidstrap අනුබද්ධ හෝ අනුමත කර නැත. සියලුම මාදිලි, පින්තූර සහ විස්තර සෑම ලැයිස්තුගත කිරීමකම බැර කරනු ලබන ඔවුන්ගේ කතුවරුන්ට අයත් වේ. Voidstrap ඔවුන්ගේ පොදු දත්ත පමණක් කියවන අතර ඔබ වෙනුවෙන් කිසිවක් උඩුගත නොකරයි.</value>
@@ -5893,7 +5892,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mod උත්පාදකය</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Meddsam සහ SquireDot විසින් නිර්මාණය කරන ලද Voidstrap සඳහා Mod Generator.</value>
@@ -5932,7 +5931,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>ජනනය කරන ලද රාමු උඩින්</value>
   </data>
   <data name="Ui.Misc2.SplitScreenCompare" xml:space="preserve">
-    <value>Split Screen Compare</value>
+    <value>බෙදුණු තිර සංසන්දනය</value>
   </data>
   <data name="Ui.Misc2.ColorTemperature" xml:space="preserve">
     <value>වර්ණ උෂ්ණත්වය</value>
@@ -6301,7 +6300,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>වේගය</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh දර්ශකය</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• කරකවීමට අදින්න, විශාලනය කිරීමට අනුචලනය කරන්න</value>
@@ -6663,10 +6662,10 @@ Voidstrap ඩෙස්ක්ටොප් ෆෝල්ඩරයට ලිවී�
     <value>තරඟකාරී HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Streamer සඳහා පිරිසිදු</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>ඉහළ dock</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>අන්තර් ක්රියාකාරී තිර අදියර</value>
@@ -6780,7 +6779,7 @@ Voidstrap ඩෙස්ක්ටොප් ෆෝල්ඩරයට ලිවී�
     <value>සිරස් මැද ඕෆ්සෙට්</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Crosshair නැවත මැදට ගන්න</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>Frame Generation HUD පෙන්වන්න</value>
@@ -7738,7 +7737,7 @@ Voidstrap ඩෙස්ක්ටොප් ෆෝල්ඩරයට ලිවී�
     <value>අක්රියයි</value>
   </data>
   <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
-    <value>Bass boost</value>
+    <value>Bass වැඩි කිරීම</value>
   </data>
   <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
     <value>අඩිපාර</value>

@@ -765,7 +765,7 @@ Jei ne, praneškite apie šią išimtį per [„GitHub“ problemą]({1}) kartu 
     <value>Šviesi</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>„Voidstrap“ buvo atnaujintas į v{0}.</value>
+    <value>Voidstrap atnaujinta į naują versiją</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Paleista „Voidstrap“ versija skiriasi nuo šiuo metu įdiegtos versijos.
@@ -986,7 +986,7 @@ Nenaudokite jo importuoti didelių kitų žmonių sudarytų „gairelių sąraš
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>„Direct3D“ [išskirtinis visas ekranas]({0}) naudojant Alt+Enter jau įjungtas pagal numatytuosius nustatymus.</value>
+    <value>Direct3D išskirtinis viso ekrano režimas naudojant Alt+Enter įjungtas pagal numatytuosius nustatymus.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Pageidaujama grįžimo meniu versija</value>
@@ -1004,7 +1004,7 @@ Nenaudokite jo importuoti didelių kitų žmonių sudarytų „gairelių sąraš
     <value>Kadrų dažnio riba</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Perjungta su [spartiečiais klavišais]({0}). Veikia tik jei esate [„Voidstrap“ grupėje]({1}).</value>
+    <value>Perjungiama [spartiaisiais klavišais]({0}). Įveskite grupės, kurioje esate, ID.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Įjungti galimybę paslėpti grafinės sąsajas</value>
@@ -1204,7 +1204,8 @@ Pasirinkus Ne, šis įspėjimas bus ignoruojamas ir diegimas bus tęsiamas.</val
     <value>Versti į</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Prieš tęsiant diegimą, pasirinkite kalbą.</value>
+    <value>Prieš tęsdami diegimą pasirinkite kalbą.
+Kai kurie tekstai gali būti neišversti į pasirinktą kalbą.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Kalba</value>
@@ -1343,11 +1344,9 @@ Pasirinkus Ne, šis įspėjimas bus ignoruojamas ir diegimas bus tęsiamas.</val
     <value>Toliau</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Dėkojame, kad atsisiuntėte „Voidstrap“. 
+    <value>Ačiū, kad atsisiuntėte Voidstrap.
 
-Vienintelės oficialios svetainės, iš kurių galima atsisiųsti „Voidstrap“, yra {0} ir {1}, todėl patikrinkite, ar ją gavote iš oficialaus šaltinio.
-
-Šis diegimo procesas bus greitas ir paprastas, o įdiegus galėsite konfigūruoti bet kokius „Voidstrap“ nustatymus.</value>
+Diegimas bus greitas ir paprastas, o po jo galėsite konfigūruoti bet kuriuos Voidstrap nustatymus.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1399,13 +1398,9 @@ Ką norėtumėte daryti?</value>
     <value>Išdiegti „Voidstrap“</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Išdiegus bus pašalinta „Voidstrap“ iš sistemos ir automatiškai perkonfigūruota numatytoji „Roblox“ paleidyklė, jei ji vis dar įdiegta.
+    <value>Pašalinus Voidstrap, jis bus ištrintas iš sistemos, o numatytoji Roblox paleidimo programa bus atkurta, jei ji vis dar įdiegta.
 
-Jei išdiegiate arba iš naujo įdiegiate, nes turite problemų su „Roblox“, pirmiausia perskaitykite [šį pagalbos puslapį]({0}).
-
-Išdiegimo procesas gali nesugebėti visiškai išvalyti, todėl gali tekti rankiniu būdu valyti likusius failus, kuriuose buvo įdiegta „Voidstrap“.
-
-„Voidstrap“ buvo įdiegta vietoje „{1}“.</value>
+Viskas, kas užrakinta ar naudojama, bus automatiškai išvalyta, kai tik bus atlaisvinta.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Išlaikyti mano nustatymus ir modifikacijas</value>
@@ -6084,7 +6079,7 @@ Ką norėtumėte daryti?</value>
     <value>Klasikinės viršutinės juostos parinktis atkuria du bendruomenės modus. 2014 2015 metų viršutinės juostos ir žaidimo meniu išvaizda bei elgsena paimta iš "2014 2015 Topbar and Menu (Improvised GUI)", kurį sukūrė HockuTM. Modernios juostos slėpimui naudojamas "NoGuiRBX, Hide TopBar!", kurį sukūrė Einshine. Abu naudojami su padėka pagal jų Creative Commons BY NC ND 4.0 sąlygas, jų failai atsisiunčiami tiesiai iš GameBanana, o ne pridedami, ir nė vienas autorius nėra susijęs su Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>2014 2015 viršutinė juosta ir meniu, autorius HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Bendruomenės modai</value>

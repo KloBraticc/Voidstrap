@@ -732,7 +732,7 @@
     <value>สว่าง</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap ได้รับการอัปเกรดเป็น v{0}</value>
+    <value>Voidstrap ได้รับการอัปเกรดเป็นเวอร์ชันใหม่แล้ว</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>เวอร์ชั่นของ Voidstrap ที่คุณใช้งานอยู่นั้นจะแตกต่างออกไปกับเวอร์ชั่นที่คุณได้ติดตั้งไว้
@@ -911,7 +911,9 @@
     <value>คัดลอกไปที่คลิปบอร์ดแล้ว</value>
   </data>
   <data name="Menu.FastFlagEditor.LargeConfig" xml:space="preserve">
-    <value>คุณกำลังนำเข้าการตั้งค่าที่มีขนาดใหญ่มาก คุณควรนำเข้าการตั้งค่าที่คุณเข้าใจเท่านั้น อย่านำการตั้งค่าที่คุณไม่เข้ามาจากคนอื่น ๆ หากคุณดำเนินการต่อ คุณอาจจะพบปัญหาด้านความเสถียรและพบกับการเปลี่ยนแปลงที่ไม่คาดคิดได้อย่างมาก</value>
+    <value>ดูเหมือนว่าคุณกำลังนำเข้าการตั้งค่าที่มีขนาดใหญ่มาก คุณควรนำเข้าเฉพาะการตั้งค่าที่คุณเข้าใจอย่างถ่องแท้เท่านั้น ห้ามวางการตั้งค่าที่ผู้อื่นสร้างโดยไม่ไตร่ตรอง หากดำเนินการต่อ มีแนวโน้มสูงมากที่จะเกิดปัญหาด้านความเสถียรและการเปลี่ยนแปลงที่ไม่คาดคิด
+
+คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ</value>
   </data>
   <data name="Menu.FastFlagEditor.Search" xml:space="preserve">
     <value>ค้นหา</value>
@@ -948,7 +950,7 @@
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [พิเศษสำหรับโหมดเต็มหน้าจอ]({0}) โดยใช้ Alt+Enter ถูกเปิดไว้เป็นค่าเริ่มต้น</value>
+    <value>โหมดเต็มหน้าจอแบบเอกสิทธิ์ของ Direct3D ด้วย Alt+Enter เปิดใช้งานเป็นค่าเริ่มต้น</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>เวอร์ชั่นเมนู Escape ที่ต้องการ</value>
@@ -966,7 +968,7 @@
     <value>การจำกัด Framerate</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>สลับกับ[ปุ่มคีย์บอร์ด]({0}) จะสามารถใช้ได้ถ้าคุณอยู่ใน[กลุ่มของ Voidstrap]({1})</value>
+    <value>สลับด้วย [แป้นพิมพ์ลัด]({0}) ใส่ ID ของกลุ่มที่คุณเป็นสมาชิกอยู่</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>เปิดใช้ความสามารถในการซ่อน GUIs</value>
@@ -1063,8 +1065,7 @@
     <value>เปิดตัวติดตามกิจกรรม</value>
   </data>
   <data name="Menu.Integrations.RequiresActivityTracking" xml:space="preserve">
-    <value>ฟีเจอร์นี้จำเป็นต้องเปิดการใช้งานการติดตามกิจกรรมเเละใช้งาน Discord บนเดสก์ทอป.
-[ดูข้อมูลเพิ่มเติม]({0}).</value>
+    <value>ฟีเจอร์นี้ต้องเปิดการติดตามกิจกรรม และต้องติดตั้งและเปิดแอป Discord บนเดสก์ท็อปไว้ [ดูข้อมูลเพิ่มเติม]({0})</value>
   </data>
   <data name="Menu.Integrations.ShowGameActivity.Description" xml:space="preserve">
     <value>เกมที่คุณกำลังเล่นใน Roblox จะถูกโชว์บนหน้าโปรไฟล์ Discord ของคุณ [ไม่ทำงาน?]({0})</value>
@@ -1167,7 +1168,8 @@
     <value>แปลเป็น</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>เลือกภาษาก่อนเริ่มการติดตั้ง</value>
+    <value>เลือกภาษาก่อนดำเนินการติดตั้งต่อ
+ข้อความบางส่วนอาจยังไม่ได้แปลเป็นภาษาที่คุณเลือก</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>ภาษา</value>
@@ -1306,11 +1308,9 @@
     <value>ถัดไป</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>ขอบคุณสำหรับการดาวน์โหลด Voidstrap
+    <value>ขอบคุณที่ดาวน์โหลด Voidstrap
 
-เว็บไซต์อย่างเป็นทางการสำหรับการดาวน์โหลด Voidstrap มีเพียง {0} และ {1} เท่านั้น กรุณาตรวจสอบว่าคุณได้รับโปรแกรมจากแหล่งที่มาที่เป็นทางการ
-
-กระบวนการติดตั้งนี้จะรวดเร็วและง่ายดาย และคุณจะสามารถปรับแต่งการตั้งค่าต่าง ๆ ของ Voidstrap ได้หลังจากการติดตั้งเสร็จสิ้น</value>
+ขั้นตอนการติดตั้งจะรวดเร็วและง่าย และคุณสามารถปรับการตั้งค่าใดก็ได้ของ Voidstrap หลังการติดตั้ง</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1338,11 +1338,13 @@
     <value>ไอคอนบนเมนูเริ่มต้น</value>
   </data>
   <data name="Installer.Completion.Text" xml:space="preserve">
-    <value>Voidstrap ได้ติดตั้งเสร็จเรียบร้อยแล้ว
+    <value>ติดตั้ง Voidstrap แล้ว!
 
-Roblox ยังไม่ได้ถูกติดตั้ง ซึ่งจะเกิดขึ้นเมื่อคุณเปิดใช้งานมันครั้งแรกผ่าน Voidstrap อย่างไรก็ตาม ก่อนที่คุณจะทำเช่นนั้น คุณอาจต้องการตั้งค่าการกำหนดค่าของ Voidstrap ก่อน
+Roblox จะถูกติดตั้งเมื่อคุณเปิดผ่าน Voidstrap เป็นครั้งแรก ก่อนหน้านั้นคุณอาจต้องการปรับการตั้งค่าของ Voidstrap
 
-นอกจากนี้ ควรหลีกเลี่ยงการใช้ทางลัด "Roblox Player" เพื่อเปิด Roblox เพราะ Voidstrap จะไม่เปิดพร้อมกับ Roblox หากคุณไม่เห็น Voidstrap แสดงขึ้นเมื่อเปิดจากเว็บไซต์ เพียงแค่เปิด Roblox ผ่าน Voidstrap จากเดสก์ท็อปหนึ่งครั้งเพื่อแก้ไขปัญหานี้</value>
+อย่าใช้ทางลัด "Roblox Player" เพราะ Voidstrap จะไม่ทำงานกับทางลัดนั้น หาก Voidstrap ไม่ปรากฏเมื่อเปิดจากเว็บไซต์ ให้เปิด Roblox ด้วย Voidstrap จากเดสก์ท็อปหนึ่งครั้งเพื่อแก้ไข
+
+คุณต้องการทำอะไร?</value>
   </data>
   <data name="Installer.Completion.Settings.Title" xml:space="preserve">
     <value>กำหนดค่าการตั้งค่าของ Voidstrap</value>
@@ -1360,13 +1362,9 @@ Roblox ยังไม่ได้ถูกติดตั้ง ซึ่งจ
     <value>ถอนการติดตั้ง Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>การถอนการติดตั้งจะลบ Voidstrap ออกจากระบบของคุณ และจะตั้งค่าตัวเปิด Roblox เริ่มต้นใหม่โดยอัตโนมัติหากยังติดตั้งอยู่
+    <value>การถอนการติดตั้ง Voidstrap จะลบออกจากระบบของคุณและคืนค่าตัวเปิด Roblox เริ่มต้นหากยังติดตั้งอยู่
 
-หากคุณกำลังถอนการติดตั้งหรือทำการติดตั้งใหม่เนื่องจากมีปัญหากับ Roblox โปรดอ่าน [หน้านี้]({0}) ก่อน
-
-ขั้นตอนการถอนการติดตั้งอาจไม่สามารถทำความสะอาดตัวเองได้ทั้งหมด ดังนั้นคุณอาจต้องทำการลบไฟล์ที่เหลือออกด้วยตนเองในตำแหน่งที่ติดตั้ง Voidstrap
-
-Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
+สิ่งใดที่ถูกล็อกหรือกำลังใช้งานอยู่จะถูกล้างโดยอัตโนมัติเมื่อถูกปล่อยแล้ว</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>เก็บการตั้งค่าและม็อดของฉันไว้</value>
@@ -1448,7 +1446,9 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
     <value>คุณมีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก คุณแน่ใจหรือไม่ว่าต้องการปิดโดยไม่บันทึก?</value>
   </data>
   <data name="InstallChecker.VersionLessThanInstalled" xml:space="preserve">
-    <value>เวอร์ชันของ Voidstrap ที่คุณเปิดใช้งานนั้นเก่ากว่าเวอร์ชันที่คุณติดตั้งอยู่ในขณะนี้ อาจเกิดปัญหาและการตั้งค่าของคุณอาจถูกเปลี่ยนแปลง แนะนำให้ทำการติดตั้งใหม่ คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ?</value>
+    <value>เวอร์ชันของ Voidstrap ที่คุณเปิดเก่ากว่าเวอร์ชันที่ติดตั้งอยู่ในขณะนี้
+อาจเกิดปัญหาและการตั้งค่าของคุณอาจถูกเปลี่ยนแปลง แนะนำให้ติดตั้งใหม่
+คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ?</value>
   </data>
   <data name="Dialog.PlayerError.FailedLaunch" xml:space="preserve">
     <value>Roblox ไม่สามารถเปิดใช้งานได้</value>
@@ -1471,7 +1471,8 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
     <value>ผู้สนับสนุน</value>
   </data>
   <data name="About.Supporters.Description" xml:space="preserve">
-    <value>คนเหล่านี้คือคนที่สนับสนุน Voidstrap ผ่าน Ko-fi ขอขอบคุณทุกท่านที่อยู่ในนี้ ทุกท่านในนี้ถูกเรียงอันดับโดยยอดรวมทั้งหมดของการสนับสนุน</value>
+    <value>นี่คือผู้ที่สนับสนุน Voidstrap ผ่าน Ko-fi ขอบคุณทุกคนเป็นอย่างมาก!
+แต่ละคนเรียงตามยอดสนับสนุนรวม</value>
   </data>
   <data name="JsonManager.SettingsLoadFailed" xml:space="preserve">
     <value>ไม่สามารถโหลดการตั้งค่าของคุณได้ การตั้งค่าถูกรีเซ็ตเป็นค่าตั้งต้น</value>
@@ -6042,7 +6043,7 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
     <value>ตัวเลือกแถบด้านบนแบบคลาสสิกสร้างม็อดชุมชนสองตัวขึ้นใหม่ หน้าตาและการทำงานของแถบด้านบนและเมนูเกมยุค 2014 ถึง 2015 มาจาก "2014 2015 Topbar and Menu (Improvised GUI)" โดย HockuTM การซ่อนแถบด้านบนแบบใหม่ใช้ "NoGuiRBX, Hide TopBar!" โดย Einshine ทั้งสองใช้ด้วยความขอบคุณภายใต้เงื่อนไข Creative Commons BY NC ND 4.0 ไฟล์ดาวน์โหลดตรงจาก GameBanana แทนการรวมมาด้วย และผู้สร้างทั้งสองไม่มีส่วนเกี่ยวข้องกับ Voidstrap</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>แถบด้านบนและเมนูปี 2014 2015 โดย HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>ม็อดชุมชน</value>

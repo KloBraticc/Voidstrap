@@ -723,7 +723,7 @@ Jika belym, Mohon laporkan masalah ini melalui [GitHub issue]({1}) bersama file 
     <value>Terang</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap telah diperbarui ke v{0}</value>
+    <value>Voidstrap telah ditingkatkan ke versi baru</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Versi Voidstrap yang Anda luncurkan sepertinya berbeda dengan versi yang Anda pasang sekarang.
@@ -794,8 +794,7 @@ Apakah Anda ingin memperbarui versi yang sudah Anda install?</value>
     <value>Kustomisasi</value>
   </data>
   <data name="Menu.Appearance.CustomisationIcon.Description" xml:space="preserve">
-    <value>Harus berupa file .ico multi-size dengan ukuran 16px sampai 128px. Setel Ikon sebagai
-'Kustom' untuk menerapkannya.</value>
+    <value>Harus berupa file .ico multi ukuran dengan ukuran 16px hingga 128px. Atur Ikon ke 'Custom' untuk menggunakannya.</value>
   </data>
   <data name="Menu.Appearance.CustomisationIcon.Title" xml:space="preserve">
     <value>Ikon kustom</value>
@@ -939,7 +938,7 @@ JANGAN gunakan ini untuk mengimpor kumpulan "flag lists" yang dibuat orang lain 
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [ekslusif fullscreen]({0}) menggunakan Alt+Enter sudah dinyalakan dari bawaan.</value>
+    <value>Layar penuh eksklusif Direct3D dengan Alt+Enter aktif secara default.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Versi menu escape yang diinginkan</value>
@@ -957,7 +956,7 @@ JANGAN gunakan ini untuk mengimpor kumpulan "flag lists" yang dibuat orang lain 
     <value>Batas framerate</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Di aktifkan lewat [shortcut keyboard]({0}). Hanya berfungsi jika Anda ada di [grup Voidstrap]({1}).</value>
+    <value>Diaktifkan dengan [pintasan keyboard]({0}). Masukkan ID grup tempat Anda bergabung.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Nyalakan kemampuan untuk menyembunyikan GUI</value>
@@ -1157,7 +1156,8 @@ Memilih 'Tidak' akan mengabaikan peringatan ini dan melanjutkan instalasi.</valu
     <value>Terjemahkan ke</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Pilih suatu bahasa sebelum melanjutkan instalasi.</value>
+    <value>Pilih bahasa sebelum melanjutkan instalasi.
+Beberapa teks mungkin belum diterjemahkan ke bahasa pilihan Anda.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Bahasa</value>
@@ -1290,11 +1290,9 @@ Memilih 'Tidak' akan mengabaikan peringatan ini dan melanjutkan instalasi.</valu
     <value>Lanjut</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Terima kasih telah mengunduh Voidstrap. 
+    <value>Terima kasih telah mengunduh Voidstrap.
 
-Situs resmi untuk mengunduh Voidstrap ada di {0} dan {1}, Jadi tolong diverifikasi jika Anda mendapatnya dari situs yang resmi
-
-Proses pemasangan akan cepat dan mudah, Anda dapat mengatur setelan Voidstrap setelah pemasangan selesai.</value>
+Proses instalasi akan cepat dan sederhana, dan Anda dapat mengatur pengaturan Voidstrap apa pun setelahnya.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1346,13 +1344,9 @@ Apa yang ingin Anda lakukan?</value>
     <value>Hapus Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Mencopot pemasangan akan menghapus Voidstrap dari sistem Anda, dan secara otomatis mengatur ulang peluncur Roblox bawaan jika masih terpasang.
+    <value>Menghapus instalasi Voidstrap akan menghapusnya dari sistem Anda dan memulihkan peluncur Roblox bawaan jika masih terinstal.
 
-Jika Anda mencopot pemasangan atau memasang ulang karena mengalami masalah dengan Roblox, baca [halaman bantuan ini]({0}) terlebih dahulu.
-
-Proses pencopotan mungkin tidak dapat sepenuhnya membersihkan dirinya sendiri, jadi Anda mungkin perlu membersihkan sisa berkas di tempat pemasangan Voidstrap secara mandiri.
-
-Voidstrap terpasang di "{1}".</value>
+Apa pun yang terkunci atau sedang digunakan akan dibersihkan otomatis setelah dilepaskan.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Simpan pengaturan dan mods saya</value>
@@ -1459,7 +1453,8 @@ Periksa jika Roblox bekerja dengan [peluncur aslinya]({1}). Jika tidak, berarti 
     <value>Pendukung</value>
   </data>
   <data name="About.Supporters.Description" xml:space="preserve">
-    <value>Mereka merupakan orang-orang yang telah mendukung Voidstrap melalui Ko-fi. Terima kasih sebesar-besarnya kepada semua orang di sini! Setiap orang di sini diberi peringkat berdasarkan pemberiannya.</value>
+    <value>Mereka adalah orang orang yang telah mendukung Voidstrap melalui Ko-fi. Terima kasih banyak untuk semuanya!
+Setiap orang diurutkan berdasarkan total dukungannya.</value>
   </data>
   <data name="JsonManager.SettingsLoadFailed" xml:space="preserve">
     <value>Pengaturan Anda tidak dapat dimuat. Mereka telah diatur ulang ke setelan bawaan.</value>
@@ -1784,8 +1779,7 @@ Apakah Anda ingin beralih ke channel default ({1})?</value>
     <value>Menonaktifkan fitur umpan balik haptik, seperti getaran untuk kontroler.</value>
   </data>
   <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
-    <value>Roblox mencoba menetapkan channel Anda ke {0}, namun channel pilihan Anda saat ini adalah {1}.
-
+    <value>Roblox mencoba mengatur channel Anda ke {0}, tetapi channel pilihan Anda saat ini adalah {1}.
 
 Apakah Anda ingin mengganti channel pilihan ke {0}?</value>
   </data>
@@ -6004,7 +5998,7 @@ Apa yang ingin Anda lakukan?</value>
     <value>Opsi topbar klasik membangun ulang dua mod komunitas. Tampilan dan perilaku topbar serta menu game tahun 2014 hingga 2015 berasal dari "2014 2015 Topbar and Menu (Improvised GUI)" oleh HockuTM. Menyembunyikan topbar modern memakai "NoGuiRBX, Hide TopBar!" oleh Einshine. Keduanya dipakai dengan terima kasih di bawah ketentuan Creative Commons BY NC ND 4.0, filenya diunduh langsung dari GameBanana alih alih disertakan, dan tidak ada pembuat yang berafiliasi dengan Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Bilah atas dan menu 2014 2015 oleh HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mod komunitas</value>

@@ -1430,8 +1430,7 @@ Roblox Voidstrap көмегімен бірінші рет іске қосқан 
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap қолданбасын жою оны жүйеңізден жояды және ол әлі орнатылған болса, әдепкі Roblox қосқышын қалпына келтіреді. 
  
-Құлыпталған немесе пайдаланылып жатқан кез келген нәрсе босатылғаннан кейін автоматты түрде тазаланады. 
-</value>
+Құлыпталған немесе пайдаланылып жатқан кез келген нәрсе босатылғаннан кейін автоматты түрде тазаланады.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Параметрлер мен модификацияларды сақтаңыз</value>
@@ -3199,7 +3198,7 @@ Roblox оныVoidstrap арқылы алғаш рет іске қосқан ке
     <value>GameBanana сайтында қауымдастық моддерін шолыңыз.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Мод шолғышы</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Roblox орнатуындағы файлдарды қараңыз және басқарыңыз.</value>
@@ -5923,10 +5922,10 @@ Roblox оныVoidstrap арқылы алғаш рет іске қосқан ке
     <value>Музыка ойнатқышы</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Кадр генерациясы</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
-    <value>Frame Generation</value>
+    <value>Кадр генерациясы</value>
   </data>
   <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
     <value>Жасалған кадрлар қабаттасуы</value>
@@ -6663,7 +6662,7 @@ Voidstrap жұмыс үстелі қалтасына жаза алмады.</val
     <value>Бәсекеге қабілетті HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Стример үшін таза</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Жоғарғы док</value>
@@ -7807,7 +7806,7 @@ Voidstrap жұмыс үстелі қалтасына жаза алмады.</val
     <value>Studio плагиндерін іздеңіз</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
-    <value>Creator Store</value>
+    <value>Авторлар дүкені</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
     <value>Орнатылған</value>
@@ -9044,7 +9043,7 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
     <value>Табу</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Solution Explorer</value>
+    <value>Шешім шолғышы</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>Шығару</value>

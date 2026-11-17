@@ -1430,8 +1430,7 @@ Roblox በVoidstrap ለመጀመሪያ ጊዜ ሲያስጀምሩ ይጭናል።
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap ን ማራገፍ ከስርዓትዎ ያስወግደዋል እና አሁንም ከተጫነ ነባሪው Roblox አስጀማሪን ወደነበረበት ይመልሳል። 
  
-ማንኛውም የተቆለፈ ወይም ጥቅም ላይ የዋለ ማንኛውም ነገር ከተለቀቀ በኋላ ወዲያውኑ ይጸዳል። 
-</value>
+ማንኛውም የተቆለፈ ወይም ጥቅም ላይ የዋለ ማንኛውም ነገር ከተለቀቀ በኋላ ወዲያውኑ ይጸዳል።</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>ቅንብሮቼን እና ሞዶቼን አቆይ</value>
@@ -4585,7 +4584,7 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
     <value>ወደ ነባሪዎች ዳግም አስጀምር</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>የmod ፈጣሪ</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>የ Roblox's ምናሌን እና የላይኛውን የአሞሌ አዶዎችን ይቀይሩ፣ ከዚያ እንደ ሞድ ያስቀምጡት።</value>
@@ -5893,7 +5892,7 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>የmod ፈጣሪ</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>በMeddsam እና SquireDot የተፈጠረ ለ Voidstrap Mod ጄኔሬተር።</value>
@@ -7290,7 +7289,7 @@ Voidstrap ወደ ዴስክቶፕ አቃፊው መፃፍ አልቻለም።</valu
     <value>ተጽዕኖዎች እና የጽሑፍ ጽሑፍ</value>
   </data>
   <data name="Ui.Keystrokes.Editor.BackdropGlass" xml:space="preserve">
-    <value>Backdrop Glass / Acrylic</value>
+    <value>የጀርባ መስታወት / Acrylic</value>
   </data>
   <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
     <value>ስኳሽ ሚዛንን ይጫኑ</value>

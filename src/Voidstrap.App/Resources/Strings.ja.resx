@@ -741,7 +741,7 @@
     <value>ライト</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>VoidstrapはVer. {0}に更新されました。</value>
+    <value>Voidstrap は新しいバージョンにアップグレードされました</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>起動したVoidstrapのバージョンは、現在インストールされているバージョンと異なります。
@@ -923,9 +923,7 @@
     <value>クリップボードにコピーしました。</value>
   </data>
   <data name="Menu.FastFlagEditor.LargeConfig" xml:space="preserve">
-    <value>大量の設定が含まれるFastFlagをインポートしようとしています。
-内容を理解している場合のみ行ってください。内容を理解せずに他人が配布したものをインポートすることは"絶対に"やめてください。
-続行すると、動作が不安定になったり、予期せぬ変更に繋がる可能性があります。
+    <value>非常に大きな設定をインポートしようとしているようです。完全に理解している設定だけをインポートしてください。他人が作った設定をむやみに貼り付けないでください。続行すると、動作が不安定になったり予期しない変更が起きたりする可能性が非常に高くなります。
 
 本当に続行しますか？</value>
   </data>
@@ -948,14 +946,9 @@
     <value>この機能の利用には危険性を伴います。</value>
   </data>
   <data name="Menu.FastFlagEditor.Warning.Text" xml:space="preserve">
-    <value>FastFlagの編集は非常に危険です。本来、Robloxのエンジニアのみが行います。 便利な機能ですが、使い方を誤ると
-動作が不安定になったり、機能が破損するなどの深刻な問題が発生することがあります。 
-心配な場合は絶対に行わないでください。
+    <value>Fast Flag は本来 Roblox のエンジニアだけが使うことを想定した非常に強力な機能です。とても便利な場合もありますが、手動で設定すると安定性や機能に深刻な問題が起きることがあります。自分が何をしているか分からない場合は、エディターを使用しないでください。
 
-また、"Flag一覧" (英語で"flag lists") などの他人が配布しているFlag設定を絶対に使用しないでください。
-「Robloxが軽くなる」などを謳って配布されていることがありますが、前述の通り深刻な問題が発生したり、
-設定の内容を理解していないために問題が発生することがあります。
-もしそのような行為を行おうとしていた場合は、"今すぐ"この画面を閉じてください。</value>
+性能向上などをうたう、他人が作った大きな「フラグリスト」をこれでインポートしないでください。それらにも同じ問題があり、何が変更されるのか把握できないため問題の原因になります。そうしようとしていたなら、戻ってください。</value>
   </data>
   <data name="Menu.FastFlags.Description" xml:space="preserve">
     <value>Robloxエンジンのパラメーターや機能を変更できます。</value>
@@ -969,7 +962,7 @@
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Alt+EnterでDirect3Dの[排他的フルスクリーン]({0})に変更できるようにする設定はデフォルトで有効です。</value>
+    <value>Alt+Enter による Direct3D の排他的フルスクリーンは既定で有効になっています。</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Robloxメニュー画面を変更</value>
@@ -987,7 +980,7 @@
     <value>フレームレート上限</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>[ショートカットキー]({0})で切り替えることができます。[Voidstrapグループ]({1})に参加している場合のみ有効です。</value>
+    <value>[キーボードショートカット]({0}) で切り替えます。参加しているグループの ID を入力してください。</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>GUIを非表示にする機能を有効にする</value>
@@ -1187,7 +1180,8 @@
     <value>翻訳先</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>インストールを開始する前に言語を選択してください。</value>
+    <value>インストールを続ける前に言語を選択してください。
+一部のテキストは選択した言語に翻訳されていない場合があります。</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>言語</value>
@@ -1326,12 +1320,9 @@
     <value>次へ</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Voidstrapをダウンロードしていただき、ありがとうございます。
+    <value>Voidstrap をダウンロードしていただきありがとうございます。
 
-Voidstrapの公式サイトは{0}または{1}です。
-公式サイトからダウンロードしたことを確認してください。
-
-インストールは簡単かつ短時間で終了します。またインストール後からVoidstrapの設定を変更することが出来ます。</value>
+インストールはすぐに簡単に終わります。インストール後は Voidstrap のどの設定も変更できます。</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1344,8 +1335,7 @@ Voidstrapの公式サイトは{0}または{1}です。
     <value>インストール先を選択</value>
   </data>
   <data name="Installer.Install.Location.Text" xml:space="preserve">
-    <value>Robloxもこの場所にインストールされます。別のドライブにインストールしたい場合は変更してください。
-基本的にはデフォルトでの設定をおすすめします。</value>
+    <value>Roblox もこのパスにインストールされます。すべてのゲームを別のドライブにインストールしたい場合は変更してください。それ以外の場合は、このままにしておくことをおすすめします。</value>
   </data>
   <data name="Installer.Install.Location.DataFound" xml:space="preserve">
     <value>以前のデータが見つかりました。Modと設定は復元されます。</value>
@@ -1360,15 +1350,13 @@ Voidstrapの公式サイトは{0}または{1}です。
     <value>スタートメニュー</value>
   </data>
   <data name="Installer.Completion.Text" xml:space="preserve">
-    <value>Voidstrapのインストールが完了しました。
+    <value>Voidstrap のインストールが完了しました！
 
-Robloxはまだインストールされていません。Voidstrapから最初に起動した時にインストールされます。
-まずは、Voidstrapの設定を行うことができます。
+Roblox は、初めて Voidstrap で起動したときにインストールされます。その前に Voidstrap の設定を調整しておくとよいでしょう。
 
-また、「Roblox Player」ショートカットを使用しないでください。Voidstrapを介さずにRobloxが起動します。
-WebサイトからRobloxを起動した際にVoidstrapの画面が表示されない場合は、デスクトップからVoidstrapを介してRobloxを起動することで解消します。
+「Roblox Player」ショートカットは使用しないでください。Voidstrap が起動しなくなります。Web サイトから起動したときに Voidstrap が表示されない場合は、一度デスクトップから Voidstrap で Roblox を開くと直ります。
 
-次の操作を選択してください。</value>
+何をしますか？</value>
   </data>
   <data name="Installer.Completion.Settings.Title" xml:space="preserve">
     <value>Voidstrapの設定を変更する</value>
@@ -1386,13 +1374,9 @@ WebサイトからRobloxを起動した際にVoidstrapの画面が表示され�
     <value>Voidstrapをアンインストール</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>アンインストールでは、Voidstrapをシステムから削除し、インストールされている場合はデフォルトのRobloxランチャーに再設定します。
+    <value>Voidstrap をアンインストールするとシステムから削除され、Roblox の既定のランチャーがまだインストールされていれば元に戻ります。
 
-もしRobloxに関する問題によってアンインストール、または再インストールを行っている場合は、最初に[ヘルプ]({0})を確認してください。
-
-アンインストール作業はすべてのファイルを完全に削除することはできません。Voidstrapのインストール場所から手動で削除することができます。
-
-Voidstrapのインストール場所: {1}</value>
+ロックされているものや使用中のものは、解放され次第自動的にクリーンアップされます。</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>設定とModを残す</value>
@@ -1422,15 +1406,13 @@ Voidstrapのインストール場所: {1}</value>
     <value>デスクトップまたはスタートメニューにショートカットを作ることができませんでした。しばらくしてから再度お試しください。</value>
   </data>
   <data name="Dialog.Exception.Info.2.Alt" xml:space="preserve">
-    <value>最初に[Voidstrap Wiki]({0})で解決策がないか確認してください。
+    <value>まず [Voidstrap Wiki]({0}) を確認し、この問題の修正方法がすでにあるかどうかを確かめてください。
 
-解決策が見つからない場合は、エラーをこのフォークのメンテナーに報告してください。絶対に公式版VoidstrapのGitHub issuesに投稿しないでください。
-このVoidstrapは非公式版です。</value>
+ない場合は、このフォークのメンテナーにこの例外を報告してください。これは非公式ビルドのため、Voidstrap の GitHub Issues には報告しないでください。</value>
     <comment>"fork" in general means "a variation of" or "a different version of". You can alternatively write the first sentence as "...to the maintainers of this version."</comment>
   </data>
   <data name="Installer.Install.Shortcuts.Description" xml:space="preserve">
-    <value>操作を選択する画面を表示するショートカットです。
-特定の操作のショートカットは、のちほど設定から作成することができます。</value>
+    <value>これらは複数の起動方法を選べるメニューを開く一般的なショートカットです。特定の機能用のショートカットは、後で設定から作成できます。</value>
   </data>
   <data name="Menu.Shortcuts.Description" xml:space="preserve">
     <value>Voidstrapを簡単に起動する方法を設定できます。</value>
@@ -1501,7 +1483,8 @@ Robloxが[正規のランチャー]({1})で動作するか確認してくださ�
     <value>支援</value>
   </data>
   <data name="About.Supporters.Description" xml:space="preserve">
-    <value>Ko-fiを通じてVoidstrapの開発を支援した方々です(寄付額順)。厚いご支援ありがとうございます！</value>
+    <value>Ko-fi を通じて Voidstrap を支援してくださった方々です。皆さんに心から感謝します！
+各支援者は支援総額の順に並んでいます。</value>
   </data>
   <data name="JsonManager.SettingsLoadFailed" xml:space="preserve">
     <value>設定の読み込みに失敗しました。デフォルト設定にリセットされます。</value>
@@ -1603,12 +1586,11 @@ Robloxが[正規のランチャー]({1})で動作するか確認してくださ�
     <comment>See the prompt for more context</comment>
   </data>
   <data name="Menu.TestMode.Prompt" xml:space="preserve">
-    <value>テストモードでは、Voidstrapでの設定によるRobloxの影響を確認しやすくなります。
+    <value>テストモードを使うと、設定が Roblox にどう影響するかを繰り返し簡単に試せます。
 
-オンの場合、設定画面を閉じたのちに自動的にRobloxが起動し、終了した際には再度設定画面が表示されます。オフにするまで繰り返します。
+有効にすると、設定を閉じたときに Roblox が自動で起動し、Roblox を閉じると設定が再び開きます。無効にするまでこれを繰り返します。
 
-テストモードをオンにしますか？
-</value>
+テストモードを有効にしますか？</value>
   </data>
   <data name="About.Translators.Description" xml:space="preserve">
     <value>ここに名前のある皆さんは、Voidstrap の翻訳に時間と労力を惜しみなく注いでくれました。本当にありがとうございます!</value>
@@ -5683,7 +5665,7 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
     <value>NVIDIA Profile Inspector に表示される値を使用してください。</value>
   </data>
   <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
-    <value>例: Frame rate limiter</value>
+    <value>例: フレームレート制限</value>
   </data>
   <data name="Ui.Pages.SettingID" xml:space="preserve">
     <value>設定 ID</value>
@@ -6073,7 +6055,7 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
     <value>クラシックトップバーのオプションは 2 つのコミュニティ Mod を再構築します。2014 年から 2015 年のトップバーとゲームメニューのデザインと動作は HockuTM による "2014 2015 Topbar and Menu (Improvised GUI)" に基づいています。最新のトップバーの非表示には Einshine による "NoGuiRBX, Hide TopBar!" を使用しています。どちらも Creative Commons BY NC ND 4.0 の条件に従い感謝とともに使用しており、ファイルは同梱せず GameBanana から直接ダウンロードします。どちらの作者も Voidstrap とは無関係です。</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>2014 2015 年のトップバーとメニュー、作者 HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>コミュニティ Mod</value>

@@ -1430,8 +1430,7 @@ Roblox நீங்கள் முதல் முறையாகVoidstrap உ�
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap ஐ நிறுவல் நீக்குவது, அதை உங்கள் கணினியிலிருந்து அகற்றி, இயல்புநிலை Roblox துவக்கி இன்னும் நிறுவப்பட்டிருந்தால் மீட்டமைக்கும். 
  
-பூட்டப்பட்ட அல்லது பயன்பாட்டில் உள்ள அனைத்தும் வெளியிடப்பட்டதும் தானாகவே சுத்தம் செய்யப்படும். 
-</value>
+பூட்டப்பட்ட அல்லது பயன்பாட்டில் உள்ள அனைத்தும் வெளியிடப்பட்டதும் தானாகவே சுத்தம் செய்யப்படும்.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>எனது அமைப்புகளையும் மோட்களையும் வைத்திருங்கள்</value>
@@ -6780,7 +6779,7 @@ Voidstrap டெஸ்க்டாப் கோப்புறையில் �
     <value>செங்குத்து மையம் ஆஃப்செட்</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Crosshair ஐ மீண்டும் மையப்படுத்து</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>ஃபிரேம் ஜெனரேஷன் HUDஐக் காட்டு</value>

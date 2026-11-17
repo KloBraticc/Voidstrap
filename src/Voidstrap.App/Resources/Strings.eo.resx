@@ -1430,8 +1430,7 @@ Kion vi ŝatus fari?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Malinstali Voidstrap forigos ĝin de via sistemo kaj restarigos la defaŭltan lanĉilon Roblox se ĝi ankoraŭ estas instalita. 
  
-Ĉio, kio estas ŝlosita aŭ uzata, estos aŭtomate purigita post kiam ĝi estas liberigita. 
-</value>
+Ĉio, kio estas ŝlosita aŭ uzata, estos aŭtomate purigita post kiam ĝi estas liberigita.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Konservu miajn agordojn kaj modifojn</value>
@@ -5599,7 +5598,7 @@ Kion vi ŝatus fari?</value>
     <value>Alĝustigas kiel brilvaloroj estas mapitaj, influante kontraston, ombrodetalon kaj meztonan videblecon.</value>
   </data>
   <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
-    <value>Benchmark Overlay</value>
+    <value>Komparmezura tavolo</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
     <value>Frame Rate Limigilo</value>
@@ -6301,7 +6300,7 @@ Kion vi ŝatus fari?</value>
     <value>Rapido</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh vidigilo</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Trenu por turni, rulumu por zomi</value>
@@ -6780,7 +6779,7 @@ Eraro: {0}</value>
     <value>Vertikala centra ofseto</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Recentrigi la celkruceton</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>Montri Frame Generation HUD</value>
@@ -6819,7 +6818,7 @@ Eraro: {0}</value>
     <value>Malfermu Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Videotondilo</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Aparataro akcelis kapton kiam vi premas {0}.</value>

@@ -1250,7 +1250,7 @@ Windows וועט פרעגן איר צו באַשטעטיקן די דיליטינ
     <value>איבערזעצן די גאנצע Voidstrap צובינד אין קיין שפּראַך. געבוירענער איבערזעצונגען ווערן ערשט גענוצט, און איבעריגע טעקסט ווערט איבערגעזעצט לעבעדיג.</value>
   </data>
   <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Auto Translate Discord RPCs</value>
+    <value>אויטאָמאַטיש איבערזעצן Discord RPCs</value>
   </data>
   <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
     <value>אויטאָמאַטיש איבערזעצן Discord Rich Presence טעקסט ניצן די אויסגעקליבן שפּראַך.</value>
@@ -1430,8 +1430,7 @@ Roblox וועט ינסטאַלירן ווען איר קאַטער עס מיטVoi
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>ונינסטאַללינג Voidstrap וועט באַזייַטיקן עס פון דיין סיסטעם און ומקערן די פעליקייַט Roblox לאָנטשער אויב עס איז נאָך אינסטאַלירן. 
  
-אַלץ וואָס איז פארשפארט אָדער אין נוצן וועט זיין קלינד אויטאָמאַטיש אַמאָל עס איז פריי. 
-</value>
+אַלץ וואָס איז פארשפארט אָדער אין נוצן וועט זיין קלינד אויטאָמאַטיש אַמאָל עס איז פריי.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>האַלטן מיין סעטטינגס און מאָדס</value>
@@ -4828,7 +4827,7 @@ Roblox וועט זיין דאַונלאָודיד ווען איר קאַטער �
     <value>באַשטימען ווירטואַל פאַקט מאָדע.</value>
   </data>
   <data name="Ui.Gbs.VRComfortSetting" xml:space="preserve">
-    <value>VR Comfort Setting</value>
+    <value>VR באַקוועמקייט באַשטימונג</value>
   </data>
   <data name="Ui.Gbs.ControlsCameraMovementInVR" xml:space="preserve">
     <value>קאָנטראָלס אַפּאַראַט באַוועגונג אין VR.</value>
@@ -5569,7 +5568,7 @@ Roblox וועט זיין דאַונלאָודיד ווען איר קאַטער �
     <value>שאַפֿן דעסקטאַפּ דורכוועג</value>
   </data>
   <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
-    <value>Advanced Editor</value>
+    <value>אַוואַנסירטער רעדאַקטאָר</value>
   </data>
   <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
     <value>עפֿענען דעם רוי NVIDIA פּראָפיל ינספּעקטאָר רעדאַקטאָר. רעקאַמענדיד בלויז פֿאַר אַוואַנסירטע ניצערס.</value>
@@ -5881,7 +5880,7 @@ Roblox וועט זיין דאַונלאָודיד ווען איר קאַטער �
     <value>דער קלאַסיש טאָפּבאַר אָפּציע ריבילדז צוויי קהל מאָדס. די 2014 צו 2015 שפּיץבאַר און שפּיל מעניו אַרטוואָרק און נאַטור קומען פֿון "2014 2015 Topbar and Menu (Improvized GUI)" דורך HockuTM. באַהאַלטן די מאָדערן טאָפּבאַר ניצט "NoGuiRBX, Hide TopBar!" דורך איינשיין. ביידע זענען גענוצט מיט דאַנק אונטער זייער Creative Commons BY NC ND 4.0 טערמינען, זייער טעקעס זענען דאַונלאָודיד גלייך פֿון GameBanana אלא ווי באַנדאַלד, און קיין מחבר איז אַפיליייטאַד מיט Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>2014 2015 אויבערשטע פּאַס און מעניו פֿון HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>קהל מאָדס</value>

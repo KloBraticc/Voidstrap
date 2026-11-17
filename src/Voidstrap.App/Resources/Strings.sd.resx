@@ -1401,7 +1401,7 @@ Windows توهان کان پڇا ڳاڇا ڪندو تصديق ڪرڻ جي تصد
     <value>ڊيسڪ ٽاپ آئڪن</value>
   </data>
   <data name="Common.Shortcuts.StartMenu" xml:space="preserve">
-    <value>Start Menu icon</value>
+    <value>Start Menu آئڪن</value>
   </data>
   <data name="Installer.Completion.Text" xml:space="preserve">
     <value>Voidstrap نصب ڪيو ويو آهي! 
@@ -1430,8 +1430,7 @@ Roblox انسٽال ٿيندو جڏهن توهان ان کي پهريون ڀير
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap کي انسٽال ڪرڻ ان کي توهان جي سسٽم مان هٽائي ڇڏيندو ۽ ڊفالٽ Roblox لانچر کي بحال ڪندو جيڪڏهن اهو اڃا نصب ٿيل آهي. 
  
-ڪا به شيءِ جيڪا بند ٿيل آهي يا استعمال ۾ آهي، اها آزاد ٿيڻ کان پوءِ پاڻمرادو صاف ٿي ويندي. 
-</value>
+ڪا به شيءِ جيڪا بند ٿيل آهي يا استعمال ۾ آهي، اها آزاد ٿيڻ کان پوءِ پاڻمرادو صاف ٿي ويندي.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>منهنجي سيٽنگون ۽ موڊس رکو</value>
@@ -3370,7 +3369,7 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
     <value>مدد ۽ اصلاح</value>
   </data>
   <data name="Ui.Mods.ModPacks" xml:space="preserve">
-    <value>Mod Packs</value>
+    <value>Mod پيڪ</value>
   </data>
   <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
     <value>ڳولا Roblox موڊ</value>
@@ -6295,7 +6294,7 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
     <value>خاص ماڻهو</value>
   </data>
   <data name="Ui.Misc3.AnimationPreview" xml:space="preserve">
-    <value>Animation Preview</value>
+    <value>اينيميشن پريويو</value>
   </data>
   <data name="Ui.Misc3.Speed" xml:space="preserve">
     <value>رفتار</value>
@@ -6340,7 +6339,7 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
     <value>ڪسر جو ڏيک</value>
   </data>
   <data name="Ui.Misc3.FFlagPresetValues" xml:space="preserve">
-    <value>FFlag Preset Values</value>
+    <value>FFlag جون اڳواٽ قيمتون</value>
   </data>
   <data name="Ui.Misc3.CheckOutSomeOfOurBuilt" xml:space="preserve">
     <value>چيڪ ڪريو اسان جي ڪجهه ٺاهيل ڪسٽم موضوعات ۾!</value>
@@ -6501,7 +6500,7 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
     <value>صرف 3x</value>
   </data>
   <data name="Ui.ModGen.IconOpacity" xml:space="preserve">
-    <value>Icon opacity</value>
+    <value>آئڪن جي شفافيت</value>
   </data>
   <data name="Ui.ModGen.IconOpacityHelp" xml:space="preserve">
     <value>ٻيهر رنگيل شبیہیں ڪيئن مضبوط نظر اچن ٿيون. هيٺين قدرن کي پس منظر ذريعي ڏيکارڻ ڏيو. آئڪن فونٽ هميشه مضبوط رهي ٿو.</value>
@@ -7230,7 +7229,7 @@ Voidstrap ڊيسڪ ٽاپ فولڊر ۾ نه لکي سگھيو.</value>
     <value>نئون Keystrokes موضوع</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
-    <value>Keystrokes Theme Editor</value>
+    <value>Keystrokes ٿيم ايڊيٽر</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
     <value>موضوع ڪنٽرول</value>
@@ -7302,7 +7301,7 @@ Voidstrap ڊيسڪ ٽاپ فولڊر ۾ نه لکي سگھيو.</value>
     <value>فونٽ وزن</value>
   </data>
   <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
-    <value>Interactive Live Preview</value>
+    <value>انٽرايڪٽو لائيو پريويو</value>
   </data>
   <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
     <value>اينيميشن ۽ آواز جو ڏيک ڏيڻ لاءِ ڪنهن به ڪيچ تي ڪلڪ ڪريو يا ٽيسٽ تسلسل استعمال ڪريو</value>

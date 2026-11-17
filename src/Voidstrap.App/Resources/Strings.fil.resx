@@ -666,10 +666,11 @@ Kung hindi, paki ulat itong pagbubukod, gamit ang [GitHub issue]({1}) kasama ang
     <value>Light</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Na-upgrade na ang Voidstrap sa v{0}</value>
+    <value>Na upgrade ang Voidstrap sa bagong bersyon</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
-    <value>Ang bersyon ng Voidstrap na iyong sinimulan ay magkaiba sa bersyon na iyong ininstall. Gusto mo ba i-upgrade ang kasalukuyang naka-install na bersyon?</value>
+    <value>Iba ang bersyon ng Voidstrap na binuksan mo sa bersyong kasalukuyang naka install.
+Gusto mo bang i upgrade ang kasalukuyang naka install na bersyon?</value>
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
     <value>Mga Kontribyutor</value>
@@ -791,9 +792,10 @@ Kung hindi, paki ulat itong pagbubukod, gamit ang [GitHub issue]({1}) kasama ang
     <value>Gamitin na may pag-iingat.</value>
   </data>
   <data name="Menu.FastFlagEditor.ConflictingImport" xml:space="preserve">
-    <value>Ang ilang mga flag na sinusubukan mong i-import ay mayroon nang mga itinakdang halaga. Gusto mo bang palitan ang kanilang kasalukuyang mga halaga gamit ang mga itinakda sa pag-import?
+    <value>May nakatakda nang value ang ilan sa mga flag na sinusubukan mong i import. Gusto mo bang palitan ang kasalukuyang value nila ng mga nasa import?
 
-Mayroong {0} mga magkaalitang mga kahulugan ng flag: {1}</value>
+May {0} na nagkakasalungat na flag:
+{1}</value>
     <comment>{0} is a number, {1} is a comma-separated list</comment>
   </data>
   <data name="Menu.FastFlagEditor.DeleteSelected" xml:space="preserve">
@@ -861,7 +863,7 @@ HUWAG gagamitin ito upang mag-import ng mga malalaking "flag lists" na gawa ng i
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [exclusive fullscreen]({0}) ang paggamit ng Alt+Enter ay naka enable na by default.</value>
+    <value>Naka enable bilang default ang Direct3D exclusive fullscreen gamit ang Alt+Enter.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Bersyon ng escape menu na naayon sa iyong panlasa</value>
@@ -879,7 +881,7 @@ HUWAG gagamitin ito upang mag-import ng mga malalaking "flag lists" na gawa ng i
     <value>Framerate Limit</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Toggled kasama ang [keyboard shortcuts]({0}). Gumagana lang kapag ikaw ay nasa [Voidstrap group]({1}).</value>
+    <value>Pinapalitan gamit ang [mga keyboard shortcut]({0}). Ilagay ang ID ng isang group na kasali ka.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Paganahin ang kakayahang itago ang mga GUIs</value>
@@ -1076,7 +1078,8 @@ Ang pagpili ng 'Hindi' ay hindi papansinin ang babalang ito at itutuloy ang pag-
     <value>Isalin sa</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Pumili ng wika bago mag-install.</value>
+    <value>Pumili ng wika bago ituloy ang pag install.
+Maaaring hindi pa naisasalin ang ilang teksto sa napili mong wika.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Wika</value>
@@ -1206,11 +1209,9 @@ Ang pagpili ng 'Hindi' ay hindi papansinin ang babalang ito at itutuloy ang pag-
     <value>Sunod</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Salamat sa pag-download ng Voidstrap.
+    <value>Salamat sa pag download ng Voidstrap.
 
-Ang mga opisyal na websites na makukuha para ma-download ang Voidstrap ay nandito sa {0} at {1}, kaya’t pakiusap lang na i-verify mo na nakuha mo siya sa opisyal na source.
-
-Ang proseso ng installation ay mabilis at simple lang, at ikaw ang magaayos ng kahit anong mga settings ng Voidstrap pagkatapos ng installation.</value>
+Mabilis at simple ang pag install, at maaari mong i configure ang anumang setting ng Voidstrap pagkatapos nito.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1262,13 +1263,9 @@ Ano ang gusto mong gawin?</value>
     <value>I-uninstall ang Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Matatanggal ang Voidstrap sa iyong systema kapag na-uninstall mo, at kukusang i-configure ang default na Roblox launcher kung naka install pa rin.
+    <value>Ang pag uninstall ng Voidstrap ay mag aalis nito sa iyong system at ibabalik ang default na Roblox launcher kung naka install pa ito.
 
-Kung ikaw ay mag-uninstall o mag-reinstall dahil mayroon kang issues sa Roblox, basahin mo [itong help page]({0}) muna.
-
-Ang proseso sa pag-uninstall ay maaaring hindi ganap na malinis ang sarili, kaya kailangan mong linisin ang natitirang files kung saan na-install ang Voidstrap.
-
-Na-installed ang Voidstrap sa "{1}".</value>
+Ang anumang naka lock o ginagamit ay awtomatikong lilinisin kapag na release na ito.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>I-tabi ang aking settings at mods</value>
@@ -1375,7 +1372,8 @@ Tingnan kung nagana ang Roblox gamit ang [original launcher]({1}). Kapag hindi, 
     <value>Mga Tagasupporta</value>
   </data>
   <data name="About.Supporters.Description" xml:space="preserve">
-    <value>Ito ang mga tao na nag suporta sa Voidstrap gamit ang Ko-fi. Maraming salamat para sa lahat ng nandito! Lahat ng tao na nandito ay naka rank gamit ang kanilang overall pledge.</value>
+    <value>Ito ang mga taong sumuporta sa Voidstrap sa pamamagitan ng Ko-fi. Maraming salamat sa inyong lahat!
+Nakaayos ang bawat isa ayon sa kabuuan ng kanilang suporta.</value>
   </data>
   <data name="JsonManager.SettingsLoadFailed" xml:space="preserve">
     <value>Ang settings mo ay hindi makaload. Naka-reset na sa dating pagsasaayos.</value>
@@ -1663,10 +1661,9 @@ Gusto mo bang lumipat sa default channel ({1})?</value>
     <value>Hindi pinapayagan ang haptic feedback features, gaya ng vibrations para sa controller.</value>
   </data>
   <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
-    <value>Sinusubukan ng Roblox na itakda ang iyong channel sa {0}, ngunit ang iyong kasalukuyang ginustong channel ay {1}.
+    <value>Sinusubukan ng Roblox na itakda ang iyong channel sa {0}, pero ang kasalukuyan mong gustong channel ay {1}.
 
-
-Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
+Gusto mo bang palitan ang iyong gustong channel sa {0}?</value>
   </data>
   <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
     <value>Inaalis ang FPS presets sa menu.</value>
@@ -4314,7 +4311,7 @@ Ano ang gusto mong gawin?</value>
     <value>Mga setting ng app</value>
   </data>
   <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
-    <value>Hardware acceleration</value>
+    <value>Pagpapabilis gamit ang hardware</value>
   </data>
   <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
     <value>Ginagamit ang GPU para i render ang Voidstrap. Patayin para sa compatibility o mas mababang paggamit ng video memory.</value>
@@ -4326,7 +4323,7 @@ Ano ang gusto mong gawin?</value>
     <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
-    <value>Factory reset</value>
+    <value>Pag reset sa factory</value>
   </data>
   <data name="Ui.Channel.Donate" xml:space="preserve">
     <value>Mag donate</value>
@@ -5823,7 +5820,7 @@ Ano ang gusto mong gawin?</value>
     <value>Binubuo muli ng classic topbar option ang dalawang community mod. Ang itsura at kilos ng topbar at game menu mula 2014 hanggang 2015 ay galing sa "2014 2015 Topbar and Menu (Improvised GUI)" ni HockuTM. Ang pagtatago ng modernong topbar ay gumagamit ng "NoGuiRBX, Hide TopBar!" ni Einshine. Parehong ginagamit nang may pasasalamat sa ilalim ng kanilang Creative Commons BY NC ND 4.0 na tuntunin, direktang dina download ang mga file mula sa GameBanana sa halip na isama, at walang kaugnayan sa Voidstrap ang alinmang may akda.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Topbar at menu ng 2014 2015 ni HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mga community mod</value>
@@ -8118,7 +8115,7 @@ Magda-download ito ng {0} MB. Kung tatanggihan mo, gagamitin ang built in na tan
     <value>Maghanap ng mga plugin ng Studio</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
-    <value>Creator Store</value>
+    <value>Tindahan ng creator</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
     <value>Naka-install</value>
@@ -8881,7 +8878,7 @@ Kayang baguhin ng mga mod ng Voidstrap kung paano gumagana ang Voidstrap at ang 
     <value>Burahin ang Voidstrap mod na &quot;{0}&quot; at lahat ng file nito?</value>
   </data>
   <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
-    <value>Mod editor: {0}</value>
+    <value>Editor ng mod: {0}</value>
   </data>
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>I-save at i-reload</value>
@@ -9388,7 +9385,7 @@ Ang magkakapatong na mod ay maaaring magdulot ng kakaibang hitsura o gawi sa Rob
     <value>Laki ng font</value>
   </data>
   <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
-    <value>Word wrap</value>
+    <value>Pagbalot ng salita</value>
   </data>
   <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
     <value>Mga numero ng linya</value>
@@ -10288,7 +10285,7 @@ I-install ang SteamVR ngayon?</value>
     <value>Awtomatikong binubuksan ang panel ng balita ng laro kapag bumukas ang overlay.</value>
   </data>
   <data name="Ui.MusicIsland.Title" xml:space="preserve">
-    <value>Music island</value>
+    <value>Isla ng musika</value>
   </data>
   <data name="Ui.MusicIsland.Description" xml:space="preserve">
     <value>Ipinapakita ang kantang tumutugtog sa Spotify bilang maliit na isla sa ibabaw ng Roblox.</value>
@@ -10327,7 +10324,7 @@ I-install ang SteamVR ngayon?</value>
     <value>Mga track</value>
   </data>
   <data name="Ui.EmoteMgr.Title" xml:space="preserve">
-    <value>Emote Manager</value>
+    <value>Tagapamahala ng emote</value>
   </data>
   <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
     <value>Palitan ang kulay ng emote wheel, magdagdag ng sarili mong mga larawan at ilipat ang mga ito</value>
@@ -10399,7 +10396,7 @@ I-install ang SteamVR ngayon?</value>
     <value>Hindi pa naka-install ang Rosemary, i-build ang Rosemary at ilagay ang rosemary file sa PATH</value>
   </data>
   <data name="Ui.Mods.RobloxCursorOverride" xml:space="preserve">
-    <value>Roblox Cursor Override</value>
+    <value>Pagpapalit ng cursor ng Roblox</value>
   </data>
   <data name="Ui.Mods.RobloxCursorOverrideDescription" xml:space="preserve">
     <value>Itinatago ang cursor ng Roblox at iginuguhit ang sarili mong cursor sa ibabaw, kasama ang GIF at animated na cursor. Babalik ang dati mong cursor kapag naka-off ito.</value>

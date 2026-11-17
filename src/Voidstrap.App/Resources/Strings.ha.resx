@@ -1430,8 +1430,7 @@ Me kuke so ku yi?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Cire Voidstrap zai cire shi daga tsarin ku kuma ya maido da tsoho Roblox mai ƙaddamarwa idan har yanzu ana shigar dashi. 
  
-Duk wani abu da aka kulle ko ana amfani dashi za'a goge shi ta atomatik da zarar an fito dashi. 
-</value>
+Duk wani abu da aka kulle ko ana amfani dashi za'a goge shi ta atomatik da zarar an fito dashi.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Ajiye saitunana da mods</value>
@@ -2237,7 +2236,7 @@ Rubuta ainihin jumlar da aka nuna a ƙasa don karɓar waɗannan hane-hane kuma c
     <value>Zaɓi adaftar cibiyar sadarwa da sigar IP</value>
   </data>
   <data name="Mtu.CustomValue" xml:space="preserve">
-    <value>Custom MTU (bytes)</value>
+    <value>MTU na musamman (bytes)</value>
   </data>
   <data name="Mtu.Current" xml:space="preserve">
     <value>Yanzu: {0} bytes. Mafi ƙarancin: {1} bytes.</value>
@@ -2357,7 +2356,7 @@ Rubuta ainihin jumlar da aka nuna a ƙasa don karɓar waɗannan hane-hane kuma c
     <value>Cikakken allo mara iyaka na karya</value>
   </data>
   <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
-    <value>Fake Exclusive Fullscreen</value>
+    <value>Cikakken allo na musamman na bogi</value>
   </data>
   <data name="OverlayDiagnostics.Findings" xml:space="preserve">
     <value>Dubawa da iyakancewa</value>
@@ -2539,7 +2538,7 @@ Rubuta ainihin jumlar da aka nuna a ƙasa don karɓar waɗannan hane-hane kuma c
   <data name="FlagSearch.Label20" xml:space="preserve"><value>Tabbatarwa da yawa</value></data>
   <data name="FlagSearch.Label21" xml:space="preserve"><value>Tabbatar da Tuta mai girma</value></data>
   <data name="FlagSearch.Label22" xml:space="preserve"><value>Bincika tushen memba da nau'ikan ƙima. Matsala baya bada garantin cewa Roblox yana ba da damar wuce gona da iri.</value></data>
-  <data name="FlagSearch.Label23" xml:space="preserve"><value>Load File</value></data>
+  <data name="FlagSearch.Label23" xml:space="preserve"><value>Loda fayil</value></data>
   <data name="FlagSearch.Label24" xml:space="preserve"><value>Tabbatar da</value></data>
   <data name="FlagSearch.Label25" xml:space="preserve"><value>Share</value></data>
   <data name="FlagSearch.Label26" xml:space="preserve"><value>Manna</value></data>
@@ -3052,7 +3051,7 @@ Me kuke so ku yi?</value>
     <value>Duba wasu ginannun jigogi na al'ada!</value>
   </data>
   <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
-    <value>Window Backdrop</value>
+    <value>Bayan taga</value>
   </data>
   <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
     <value>Zaɓi kayan bayan windows Voidstrap .</value>
@@ -3199,7 +3198,7 @@ Me kuke so ku yi?</value>
     <value>Nemo mods na al'umma akan GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Mai binciken mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Duba ku sarrafa fayiloli a cikin shigarwar ku na Roblox .</value>
@@ -3226,7 +3225,7 @@ Me kuke so ku yi?</value>
     <value>Yi amfani da hoto ɗaya don mai nuni, wanda ba za a iya isa ba da kuma siginan rubutu.</value>
   </data>
   <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
-    <value>Custom Drag Cursor</value>
+    <value>Siginar ja na musamman</value>
   </data>
   <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
     <value>Nuna yayin ja a cikin Roblox Studio.</value>
@@ -3544,7 +3543,7 @@ Me kuke so ku yi?</value>
     <value>Smoothing da firam</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Santsin gefuna</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Smooths jaged gefuna ta amfani da GPU.</value>
@@ -4141,7 +4140,7 @@ Me kuke so ku yi?</value>
     <value>Jama'a, na sirri ko keɓancewa</value>
   </data>
   <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
+    <value>Alamar beta</value>
   </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>Yana juya alamomi kamar [BETA] ko WIP a cikin sunan wasan zuwa alama mai tsabta</value>
@@ -4177,7 +4176,7 @@ Me kuke so ku yi?</value>
     <value>Daidaita sauti mai ƙarfi da shuru Roblox .</value>
   </data>
   <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
-    <value>Telemetry blocker</value>
+    <value>Mai toshe telemetry</value>
   </data>
   <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
     <value>Toshe Roblox telemetry. Ana buƙatar samun dama ga mai gudanarwa sau ɗaya.</value>
@@ -4363,7 +4362,7 @@ Me kuke so ku yi?</value>
     <value>Fakiti nawa ne ke saukewa a lokaci guda. Mafi girma yana da sauri amma yana amfani da ƙarin bandwidth</value>
   </data>
   <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
-    <value>Segments Per File</value>
+    <value>Sassa a kowane fayil</value>
   </data>
   <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
     <value>Rarraba kowane fakiti zuwa gungu-gungu masu kama da juna don saukewa cikin sauri</value>
@@ -4585,7 +4584,7 @@ Me kuke so ku yi?</value>
     <value>Sake saitin zuwa abubuwan da suka dace</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mai ƙirƙirar mod</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Sake canza menu na Robloxda manyan gumakan mashaya, sannan adana shi azaman na zamani.</value>
@@ -5893,7 +5892,7 @@ Me kuke so ku yi?</value>
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mai ƙirƙirar mod</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod janareta don Voidstrap waɗanda Meddsam da SquireDot suka ƙirƙira.</value>
@@ -6639,7 +6638,7 @@ Voidstrap ba zai iya rubutawa zuwa babban fayil ɗin tebur ba.</value>
     <value>Jawo kowane katin da aka rufe kai tsaye a saman taga wasan ku. Danna Esc ko danna Anyi An gama.</value>
   </data>
   <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
-    <value>Magnetic Snap</value>
+    <value>Mannewa ta maganadisu</value>
   </data>
   <data name="Ui.OverlayStudio.Done" xml:space="preserve">
     <value>Anyi</value>
@@ -6693,7 +6692,7 @@ Voidstrap ba zai iya rubutawa zuwa babban fayil ɗin tebur ba.</value>
     <value>Farashin HUD</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
-    <value>Dock Panels</value>
+    <value>Fanalolin dock</value>
   </data>
   <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
     <value>Nuna wurin uwar garken a wasan</value>
@@ -6972,7 +6971,7 @@ Voidstrap ba zai iya rubutawa zuwa babban fayil ɗin tebur ba.</value>
     <value>Kama &amp; inganci</value>
   </data>
   <data name="Ui.Clipper.QualitySection" xml:space="preserve">
-    <value>Quality, Resolution &amp; FPS</value>
+    <value>Inganci, ƙuduri da FPS</value>
   </data>
   <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
     <value>Hardware GPU encoding yana gudanar da asynchronously tare da tasirin firam ɗin sifili.</value>
@@ -8549,7 +8548,7 @@ Ci gaba da Voidstrap da edita a buɗe yayin da AI ke aiki. Canje-canjensa suna n
     <value>Zaman wasan da ƙaddamar da ƙugiya</value>
   </data>
   <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
-    <value>Blank mod</value>
+    <value>Mod mara komai</value>
   </data>
   <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
     <value>Mod babban fayil sunan</value>
@@ -8987,7 +8986,7 @@ Mods masu ruɗewa na iya sa Roblox ya yi kama da mummuna, amma wannan ba zai iya
     <value>Share matsaloli</value>
   </data>
   <data name="Ui.ModCode.Title" xml:space="preserve">
-    <value>Voidstrap Mod Code</value>
+    <value>Lambar mod na Voidstrap</value>
   </data>
   <data name="Ui.ModCode.Header" xml:space="preserve">
     <value>Kowane fayil na Voidstrap</value>
@@ -9002,7 +9001,7 @@ Mods masu ruɗewa na iya sa Roblox ya yi kama da mummuna, amma wannan ba zai iya
     <value>Babu Voidstrap mods da aka shigar tukuna</value>
   </data>
   <data name="Ui.ModCode.OpenButton" xml:space="preserve">
-    <value>Mod Code</value>
+    <value>Lambar mod</value>
   </data>
   <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
     <value>Bincika kuma shirya lambar na mods na Voidstrap</value>
@@ -9129,7 +9128,7 @@ Bada shi?</value>
     <value>Ƙananan mashaya</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
-    <value>Mouse tracker</value>
+    <value>Mai bin linzamin kwamfuta</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleCps" xml:space="preserve">
     <value>Danna gudun mita</value>

@@ -1401,7 +1401,7 @@ Habka rakibidani wuxuu noqon doonaa mid degdeg ah oo fudud, waxaadna awoodi doon
     <value>icon Desktop</value>
   </data>
   <data name="Common.Shortcuts.StartMenu" xml:space="preserve">
-    <value>Start Menu icon</value>
+    <value>Astaanta Start Menu</value>
   </data>
   <data name="Installer.Completion.Text" xml:space="preserve">
     <value>Voidstrap waa la rakibay! 
@@ -1430,8 +1430,7 @@ Maxaad jeclaan lahayd inaad sameyso?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Dejinta Voidstrap waxay ka saari doontaa nidaamkaaga oo waxay soo celin doontaa bilawga Roblox hadday wali ku rakiban tahay. 
  
-Wax kasta oo xiran ama la isticmaalayo si toos ah ayaa loo nadiifin doonaa marka la sii daayo. 
-</value>
+Wax kasta oo xiran ama la isticmaalayo si toos ah ayaa loo nadiifin doonaa marka la sii daayo.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Hayso habayntayda iyo qaabkayga</value>
@@ -2237,7 +2236,7 @@ Ku qor kelmada saxda ah ee hoos ku cad si aad u aqbasho xayiraadahan oo aad u si
     <value>Dooro adabtarada shabakada iyo nooca IP</value>
   </data>
   <data name="Mtu.CustomValue" xml:space="preserve">
-    <value>Custom MTU (bytes)</value>
+    <value>MTU gaar ah (bytes)</value>
   </data>
   <data name="Mtu.Current" xml:space="preserve">
     <value>Hadda: {0} bytes. Ugu yaraan: {1} bytes.</value>
@@ -3199,7 +3198,7 @@ Maxaad jeclaan lahayd inaad samayso?</value>
     <value>Ka baadh mods bulshada GameBanana</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Sahamiyaha mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Arag oo maamul faylasha ku rakibkaaga Roblox .</value>
@@ -3544,7 +3543,7 @@ Maxaad jeclaan lahayd inaad samayso?</value>
     <value>Toosinta iyo fareemooyinka</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Siman ka dhigista geesaha</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Si jilicsan u geesaha jeexan adoo isticmaalaya GPUkaaga.</value>
@@ -4141,7 +4140,7 @@ Maxaad jeclaan lahayd inaad samayso?</value>
     <value>Dadweyne, mid gaar ah ama mid gaar ah</value>
   </data>
   <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
+    <value>Calaamadda beta</value>
   </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>U beddelaa calamadaha sida [BETA] ama WIP ee magaca ciyaarta ku jira sumad nadiif ah</value>
@@ -4585,7 +4584,7 @@ Maxaad jeclaan lahayd inaad samayso?</value>
     <value>Dib u dejiso khaladaadka</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Abuuraha mod</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Dib u habeyn menu-ka Robloxiyo astaanta bar sare, ka dibna u keydi qaab ahaan.</value>
@@ -5083,7 +5082,7 @@ Maxaad jeclaan lahayd inaad samayso?</value>
     <value>Ku biir server random ka duwan</value>
   </data>
   <data name="Ui.Session.ServerHop" xml:space="preserve">
-    <value>Server hop</value>
+    <value>Beddel server</value>
   </data>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Ku kala sooc</value>
@@ -5893,7 +5892,7 @@ Maxaad jeclaan lahayd inaad samayso?</value>
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Abuuraha mod</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod koronto-dhaliyaha Voidstrap waxaa sameeyay Meddsam iyo SquireDot.</value>
@@ -6301,7 +6300,7 @@ Maxaad jeclaan lahayd inaad samayso?</value>
     <value>Xawaaraha</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Daawadaha mesh</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Jiid si aad u wareegto, u rog si aad u dhaweyso</value>
@@ -6639,7 +6638,7 @@ Voidstrap wax u qori kari waayay galka miiska.</value>
     <value>Si toos ah u jiid kaar kasta oo dulsaar ah daaqadaada ciyaarta. Riix Esc ama dhagsii La sameeyay marka la dhammeeyo.</value>
   </data>
   <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
-    <value>Magnetic Snap</value>
+    <value>Ku dhejin birlab</value>
   </data>
   <data name="Ui.OverlayStudio.Done" xml:space="preserve">
     <value>La sameeyay</value>
@@ -6810,7 +6809,7 @@ Voidstrap wax u qori kari waayay galka miiska.</value>
     <value>La furay</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
-    <value>In Game Overlay Studio</value>
+    <value>Istuudiyaha overlay ee ciyaarta dhexdeeda</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
     <value>Jiid oo habayn akhrinta Server-ka, Ogeysiisyada, Fadhiga Fadhiga, Timo-jaridda, iyo boosaska HUD si toos ah.</value>
@@ -8987,7 +8986,7 @@ mods-ka isku-dhafan waxay ka dhigi karaan Roblox u eg ama u dhaqmaan si aan caad
     <value>Dhibaatooyinka nadiifi</value>
   </data>
   <data name="Ui.ModCode.Title" xml:space="preserve">
-    <value>Voidstrap Mod Code</value>
+    <value>Koodhka mod ee Voidstrap</value>
   </data>
   <data name="Ui.ModCode.Header" xml:space="preserve">
     <value>Fayl kasta oo Voidstrap mod ah</value>

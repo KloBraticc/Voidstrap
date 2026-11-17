@@ -355,8 +355,7 @@ Windows Vás dále požádá o potvrzení odstranění certifikátu. Klikněte n
     <value>Voidstrap byl úspěšně odinstalován</value>
   </data>
   <data name="Bootstrapper.Uninstall.RobloxRunning" xml:space="preserve">
-    <value>Roblox právě běží, ale musí být zavřen, před tím, než odinstalujete Voidstrap.
-Chtěli nyní zavřít Roblox?</value>
+    <value>Roblox právě běží, ale před odinstalací Voidstrapu musí být zavřený. Chcete Roblox zavřít nyní?</value>
   </data>
   <data name="Bootstrapper.WMFNotFound" xml:space="preserve">
     <value>Roblox potřebuje použití komponentů Windows Media Foundation. Vypadá, že vam chybí, nejspíše protože používáte Windows edici N. Prosíme nejdříve je nainstalujte, až po té pusťte Roblox.</value>
@@ -727,10 +726,11 @@ Pokud ne, prosím nahlaste tuto výjimku prostřednictvím [GitHub issue]({1}) s
     <value>Světlý</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap byl aktualizován na v{0}</value>
+    <value>Voidstrap byl aktualizován na novou verzi</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
-    <value>Verze Voidstrapu kterou jste spustili je jiná než tu kterou máte instalovanou. Chcete aktualizovat vaší instalovanou verzi?</value>
+    <value>Spuštěná verze Voidstrapu se liší od verze, kterou máte právě nainstalovanou.
+Chcete nainstalovanou verzi aktualizovat?</value>
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
     <value>Přispěvatelé</value>
@@ -941,7 +941,7 @@ NEPOUŽÍVEJTE tohle aby jste importovali velké "Fast flags" listy udělané os
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [exkluzivní celá obrazovka] ({0}) je automaticky nastavena ve výchozím nastavení zmáčknutím Alt+Enter.</value>
+    <value>Exkluzivní celá obrazovka Direct3D pomocí Alt+Enter je ve výchozím nastavení zapnutá.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Vybraná verze escape nabídky</value>
@@ -959,7 +959,7 @@ NEPOUŽÍVEJTE tohle aby jste importovali velké "Fast flags" listy udělané os
     <value>Limit frekvence</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Přepíná se pomocí [klávesových zkratek]({0}). Funguje pouze, pokud jste ve [skupině Voidstrap na Robloxu]({1}).</value>
+    <value>Přepíná se [klávesovými zkratkami]({0}). Zadejte ID skupiny, ve které jste.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Povolit možnost skrýt GUI</value>
@@ -1159,7 +1159,8 @@ Při výběru 'Ne' bude toto varování ignorováno a bude pokračovat v instala
     <value>Přeložit do</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Vyberte jazyk než budete pokračovat s instalací.</value>
+    <value>Před pokračováním instalace zvolte jazyk.
+Některé texty nemusí být přeloženy do zvoleného jazyka.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Jazyk</value>
@@ -1298,11 +1299,9 @@ Při výběru 'Ne' bude toto varování ignorováno a bude pokračovat v instala
     <value>Další</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Děkujeme za stažení Voidstrapu. 
+    <value>Děkujeme, že jste si stáhli Voidstrap.
 
-Jediné oficiální stránky pro stažení Voidstrapu jsou {0} a {1}, takže prosím ověřte, zda jste jej stáhli z oficiálního zdroje.
-
-Instalační proces bude rychlý a jednoduchý a po instalaci budete moci nakonfigurovat jakékoliv nastavení Voidstrapu.</value>
+Instalace bude rychlá a jednoduchá a po ní si můžete upravit libovolné nastavení Voidstrapu.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1354,13 +1353,9 @@ Co chcete udělat?</value>
     <value>Odinstalovat Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Odinstalace odstraní Voidstrap z vašeho systému a automaticky znovu nastaví výchozího spouštěčtě Robloxu, pokud je stále nainstalován.
+    <value>Odinstalováním Voidstrapu ho odeberete ze systému a obnovíte výchozí spouštěč Roblox, pokud je stále nainstalovaný.
 
-Pokud odinstalujete nebo přeinstalujete, protože máte problémy s Robloxem, přečtěte si nejprve [tuto stránku pomoci]({0}).
-
-Odinstalace možná nebude moct odstranit všechny data sama, takže možná budete muset ručně vyčistit zbylé soubory po Voidstrapu.
-
-Voidstrap byl nainstalován na "{1}".</value>
+Vše, co je zamčené nebo používané, se automaticky vyčistí, jakmile se uvolní.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Uložit moje nastavení a módy</value>
@@ -6030,7 +6025,7 @@ Co chcete udělat?</value>
     <value>Možnost klasické horní lišty znovu vytváří dva komunitní mody. Grafika a chování horní lišty a herní nabídky z let 2014 až 2015 pocházejí z "2014 2015 Topbar and Menu (Improvised GUI)" od HockuTM. Skrytí moderní lišty používá "NoGuiRBX, Hide TopBar!" od Einshine. Oba se používají s poděkováním podle podmínek Creative Commons BY NC ND 4.0, jejich soubory se stahují přímo z GameBanana místo přibalení a žádný z autorů není s Voidstrapem spojen.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Horní lišta a nabídka z let 2014 2015 od HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Komunitní mody</value>

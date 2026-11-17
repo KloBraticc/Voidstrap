@@ -1430,8 +1430,7 @@
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Η απεγκατάσταση του Voidstrap θα το αφαιρέσει από το σύστημά σας και θα επαναφέρει την προεπιλεγμένη εφαρμογή εκκίνησης Roblox , εάν είναι ακόμα εγκατεστημένη. 
  
-Οτιδήποτε είναι κλειδωμένο ή χρησιμοποιείται θα καθαρίζεται αυτόματα μόλις απελευθερωθεί. 
-</value>
+Οτιδήποτε είναι κλειδωμένο ή χρησιμοποιείται θα καθαρίζεται αυτόματα μόλις απελευθερωθεί.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Διατηρήστε τις ρυθμίσεις και τα mod μου</value>
@@ -3199,7 +3198,7 @@
     <value>Περιηγηθείτε στα mods της κοινότητας στο GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Εξερεύνηση mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Προβολή και διαχείριση αρχείων στην εγκατάσταση Roblox .</value>
@@ -3370,7 +3369,7 @@
     <value>Βοήθεια και διορθώσεις</value>
   </data>
   <data name="Ui.Mods.ModPacks" xml:space="preserve">
-    <value>Mod Packs</value>
+    <value>Πακέτα mod</value>
   </data>
   <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
     <value>Αναζήτηση Roblox mods</value>
@@ -3544,7 +3543,7 @@
     <value>Εξομάλυνση και κουφώματα</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Εξομάλυνση άκρων</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Λειαίνει τις οδοντωτές άκρες χρησιμοποιώντας το GPU.</value>
@@ -3742,7 +3741,7 @@
     <value>Φωτισμός</value>
   </data>
   <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
-    <value>Force Grey Sky</value>
+    <value>Επιβολή γκρι ουρανού</value>
   </data>
   <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
     <value>Λειώστε τις οδοντωτές άκρες. Οι υψηλότερες τιμές αυξάνουν την ομαλότητα.</value>
@@ -4141,7 +4140,7 @@
     <value>Δημόσιο, ιδιωτικό ή δεσμευμένο</value>
   </data>
   <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
+    <value>Ετικέτα beta</value>
   </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>Μετατρέπει δείκτες όπως [BETA] ή WIP στο όνομα του παιχνιδιού σε καθαρή ετικέτα</value>
@@ -4585,7 +4584,7 @@
     <value>Επαναφορά στις προεπιλογές</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Δημιουργός mod</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Χρωματίστε ξανά το μενού και τα εικονίδια της επάνω γραμμής του Robloxκαι, στη συνέχεια, αποθηκεύστε το ως mod.</value>
@@ -5569,7 +5568,7 @@
     <value>Δημιουργία συντόμευσης επιφάνειας εργασίας</value>
   </data>
   <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
-    <value>Advanced Editor</value>
+    <value>Προηγμένος επεξεργαστής</value>
   </data>
   <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
     <value>Ανοίξτε το ακατέργαστο πρόγραμμα επεξεργασίας NVIDIA Profile Inspector. Συνιστάται μόνο για προχωρημένους χρήστες.</value>
@@ -5869,7 +5868,7 @@
     <value>Πληροφορίες κατασκευής</value>
   </data>
   <data name="Ui.Misc2.CommitHash" xml:space="preserve">
-    <value>Commit Hash</value>
+    <value>Hash commit</value>
   </data>
   <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
     <value>Ειδοποιήσεις τρίτων</value>
@@ -5881,10 +5880,10 @@
     <value>Η κλασική επιλογή topbar αναδομεί δύο κοινότητες. Το γραφικό και η συμπεριφορά του επάνω μπαρ και του μενού παιχνιδιών 2014 έως 2015 προέρχονται από το "2014 2015 Topbar and Menu (Improvised GUI)" της HockuTM. Η απόκρυψη της σύγχρονης επάνω γραμμής χρησιμοποιεί το "NoGuiRBX, Hide TopBar!" από τον Einshine. Και τα δύο χρησιμοποιούνται με ευχαριστίες υπό τους όρους Creative Commons BY NC ND 4.0, τα αρχεία τους κατεβαίνουν απευθείας από το GameBanana και όχι ομαδοποιημένα και κανένας από τους δημιουργούς δεν συνδέεται με το Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Γραμμή κορυφής και μενού 2014 2015 από HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
-    <value>Community Mods</value>
+    <value>Mods κοινότητας</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Το Community Mods παραθέτει υποβολές Roblox από το GameBanana και το Click's Mods, που διατηρούνται από το TheKliko για το modloader της Kliko. Το Voidstrap δεν συνδέεται ούτε υποστηρίζεται από κανένα. Όλα τα mod, οι εικόνες και οι περιγραφές ανήκουν στους δημιουργούς τους, οι οποίοι πιστώνονται σε κάθε καταχώριση. Το Voidstrap διαβάζει μόνο τα δημόσια δεδομένα του και ποτέ δεν ανεβάζει τίποτα για λογαριασμό σας.</value>
@@ -5893,7 +5892,7 @@
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Δημιουργός mod</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Γεννήτρια Mod για Voidstrap που δημιουργήθηκε από τους Meddsam και SquireDot.</value>
@@ -5920,7 +5919,7 @@
     <value>Πληροφορίες GamePass</value>
   </data>
   <data name="Ui.Misc2.MusicPlayer" xml:space="preserve">
-    <value>Music Player</value>
+    <value>Πρόγραμμα αναπαραγωγής μουσικής</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
     <value>Πλαίσιο Γεν</value>
@@ -6301,7 +6300,7 @@
     <value>Ταχύτητα</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Προβολή mesh</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Σύρετε για περιστροφή, κύλιση για μεγέθυνση</value>
@@ -6657,16 +6656,16 @@
     <value>Αθέτηση</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
-    <value>Minimal Top Bar</value>
+    <value>Ελάχιστη επάνω γραμμή</value>
   </data>
   <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
     <value>Ανταγωνιστικό HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Καθαρό για streamers</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Επάνω dock</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Διαδραστική Σκηνή Οθόνης</value>
@@ -6819,7 +6818,7 @@
     <value>Ανοίξτε το Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Αποκοπή βίντεο</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Επιταχυνόμενη λήψη υλικού όταν πατάτε το {0}.</value>
@@ -7035,7 +7034,7 @@
     <value>Κάντε κλικ στο Start Recording ή πατήστε {0} για εγγραφή.</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>Clip Buffer Ready</value>
+    <value>Η προσωρινή μνήμη κλιπ είναι έτοιμη</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
     <value>Έναρξη λήψης...</value>
@@ -7807,7 +7806,7 @@
     <value>Αναζήτηση προσθηκών Studio</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
-    <value>Creator Store</value>
+    <value>Κατάστημα δημιουργών</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
     <value>Εγκατεστημένο</value>
@@ -8570,7 +8569,7 @@
     <value>Διαγραφή του Voidstrap mod "{0}" και όλων των αρχείων του;</value>
   </data>
   <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
-    <value>Mod editor: {0}</value>
+    <value>Επεξεργαστής mod: {0}</value>
   </data>
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Αποθήκευση και επαναφόρτωση</value>
@@ -9002,7 +9001,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
     <value>Δεν έχουν εγκατασταθεί ακόμη Voidstrap mods</value>
   </data>
   <data name="Ui.ModCode.OpenButton" xml:space="preserve">
-    <value>Mod Code</value>
+    <value>Κώδικας mod</value>
   </data>
   <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
     <value>Περιηγηθείτε και επεξεργαστείτε τον κώδικα των Voidstrap mods σας</value>

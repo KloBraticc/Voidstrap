@@ -295,7 +295,7 @@ Windows će od vas tražiti da sljedeće potvrdite brisanje certifikata. Kliknit
     <value>Otvorite direktorij tema</value>
   </data>
   <data name="Common.CreateNew" xml:space="preserve">
-    <value>Create New</value>
+    <value>Kreiraj novo</value>
   </data>
   <data name="Common.Import" xml:space="preserve">
     <value>Uvoz</value>
@@ -811,7 +811,7 @@ Ako nije, prijavite ovaj izuzetak putem [GitHub problem] ({1}) zajedno sa kopijo
     <value>Ovo su ljudi koji su dali značajan doprinos Bloxstrap/Voidstrap, pomažući da bude ono što jeste.</value>
   </data>
   <data name="Menu.About.Contributors.FeatureIdeas" xml:space="preserve">
-    <value>Feature Ideas</value>
+    <value>Ideje za funkcije</value>
   </data>
   <data name="Menu.About.Contributors.SpecialThanks" xml:space="preserve">
     <value>Posebno hvala</value>
@@ -872,7 +872,7 @@ Ako nije, prijavite ovaj izuzetak putem [GitHub problem] ({1}) zajedno sa kopijo
     <value>Mora biti .ico datoteka više veličina s veličinama od 16px do 128px. Postavite ikonu kao 'Prilagođenu' da je koristite.</value>
   </data>
   <data name="Menu.Appearance.CustomisationIcon.Title" xml:space="preserve">
-    <value>Custom Icon</value>
+    <value>Prilagođena ikona</value>
   </data>
   <data name="Menu.Appearance.CustomisationTitle.Description" xml:space="preserve">
     <value>Tekst koji se prikazuje kao naslov pokretača.</value>
@@ -884,7 +884,7 @@ Ako nije, prijavite ovaj izuzetak putem [GitHub problem] ({1}) zajedno sa kopijo
     <value>Konfigurirajte kako bi Voidstrap trebao izgledati.</value>
   </data>
   <data name="Menu.Appearance.Global.Theme.Title" xml:space="preserve">
-    <value>Global Theme</value>
+    <value>Globalna tema</value>
   </data>
   <data name="Menu.Appearance.Icon.Description" xml:space="preserve">
     <value>Odaberite koju ikonu treba koristiti.</value>
@@ -1046,7 +1046,7 @@ NEMOJTE koristiti ovo za uvoz velikih "listova zastava" koje su napravili drugi 
     <value>Preferirana tehnologija rasvjete</value>
   </data>
   <data name="Menu.FastFlags.Presets.RenderingMode.Title" xml:space="preserve">
-    <value>Rendering mode</value>
+    <value>Način renderovanja</value>
   </data>
   <data name="Menu.FastFlags.Title" xml:space="preserve">
     <value>FastFlags</value>
@@ -1113,7 +1113,7 @@ Odabirom 'Ne' ovo upozorenje će se zanemariti i instalacija će se nastaviti.</
     <value>Nije odabrana integracija, molimo odaberite ili dodajte novu</value>
   </data>
   <data name="Menu.Integrations.Custom.Title" xml:space="preserve">
-    <value>Custom Integrations</value>
+    <value>Prilagođene integracije</value>
   </data>
   <data name="Menu.Integrations.Description" xml:space="preserve">
     <value>Konfigurirajte dodatnu funkcionalnost da ide uz Roblox.</value>
@@ -1228,7 +1228,7 @@ Odabirom 'Ne' ovo upozorenje će se zanemariti i instalacija će se nastaviti.</
     <value>Odaberite željeni jezik</value>
   </data>
   <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Auto Translate</value>
+    <value>Automatski prijevod</value>
   </data>
   <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
     <value>Prevedi na</value>
@@ -1244,7 +1244,7 @@ Neki tekst možda neće biti preveden na željeni jezik.</value>
     <value>Neki tekst možda neće biti preveden na željeni jezik.</value>
   </data>
   <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Auto Translate Language</value>
+    <value>Jezik automatskog prijevoda</value>
   </data>
   <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
     <value>Prevedite cijeli Voidstrap interfejs na bilo koji jezik. Prvo se koriste izvorni prijevodi, a preostali tekst se prevodi uživo.</value>
@@ -1265,7 +1265,7 @@ Neki tekst možda neće biti preveden na željeni jezik.</value>
     <value>2023 (V4 + novo korisničko sučelje)</value>
   </data>
   <data name="Menu.FastFlags.Presets.Categories.Rendering" xml:space="preserve">
-    <value>Rendering and Graphics</value>
+    <value>Renderovanje i grafika</value>
   </data>
   <data name="Menu.FastFlags.Presets.Categories.UserInterface" xml:space="preserve">
     <value>Korisnički interfejs i izgled</value>
@@ -1349,7 +1349,7 @@ Neki tekst možda neće biti preveden na željeni jezik.</value>
     <value>Automatski</value>
   </data>
   <data name="Common.SystemDefault" xml:space="preserve">
-    <value>System Default</value>
+    <value>Sistemski zadano</value>
   </data>
   <data name="Menu.FastFlagEditor.InvalidPlaceFilter" xml:space="preserve">
     <value>Unos za '{0}' nije važeći jer filter mjesta nije pravilno formatiran.</value>
@@ -1430,8 +1430,7 @@ Nemojte koristiti prečicu "Roblox Player"Voidstrap neće raditi s njim. Ako seV
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Deinstaliranjem Voidstrap će se ukloniti iz vašeg sistema i vratiti zadani Roblox pokretač ako je još uvijek instaliran. 
  
-Sve što je zaključano ili u upotrebi bit će očišćeno automatski nakon što se pusti. 
-</value>
+Sve što je zaključano ili u upotrebi bit će očišćeno automatski nakon što se pusti.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Zadrži moje postavke i modove</value>
@@ -1932,7 +1931,7 @@ Da li želite da se prebacite na podrazumevani kanal ({1})?</value>
     <value>Sačuvaj i pokreni</value>
   </data>
   <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
-    <value>Ping breakdown</value>
+    <value>Raščlamba pinga</value>
   </data>
   <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
     <value>Šalje detaljne informacije o pingu na Roblox konzolu.</value>
@@ -2092,7 +2091,7 @@ Molimo omogućite Roblox nadogradnje.</value>
     <value>Prikazuje Soberindikator lokacije servera tokom igranja.</value>
   </data>
   <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
-    <value>Touch mode</value>
+    <value>Režim dodira</value>
   </data>
   <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
     <value>Odabire kako Sober prijavljuje podršku za unos dodirom.</value>
@@ -2104,7 +2103,7 @@ Molimo omogućite Roblox nadogradnje.</value>
     <value>On</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>Lažno isključeno</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>Iskustvo na konzoli</value>
@@ -2450,7 +2449,7 @@ Unesite tačnu frazu prikazanu ispod da prihvatite ova ograničenja i nastavite.
     <value>Ova očitavanja opisuju ovaj Voidstrap proces. Windows u vlasništvu drugog procesa možda neće biti naveden.</value>
   </data>
   <data name="OverlayDiagnostics.Stats" xml:space="preserve">
-    <value>Stats overlay</value>
+    <value>Prikaz statistike</value>
   </data>
   <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
     <value>Teleport posmatrača aktivnosti je u toku</value>
@@ -2523,8 +2522,8 @@ Unesite tačnu frazu prikazanu ispod da prihvatite ova ograničenja i nastavite.
   <data name="FlagSearch.Label4" xml:space="preserve"><value>Pretražujte, potvrdite i otkrijte Fast Flags iz više izvora</value></data>
   <data name="FlagSearch.Label5" xml:space="preserve"><value>Osvježite izvore</value></data>
   <data name="FlagSearch.Label6" xml:space="preserve"><value>Spreman</value></data>
-  <data name="FlagSearch.Label7" xml:space="preserve"><value>Live Search</value></data>
-  <data name="FlagSearch.Label8" xml:space="preserve"><value>Live Flag Search</value></data>
+  <data name="FlagSearch.Label7" xml:space="preserve"><value>Pretraga uživo</value></data>
+  <data name="FlagSearch.Label8" xml:space="preserve"><value>Pretraga flagova uživo</value></data>
   <data name="FlagSearch.Label9" xml:space="preserve"><value>Pretražite puna imena ili ključne riječi. Prvo se pojavljuju tačna podudaranja. Izvoz uključuje sve odgovarajuće poznate vrijednosti.</value></data>
   <data name="FlagSearch.Label10" xml:space="preserve"><value>Unesite naziv zastavice ili ključnu riječ...</value></data>
   <data name="FlagSearch.Label11" xml:space="preserve"><value>Izvoz rezultata</value></data>
@@ -2536,7 +2535,7 @@ Unesite tačnu frazu prikazanu ispod da prihvatite ova ograničenja i nastavite.
   <data name="FlagSearch.Label17" xml:space="preserve"><value>Izvor</value></data>
   <data name="FlagSearch.Label18" xml:space="preserve"><value>Nema poklapanja. Pokušajte s drugim filterom imena ili vrijednosti.</value></data>
   <data name="FlagSearch.Label19" xml:space="preserve"><value>0 rezultata</value></data>
-  <data name="FlagSearch.Label20" xml:space="preserve"><value>Bulk Validation</value></data>
+  <data name="FlagSearch.Label20" xml:space="preserve"><value>Skupna provjera</value></data>
   <data name="FlagSearch.Label21" xml:space="preserve"><value>Bulk Validation Flag</value></data>
   <data name="FlagSearch.Label22" xml:space="preserve"><value>Provjerite izvorno članstvo i tipove vrijednosti. Podudaranje ne garantuje da Roblox dozvoljava lokalno nadjačavanje.</value></data>
   <data name="FlagSearch.Label23" xml:space="preserve"><value>Učitaj datoteku</value></data>
@@ -2580,9 +2579,9 @@ Unesite tačnu frazu prikazanu ispod da prihvatite ova ograničenja i nastavite.
   <data name="FlagSearch.Message16" xml:space="preserve"><value>Izvezene {flags.Count} zastavice u {dialog.FileName}</value></data>
   <data name="FlagSearch.Message17" xml:space="preserve"><value>Izvoz je završen</value></data>
   <data name="FlagSearch.Message18" xml:space="preserve"><value>Greška pri izvozu zastavica:</value></data>
-  <data name="FlagSearch.Message19" xml:space="preserve"><value>Export Error</value></data>
+  <data name="FlagSearch.Message19" xml:space="preserve"><value>Greška pri izvozu</value></data>
   <data name="FlagSearch.Message20" xml:space="preserve"><value>Greška prilikom lijepljenja iz međuspremnika:</value></data>
-  <data name="FlagSearch.Message21" xml:space="preserve"><value>Paste Error</value></data>
+  <data name="FlagSearch.Message21" xml:space="preserve"><value>Greška pri lijepljenju</value></data>
   <data name="FlagSearch.ExportSummary" xml:space="preserve"><value>Izvezene {0:N0} zastavice u {1}</value></data>
   <data name="FlagSearch.ValueNote" xml:space="preserve"><value>Ulazna vrijednost ne odgovara tipu imena zastavice. Booleove zastavice zahtijevaju true ili false, zastavice za cijeli broj zahtijevaju cijeli 32-bitni broj.</value></data>
   <data name="Notifications.Title" xml:space="preserve">
@@ -2818,7 +2817,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Popover</value>
   </data>
   <data name="Appearance.Backdrop.Hud" xml:space="preserve">
-    <value>Heads up display</value>
+    <value>Prikaz na ekranu</value>
   </data>
   <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
     <value>Ispod prozora</value>
@@ -2833,7 +2832,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Preslikava glavni ekran dok Roblox radi i vraća ga kada se Roblox zatvori. Fizički ekran zadržava vlastito ograničenje osvježavanja.</value>
   </data>
   <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
-    <value>Native Language</value>
+    <value>Izvorni jezik</value>
   </data>
   <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
     <value>{0}% završeno</value>
@@ -3052,7 +3051,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Pogledajte neke od naših ugrađenih prilagođenih tema!</value>
   </data>
   <data name="Ui.Appearance.WindowBackdrop" xml:space="preserve">
-    <value>Window Backdrop</value>
+    <value>Pozadina prozora</value>
   </data>
   <data name="Ui.Appearance.WindowBackdropDescription" xml:space="preserve">
     <value>Odaberite materijal iza Voidstrap prozora.</value>
@@ -3193,13 +3192,13 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Ukloni</value>
   </data>
   <data name="Ui.Mods.FindMods" xml:space="preserve">
-    <value>Find Mods</value>
+    <value>Pronađi modove</value>
   </data>
   <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
     <value>Pregledajte modove zajednice na GameBanani.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Istraživač modova</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Pregledajte i upravljajte datotekama u vašoj instalaciji Roblox .</value>
@@ -3220,13 +3219,13 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Koristite Roblox kursor, ugrađeni stil ili svoje slike.</value>
   </data>
   <data name="Ui.Mods.CustomCursor" xml:space="preserve">
-    <value>Custom Cursor</value>
+    <value>Prilagođeni kursor</value>
   </data>
   <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
     <value>Koristite jednu sliku za pokazivač, van domašaja i tekstualne kursore.</value>
   </data>
   <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
-    <value>Custom Drag Cursor</value>
+    <value>Prilagođeni kursor za prevlačenje</value>
   </data>
   <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
     <value>Prikazuje se prilikom prevlačenja u Roblox Studio.</value>
@@ -3346,7 +3345,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Pregled skyboxa trenutno nije dostupan.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
-    <value>Font Manager</value>
+    <value>Upravitelj fontova</value>
   </data>
   <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
     <value>Koristite lokalni font ili koristite google fontove</value>
@@ -3370,7 +3369,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Pomoć i popravci</value>
   </data>
   <data name="Ui.Mods.ModPacks" xml:space="preserve">
-    <value>Mod Packs</value>
+    <value>Paketi modova</value>
   </data>
   <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
     <value>Pretražite Roblox modove</value>
@@ -3448,7 +3447,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Traži modove...</value>
   </data>
   <data name="Ui.Mods.AddMod" xml:space="preserve">
-    <value>Add Mod</value>
+    <value>Dodaj mod</value>
   </data>
   <data name="Ui.Mods.MoreModActions" xml:space="preserve">
     <value>Više mod akcija</value>
@@ -3493,7 +3492,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Overlays</value>
   </data>
   <data name="Ui.Mods.SessionDock" xml:space="preserve">
-    <value>Session dock</value>
+    <value>Dok sesije</value>
   </data>
   <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
     <value>Resetujte prečicu</value>
@@ -3544,13 +3543,13 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Zaglađivanje i okviri</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Uklanjanje nazubljenosti</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Izglađuje nazubljene ivice pomoću vašeg GPU.</value>
   </data>
   <data name="Ui.Mods.MotionBlur" xml:space="preserve">
-    <value>Motion blur</value>
+    <value>Zamućenje pokreta</value>
   </data>
   <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
     <value>Dodaje trag kretanja pokretu, maskiran pokretnim područjima tako da interfejs ostaje oštar.</value>
@@ -3643,7 +3642,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Debljina</value>
   </data>
   <data name="Ui.Mods.CenterGap" xml:space="preserve">
-    <value>Center gap</value>
+    <value>Razmak u sredini</value>
   </data>
   <data name="Ui.Mods.Opacity" xml:space="preserve">
     <value>Opacity</value>
@@ -3754,7 +3753,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Kontrolira udaljenost renderiranja trave u Roblox igrama. Postavite obje vrijednosti na 0 da onemogućite travu.</value>
   </data>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
-    <value>Grass Distance</value>
+    <value>Udaljenost trave</value>
   </data>
   <data name="Ui.FastFlags.Min" xml:space="preserve">
     <value>Min</value>
@@ -3766,7 +3765,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Konfigurirajte api za renderiranje za Roblox. Pritisnite Alt Enter kada idete na cijeli ekran ako koristite Direct3D. Postavljanje na Vulkan može uzrokovati neke greške!.</value>
   </data>
   <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
-    <value>Rendering Mode</value>
+    <value>Način renderovanja</value>
   </data>
   <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
     <value>Advanced FFlags</value>
@@ -3892,7 +3891,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Puna brzina dok je Roblox fokusiran, prigušen dok ste na kartici.</value>
   </data>
   <data name="Ui.Bootstrapper.AdvancedGeneral" xml:space="preserve">
-    <value>Advanced General</value>
+    <value>Napredno općenito</value>
   </data>
   <data name="Ui.Bootstrapper.Cleaner" xml:space="preserve">
     <value>Čistač</value>
@@ -4258,7 +4257,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Pregledajte i slušajte svoju muziku ili upravljajte sa menija na traci.</value>
   </data>
   <data name="Ui.Integrations.LaunchDelay" xml:space="preserve">
-    <value>Launch Delay</value>
+    <value>Kašnjenje pokretanja</value>
   </data>
   <data name="Ui.Integrations.PreRobloxLaunch" xml:space="preserve">
     <value>Pre lansiranja Roblox</value>
@@ -4306,7 +4305,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Identifikujte</value>
   </data>
   <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
-    <value>Resolution Changer</value>
+    <value>Promjena rezolucije</value>
   </data>
   <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
     <value>Mijenja rezoluciju odabranog monitora.</value>
@@ -4336,7 +4335,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
-    <value>Factory reset</value>
+    <value>Vraćanje na tvorničke postavke</value>
   </data>
   <data name="Ui.Channel.Donate" xml:space="preserve">
     <value>Donirajte</value>
@@ -4585,7 +4584,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Vratite na zadane postavke</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Generator modova</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Prebojite meni i ikone na gornjoj traci Roblox, a zatim ga sačuvajte kao mod.</value>
@@ -4711,7 +4710,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Kontrolira ukupnu veličinu teksta korisničkog sučelja.</value>
   </data>
   <data name="Ui.Gbs.ReducedMotion" xml:space="preserve">
-    <value>Reduced Motion</value>
+    <value>Smanjeno kretanje</value>
   </data>
   <data name="Ui.Gbs.DisableUIAnimationsForAccessibility" xml:space="preserve">
     <value>Onemogućite UI animacije radi pristupačnosti.</value>
@@ -4723,7 +4722,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Prikažite ili sakrijte heads up ekran u igri.</value>
   </data>
   <data name="Ui.Gbs.ChatVisibility" xml:space="preserve">
-    <value>Chat Visibility</value>
+    <value>Vidljivost chata</value>
   </data>
   <data name="Ui.Gbs.ShowOrHideTheInGame2" xml:space="preserve">
     <value>Prikaži ili sakrij prozor za ćaskanje u igrici.</value>
@@ -4735,7 +4734,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Prikaži imena drugih igrača.</value>
   </data>
   <data name="Ui.Gbs.BadgeVisible" xml:space="preserve">
-    <value>Badge Visible</value>
+    <value>Značka vidljiva</value>
   </data>
   <data name="Ui.Gbs.ShowBadgeNotificationsWhilePlaying" xml:space="preserve">
     <value>Prikaži obavještenja o znački dok igrate.</value>
@@ -4765,7 +4764,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Audio</value>
   </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
-    <value>Master Volume</value>
+    <value>Glavna jačina zvuka</value>
   </data>
   <data name="Ui.Gbs.OverallInGameVolume" xml:space="preserve">
     <value>Sveukupni volumen igre.</value>
@@ -4813,7 +4812,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Prikaži mrežni ping i statistiku paketa.</value>
   </data>
   <data name="Ui.Gbs.ChatTranslation" xml:space="preserve">
-    <value>Chat Translation</value>
+    <value>Prijevod chata</value>
   </data>
   <data name="Ui.Gbs.AutomaticallyTranslateChatMessages" xml:space="preserve">
     <value>Automatski prevedite chat poruke.</value>
@@ -4828,7 +4827,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Uključite način rada virtuelne stvarnosti.</value>
   </data>
   <data name="Ui.Gbs.VRComfortSetting" xml:space="preserve">
-    <value>VR Comfort Setting</value>
+    <value>VR postavka udobnosti</value>
   </data>
   <data name="Ui.Gbs.ControlsCameraMovementInVR" xml:space="preserve">
     <value>Kontrolira kretanje kamere u VR.</value>
@@ -5083,7 +5082,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Pridružite se drugom nasumičnom serveru</value>
   </data>
   <data name="Ui.Session.ServerHop" xml:space="preserve">
-    <value>Server hop</value>
+    <value>Promjena servera</value>
   </data>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Sortiraj po</value>
@@ -5410,10 +5409,10 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Ukloni iz biblioteke</value>
   </data>
   <data name="Ui.Pages.LibraryHome" xml:space="preserve">
-    <value>Library Home</value>
+    <value>Početna biblioteke</value>
   </data>
   <data name="Ui.Pages.SearchGames" xml:space="preserve">
-    <value>Search games</value>
+    <value>Pretraži igre</value>
   </data>
   <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
     <value>Osvježite biblioteku</value>
@@ -5593,16 +5592,16 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Poboljšava kvalitet anti aliasinga kombinovanjem MSAA uzoraka preko okvira sa minimalnim uticajem na performanse.</value>
   </data>
   <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
-    <value>Gamma Correction</value>
+    <value>Gama korekcija</value>
   </data>
   <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
     <value>Podešava kako se mapiraju vrijednosti svjetline, utječući na kontrast, detalje sjene i vidljivost srednjih tonova.</value>
   </data>
   <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
-    <value>Benchmark Overlay</value>
+    <value>Prikaz benchmarka</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
-    <value>Frame Rate Limiter</value>
+    <value>Ograničenje broja frejmova</value>
   </data>
   <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
     <value>Ograničenje brzine u pozadini aplikacije</value>
@@ -5671,7 +5670,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Novi projekat</value>
   </data>
   <data name="Ui.Pages.BuildPlace" xml:space="preserve">
-    <value>Build place</value>
+    <value>Mjesto za gradnju</value>
   </data>
   <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
     <value>Instalirajte dodatak Studio</value>
@@ -5734,7 +5733,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Poništi odabrano</value>
   </data>
   <data name="Ui.Pages.ClearHistory" xml:space="preserve">
-    <value>Clear History</value>
+    <value>Očisti historiju</value>
   </data>
   <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
     <value>Nema zabilježenih promjena</value>
@@ -5866,10 +5865,10 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Dobra duša koja je pomogla na putu.</value>
   </data>
   <data name="Ui.Misc2.BuildInformation" xml:space="preserve">
-    <value>Build Information</value>
+    <value>Informacije o verziji</value>
   </data>
   <data name="Ui.Misc2.CommitHash" xml:space="preserve">
-    <value>Commit Hash</value>
+    <value>Hash commita</value>
   </data>
   <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
     <value>Obavještenja treće strane</value>
@@ -5884,7 +5883,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>2014 2015 Topbar i meni od HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
-    <value>Community Mods</value>
+    <value>Modovi zajednice</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Community Mods navodi Roblox podneske iz GameBanana i Kliko's Mods, koje održava TheKliko za Klikov modloader. Voidstrap nije povezan niti podržan ni od jednog ni od drugog. Svi modovi, slike i opisi pripadaju njihovim autorima, koji su navedeni na svakoj listi. Voidstrap samo čita njihove javne podatke i nikada ne postavlja ništa u vaše ime.</value>
@@ -5893,7 +5892,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Generator modova</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod generator za Voidstrap kreirali su Meddsam i SquireDot.</value>
@@ -5920,10 +5919,10 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>GamePass Info</value>
   </data>
   <data name="Ui.Misc2.MusicPlayer" xml:space="preserve">
-    <value>Music Player</value>
+    <value>Muzički plejer</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Generisanje frejmova</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
     <value>Generacija okvira</value>
@@ -6010,7 +6009,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Prikaži mrežu</value>
   </data>
   <data name="Ui.Misc2.ImageAdjust" xml:space="preserve">
-    <value>Image Adjust</value>
+    <value>Podešavanje slike</value>
   </data>
   <data name="Ui.Misc2.ImageAdjustments" xml:space="preserve">
     <value>Podešavanje slike</value>
@@ -6043,13 +6042,13 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Sačuvaj kao mod</value>
   </data>
   <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
-    <value>Image Recolor</value>
+    <value>Promjena boja slike</value>
   </data>
   <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
-    <value>Recolor Options</value>
+    <value>Opcije promjene boja</value>
   </data>
   <data name="Ui.Misc2.TargetColor" xml:space="preserve">
-    <value>Target Color</value>
+    <value>Ciljna boja</value>
   </data>
   <data name="Ui.Misc2.Intensity" xml:space="preserve">
     <value>Intenzitet</value>
@@ -6295,13 +6294,13 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Posebni ljudi</value>
   </data>
   <data name="Ui.Misc3.AnimationPreview" xml:space="preserve">
-    <value>Animation Preview</value>
+    <value>Pregled animacije</value>
   </data>
   <data name="Ui.Misc3.Speed" xml:space="preserve">
     <value>Brzina</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Preglednik mesha</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Prevucite da biste rotirali, skrolujte da biste zumirali</value>
@@ -6639,7 +6638,7 @@ Greška: {0}</value>
     <value>Prevucite bilo koju preklapajuću karticu direktno preko prozora igre. Pritisnite Esc ili kliknite Gotovo kada završite.</value>
   </data>
   <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
-    <value>Magnetic Snap</value>
+    <value>Magnetno prianjanje</value>
   </data>
   <data name="Ui.OverlayStudio.Done" xml:space="preserve">
     <value>Gotovo</value>
@@ -6651,7 +6650,7 @@ Greška: {0}</value>
     <value>Resetuj sve</value>
   </data>
   <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
-    <value>Layout Presets</value>
+    <value>Predlošci rasporeda</value>
   </data>
   <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
     <value>Default</value>
@@ -6663,10 +6662,10 @@ Greška: {0}</value>
     <value>Competitive HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Čisto za strimere</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Gornji dok</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktivni ekran</value>
@@ -6684,7 +6683,7 @@ Greška: {0}</value>
     <value>Obavještenja</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Dok sesije</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
@@ -6693,7 +6692,7 @@ Greška: {0}</value>
     <value>FrameGen HUD</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
-    <value>Dock Panels</value>
+    <value>Paneli doka</value>
   </data>
   <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
     <value>Prikaži lokaciju servera u igri</value>
@@ -6735,7 +6734,7 @@ Greška: {0}</value>
     <value>Top</value>
   </data>
   <data name="Ui.OverlayStudio.DockScale" xml:space="preserve">
-    <value>Dock scale</value>
+    <value>Veličina doka</value>
   </data>
   <data name="Ui.OverlayStudio.DockDimmer" xml:space="preserve">
     <value>Jačina zatamnjenja pozadine</value>
@@ -6768,7 +6767,7 @@ Greška: {0}</value>
     <value>Debljina linije</value>
   </data>
   <data name="Ui.OverlayStudio.CrosshairGap" xml:space="preserve">
-    <value>Center gap</value>
+    <value>Razmak u sredini</value>
   </data>
   <data name="Ui.OverlayStudio.CrosshairColor" xml:space="preserve">
     <value>Boja končanice</value>
@@ -6780,7 +6779,7 @@ Greška: {0}</value>
     <value>Vertikalni pomak centra</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Vrati nišan u sredinu</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>Prikaži HUD generiranja okvira</value>
@@ -6819,7 +6818,7 @@ Greška: {0}</value>
     <value>Otvorite Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Video isječci</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Hardverski ubrzano snimanje kada pritisnete {0}.</value>
@@ -6879,7 +6878,7 @@ Greška: {0}</value>
     <value>Prikažite klasične crvene trake oko ivica ekrana tokom snimanja.</value>
   </data>
   <data name="Ui.Clipper.RedBorderShort" xml:space="preserve">
-    <value>Red Border</value>
+    <value>Crveni okvir</value>
   </data>
   <data name="Ui.Clipper.VideoQuality" xml:space="preserve">
     <value>Kvalitet videa</value>
@@ -7035,7 +7034,7 @@ Greška: {0}</value>
     <value>Kliknite na Započni snimanje ili pritisnite {0} za snimanje.</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>Clip Buffer Ready</value>
+    <value>Međuspremnik klipa spreman</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
     <value>Pokretanje snimanja...</value>
@@ -7074,7 +7073,7 @@ Greška: {0}</value>
     <value>Sačuvaj kao kopiju</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>Skrati original</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
     <value>Trim nije uspio.</value>
@@ -7095,7 +7094,7 @@ Greška: {0}</value>
     <value>IDLE</value>
   </data>
   <data name="Ui.Main.ManageMods" xml:space="preserve">
-    <value>Manage Mods</value>
+    <value>Upravljaj modovima</value>
   </data>
   <data name="Ui.Main.OneModApplied" xml:space="preserve">
     <value>1 Mod primijenjen</value>
@@ -7275,10 +7274,10 @@ Greška: {0}</value>
     <value>Geometrija</value>
   </data>
   <data name="Ui.Keystrokes.Editor.BorderThickness" xml:space="preserve">
-    <value>Border Thickness</value>
+    <value>Debljina okvira</value>
   </data>
   <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
-    <value>Corner Radius</value>
+    <value>Zaobljenost uglova</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
     <value>Radijus sjaja</value>
@@ -7308,7 +7307,7 @@ Greška: {0}</value>
     <value>Kliknite bilo koju tipku ili koristite Test Sequence za pregled animacija i zvuka</value>
   </data>
   <data name="Ui.Keystrokes.Editor.TestSequence" xml:space="preserve">
-    <value>Test Sequence</value>
+    <value>Testna sekvenca</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Revert" xml:space="preserve">
     <value>Vrati</value>
@@ -7362,13 +7361,13 @@ Greška: {0}</value>
     <value>Pritisnuta slika ključa</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
-    <value>Image Stretch</value>
+    <value>Rastezanje slike</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
     <value>Prozirnost slike</value>
   </data>
   <data name="Ui.Keystrokes.Editor.FormatJson" xml:space="preserve">
-    <value>Format Code</value>
+    <value>Formatiraj kod</value>
   </data>
   <data name="Ui.Keystrokes.Editor.AddImage" xml:space="preserve">
     <value>Dodajte datoteku slike</value>
@@ -7389,7 +7388,7 @@ Greška: {0}</value>
     <value>Sintaktička greška</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ThemeCode" xml:space="preserve">
-    <value>Theme Code</value>
+    <value>Kod teme</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
     <value>Keycap Customizer</value>
@@ -7410,10 +7409,10 @@ Greška: {0}</value>
     <value>Visina</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
-    <value>Corner Radius</value>
+    <value>Zaobljenost uglova</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
-    <value>Custom Label</value>
+    <value>Prilagođena oznaka</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapHideLabel" xml:space="preserve">
     <value>Sakrij oznaku</value>
@@ -7807,7 +7806,7 @@ Preuzima {0} MB. Ako odbijete, koristi se ugrađena procjena. Ovo možete promij
     <value>Pretražite Studio dodatke</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
-    <value>Creator Store</value>
+    <value>Prodavnica kreatora</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
     <value>Instalirano</value>
@@ -8122,7 +8121,7 @@ Preuzima {0} MB. Ako odbijete, koristi se ugrađena procjena. Ovo možete promij
     <value>Napišite recenziju ovog dodatka</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.PostReview" xml:space="preserve">
-    <value>Post review</value>
+    <value>Objavi recenziju</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.Helpful" xml:space="preserve">
     <value>Korisno ({0})</value>
@@ -8549,7 +8548,7 @@ Neka Voidstrap i uređivač budu otvoreni dok AI radi. Njegove promjene se odmah
     <value>Sesija igre i kuka za pokretanje</value>
   </data>
   <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
-    <value>Blank mod</value>
+    <value>Prazan mod</value>
   </data>
   <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
     <value>Naziv fascikle moda</value>
@@ -8978,7 +8977,7 @@ Ipak instalirati?</value>
 Modovi koji se preklapaju mogu učiniti da Roblox izgleda ili da se ponaša čudno, ali to ne može srušiti Voidstrap. Isključite jedan od njih ako nešto izgleda pogrešno.</value>
   </data>
   <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
-    <value>Mod settings</value>
+    <value>Postavke moda</value>
   </data>
   <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
     <value>Potrebno je popraviti</value>
@@ -9002,7 +9001,7 @@ Modovi koji se preklapaju mogu učiniti da Roblox izgleda ili da se ponaša čud
     <value>Još nema instaliranih Voidstrap modova</value>
   </data>
   <data name="Ui.ModCode.OpenButton" xml:space="preserve">
-    <value>Mod Code</value>
+    <value>Kod moda</value>
   </data>
   <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
     <value>Pregledajte i uredite kod svojih Voidstrap modova</value>
@@ -9023,7 +9022,7 @@ Modovi koji se preklapaju mogu učiniti da Roblox izgleda ili da se ponaša čud
     <value>Test</value>
   </data>
   <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
-    <value>Save All</value>
+    <value>Sačuvaj sve</value>
   </data>
   <data name="Ui.VsEditor.Undo" xml:space="preserve">
     <value>Poništi</value>
@@ -9053,7 +9052,7 @@ Modovi koji se preklapaju mogu učiniti da Roblox izgleda ili da se ponaša čud
     <value>Spreman</value>
   </data>
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
-    <value>Search Solution Explorer</value>
+    <value>Pretraži Solution Explorer</value>
   </data>
   <data name="Ui.EditorSettings.Title" xml:space="preserve">
     <value>Postavke urednika</value>
@@ -9077,7 +9076,7 @@ Modovi koji se preklapaju mogu učiniti da Roblox izgleda ili da se ponaša čud
     <value>Veličina fonta</value>
   </data>
   <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
-    <value>Word wrap</value>
+    <value>Prelamanje riječi</value>
   </data>
   <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
     <value>Brojevi linija</value>
@@ -9126,10 +9125,10 @@ Dozvoliti?</value>
     <value>Klasični ključevi</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
-    <value>Minimal bar</value>
+    <value>Minimalna traka</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
-    <value>Mouse tracker</value>
+    <value>Praćenje miša</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleCps" xml:space="preserve">
     <value>Kliknite na mjerač brzine</value>

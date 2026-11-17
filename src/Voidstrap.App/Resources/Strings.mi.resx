@@ -1430,8 +1430,7 @@ Me aha koe?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Ko te tango i te Voidstrap ka tangohia mai i to punaha ka whakahoki ano i te kaiwhakaputa Roblox taunoa mena kei te whakauru tonu. 
  
-Ko nga mea katoa e maukati ana, e whakamahia ana ranei ka horoi aunoa ina tukuna. 
-</value>
+Ko nga mea katoa e maukati ana, e whakamahia ana ranei ka horoi aunoa ina tukuna.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Kia mau ki aku tautuhinga me aku mods</value>
@@ -3199,7 +3198,7 @@ Me aha koe?</value>
     <value>Tirotiro mods hapori i runga i GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Kaitūhura mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Tirohia me te whakahaere i nga konae kei roto i to whakaurunga Roblox .</value>
@@ -3544,7 +3543,7 @@ Me aha koe?</value>
     <value>Whakaene me nga papa</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Whakamaenetanga tapa</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Ka whakaeneene i nga tapa kowhatu ma te whakamahi i to GPU.</value>
@@ -5860,7 +5859,7 @@ Me aha koe?</value>
     <value>Kaipupuri Frosttrap</value>
   </data>
   <data name="Ui.Misc2.RetiredCoOwnerWasLikeA" xml:space="preserve">
-    <value>Retired Co Owner, was like a brother.</value>
+    <value>Kua whakatā te kaipupuri tuarua, he rite ki te tuakana.</value>
   </data>
   <data name="Ui.Misc2.AKindSoulThatHelpedOn" xml:space="preserve">
     <value>He wairua atawhai i awhina i te huarahi.</value>
@@ -6780,7 +6779,7 @@ Hapa: {0}</value>
     <value>Wehenga pokapū poutū</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Whakahokia te crosshair ki waenganui</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>Whakaatuhia te Whakatupu Tāpare HUD</value>

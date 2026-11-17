@@ -1430,8 +1430,7 @@ Cad ba mhaith leat a dhéanamh?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Má dhéantar Voidstrap a dhíshuiteáil, bainfear de do chóras é agus cuirfidh sé an tosaitheoir réamhshocraithe Roblox ar ais má tá sé fós suiteáilte. 
  
-Déanfar aon rud atá glasáilte nó in úsáid a ghlanadh go huathoibríoch nuair a scaoiltear é. 
-</value>
+Déanfar aon rud atá glasáilte nó in úsáid a ghlanadh go huathoibríoch nuair a scaoiltear é.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Coinnigh mo socruithe agus mods</value>
@@ -3199,7 +3198,7 @@ Cad ba mhaith leat a dhéanamh?</value>
     <value>Brabhsáil mods pobail ar GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Taiscéalaí modanna</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Féach ar agus bainistigh comhaid i do shuiteáil Roblox .</value>

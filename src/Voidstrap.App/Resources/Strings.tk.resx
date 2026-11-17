@@ -1430,8 +1430,7 @@ Näme etmek isleýärsiňiz?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap-ny aýyrmak, ulgamyňyzdan aýyrar we gurnalan bolsa, adaty Roblox işledijisini dikelder. 
  
-Gulplanan ýa-da ulanylýan islendik zat çykandan soň awtomatiki arassalanar. 
-</value>
+Gulplanan ýa-da ulanylýan islendik zat çykandan soň awtomatiki arassalanar.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Sazlamalarymy we rejelerimi saklaň</value>
@@ -3199,7 +3198,7 @@ Näme etmek isleýärsiňiz?</value>
     <value>GameBanana-da jemgyýetçilik modlaryna göz aýlaň.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Mod gözlegçisi</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Roblox gurnamaňyzdaky faýllary görüň we dolandyryň.</value>
@@ -4585,7 +4584,7 @@ Näme etmek isleýärsiňiz?</value>
     <value>Dymmaklyklara gaýtaryň</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mod generatory</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Robloxmenýusyny we ýokarky çyzgy nyşanlaryny ýada salyň, soňra mod görnüşinde saklaň.</value>
@@ -5893,7 +5892,7 @@ Näme etmek isleýärsiňiz?</value>
     <value>github.com/klikos modloader / bazar</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mod generatory</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Meddsam we SquireDot tarapyndan döredilen Voidstrap üçin mod generator.</value>
@@ -9044,7 +9043,7 @@ Gabat gelýän modlar Roblox görnüşini ýa-da üýtgeşik hereket edip biler,
     <value>Tap</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Solution Explorer</value>
+    <value>Çözgüt gözlegçisi</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>Çykyş</value>

@@ -732,10 +732,11 @@ Değilse, lütfen bu sorunu oluşturulan kayıt dosyasının bir kopyasıyla bir
     <value>Aydınlık</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap v{0} sürümüne güncellendi</value>
+    <value>Voidstrap yeni bir sürüme yükseltildi</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
-    <value>Başlattığınız Voidstrap sürümü, şuan ki güncel sürümden farklı. Yeni sürüme güncellemek ister misiniz?</value>
+    <value>Başlattığınız Voidstrap sürümü şu anda yüklü olan sürümden farklı.
+Yüklü sürümü yükseltmek ister misiniz?</value>
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
     <value>Katkıda Bulunanlar</value>
@@ -946,7 +947,7 @@ Bunu, diğer insanlar tarafından yapılan ve performansı artırmayı vaat eden
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Alt+Enter kullanarak Direct3D [özel tam ekran]({0}) varsayılan olarak zaten etkindir.</value>
+    <value>Alt+Enter ile Direct3D özel tam ekran varsayılan olarak etkindir.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Tercih edilen ESC menüsü versiyonu</value>
@@ -964,7 +965,7 @@ Bunu, diğer insanlar tarafından yapılan ve performansı artırmayı vaat eden
     <value>Kare hızı limiti (FPS)</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>[Klavye kısayolları]({0}) ile değiştirilir. Yalnızca [Voidstrap grubu]({1}) içindeyseniz çalışır.</value>
+    <value>[Klavye kısayollarıyla]({0}) açılıp kapatılır. Üyesi olduğunuz bir grubun ID sini girin.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>GUI'leri gizleme özelliğini etkinleştir</value>
@@ -1164,7 +1165,8 @@ Aşağıdaki konuma değiştirilmesi önerilir:
     <value>Şu dile çevir</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Kuruma devam etmeden önce bir dil seçiniz.</value>
+    <value>Kuruluma devam etmeden önce bir dil seçin.
+Bazı metinler seçtiğiniz dile çevrilmemiş olabilir.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Dil</value>
@@ -1303,11 +1305,9 @@ Aşağıdaki konuma değiştirilmesi önerilir:
     <value>İleri</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Voidstrap'ı indirdiğiniz için teşekkürler.
+    <value>Voidstrap ı indirdiğiniz için teşekkürler.
 
-Voidstrap'ı indirebileceğiniz tek resmî web siteleri {0} ve {1}'dur, bu yüzden lütfen resmî bir kaynaktan indirdiğinizi doğrulayın.
-
-Bu yükleme işlemi hızlı ve basit olacaktır, ve yükleme işlemi bittikten sonra Voidstrap'ın her ayarını yapılandırabileceksiniz.</value>
+Kurulum hızlı ve basit olacak, ardından Voidstrap ayarlarının herhangi birini yapılandırabilirsiniz.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1359,13 +1359,9 @@ Ne yapmak istersiniz?</value>
     <value>Voidstrap'ı kaldır</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Kaldırmak, Voidstrap'ı sisteminizden kaldıracaktır, ve hâlâ yüklü ise varsayılan Roblox başlatıcısını otomatik olarak yeniden yapılandıracaktır.
+    <value>Voidstrap ı kaldırmak onu sisteminizden siler ve hâlâ yüklüyse varsayılan Roblox başlatıcısını geri yükler.
 
-Eğer Roblox ile bir sorun yaşadığınızdan dolayı kaldırıyorsanız veya yeniden yüklüyorsanız, ilk önce [bu yardım sayfasını]({0}) okuyun.
-
-Kaldırma işlemi kendisinin artıklarını tamamen temizleyemeyebilir, bu yüzden Voidstrap'ın yüklü olduğu yerdeki artık dosyaları manuel olarak temizlemeniz gerekebilir.
-
-Voidstrap "{1}" yerine yüklüydü.</value>
+Kilitli veya kullanımda olan her şey serbest bırakıldığında otomatik olarak temizlenir.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Ayarlarımı ve modlarımı tut</value>
@@ -1447,7 +1443,9 @@ Eğer sorun ele alınmadıysa, lütfen bu istisnayı bu versiyonun geliştiricil
     <value>Kaydedilmemiş değişiklikleriniz var. Kaydetmeden kapatmak istediğinizden emin misiniz?</value>
   </data>
   <data name="InstallChecker.VersionLessThanInstalled" xml:space="preserve">
-    <value>Başlattığınız Voidstrap sürümü sizde şu an yüklü olan sürümden daha eski. Sorunlar ortaya çıkabilir ve ayarlarınız değişebilir. Bir yeniden yükleme önerilir. Devam etmek istediğinizden emin misiniz?</value>
+    <value>Başlattığınız Voidstrap sürümü şu anda yüklü olan sürümden daha eski.
+Sorunlar oluşabilir ve ayarlarınız değişebilir. Yeniden kurulum önerilir.
+Devam etmek istediğinizden emin misiniz?</value>
   </data>
   <data name="Dialog.PlayerError.FailedLaunch" xml:space="preserve">
     <value>Roblox başlatılamadı.</value>
@@ -6042,7 +6040,7 @@ Ne yapmak istersiniz?</value>
     <value>Klasik üst çubuk seçeneği iki topluluk modunu yeniden oluşturur. 2014 ile 2015 arası üst çubuk ve oyun menüsü görselleri ile davranışı HockuTM tarafından yapılan "2014 2015 Topbar and Menu (Improvised GUI)" modundan gelir. Modern üst çubuğu gizlemek için Einshine tarafından yapılan "NoGuiRBX, Hide TopBar!" kullanılır. İkisi de Creative Commons BY NC ND 4.0 koşullarıyla teşekkürle kullanılır, dosyaları paketlenmek yerine doğrudan GameBanana'dan indirilir ve yazarlardan hiçbiri Voidstrap ile bağlantılı değildir.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>HockuTM tarafından 2014 2015 üst çubuk ve menü</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Topluluk modları</value>

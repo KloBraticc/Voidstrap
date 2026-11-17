@@ -738,7 +738,7 @@ Ha nem, kérjük, hogy jelentse ezt egy [GitHub problémaként]({1}) a Voidstrap
     <value>Világos</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>A Voidstrap frissítve lett v{0}-ra/re</value>
+    <value>A Voidstrap frissült egy új verzióra</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>A Voidstrap elindított verziója eltér a jelenleg telepített verziótól.
@@ -943,7 +943,9 @@ Biztosan folytatja?</value>
     <value>Tudod, hogy mit csinálsz?</value>
   </data>
   <data name="Menu.FastFlagEditor.Warning.Text" xml:space="preserve">
-    <value>A Fast Flag-ek rendkívül erősek, mivel csak a Roblox mérnökei használhatják őket. Bár nagyon hasznosak lehetnek, a kézi konfigurálásuk komoly stabilitási és funkcionalitási problémákat okozhat. NE használd a szerkesztőt, ha nem vagy biztos abban, hogy mit csinálsz.</value>
+    <value>A Fast Flagek rendkívül erősek, mivel eredetileg csak a Roblox mérnökei számára készültek. Bár nagyon hasznosak lehetnek, kézi beállításuk komoly stabilitási és működési problémákat okozhat. NE használd a szerkesztőt, ha nem vagy biztos abban, mit csinálsz.
+
+NE importálj vele mások által készített nagy „flag listákat”, amelyek jobb teljesítményt vagy hasonlót ígérnek. Ezekre ugyanezek a problémák vonatkoznak, és gondot fognak okozni, mert nem fogod pontosan tudni, mit módosítanak. Ha éppen ezt akartad tenni, LÉPJ VISSZA.</value>
   </data>
   <data name="Menu.FastFlags.Description" xml:space="preserve">
     <value>Vezérelheti a Roblox motor egyes paramétereinek és funkcióinak konfigurálását.</value>
@@ -957,7 +959,7 @@ Biztosan folytatja?</value>
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>A Direct3D [kizárólagos teljes képernyő]({0}) az Alt+Enter billentyűkombináció használatával alapértelmezés szerint engedélyezve van.</value>
+    <value>A Direct3D kizárólagos teljes képernyő az Alt+Enter billentyűkkel alapértelmezetten be van kapcsolva.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Előnyben részesített játék menü verzió</value>
@@ -975,7 +977,7 @@ Biztosan folytatja?</value>
     <value>FPS korlát</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>A [billentyűparancsok]({0}) segítségével kapcsolható. Csak akkor működik, ha a [Voidstrap Roblox csoportban]({1}) vagy.</value>
+    <value>[Billentyűparancsokkal]({0}) kapcsolható. Add meg egy olyan csoport ID ját, amelynek tagja vagy.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>A GUI-k elrejtésének lehetővé tétele</value>
@@ -1175,7 +1177,8 @@ A 'Nem' választása figyelmen kívül hagyja ezt a figyelmeztetést, és folyta
     <value>Fordítás erre</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Válasszon egy nyelvet mielőtt folytatja a telepítést.</value>
+    <value>Válassz nyelvet, mielőtt folytatod a telepítést.
+Előfordulhat, hogy egyes szövegek nincsenek lefordítva a választott nyelvre.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Nyelv</value>
@@ -1314,11 +1317,9 @@ A 'Nem' választása figyelmen kívül hagyja ezt a figyelmeztetést, és folyta
     <value>Következő</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Köszönjük a Voidstrap letöltését. 
+    <value>Köszönjük, hogy letöltötted a Voidstrapet.
 
-A Voidstrap letöltéséhez csak a(z) {0} és a(z) {1} hivatalos oldal áll rendelkezésre, ezért kérjük ellenőrizd, hogy hivatalos forrásból származik-e a letöltés.
-
-A telepítési folyamat gyors és egyszerű lesz, és a telepítés után a Voidstrap bármelyik beállítását konfigurálhatja.</value>
+A telepítés gyors és egyszerű lesz, utána pedig bármelyik Voidstrap beállítást módosíthatod.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1370,13 +1371,9 @@ Mit szeretnél tenni?</value>
     <value>Voidstrap eltávolítása</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Az eltávolítás eltávolítja a Voidstrap-et a rendszerből, és automatikusan átállítja az alapértelmezett Roblox indítóprogramot, ha az még telepítve van.
+    <value>A Voidstrap eltávolítása törli azt a rendszeredről, és visszaállítja az alapértelmezett Roblox indítót, ha az még telepítve van.
 
-Ha azért távolítod el vagy telepíted újra, mert problémáid vannak a Roblox-al, először olvasd el [ezt a súgóoldalt]({0}).
-
-Előfordulhat, hogy az eltávolítási folyamat nem képes teljesen kitakarítani magát, ezért előfordulhat, hogy kézzel kell kitakarítani a megmaradt fájlokat, ahová a Voidstrap telepítve volt.
-
-A Voidstrap telepítése a „{1}” helyre történt.</value>
+Minden zárolt vagy használatban lévő elem automatikusan törlődik, amint felszabadul.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Tartsa meg a beállításaimat és modjaimat</value>
@@ -6046,7 +6043,7 @@ Mit szeretnél tenni?</value>
     <value>A klasszikus felső sáv beállítás két közösségi modot épít újra. A 2014 és 2015 közötti felső sáv és játékmenü kinézete és működése a HockuTM által készített "2014 2015 Topbar and Menu (Improvised GUI)" modból származik. A modern felső sáv elrejtése az Einshine által készített "NoGuiRBX, Hide TopBar!" modot használja. Mindkettőt köszönettel használjuk a Creative Commons BY NC ND 4.0 feltételeik szerint, a fájlok közvetlenül a GameBananáról töltődnek le, nincsenek mellékelve, és egyik szerző sem áll kapcsolatban a Voidstrappal.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>2014 2015 felső sáv és menü, készítette HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Közösségi modok</value>

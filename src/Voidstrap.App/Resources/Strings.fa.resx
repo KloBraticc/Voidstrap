@@ -765,7 +765,7 @@
     <value>روشن</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>بلاکسترپ به ورژن {0} بروزرسانی شد</value>
+    <value>Voidstrap به نسخه جدید ارتقا یافت</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>ورژن بلاکسترپی که شما باز کردید با نسخه نصب شده فرق میکنید.
@@ -986,7 +986,7 @@
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>({0}) Direct3D [exclusive fullscreen] با استفاده از Alt+Enter به صورت پیش فرض فعال است.</value>
+    <value>تمام‌صفحه انحصاری Direct3D با Alt+Enter به‌طور پیش‌فرض فعال است.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>نسخه منوی ترجیحی</value>
@@ -1004,7 +1004,7 @@
     <value>حد نرخ فریم</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>با [شورتکات های کیبورد] ({0}) تغییر وضعیت میتوان داد. فقط در صورتی کار می کند که در [گروه بلاکسترپ] ({1}) حضور داشته باشید.</value>
+    <value>با [میان‌برهای صفحه‌کلید]({0}) روشن و خاموش می‌شود. شناسه گروهی را که عضو آن هستید وارد کنید.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>فعال سازی قدرت پنهان گردن رابط کاربر گرافیکی</value>
@@ -1204,7 +1204,8 @@
     <value>ترجمه به</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>یک زبان انتخاب کنید قبل از ادامه دادن نصب.</value>
+    <value>پیش از ادامه نصب، زبانی را انتخاب کنید.
+ممکن است برخی متن‌ها به زبان انتخابی شما ترجمه نشده باشند.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>زبان</value>
@@ -1343,11 +1344,9 @@
     <value>بعدی</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>ممنونیم بابت دانلود بلاکسترپ.
+    <value>از اینکه Voidstrap را دانلود کردید سپاسگزاریم.
 
-تنها وبسایت رسمی جهت دانلود بلاکسترپ {0} و {1} هستند، پس مطمئن شوید از منبع رسمی بلاکسترپ را دریافت کرده اید.
-
-طریقه نصب کردن سریع و آسان است، و شما میتونید بعد از نصب تنظیمات بلاکسترپ را تغییر دهید.</value>
+فرایند نصب سریع و ساده است و پس از نصب می‌توانید هر یک از تنظیمات Voidstrap را پیکربندی کنید.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1399,13 +1398,9 @@
     <value>حذف نصب بلاکسترپ</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>حذف کردن، برنامه بلاکسترپ را از سیستم شما حذف میکند، و اگر هنوز نصب شده است به طور خودکار تنظیمات را به تنظیمات اصلی لانچر روبلاکس برمیگرداند.
+    <value>حذف Voidstrap آن را از سیستم شما پاک می‌کند و اگر لانچر پیش‌فرض Roblox هنوز نصب باشد، آن را بازمی‌گرداند.
 
-اگر شما درحال حذف کردن و یا نصب مجدد هستید به دلیل اینکه مشکلاتی با روبلاکس دارید، اول [این صفحه کمکی]({0}) را بخوانید.
-
-عمل حذف کردن ممکن است تمامی فایل های بلاکسترپ را پاک نکند, پس شما نیاز دارید که به طور دستی فایل های کافی مانده را که در مکانی که بلاکسترپ نصب شده حذف کنید.
-
-بلاکسترپ در "{1}" نصب شده بود.</value>
+هر چیزی که قفل یا در حال استفاده باشد، پس از آزاد شدن به‌طور خودکار پاک می‌شود.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>تنظیمات و مود های من را ذخیره کن</value>
@@ -1844,8 +1839,7 @@
     <value>ویژگی‌های بازخورد لمسی مانند ارتعاشات کنترلر را غیرفعال می‌کند.</value>
   </data>
   <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
-    <value>Roblox در حال تلاش برای تنظیم کانال شما به {0} است، اما کانال ترجیحی فعلی شما {1} است.
-
+    <value>Roblox می‌خواهد کانال شما را روی {0} تنظیم کند، اما کانال ترجیحی فعلی شما {1} است.
 
 آیا می‌خواهید کانال ترجیحی خود را به {0} تغییر دهید؟</value>
   </data>
@@ -6088,7 +6082,7 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
     <value>گزینه نوار بالای کلاسیک دو ماد جامعه را بازسازی می‌کند. ظاهر و رفتار نوار بالا و منوی بازی سال‌های 2014 تا 2015 از "2014 2015 Topbar and Menu (Improvised GUI)" ساخته HockuTM گرفته شده است. پنهان کردن نوار بالای مدرن از "NoGuiRBX, Hide TopBar!" ساخته Einshine استفاده می‌کند. هر دو با سپاس طبق شرایط Creative Commons BY NC ND 4.0 استفاده می‌شوند، فایل‌هایشان به جای همراه شدن مستقیم از GameBanana دانلود می‌شوند و هیچ‌کدام از سازندگان با Voidstrap وابستگی ندارند.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>نوار بالا و منوی 2014 2015 از HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>مادهای جامعه</value>

@@ -1430,8 +1430,7 @@ Zer egin nahiko zenuke?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap desinstalatzeak zure sistematik kenduko du eta Roblox abiarazle lehenetsia berreskuratuko du oraindik instalatuta badago. 
  
-Blokeatuta dagoen edo erabiltzen ari dena automatikoki garbituko da askatu ondoren. 
-</value>
+Blokeatuta dagoen edo erabiltzen ari dena automatikoki garbituko da askatu ondoren.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Mantendu nire ezarpenak eta modak</value>
@@ -2104,7 +2103,7 @@ Gaitu Roblox bertsio-berritzeak.</value>
     <value>On</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>Itxuraz itzalita</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>Kontsola esperientzia</value>
@@ -3199,7 +3198,7 @@ Zer egin nahiko zenuke?</value>
     <value>Arakatu komunitateko modak GameBanana-n.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Mod arakatzailea</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Ikusi eta kudeatu fitxategiak zure Roblox instalazioan.</value>
@@ -4387,7 +4386,7 @@ Zer egin nahiko zenuke?</value>
     <value>Roblox-k zenbat memoria erabil dezakeen</value>
   </data>
   <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
-    <value>Game Update Delivery</value>
+    <value>Jokoaren eguneraketen banaketa</value>
   </data>
   <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
     <value>Hautatu noiz jaso nahi dituzun Roblox jokoen eguneraketak</value>
@@ -6684,7 +6683,7 @@ Errorea: {0}</value>
     <value>Jakinarazpenak</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Saioaren kaia</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Gurutzea</value>
@@ -6819,7 +6818,7 @@ Errorea: {0}</value>
     <value>Ireki Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Bideo mozketa</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Hardware-k bizkortutako harrapaketa {0}sakatzen duzunean.</value>
@@ -7747,7 +7746,7 @@ Bidali fitxategi hori laguntzen dizunari. Zure ordenagailuko erabiltzaile-izena 
     <value>Ahotsaren argitasuna</value>
   </data>
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
-    <value>Treble boost</value>
+    <value>Altuen indartzea</value>
   </data>
   <data name="ColorPicker.Title" xml:space="preserve">
     <value>Aukeratu kolore bat</value>

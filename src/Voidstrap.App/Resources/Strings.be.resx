@@ -1430,8 +1430,7 @@ Roblox будзе ўсталяваны пры першым запуску з д�
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Выдаленне Voidstrap выдаліць яго з вашай сістэмы і адновіць праграму запуску Roblox па змаўчанні, калі яна ўсё яшчэ ўсталявана. 
  
-Усё, што заблакіравана або выкарыстоўваецца, будзе ачышчана аўтаматычна пасля вызвалення. 
-</value>
+Усё, што заблакіравана або выкарыстоўваецца, будзе ачышчана аўтаматычна пасля вызвалення.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Захаваць мае налады і моды</value>
@@ -3742,7 +3741,7 @@ Roblox будзе спампаваны пры першым запуску пра
     <value>Асвятленне</value>
   </data>
   <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
-    <value>Force Grey Sky</value>
+    <value>Прымусовае шэрае неба</value>
   </data>
   <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
     <value>Згладзьце няроўныя краю. Больш высокія значэнні павялічваюць гладкасць.</value>
@@ -6663,7 +6662,7 @@ Voidstrap не можа запісаць у тэчку працоўнага ст
     <value>Канкурэнтны HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Чыста для стрымераў</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Верхні док</value>
@@ -6810,7 +6809,7 @@ Voidstrap не можа запісаць у тэчку працоўнага ст
     <value>Адмацавана</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
-    <value>У Game Overlay Studio</value>
+    <value>Студыя накладак у гульні</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
     <value>Перацягніце і наладзьце счытванне сервера, апавяшчэнні, док-станцыю сеанса, перакрыжаванне і HUD у прамым эфіры.</value>
@@ -7266,7 +7265,7 @@ Voidstrap не можа запісаць у тэчку працоўнага ст
     <value>Колер рамкі ключа</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowColor" xml:space="preserve">
-    <value>Glow / Accent Color</value>
+    <value>Колер свячэння / акцэнту</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
     <value>Геаметрыя і свячэнне</value>

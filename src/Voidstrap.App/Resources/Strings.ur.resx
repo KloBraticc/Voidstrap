@@ -1430,8 +1430,7 @@ Roblox انسٹال ہو جائے گا جب آپ اسے پہلی بارVoidstrap
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap کو اَن انسٹال کرنے سے یہ آپ کے سسٹم سے ہٹ جائے گا اور اگر یہ ابھی بھی انسٹال ہے تو ڈیفالٹ Roblox لانچر کو بحال کر دے گا۔ 
  
-کوئی بھی چیز جو مقفل یا استعمال میں ہے ایک بار جاری ہونے کے بعد خود بخود صاف ہو جائے گی۔ 
-</value>
+کوئی بھی چیز جو مقفل یا استعمال میں ہے ایک بار جاری ہونے کے بعد خود بخود صاف ہو جائے گی۔</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>میری سیٹنگز اور موڈز رکھیں</value>
@@ -6780,7 +6779,7 @@ Voidstrap ڈیسک ٹاپ فولڈر میں نہیں لکھ سکتا۔</value>
     <value>عمودی مرکز آفسیٹ</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Crosshair کو دوبارہ مرکز میں لائیں</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>فریم جنریشن HUD دکھائیں۔</value>

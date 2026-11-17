@@ -726,7 +726,7 @@ Dacă nu, atunci vă rugăm să raportați această eroare printr-o [problemă G
     <value>Luminos</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap a fost actualizat la v{0}</value>
+    <value>Voidstrap a fost actualizat la o versiune nouă</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Versiunea de Voidstrap pe care ați lansat-o este diferită de versiunea pe care o aveți instalată în prezent.
@@ -947,7 +947,7 @@ NU folosiți acest editor pentru a importa „liste de flag-uri” făcute de al
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [fullscreen exclusiv]({0}) folosind Alt+Enter este activat în mod implicit.</value>
+    <value>Ecranul complet exclusiv Direct3D folosind Alt+Enter este activat implicit.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Versiunea preferată a meniului de escape</value>
@@ -965,7 +965,7 @@ NU folosiți acest editor pentru a importa „liste de flag-uri” făcute de al
     <value>Limită de FPS</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Comută cu [comenzi rapide de tastatură]({0}). Funcționează numai dacă vă aflați în [grupul Voidstrap]({1}).</value>
+    <value>Se comută cu [comenzi rapide de la tastatură]({0}). Introdu ID ul unui grup din care faci parte.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Permite capacitatea de a ascunde GUI-uri</value>
@@ -1165,7 +1165,8 @@ Selectarea „Nu” va ignora acest avertisment și va continua instalarea.</val
     <value>Tradu în</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Alege o limbă înainte să continui cu instalația.</value>
+    <value>Alege o limbă înainte de a continua instalarea.
+Unele texte s ar putea să nu fie traduse în limba aleasă.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Limbă</value>
@@ -1304,11 +1305,9 @@ Selectarea „Nu” va ignora acest avertisment și va continua instalarea.</val
     <value>Înainte</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Vă mulțumim că ați descărcat Voidstrap. 
+    <value>Îți mulțumim că ai descărcat Voidstrap.
 
-Singurele site-uri oficiale de pe care se poate descărca Voidstrap sunt {0} și {1}, așa că vă rugăm să verificați dacă l-ați obținut dintr-o sursă oficială.
-
-Acest proces de instalare va fi rapid și simplu, și veți putea configura oricare dintre setările Voidstrap după instalare.</value>
+Instalarea va fi rapidă și simplă, iar după aceea poți configura oricare dintre setările Voidstrap.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1360,13 +1359,9 @@ Ce ai vrea să faci?</value>
     <value>Dezinstalează Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Dezinstalarea va elimina Voidstrap de pe sistemul tău și va reconfigura automat launcher-ul Roblox implicit, dacă acesta este încă instalat.
+    <value>Dezinstalarea Voidstrap îl va elimina din sistem și va restaura lansatorul Roblox implicit, dacă acesta este încă instalat.
 
-Dacă dezinstalezi sau reinstalezi din cauza unor probleme cu Roblox, citește mai întâi această [pagină de ajutor]({0}).
-
-Procesul de dezinstalare s-ar putea să nu poată curăța complet fișierele, așa că va fi necesar să ștergi manual fișierele rămase în locul unde a fost instalat Voidstrap.
-
-Voidstrap a fost instalat la „{1}”.</value>
+Tot ce este blocat sau în uz va fi curățat automat imediat ce este eliberat.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Păstrează-mi setările și modurile</value>
@@ -6030,7 +6025,7 @@ Ce vrei să faci?</value>
     <value>Opțiunea de bară superioară clasică recreează două moduri ale comunității. Grafica și comportamentul barei superioare și meniului de joc din 2014 până în 2015 provin din "2014 2015 Topbar and Menu (Improvised GUI)" de HockuTM. Ascunderea barei moderne folosește "NoGuiRBX, Hide TopBar!" de Einshine. Ambele sunt folosite cu mulțumiri conform termenilor Creative Commons BY NC ND 4.0, fișierele lor sunt descărcate direct de pe GameBanana în loc să fie incluse, iar niciun autor nu este afiliat cu Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Bara de sus și meniul din 2014 2015 de HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Moduri ale comunității</value>
@@ -9480,7 +9475,7 @@ Permiți?</value>
   <value>Răsfoiește după gen</value>
 </data>
 <data name="Library.Store.Free" xml:space="preserve">
-  <value>Free to Play</value>
+  <value>Joc gratuit</value>
 </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} joacă</value>

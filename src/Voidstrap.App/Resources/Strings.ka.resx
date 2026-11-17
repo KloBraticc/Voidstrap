@@ -1430,8 +1430,7 @@ Roblox დაინსტალირდება, როდესაც პი�
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap-ის დეინსტალაცია წაშლის მას თქვენი სისტემიდან და აღადგენს ნაგულისხმევ Roblox გამშვებს, თუ ის ჯერ კიდევ დაინსტალირებულია. 
  
-ყველაფერი, რაც დაბლოკილია ან გამოიყენება, ავტომატურად გაიწმინდება გამოშვების შემდეგ. 
-</value>
+ყველაფერი, რაც დაბლოკილია ან გამოიყენება, ავტომატურად გაიწმინდება გამოშვების შემდეგ.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>შეინახეთ ჩემი პარამეტრები და რეჟიმები</value>
@@ -2537,7 +2536,7 @@ Roblox დაინსტალირდება, როდესაც პი�
   <data name="FlagSearch.Label18" xml:space="preserve"><value>არანაირი მატჩი. სცადეთ სხვა სახელი ან მნიშვნელობის ფილტრი.</value></data>
   <data name="FlagSearch.Label19" xml:space="preserve"><value>0 შედეგი</value></data>
   <data name="FlagSearch.Label20" xml:space="preserve"><value>ნაყარი ვალიდაცია</value></data>
-  <data name="FlagSearch.Label21" xml:space="preserve"><value>Bulk Flag Validation</value></data>
+  <data name="FlagSearch.Label21" xml:space="preserve"><value>დროშების ჯგუფური შემოწმება</value></data>
   <data name="FlagSearch.Label22" xml:space="preserve"><value>შეამოწმეთ წყაროს წევრობა და ღირებულების ტიპები. დამთხვევა არ იძლევა გარანტიას, რომ Roblox ნებას რთავს ლოკალურ გადაფარვას.</value></data>
   <data name="FlagSearch.Label23" xml:space="preserve"><value>ფაილის ჩატვირთვა</value></data>
   <data name="FlagSearch.Label24" xml:space="preserve"><value>გადამოწმება</value></data>
@@ -3199,7 +3198,7 @@ Roblox ჩამოიტვირთება, როდესაც მას 
     <value>დაათვალიერეთ საზოგადოების მოდიფიკაციები GameBanana-ზე.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>მოდების მკვლევარი</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>იხილეთ და მართეთ ფაილები თქვენს Roblox ინსტალაციაში.</value>
@@ -3370,7 +3369,7 @@ Roblox ჩამოიტვირთება, როდესაც მას 
     <value>დახმარება და გამოსწორება</value>
   </data>
   <data name="Ui.Mods.ModPacks" xml:space="preserve">
-    <value>Mod Packs</value>
+    <value>მოდების პაკეტები</value>
   </data>
   <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
     <value>მოძებნეთ Roblox მოდიფიკაციები</value>
@@ -3742,7 +3741,7 @@ Roblox ჩამოიტვირთება, როდესაც მას 
     <value>განათება</value>
   </data>
   <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
-    <value>Force Grey Sky</value>
+    <value>ნაცრისფერი ცის იძულება</value>
   </data>
   <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
     <value>გაასწორეთ დაკბილული კიდეები. უფრო მაღალი მნიშვნელობები ზრდის სიგლუვეს.</value>
@@ -6301,7 +6300,7 @@ Roblox ჩამოიტვირთება, როდესაც მას 
     <value>სიჩქარე</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh დამთვალიერებელი</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• გადაათრიეთ დასატრიალებლად, გადაახვიეთ გასადიდებლად</value>
@@ -6663,7 +6662,7 @@ Voidstrap-მ დესკტოპის საქაღალდეში ვ�
     <value>კონკურენტუნარიანი HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>სტრიმერისთვის სუფთა</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>ტოპ დოკი</value>
@@ -9044,7 +9043,7 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
     <value>იპოვე</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Solution Explorer</value>
+    <value>გადაწყვეტის მკვლევარი</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>გამომავალი</value>

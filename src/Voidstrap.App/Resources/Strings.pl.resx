@@ -738,7 +738,7 @@ Jeśli nie, zgłoś ten błąd przez [GitHub]({1}) wraz z utworzoną kopią plik
     <value>Jasny</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap został zaktualizowany do wersji v{0}</value>
+    <value>Voidstrap został zaktualizowany do nowej wersji</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Wersja Voidstrap, którą uruchomiłeś, różni się od wersji, którą aktualnie zainstalowałeś. 
@@ -959,7 +959,7 @@ Również NIE używaj tego do importowania dużych „list flag” utworzonych p
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [wyłącznie dla trybu pełnoekranowego]({0}) przy użyciu Alt+Enter jest już domyślnie włączone.</value>
+    <value>Ekskluzywny pełny ekran Direct3D przez Alt+Enter jest domyślnie włączony.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Preferowana wersja menu gry</value>
@@ -977,7 +977,7 @@ Również NIE używaj tego do importowania dużych „list flag” utworzonych p
     <value>Limit liczby klatek na sekundę</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Przełączane za pomocą [skrótów klawiaturowych]({0}). Działa tylko wtedy, gdy należysz do [grupy Voidstrap]({1}) w Roblox.</value>
+    <value>Przełączane [skrótami klawiszowymi]({0}). Wpisz ID grupy, do której należysz.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Włącz możliwość ukrywania GUI (interfejsu gry)</value>
@@ -1177,7 +1177,8 @@ Wybranie opcji „Nie” spowoduje zignorowanie tego ostrzeżenia i kontynuowani
     <value>Tłumacz na</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Wybierz język przed kontynuowaniem instalacji.</value>
+    <value>Wybierz język, zanim przejdziesz dalej z instalacją.
+Niektóre teksty mogą nie być przetłumaczone na wybrany język.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Język</value>
@@ -1316,11 +1317,9 @@ Wybranie opcji „Nie” spowoduje zignorowanie tego ostrzeżenia i kontynuowani
     <value>Dalej</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Dziękujemy za pobranie Voidstrap!
+    <value>Dziękujemy za pobranie Voidstrapa.
 
-Jedynymi oficjalnymi stronami internetowymi do pobrania Voidstrap to {0} i {1}, więc potwierdź, że na pewno zainstalowałeś program z jednego z powyżej wymienionych źródeł.
-
-Instalacja nie zajmie długo, i będziesz mógł skonfigurować wszystkie ustawienia dopiero po procesie instalacji.</value>
+Instalacja będzie szybka i prosta, a po niej możesz skonfigurować dowolne ustawienia Voidstrapa.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1372,13 +1371,9 @@ Co chciałbyś teraz zrobić?</value>
     <value>Odinstaluj Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Odinstalowywanie usunie Voidstrap z twojego systemu i automatycznie skonfiguruje domyślny launcher Roblox, jeśli ten nadal jest zainstalowany.
+    <value>Odinstalowanie Voidstrapa usunie go z systemu i przywróci domyślny program uruchamiający Roblox, jeśli nadal jest zainstalowany.
 
-Jeśli odinstalowujesz lub instalujesz ponownie, ponieważ masz problemy z Roblox, w pierwszej kolejności przeczytaj [tę stronę pomocy]({0}).
-
-Proces odinstalowania może w pełni nie oczyścić danych programu i zostawić pliki w miejscu, gdzie Voidstrap został zainstalowany. W takim przypadku zalecane jest ręczne usunięcie pozostałości gdziekolwiek twoja instalacja Voidstrap się znajdywała.
-
-Voidstrap był zainstalowany na "{1}".</value>
+Wszystko, co jest zablokowane lub w użyciu, zostanie automatycznie wyczyszczone po zwolnieniu.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Zachowaj moje ustawienia i mody</value>
@@ -1519,8 +1514,9 @@ Każda osoba jest tutaj uszeregowana według swojego ogólnego zobowiązania.</v
     <value>Roblox wymaga zainstalowania lub zaktualizowania zaś Voidstrap nie może kontynuować działania.</value>
   </data>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
-    <value>Voidstrap został już zainstalowany w tym folderze wcześniej i jest nadal tam obecny, lecz instalator nie może nadpisać starego pliku .exe.
-Prosimy ręcznie usunąć Voidstrap.exe z folderu instalacji lub spróbuj ponownie uruchomić system, a następnie spróbuj instalację ponownie.</value>
+    <value>Voidstrap był już wcześniej zainstalowany w tej lokalizacji i nadal tam jest, ale instalator nie może nadpisać starego pliku wykonywalnego.
+
+Usuń ręcznie Voidstrap.exe z lokalizacji instalacji lub uruchom ponownie system, a następnie ponów instalację.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Niedostępne</value>
@@ -6044,7 +6040,7 @@ Co chcesz zrobić?</value>
     <value>Opcja klasycznego paska górnego odtwarza dwa mody społeczności. Grafika i działanie paska górnego oraz menu gry z lat 2014 do 2015 pochodzą z "2014 2015 Topbar and Menu (Improvised GUI)" autorstwa HockuTM. Ukrywanie nowoczesnego paska używa "NoGuiRBX, Hide TopBar!" autorstwa Einshine. Oba są używane z podziękowaniem na warunkach Creative Commons BY NC ND 4.0, ich pliki są pobierane bezpośrednio z GameBanana zamiast dołączania, a żaden z autorów nie jest powiązany z Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Górny pasek i menu z lat 2014 2015 autorstwa HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mody społeczności</value>
@@ -9479,7 +9475,7 @@ Zezwolić?</value>
   <value>Przeglądaj według gatunku</value>
 </data>
 <data name="Library.Store.Free" xml:space="preserve">
-  <value>Free to Play</value>
+  <value>Darmowa gra</value>
 </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} gra</value>

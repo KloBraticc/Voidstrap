@@ -717,7 +717,7 @@ Falls nicht, solltest du diesen Fehler über ein [GitHub Issue]({1}) mit einer K
     <value>Hell</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap wurde auf v{0} aktualisiert</value>
+    <value>Voidstrap wurde auf eine neue Version aktualisiert</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>Die ausgeführte Version von Voidstrap unterscheidet sich von der installierten Version.
@@ -925,7 +925,7 @@ Benutze dies NICHT, um "große Flag list" zu importieren, die von anderen Leuten
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [exklusiver Vollbildmodus]({0}) mit Alt+Enter ist standardmäßig bereits aktiviert.</value>
+    <value>Exklusiver Direct3D Vollbildmodus mit Alt+Enter ist standardmäßig aktiviert.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Bevorzugte Version des Escape Menüs</value>
@@ -943,7 +943,7 @@ Benutze dies NICHT, um "große Flag list" zu importieren, die von anderen Leuten
     <value>Bildwiederholrate begrenzen</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Mit [Tastenkombinationen]({0}) umschaltbar. Funktioniert nur, wenn du Teil der [Voidstrap Gruppe]({1}) bist.</value>
+    <value>Wird mit [Tastenkombinationen]({0}) umgeschaltet. Gib die ID einer Gruppe ein, in der du bist.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Aktiviere die Fähigkeit, GUIs zu verstecken</value>
@@ -1140,7 +1140,8 @@ Wenn du 'Nein' wählst, wird diese Warnung ignoriert und die Installation fortge
     <value>Übersetzen in</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Wähle eine Sprache, bevor du mit der Installation fortfährst.</value>
+    <value>Wähle eine Sprache, bevor du mit der Installation fortfährst.
+Manche Texte sind eventuell nicht in deine gewählte Sprache übersetzt.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Sprache</value>
@@ -1279,11 +1280,9 @@ Wenn du 'Nein' wählst, wird diese Warnung ignoriert und die Installation fortge
     <value>Nächste</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Danke, dass du Voidstrap Heruntergeladen hast.
+    <value>Danke, dass du Voidstrap heruntergeladen hast.
 
-Die einzigen offiziellen Webseiten zum Herunterladen von Voidstrap sind {0} und {1}, stelle daher bitte sicher dass du es von einer offiziellen Quelle hast.
-
-Der Installationsvorgang wird schnell und einfach sein, und du wirst nach der Installation in der Lage sein, alle Einstellungen von Voidstrap zu konfigurieren.</value>
+Die Installation ist schnell und einfach, und danach kannst du alle Einstellungen von Voidstrap anpassen.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1335,13 +1334,9 @@ Was möchtest du nun tun?</value>
     <value>Deinstalliere Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Die Deinstallation wird Voidstrap von deinem System entfernen und den originalen Roblox Launcher automatisch wiederherstellen, sofern dieser noch installiert sein sollte.
+    <value>Die Deinstallation entfernt Voidstrap von deinem System und stellt den Standard Roblox Launcher wieder her, falls er noch installiert ist.
 
-Falls du dich zur Deinstallation oder Reinstallation aufgrund von Problemen mit Roblox entschieden hast, lese [diese Hilfeseite]({0}) zuerst.
-
-Der Deinstallationsprozess wird gegebenenfalls nicht alle Dateien von Voidstrap entfernen können, also könnte eine manuelle Entfernung der verbliebenen Dateien am Installationsort anfallen.
-
-Voidstrap war bei "{1}" installiert.</value>
+Alles, was gesperrt ist oder verwendet wird, wird automatisch bereinigt, sobald es freigegeben wird.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Behalte meine Einstellungen und Mods</value>
@@ -5978,7 +5973,7 @@ Was möchtest du tun?</value>
     <value>Die klassische Topbar-Option baut zwei Community Mods nach. Grafik und Verhalten von Topbar und Spielmenü aus 2014 bis 2015 stammen aus "2014 2015 Topbar and Menu (Improvised GUI)" von HockuTM. Das Ausblenden der modernen Topbar nutzt "NoGuiRBX, Hide TopBar!" von Einshine. Beide werden mit Dank unter ihren Creative Commons BY NC ND 4.0-Bedingungen genutzt, ihre Dateien werden direkt von GameBanana geladen statt mitgeliefert, und keiner der Autoren ist mit Voidstrap verbunden.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Obere Leiste und Menü von 2014 2015 von HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Community-Mods</value>

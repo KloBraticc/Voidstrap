@@ -1430,8 +1430,7 @@ Nepoužívajte skratku „Roblox Player“Voidstrap sa s ním nespustí. Ak saVo
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Odinštalovaním Voidstrap sa odstráni z vášho systému a obnoví sa predvolený spúšťač Roblox , ak je stále nainštalovaný. 
  
-Všetko, čo je zamknuté alebo používané, sa po uvoľnení automaticky vyčistí. 
-</value>
+Všetko, čo je zamknuté alebo používané, sa po uvoľnení automaticky vyčistí.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Ponechať moje nastavenia a mody</value>
@@ -2524,7 +2523,7 @@ Zadajte presnú frázu zobrazenú nižšie, aby ste prijali tieto obmedzenia a p
   <data name="FlagSearch.Label5" xml:space="preserve"><value>Obnoviť zdroje</value></data>
   <data name="FlagSearch.Label6" xml:space="preserve"><value>Pripravený</value></data>
   <data name="FlagSearch.Label7" xml:space="preserve"><value>Živé vyhľadávanie</value></data>
-  <data name="FlagSearch.Label8" xml:space="preserve"><value>Live Flag Search</value></data>
+  <data name="FlagSearch.Label8" xml:space="preserve"><value>Živé vyhľadávanie flagov</value></data>
   <data name="FlagSearch.Label9" xml:space="preserve"><value>Vyhľadajte celé mená alebo kľúčové slová. Ako prvé sa zobrazia presné zhody. Export zahŕňa všetky zodpovedajúce známe hodnoty.</value></data>
   <data name="FlagSearch.Label10" xml:space="preserve"><value>Zadajte názov vlajky alebo kľúčové slovo...</value></data>
   <data name="FlagSearch.Label11" xml:space="preserve"><value>Exportovať výsledky</value></data>
@@ -3199,7 +3198,7 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
     <value>Prezrite si komunitné mody na GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Prieskumník modov</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Zobrazenie a správa súborov vo vašej inštalácii Roblox .</value>
@@ -3544,7 +3543,7 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
     <value>Vyhladzovanie a rámy</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Vyhladzovanie hrán</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Vyhladzuje zubaté okraje pomocou vášho GPU.</value>
@@ -4141,7 +4140,7 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
     <value>Verejné, súkromné alebo vyhradené</value>
   </data>
   <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
+    <value>Označenie beta</value>
   </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>Zmení značky ako [BETA] alebo WIP v názve hry na čistý štítok</value>
@@ -5869,7 +5868,7 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
     <value>Informácie o zostavení</value>
   </data>
   <data name="Ui.Misc2.CommitHash" xml:space="preserve">
-    <value>Commit Hash</value>
+    <value>Hash commitu</value>
   </data>
   <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
     <value>Oznámenia tretích strán</value>
@@ -6663,10 +6662,10 @@ Chyba: {0}</value>
     <value>Konkurenčný HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Čisté pre streamerov</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Horný panel</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktívna obrazovka</value>
@@ -6819,7 +6818,7 @@ Chyba: {0}</value>
     <value>Otvorte Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Strihač videa</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Hardvérovo zrýchlené snímanie po stlačení {0}.</value>
@@ -8570,7 +8569,7 @@ Nechajte Voidstrap a editor otvorený, kým AI funguje. Jeho zmeny sa okamžite 
     <value>Odstrániť Voidstrap mod "{0}" a všetky jeho súbory?</value>
   </data>
   <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
-    <value>Mod editor: {0}</value>
+    <value>Editor modu: {0}</value>
   </data>
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Uložiť a znova načítať</value>
@@ -9053,7 +9052,7 @@ Prekrývajúce sa mody môžu spôsobiť, že Roblox bude vyzerať alebo sa spr�
     <value>Pripravený</value>
   </data>
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
-    <value>Search Solution Explorer</value>
+    <value>Hľadať v prieskumníkovi riešení</value>
   </data>
   <data name="Ui.EditorSettings.Title" xml:space="preserve">
     <value>Nastavenia editora</value>

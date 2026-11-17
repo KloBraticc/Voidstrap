@@ -1430,8 +1430,7 @@ Hvað myndir þú vilja gera?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Ef Voidstrap er fjarlægt mun það fjarlægja það úr kerfinu þínu og endurheimta sjálfgefna Roblox ræsiforritið ef það er enn uppsett. 
  
-Allt sem er læst eða í notkun verður hreinsað upp sjálfkrafa þegar því er sleppt. 
-</value>
+Allt sem er læst eða í notkun verður hreinsað upp sjálfkrafa þegar því er sleppt.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Haltu stillingum mínum og stillingum</value>
@@ -3199,7 +3198,7 @@ Hvað myndir þú vilja gera?</value>
     <value>Skoðaðu samfélagsbreytingar á GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Modkönnuður</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Skoðaðu og stjórnaðu skrám í Roblox uppsetningunni þinni.</value>
@@ -3544,7 +3543,7 @@ Hvað myndir þú vilja gera?</value>
     <value>Sléttun og rammar</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Brúnajöfnun</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Sléttir oddhvassar brúnir með GPUþínum.</value>
@@ -3718,7 +3717,7 @@ Hvað myndir þú vilja gera?</value>
     <value>Grashreyfingarstuðull</value>
   </data>
   <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
-    <value>Mesh Detail</value>
+    <value>Mesh smáatriði</value>
   </data>
   <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
     <value>Stjórnaðu því hvernig smáatriði birtast í leiknum sjálfum.</value>
@@ -4141,7 +4140,7 @@ Hvað myndir þú vilja gera?</value>
     <value>Opinber, einka eða áskilin</value>
   </data>
   <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
+    <value>Betamerki</value>
   </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>Breytir merkjum eins og [BETA] eða WIP í nafni leiksins í hreint merki</value>
@@ -4765,7 +4764,7 @@ Hvað myndir þú vilja gera?</value>
     <value>Hljóð</value>
   </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
-    <value>Master Volume</value>
+    <value>Aðalhljóðstyrkur</value>
   </data>
   <data name="Ui.Gbs.OverallInGameVolume" xml:space="preserve">
     <value>Á heildina litið í magni leiksins.</value>
@@ -5926,7 +5925,7 @@ Hvað myndir þú vilja gera?</value>
     <value>Rammi Gen</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
-    <value>Frame Generation</value>
+    <value>Rammamyndun</value>
   </data>
   <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
     <value>Mynduð rammayfirlag</value>
@@ -6301,7 +6300,7 @@ Hvað myndir þú vilja gera?</value>
     <value>Hraði</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh skoðari</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Dragðu til að snúa, skrunaðu til að þysja</value>
@@ -6639,7 +6638,7 @@ Villa: {0}</value>
     <value>Dragðu hvaða yfirlagsspil sem er beint yfir leikgluggann þinn. Ýttu á Esc eða smelltu á Lokið þegar því er lokið.</value>
   </data>
   <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
-    <value>Magnetic Snap</value>
+    <value>Segulfesting</value>
   </data>
   <data name="Ui.OverlayStudio.Done" xml:space="preserve">
     <value>Búið</value>
@@ -6666,7 +6665,7 @@ Villa: {0}</value>
     <value>Streamer hreinn</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Efri stika</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Gagnvirkt skjástig</value>
@@ -6684,7 +6683,7 @@ Villa: {0}</value>
     <value>Tilkynningar</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Lotustika</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Krosshár</value>
@@ -6693,7 +6692,7 @@ Villa: {0}</value>
     <value>FrameGen HUD</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
-    <value>Dock Panels</value>
+    <value>Spjöld stiku</value>
   </data>
   <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
     <value>Sýna staðsetningu miðlara í leiknum</value>
@@ -7074,7 +7073,7 @@ Villa: {0}</value>
     <value>Vista sem afrita</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>Klippa upprunalegt</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
     <value>Snyrting mistókst.</value>
@@ -7807,7 +7806,7 @@ Sendu þá skrá til þess sem er að hjálpa þér. Persónulegar upplýsingar 
     <value>Leitaðu að Studio viðbótum</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
-    <value>Creator Store</value>
+    <value>Höfundaverslun</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
     <value>Uppsett</value>
@@ -9044,7 +9043,7 @@ Skarast mods geta látið Roblox líta út eða hegða sér undarlega, en þetta
     <value>Finndu</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Solution Explorer</value>
+    <value>Lausnakönnuður</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>Framleiðsla</value>

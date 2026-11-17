@@ -1430,8 +1430,7 @@ Hva vil du gjøre?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Avinstallering av Voidstrap vil fjerne den fra systemet og gjenopprette standard Roblox-starter hvis den fortsatt er installert. 
  
-Alt som er låst eller i bruk vil bli ryddet opp automatisk når det slippes. 
-</value>
+Alt som er låst eller i bruk vil bli ryddet opp automatisk når det slippes.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Behold innstillingene og modsene mine</value>
@@ -2104,7 +2103,7 @@ Vennligst aktiver Roblox-oppgraderinger.</value>
     <value>På</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>Tilsynelatende av</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>Konsollopplevelse</value>
@@ -2523,7 +2522,7 @@ Skriv inn den eksakte setningen vist nedenfor for å godta disse restriksjonene 
   <data name="FlagSearch.Label4" xml:space="preserve"><value>Søk, valider og oppdag Fast Flags fra flere kilder</value></data>
   <data name="FlagSearch.Label5" xml:space="preserve"><value>Oppdater kilder</value></data>
   <data name="FlagSearch.Label6" xml:space="preserve"><value>Ferdig</value></data>
-  <data name="FlagSearch.Label7" xml:space="preserve"><value>Live Search</value></data>
+  <data name="FlagSearch.Label7" xml:space="preserve"><value>Direktesøk</value></data>
   <data name="FlagSearch.Label8" xml:space="preserve"><value>Live flaggsøk</value></data>
   <data name="FlagSearch.Label9" xml:space="preserve"><value>Søk i fulle navn eller nøkkelord. Nøyaktige treff vises først. Eksporten inkluderer alle samsvarende kjente verdier.</value></data>
   <data name="FlagSearch.Label10" xml:space="preserve"><value>Skriv inn flaggnavn eller nøkkelord...</value></data>
@@ -3199,7 +3198,7 @@ Hva vil du gjøre?</value>
     <value>Bla gjennom fellesskapsmods på GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Modutforsker</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Se og administrer filer i Roblox-installasjonen.</value>
@@ -3346,7 +3345,7 @@ Hva vil du gjøre?</value>
     <value>Skybox forhåndsvisningen er ikke tilgjengelig akkurat nå.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
-    <value>Font Manager</value>
+    <value>Skriftbehandler</value>
   </data>
   <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
     <value>Bruk en lokal font eller bruk google fonts</value>
@@ -3493,7 +3492,7 @@ Hva vil du gjøre?</value>
     <value>Overlegg</value>
   </data>
   <data name="Ui.Mods.SessionDock" xml:space="preserve">
-    <value>Session dock</value>
+    <value>Øktdokk</value>
   </data>
   <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
     <value>Tilbakestill snarvei</value>
@@ -4048,7 +4047,7 @@ Hva vil du gjøre?</value>
     <value>Auto</value>
   </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
-    <value>Reconnect limit</value>
+    <value>Grense for gjentilkobling</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap slutter å prøve etter så mange tilkoblinger, slik at den aldri kan sløyfe.</value>
@@ -4819,7 +4818,7 @@ Hva vil du gjøre?</value>
     <value>Oversett chattemeldinger automatisk.</value>
   </data>
   <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
-    <value>Virtual Reality</value>
+    <value>Virtuell virkelighet</value>
   </data>
   <data name="Ui.Gbs.EnableVR" xml:space="preserve">
     <value>Aktiver VR</value>
@@ -5602,7 +5601,7 @@ Hva vil du gjøre?</value>
     <value>Referanseoverlegg</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
-    <value>Frame Rate Limiter</value>
+    <value>Bildefrekvensbegrenser</value>
   </data>
   <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
     <value>Bakgrunnsgrense for rammefrekvens for applikasjoner</value>
@@ -5884,7 +5883,7 @@ Hva vil du gjøre?</value>
     <value>2014 2015 Topbar og Menu by HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
-    <value>Community Mods</value>
+    <value>Fellesskapsmods</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Community Mods viser Roblox-innleveringer fra GameBanana og Kliko's Mods, vedlikeholdt av TheKliko for Klikos modloader. Voidstrap er ikke tilknyttet eller godkjent av noen av dem. Alle mods, bilder og beskrivelser tilhører deres forfattere, som krediteres på hver oppføring. Voidstrap leser kun deres offentlige data og laster aldri opp noe på dine vegne.</value>
@@ -5926,7 +5925,7 @@ Hva vil du gjøre?</value>
     <value>Ramme Gen</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
-    <value>Frame Generation</value>
+    <value>Bildegenerering</value>
   </data>
   <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
     <value>Generert rammeoverlegg</value>
@@ -6301,7 +6300,7 @@ Hva vil du gjøre?</value>
     <value>Fart</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh visning</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Dra for å rotere, rull for å zoome</value>
@@ -6657,7 +6656,7 @@ Feil: {0}</value>
     <value>Misligholde</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
-    <value>Minimal Top Bar</value>
+    <value>Minimal topplinje</value>
   </data>
   <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
     <value>Konkurransedyktig HUD</value>
@@ -6666,7 +6665,7 @@ Feil: {0}</value>
     <value>Streamer Rengjør</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Toppdokk</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktiv skjermscene</value>
@@ -6684,7 +6683,7 @@ Feil: {0}</value>
     <value>Varsler</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Øktdokk</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Trådkors</value>
@@ -6846,7 +6845,7 @@ Feil: {0}</value>
     <value>Normal opptak (på/av)</value>
   </data>
   <data name="Ui.Clipper.ModeClip" xml:space="preserve">
-    <value>Clip Record (Replay)</value>
+    <value>Klippopptak (Replay)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
     <value>Replaylengde for klipp</value>
@@ -7362,7 +7361,7 @@ Feil: {0}</value>
     <value>Trykket tastebilde</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
-    <value>Image Stretch</value>
+    <value>Bildestrekking</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
     <value>Bildeopasitet</value>
@@ -7738,7 +7737,7 @@ Den laster ned {0} MB. Hvis du avslår, brukes det innebygde estimatet. Du kan e
     <value>Av</value>
   </data>
   <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
-    <value>Bass boost</value>
+    <value>Bassforsterkning</value>
   </data>
   <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
     <value>Fotspor</value>
@@ -7747,7 +7746,7 @@ Den laster ned {0} MB. Hvis du avslår, brukes det innebygde estimatet. Du kan e
     <value>Stemme klarhet</value>
   </data>
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
-    <value>Treble boost</value>
+    <value>Diskantforsterkning</value>
   </data>
   <data name="ColorPicker.Title" xml:space="preserve">
     <value>Velg en farge</value>
@@ -7807,7 +7806,7 @@ Den laster ned {0} MB. Hvis du avslår, brukes det innebygde estimatet. Du kan e
     <value>Søk Studio-plugins</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
-    <value>Creator Store</value>
+    <value>Skaperbutikk</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
     <value>Installert</value>
@@ -8549,7 +8548,7 @@ Hold Voidstrap og editoren åpne mens AI fungerer. Endringene vises i forhåndsv
     <value>Spilløkt og lanseringskrok</value>
   </data>
   <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
-    <value>Blank mod</value>
+    <value>Tom mod</value>
   </data>
   <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
     <value>Mod-mappenavn</value>
@@ -9044,7 +9043,7 @@ Overlappende mods kan få Roblox til å se eller oppføre seg rart, men dette ka
     <value>Finne</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Solution Explorer</value>
+    <value>Løsningsutforsker</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>Produksjon</value>
@@ -9126,7 +9125,7 @@ Vil du tillate det?</value>
     <value>Klassiske nøkler</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
-    <value>Minimal bar</value>
+    <value>Minimal linje</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
     <value>Mus tracker</value>

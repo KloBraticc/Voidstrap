@@ -1430,8 +1430,7 @@ Roblox ຈະຕິດຕັ້ງເມື່ອທ່ານເປີດມັ�
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>ການຖອນການຕິດຕັ້ງ Voidstrap ຈະເອົາມັນອອກຈາກລະບົບຂອງທ່ານແລະຟື້ນຟູ Roblox launcher ເລີ່ມຕົ້ນຖ້າມັນຍັງຕິດຕັ້ງຢູ່. 
  
-ສິ່ງໃດກໍ່ຕາມທີ່ຖືກລັອກຫຼືຢູ່ໃນການນໍາໃຊ້ຈະຖືກເຮັດຄວາມສະອາດໂດຍອັດຕະໂນມັດເມື່ອມັນຖືກປ່ອຍອອກມາ. 
-</value>
+ສິ່ງໃດກໍ່ຕາມທີ່ຖືກລັອກຫຼືຢູ່ໃນການນໍາໃຊ້ຈະຖືກເຮັດຄວາມສະອາດໂດຍອັດຕະໂນມັດເມື່ອມັນຖືກປ່ອຍອອກມາ.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>ຮັກສາການຕັ້ງຄ່າແລະ mods ຂອງຂ້ອຍ</value>
@@ -2161,7 +2160,7 @@ Roblox ຈະຕິດຕັ້ງເມື່ອທ່ານເປີດມັ�
     <value>ໃຊ້ຮູບພາບ, GIF, ຫຼືວິດີໂອ ແລະປັບໃຫ້ມັນປາກົດຂຶ້ນ.</value>
   </data>
   <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
-    <value>Gradient opacity</value>
+    <value>ຄວາມທຶບຂອງສີໄລ່ລະດັບ</value>
   </data>
   <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
     <value>ຊ້ໍາຊ້ອນ</value>
@@ -2357,7 +2356,7 @@ Roblox ຈະຕິດຕັ້ງເມື່ອທ່ານເປີດມັ�
     <value>ເຕັມຈໍແບບບໍ່ມີຂອບປອມ</value>
   </data>
   <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
-    <value>Fake Exclusive Fullscreen</value>
+    <value>ເຕັມຈໍສະເພາະແບບຈຳລອງ</value>
   </data>
   <data name="OverlayDiagnostics.Findings" xml:space="preserve">
     <value>ການກວດສອບແລະຂໍ້ຈໍາກັດ</value>
@@ -3199,7 +3198,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ຊອກຫາ mods ຊຸມຊົນໃນ GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>ຕົວສຳຫຼວດ mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>ເບິ່ງແລະຈັດການໄຟລ໌ໃນການຕິດຕັ້ງ Roblox ຂອງທ່ານ.</value>
@@ -3274,7 +3273,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ໄອຄອນປຸ່ມ PS4</value>
   </data>
   <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
-    <value>Swps the Xbox button prompts for the official PS4 ones.</value>
+    <value>ປ່ຽນປຸ່ມ Xbox ທີ່ສະແດງເປັນປຸ່ມ PS4 ທາງການ.</value>
   </data>
   <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
     <value>ເຊື່ອງໄອຄອນ CoreGui ທຸກອັນ</value>
@@ -3370,7 +3369,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ຊ່ວຍເຫຼືອແລະແກ້ໄຂ</value>
   </data>
   <data name="Ui.Mods.ModPacks" xml:space="preserve">
-    <value>Mod Packs</value>
+    <value>ຊຸດ mod</value>
   </data>
   <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
     <value>ຊອກຫາ mods Roblox</value>
@@ -3742,7 +3741,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ແສງໄຟ</value>
   </data>
   <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
-    <value>Force Grey Sky</value>
+    <value>ບັງຄັບທ້ອງຟ້າສີເທົາ</value>
   </data>
   <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
     <value>ກ້ຽງອອກແຂບເປັນຮູ. ຄ່າທີ່ສູງຂຶ້ນເຮັດໃຫ້ຄວາມລຽບນຽນ.</value>
@@ -4585,7 +4584,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ຣີເຊັດເປັນຄ່າເລີ່ມຕົ້ນ</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>ຕົວສ້າງ mod</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>ເມນູ Recolour Robloxແລະໄອຄອນແຖບເທິງສຸດ, ຈາກນັ້ນບັນທຶກມັນເປັນ mod.</value>
@@ -4819,7 +4818,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ແປຂໍ້ຄວາມສົນທະນາໂດຍອັດຕະໂນມັດ.</value>
   </data>
   <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
-    <value>Virtual Reality</value>
+    <value>ຄວາມເປັນຈິງສະເໝືອນ</value>
   </data>
   <data name="Ui.Gbs.EnableVR" xml:space="preserve">
     <value>ເປີດໃຊ້ VR</value>
@@ -5599,7 +5598,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ປັບຄ່າຄວາມສະຫວ່າງຂອງແຜນທີ່, ຜົນກະທົບຕໍ່ຄວາມຄົມຊັດ, ລາຍລະອຽດເງົາ, ແລະການເບິ່ງເຫັນສຽງກາງ.</value>
   </data>
   <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
-    <value>Benchmark Overlay</value>
+    <value>ໂອເວີເລ Benchmark</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
     <value>ຕົວຈຳກັດອັດຕາເຟຣມ</value>
@@ -5893,7 +5892,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>ຕົວສ້າງ mod</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod generator ສໍາລັບ Voidstrap ສ້າງໂດຍ Meddsam ແລະ SquireDot.</value>
@@ -5923,7 +5922,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ເຄື່ອງຫຼິ້ນເພງ</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>ການສ້າງເຟຣມ</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
     <value>ການຜະລິດກອບ</value>
@@ -6301,7 +6300,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ຄວາມໄວ</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>ຕົວເບິ່ງ mesh</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• ລາກເພື່ອໝຸນ, ເລື່ອນເພື່ອຊູມ</value>
@@ -6684,7 +6683,7 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
     <value>ການແຈ້ງເຕືອນ</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Dock ຂອງເຊດຊັນ</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ຜົມຂ້າມ</value>
@@ -6693,7 +6692,7 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
     <value>FrameGen HUD</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
-    <value>Dock Panels</value>
+    <value>ແຜງ Dock</value>
   </data>
   <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
     <value>ສະແດງສະຖານທີ່ເຊີບເວີໃນເກມ</value>
@@ -6747,7 +6746,7 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
     <value>ສະແດງການວາງຊ້ອນ crosshair ໃນເກມ</value>
   </data>
   <data name="Ui.OverlayStudio.EnableCrosshairHint" xml:space="preserve">
-    <value>renders a reticle aiming custom over the center of the game window.</value>
+    <value>ສະແດງເປົ້າເລັງແບບກຳນົດເອງຢູ່ກາງໜ້າຕ່າງເກມ.</value>
   </data>
   <data name="Ui.OverlayStudio.CrosshairShape" xml:space="preserve">
     <value>ຮູບຊົງ Reticle</value>
@@ -7230,7 +7229,7 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
     <value>ຮູບແບບການກົດແປ້ນພິມໃໝ່</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
-    <value>Keystrokes Theme Editor</value>
+    <value>ຕົວແກ້ໄຂທີມ Keystrokes</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
     <value>ການຄວບຄຸມຫົວຂໍ້</value>
@@ -7269,7 +7268,7 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
     <value>ສີ Glow / Accent</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
-    <value>Geometry &amp; Glow</value>
+    <value>ຮູບຮ່າງ ແລະ ແສງເຮືອງ</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
     <value>ເລຂາຄະນິດ</value>
@@ -7281,7 +7280,7 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
     <value>ມຸມ Radius</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
-    <value>Glow Radius</value>
+    <value>ລັດສະໝີແສງເຮືອງ</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
     <value>ຄວາມສະຫວ່າງຂອງແສງ</value>
@@ -7290,7 +7289,7 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
     <value>ຜົນກະທົບ &amp; ການພິມ</value>
   </data>
   <data name="Ui.Keystrokes.Editor.BackdropGlass" xml:space="preserve">
-    <value>Backdrop Glass / Acrylic</value>
+    <value>ພື້ນຫຼັງແກ້ວ / Acrylic</value>
   </data>
   <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
     <value>ກົດ Squash Scale</value>
@@ -8380,7 +8379,7 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
     <value>mods</value>
   </data>
   <data name="Ui.Mcp.Activity.ModGenerator" xml:space="preserve">
-    <value>mod theme UI</value>
+    <value>mod ທີມ UI</value>
   </data>
   <data name="Ui.Mcp.Activity.Accounts" xml:space="preserve">
     <value>ບັນຊີທີ່ບັນທຶກໄວ້</value>
@@ -9044,7 +9043,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
     <value>ຊອກຫາ</value>
   </data>
   <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
-    <value>Solution Explorer</value>
+    <value>ຕົວສຳຫຼວດ Solution</value>
   </data>
   <data name="Ui.VsEditor.Output" xml:space="preserve">
     <value>ຜົນຜະລິດ</value>

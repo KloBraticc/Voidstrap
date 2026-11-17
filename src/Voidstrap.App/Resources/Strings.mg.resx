@@ -1107,13 +1107,13 @@ Ny fisafidianana 'Tsia' dia tsy hiraharaha ity fampitandremana ity ary hanohy ny
     <value>Roblox mandeha!</value>
   </data>
   <data name="Menu.Integrations.Custom.NewIntegration" xml:space="preserve">
-    <value>New Integration</value>
+    <value>Fampidirana vaovao</value>
   </data>
   <data name="Menu.Integrations.Custom.NoneSelected" xml:space="preserve">
     <value>Tsy misy fampidirana voafantina, mifidiana na ampio vaovao</value>
   </data>
   <data name="Menu.Integrations.Custom.Title" xml:space="preserve">
-    <value>Custom Integrations</value>
+    <value>Fampidirana manokana</value>
   </data>
   <data name="Menu.Integrations.Description" xml:space="preserve">
     <value>Ampifanaraho ny fiasa fanampiny mba hiaraka amin'ny Roblox.</value>
@@ -1186,7 +1186,7 @@ Ny fisafidianana 'Tsia' dia tsy hiraharaha ity fampitandremana ity ary hanohy ny
     <value>Mifidiana fomba cursor mifanaraka amin'ny fomba filalaovanao.</value>
   </data>
   <data name="Menu.Mods.Presets.MouseCursor.Title" xml:space="preserve">
-    <value>Mouse cursor</value>
+    <value>Tondro totozy</value>
   </data>
   <data name="Menu.Mods.Presets.OldAvatarEditor.Description" xml:space="preserve">
     <value>Avereno ny fiaviana tonian-dahatsoratra avatar taloha nampiasaina tao amin'ny rindranasa Roblox talohan'ny 2020.</value>
@@ -1228,7 +1228,7 @@ Ny fisafidianana 'Tsia' dia tsy hiraharaha ity fampitandremana ity ary hanohy ny
     <value>Mifidiana fiteny tiana</value>
   </data>
   <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Auto Translate</value>
+    <value>Fandikana ho azy</value>
   </data>
   <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
     <value>Adika amin'ny</value>
@@ -1349,7 +1349,7 @@ Mety tsy adika amin'ny fiteny tiana ny lahatsoratra sasany.</value>
     <value>mandeha ho azy</value>
   </data>
   <data name="Common.SystemDefault" xml:space="preserve">
-    <value>System Default</value>
+    <value>Default an'ny rafitra</value>
   </data>
   <data name="Menu.FastFlagEditor.InvalidPlaceFilter" xml:space="preserve">
     <value>Tsy mitombina ny fidirana ho an'ny '{0}' satria tsy voalamina tsara ny sivana toerana.</value>
@@ -1430,8 +1430,7 @@ Inona no tianao hatao?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Ny fanesorana ny Voidstrap dia hanaisotra azy amin'ny rafitrao ary hamerina ny mpandefa Roblox default raha mbola napetraka. 
  
-Izay rehetra mihidy na ampiasaina dia hodiovina ho azy rehefa avoaka. 
-</value>
+Izay rehetra mihidy na ampiasaina dia hodiovina ho azy rehefa avoaka.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Tazony ny fandrindrako sy ny mods</value>
@@ -1634,7 +1633,7 @@ Azafady, esory amin'ny tananao ny Voidstrap.exe amin'ny toerana fametrahana na a
     <value>Avereno amin'ny default ny zava-drehetra</value>
   </data>
   <data name="Dialog.Exception.Report" xml:space="preserve">
-    <value>Report exception</value>
+    <value>Hitatitra ny hadisoana</value>
   </data>
   <data name="Menu.TestMode" xml:space="preserve">
     <value>Fomba fitsapana</value>
@@ -1715,7 +1714,7 @@ Azafady, akatony ny rindranasa rehetra mety mampiasa ny rakitra Roblox , ary ave
     <comment>This is *not* for when Roblox is still running when trying to upgrade. This applies to files being open (i.e. image assets)</comment>
   </data>
   <data name="FileTypes.ZipArchive" xml:space="preserve">
-    <value>Zip archive</value>
+    <value>Arisiva zip</value>
     <comment>Shown in the save file dialog, where the file type selection dropdown is, e.g. "Zip archive (*.zip)"</comment>
   </data>
   <data name="Common.Export" xml:space="preserve">
@@ -1923,7 +1922,7 @@ Te hanova ny fantsona tianao ho {0}ve ianao?</value>
     <value>Time</value>
   </data>
   <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
-    <value>Version hash</value>
+    <value>Hash an'ny dikan-teny</value>
   </data>
   <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
     <value>Force Voidstrap hisintona dikan-teny avy amin'ny hash manokana. Aza ovaina azafady raha tsy fantatrao ny ataony.</value>
@@ -2104,7 +2103,7 @@ Azafady, avelao ny fanavaozana Roblox .</value>
     <value>On</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>Maty an-tsary</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>traikefa amin'ny console</value>
@@ -2155,7 +2154,7 @@ Azafady, avelao ny fanavaozana Roblox .</value>
     <value>Mampiasa famandrihana lahatsoratra maranitra kokoa rehefa manomboka ny Voidstrap .</value>
   </data>
   <data name="Installer.Appearance.Background.Title" xml:space="preserve">
-    <value>Custom background</value>
+    <value>Ambadika manokana</value>
   </data>
   <data name="Installer.Appearance.Background.Description" xml:space="preserve">
     <value>Mampiasà sary, GIF, na video ary ampifanaraho ny fomba fisehony.</value>
@@ -2237,7 +2236,7 @@ Soraty ny fehezanteny marina aseho etsy ambany mba hanaiky ireo fameperana ireo 
     <value>Mifidiana adaptatera tambajotra sy dikan-teny IP</value>
   </data>
   <data name="Mtu.CustomValue" xml:space="preserve">
-    <value>Custom MTU (bytes)</value>
+    <value>MTU manokana (byte)</value>
   </data>
   <data name="Mtu.Current" xml:space="preserve">
     <value>Ankehitriny: {0} bytes. Minimum: {1} bytes.</value>
@@ -2357,7 +2356,7 @@ Soraty ny fehezanteny marina aseho etsy ambany mba hanaiky ireo fameperana ireo 
     <value>Fake Borderless Fullscreen</value>
   </data>
   <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
-    <value>Fake Exclusive Fullscreen</value>
+    <value>Efijery feno manokana an-tsary</value>
   </data>
   <data name="OverlayDiagnostics.Findings" xml:space="preserve">
     <value>Fanamarinana sy famerana</value>
@@ -2450,7 +2449,7 @@ Soraty ny fehezanteny marina aseho etsy ambany mba hanaiky ireo fameperana ireo 
     <value>Ireo vakiteny ireo dia mamaritra ity dingana Voidstrap ity. Ny Windows an'ny dingana hafa dia mety tsy voatanisa.</value>
   </data>
   <data name="OverlayDiagnostics.Stats" xml:space="preserve">
-    <value>Stats overlay</value>
+    <value>Overlay antontan'isa</value>
   </data>
   <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
     <value>Mitohy ny teleport mpanara-maso hetsika</value>
@@ -2539,12 +2538,12 @@ Soraty ny fehezanteny marina aseho etsy ambany mba hanaiky ireo fameperana ireo 
   <data name="FlagSearch.Label20" xml:space="preserve"><value>Fanamarinana betsaka</value></data>
   <data name="FlagSearch.Label21" xml:space="preserve"><value>Fanamarinana saina marobe</value></data>
   <data name="FlagSearch.Label22" xml:space="preserve"><value>Hamarino ny maha-mpikambana loharano sy karazana sanda. Ny lalao iray dia tsy manome antoka fa ny Roblox dia mamela ny fanonganana eo an-toerana.</value></data>
-  <data name="FlagSearch.Label23" xml:space="preserve"><value>Load File</value></data>
+  <data name="FlagSearch.Label23" xml:space="preserve"><value>Hampiditra rakitra</value></data>
   <data name="FlagSearch.Label24" xml:space="preserve"><value>hanamafy</value></data>
   <data name="FlagSearch.Label25" xml:space="preserve"><value>Mazava</value></data>
   <data name="FlagSearch.Label26" xml:space="preserve"><value>Mametaka</value></data>
   <data name="FlagSearch.Label27" xml:space="preserve"><value>Ctrl+V</value></data>
-  <data name="FlagSearch.Label28" xml:space="preserve"><value>Select All</value></data>
+  <data name="FlagSearch.Label28" xml:space="preserve"><value>Hifidy ny rehetra</value></data>
   <data name="FlagSearch.Label29" xml:space="preserve"><value>Ctrl+A</value></data>
   <data name="FlagSearch.Label30" xml:space="preserve"><value>Mazava</value></data>
   <data name="FlagSearch.Label31" xml:space="preserve"><value>Vokatra fanamarinana</value></data>
@@ -2580,7 +2579,7 @@ Soraty ny fehezanteny marina aseho etsy ambany mba hanaiky ireo fameperana ireo 
   <data name="FlagSearch.Message16" xml:space="preserve"><value>Saina {flags.Count} naondrana tany {dialog.FileName}</value></data>
   <data name="FlagSearch.Message17" xml:space="preserve"><value>Vita ny fanondranana</value></data>
   <data name="FlagSearch.Message18" xml:space="preserve"><value>Hadisoana fanondranana saina:</value></data>
-  <data name="FlagSearch.Message19" xml:space="preserve"><value>Export Error</value></data>
+  <data name="FlagSearch.Message19" xml:space="preserve"><value>Hadisoana tamin'ny fanondranana</value></data>
   <data name="FlagSearch.Message20" xml:space="preserve"><value>Hadisoana mametaka avy amin'ny solaitrabe:</value></data>
   <data name="FlagSearch.Message21" xml:space="preserve"><value>Mametaka Error</value></data>
   <data name="FlagSearch.ExportSummary" xml:space="preserve"><value>Saina {0:N0} naondrana tany {1}</value></data>
@@ -2953,7 +2952,7 @@ Inona no tianao hatao?</value>
     <value>Karoka...</value>
   </data>
   <data name="Ui.Main.ZoomOut" xml:space="preserve">
-    <value>Zoom out</value>
+    <value>Hanalavitra</value>
   </data>
   <data name="Ui.Main.ZoomIn" xml:space="preserve">
     <value>Zoom in</value>
@@ -3058,7 +3057,7 @@ Inona no tianao hatao?</value>
     <value>Fidio ny fitaovana ao ambadiky ny varavarankely Voidstrap .</value>
   </data>
   <data name="Ui.Appearance.AppFont" xml:space="preserve">
-    <value>Application Font</value>
+    <value>Endri-tsoratry ny rindranasa</value>
   </data>
   <data name="Ui.Appearance.AppFontDescription" xml:space="preserve">
     <value>Ovay ny endri-tsoratra ampiasaina manerana ny Voidstraprehetra.</value>
@@ -3100,7 +3099,7 @@ Inona no tianao hatao?</value>
     <value>Tehirizo ny anarana</value>
   </data>
   <data name="Ui.Appearance.OpenEditor" xml:space="preserve">
-    <value>Open editor</value>
+    <value>Hanokatra ny mpanova</value>
   </data>
   <data name="Ui.Appearance.MoreActions" xml:space="preserve">
     <value>Hetsika bebe kokoa</value>
@@ -3157,7 +3156,7 @@ Inona no tianao hatao?</value>
     <value>Mijanona ho hita ny trano sy ny endrika ka azo tratrarina foana ny fanamboarana.</value>
   </data>
   <data name="Ui.Appearance.ResetSidebar" xml:space="preserve">
-    <value>Reset sidebar</value>
+    <value>Hamerina ny tsangana sisiny</value>
   </data>
   <data name="Ui.Appearance.AppIdentity" xml:space="preserve">
     <value>Famantarana ny fampiharana</value>
@@ -3199,7 +3198,7 @@ Inona no tianao hatao?</value>
     <value>Tsidiho ny mods fiaraha-monina amin'ny GameBanana.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Mpikaroka mod</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Jereo sy tantano ny rakitra ao amin'ny fametrahanao Roblox .</value>
@@ -3220,13 +3219,13 @@ Inona no tianao hatao?</value>
     <value>Ampiasao ny cursor Roblox , endrika namboarina, na ny sarinao manokana.</value>
   </data>
   <data name="Ui.Mods.CustomCursor" xml:space="preserve">
-    <value>Custom Cursor</value>
+    <value>Tondro manokana</value>
   </data>
   <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
     <value>Mampiasà sary iray ho an'ny fanondro, tsy takatry ny saina ary kisendrasendra lahatsoratra.</value>
   </data>
   <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
-    <value>Custom Drag Cursor</value>
+    <value>Tondro fisintonana manokana</value>
   </data>
   <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
     <value>Aseho eo am-pitarihana ao amin'ny Roblox Studio.</value>
@@ -3370,7 +3369,7 @@ Inona no tianao hatao?</value>
     <value>Fanampiana sy fanamboarana</value>
   </data>
   <data name="Ui.Mods.ModPacks" xml:space="preserve">
-    <value>Mod Packs</value>
+    <value>Fonosana mod</value>
   </data>
   <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
     <value>Mitadiava Roblox mods</value>
@@ -3394,7 +3393,7 @@ Inona no tianao hatao?</value>
     <value>View</value>
   </data>
   <data name="Ui.Mods.LoadMore" xml:space="preserve">
-    <value>Load more</value>
+    <value>Hampiditra bebe kokoa</value>
   </data>
   <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
     <value>Hiverina any amin'ny modpacks</value>
@@ -3448,13 +3447,13 @@ Inona no tianao hatao?</value>
     <value>Fikarohana Mods...</value>
   </data>
   <data name="Ui.Mods.AddMod" xml:space="preserve">
-    <value>Add Mod</value>
+    <value>Hanampy mod</value>
   </data>
   <data name="Ui.Mods.MoreModActions" xml:space="preserve">
     <value>Hetsika mod bebe kokoa</value>
   </data>
   <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
-    <value>Open Library</value>
+    <value>Hanokatra ny tranomboky</value>
   </data>
   <data name="Ui.Mods.Or" xml:space="preserve">
     <value>OR</value>
@@ -3481,7 +3480,7 @@ Inona no tianao hatao?</value>
     <value>Hanova safidy mod</value>
   </data>
   <data name="Ui.Mods.RenameMod" xml:space="preserve">
-    <value>Rename mod</value>
+    <value>Hanova anarana ny mod</value>
   </data>
   <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
     <value>Adikao feno mod identifier</value>
@@ -3493,7 +3492,7 @@ Inona no tianao hatao?</value>
     <value>takela</value>
   </data>
   <data name="Ui.Mods.SessionDock" xml:space="preserve">
-    <value>Session dock</value>
+    <value>Dock fivoriana</value>
   </data>
   <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
     <value>Avereno ny hitsin-dàlana</value>
@@ -3544,7 +3543,7 @@ Inona no tianao hatao?</value>
     <value>Manalefaka sy frame</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Fanalamana sisiny</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Manalefaka ny sisiny mijinja mampiasa GPUanao.</value>
@@ -3670,7 +3669,7 @@ Inona no tianao hatao?</value>
     <value>farany</value>
   </data>
   <data name="Ui.Mods.FileOperations" xml:space="preserve">
-    <value>File Operations</value>
+    <value>Asa amin'ny rakitra</value>
   </data>
   <data name="Ui.Mods.Details" xml:space="preserve">
     <value>tsipiriany</value>
@@ -3718,7 +3717,7 @@ Inona no tianao hatao?</value>
     <value>Factor fihetsehana ahitra</value>
   </data>
   <data name="Ui.FastFlags.MeshDetail" xml:space="preserve">
-    <value>Mesh Detail</value>
+    <value>Antsipirian'ny mesh</value>
   </data>
   <data name="Ui.FastFlags.ControlHowDetailMeshesAppearIn" xml:space="preserve">
     <value>Mifehy ny fomba fisehon'ny meshes amin'ny antsipiriany amin'ny lalao.</value>
@@ -3742,7 +3741,7 @@ Inona no tianao hatao?</value>
     <value>Fanazavana</value>
   </data>
   <data name="Ui.FastFlags.ForceGraySky" xml:space="preserve">
-    <value>Force Gray Sky</value>
+    <value>Lanitra volondavenona an-tery</value>
   </data>
   <data name="Ui.FastFlags.SmoothOutJaggedEdgesHigherValues" xml:space="preserve">
     <value>Esory ny sisiny mitsilopilopy. Ny sanda ambony kokoa dia mampitombo ny fahamendrehana.</value>
@@ -3787,7 +3786,7 @@ Inona no tianao hatao?</value>
     <value>Afo, setroka, fipoahana, tselatra ary sahan-kery</value>
   </data>
   <data name="Ui.FastFlags.SquareOpacity" xml:space="preserve">
-    <value>Square opacity</value>
+    <value>Fahamatevin'ny efamira</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Tena mafy orina ny efamira</value>
@@ -4141,7 +4140,7 @@ Inona no tianao hatao?</value>
     <value>Ampahibemaso, tsy miankina na voatokana</value>
   </data>
   <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
+    <value>Marika beta</value>
   </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>Manova marika toy ny [BETA] na WIP amin'ny anaran'ny lalao ho marika madio</value>
@@ -4177,7 +4176,7 @@ Inona no tianao hatao?</value>
     <value>Ampifandanja ny feo Roblox mafy sy mangina.</value>
   </data>
   <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
-    <value>Telemetry blocker</value>
+    <value>Mpanakana telemetry</value>
   </data>
   <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
     <value>Block Roblox telemetry. Ilaina indray mandeha ny fidirana amin'ny mpitantana.</value>
@@ -4225,7 +4224,7 @@ Inona no tianao hatao?</value>
     <value>Fidio ny fomba nanombohan'ny Roblox ary mijanona ho azo.</value>
   </data>
   <data name="Ui.Integrations.SystemTray" xml:space="preserve">
-    <value>System tray</value>
+    <value>Faritra fanamarihana</value>
   </data>
   <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
     <value>Ahenao ny Roblox amin'ny fitoeran'ny rafitra.</value>
@@ -4237,7 +4236,7 @@ Inona no tianao hatao?</value>
     <value>Alefaso ny Roblox rehefa miditra amin'ny Windowsianao.</value>
   </data>
   <data name="Ui.Integrations.SteamLibrary" xml:space="preserve">
-    <value>Steam library</value>
+    <value>Tranomboky Steam</value>
   </data>
   <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
     <value>Ampio amin'ny Steam</value>
@@ -4264,10 +4263,10 @@ Inona no tianao hatao?</value>
     <value>Pre Roblox fandefasana</value>
   </data>
   <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
-    <value>Run Minimized</value>
+    <value>Alefa nahena</value>
   </data>
   <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
-    <value>Run As Administrator</value>
+    <value>Alefa ho mpitantana</value>
   </data>
   <data name="Ui.Integrations.OnlyForASpecificGame" xml:space="preserve">
     <value>Ho an'ny lalao manokana ihany</value>
@@ -4345,7 +4344,7 @@ Inona no tianao hatao?</value>
     <value>Installer</value>
   </data>
   <data name="Ui.Channel.DownloadServer" xml:space="preserve">
-    <value>Download server</value>
+    <value>Mpizara fampidinana</value>
   </data>
   <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
     <value>Ampiasaina rehefa apetraka na havaozina ny Roblox</value>
@@ -4357,7 +4356,7 @@ Inona no tianao hatao?</value>
     <value>Ny buffer lehibe kokoa dia afaka manafaingana ny fampidinana amin'ny fifandraisana haingana</value>
   </data>
   <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
-    <value>Concurrent Downloads</value>
+    <value>Fampidinana miaraka</value>
   </data>
   <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
     <value>Firy ny fonosana alaina amin'ny fotoana iray ihany. Ny avo kokoa dia haingana kokoa fa mampiasa bandwidth bebe kokoa</value>
@@ -4585,7 +4584,7 @@ Inona no tianao hatao?</value>
     <value>Hiverina any amin'ny default</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mpamorona mod</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Recolour Robloxsy ny kisary bara ambony indrindra, dia tehirizo ho mod.</value>
@@ -4711,7 +4710,7 @@ Inona no tianao hatao?</value>
     <value>Mifehy ny haben'ny lahatsoratra UI manontolo.</value>
   </data>
   <data name="Ui.Gbs.ReducedMotion" xml:space="preserve">
-    <value>Reduced Motion</value>
+    <value>Fihetsehana nahena</value>
   </data>
   <data name="Ui.Gbs.DisableUIAnimationsForAccessibility" xml:space="preserve">
     <value>Atsaharo ny sary mihetsika UI mba hidirana.</value>
@@ -4723,7 +4722,7 @@ Inona no tianao hatao?</value>
     <value>Asehoy na afeno ny fampisehoana an-tampon'ny lalao.</value>
   </data>
   <data name="Ui.Gbs.ChatVisibility" xml:space="preserve">
-    <value>Chat Visibility</value>
+    <value>Fahitana ny resaka</value>
   </data>
   <data name="Ui.Gbs.ShowOrHideTheInGame2" xml:space="preserve">
     <value>Asehoy na afeno ny varavarankelin'ny resaka lalao.</value>
@@ -4735,7 +4734,7 @@ Inona no tianao hatao?</value>
     <value>Asehoy ny anaran'ny mpilalao hafa.</value>
   </data>
   <data name="Ui.Gbs.BadgeVisible" xml:space="preserve">
-    <value>Badge Visible</value>
+    <value>Hita ny marika</value>
   </data>
   <data name="Ui.Gbs.ShowBadgeNotificationsWhilePlaying" xml:space="preserve">
     <value>Asehoy ny fampandrenesana marika eo am-pilalaovana.</value>
@@ -4771,7 +4770,7 @@ Inona no tianao hatao?</value>
     <value>Amin'ny ankapobeny amin'ny volume lalao.</value>
   </data>
   <data name="Ui.Gbs.VoiceChatVolume" xml:space="preserve">
-    <value>Voice Chat Volume</value>
+    <value>Haben'ny feo amin'ny resaka</value>
   </data>
   <data name="Ui.Gbs.VolumeForVoiceCommunication" xml:space="preserve">
     <value>Volume ho an'ny fifandraisana amin'ny feo.</value>
@@ -4780,7 +4779,7 @@ Inona no tianao hatao?</value>
     <value>Input sy Controls</value>
   </data>
   <data name="Ui.Gbs.MouseSensitivity" xml:space="preserve">
-    <value>Mouse Sensitivity</value>
+    <value>Fahatsapan'ny totozy</value>
   </data>
   <data name="Ui.Gbs.AdjustMouseSensitivity" xml:space="preserve">
     <value>Ahitsio ny fahatsapan'ny totozy.</value>
@@ -4828,7 +4827,7 @@ Inona no tianao hatao?</value>
     <value>Safidio ny maodely zava-misy virtoaly.</value>
   </data>
   <data name="Ui.Gbs.VRComfortSetting" xml:space="preserve">
-    <value>VR Comfort Setting</value>
+    <value>Fanamboarana fiadanana VR</value>
   </data>
   <data name="Ui.Gbs.ControlsCameraMovementInVR" xml:space="preserve">
     <value>Mifehy ny hetsika fakan-tsary amin'ny VR.</value>
@@ -5083,7 +5082,7 @@ Inona no tianao hatao?</value>
     <value>Midira amina mpizara kisendrasendra hafa</value>
   </data>
   <data name="Ui.Session.ServerHop" xml:space="preserve">
-    <value>Server hop</value>
+    <value>Hifindra mpizara</value>
   </data>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Sivanina araka</value>
@@ -5305,7 +5304,7 @@ Inona no tianao hatao?</value>
     <value>Mandehana amin'ny tsipika</value>
   </data>
   <data name="Ui.Misc.OpenEditor" xml:space="preserve">
-    <value>Open Editor</value>
+    <value>Hanokatra ny mpanova</value>
   </data>
   <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
     <value>Ahitsio amin'ny programa hafa. Ny fitehirizana ao dia manavao ity varavarankely ity.</value>
@@ -5530,7 +5529,7 @@ Inona no tianao hatao?</value>
     <value>Karazana tohana: Dword, Boolean, ary Hex.</value>
   </data>
   <data name="Ui.Pages.AddSettings" xml:space="preserve">
-    <value>Add Settings</value>
+    <value>Hanampy fanamboarana</value>
   </data>
   <data name="Ui.Pages.GameShortcut" xml:space="preserve">
     <value>Shortcut lalao</value>
@@ -5617,10 +5616,10 @@ Inona no tianao hatao?</value>
     <value>Mifehy ny isan'ny frame milahatra mba hampihenana ny fahatarana fampidirana.</value>
   </data>
   <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
-    <value>CPL Low Latency Mode</value>
+    <value>Fomba CPL fahatarana ambany</value>
   </data>
   <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
-    <value>FRL Low Latency Mode</value>
+    <value>Fomba FRL fahatarana ambany</value>
   </data>
   <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
     <value>Ny fanaraha-maso ambany ny haavon'ny mpamily amin'ny alàlan'ny lojika Frame Rate Limiter.</value>
@@ -5725,7 +5724,7 @@ Inona no tianao hatao?</value>
     <value>Mandika saina</value>
   </data>
   <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
-    <value>NVIDIA Flag History</value>
+    <value>Tantaran'ny flag NVIDIA</value>
   </data>
   <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
     <value>Araho ny fanovana natao tamin'ny saina NVIDIA tamin'ity fivoriana ity.</value>
@@ -5734,7 +5733,7 @@ Inona no tianao hatao?</value>
     <value>Esory ny voafantina</value>
   </data>
   <data name="Ui.Pages.ClearHistory" xml:space="preserve">
-    <value>Clear History</value>
+    <value>Hamafa ny tantara</value>
   </data>
   <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
     <value>Tsy misy fiovana voarakitra</value>
@@ -5866,7 +5865,7 @@ Inona no tianao hatao?</value>
     <value>Fanahy tsara fanahy nanampy teny an-dalana.</value>
   </data>
   <data name="Ui.Misc2.BuildInformation" xml:space="preserve">
-    <value>Build Information</value>
+    <value>Mombamomba ny build</value>
   </data>
   <data name="Ui.Misc2.CommitHash" xml:space="preserve">
     <value>Manome Hash</value>
@@ -5884,7 +5883,7 @@ Inona no tianao hatao?</value>
     <value>2014 2015 Topbar sy Menu nataon'i HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
-    <value>Community Mods</value>
+    <value>Mods avy amin'ny vondrom-piarahamonina</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Ny Community Mods dia mitanisa ny fandefasana Roblox avy amin'ny GameBanana sy Kliko's Mods, nokarakarain'ny TheKliko ho an'ny modloader Kliko. Voidstrap dia tsy misy ifandraisany na ankatoavin'ny. Ny mods, ny sary ary ny famaritana rehetra dia an'ny mpanoratra azy ireo, izay nomena ny lisitra tsirairay. Ny Voidstrap dia mamaky fotsiny ny angon-dry zareo ho an'ny daholobe ary tsy mampakatra na inona na inona amin'ny anaranao.</value>
@@ -5893,7 +5892,7 @@ Inona no tianao hatao?</value>
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mpamorona mod</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Generator mod ho an'ny Voidstrap noforonin'i Meddsam sy SquireDot.</value>
@@ -5923,10 +5922,10 @@ Inona no tianao hatao?</value>
     <value>Mpilalao mozika</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Famoronana sary</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
-    <value>Frame Generation</value>
+    <value>Famoronana sary</value>
   </data>
   <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
     <value>Overlay Frame namboarina</value>
@@ -5995,7 +5994,7 @@ Inona no tianao hatao?</value>
     <value>Fanaraha-maso fakan-tsary</value>
   </data>
   <data name="Ui.Misc2.ResetView" xml:space="preserve">
-    <value>Reset View</value>
+    <value>Hamerina ny fijery</value>
   </data>
   <data name="Ui.Misc2.Options" xml:space="preserve">
     <value>FANDIKANA</value>
@@ -6040,13 +6039,13 @@ Inona no tianao hatao?</value>
     <value>Soso-kevitra: Ampiasao ireto mba hanitsiana ny fironana na hanova ny haben'ny fananana mba hifanaraka tsara.</value>
   </data>
   <data name="Ui.Misc2.SaveAsMod" xml:space="preserve">
-    <value>Save as Mod</value>
+    <value>Hitahiry ho mod</value>
   </data>
   <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
     <value>Fandokoana sary</value>
   </data>
   <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
-    <value>Recolor Options</value>
+    <value>Safidy fanovana loko</value>
   </data>
   <data name="Ui.Misc2.TargetColor" xml:space="preserve">
     <value>Loko kendrena</value>
@@ -6175,7 +6174,7 @@ Inona no tianao hatao?</value>
     <value>Mandefa ny fanambarana Roblox farany...</value>
   </data>
   <data name="Ui.Misc2.DownloadServer" xml:space="preserve">
-    <value>Download Server</value>
+    <value>Mpizara fampidinana</value>
   </data>
   <data name="Ui.Misc2.ChooseTheServerUsedWhenRoblox" xml:space="preserve">
     <value>Fidio ny mpizara ampiasaina rehefa apetraka na havaozina ny Roblox .</value>
@@ -6295,13 +6294,13 @@ Inona no tianao hatao?</value>
     <value>Olona manokana</value>
   </data>
   <data name="Ui.Misc3.AnimationPreview" xml:space="preserve">
-    <value>Animation Preview</value>
+    <value>Topy maso ny sary mihetsika</value>
   </data>
   <data name="Ui.Misc3.Speed" xml:space="preserve">
     <value>Haingana</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mpijery mesh</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Tariho mba hanodina, horonan-taratasy mba zoom</value>
@@ -6346,7 +6345,7 @@ Inona no tianao hatao?</value>
     <value>Jereo ny sasany amin'ireo lohahevitra namboarinay!</value>
   </data>
   <data name="Ui.Misc3.LinuxDesktopIntegration" xml:space="preserve">
-    <value>Linux desktop integration</value>
+    <value>Fampidirana amin'ny birao Linux</value>
   </data>
   <data name="Ui.Misc3.VoidstrapWillBeAddedToThe" xml:space="preserve">
     <value>Voidstrap dia ampidirina amin'ny menio fampiharana ary misoratra anarana ho an'ny rohy Roblox . Azonao atao koa ny mamorona launcher amin'ny desktop.</value>
@@ -6447,7 +6446,7 @@ Andramo indray ny fanesorana?</value>
     <value>{0}novokarina farany. Manangana indray ny tenany rehefa manavao ny Roblox .</value>
   </data>
   <data name="Ui.ModGen.RegenerateMod" xml:space="preserve">
-    <value>Regenerate mod</value>
+    <value>Hamorona indray ny mod</value>
   </data>
   <data name="Ui.ModGen.EnterHexColour" xml:space="preserve">
     <value>Ampidiro loko ho kaody hex, ohatra #FF3B5C.</value>
@@ -6519,7 +6518,7 @@ Andramo indray ny fanesorana?</value>
     <value>Lohahevitra fanondranana</value>
   </data>
   <data name="Ui.ModGen.ThemeFiles" xml:space="preserve">
-    <value>Mod generator themes</value>
+    <value>Lohahevitry ny mpamorona mod</value>
   </data>
   <data name="Ui.ModGen.ThemeSaved" xml:space="preserve">
     <value>Lohahevitra voatahiry ho {0}</value>
@@ -6633,7 +6632,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Tariho mivantana eo amin'ny efijery</value>
   </data>
   <data name="Ui.OverlayStudio.LiveScreenDragTitle" xml:space="preserve">
-    <value>Live Screen Drag Mode</value>
+    <value>Fomba fisintonana mivantana</value>
   </data>
   <data name="Ui.OverlayStudio.LiveScreenDragHint" xml:space="preserve">
     <value>Tariho mivantana manerana ny varavarankelin'ny lalao izay karatra misy overlay. Tsindrio Esc na tsindrio Vita rehefa vita.</value>
@@ -6645,13 +6644,13 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>hatao</value>
   </data>
   <data name="Ui.OverlayStudio.ResetLayer" xml:space="preserve">
-    <value>Reset Layer</value>
+    <value>Hamerina ny sosona</value>
   </data>
   <data name="Ui.OverlayStudio.ResetAll" xml:space="preserve">
     <value>Avereno daholo</value>
   </data>
   <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
-    <value>Layout Presets</value>
+    <value>Fandaminana efa voaomana</value>
   </data>
   <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
     <value>toerana misy anao</value>
@@ -6663,10 +6662,10 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>HUD mifaninana</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Madio ho an'ny streamer</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Dock ambony</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Ecran Interactive</value>
@@ -6684,7 +6683,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>fampahatsiahivana</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Dock fivoriana</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
@@ -6693,7 +6692,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>FrameGen HUD</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
-    <value>Dock Panels</value>
+    <value>Takelaky ny dock</value>
   </data>
   <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
     <value>Asehoy ny toerana misy ny mpizara amin'ny lalao</value>
@@ -6735,7 +6734,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Top</value>
   </data>
   <data name="Ui.OverlayStudio.DockScale" xml:space="preserve">
-    <value>Dock scale</value>
+    <value>Haben'ny dock</value>
   </data>
   <data name="Ui.OverlayStudio.DockDimmer" xml:space="preserve">
     <value>Hery manjavozavo ambadika</value>
@@ -6780,7 +6779,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Offset afovoany mitsangana</value>
   </data>
   <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
-    <value>Recenter Crosshair</value>
+    <value>Hamerina eo afovoany ny crosshair</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
     <value>Asehoy ny Frame Generation HUD</value>
@@ -6819,7 +6818,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Sokafy ny Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Mpanapaka horonan-tsary</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
     <value>Haingana ny fisamborana fitaovana rehefa manindry {0}ianao.</value>
@@ -6831,7 +6830,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Hardware GPU firaketana horonan-tsarimihetsika sy clipper famerenana avy hatrany.</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
-    <value>Open Clipper</value>
+    <value>Hanokatra ny Clipper</value>
   </data>
   <data name="Ui.Clipper.ClipSaved" xml:space="preserve">
     <value>Voatahiry ny clip</value>
@@ -6846,7 +6845,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Firaketana ara-dalàna (Miala/Miala)</value>
   </data>
   <data name="Ui.Clipper.ModeClip" xml:space="preserve">
-    <value>Clip Record (Replay)</value>
+    <value>Firaketana clip (Replay)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
     <value>Ny halavan'ny famerenana clip</value>
@@ -6921,7 +6920,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>teratany</value>
   </data>
   <data name="Ui.Clipper.FrameRate" xml:space="preserve">
-    <value>Frame rate</value>
+    <value>Hafainganan'ny sary</value>
   </data>
   <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
     <value>tahan'ny fakan-tsary kendrena.</value>
@@ -7005,7 +7004,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Atsaharo ny firaketana</value>
   </data>
   <data name="Ui.Clipper.SaveClip" xml:space="preserve">
-    <value>Save Clip</value>
+    <value>Hitahiry ny clip</value>
   </data>
   <data name="Ui.Clipper.Saving" xml:space="preserve">
     <value>Mitahiry...</value>
@@ -7071,10 +7070,10 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Tapitra</value>
   </data>
   <data name="Ui.Clipper.SaveAsCopy" xml:space="preserve">
-    <value>Save as Copy</value>
+    <value>Hitahiry ho dika</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>Hanapaka ny tany am-boalohany</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
     <value>Tsy nahomby ny trim.</value>
@@ -7230,7 +7229,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Lohahevitra Keystrokes Vaovao</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
-    <value>Keystrokes Theme Editor</value>
+    <value>Mpanova lohahevitra Keystrokes</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
     <value>Fanaraha-maso ny lohahevitra</value>
@@ -7245,7 +7244,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Loko &amp; borosy</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeyBg" xml:space="preserve">
-    <value>Key Background (Default)</value>
+    <value>Ambadiky ny bokotra (default)</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeyPressedBg" xml:space="preserve">
     <value>Key Background (voatsindry)</value>
@@ -7257,7 +7256,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Loko soratra fototra (voatsindry)</value>
   </data>
   <data name="Ui.Keystrokes.Editor.CpsText" xml:space="preserve">
-    <value>CPS Counter Color (Default)</value>
+    <value>Lokon'ny mpanisa CPS (default)</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeyPressedCpsText" xml:space="preserve">
     <value>CPS Counter Color (voatsindry)</value>
@@ -7269,7 +7268,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Loko manjelanjelatra / Accent</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
-    <value>Geometry &amp; Glow</value>
+    <value>Endrika sy hazavana</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
     <value>rafitsary</value>
@@ -7278,13 +7277,13 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Hatevin'ny sisin-tany</value>
   </data>
   <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
-    <value>Corner Radius</value>
+    <value>Boriborin'ny zoro</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
-    <value>Glow Radius</value>
+    <value>Fanitarana ny hazavana</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
-    <value>Glow Opacity</value>
+    <value>Fahamatevin'ny hazavana</value>
   </data>
   <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
     <value>Effects &amp; typography</value>
@@ -7293,10 +7292,10 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Glass / Acrylic</value>
   </data>
   <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
-    <value>Press Squash Scale</value>
+    <value>Habetsahan'ny fanerena</value>
   </data>
   <data name="Ui.Keystrokes.Editor.FontFamily" xml:space="preserve">
-    <value>Font Family</value>
+    <value>Fianakaviana endri-tsoratra</value>
   </data>
   <data name="Ui.Keystrokes.Editor.FontWeight" xml:space="preserve">
     <value>Lanja sora-baventy</value>
@@ -7362,16 +7361,16 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>Sary fanalahidy voatsindry</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
-    <value>Image Stretch</value>
+    <value>Fanitarana ny sary</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
     <value>Opacity sary</value>
   </data>
   <data name="Ui.Keystrokes.Editor.FormatJson" xml:space="preserve">
-    <value>Format Code</value>
+    <value>Handamina ny kaody</value>
   </data>
   <data name="Ui.Keystrokes.Editor.AddImage" xml:space="preserve">
-    <value>Add Image File</value>
+    <value>Hanampy rakitra sary</value>
   </data>
   <data name="Ui.Keystrokes.Editor.OpenFolder" xml:space="preserve">
     <value>Sokafy ny lahatahiry</value>
@@ -7410,7 +7409,7 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
     <value>hahavony</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
-    <value>Corner Radius</value>
+    <value>Boriborin'ny zoro</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
     <value>Label manokana</value>
@@ -7720,7 +7719,7 @@ Misintona {0} MB. Raha mandà ianao, dia ny tombantombana namboarina no ampiasai
     <value>Alefaso ny feo Roblox amin'ny mpandahateny na headset hafa noho ny PC-nao. Avereno indray ny Roblox raha mbola mampiasa ilay fitaovana taloha.</value>
   </data>
   <data name="Ui.Sound.SystemDefault" xml:space="preserve">
-    <value>System default</value>
+    <value>Default an'ny rafitra</value>
   </data>
   <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
     <value>Fitaovana voatahiry, tsy mifandray</value>
@@ -7738,7 +7737,7 @@ Misintona {0} MB. Raha mandà ianao, dia ny tombantombana namboarina no ampiasai
     <value>NIALA</value>
   </data>
   <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
-    <value>Bass boost</value>
+    <value>Fanamafisana bass</value>
   </data>
   <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
     <value>dian-tongotrao</value>
@@ -7804,7 +7803,7 @@ Misintona {0} MB. Raha mandà ianao, dia ny tombantombana namboarina no ampiasai
     <value>Mitadiava plugins ao amin'ny Creator Store ary ampio ao amin'ny Roblox Studio, na manafatra ny rakitra plugin anao manokana. Ny Studio dia mameno azy ireo amin'ny manaraka.</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.Search" xml:space="preserve">
-    <value>Search Studio plugins</value>
+    <value>Hikaroka plugin Studio</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
     <value>Mpamorona Store</value>
@@ -7813,7 +7812,7 @@ Misintona {0} MB. Raha mandà ianao, dia ny tombantombana namboarina no ampiasai
     <value>nametraka</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.Import" xml:space="preserve">
-    <value>Import plugin</value>
+    <value>Hampiditra plugin</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.Folder" xml:space="preserve">
     <value>Plugins lahatahiry</value>
@@ -7828,7 +7827,7 @@ Misintona {0} MB. Raha mandà ianao, dia ny tombantombana namboarina no ampiasai
     <value>esory</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.LoadMore" xml:space="preserve">
-    <value>Load more</value>
+    <value>Hampiditra bebe kokoa</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.Free" xml:space="preserve">
     <value>maimaim-poana</value>
@@ -8107,7 +8106,7 @@ Misintona {0} MB. Raha mandà ianao, dia ny tombantombana namboarina no ampiasai
     <value>Voatahiry, misokatra miaraka amin'ny {0}ny menu ReShade .</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.Publish" xml:space="preserve">
-    <value>Publish plugin</value>
+    <value>Hamoaka plugin</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.Like" xml:space="preserve">
     <value>TOY</value>
@@ -8257,7 +8256,7 @@ Misintona {0} MB. Raha mandà ianao, dia ny tombantombana namboarina no ampiasai
     <value>Lohahevitra voatahiry</value>
   </data>
   <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
-    <value>Save theme</value>
+    <value>Hitahiry ny lohahevitra</value>
   </data>
   <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
     <value>Mamafa</value>
@@ -8549,7 +8548,7 @@ Tazony misokatra ny Voidstrap sy ny mpanonta rehefa miasa ny AI. Miseho eo amin'
     <value>Session lalao sy ny fanombohana hook</value>
   </data>
   <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
-    <value>Blank mod</value>
+    <value>Mod foana</value>
   </data>
   <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
     <value>Anaran'ny lahatahiry mod</value>
@@ -8570,7 +8569,7 @@ Tazony misokatra ny Voidstrap sy ny mpanonta rehefa miasa ny AI. Miseho eo amin'
     <value>Fafao ny Voidstrap mod "{0}" sy ny rakitra rehetra?</value>
   </data>
   <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
-    <value>Mod editor: {0}</value>
+    <value>Mpanova mod: {0}</value>
   </data>
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Tehirizo ary avereno avereno</value>
@@ -8591,7 +8590,7 @@ Tazony misokatra ny Voidstrap sy ny mpanonta rehefa miasa ny AI. Miseho eo amin'
     <value>Fiovana tsy voatahiry</value>
   </data>
   <data name="Ui.VoidstrapMods.ActivePanes" xml:space="preserve">
-    <value>Active mod panes</value>
+    <value>Takelaka mod mavitrika</value>
   </data>
   <data name="Ui.VoidstrapMods.LoadedBadge" xml:space="preserve">
     <value>mavesatra</value>
@@ -8987,7 +8986,7 @@ Ny mods mifanipaka dia mety hahatonga ny Roblox hijery na hanao fihetsika hafaha
     <value>Mazava ny olana</value>
   </data>
   <data name="Ui.ModCode.Title" xml:space="preserve">
-    <value>Voidstrap Mod Code</value>
+    <value>Kaodin'ny mod Voidstrap</value>
   </data>
   <data name="Ui.ModCode.Header" xml:space="preserve">
     <value>Ny rakitra mod Voidstrap tsirairay</value>
@@ -9002,7 +9001,7 @@ Ny mods mifanipaka dia mety hahatonga ny Roblox hijery na hanao fihetsika hafaha
     <value>Tsy misy mods Voidstrap napetraka</value>
   </data>
   <data name="Ui.ModCode.OpenButton" xml:space="preserve">
-    <value>Mod Code</value>
+    <value>Kaodin'ny mod</value>
   </data>
   <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
     <value>Mikaroka sy manova ny kaody Voidstrap mods anao</value>
@@ -9053,7 +9052,7 @@ Ny mods mifanipaka dia mety hahatonga ny Roblox hijery na hanao fihetsika hafaha
     <value>Vonona</value>
   </data>
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
-    <value>Search Solution Explorer</value>
+    <value>Hikaroka ao amin'ny Solution Explorer</value>
   </data>
   <data name="Ui.EditorSettings.Title" xml:space="preserve">
     <value>Fikirana tonian-dahatsoratra</value>
@@ -9135,7 +9134,7 @@ Avelao izany?</value>
     <value>Tsindrio ny hafainganam-pandeha metatra</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
-    <value>Animated glow</value>
+    <value>Hazavana mihetsika</value>
   </data>
 
   <data name="Library.CreateShortcut" xml:space="preserve">

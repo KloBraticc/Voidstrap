@@ -1430,8 +1430,7 @@ Nima qilishni xohlaysiz?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap-ni o'chirish uni tizimingizdan olib tashlaydi va agar u hali ham o'rnatilgan bo'lsa, standart Roblox ishga tushirgichni tiklaydi. 
  
-Qulflangan yoki ishlatilayotgan har qanday narsa chiqarilgandan keyin avtomatik ravishda tozalanadi. 
-</value>
+Qulflangan yoki ishlatilayotgan har qanday narsa chiqarilgandan keyin avtomatik ravishda tozalanadi.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Mening sozlamalarim va rejimlarimni saqlang</value>
@@ -3199,7 +3198,7 @@ Nima qilishni xohlaysiz?</value>
     <value>GameBanana-da hamjamiyat modlarini ko'rib chiqing.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Mod tadqiqotchisi</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Roblox oʻrnatishingizdagi fayllarni koʻring va boshqaring.</value>
@@ -3544,7 +3543,7 @@ Nima qilishni xohlaysiz?</value>
     <value>Silliqlash va ramkalar</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Qirralarni silliqlash</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>GPUyordamida qirrali qirralarni tekislaydi.</value>
@@ -5083,7 +5082,7 @@ Nima qilishni xohlaysiz?</value>
     <value>Boshqa tasodifiy serverga qo'shiling</value>
   </data>
   <data name="Ui.Session.ServerHop" xml:space="preserve">
-    <value>Server hop</value>
+    <value>Serverni almashtirish</value>
   </data>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Saralash turi</value>
@@ -5599,7 +5598,7 @@ Nima qilishni xohlaysiz?</value>
     <value>Kontrast, soya tafsilotlari va o'rta ohang ko'rinishiga ta'sir qiluvchi yorqinlik qiymatlari xaritada qanday ko'rinishini sozlaydi.</value>
   </data>
   <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
-    <value>Benchmark Overlay</value>
+    <value>Benchmark qatlami</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
     <value>Kadr tezligini cheklovchi</value>
@@ -5923,7 +5922,7 @@ Nima qilishni xohlaysiz?</value>
     <value>Musiqa pleer</value>
   </data>
   <data name="Ui.Misc2.FrameGen" xml:space="preserve">
-    <value>Frame Gen</value>
+    <value>Kadr yaratish</value>
   </data>
   <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
     <value>Ramka yaratish</value>
@@ -6301,7 +6300,7 @@ Nima qilishni xohlaysiz?</value>
     <value>Tezlik</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh koʻruvchi</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Aylantirish uchun torting, kattalashtirish uchun aylantiring</value>
@@ -6651,7 +6650,7 @@ xatosi: {0}</value>
     <value>Hammasini tiklash</value>
   </data>
   <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
-    <value>Layout Presets</value>
+    <value>Joylashuv andozalari</value>
   </data>
   <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
     <value>Standart</value>
@@ -9126,7 +9125,7 @@ Ruxsat berasizmi?</value>
     <value>Klassik kalitlar</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
-    <value>Minimal bar</value>
+    <value>Minimal panel</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
     <value>Sichqoncha kuzatuvchisi</value>

@@ -1430,8 +1430,7 @@ Mida tahaksite teha?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value> Voidstrap desinstallimine eemaldab selle teie süsteemist ja taastab vaikekäivitusprogrammi Roblox , kui see on ikka veel installitud. 
  
-Kõik, mis on lukus või kasutusel, puhastatakse pärast vabastamist automaatselt. 
-</value>
+Kõik, mis on lukus või kasutusel, puhastatakse pärast vabastamist automaatselt.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Jäta minu seaded ja modifikatsioonid alles</value>
@@ -3199,7 +3198,7 @@ Mida sa teha tahaksid?</value>
     <value>Sirvige GameBanana kogukonna modifikatsioone.</value>
   </data>
   <data name="Ui.Mods.ModExplorer" xml:space="preserve">
-    <value>Mod Explorer</value>
+    <value>Modiuurija</value>
   </data>
   <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
     <value>Vaadake ja hallake oma Roblox installi faile.</value>
@@ -3544,7 +3543,7 @@ Mida sa teha tahaksid?</value>
     <value>Silumine ja raamid</value>
   </data>
   <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
+    <value>Servade silumine</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Silustab sakilised servad GPUabil.</value>
@@ -4765,7 +4764,7 @@ Mida sa teha tahaksid?</value>
     <value>Heli</value>
   </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
-    <value>Master Volume</value>
+    <value>Põhihelitugevus</value>
   </data>
   <data name="Ui.Gbs.OverallInGameVolume" xml:space="preserve">
     <value>Üldiselt mängu mahus.</value>
@@ -7807,7 +7806,7 @@ See laadib alla {0} MB. Kui keeldute, kasutatakse sisseehitatud hinnangut. Saate
     <value>Otsige Studio pluginaid</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
-    <value>Creator Store</value>
+    <value>Loojate pood</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
     <value>Paigaldatud</value>

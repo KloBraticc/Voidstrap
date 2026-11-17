@@ -732,7 +732,7 @@ Wann net, dann mellt w.e.g. dës Ausnam duerch eng [GitHub Ausgab]({1}) zesumme 
     <value>Zukunft (Phase 3)</value>
   </data>
   <data name="Enums.FlagPresets.LightingMode.ShadowMap" xml:space="preserve">
-    <value>Shadow Map (Phase 2)</value>
+    <value>Schiettekaart (Phase 2)</value>
   </data>
   <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
     <value>Voxel (Phase 1)</value>
@@ -1430,8 +1430,7 @@ Wat géift Dir gären maachen?</value>
   <data name="Uninstaller.Text" xml:space="preserve">
     <value>Deinstalléieren Voidstrap wäert et vun Ärem System ewechhuelen an den Default Roblox Launcher restauréieren wann et nach ëmmer installéiert ass. 
  
-Alles wat gespaart oder am Gebrauch ass, gëtt automatesch gebotzt wann et fräigelooss gëtt. 
-</value>
+Alles wat gespaart oder am Gebrauch ass, gëtt automatesch gebotzt wann et fräigelooss gëtt.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Halt meng Astellungen a Mods</value>
@@ -2104,7 +2103,7 @@ Aktivéiert Roblox Upgrades.</value>
     <value>Op</value>
   </data>
   <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
-    <value>Fake off</value>
+    <value>Schäin aus</value>
   </data>
   <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
     <value>Konsol Erfahrung</value>
@@ -3370,7 +3369,7 @@ Wat géift Dir gären maachen?</value>
     <value>Hëllef a Fixen</value>
   </data>
   <data name="Ui.Mods.ModPacks" xml:space="preserve">
-    <value>Mod Packs</value>
+    <value>Mod Päck</value>
   </data>
   <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
     <value>Sich Roblox Mods</value>
@@ -3448,7 +3447,7 @@ Wat géift Dir gären maachen?</value>
     <value>Sich Mods ...</value>
   </data>
   <data name="Ui.Mods.AddMod" xml:space="preserve">
-    <value>Add Mod</value>
+    <value>Mod derbäisetzen</value>
   </data>
   <data name="Ui.Mods.MoreModActions" xml:space="preserve">
     <value>Méi Mod Aktiounen</value>
@@ -3892,7 +3891,7 @@ Wat géift Dir gären maachen?</value>
     <value>Voll Geschwindegkeet wärend Roblox fokusséiert ass, gedrosselt wärend Dir erausgeet.</value>
   </data>
   <data name="Ui.Bootstrapper.AdvancedGeneral" xml:space="preserve">
-    <value>Advanced General</value>
+    <value>Erweidert Allgemeng</value>
   </data>
   <data name="Ui.Bootstrapper.Cleaner" xml:space="preserve">
     <value>Propper</value>
@@ -4141,7 +4140,7 @@ Wat géift Dir gären maachen?</value>
     <value>Ëffentlech, privat oder reservéiert</value>
   </data>
   <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
+    <value>Beta Markéierung</value>
   </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>Verwandelt Markéierer wéi [BETA] oder WIP am Spillnumm an e propperen Tag</value>
@@ -4240,7 +4239,7 @@ Wat géift Dir gären maachen?</value>
     <value>Steam Bibliothéik</value>
   </data>
   <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
-    <value>Add to Steam</value>
+    <value>Zu Steam derbäisetzen</value>
   </data>
   <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
     <value>Kont Switcher</value>
@@ -4252,7 +4251,7 @@ Wat géift Dir gären maachen?</value>
     <value>Gesinn Spiller Dir kuerzem gespillt.</value>
   </data>
   <data name="Ui.Integrations.ViewMusicPlayer" xml:space="preserve">
-    <value>View Music Player</value>
+    <value>Museksspiller weisen</value>
   </data>
   <data name="Ui.Integrations.ViewAndListenToYourMusic" xml:space="preserve">
     <value>Kuckt a lauschtert Är Musek, oder verwalten aus dem Schachtmenü.</value>
@@ -4357,7 +4356,7 @@ Wat géift Dir gären maachen?</value>
     <value>Méi grouss Puffer kënnen d'Downloads op schnelle Verbindungen beschleunegen</value>
   </data>
   <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
-    <value>Concurrent Downloads</value>
+    <value>Gläichzäiteg Downloads</value>
   </data>
   <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
     <value>Wéi vill Pakete gläichzäiteg eroflueden. Méi héich ass méi séier awer benotzt méi Bandbreedung</value>
@@ -4771,7 +4770,7 @@ Wat géift Dir gären maachen?</value>
     <value>Allgemeng am Spillvolumen.</value>
   </data>
   <data name="Ui.Gbs.VoiceChatVolume" xml:space="preserve">
-    <value>Voice Chat Volume</value>
+    <value>Lautstäerkt vum Stëmmchat</value>
   </data>
   <data name="Ui.Gbs.VolumeForVoiceCommunication" xml:space="preserve">
     <value>Volume fir Stëmm Kommunikatioun.</value>
@@ -4984,7 +4983,7 @@ Wat géift Dir gären maachen?</value>
     <value>Virdrun (Shift+Enter)</value>
   </data>
   <data name="Ui.Session.NextEnter" xml:space="preserve">
-    <value>Next (Enter)</value>
+    <value>Weider (Enter)</value>
   </data>
   <data name="Ui.Session.CloseEsc" xml:space="preserve">
     <value>Zoumaachen (Esc)</value>
@@ -5083,7 +5082,7 @@ Wat géift Dir gären maachen?</value>
     <value>Maacht mat engem anere zoufälleg Server</value>
   </data>
   <data name="Ui.Session.ServerHop" xml:space="preserve">
-    <value>Server hop</value>
+    <value>Server wiesselen</value>
   </data>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Sortéieren no</value>
@@ -5305,7 +5304,7 @@ Wat géift Dir gären maachen?</value>
     <value>Gitt op d'Linn</value>
   </data>
   <data name="Ui.Misc.OpenEditor" xml:space="preserve">
-    <value>Open Editor</value>
+    <value>Editeur opmaachen</value>
   </data>
   <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
     <value>Änneren an engem anere Programm. Spueren do Aktualiséierungen dëser Fënster.</value>
@@ -5530,7 +5529,7 @@ Wat géift Dir gären maachen?</value>
     <value>Ënnerstëtzt Typen: Dword, Boolean an Hex.</value>
   </data>
   <data name="Ui.Pages.AddSettings" xml:space="preserve">
-    <value>Add Settings</value>
+    <value>Astellungen derbäisetzen</value>
   </data>
   <data name="Ui.Pages.GameShortcut" xml:space="preserve">
     <value>Spill Ofkiirzung</value>
@@ -5602,7 +5601,7 @@ Wat géift Dir gären maachen?</value>
     <value>Benchmark Iwwerlagerung</value>
   </data>
   <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
-    <value>Frame Rate Limiter</value>
+    <value>Bildrat Limiter</value>
   </data>
   <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
     <value>Hannergrond Applikatioun Frame Rate Limit</value>
@@ -5698,7 +5697,7 @@ Wat géift Dir gären maachen?</value>
     <value>Verwalten NVIDIA Astellunge gespäichert an Ärem NIP Profil.</value>
   </data>
   <data name="Ui.Pages.AddNew" xml:space="preserve">
-    <value>Add New</value>
+    <value>Nei derbäisetzen</value>
   </data>
   <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
     <value>Ausgewielten läschen</value>
@@ -5995,7 +5994,7 @@ Wat géift Dir gären maachen?</value>
     <value>Kamera Kontrollen</value>
   </data>
   <data name="Ui.Misc2.ResetView" xml:space="preserve">
-    <value>Reset View</value>
+    <value>Usiicht zrécksetzen</value>
   </data>
   <data name="Ui.Misc2.Options" xml:space="preserve">
     <value>Optiounen</value>
@@ -6106,7 +6105,7 @@ Wat géift Dir gären maachen?</value>
     <value>Benotzt Ikon</value>
   </data>
   <data name="Ui.Misc2.EditMod" xml:space="preserve">
-    <value>Edit Mod</value>
+    <value>Mod änneren</value>
   </data>
   <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
     <value>Kritt all Optioun vu GameBanana</value>
@@ -6301,7 +6300,7 @@ Wat géift Dir gären maachen?</value>
     <value>Speed</value>
   </data>
   <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
-    <value>Mesh Viewer</value>
+    <value>Mesh Betrachter</value>
   </data>
   <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
     <value>• Drag fir ze rotéieren, scrollen fir ze zoomen</value>
@@ -6337,7 +6336,7 @@ Wat géift Dir gären maachen?</value>
     <value>? ass net fäeg ze konnektéieren?</value>
   </data>
   <data name="Ui.Misc3.CursorPreview" xml:space="preserve">
-    <value>Cursor Preview</value>
+    <value>Cursor Virschau</value>
   </data>
   <data name="Ui.Misc3.FFlagPresetValues" xml:space="preserve">
     <value>FFlag Preset Wäerter</value>
@@ -6651,22 +6650,22 @@ Feeler: {0}</value>
     <value>Alles zrécksetzen</value>
   </data>
   <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
-    <value>Layout Presets</value>
+    <value>Layout Virlagen</value>
   </data>
   <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
     <value>Default</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
-    <value>Minimal Top Bar</value>
+    <value>Minimal Uewerläischt</value>
   </data>
   <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
     <value>Kompetitiv HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Propper fir Streamer</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Dock uewen</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktiven Écran Stage</value>
@@ -6693,7 +6692,7 @@ Feeler: {0}</value>
     <value>FrameGen HUD</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
-    <value>Dock Panels</value>
+    <value>Dock Panneauen</value>
   </data>
   <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
     <value>Show Server Location am Spill</value>
@@ -6783,7 +6782,7 @@ Feeler: {0}</value>
     <value>Rezenter Crosshair</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
-    <value>Show Frame Generation HUD</value>
+    <value>Frame Generation HUD weisen</value>
   </data>
   <data name="Ui.OverlayStudio.EnableFrameGenHudHint" xml:space="preserve">
     <value>Weist Echtzäit FPS, generéiert Rummen, a Motor Telemetrie am Spill.</value>
@@ -6816,7 +6815,7 @@ Feeler: {0}</value>
     <value>Drag a personaliséiere Server Readout, Notifikatiounen, Session Dock, Crosshair, an HUD Positiounen live.</value>
   </data>
   <data name="Ui.OverlayStudio.OpenStudioButton" xml:space="preserve">
-    <value>Open Overlay Studio</value>
+    <value>Overlay Studio opmaachen</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
     <value>Video Clipper</value>
@@ -6831,7 +6830,7 @@ Feeler: {0}</value>
     <value>Hardware GPU Videorecorder an Instant Replay Clipper.</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
-    <value>Open Clipper</value>
+    <value>Clipper opmaachen</value>
   </data>
   <data name="Ui.Clipper.ClipSaved" xml:space="preserve">
     <value>Clip gespäichert</value>
@@ -6843,10 +6842,10 @@ Feeler: {0}</value>
     <value>Wielt normal On an Off Recording oder Rolling Clip Replay.</value>
   </data>
   <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
-    <value>Normal Record (On/Off)</value>
+    <value>Normal Opnam (Un/Aus)</value>
   </data>
   <data name="Ui.Clipper.ModeClip" xml:space="preserve">
-    <value>Clip Record (Replay)</value>
+    <value>Clip Opnam (Replay)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
     <value>Clip Replay Längt</value>
@@ -6999,10 +6998,10 @@ Feeler: {0}</value>
     <value>Zerécksetzen</value>
   </data>
   <data name="Ui.Clipper.StartRecording" xml:space="preserve">
-    <value>Start Recording</value>
+    <value>Opnam starten</value>
   </data>
   <data name="Ui.Clipper.StopRecording" xml:space="preserve">
-    <value>Stop Recording</value>
+    <value>Opnam stoppen</value>
   </data>
   <data name="Ui.Clipper.SaveClip" xml:space="preserve">
     <value>Späicheren Clip</value>
@@ -7035,7 +7034,7 @@ Feeler: {0}</value>
     <value>Klickt Start Recording oder dréckt {0} fir opzehuelen.</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>Clip Buffer Ready</value>
+    <value>Clip Buffer prett</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
     <value>Start Capture ...</value>
@@ -7230,7 +7229,7 @@ Feeler: {0}</value>
     <value>New Keystrokes Thema</value>
   </data>
   <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
-    <value>Keystrokes Theme Editor</value>
+    <value>Keystrokes Theme Editeur</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
     <value>Thema Kontrollen</value>
@@ -7278,7 +7277,7 @@ Feeler: {0}</value>
     <value>Grenz Dicke</value>
   </data>
   <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
-    <value>Corner Radius</value>
+    <value>Eckeradius</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
     <value>Liicht Radius</value>
@@ -7368,7 +7367,7 @@ Feeler: {0}</value>
     <value>Bild Opazitéit</value>
   </data>
   <data name="Ui.Keystrokes.Editor.FormatJson" xml:space="preserve">
-    <value>Format Code</value>
+    <value>Code formatéieren</value>
   </data>
   <data name="Ui.Keystrokes.Editor.AddImage" xml:space="preserve">
     <value>Foto Datei derbäi</value>
@@ -7410,7 +7409,7 @@ Feeler: {0}</value>
     <value>Héicht</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
-    <value>Corner Radius</value>
+    <value>Eckeradius</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
     <value>Benotzerdefinéiert Label</value>
@@ -7807,7 +7806,7 @@ Et eroflueden {0} MB. Wann Dir refuséiert, gëtt de gebaute Schätzung benotzt.
     <value>Sich Studio Plugins</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
-    <value>Creator Store</value>
+    <value>Creator Buttek</value>
   </data>
   <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
     <value>Installéiert</value>
@@ -10017,7 +10016,7 @@ SteamVR elo installéieren?</value>
     <value>Titelen</value>
   </data>
   <data name="Ui.EmoteMgr.Title" xml:space="preserve">
-    <value>Emote Manager</value>
+    <value>Emote Gestioun</value>
   </data>
   <data name="Ui.EmoteMgr.CardDescription" xml:space="preserve">
     <value>Fierf d'Emote Rad nei, füüg deng eege Biller dobäi a beweeg se</value>

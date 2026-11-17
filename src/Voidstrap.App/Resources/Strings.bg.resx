@@ -732,10 +732,11 @@
     <value>Светла</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Voidstrap е обновено на версия {0}</value>
+    <value>Voidstrap беше обновен до нова версия</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
-    <value>Версията на Voidstrap, която стартирахте, е различна от версията, която е вече инсталирана. Искате ли да надстроите текущо инсталираната версия?</value>
+    <value>Стартираната от Вас версия на Voidstrap се различава от инсталираната в момента.
+Искате ли да обновите инсталираната версия?</value>
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
     <value>Сътрудници</value>
@@ -952,7 +953,7 @@
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [цял екран]({0}), се активирва с Alt+Enter по подразбиране.</value>
+    <value>Изключителният цял екран на Direct3D чрез Alt+Enter е включен по подразбиране.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>Предпочитана версия на менюто за изход</value>
@@ -970,7 +971,7 @@
     <value>Лимит на кадрите в секунда</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>Превключва се с [клавишни комбинации]({0}). Работи само ако сте в [групата на Voidstrap]({1}).</value>
+    <value>Превключва се с [клавишни комбинации]({0}). Въведете ID на група, в която членувате.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>Активирайте способността за скриване на графичния интерфейс</value>
@@ -1170,7 +1171,8 @@
     <value>Превод на</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>Преди да продължите с инсталацията, моля изберете език.</value>
+    <value>Изберете език, преди да продължите с инсталацията.
+Някои текстове може да не са преведени на избрания от Вас език.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>Език</value>
@@ -1309,11 +1311,9 @@
     <value>Напред</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Благодарим ви, че изтеглихте Voidstrap. 
+    <value>Благодарим Ви, че изтеглихте Voidstrap.
 
-Единствените официални уебсайтове, от които можете да изтеглите Voidstrap, са {0} и {1}, така че, моля, проверете дали сте го получили от официален източник.
-
-Този процес на инсталиране ще бъде бърз и лесен и ще можете да конфигурирате всяка от настройките на Voidstrap след инсталирането.</value>
+Инсталацията ще бъде бърза и лесна, а след нея ще можете да настроите всички настройки на Voidstrap.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1365,13 +1365,9 @@ Roblox все още не е инсталиран, това ще се случи
     <value>Деинсталирайте Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Деинсталирането ще премахне Voidstrap от вашата система и автоматично ще преконфигурира Roblox по подразбиране, ако все още е инсталиран.
+    <value>Деинсталирането на Voidstrap ще го премахне от системата Ви и ще възстанови стандартния стартер на Roblox, ако той все още е инсталиран.
 
-Ако деинсталирате или преинсталирате, защото имате проблеми с Roblox, първо прочетете [тази страница]({0}).
-
-Процесът на деинсталиране може да не успее да се изчисти напълно, така че може да се наложи ръчно да почистите остатъчните файлове, където е инсталиран Voidstrap.
-
-Voidstrap е инсталиран на „{1}“.</value>
+Всичко, което е заключено или се използва, ще бъде почистено автоматично, щом бъде освободено.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Запази моите настройки и добавки</value>
@@ -6050,7 +6046,7 @@ Roblox ще бъде изтеглен, когато го стартирате з
     <value>Опцията за класическа горна лента пресъздава два мода на общността. Видът и поведението на горната лента и менюто на играта от 2014 до 2015 г. идват от "2014 2015 Topbar and Menu (Improvised GUI)" на HockuTM. Скриването на модерната лента използва "NoGuiRBX, Hide TopBar!" на Einshine. И двата се използват с благодарност по условията на Creative Commons BY NC ND 4.0, файловете им се изтеглят директно от GameBanana, вместо да се включват, и никой от авторите не е свързан с Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>Горна лента и меню от 2014 2015 от HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Модове на общността</value>

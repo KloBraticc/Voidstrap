@@ -762,7 +762,7 @@
     <value>فاتح</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>تم تحديث Voidstrap إلى إصدار {0}</value>
+    <value>تمت ترقية Voidstrap إلى إصدار جديد</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
     <value>يختلف إصدار Voidstrap الذي قمت بتشغيله عن الإصدار الذي قمت بتثبيته حاليًا.
@@ -944,7 +944,9 @@
     <value>نسخ إلى الحافظة.</value>
   </data>
   <data name="Menu.FastFlagEditor.LargeConfig" xml:space="preserve">
-    <value>يبدو أنك تقوم باستيراد تكوين كبير جدًا. يجب عليك فقط استيراد التكوينات التي تفهمها تمامًا. لا تقم بلصق التكوينات التي أجراها أشخاص آخرون بشكل أعمى. إذا تابعت، فمن المحتمل جدًا أن ينتهي بك الأمر إلى مشكلات تتعلق بالاستقرار وستواجه تغييرات غير متوقعة.</value>
+    <value>يبدو أنك تستورد إعدادات كبيرة جدًا. يجب ألا تستورد إلا الإعدادات التي تفهمها تمامًا. لا تلصق إعدادات صنعها أشخاص آخرون دون تفكير. إذا تابعت، فمن المرجح جدًا أن تواجه مشكلات في الاستقرار وتغييرات غير متوقعة.
+
+هل أنت متأكد أنك تريد المتابعة؟</value>
   </data>
   <data name="Menu.FastFlagEditor.Search" xml:space="preserve">
     <value>ابحث</value>
@@ -981,7 +983,7 @@
     <comment>Title is Common.Help</comment>
   </data>
   <data name="Menu.FastFlags.Presets.D3DExclusiveFullscreenInfo" xml:space="preserve">
-    <value>Direct3D [ملء الشاشة الحصري]({0}) باستخدام Alt+Enter بشكل تلقائي.</value>
+    <value>وضع ملء الشاشة الحصري في Direct3D باستخدام Alt+Enter مفعّل افتراضيًا.</value>
   </data>
   <data name="Menu.FastFlags.Presets.EscapeMenuVersion.Title" xml:space="preserve">
     <value>إصدار قائمة الهروب المفضلة</value>
@@ -999,7 +1001,7 @@
     <value>حد معدل الإطارات (FPS)</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Description" xml:space="preserve">
-    <value>يتم تفعيله باستخدام [اختصارات لوحة المفاتيح]({0}). يعمل فقط إذا كنت في [مجموعة Voidstrap في Roblox]({1}).</value>
+    <value>يتم تبديله باستخدام [اختصارات لوحة المفاتيح]({0}). أدخل معرّف مجموعة أنت عضو فيها.</value>
   </data>
   <data name="Menu.FastFlags.Presets.HideGuis.Title" xml:space="preserve">
     <value>القدرة على إخفاء واجهات المستخدم</value>
@@ -1199,7 +1201,8 @@
     <value>الترجمة إلى</value>
   </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
-    <value>اختر اللغة قبل متابعة التثبيت.</value>
+    <value>اختر لغة قبل متابعة التثبيت.
+قد لا تكون بعض النصوص مترجمة إلى اللغة التي اخترتها.</value>
   </data>
   <data name="Menu.Appearance.Language.Title" xml:space="preserve">
     <value>اللغة</value>
@@ -1340,9 +1343,7 @@
   <data name="Installer.Welcome.MainText" xml:space="preserve">
     <value>شكرًا لك على تنزيل Voidstrap.
 
-المواقع الرسمية التي يمكنك تنزيل Voidstrap منها هي {0} أو {1}. يرجى التأكد من أنك نزلتها من مصدر رسمي.
-
-ستكون عملية التثبيت هذه سريعة وبسيطة، وستتمكن من تضبيط أي من إعدادات Voidstrap بعد التثبيت.</value>
+ستكون عملية التثبيت سريعة وبسيطة، ويمكنك ضبط أي من إعدادات Voidstrap بعد التثبيت.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
@@ -1394,13 +1395,9 @@
     <value>إلغاء تثبيت Voidstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>سيؤدي إلغاء التثبيت إلى المسح Voidstrap من نظامك، وإعادة تكوين مشغل Roblox الافتراضي تلقائيًا إذا كان لا يزال مثبتًا.
+    <value>سيؤدي إلغاء تثبيت Voidstrap إلى إزالته من نظامك واستعادة مشغل Roblox الافتراضي إذا كان لا يزال مثبتًا.
 
-إذا كنت تقوم بإلغاء التثبيت أو إعادة التثبيت لأنك تواجه مشكلات مع Roblox، فاقرأ [صفحة المساعدة هذه]({0}) أولاً.
-
-قد لا تتمكن عملية إلغاء التثبيت من تنظيف نفسها بالكامل، لذا قد تحتاج إلى تنظيف الملفات المتبقية يدويًا حيث تم تثبيت Voidstrap.
-
-تم تثبيت Voidstrap في "{1}".</value>
+سيتم تنظيف أي شيء مقفل أو قيد الاستخدام تلقائيًا بمجرد تحريره.</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>احتفظ بإعداداتي و تعديلاتي</value>
@@ -6079,7 +6076,7 @@
     <value>يعيد خيار الشريط العلوي الكلاسيكي بناء تعديلين من المجتمع. يأتي شكل وسلوك الشريط العلوي وقائمة اللعبة من 2014 إلى 2015 من "2014 2015 Topbar and Menu (Improvised GUI)" بواسطة HockuTM. ويستخدم إخفاء الشريط العلوي الحديث "NoGuiRBX, Hide TopBar!" بواسطة Einshine. يُستخدم كلاهما مع الشكر وفق شروط Creative Commons BY NC ND 4.0، وتُنزَّل ملفاتهما مباشرة من GameBanana بدلًا من إرفاقها، ولا يرتبط أي من المؤلفين بـ Voidstrap.</value>
   </data>
   <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
+    <value>الشريط العلوي والقائمة لعامي 2014 2015 من HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>تعديلات المجتمع</value>
