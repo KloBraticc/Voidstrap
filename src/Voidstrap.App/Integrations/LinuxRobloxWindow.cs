@@ -251,7 +251,7 @@ internal sealed class LinuxRobloxWindow : IDisposable
             {
                 byte[] pixels = source.Resize(size, size).Pixels;
                 if (rounded)
-                    Voidstrap.Utility.Raster.RoundCorners(pixels, size, size, size * 0.22f);
+                    Voidstrap.Utility.Raster.RoundCorners(pixels, size, size, size * 0.14f);
                 native.Add(size);
                 native.Add(size);
                 for (int offset = 0; offset < pixels.Length; offset += 4)

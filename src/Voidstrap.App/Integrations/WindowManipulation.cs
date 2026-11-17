@@ -754,7 +754,7 @@ namespace Voidstrap.Integrations
                 byte[] pixels = new byte[size * size * 4];
                 for (int row = 0; row < size; row++)
                     Marshal.Copy(data.Scan0 + row * data.Stride, pixels, row * size * 4, size * 4);
-                Raster.RoundCorners(pixels, size, size, size * 0.22f);
+                Raster.RoundCorners(pixels, size, size, size * 0.14f);
                 for (int row = 0; row < size; row++)
                     Marshal.Copy(pixels, row * size * 4, data.Scan0 + row * data.Stride, size * 4);
             }
