@@ -17,6 +17,7 @@ using Voidstrap.UI;
 using Voidstrap.UI.Elements.Dialogs;
 using Voidstrap.UI.Elements.Installer;
 using Voidstrap.UI.Elements.Settings;
+using Voidstrap.UI.ViewModels.Settings;
 using Voidstrap.Utility;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -582,6 +583,12 @@ public static class LaunchHandler
     {
         LaunchMenuDialog launchMenuDialog = new LaunchMenuDialog();
         launchMenuDialog.ShowTopLevelDialog();
+        if (launchMenuDialog.CloseAction == NextAction.LaunchRoblox)
+        {
+            App.Logger.WriteLine("LaunchHandler::LaunchMenu", "Opening the selected Roblox version");
+            MainWindowViewModel.LaunchTarget(MainWindowViewModel.StoredLaunchClient, false);
+            return;
+        }
         ProcessNextAction(launchMenuDialog.CloseAction);
     }
 

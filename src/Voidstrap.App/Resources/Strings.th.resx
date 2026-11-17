@@ -10470,4 +10470,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ไม่มีหมวดหมู่</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>เลือกเวอร์ชัน Roblox</value>
+  </data>
 </root>

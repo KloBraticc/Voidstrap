@@ -10163,4 +10163,7 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>АНГИЛАЛГҮЙ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox хувилбар сонгох</value>
+  </data>
 </root>

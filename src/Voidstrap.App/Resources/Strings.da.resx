@@ -10162,4 +10162,7 @@ Installer SteamVR nu?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>UKATEGORISEREDE</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Vælg Roblox version</value>
+  </data>
 </root>

@@ -10163,4 +10163,7 @@ Installer SteamVR nå?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>UKATEGORISERT</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Velg Roblox versjon</value>
+  </data>
 </root>

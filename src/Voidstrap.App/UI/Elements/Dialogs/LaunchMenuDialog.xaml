@@ -37,22 +37,32 @@
         </StackPanel>
       </StackPanel>
       <StackPanel Grid.Column="1" Width="285" Margin="0,9,0,0" HorizontalAlignment="Left">
-        <ui:CardAction Icon="Games28" IconFilled="False" TabIndex="0" Command="{Binding LaunchRobloxCommand, Mode=OneTime}">
-          <TextBlock FontSize="14" Text="{resources:Loc LaunchMenu_LaunchRoblox}" />
-        </ui:CardAction>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <ui:Button x:Name="LaunchTargetButton" Grid.Column="0" Width="40" Margin="0,0,6,0" Padding="0" VerticalAlignment="Stretch" Appearance="Secondary" Icon="ChevronDown24" TabIndex="0" AutomationProperties.Name="{resources:Loc LaunchMenu_SelectVersion}" ToolTip="{resources:Loc LaunchMenu_SelectVersion}" Click="LaunchTargetButton_Click" />
+          <ui:CardAction Grid.Column="1" Icon="Games28" IconFilled="False" TabIndex="1" Command="{Binding LaunchRobloxCommand, Mode=OneTime}">
+            <StackPanel>
+              <TextBlock FontSize="14" Text="{resources:Loc LaunchMenu_LaunchRoblox}" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding SelectedTargetName, Mode=OneWay}" />
+            </StackPanel>
+          </ui:CardAction>
+        </Grid>
         <Grid Margin="0,8,0,0">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
-          <ui:CardAction Grid.Column="0" Margin="0,0,4,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="Settings28" TabIndex="1" Command="{Binding LaunchSettingsCommand, Mode=OneTime}">
+          <ui:CardAction Grid.Column="0" Margin="0,0,4,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="Settings28" TabIndex="2" Command="{Binding LaunchSettingsCommand, Mode=OneTime}">
             <TextBlock FontSize="14" TextTrimming="None" Text="{resources:Loc Ui_Nav_Settings}" />
           </ui:CardAction>
-          <ui:CardAction Grid.Column="1" Margin="4,0,0,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="WindowDevTools24" IconFilled="False" TabIndex="2" Command="{Binding LaunchRobloxStudioCommand, Mode=OneTime}">
+          <ui:CardAction Grid.Column="1" Margin="4,0,0,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="WindowDevTools24" IconFilled="False" TabIndex="3" Command="{Binding LaunchRobloxStudioCommand, Mode=OneTime}">
             <TextBlock FontSize="14" TextTrimming="None" Text="{resources:Loc Common_Studio}" />
           </ui:CardAction>
         </Grid>
-        <ui:CardAction Margin="0,12,0,0" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/KloBraticc/Voidstrap" Icon="Code24" IconFilled="False" TabIndex="3">
+        <ui:CardAction Margin="0,12,0,0" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/KloBraticc/Voidstrap" Icon="Code24" IconFilled="False" TabIndex="4">
           <StackPanel>
             <TextBlock FontSize="14" Text="GitHub" />
             <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_ReleasesSourceAndIssues}" />

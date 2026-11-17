@@ -10162,4 +10162,7 @@ Indi SteamVR guruň?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>KATEGORIÝASYZ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox wersiýasyny saýlaň</value>
+  </data>
 </root>

@@ -10477,4 +10477,7 @@ Veikimo laikas: {1}
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>BE KATEGORIJOS</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Pasirinkite Roblox versiją</value>
+  </data>
 </root>

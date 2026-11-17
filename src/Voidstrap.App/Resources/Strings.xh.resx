@@ -10162,4 +10162,7 @@ Faka i-SteamVR ngoku?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>AYICWANGCISWANGA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Khetha inguqulelo ye Roblox</value>
+  </data>
 </root>

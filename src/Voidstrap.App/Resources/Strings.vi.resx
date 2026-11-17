@@ -10478,4 +10478,7 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>CHƯA PHÂN LOẠI</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Chọn phiên bản Roblox</value>
+  </data>
 </root>

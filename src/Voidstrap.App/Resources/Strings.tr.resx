@@ -10473,4 +10473,7 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>KATEGORİSİZ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox sürümünü seçin</value>
+  </data>
 </root>

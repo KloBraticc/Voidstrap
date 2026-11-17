@@ -10163,4 +10163,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ບໍ່ມີໝວດໝູ່</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>ເລືອກເວີຊັນ Roblox</value>
+  </data>
 </root>

@@ -10162,4 +10162,7 @@ Instal·leu SteamVR ara?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>SENSE CATEGORIA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Tria la versió de Roblox</value>
+  </data>
 </root>

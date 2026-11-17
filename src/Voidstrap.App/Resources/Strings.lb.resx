@@ -10163,4 +10163,7 @@ SteamVR elo installéieren?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>OUNI KATEGORIE</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox Versioun auswielen</value>
+  </data>
 </root>

@@ -10477,4 +10477,7 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>بدون دسته</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>نسخه Roblox را انتخاب کنید</value>
+  </data>
 </root>

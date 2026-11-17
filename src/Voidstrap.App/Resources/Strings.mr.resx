@@ -10163,4 +10163,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>वर्गीकरण नसलेले</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox आवृत्ती निवडा</value>
+  </data>
 </root>

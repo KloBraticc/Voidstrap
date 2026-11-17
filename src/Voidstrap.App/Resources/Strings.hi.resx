@@ -10163,4 +10163,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>बिना श्रेणी</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox संस्करण चुनें</value>
+  </data>
 </root>

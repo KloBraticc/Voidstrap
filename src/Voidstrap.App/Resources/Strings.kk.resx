@@ -10163,4 +10163,7 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>САНАТСЫЗ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox нұсқасын таңдаңыз</value>
+  </data>
 </root>

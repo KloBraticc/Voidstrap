@@ -10162,4 +10162,7 @@ Kas installida SteamVR kohe?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>KATEGOORIATA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Vali Roblox versioon</value>
+  </data>
 </root>

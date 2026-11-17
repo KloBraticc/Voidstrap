@@ -10162,4 +10162,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ያልተመደቡ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>የRoblox ስሪት ይምረጡ</value>
+  </data>
 </root>

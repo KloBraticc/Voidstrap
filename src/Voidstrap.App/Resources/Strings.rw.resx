@@ -10163,4 +10163,7 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>IDAFITE ICYICIRO</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Hitamo verisiyo ya Roblox</value>
+  </data>
 </root>

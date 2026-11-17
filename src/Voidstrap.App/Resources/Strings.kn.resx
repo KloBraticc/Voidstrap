@@ -10163,4 +10163,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ವರ್ಗೀಕರಿಸದ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox ಆವೃತ್ತಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ</value>
+  </data>
 </root>

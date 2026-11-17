@@ -10162,4 +10162,7 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>TOIFASIZ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox versiyasini tanlang</value>
+  </data>
 </root>

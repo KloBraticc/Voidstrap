@@ -10162,4 +10162,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ΧΩΡΙΣ ΚΑΤΗΓΟΡΙΑ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Επιλογή έκδοσης Roblox</value>
+  </data>
 </root>

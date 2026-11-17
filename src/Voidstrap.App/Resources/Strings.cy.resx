@@ -10162,4 +10162,7 @@ Gosod SteamVR nawr?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>HEB GATEGORI</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Dewis fersiwn Roblox</value>
+  </data>
 </root>

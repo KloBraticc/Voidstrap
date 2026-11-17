@@ -10477,4 +10477,7 @@ Instalați SteamVR acum?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>FĂRĂ CATEGORIE</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Alege versiunea Roblox</value>
+  </data>
 </root>

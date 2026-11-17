@@ -10163,4 +10163,7 @@ Settu upp SteamVR núna?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ÓFLOKKAÐ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Veldu útgáfu Roblox</value>
+  </data>
 </root>

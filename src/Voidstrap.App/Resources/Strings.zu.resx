@@ -10162,4 +10162,7 @@ Faka i-SteamVR manje?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>AKUHLUKANISWANGA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Khetha inguqulo ye Roblox</value>
+  </data>
 </root>

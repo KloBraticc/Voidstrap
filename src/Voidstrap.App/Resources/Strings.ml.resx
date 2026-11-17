@@ -10163,4 +10163,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>വിഭാഗമില്ലാത്തവ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox പതിപ്പ് തിരഞ്ഞെടുക്കുക</value>
+  </data>
 </root>

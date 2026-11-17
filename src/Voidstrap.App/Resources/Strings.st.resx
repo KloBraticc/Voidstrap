@@ -10162,4 +10162,7 @@ Kenya SteamVR hona joale?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>HA E NA SEHLOPHA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Kgetha mofuta wa Roblox</value>
+  </data>
 </root>

@@ -10474,4 +10474,7 @@
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>غير مصنفة</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>اختر إصدار Roblox</value>
+  </data>
 </root>

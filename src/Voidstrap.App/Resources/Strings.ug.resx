@@ -10162,4 +10162,7 @@ Uptime: {1}
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>تۈرگە ئايرىلمىغان</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox نەشرىنى تاللاڭ</value>
+  </data>
 </root>

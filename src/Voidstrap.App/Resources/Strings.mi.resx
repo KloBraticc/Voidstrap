@@ -10163,4 +10163,7 @@ Tāuta SteamVR ināianei?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>KĀORE I WEHEA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Kōwhiria te putanga Roblox</value>
+  </data>
 </root>

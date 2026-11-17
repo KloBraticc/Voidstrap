@@ -10475,4 +10475,7 @@ Telepítse most az SteamVR-t?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>KATEGORIZÁLATLAN</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Válaszd ki a Roblox verziót</value>
+  </data>
 </root>

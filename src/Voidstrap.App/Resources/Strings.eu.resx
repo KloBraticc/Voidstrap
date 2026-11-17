@@ -10162,4 +10162,7 @@ SteamVR instalatu orain?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>KATEGORIARIK GABE</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Aukeratu Roblox bertsioa</value>
+  </data>
 </root>

@@ -10163,4 +10163,7 @@ Suiteáil SteamVR anois?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>GAN CHATAGÓIR</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roghnaigh leagan Roblox</value>
+  </data>
 </root>

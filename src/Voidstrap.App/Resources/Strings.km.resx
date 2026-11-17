@@ -10163,4 +10163,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>គ្មានប្រភេទ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>ជ្រើសរើសកំណែ Roblox</value>
+  </data>
 </root>

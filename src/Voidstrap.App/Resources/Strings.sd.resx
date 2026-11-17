@@ -10163,4 +10163,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>بنا درجي</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox جو نسخو چونڊيو</value>
+  </data>
 </root>

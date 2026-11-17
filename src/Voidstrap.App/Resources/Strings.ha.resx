@@ -10163,4 +10163,7 @@ Shigar SteamVR yanzu?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>BA A RARRABA BA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Zaɓi sigar Roblox</value>
+  </data>
 </root>

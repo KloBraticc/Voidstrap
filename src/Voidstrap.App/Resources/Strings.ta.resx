@@ -10162,4 +10162,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>வகைப்படுத்தப்படாதவை</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox பதிப்பைத் தேர்ந்தெடுக்கவும்</value>
+  </data>
 </root>

@@ -10499,4 +10499,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>未分类</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>选择 Roblox 版本</value>
+  </data>
 </root>

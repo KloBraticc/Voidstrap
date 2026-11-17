@@ -10162,4 +10162,7 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>వర్గీకరించనివి</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox వెర్షన్ను ఎంచుకోండి</value>
+  </data>
 </root>

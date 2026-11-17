@@ -115,8 +115,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
     {
         get
         {
-            string code = App.Settings.Prop.LaunchSelectedClient ?? "";
-            return string.Equals(code, "mumu-rishade", StringComparison.Ordinal) ? "" : code;
+            return StoredLaunchClient;
         }
         set
         {
@@ -130,6 +129,8 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
             }
         }
     }
+
+    public static string StoredLaunchClient => App.Settings.Prop.LaunchSelectedClient ?? "";
 
     public string SelectedLaunchTargetName
     {
@@ -257,20 +258,24 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 
     private void LaunchSelectedTarget()
     {
-        string code = SelectedLaunchClient;
+        LaunchTarget(SelectedLaunchClient, SelectedLaunchModeIndex == 1);
+    }
+
+    public static void LaunchTarget(string code, bool studio)
+    {
         if (IsSteamVrSelection(code))
         {
             LaunchSteamVr();
             return;
         }
-        if (SelectedLaunchModeIndex != 1)
+        if (!studio)
             Voidstrap.Integrations.SteamVr.RestoreDesktop();
         if (IsClassicSelection(code))
         {
-            LaunchClassicClient(code, SelectedLaunchModeIndex == 1);
+            LaunchClassicClient(code, studio);
             return;
         }
-        LaunchHandler.LaunchRoblox((SelectedLaunchModeIndex != 1) ? LaunchMode.Player : LaunchMode.Studio);
+        LaunchHandler.LaunchRoblox(studio ? LaunchMode.Studio : LaunchMode.Player);
     }
 
     private static bool IsSteamVrSelection(string code)
@@ -326,7 +331,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    private void LaunchClassicClient(string code, bool studio)
+    private static void LaunchClassicClient(string code, bool studio)
     {
         StopVoidstrapRpcForClassic();
         IBootstrapperDialog dialog = App.Settings.Prop.BootstrapperStyle.GetNew();

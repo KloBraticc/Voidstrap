@@ -10163,4 +10163,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ଅବର୍ଗୀକୃତ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox ସଂସ୍କରଣ ବାଛନ୍ତୁ</value>
+  </data>
 </root>

@@ -10163,4 +10163,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ללא קטגוריה</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>בחירת גרסת Roblox</value>
+  </data>
 </root>

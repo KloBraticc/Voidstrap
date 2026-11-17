@@ -10163,4 +10163,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>वर्गीकृत नगरिएका</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox संस्करण छान्नुहोस्</value>
+  </data>
 </root>

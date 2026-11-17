@@ -10163,4 +10163,7 @@ Installa SteamVR issa?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>MINGĦAJR KATEGORIJA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Agħżel il verżjoni ta' Roblox</value>
+  </data>
 </root>

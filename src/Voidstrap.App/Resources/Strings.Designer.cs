@@ -10245,6 +10245,7 @@ namespace Voidstrap.Resources {
         public static string Library_Unpin => ResourceManager.GetString("Library.Unpin", resourceCulture);
         public static string Library_GroupPinned => ResourceManager.GetString("Library.GroupPinned", resourceCulture);
         public static string Library_GroupAll => ResourceManager.GetString("Library.GroupAll", resourceCulture);
+        public static string LaunchMenu_SelectVersion => ResourceManager.GetString("LaunchMenu.SelectVersion", resourceCulture);
         public static string Library_AddToCollection => ResourceManager.GetString("Library.AddToCollection", resourceCulture);
         public static string Library_RemoveFromCollection => ResourceManager.GetString("Library.RemoveFromCollection", resourceCulture);
         public static string Library_NewCollection => ResourceManager.GetString("Library.NewCollection", resourceCulture);

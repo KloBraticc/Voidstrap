@@ -10467,4 +10467,7 @@ Pasang SteamVR sekarang?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>TIADA KATEGORI</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Pilih versi Roblox</value>
+  </data>
 </root>

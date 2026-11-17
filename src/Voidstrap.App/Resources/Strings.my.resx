@@ -10162,4 +10162,7 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>အမျိုးအစားမခွဲရသေး</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox ဗားရှင်းကို ရွေးပါ</value>
+  </data>
 </root>

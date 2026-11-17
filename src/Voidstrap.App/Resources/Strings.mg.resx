@@ -10163,4 +10163,7 @@ Hametraka SteamVR izao?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>TSY MISY SOKAJY</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Safidio ny dikan'ny Roblox</value>
+  </data>
 </root>

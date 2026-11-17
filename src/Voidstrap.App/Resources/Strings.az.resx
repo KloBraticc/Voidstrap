@@ -10162,4 +10162,7 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>KATEQORİYASIZ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox versiyasını seçin</value>
+  </data>
 </root>

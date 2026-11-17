@@ -10163,4 +10163,7 @@ Hadda rakib SteamVR?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>AAN LA KALA SOOCIN</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Dooro nooca Roblox</value>
+  </data>
 </root>

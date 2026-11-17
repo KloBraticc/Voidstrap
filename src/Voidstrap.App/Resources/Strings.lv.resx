@@ -10163,4 +10163,7 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>BEZ KATEGORIJAS</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Izvēlies Roblox versiju</value>
+  </data>
 </root>

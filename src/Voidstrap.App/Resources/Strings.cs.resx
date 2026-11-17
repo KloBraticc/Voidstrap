@@ -10476,4 +10476,7 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>BEZ KATEGORIE</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Vyberte verzi Roblox</value>
+  </data>
 </root>

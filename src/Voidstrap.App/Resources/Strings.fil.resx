@@ -10473,4 +10473,7 @@ I-install ang SteamVR ngayon?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>WALANG KATEGORYA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Pumili ng bersyon ng Roblox</value>
+  </data>
 </root>

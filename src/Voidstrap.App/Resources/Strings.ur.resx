@@ -10162,4 +10162,7 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>بغیر زمرہ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox ورژن منتخب کریں</value>
+  </data>
 </root>

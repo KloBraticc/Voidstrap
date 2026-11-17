@@ -10163,4 +10163,7 @@ Uptime: {1}
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>კატეგორიის გარეშე</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>აირჩიეთ Roblox ვერსია</value>
+  </data>
 </root>

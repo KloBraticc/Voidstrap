@@ -10163,4 +10163,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>بې کټګورۍ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>د Roblox نسخه وټاکئ</value>
+  </data>
 </root>

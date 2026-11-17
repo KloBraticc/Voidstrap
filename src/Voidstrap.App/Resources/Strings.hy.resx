@@ -10163,4 +10163,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ԱՌԱՆՑ ԿԱՏԵԳՈՐԻԱՅԻ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Ընտրեք Roblox տարբերակը</value>
+  </data>
 </root>

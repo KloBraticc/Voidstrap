@@ -10162,4 +10162,7 @@ Ludantoj: {2}</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>SENKATEGORIAJ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Elektu version de Roblox</value>
+  </data>
 </root>

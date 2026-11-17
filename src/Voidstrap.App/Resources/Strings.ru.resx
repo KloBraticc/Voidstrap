@@ -10475,4 +10475,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>БЕЗ КАТЕГОРИИ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Выберите версию Roblox</value>
+  </data>
 </root>

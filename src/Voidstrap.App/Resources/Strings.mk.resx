@@ -10163,4 +10163,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>БЕЗ КАТЕГОРИЈА</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Изберете верзија на Roblox</value>
+  </data>
 </root>

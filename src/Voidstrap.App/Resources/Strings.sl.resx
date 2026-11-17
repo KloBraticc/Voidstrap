@@ -10163,4 +10163,7 @@ Namestite SteamVR zdaj?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>BREZ KATEGORIJE</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Izberite različico Roblox</value>
+  </data>
 </root>

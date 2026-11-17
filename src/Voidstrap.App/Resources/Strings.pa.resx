@@ -10163,4 +10163,7 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ਬਿਨਾਂ ਸ਼੍ਰੇਣੀ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox ਸੰਸਕਰਣ ਚੁਣੋ</value>
+  </data>
 </root>

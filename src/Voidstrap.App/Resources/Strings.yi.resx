@@ -10162,4 +10162,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>אָן קאַטעגאָריע</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>קלײַבט די Roblox ווערסיע</value>
+  </data>
 </root>

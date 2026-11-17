@@ -10162,4 +10162,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>বিভাগহীন</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox সংস্করণ বেছে নিন</value>
+  </data>
 </root>

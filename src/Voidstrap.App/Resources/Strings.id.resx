@@ -10478,4 +10478,7 @@ Instal SteamVR sekarang?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>TANPA KATEGORI</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Pilih versi Roblox</value>
+  </data>
 </root>

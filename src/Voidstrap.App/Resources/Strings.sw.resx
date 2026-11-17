@@ -10162,4 +10162,7 @@ Sakinisha SteamVR sasa?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>BILA KUNDI</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Chagua toleo la Roblox</value>
+  </data>
 </root>

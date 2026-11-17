@@ -10475,4 +10475,7 @@ Instalirati SteamVR sada?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>BEZ KATEGORIJE</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Odaberi verziju Robloxa</value>
+  </data>
 </root>

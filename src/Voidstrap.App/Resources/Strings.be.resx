@@ -10162,4 +10162,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>БЕЗ КАТЭГОРЫІ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Выберыце версію Roblox</value>
+  </data>
 </root>

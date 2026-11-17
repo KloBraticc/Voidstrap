@@ -10162,4 +10162,7 @@ Installeer SteamVR nou?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>ONGEKATEGORISEER</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Kies Roblox weergawe</value>
+  </data>
 </root>

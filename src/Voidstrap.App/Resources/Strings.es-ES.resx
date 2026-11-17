@@ -10475,4 +10475,7 @@ Jugadores: {2}</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>SIN CATEGORÍA</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Elige la versión de Roblox</value>
+  </data>
 </root>

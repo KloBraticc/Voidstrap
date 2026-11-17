@@ -10163,4 +10163,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>БЕЗ КАТЕГОРИЈЕ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Изаберите верзију Roblox</value>
+  </data>
 </root>

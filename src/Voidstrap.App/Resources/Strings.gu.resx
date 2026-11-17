@@ -10163,4 +10163,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>વર્ગીકૃત નથી</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Roblox આવૃત્તિ પસંદ કરો</value>
+  </data>
 </root>

@@ -10162,4 +10162,7 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Library.GroupUncategorized" xml:space="preserve">
     <value>LÁÌSÍ ÌSỌ̀RÍ</value>
   </data>
+  <data name="LaunchMenu.SelectVersion" xml:space="preserve">
+    <value>Yan ẹ̀yà Roblox</value>
+  </data>
 </root>
