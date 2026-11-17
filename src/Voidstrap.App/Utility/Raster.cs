@@ -169,6 +169,37 @@ internal sealed class Raster
         }
     }
 
+    public static void RoundCorners(Span<byte> pixels, int width, int height, float radius)
+    {
+        radius = Math.Clamp(radius, 0f, Math.Min(width, height) * 0.5f);
+        if (radius <= 0f)
+            return;
+        const int samples = 4;
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float cx = x < radius ? radius : x >= width - radius ? width - radius : -1f;
+                float cy = y < radius ? radius : y >= height - radius ? height - radius : -1f;
+                if (cx < 0f || cy < 0f)
+                    continue;
+                int inside = 0;
+                for (int sy = 0; sy < samples; sy++)
+                {
+                    for (int sx = 0; sx < samples; sx++)
+                    {
+                        float dx = x + (sx + 0.5f) / samples - cx;
+                        float dy = y + (sy + 0.5f) / samples - cy;
+                        if (dx * dx + dy * dy <= radius * radius)
+                            inside++;
+                    }
+                }
+                int alpha = (y * width + x) * 4 + 3;
+                pixels[alpha] = (byte)(pixels[alpha] * inside / (samples * samples));
+            }
+        }
+    }
+
     public Raster Clone()
     {
         return new Raster(Width, Height, (byte[])Pixels.Clone());

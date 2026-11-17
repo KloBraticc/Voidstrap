@@ -232,7 +232,7 @@ internal sealed class LinuxRobloxWindow : IDisposable
             if (!response.IsSuccessStatusCode)
                 return [];
             byte[] data = await Voidstrap.Utility.Http.ReadBytesBoundedAsync(response.Content, GameIconMaxBytes, CancellationToken.None).ConfigureAwait(false);
-            return data.Length == 0 ? [] : ConvertIcon(data);
+            return data.Length == 0 ? [] : ConvertIcon(data, true);
         }
         catch (Exception ex)
         {
@@ -241,7 +241,7 @@ internal sealed class LinuxRobloxWindow : IDisposable
         }
     }
 
-    private static nint[] ConvertIcon(byte[] data)
+    private static nint[] ConvertIcon(byte[] data, bool rounded = false)
     {
         try
         {
@@ -250,6 +250,8 @@ internal sealed class LinuxRobloxWindow : IDisposable
             foreach (int size in IconSizes)
             {
                 byte[] pixels = source.Resize(size, size).Pixels;
+                if (rounded)
+                    Voidstrap.Utility.Raster.RoundCorners(pixels, size, size, size * 0.22f);
                 native.Add(size);
                 native.Add(size);
                 for (int offset = 0; offset < pixels.Length; offset += 4)

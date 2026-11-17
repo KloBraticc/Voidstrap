@@ -1,4 +1,4 @@
-﻿using Windows.Win32;
+using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using System.Drawing;
@@ -627,8 +627,8 @@ namespace Voidstrap.Integrations
                 using (var stream = new MemoryStream(data))
                 using (var bitmap = new Bitmap(stream))
                 {
-                    small = HIconFromBitmap(bitmap, 32);
-                    big = HIconFromBitmap(bitmap, 64);
+                    small = HIconFromBitmap(bitmap, 32, true);
+                    big = HIconFromBitmap(bitmap, 64, true);
                 }
 
                 if (small == 0 && big == 0)
@@ -720,7 +720,7 @@ namespace Voidstrap.Integrations
             return await Http.ReadBytesBoundedAsync(response.Content, GameIconMaxBytes, CancellationToken.None).ConfigureAwait(false);
         }
 
-        private static nint HIconFromBitmap(Bitmap source, int size)
+        private static nint HIconFromBitmap(Bitmap source, int size, bool rounded = false)
         {
             try
             {
@@ -735,11 +735,32 @@ namespace Voidstrap.Integrations
                     graphics.DrawImage(source, new Rectangle(0, 0, size, size));
                 }
 
+                if (rounded)
+                    RoundBitmapCorners(scaled, size);
+
                 return scaled.GetHicon();
             }
             catch
             {
                 return 0;
+            }
+        }
+
+        private static void RoundBitmapCorners(Bitmap bitmap, int size)
+        {
+            var data = bitmap.LockBits(new Rectangle(0, 0, size, size), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            try
+            {
+                byte[] pixels = new byte[size * size * 4];
+                for (int row = 0; row < size; row++)
+                    Marshal.Copy(data.Scan0 + row * data.Stride, pixels, row * size * 4, size * 4);
+                Raster.RoundCorners(pixels, size, size, size * 0.22f);
+                for (int row = 0; row < size; row++)
+                    Marshal.Copy(pixels, row * size * 4, data.Scan0 + row * data.Stride, size * 4);
+            }
+            finally
+            {
+                bitmap.UnlockBits(data);
             }
         }
 
