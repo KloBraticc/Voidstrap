@@ -250,6 +250,70 @@ namespace Voidstrap.UI.Elements.Dialogs
                 CountUpText.SetValue(RatingText, votes.LikePercent);
         }
 
+        private static readonly HttpClient SubplaceHttp = VpnHttpClient.Create(TimeSpan.FromSeconds(20));
+
+        private bool _subplacesRequested;
+
+        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!ReferenceEquals(e.OriginalSource, Tabs))
+                return;
+            if (SubplacesTab.IsSelected && !_subplacesRequested && !_released)
+            {
+                _subplacesRequested = true;
+                _ = LoadSubplacesAsync(_cts.Token);
+            }
+        }
+
+        private async Task LoadSubplacesAsync(CancellationToken token)
+        {
+            const string LOG_IDENT = "GameDetailDialog::LoadSubplacesAsync";
+
+            SubplaceProgress.Visibility = Visibility.Visible;
+            ShowSubplaceStatus(Strings.Shortcuts_SubplaceLoading);
+            string status = "";
+            bool retry = false;
+            try
+            {
+                using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+                timeout.CancelAfter(TimeSpan.FromSeconds(30));
+                IReadOnlyList<RobloxSubplaces.Place> places = await RobloxSubplaces.GetAsync(SubplaceHttp, _placeId, timeout.Token, _universeId);
+                if (token.IsCancellationRequested)
+                    return;
+                SubplaceList.ItemsSource = places;
+                status = places.Count == 0 ? Strings.Shortcuts_SubplaceEmpty : "";
+            }
+            catch (OperationCanceledException)
+            {
+                if (token.IsCancellationRequested)
+                    return;
+                status = Strings.Shortcuts_SubplaceTimeout;
+                retry = true;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, ex.Message);
+                status = Strings.Shortcuts_SubplaceFailed;
+                retry = true;
+            }
+            if (retry)
+                _subplacesRequested = false;
+            SubplaceProgress.Visibility = Visibility.Collapsed;
+            ShowSubplaceStatus(status);
+        }
+
+        private void ShowSubplaceStatus(string text)
+        {
+            SubplaceStatusText.Text = text;
+            SubplaceStatusText.Visibility = text.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void Subplace_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement { DataContext: RobloxSubplaces.Place place })
+                HomePageViewModel.LaunchPlace(place.Id);
+        }
+
         private void Play_Click(object sender, RoutedEventArgs e) => HomePageViewModel.LaunchPlace(_placeId);
 
         private void ViewPage_Click(object sender, RoutedEventArgs e) => ViewPageRequested?.Invoke(this, EventArgs.Empty);
