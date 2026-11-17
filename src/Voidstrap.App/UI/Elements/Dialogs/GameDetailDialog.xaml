@@ -182,7 +182,7 @@
             <ItemsControl.Template>
               <ControlTemplate TargetType="{x:Type ItemsControl}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True" Focusable="False">
-                  <ItemsPresenter />
+                  <ItemsPresenter Margin="0,0,14,0" />
                 </ScrollViewer>
               </ControlTemplate>
             </ItemsControl.Template>
