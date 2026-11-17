@@ -31,11 +31,12 @@ namespace Voidstrap.UI.ViewModels.Installer
         {
             DownloadsViewModel downloads = DownloadsViewModel.Shared;
             IEnumerable<object> players = downloads.Items.Where(download => download.LaunchMode == LaunchMode.Player);
+            IEnumerable<object> studios = downloads.Items.Where(download => download.LaunchMode == LaunchMode.Studio);
             if (!Voidstrap.Utility.Platform.IsWindows)
-                return [.. players];
+                return [.. players, .. studios];
             if (downloads.ClientItems.Count == 0)
                 downloads.RefreshClassic();
-            return [.. players, .. (downloads.Vr != null ? new object[] { downloads.Vr } : []), .. downloads.ClientItems.Where(client => client.IsInstalled)];
+            return [.. players, .. studios, .. (downloads.Vr != null ? new object[] { downloads.Vr } : []), .. downloads.ClientItems.Where(client => client.IsInstalled)];
         }
 
         public object? CurrentTarget()
@@ -52,19 +53,22 @@ namespace Voidstrap.UI.ViewModels.Installer
                 if (client != null)
                     return client;
             }
+            LaunchMode mode = StudioSelected ? LaunchMode.Studio : LaunchMode.Player;
             if (Voidstrap.Utility.Platform.UsesLinuxHost)
             {
-                bool rosemary = LinuxRuntimeChoice.UsesRosemary(LaunchMode.Player);
+                bool rosemary = LinuxRuntimeChoice.UsesRosemary(mode);
                 DownloadsViewModel.DownloadItem? runtime = downloads.Items.FirstOrDefault(download =>
-                    download.LaunchMode == LaunchMode.Player && download.IsRosemary == rosemary
+                    download.LaunchMode == mode && download.IsRosemary == rosemary
                 );
                 if (runtime != null)
                     return runtime;
             }
-            if (App.Settings.Prop.UseVng && downloads.VngItem is DownloadsViewModel.DownloadItem vng)
+            if (mode == LaunchMode.Player && App.Settings.Prop.UseVng && downloads.VngItem is DownloadsViewModel.DownloadItem vng)
                 return vng;
-            return downloads.Items.FirstOrDefault(download => download.LaunchMode == LaunchMode.Player && !download.IsVng);
+            return downloads.Items.FirstOrDefault(download => download.LaunchMode == mode && !download.IsVng);
         }
+
+        public static bool StudioSelected => App.Settings.Prop.LaunchSelectionIndex == 1;
 
         public static string? TargetTitle(object? target) =>
             target switch
@@ -90,6 +94,7 @@ namespace Voidstrap.UI.ViewModels.Installer
             {
                 case DownloadsViewModel.ClientItem client:
                     App.Settings.Prop.LaunchSelectedClient = client.Code;
+                    App.Settings.Prop.LaunchSelectionIndex = 0;
                     break;
                 case DownloadsViewModel.VrItem:
                     App.Settings.Prop.LaunchSelectedClient = App.SteamVrLaunchClientCode;
@@ -97,10 +102,10 @@ namespace Voidstrap.UI.ViewModels.Installer
                     break;
                 case DownloadsViewModel.DownloadItem download:
                     App.Settings.Prop.LaunchSelectedClient = "";
-                    App.Settings.Prop.LaunchSelectionIndex = 0;
+                    App.Settings.Prop.LaunchSelectionIndex = download.LaunchMode == LaunchMode.Studio ? 1 : 0;
                     if (Voidstrap.Utility.Platform.UsesLinuxHost)
                         LinuxRuntimeChoice.Select(download.LaunchMode, download.RuntimeKey);
-                    if (DownloadsViewModel.Shared.VngItem is DownloadsViewModel.DownloadItem vng)
+                    if (download.LaunchMode == LaunchMode.Player && DownloadsViewModel.Shared.VngItem is DownloadsViewModel.DownloadItem vng)
                         vng.UseVng = download.IsVng;
                     break;
                 default:

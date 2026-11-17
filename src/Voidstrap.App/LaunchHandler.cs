@@ -586,7 +586,7 @@ public static class LaunchHandler
         if (launchMenuDialog.CloseAction == NextAction.LaunchRoblox)
         {
             App.Logger.WriteLine("LaunchHandler::LaunchMenu", "Opening the selected Roblox version");
-            MainWindowViewModel.LaunchTarget(MainWindowViewModel.StoredLaunchClient, false);
+            MainWindowViewModel.LaunchTarget(MainWindowViewModel.StoredLaunchClient, Voidstrap.UI.ViewModels.Installer.LaunchMenuViewModel.StudioSelected);
             return;
         }
         ProcessNextAction(launchMenuDialog.CloseAction);
