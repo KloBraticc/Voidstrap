@@ -6,7 +6,7 @@
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/save.png" alt="preview" width="85%"/>
+  <a><img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/save.png" alt="preview" width="85%"/></a>
 </p>
 
 <p align="center">
