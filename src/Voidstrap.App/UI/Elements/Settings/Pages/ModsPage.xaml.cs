@@ -50,6 +50,36 @@ public partial class ModsPage : UiPage
 
     internal static bool PendingMyModsTab;
 
+    internal static Type? PendingSubPage;
+
+    internal static bool IsSubPage(Type? pageType)
+    {
+        return SubPageTitle(pageType) != null;
+    }
+
+    internal static string? SubPageTitle(Type? pageType)
+    {
+        if (pageType == typeof(OverlaysPage))
+            return Strings.Ui_Mods_Overlays;
+        if (pageType == typeof(ModGeneratorPage))
+            return Strings.Ui_ModGen_ModGenerator;
+        if (pageType == typeof(EmoteManagerPage))
+            return Strings.Ui_EmoteMgr_Title;
+        return null;
+    }
+
+    internal void OpenSubPage(Type pageType)
+    {
+        PendingSubPage = null;
+        UiPage? page =
+            pageType == typeof(OverlaysPage) ? new OverlaysPage(ViewModel)
+            : pageType == typeof(ModGeneratorPage) ? new ModGeneratorPage(ViewModel)
+            : pageType == typeof(EmoteManagerPage) ? new EmoteManagerPage(ViewModel)
+            : null;
+        if (page != null)
+            NavigationService?.Navigate(page);
+    }
+
     internal void ShowMyModsTab()
     {
         PendingMyModsTab = false;
@@ -92,6 +122,8 @@ public partial class ModsPage : UiPage
             _fgWarningTimer.Tick -= FgWarningTimer_Tick;
             _fgWarningTimer.Tick += FgWarningTimer_Tick;
             _fgWarningTimer.Start();
+            if (PendingSubPage is Type pendingSubPage)
+                OpenSubPage(pendingSubPage);
             await ViewModel.InitializeAsync();
         }
         catch (Exception ex)
@@ -128,17 +160,17 @@ public partial class ModsPage : UiPage
 
     private void OpenOverlays_Click(object sender, RoutedEventArgs e)
     {
-        NavigationService?.Navigate(new OverlaysPage(ViewModel));
+        OpenSubPage(typeof(OverlaysPage));
     }
 
     private void OpenModGenerator_Click(object sender, RoutedEventArgs e)
     {
-        NavigationService?.Navigate(new ModGeneratorPage(ViewModel));
+        OpenSubPage(typeof(ModGeneratorPage));
     }
 
     private void OpenEmoteManager_Click(object sender, RoutedEventArgs e)
     {
-        NavigationService?.Navigate(new EmoteManagerPage(ViewModel));
+        OpenSubPage(typeof(EmoteManagerPage));
     }
 
     private void ModsTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)

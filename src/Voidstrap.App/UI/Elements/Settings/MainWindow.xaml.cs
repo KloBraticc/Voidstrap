@@ -2013,7 +2013,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 if (!navigationPages.TryGetValue(option.PageType, out string? pageName))
                 {
-                    continue;
+                    string? subPageTitle = ModsPage.SubPageTitle(option.PageType);
+                    if (subPageTitle == null || !navigationPages.TryGetValue(typeof(ModsPage), out string? hostName))
+                    {
+                        continue;
+                    }
+                    pageName = hostName + " › " + subPageTitle;
                 }
                 string title = SearchCatalog.Resolve(option.TitleToken).Trim();
                 if (title.Length == 0)
@@ -2191,7 +2196,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             ApplyPendingTopSearchEntry();
         }
-        else if (_pendingTopSearchEntry != null)
+        else if (_pendingTopSearchEntry != null && !(page is ModsPage && ModsPage.IsSubPage(_pendingTopSearchEntry.PageType)))
         {
             _pendingTopSearchEntry = null;
         }
@@ -2314,6 +2319,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void NavigateTopSearchEntry(TopSearchEntry entry)
     {
+        if (ModsPage.IsSubPage(entry.PageType))
+        {
+            NavigateSubPageSearchEntry(entry);
+            return;
+        }
         if (!GetSidebarPageNames().ContainsKey(entry.PageType))
         {
             _pendingTopSearchEntry = null;
@@ -2329,6 +2339,33 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         NavigateTopNav(entry.PageType);
+    }
+
+    private void NavigateSubPageSearchEntry(TopSearchEntry entry)
+    {
+        if (!GetSidebarPageNames().ContainsKey(typeof(ModsPage)))
+        {
+            _pendingTopSearchEntry = null;
+            return;
+        }
+        _pendingTopSearchEntry = entry;
+        if (RootFrame.Content?.GetType() == entry.PageType)
+        {
+            Dispatcher.BeginInvoke(new Action(ApplyPendingTopSearchEntry), DispatcherPriority.Loaded);
+            return;
+        }
+        if (RootFrame.Content is ModsPage { IsLoaded: true } modsPage)
+        {
+            modsPage.OpenSubPage(entry.PageType);
+            return;
+        }
+        ModsPage.PendingSubPage = entry.PageType;
+        if (ModsPage.IsSubPage(RootFrame.Content?.GetType()) && RootFrame.CanGoBack)
+        {
+            RootFrame.GoBack();
+            return;
+        }
+        NavigateTopNav(typeof(ModsPage));
     }
 
     private void ApplyPendingTopSearchEntry()
