@@ -65,7 +65,7 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 
 ## Contributors
 
-<a href="https://github.com/KloBraticc/Voidstrap/graphs/contributors">
+<a>
   <img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/contributors.svg" alt="Voidstrap contributors" />
 </a>
 
