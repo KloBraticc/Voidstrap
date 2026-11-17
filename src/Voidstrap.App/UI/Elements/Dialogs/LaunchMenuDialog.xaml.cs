@@ -37,19 +37,6 @@ public partial class LaunchMenuDialog : WpfUiWindow
         foreach (object target in _viewModel.LaunchTargets())
         {
             StackPanel header = new() { Orientation = Orientation.Horizontal };
-            header.Children.Add(
-                new CheckBox
-                {
-                    MinWidth = 0,
-                    MinHeight = 0,
-                    Padding = new Thickness(0),
-                    Margin = new Thickness(0, 0, 10, 0),
-                    VerticalAlignment = VerticalAlignment.Center,
-                    IsHitTestVisible = false,
-                    Focusable = false,
-                    IsChecked = ReferenceEquals(target, current),
-                }
-            );
             ImageSource? icon = LaunchMenuViewModel.TargetIcon(target);
             if (icon != null)
                 header.Children.Add(new Image { Width = 18, Height = 18, Margin = new Thickness(0, 0, 10, 0), Source = icon });
@@ -58,6 +45,8 @@ public partial class LaunchMenuDialog : WpfUiWindow
             {
                 Header = header,
                 Tag = target,
+                IsCheckable = true,
+                IsChecked = ReferenceEquals(target, current),
                 StaysOpenOnClick = true,
             };
             item.Click += LaunchTargetItem_Click;
@@ -92,10 +81,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
         if (chosen.Parent is ItemsControl menu)
         {
             foreach (MenuItem item in menu.Items.OfType<MenuItem>())
-            {
-                if (item.Header is Panel { Children.Count: > 0 } header && header.Children[0] is CheckBox box)
-                    box.IsChecked = ReferenceEquals(item, chosen);
-            }
+                item.IsChecked = ReferenceEquals(item, chosen);
         }
         _menuCloseTimer = new DispatcherTimer { Interval = MenuCloseDelay };
         _menuCloseTimer.Tick += MenuCloseTimer_Tick;
