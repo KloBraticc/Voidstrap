@@ -37,19 +37,56 @@
         </StackPanel>
       </StackPanel>
       <StackPanel Grid.Column="1" Width="285" Margin="0,9,0,0" HorizontalAlignment="Left">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <ui:Button x:Name="LaunchTargetButton" Grid.Column="0" Width="40" Margin="0,0,6,0" Padding="0" VerticalAlignment="Stretch" Appearance="Secondary" Icon="ChevronDown24" TabIndex="0" AutomationProperties.Name="{resources:Loc LaunchMenu_SelectVersion}" ToolTip="{resources:Loc LaunchMenu_SelectVersion}" Click="LaunchTargetButton_Click" />
-          <ui:CardAction Grid.Column="1" Icon="Games28" IconFilled="False" TabIndex="1" Command="{Binding LaunchRobloxCommand, Mode=OneTime}">
-            <StackPanel>
-              <TextBlock FontSize="14" Text="{resources:Loc LaunchMenu_LaunchRoblox}" />
-              <TextBlock Margin="0,2,0,0" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding SelectedTargetName, Mode=OneWay}" />
-            </StackPanel>
-          </ui:CardAction>
-        </Grid>
+        <Border CornerRadius="{DynamicResource ControlCornerRadius}" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" SnapsToDevicePixels="True">
+          <Border.Resources>
+            <Style x:Key="LaunchSplitPartStyle" TargetType="{x:Type Button}">
+              <Setter Property="Cursor" Value="Hand" />
+              <Setter Property="Focusable" Value="True" />
+              <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Part" Background="Transparent" CornerRadius="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" Padding="{TemplateBinding Padding}">
+                      <ContentPresenter VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="Part" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                      </Trigger>
+                      <Trigger Property="IsPressed" Value="True">
+                        <Setter TargetName="Part" Property="Background" Value="{DynamicResource ControlFillColorTertiaryBrush}" />
+                      </Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </Border.Resources>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Padding="14,12,12,12" Tag="4,0,0,4" Style="{StaticResource LaunchSplitPartStyle}" TabIndex="0" AutomationProperties.Name="{resources:Loc LaunchMenu_LaunchRoblox}" Command="{Binding LaunchRobloxCommand, Mode=OneTime}">
+              <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="Games28" FontSize="24" Margin="0,0,14,0" VerticalAlignment="Center" />
+                <StackPanel VerticalAlignment="Center">
+                  <TextBlock FontSize="14" Text="{resources:Loc LaunchMenu_LaunchRoblox}" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding SelectedTargetName, Mode=OneWay}" />
+                </StackPanel>
+              </StackPanel>
+            </Button>
+            <Rectangle Grid.Column="1" Width="1" Margin="0,10" Fill="{DynamicResource CardStrokeColorDefaultBrush}" />
+            <Button x:Name="LaunchTargetButton" Grid.Column="2" Width="44" Padding="0" Tag="0,4,4,0" Style="{StaticResource LaunchSplitPartStyle}" TabIndex="1" AutomationProperties.Name="{resources:Loc LaunchMenu_SelectVersion}" ToolTip="{resources:Loc LaunchMenu_SelectVersion}" Click="LaunchTargetButton_Click">
+              <ui:SymbolIcon x:Name="LaunchTargetChevron" Symbol="ChevronDown24" FontSize="14" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                <ui:SymbolIcon.RenderTransform>
+                  <RotateTransform x:Name="LaunchTargetChevronRotation" Angle="0" />
+                </ui:SymbolIcon.RenderTransform>
+              </ui:SymbolIcon>
+            </Button>
+          </Grid>
+        </Border>
         <Grid Margin="0,8,0,0">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

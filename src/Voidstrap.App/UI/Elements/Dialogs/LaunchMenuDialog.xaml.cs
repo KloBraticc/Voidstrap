@@ -29,6 +29,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
         {
             PlacementTarget = LaunchTargetButton,
             Placement = PlacementMode.Bottom,
+            HorizontalOffset = LaunchTargetButton.ActualWidth,
             VerticalOffset = 4,
         };
         foreach (object target in _viewModel.LaunchTargets())
@@ -49,7 +50,9 @@ public partial class LaunchMenuDialog : WpfUiWindow
             menu.Items.Add(item);
         }
         menu.Closed += LaunchTargetMenu_Closed;
+        menu.Opened += LaunchTargetMenu_Opened;
         menu.IsOpen = true;
+        LaunchTargetChevronRotation.Angle = 180;
     }
 
     private void LaunchTargetItem_Click(object sender, RoutedEventArgs e)
@@ -58,11 +61,19 @@ public partial class LaunchMenuDialog : WpfUiWindow
             _viewModel.SelectTarget(target);
     }
 
+    private void LaunchTargetMenu_Opened(object sender, RoutedEventArgs e)
+    {
+        if (sender is System.Windows.Controls.ContextMenu menu)
+            menu.HorizontalOffset = LaunchTargetButton.ActualWidth - menu.ActualWidth;
+    }
+
     private void LaunchTargetMenu_Closed(object sender, RoutedEventArgs e)
     {
         if (sender is not System.Windows.Controls.ContextMenu menu)
             return;
         menu.Closed -= LaunchTargetMenu_Closed;
+        menu.Opened -= LaunchTargetMenu_Opened;
+        LaunchTargetChevronRotation.Angle = 0;
         foreach (MenuItem item in menu.Items.OfType<MenuItem>())
             item.Click -= LaunchTargetItem_Click;
     }
