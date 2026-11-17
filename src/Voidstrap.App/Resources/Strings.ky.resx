@@ -3729,14 +3729,11 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Эң жогорку сапат</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM сапаты</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM сапатын ашыкча тандаңыз.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM милдеттүү түрдө колдоно турган сапат деңгээлин тандаңыз.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM сапатын жокко чыгаруу</value>
+    <value>FRM сапатын мажбурлоо</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Негизги графикалык жана рендеринг орнотууларын конфигурациялаңыз</value>

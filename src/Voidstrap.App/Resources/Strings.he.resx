@@ -3729,14 +3729,11 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>האיכות הגבוהה ביותר</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>איכות FRM יתרה</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>בחר את איכות FRM באופן ישיר.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>בחר באיזו רמת איכות FRM יחויב להשתמש.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>ביטול איכות FRM</value>
+    <value>כפיית איכות FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>הגדר הגדרות גרפיקה ועיבוד בסיסיות</value>

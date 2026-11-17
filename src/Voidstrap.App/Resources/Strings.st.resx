@@ -3729,14 +3729,11 @@ U ka rata ho etsa eng?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Boleng bo Phahameng ka ho Fetisisa</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM Boleng bo Felletse</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Khetha boleng ba FRM ka kotloloho.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Kgetha boemo ba boleng boo FRM e qobellwang ho bo sebedisa.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM Quality Override</value>
+    <value>Ho qobella boleng ba FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Lokisa litlhophiso tsa mantlha tsa litšoantšo le phetolelo</value>

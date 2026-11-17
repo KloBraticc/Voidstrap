@@ -3729,14 +3729,11 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Ամենաբարձր որակը</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM Quality Overright</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Անմիջապես ընտրեք FRM որակը:</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Ընտրեք որակի այն մակարդակը, որը FRM ը պետք է օգտագործի։</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM որակի անտեսում</value>
+    <value>FRM որակի պարտադրում</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Կազմաձևեք հիմնական գրաֆիկական և մատուցման կարգավորումները</value>

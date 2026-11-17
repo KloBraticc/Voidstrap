@@ -3729,14 +3729,11 @@ Cad ba mhaith leat a dhéanamh?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Caighdeán is airde</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Cáilíocht FRM Overright</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Roghnaigh an caighdeán FRM ceart go leor.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Roghnaigh cén leibhéal cáilíochta a chaithfidh FRM a úsáid.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Sárú Cáilíochta FRM</value>
+    <value>Sárú cáilíochta FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Cumraigh bunsocruithe grafacha agus rindreála</value>

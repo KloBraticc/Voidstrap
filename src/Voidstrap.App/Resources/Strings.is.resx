@@ -3729,14 +3729,11 @@ Hvað myndir þú vilja gera?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Hæstu gæði</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM gæði yfirgnæfandi</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Veldu FRM gæðin beint.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Veldu hvaða gæðastig FRM er neytt til að nota.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM gæðahnekkt</value>
+    <value>Þvingað FRM gæðastig</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Stilltu grunnstillingar fyrir grafík og flutning</value>

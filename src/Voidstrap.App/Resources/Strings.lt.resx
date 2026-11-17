@@ -3980,14 +3980,11 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Aukščiausia kokybė</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM kokybės nepaisymas</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Pasirinkite FRM kokybės nepaisymą.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Pasirinkite, kokį kokybės lygį FRM privalo naudoti.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM kokybės nepaisymas</value>
+    <value>Priverstinė FRM kokybė</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Nustatykite pagrindinius grafikos ir atvaizdavimo nustatymus</value>

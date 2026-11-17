@@ -3729,14 +3729,11 @@ Beth hoffech chi ei wneud?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Ansawdd Uchaf</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Ansawdd FRM Yn Aml</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Dewiswch yr ansawdd FRM dros ben.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Dewiswch pa lefel ansawdd y mae FRM yn cael ei orfodi i'w defnyddio.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Diystyru Ansawdd FRM</value>
+    <value>Gorfodi ansawdd FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Ffurfweddu gosodiadau graffeg a rendro sylfaenol</value>

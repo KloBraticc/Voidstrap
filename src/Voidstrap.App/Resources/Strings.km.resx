@@ -3729,14 +3729,11 @@ Roblox នឹងត្រូវបានទាញយក នៅពេលអ្ន
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>គុណភាពខ្ពស់បំផុត។</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>គុណភាព FRM លើស</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>ជ្រើសរើសគុណភាព FRM ។</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>ជ្រើសរើសកម្រិតគុណភាពដែល FRM ត្រូវបង្ខំឱ្យប្រើ។</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>ការបដិសេធគុណភាព FRM</value>
+    <value>ការបង្ខំគុណភាព FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>កំណត់រចនាសម្ព័ន្ធក្រាហ្វិកមូលដ្ឋាន និងការកំណត់ការបង្ហាញ</value>

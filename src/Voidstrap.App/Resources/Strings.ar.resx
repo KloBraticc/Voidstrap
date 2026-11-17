@@ -3975,11 +3975,8 @@
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>أعلى جودة</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>تجاوز جودة FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>اختر تجاوز جودة FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>اختر مستوى الجودة الذي يُفرض على FRM استخدامه.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>تجاوز جودة FRM</value>

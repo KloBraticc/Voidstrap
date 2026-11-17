@@ -3938,14 +3938,11 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>คุณภาพสูงสุด</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>แทนที่คุณภาพ FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>เลือกการแทนที่คุณภาพ FRM</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>เลือกระดับคุณภาพที่จะบังคับให้ FRM ใช้</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>การแทนที่คุณภาพ FRM</value>
+    <value>บังคับคุณภาพ FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>ตั้งค่ากราฟิกและการเรนเดอร์พื้นฐาน</value>

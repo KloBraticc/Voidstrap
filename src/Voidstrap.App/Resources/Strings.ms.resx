@@ -3907,14 +3907,11 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Kualiti tertinggi</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Penggantian kualiti FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Pilih penggantian kualiti FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Pilih tahap kualiti yang wajib digunakan oleh FRM.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Penggantian kualiti FRM</value>
+    <value>Paksa kualiti FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Tetapkan tetapan asas grafik dan pemaparan</value>

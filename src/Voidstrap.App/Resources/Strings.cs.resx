@@ -3926,14 +3926,11 @@ Co chcete udělat?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Nejvyšší kvalita</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Přepsání kvality FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Vyberte přepsání kvality FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Zvolte úroveň kvality, kterou bude FRM nuceně používat.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Přepsání kvality FRM</value>
+    <value>Vynucená kvalita FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Nastavte základní grafiku a vykreslování</value>

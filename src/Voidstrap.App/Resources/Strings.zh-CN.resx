@@ -3967,11 +3967,8 @@ Voidstrap 的安装路径是：
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>最高画质</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM 画质覆盖</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>请选择 FRM 画质覆盖。</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>选择强制 FRM 使用的画质等级。</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>FRM 画质覆盖</value>

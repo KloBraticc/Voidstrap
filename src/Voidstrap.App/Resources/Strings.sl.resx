@@ -3729,14 +3729,11 @@ Kaj bi rad počel?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Najvišja kakovost</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Kakovost FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Pravilno izberite kakovost FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Izberite raven kakovosti, ki jo mora uporabljati FRM.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Preglasitev kakovosti FRM</value>
+    <value>Vsiljena kakovost FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Konfigurirajte osnovne nastavitve grafike in upodabljanja</value>

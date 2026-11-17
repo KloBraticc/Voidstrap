@@ -3729,11 +3729,8 @@ Roblox நீங்கள் முதல்முறையாகVoidstrap ம�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>மிக உயர்ந்த தரம்</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM தரம் ஓவர்ரைட்</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM தரத்தை நேரடியாக தேர்வு செய்யவும்.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM கட்டாயமாகப் பயன்படுத்த வேண்டிய தர நிலையைத் தேர்ந்தெடுக்கவும்.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>FRM தர மேலெழுதல்</value>

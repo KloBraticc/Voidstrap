@@ -3729,11 +3729,8 @@ Roblox ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾਵੇਗਾ ਜਦੋ
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>ਉੱਚ ਗੁਣਵੱਤਾ</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM ਗੁਣਵੱਤਾ ਓਵਰਰਾਈਟ</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM ਗੁਣਵੱਤਾ ਓਵਰਰਾਈਟ ਚੁਣੋ।</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>ਚੁਣੋ ਕਿ FRM ਨੂੰ ਕਿਹੜਾ ਗੁਣਵੱਤਾ ਪੱਧਰ ਵਰਤਣ ਲਈ ਮਜਬੂਰ ਕੀਤਾ ਜਾਵੇ।</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>FRM ਗੁਣਵੱਤਾ ਓਵਰਰਾਈਡ</value>

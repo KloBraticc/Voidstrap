@@ -3956,14 +3956,11 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>최고 품질</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM 품질 재정의</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM 품질 재정의를 선택합니다.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM이 강제로 사용할 품질 수준을 선택하십시오.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM 품질 재정의</value>
+    <value>FRM 품질 강제 설정</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>기본 그래픽 및 렌더링 설정</value>

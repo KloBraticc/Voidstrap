@@ -3729,14 +3729,11 @@ Ko jūs vēlētos darīt?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Augstākā kvalitāte</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Pilnīga FRM kvalitāte</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Izvēlieties FRM kvalitāti tieši.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Izvēlies, kuru kvalitātes līmeni FRM ir jāizmanto.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM kvalitātes ignorēšana</value>
+    <value>FRM kvalitātes piespiedu iestatījums</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Konfigurējiet pamata grafikas un renderēšanas iestatījumus</value>

@@ -3729,14 +3729,11 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Cilësia më e lartë</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>E drejta e cilësisë FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Zgjidhni cilësinë FRM drejtpërsëdrejti.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Zgjidh cilin nivel cilësie duhet të përdorë FRM.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Mbështetja e cilësisë FRM</value>
+    <value>Detyrimi i cilësisë FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Konfiguro cilësimet bazë grafike dhe rendering</value>

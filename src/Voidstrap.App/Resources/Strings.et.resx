@@ -3729,14 +3729,11 @@ Mida sa teha tahaksid?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Kõrgeim kvaliteet</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Ülevaade FRM-i kvaliteedist</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Valige otse FRM-i kvaliteet.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Vali, millist kvaliteeditaset FRM peab kasutama.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM-i kvaliteedi alistamine</value>
+    <value>FRM kvaliteedi alistamine</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Konfigureerige põhilised graafika- ja renderdusseaded</value>

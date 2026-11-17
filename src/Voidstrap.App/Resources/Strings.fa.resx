@@ -3984,14 +3984,11 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>بیشترین کیفیت</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>جایگزینی کیفیت FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>جایگزینی کیفیت FRM را انتخاب کنید.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>سطح کیفیتی را که FRM باید ناچار از آن استفاده کند انتخاب کنید.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>جایگزینی کیفیت FRM</value>
+    <value>تحمیل کیفیت FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>تنظیمات پایه گرافیک و رندر</value>

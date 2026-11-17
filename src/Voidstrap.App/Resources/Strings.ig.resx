@@ -3729,14 +3729,11 @@ Kedu ihe ị ga-achọ ime?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Ogo kachasị elu</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Ogo FRM zuru oke</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Họrọ mma FRM nke ọma.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Họrọ ọkwa ogo a ga-amanye FRM iji.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Mbuchapụ ogo FRM</value>
+    <value>Mmanye ogo FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Hazie ntọala eserese na nhazi</value>

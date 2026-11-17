@@ -3729,14 +3729,11 @@ Wat géift Dir gären maachen?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Héchste Qualitéit</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM Qualitéit Overright</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Wielt d'FRM Qualitéit iwwerrecht.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Wiel, wéi eng Qualitéitsstuf FRM benotze muss.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM Qualitéit Iwwerschreiden</value>
+    <value>FRM Qualitéit forcéieren</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Basis Grafik- a Rendering-Astellunge konfiguréieren</value>

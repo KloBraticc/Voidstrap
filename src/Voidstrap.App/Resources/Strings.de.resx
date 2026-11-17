@@ -3874,14 +3874,11 @@ Was möchtest du tun?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Höchste Qualität</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM-Qualitätsüberschreibung</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Wähle die FRM-Qualitätsüberschreibung.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Wähle, welche Qualitätsstufe FRM verwenden muss.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM-Qualitätsüberschreibung</value>
+    <value>FRM Qualität erzwingen</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Grundlegende Grafik- und Rendereinstellungen konfigurieren</value>

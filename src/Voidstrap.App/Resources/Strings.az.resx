@@ -3729,14 +3729,11 @@ Nə etmək istərdiniz?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Ən yüksək keyfiyyət</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM Keyfiyyəti Üstünlük</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Üstündən FRM keyfiyyətini seçin.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM in istifadə etməli olduğu keyfiyyət səviyyəsini seçin.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM Keyfiyyətinin ləğvi</value>
+    <value>FRM keyfiyyətinin məcburi təyini</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Əsas qrafik və render parametrlərini konfiqurasiya edin</value>

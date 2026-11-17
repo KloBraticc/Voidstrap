@@ -3729,14 +3729,11 @@ Roblox будзе спампаваны пры першым запуску пра
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Самая высокая якасць</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Якасць FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Выберыце якасць FRM прама.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Выберыце ўзровень якасці, які FRM будзе выкарыстоўваць прымусова.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Перавызначэнне якасці FRM</value>
+    <value>Прымусовая якасць FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Наладзьце асноўныя параметры графікі і рэндэрынгу</value>

@@ -3729,14 +3729,11 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>ከፍተኛ ጥራት</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>የFRM ጥራት በትክክል</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>የFRM ጥራትን በትክክል ይምረጡ።</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM እንዲጠቀም የሚገደደውን የጥራት ደረጃ ይምረጡ።</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>የFRM ጥራት መሻር</value>
+    <value>የFRM ጥራት መሻሪያ</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>መሰረታዊ የግራፊክ እና የማሳያ ቅንብሮችን ያዋቅሩ</value>

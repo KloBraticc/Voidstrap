@@ -3729,14 +3729,11 @@ Roblox به ډاونلوډ شي کله چې تاسو د لومړي ځل لپار
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>لوړ کیفیت</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>د FRM کیفیت په سمه توګه</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>د FRM کیفیت په سمه توګه غوره کړئ.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>هغه کیفیت کچه وټاکئ چې FRM یې باید وکاروي.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>د FRM کیفیت پورته کول</value>
+    <value>د FRM کیفیت اجباري کول</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>بنسټیز ګرافیک او رینډینګ ترتیبات تنظیم کړئ</value>

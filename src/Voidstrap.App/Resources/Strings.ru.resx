@@ -3948,14 +3948,11 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Самое высокое качество</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Переопределение качества FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Выберите переопределение качества FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Выберите уровень качества, который FRM будет использовать принудительно.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Переопределение качества FRM</value>
+    <value>Принудительное качество FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Основные настройки графики и рендеринга</value>

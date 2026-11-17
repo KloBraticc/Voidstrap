@@ -3729,14 +3729,11 @@ Roblox ଡାଉନଲୋଡ୍ ହେବ | ଲଞ୍ଚ କରିବା ପୂ�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>ସର୍ବୋଚ୍ଚ ଗୁଣ</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM ଗୁଣବତ୍ତା ସଠିକ୍ |</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM ଗୁଣବତ୍ତା ସଠିକ୍ ଭାବରେ ବାଛନ୍ତୁ |</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM କୁ କେଉଁ ଗୁଣବତ୍ତା ସ୍ତର ବ୍ୟବହାର କରିବାକୁ ବାଧ୍ୟ କରାଯିବ ବାଛନ୍ତୁ।</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM ଗୁଣବତ୍ତା ଅତିକ୍ରମ କରନ୍ତୁ |</value>
+    <value>FRM ଗୁଣବତ୍ତା ଓଭରରାଇଡ</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>ମ basic ଳିକ ଗ୍ରାଫିକ୍ ଏବଂ ରେଣ୍ଡରିଂ ସେଟିଂସମୂହକୁ ବିନ୍ୟାସ କରନ୍ତୁ |</value>

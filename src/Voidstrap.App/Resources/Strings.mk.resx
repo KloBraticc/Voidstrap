@@ -3729,14 +3729,11 @@ Roblox ќе се преземе кога ќе го стартувате прек
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Највисок квалитет</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Квалитет на FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Одберете го квалитетот на FRM директно.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Изберете кое ниво на квалитет FRM мора да го користи.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Надминување на квалитетот на FRM</value>
+    <value>Принуден квалитет на FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Конфигурирајте ги основните поставки за графика и рендерирање</value>

@@ -3729,14 +3729,11 @@ Roblox ჩამოიტვირთება, როდესაც მას 
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>უმაღლესი ხარისხი</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM ხარისხის Overright</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>სწორად აირჩიეთ FRM ხარისხი.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>აირჩიეთ ხარისხის დონე, რომლის გამოყენებაც FRM ს მოუწევს.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM ხარისხის უგულებელყოფა</value>
+    <value>FRM ხარისხის იძულებითი დაყენება</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>ძირითადი გრაფიკული და რენდერის პარამეტრების კონფიგურაცია</value>

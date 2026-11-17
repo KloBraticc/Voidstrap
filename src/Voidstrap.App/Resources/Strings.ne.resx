@@ -3729,11 +3729,8 @@ Roblox पहिलो पटकVoidstrap मार्फत लन्च गर
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>उच्चतम गुणस्तर</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM गुणस्तर ओभरराइट</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM गुणस्तर ओभरराइट छान्नुहोस्।</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM लाई कुन गुणस्तर प्रयोग गर्न बाध्य पार्ने हो छान्नुहोस्।</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>FRM गुणस्तर ओभरराइड</value>

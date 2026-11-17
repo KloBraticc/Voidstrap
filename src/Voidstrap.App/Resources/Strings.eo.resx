@@ -3729,14 +3729,11 @@ Kion vi ŝatus fari?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Plej alta Kvalito</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Superkvalito de FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Elektu la superkvalitan FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Elektu kiun kvalitnivelon FRM devas uzi.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM Quality Override</value>
+    <value>Altrudo de FRM kvalito</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Agordu bazajn grafikajn kaj bildigajn agordojn</value>

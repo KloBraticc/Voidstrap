@@ -3719,14 +3719,11 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Pinakamataas na kalidad</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Override ng kalidad ng FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Piliin ang override ng kalidad ng FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Piliin kung anong antas ng kalidad ang pipiliting gamitin ng FRM.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Override ng kalidad ng FRM</value>
+    <value>Pag override sa kalidad ng FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>I set up ang mga pangunahing setting ng graphics at rendering</value>

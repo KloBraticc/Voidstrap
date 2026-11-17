@@ -3729,14 +3729,11 @@ Näme etmek isleýärsiňiz?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Iň ýokary hil</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM hili</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM hilini göni saýlaň.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM iň ulanmaly hil derejesini saýlaň.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM hiliniň ýokaşmagy</value>
+    <value>FRM hiliniň mejbury sazlamasy</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Esasy grafiki we görkeziş sazlamalaryny düzüň</value>

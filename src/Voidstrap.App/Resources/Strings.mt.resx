@@ -3729,14 +3729,11 @@ X'tixtieq tagħmel?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>L-ogħla kwalità</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM Kwalità Overright</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Agħżel il-kwalità tal-FRM overright.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Agħżel liema livell ta' kwalità FRM għandu jintuża bilfors.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM Kwalità Override</value>
+    <value>Infurzar tal kwalità FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Ikkonfigura s-settings bażiċi tal-grafika u tar-rendi</value>

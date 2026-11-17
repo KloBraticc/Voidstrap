@@ -3926,14 +3926,11 @@ Ce vrei să faci?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Cea mai mare calitate</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Suprascriere calitate FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Alege suprascrierea calității FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Alege ce nivel de calitate trebuie să folosească FRM.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Suprascriere calitate FRM</value>
+    <value>Forțarea calității FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Configurează setările de bază pentru grafică și randare</value>

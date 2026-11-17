@@ -3729,14 +3729,11 @@ Yini ongathanda ukuyenza?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Ikhwalithi ephezulu kakhulu</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Ikhwalithi ye-FRM iqondile</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Khetha ikhwalithi ye-FRM ngokuqondile.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Khetha izinga lekhwalithi i FRM ephoqelelwa ukulisebenzisa.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Ukukhishwa Kwekhwalithi ye-FRM</value>
+    <value>Ukuphoqelela ikhwalithi ye FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Lungiselela izilungiselelo eziyisisekelo zesithombe nokunikezela</value>

@@ -3729,14 +3729,11 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>اعلي معيار</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM معيار تي صحيح</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>منتخب ڪريو FRM معيار مٿي.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>چونڊيو ته FRM کي ڪهڙي معيار جي سطح استعمال ڪرڻ لاءِ مجبور ڪيو وڃي.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM معيار اوور رائڊ</value>
+    <value>FRM معيار اوور رائيڊ</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>بنيادي گرافڪ ۽ رينڊرنگ سيٽنگون ترتيب ڏيو</value>

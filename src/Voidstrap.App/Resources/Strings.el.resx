@@ -3729,14 +3729,11 @@
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Υψηλότερη Ποιότητα</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Ποιότητα FRM Overright</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Επιλέξτε σωστά την ποιότητα FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Επιλέξτε το επίπεδο ποιότητας που θα χρησιμοποιεί υποχρεωτικά το FRM.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Παράκαμψη ποιότητας FRM</value>
+    <value>Επιβολή ποιότητας FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Διαμορφώστε τις βασικές ρυθμίσεις γραφικών και απόδοσης</value>

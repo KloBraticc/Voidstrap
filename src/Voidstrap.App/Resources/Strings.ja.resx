@@ -3969,11 +3969,8 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>最高品質</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM 品質の上書き</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM 品質の上書きを選択してください。</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM に強制的に使用させる品質レベルを選択してください。</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>FRM 品質の上書き</value>

@@ -3729,14 +3729,11 @@ Que che gustaría facer?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Máxima calidade</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Supervisión da calidade de FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Escolla a calidade de FRM de forma alternativa.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Escolle que nivel de calidade debe usar FRM.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Anulación da calidade de FRM</value>
+    <value>Forzar a calidade de FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Configure os axustes básicos de representación e gráficos</value>

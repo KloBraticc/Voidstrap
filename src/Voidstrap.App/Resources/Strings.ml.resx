@@ -3729,14 +3729,11 @@ Roblox നിങ്ങൾ ആദ്യമായിVoidstrap വഴി ലോഞ�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>ഏറ്റവും ഉയർന്ന നിലവാരം</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM ഗുണനിലവാരം ഓവർറൈറ്റ്</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM നിലവാരം നേരിട്ട് തിരഞ്ഞെടുക്കുക.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM നിർബന്ധമായി ഉപയോഗിക്കേണ്ട ഗുണനിലവാര നില തിരഞ്ഞെടുക്കുക.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM ഗുണനിലവാരം അസാധുവാക്കുന്നു</value>
+    <value>FRM ഗുണനിലവാര ഓവർറൈഡ്</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>അടിസ്ഥാന ഗ്രാഫിക്, റെൻഡറിംഗ് ക്രമീകരണങ്ങൾ കോൺഫിഗർ ചെയ്യുക</value>

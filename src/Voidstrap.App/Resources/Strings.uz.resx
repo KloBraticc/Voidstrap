@@ -3729,14 +3729,11 @@ Nima qilishni xohlaysiz?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Eng yuqori sifat</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM sifati ustidan huquq</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM sifatini o'ngdan tanlang.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM majburan ishlatadigan sifat darajasini tanlang.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM sifatini bekor qilish</value>
+    <value>FRM sifatini majburlash</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Asosiy grafik va renderlash sozlamalarini sozlang</value>

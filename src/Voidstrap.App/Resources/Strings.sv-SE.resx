@@ -3904,14 +3904,11 @@ Vad vill du göra?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Högsta kvalitet</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Åsidosätt FRM-kvalitet</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Välj vilken FRM-kvalitet som ska åsidosättas.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Välj vilken kvalitetsnivå FRM ska tvingas använda.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Åsidosätt FRM-kvalitet</value>
+    <value>Tvingad FRM kvalitet</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Ställ in grundläggande grafik och rendering</value>

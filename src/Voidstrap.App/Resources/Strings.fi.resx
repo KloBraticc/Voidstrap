@@ -3938,14 +3938,11 @@ Mitä haluat tehdä?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Korkein laatu</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM-laadun ohitus</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Valitse FRM-laadun ohitus.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Valitse, mitä laatutasoa FRM pakotetaan käyttämään.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM-laadun ohitus</value>
+    <value>FRM laadun pakotus</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Määritä grafiikan ja renderöinnin perusasetukset</value>

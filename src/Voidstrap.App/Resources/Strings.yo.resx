@@ -3729,14 +3729,11 @@ Kini iwọ yoo fẹ lati ṣe?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Didara ti o ga julọ</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Didara FRM Aṣeju</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Yan didara FRM taara.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Yan ìpele dídára tí FRM gbọ́dọ̀ lò.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM Didara idojuk</value>
+    <value>Ìfipá mú dídára FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Ṣe atunto ayaworan ipilẹ ati awọn eto ṣiṣe</value>

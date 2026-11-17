@@ -3946,14 +3946,11 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Най-високо качество</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Замяна на качеството FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Изберете замяната на качеството FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Изберете нивото на качество, което FRM да използва принудително.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Замяна на качеството FRM</value>
+    <value>Принудително качество на FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Основни настройки на графиката и рендерирането</value>

@@ -3729,14 +3729,11 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Хамгийн дээд чанар</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM-ийн чанарын давуу эрх</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM чанарыг сонгоорой.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM заавал ашиглах чанарын түвшинг сонгоно уу.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM чанарыг хүчингүй болгох</value>
+    <value>FRM чанарыг хүчээр тохируулах</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Үндсэн график болон дүрслэх тохиргоог тохируулна уу</value>

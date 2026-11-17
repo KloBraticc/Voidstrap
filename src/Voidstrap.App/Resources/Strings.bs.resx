@@ -3729,14 +3729,11 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Najviša kvaliteta</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Kvalitet FRM je u pravu</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Odaberite FRM kvalitetu ispravno.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Odaberi nivo kvaliteta koji FRM mora koristiti.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM Quality Override</value>
+    <value>Nametanje FRM kvaliteta</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Konfigurirajte osnovne postavke grafike i renderiranja</value>

@@ -3945,14 +3945,11 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Najviša kvaliteta</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Nadjačavanje kvalitete FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Odaberi nadjačavanje kvalitete FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Odaberi razinu kvalitete koju FRM mora koristiti.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Nadjačavanje kvalitete FRM</value>
+    <value>Nametanje FRM kvalitete</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Postavi osnovne postavke grafike i iscrtavanja</value>

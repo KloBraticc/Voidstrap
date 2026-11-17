@@ -4040,11 +4040,8 @@ What would you like to do?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Highest Quality</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM Quality Overright</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Choose the FRM quality overright.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Choose which quality level FRM is forced to use.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>FRM Quality Override</value>

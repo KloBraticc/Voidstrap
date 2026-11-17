@@ -780,9 +780,7 @@ namespace Voidstrap.Resources {
 
         public static string Ui_FastFlags_HighestQuality => ResourceManager.GetString("Ui.FastFlags.HighestQuality", resourceCulture);
 
-        public static string Ui_FastFlags_FRMQualityOverright => ResourceManager.GetString("Ui.FastFlags.FRMQualityOverright", resourceCulture);
-
-        public static string Ui_FastFlags_ChooseTheFRMQualityOverright => ResourceManager.GetString("Ui.FastFlags.ChooseTheFRMQualityOverright", resourceCulture);
+        public static string Ui_FastFlags_FRMQualityOverride_Description => ResourceManager.GetString("Ui.FastFlags.FRMQualityOverride.Description", resourceCulture);
 
         public static string Ui_FastFlags_FRMQualityOverride => ResourceManager.GetString("Ui.FastFlags.FRMQualityOverride", resourceCulture);
 

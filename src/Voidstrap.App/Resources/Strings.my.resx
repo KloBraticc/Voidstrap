@@ -3729,14 +3729,11 @@ Roblox သည် ၎င်းကိုVoidstrap မှတစ်ဆင့် ပ�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>အမြင့်ဆုံးအရည်အသွေး</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM အရည်အသွေး လွန်ကဲသည်။</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM အရည်အသွေးကို မှန်ကန်စွာရွေးချယ်ပါ။</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM အသုံးပြုရမည့် အရည်အသွေးအဆင့်ကို ရွေးချယ်ပါ။</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM အရည်အသွေးကို ထပ်လောင်းပါ။</value>
+    <value>FRM အရည်အသွေး အတင်းသတ်မှတ်ခြင်း</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>အခြေခံဂရပ်ဖစ်နှင့် တင်ဆက်ခြင်းဆက်တင်များကို စီစဉ်သတ်မှတ်ပါ။</value>

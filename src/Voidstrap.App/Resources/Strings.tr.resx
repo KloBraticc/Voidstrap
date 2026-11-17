@@ -3938,14 +3938,11 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>En yüksek kalite</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM kalitesini geçersiz kıl</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM kalitesi geçersiz kılma değerini seçin.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM nin kullanmaya zorlanacağı kalite seviyesini seçin.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM kalitesini geçersiz kılma</value>
+    <value>FRM kalitesini zorla</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Temel grafik ve işleme ayarlarını yapılandırın</value>

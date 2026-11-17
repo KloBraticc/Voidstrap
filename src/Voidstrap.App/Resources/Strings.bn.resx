@@ -3729,14 +3729,11 @@ Roblox ডাউনলোড করা হবে যখন আপনি এট�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>সর্বোচ্চ গুণমান</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM গুণমান ওভাররাইট</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>ওভাররাইট FRM গুণমান চয়ন করুন.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM কে কোন মানের স্তর ব্যবহার করতে বাধ্য করা হবে তা বেছে নিন।</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM গুণমান ওভাররাইড</value>
+    <value>FRM মান ওভাররাইড</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>মৌলিক গ্রাফিক এবং রেন্ডারিং সেটিংস কনফিগার করুন</value>

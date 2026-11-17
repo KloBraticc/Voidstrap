@@ -3729,11 +3729,8 @@ Roblox ડાઉનલોડ થશે જ્યારે તમે તેને
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>સર્વોચ્ચ ગુણવત્તા</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM ગુણવત્તા ઓવરરાઇટ</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM ગુણવત્તા ઉપરથી પસંદ કરો.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM ને કયું ગુણવત્તા સ્તર વાપરવા દબાણ કરવું તે પસંદ કરો.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>FRM ગુણવત્તા ઓવરરાઇડ</value>

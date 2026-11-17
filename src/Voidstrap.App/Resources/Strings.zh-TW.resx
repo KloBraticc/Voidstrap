@@ -3946,11 +3946,8 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>最高畫質</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM 畫質覆寫</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>請選擇 FRM 畫質覆寫。</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>選擇要強制 FRM 使用的畫質等級。</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>FRM 畫質覆寫</value>

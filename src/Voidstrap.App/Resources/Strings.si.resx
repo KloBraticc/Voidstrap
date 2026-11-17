@@ -3729,14 +3729,11 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>ඉහළම ගුණාත්මකභාවය</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM ගුණාත්මක භාවය සම්පූර්ණයෙන්ම</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM ගුණාත්මක භාවය සම්පූර්ණයෙන්ම තෝරන්න.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM හට බලෙන් භාවිත කිරීමට සිදුවන ගුණාත්මක මට්ටම තෝරන්න.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM තත්ත්ව අභිබවා යාම</value>
+    <value>FRM ගුණාත්මක අභිබවනය</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>මූලික ග්‍රැෆික් සහ විදැහුම්කරණ සැකසුම් වින්‍යාස කරන්න</value>

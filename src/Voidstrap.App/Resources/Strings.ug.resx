@@ -3729,14 +3729,11 @@ Roblox تۇنجى قېتىمVoidstrap ئارقىلىق چىقارغاندا چۈ
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>ئەڭ يۇقىرى سۈپەت</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM سۈپەت ئۈستى ئوچۇق</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM سۈپىتىنى بىۋاسىتە تاللاڭ.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM مەجبۇرىي ئىشلىتىدىغان سۈپەت دەرىجىسىنى تاللاڭ.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM سۈپەت قاپلاش</value>
+    <value>FRM سۈپىتىنى مەجبۇرىي بەلگىلەش</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>ئاساسىي گرافىك ۋە كۆرسىتىش تەڭشەكلىرىنى سەپلەڭ</value>

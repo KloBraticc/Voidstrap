@@ -3942,11 +3942,8 @@ Mit szeretnél tenni?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Legmagasabb minőség</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM minőség felülírása</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Válaszd ki az FRM minőség felülírását.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Válaszd ki, melyik minőségi szintet kell használnia az FRM nek.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>FRM minőség felülírása</value>

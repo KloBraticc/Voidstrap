@@ -3729,14 +3729,11 @@ Urashaka gukora iki?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Ubwiza buhebuje</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Ubwiza bwa FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Hitamo ubuziranenge bwa FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Hitamo urwego rw'ubwiza FRM igomba gukoresha.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Ubuziranenge bwa FRM</value>
+    <value>Guhatira ubwiza bwa FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Kugena ibishushanyo mbonera no gutanga igenamiterere</value>

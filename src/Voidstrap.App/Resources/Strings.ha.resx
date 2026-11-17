@@ -3729,14 +3729,11 @@ Me kuke so ku yi?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Mafi Girma</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Ingantaccen ingancin FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Zaɓi ingancin FRM kai tsaye.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Zaɓi matakin ingancin da za a tilasta FRM ya yi amfani da shi.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Ingantaccen Ingantaccen FRM</value>
+    <value>Tilasta ingancin FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Sanya saitunan hoto na asali da ma'ana</value>

@@ -117,8 +117,8 @@
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
-            <TextBlock FontSize="14" Text="{resources:Loc Ui_FastFlags_FRMQualityOverright}" />
-            <TextBlock FontSize="12" Text="{resources:Loc Ui_FastFlags_ChooseTheFRMQualityOverright}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            <TextBlock FontSize="14" Text="{resources:Loc Ui_FastFlags_FRMQualityOverride}" />
+            <TextBlock FontSize="12" Text="{resources:Loc Ui_FastFlags_FRMQualityOverride_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
           </StackPanel>
           <ui:ToggleSwitch Grid.Column="1" AutomationProperties.Name="{resources:Loc Ui_FastFlags_FRMQualityOverride}" IsChecked="{Binding FRMQualityOverrideEnabled, Mode=TwoWay}" />
         </Grid>

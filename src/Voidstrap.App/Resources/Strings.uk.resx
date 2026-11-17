@@ -3956,14 +3956,11 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Найвища якість</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Перевизначення якості FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Виберіть перевизначення якості FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Виберіть рівень якості, який FRM використовуватиме примусово.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Перевизначення якості FRM</value>
+    <value>Примусова якість FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Основні налаштування графіки та рендерингу</value>

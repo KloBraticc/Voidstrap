@@ -3729,14 +3729,11 @@ Wat wil jy graag doen?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Hoogste kwaliteit</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM kwaliteit oorheers</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Kies die FRM kwaliteit reguit.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Kies watter kwaliteitsvlak FRM moet gebruik.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM Kwaliteit Override</value>
+    <value>FRM kwaliteit oorskrywing</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Stel basiese grafiese en weergawe-instellings op</value>

@@ -3729,14 +3729,11 @@ Je, ungependa kufanya nini?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Ubora wa Juu</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Ubora wa FRM Ukamilifu</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Chagua ubora wa FRM moja kwa moja.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Chagua kiwango cha ubora ambacho FRM inalazimishwa kutumia.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Ubatizo wa Ubora wa FRM</value>
+    <value>Kulazimisha ubora wa FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Sanidi mipangilio ya msingi ya picha na uwasilishaji</value>

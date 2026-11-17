@@ -3729,14 +3729,11 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Сифати баландтарин</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Сифати FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Сифати FRM-ро рост интихоб кунед.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Сатҳи сифатеро интихоб кунед, ки FRM бояд истифода барад.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Бекор кардани сифати FRM</value>
+    <value>Маҷбурии сифати FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Танзимоти асосии графикӣ ва намоишро танзим кунед</value>

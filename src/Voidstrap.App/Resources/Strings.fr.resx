@@ -3867,14 +3867,11 @@ Que souhaitez-vous faire ?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Qualité la plus haute</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Remplacement de qualité FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Choisissez le remplacement de qualité FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Choisissez le niveau de qualité que FRM doit utiliser.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Remplacement de qualité FRM</value>
+    <value>Forcer la qualité FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Configurez les paramètres graphiques et de rendu de base</value>

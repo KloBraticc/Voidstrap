@@ -3952,11 +3952,8 @@ Bạn muốn làm gì?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Chất lượng cao nhất</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Ghi đè chất lượng FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Chọn mức ghi đè chất lượng FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Chọn mức chất lượng mà FRM buộc phải dùng.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
     <value>Ghi đè chất lượng FRM</value>

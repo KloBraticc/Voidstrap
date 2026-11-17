@@ -3729,14 +3729,11 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Najvyššia kvalita</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Kvalita FRM Overright</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Vyberte kvalitu FRM úplne.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Vyberte úroveň kvality, ktorú bude FRM nútene používať.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Prepísanie kvality FRM</value>
+    <value>Vynútená kvalita FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Nakonfigurujte základné nastavenia grafiky a vykresľovania</value>

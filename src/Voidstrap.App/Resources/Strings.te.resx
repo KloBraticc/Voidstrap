@@ -3729,14 +3729,11 @@ Roblox డౌన్లోడ్ చేయబడుతుంది. మీరు 
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>అత్యధిక నాణ్యత</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM నాణ్యత ఓవర్రైట్</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>FRM నాణ్యతను పూర్తిగా ఎంచుకోండి.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>FRM తప్పనిసరిగా ఉపయోగించాల్సిన నాణ్యత స్థాయిని ఎంచుకోండి.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>FRM నాణ్యత ఓవర్రైడ్</value>
+    <value>FRM నాణ్యత ఓవర్‌రైడ్</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>ప్రాథమిక గ్రాఫిక్ మరియు రెండరింగ్ సెట్టింగ్లను కాన్ఫిగర్ చేయండి</value>

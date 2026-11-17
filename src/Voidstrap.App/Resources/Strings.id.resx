@@ -3900,14 +3900,11 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Kualitas tertinggi</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Penimpaan kualitas FRM</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Pilih penimpaan kualitas FRM.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Pilih tingkat kualitas yang wajib digunakan FRM.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Penimpaan kualitas FRM</value>
+    <value>Penggantian kualitas FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Atur pengaturan dasar grafis dan rendering</value>

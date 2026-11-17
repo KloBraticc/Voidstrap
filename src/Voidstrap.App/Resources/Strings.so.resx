@@ -3729,14 +3729,11 @@ Maxaad jeclaan lahayd inaad samayso?</value>
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>Tayada ugu Saraysa</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>Tayada FRM ee toosan</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>Si toos ah u door tayada FRM</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>Dooro heerka tayada ee FRM lagu qasbayo inuu isticmaalo.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>Tayada FRM ka-dhaafitaan</value>
+    <value>Ku qasbidda tayada FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>Habee jaantusyada aasaasiga ah iyo qaabaynta</value>

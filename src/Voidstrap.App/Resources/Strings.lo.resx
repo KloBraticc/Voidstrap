@@ -3729,14 +3729,11 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
   <data name="Ui.FastFlags.HighestQuality" xml:space="preserve">
     <value>ຄຸນະພາບສູງສຸດ</value>
   </data>
-  <data name="Ui.FastFlags.FRMQualityOverright" xml:space="preserve">
-    <value>FRM ຄຸນະພາບເກີນ</value>
-  </data>
-  <data name="Ui.FastFlags.ChooseTheFRMQualityOverright" xml:space="preserve">
-    <value>ເລືອກຄຸນນະພາບ FRM ແທນ.</value>
+  <data name="Ui.FastFlags.FRMQualityOverride.Description" xml:space="preserve">
+    <value>ເລືອກລະດັບຄຸນນະພາບທີ່ FRM ຖືກບັງຄັບໃຫ້ໃຊ້.</value>
   </data>
   <data name="Ui.FastFlags.FRMQualityOverride" xml:space="preserve">
-    <value>ການລົບລ້າງຄຸນນະພາບ FRM</value>
+    <value>ບັງຄັບຄຸນນະພາບ FRM</value>
   </data>
   <data name="Ui.FastFlags.ConfigureBasicGraphicAndRenderingSettings" xml:space="preserve">
     <value>ຕັ້ງຄ່າກາຟິກພື້ນຖານ ແລະການຕັ້ງຄ່າການສະແດງຜົນ</value>
