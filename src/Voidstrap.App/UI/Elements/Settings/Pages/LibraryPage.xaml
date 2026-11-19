@@ -699,7 +699,12 @@
                   <TextBlock Text="{resources:Loc Menu_About_Title}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
                 </StackPanel>
               </TabItem.Header>
-              <StackPanel Margin="12">
+              <Grid Margin="12">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="340" />
+                </Grid.ColumnDefinitions>
+              <StackPanel>
                 <TextBlock FontSize="14" LineHeight="22" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SelectedGame.Description}" />
                 <UniformGrid Margin="0,16,0,0" Rows="1">
                   <StackPanel>
@@ -715,7 +720,10 @@
                     <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.UpdatedDisplay}" />
                   </StackPanel>
                 </UniformGrid>
+                <controls:GameFriendsView Margin="0,16,0,0" ShowActivity="True" UniverseId="{Binding SelectedGame.UniverseId, FallbackValue=0}" GameName="{Binding SelectedGame.Name, FallbackValue=''}" />
               </StackPanel>
+                <controls:GameFriendsView Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Top" UniverseId="{Binding SelectedGame.UniverseId, FallbackValue=0}" GameName="{Binding SelectedGame.Name, FallbackValue=''}" />
+              </Grid>
             </TabItem>
             <TabItem>
               <TabItem.Header>

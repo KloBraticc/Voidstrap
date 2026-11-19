@@ -10474,4 +10474,40 @@
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>جارٍ تشغيل الشاشة الافتراضية</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>الأصدقاء الذين يلعبون</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>في اللعبة الآن</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>لعبوا مؤخرًا ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>لعبوا سابقًا ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} من {1} شارة</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>لم يلعب أي من أصدقائك هذه اللعبة بعد</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>سجّل الدخول إلى Roblox لترى أي أصدقائك يلعبون هذه اللعبة</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>تعذّر تحميل الأصدقاء الذين يلعبون الآن</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>نشاط الأصدقاء</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>حصل {0} على {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>لعب {0} {1} لأول مرة</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>لا يوجد نشاط للأصدقاء خلال آخر 30 يومًا</value>
+  </data>
 </root>

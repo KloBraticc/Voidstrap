@@ -10165,4 +10165,40 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>ورچوئل ڊسپلي شروع ٿي رهي آهي</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>راند ڪندڙ دوست</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>هن وقت راند ۾</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>تازو کيڏيو ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>اڳ ۾ کيڏيو ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{1} مان {0} بيج</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>توهان جي ڪنهن به دوست اڃا اها راند ناهي کيڏي</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>ڪهڙا دوست اها راند کيڏن ٿا ڏسڻ لاءِ Roblox ۾ سائن ان ڪريو</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>راند ڪندڙ دوست هن وقت لوڊ نه ٿي سگهيا</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>دوستن جي سرگرمي</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} {1} حاصل ڪيو</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} پهريون ڀيرو {1} کيڏيو</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>گذريل 30 ڏينهن ۾ دوستن جي ڪا سرگرمي ناهي</value>
+  </data>
 </root>

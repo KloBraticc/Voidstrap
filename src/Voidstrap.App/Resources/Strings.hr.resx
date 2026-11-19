@@ -10475,4 +10475,40 @@ Instalirati SteamVR sada?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Pokretanje virtualnog zaslona</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Prijatelji koji igraju</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Trenutačno u igri</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Nedavno igrali ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Prije igrali ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} od {1} znački</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Nitko od tvojih prijatelja još nije igrao ovo</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Prijavi se na Roblox da vidiš koji prijatelji ovo igraju</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Prijatelji koji igraju trenutačno se ne mogu učitati</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Aktivnost prijatelja</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} je osvojio {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} je prvi put igrao {1}</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Nema aktivnosti prijatelja u zadnjih 30 dana</value>
+  </data>
 </root>

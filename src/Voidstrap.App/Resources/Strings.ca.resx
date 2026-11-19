@@ -10164,4 +10164,40 @@ Instal·leu SteamVR ara?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>S'està iniciant la pantalla virtual</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Amics que hi juguen</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Ara mateix al joc</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Hi han jugat recentment ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Hi havien jugat abans ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} de {1} insígnies</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Cap dels teus amics no hi ha jugat encara</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Inicia la sessió a Roblox per veure quins amics hi juguen</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Ara mateix no s'han pogut carregar els amics que hi juguen</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Activitat dels amics</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} ha guanyat {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} ha jugat a {1} per primera vegada</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Cap activitat dels amics en els darrers 30 dies</value>
+  </data>
 </root>

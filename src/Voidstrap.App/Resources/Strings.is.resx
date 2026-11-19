@@ -10165,4 +10165,40 @@ Settu upp SteamVR núna?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Ræsir sýndarskjáinn</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Vinir sem spila</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Í leiknum núna</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Spiluðu nýlega ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Spiluðu áður ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} af {1} merkjum</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Enginn vina þinna hefur spilað þetta enn</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Skráðu þig inn á Roblox til að sjá hvaða vinir spila þetta</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Ekki tókst að hlaða inn vinum sem spila núna</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Virkni vina</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} fékk {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} spilaði {1} í fyrsta sinn</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Engin virkni vina síðustu 30 daga</value>
+  </data>
 </root>

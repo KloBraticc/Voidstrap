@@ -10474,4 +10474,40 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Spouštění virtuálního displeje</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Přátelé, kteří hrají</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Právě ve hře</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Hráli nedávno ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Hráli dříve ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} z {1} odznaků</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Nikdo z Vašich přátel to zatím nehrál</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Přihlaste se do Roblox, abyste viděli, kteří přátelé to hrají</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Přátele, kteří hrají, se teď nepodařilo načíst</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Aktivita přátel</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} získal {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} poprvé hrál {1}</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Žádná aktivita přátel za posledních 30 dní</value>
+  </data>
 </root>

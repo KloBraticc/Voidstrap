@@ -10165,4 +10165,40 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>ଭର୍ଚୁଆଲ ଡିସପ୍ଲେ ଆରମ୍ଭ ହେଉଛି</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>ଖେଳୁଥିବା ବନ୍ଧୁ</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>ବର୍ତ୍ତମାନ ଗେମରେ</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>ନିକଟରେ ଖେଳିଛନ୍ତି ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>ପୂର୍ବରୁ ଖେଳିଛନ୍ତି ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{1} ରୁ {0} ବ୍ୟାଜ</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>ଆପଣଙ୍କ କୌଣସି ବନ୍ଧୁ ଏପର୍ଯ୍ୟନ୍ତ ଏହା ଖେଳିନାହାନ୍ତି</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>କେଉଁ ବନ୍ଧୁମାନେ ଏହା ଖେଳନ୍ତି ଦେଖିବାକୁ Roblox ରେ ସାଇନ ଇନ କରନ୍ତୁ</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>ଖେଳୁଥିବା ବନ୍ଧୁମାନଙ୍କୁ ବର୍ତ୍ତମାନ ଲୋଡ କରାଯାଇପାରିଲା ନାହିଁ</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>ବନ୍ଧୁ କାର୍ଯ୍ୟକଳାପ</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} {1} ପାଇଲେ</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} ପ୍ରଥମ ଥର ପାଇଁ {1} ଖେଳିଲେ</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>ଗତ 30 ଦିନରେ କୌଣସି ବନ୍ଧୁ କାର୍ଯ୍ୟକଳାପ ନାହିଁ</value>
+  </data>
 </root>

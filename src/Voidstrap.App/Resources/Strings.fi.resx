@@ -10474,4 +10474,40 @@ Asennetaan SteamVR nyt?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Käynnistetään virtuaalinäyttöä</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Pelaavat kaverit</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Pelissä juuri nyt</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Pelannut äskettäin ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Pelannut aiemmin ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0}/{1} merkkiä</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Kukaan kavereistasi ei ole vielä pelannut tätä</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Kirjaudu Roblox palveluun nähdäksesi, ketkä kaverit pelaavat tätä</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Pelaavia kavereita ei voitu ladata juuri nyt</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Kavereiden toiminta</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} ansaitsi {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} pelasi {1} ensimmäistä kertaa</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Ei kavereiden toimintaa viimeisen 30 päivän aikana</value>
+  </data>
 </root>

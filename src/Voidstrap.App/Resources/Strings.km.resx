@@ -10165,4 +10165,40 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>កំពុងចាប់ផ្ដើមអេក្រង់និម្មិត</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>មិត្តភក្តិដែលលេង</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>កំពុងនៅក្នុងហ្គេម</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>បានលេងថ្មីៗ ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>ធ្លាប់លេងពីមុន ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>ផ្លាកសញ្ញា {0} ក្នុងចំណោម {1}</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>មិនទាន់មានមិត្តភក្តិរបស់អ្នកលេងហ្គេមនេះនៅឡើយទេ</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>ចូល Roblox ដើម្បីមើលថាមិត្តភក្តិណាខ្លះលេងហ្គេមនេះ</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>មិនអាចផ្ទុកមិត្តភក្តិដែលលេងបានទេពេលនេះ</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>សកម្មភាពមិត្តភក្តិ</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} បានទទួល {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} បានលេង {1} ជាលើកដំបូង</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>គ្មានសកម្មភាពមិត្តភក្តិក្នុងរយៈពេល 30 ថ្ងៃចុងក្រោយ</value>
+  </data>
 </root>

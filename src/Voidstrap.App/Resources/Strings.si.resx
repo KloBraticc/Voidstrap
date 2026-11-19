@@ -10165,4 +10165,40 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>අතථ්‍ය සංදර්ශකය ආරම්භ වෙමින්</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>ක්‍රීඩා කරන මිතුරන්</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>දැන් ක්‍රීඩාවේ</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>මෑතකදී ක්‍රීඩා කළා ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>කලින් ක්‍රීඩා කළා ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>ලාංඡන {1} න් {0}</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>ඔබේ කිසිම මිතුරෙක් තවම මෙය ක්‍රීඩා කර නැත</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>මෙය ක්‍රීඩා කරන මිතුරන් බැලීමට Roblox වෙත පුරනය වන්න</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>ක්‍රීඩා කරන මිතුරන් දැන් පූරණය කළ නොහැකි විය</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>මිතුරන්ගේ ක්‍රියාකාරකම්</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} {1} ලබා ගත්තා</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} පළමු වරට {1} ක්‍රීඩා කළා</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>පසුගිය දින 30 තුළ මිතුරන්ගේ ක්‍රියාකාරකම් නැත</value>
+  </data>
 </root>

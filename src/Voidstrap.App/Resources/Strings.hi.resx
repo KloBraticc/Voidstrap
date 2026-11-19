@@ -10165,4 +10165,40 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>वर्चुअल डिस्प्ले शुरू हो रहा है</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>खेलने वाले दोस्त</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>अभी गेम में</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>हाल ही में खेला ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>पहले खेला ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{1} में से {0} बैज</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>आपके किसी दोस्त ने अभी तक यह नहीं खेला है</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>कौन से दोस्त यह खेलते हैं यह देखने के लिए Roblox में साइन इन करें</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>खेलने वाले दोस्त अभी लोड नहीं हो सके</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>दोस्तों की गतिविधि</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} ने {1} पाया</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} ने पहली बार {1} खेला</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>पिछले 30 दिनों में दोस्तों की कोई गतिविधि नहीं</value>
+  </data>
 </root>

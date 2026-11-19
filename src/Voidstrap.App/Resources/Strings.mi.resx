@@ -10165,4 +10165,40 @@ Tāuta SteamVR ināianei?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Kei te tīmata i te whakaaturanga mariko</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Ngā hoa e tākaro ana</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Kei te kēmu ināianei</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>I tākaro tata nei ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>I tākaro i mua ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} o ngā tohu {1}</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Kāore anō tētahi o ō hoa kia tākaro i tēnei</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Takiuru ki Roblox kia kite ai ko ēhea hoa e tākaro ana i tēnei</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Kāore i taea te uta i ngā hoa e tākaro ana ināianei</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Mahi a ngā hoa</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>I whiwhi a {0} i te {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>I tākaro a {0} i te {1} mō te wā tuatahi</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Kāore he mahi a ngā hoa i ngā rā 30 kua hipa</value>
+  </data>
 </root>

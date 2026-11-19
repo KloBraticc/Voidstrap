@@ -279,6 +279,30 @@ public static class RobloxBadges
         return result;
     }
 
+    public static Task<IReadOnlyList<Badge>> GetBadgeListAsync(long universeId, CancellationToken token) =>
+        GetBadgesAsync(universeId, token);
+
+    public static async Task<IReadOnlyDictionary<long, DateTime>?> GetAwardedForUserAsync(
+        long userId,
+        long universeId,
+        IReadOnlyList<Badge> badges,
+        CancellationToken token
+    )
+    {
+        if (badges.Count == 0)
+            return new Dictionary<long, DateTime>();
+        if (AwardedCache.TryGetValue((userId, universeId), out var cached) && DateTime.UtcNow - cached.At <= AwardedLifetime)
+            return cached.Awarded;
+        try
+        {
+            return await GetAwardedAsync(userId, universeId, badges, token).ConfigureAwait(false);
+        }
+        catch (AwardedRefusedException)
+        {
+            return null;
+        }
+    }
+
     private static async Task<IReadOnlyList<Badge>> GetBadgesAsync(long universeId, CancellationToken token)
     {
         if (BadgeLists.TryGetValue(universeId, out var cached) && DateTime.UtcNow - cached.At <= BadgeListLifetime)

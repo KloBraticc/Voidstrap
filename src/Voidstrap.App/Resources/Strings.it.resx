@@ -10475,4 +10475,40 @@ Installare SteamVR adesso?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Avvio del display virtuale</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Amici che giocano</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>In gioco ora</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Hanno giocato di recente ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Hanno giocato in passato ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} di {1} medaglie</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Nessuno dei tuoi amici ci ha ancora giocato</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Accedi a Roblox per vedere quali amici ci giocano</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Impossibile caricare gli amici che giocano in questo momento</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Attività degli amici</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} ha ottenuto {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} ha giocato a {1} per la prima volta</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Nessuna attività degli amici negli ultimi 30 giorni</value>
+  </data>
 </root>

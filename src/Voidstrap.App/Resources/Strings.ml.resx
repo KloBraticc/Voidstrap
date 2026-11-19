@@ -10165,4 +10165,40 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>വെർച്വൽ ഡിസ്പ്ലേ ആരംഭിക്കുന്നു</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>കളിക്കുന്ന സുഹൃത്തുക്കൾ</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>ഇപ്പോൾ ഗെയിമിൽ</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>അടുത്തിടെ കളിച്ചു ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>മുമ്പ് കളിച്ചു ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{1} ബാഡ്ജുകളിൽ {0}</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>നിങ്ങളുടെ സുഹൃത്തുക്കളിൽ ആരും ഇതുവരെ ഇത് കളിച്ചിട്ടില്ല</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>ഏതൊക്കെ സുഹൃത്തുക്കൾ ഇത് കളിക്കുന്നു എന്ന് കാണാൻ Roblox ൽ സൈൻ ഇൻ ചെയ്യുക</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>കളിക്കുന്ന സുഹൃത്തുക്കളെ ഇപ്പോൾ ലോഡ് ചെയ്യാനായില്ല</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>സുഹൃത്തുക്കളുടെ പ്രവർത്തനം</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} {1} നേടി</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} ആദ്യമായി {1} കളിച്ചു</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>കഴിഞ്ഞ 30 ദിവസങ്ങളിൽ സുഹൃത്തുക്കളുടെ പ്രവർത്തനമില്ല</value>
+  </data>
 </root>

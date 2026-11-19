@@ -293,6 +293,16 @@ public static class RobloxPresence
         return null;
     }
 
+    public static async Task<List<long>?> GetFriendIdsAsync(long localUserId, CancellationToken token)
+    {
+        string? cookie = RobloxCookie.Get();
+        if (string.IsNullOrEmpty(cookie) || localUserId <= 0)
+            return null;
+        if (await IsSignInValidAsync(cookie, token).ConfigureAwait(false) == false)
+            return null;
+        return await GetFriendIdsAsync(cookie, localUserId, token).ConfigureAwait(false);
+    }
+
     private static async Task<List<long>?> GetFriendIdsAsync(string cookie, long userId, CancellationToken token)
     {
         await FriendListGate.WaitAsync(token).ConfigureAwait(false);

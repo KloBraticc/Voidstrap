@@ -10474,4 +10474,40 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Đang khởi động màn hình ảo</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Bạn bè đang chơi</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Đang trong trò chơi</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Đã chơi gần đây ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Đã chơi trước đây ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} trên {1} huy hiệu</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Chưa có bạn bè nào của bạn chơi trò này</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Đăng nhập Roblox để xem bạn bè nào chơi trò này</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Không thể tải bạn bè đang chơi lúc này</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Hoạt động của bạn bè</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} đã nhận {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} đã chơi {1} lần đầu tiên</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Không có hoạt động nào của bạn bè trong 30 ngày qua</value>
+  </data>
 </root>

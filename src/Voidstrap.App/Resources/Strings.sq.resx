@@ -10165,4 +10165,40 @@ Të instalohet SteamVR tani?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Po niset ekrani virtual</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Miqtë që luajnë</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Në lojë tani</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Luajtën së fundmi ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Luajtën më parë ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} nga {1} distinktivë</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Asnjë nga miqtë e tu nuk e ka luajtur ende këtë</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Hyr në Roblox për të parë cilët miq e luajnë këtë</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Miqtë që luajnë nuk mund të ngarkoheshin tani</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Aktiviteti i miqve</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} fitoi {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} luajti {1} për herë të parë</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Asnjë aktivitet i miqve në 30 ditët e fundit</value>
+  </data>
 </root>

@@ -10164,4 +10164,40 @@ Kenya SteamVR hona joale?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Ho qala skrine sa sebele</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Metswalle e bapalang</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Papading hona joale</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Ba bapetse haufinyane ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Ba kile ba bapala ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} ho {1} ya dibeche</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Ha ho le ea mong wa metswalle ya hao ya seng a bapala sena</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Kena ho Roblox ho bona hore na ke metswalle efe e bapalang sena</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Metswalle e bapalang e ne e sa kgone ho jarollwa hona joale</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Mesebetsi ya metswalle</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} o fumane {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} o bapetse {1} ka lekgetlo la pele</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Ha ho mesebetsi ya metswalle matsatsing a 30 a fetileng</value>
+  </data>
 </root>

@@ -10164,4 +10164,40 @@ Gosod SteamVR nawr?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Yn cychwyn y sgrin rithwir</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Ffrindiau sy'n chwarae</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Yn y gêm nawr</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Wedi chwarae'n ddiweddar ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Wedi chwarae o'r blaen ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} o {1} bathodyn</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Does dim un o dy ffrindiau wedi chwarae hwn eto</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Mewngofnoda i Roblox i weld pa ffrindiau sy'n chwarae hwn</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Doedd dim modd llwytho ffrindiau sy'n chwarae ar hyn o bryd</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Gweithgarwch ffrindiau</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>Enillodd {0} {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>Chwaraeodd {0} {1} am y tro cyntaf</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Dim gweithgarwch ffrindiau yn y 30 diwrnod diwethaf</value>
+  </data>
 </root>

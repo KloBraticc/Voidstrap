@@ -10165,4 +10165,40 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>भर्चुअल डिस्प्ले सुरु हुँदैछ</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>खेल्ने साथीहरू</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>अहिले गेममा</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>हालै खेलेका ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>पहिले खेलेका ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{1} मध्ये {0} ब्याज</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>तपाईंका कुनै पनि साथीले अझै यो खेलेका छैनन्</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>कुन साथीहरूले यो खेल्छन् हेर्न Roblox मा साइन इन गर्नुहोस्</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>खेल्ने साथीहरू अहिले लोड गर्न सकिएन</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>साथीहरूको गतिविधि</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} ले {1} पाए</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} ले पहिलो पटक {1} खेले</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>पछिल्लो 30 दिनमा साथीहरूको कुनै गतिविधि छैन</value>
+  </data>
 </root>

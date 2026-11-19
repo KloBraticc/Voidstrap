@@ -10475,4 +10475,40 @@ Instalați SteamVR acum?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Se pornește ecranul virtual</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Prieteni care joacă</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>În joc acum</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Au jucat recent ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Au jucat anterior ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} din {1} insigne</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Niciunul dintre prietenii tăi nu a jucat încă asta</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Conectează te la Roblox ca să vezi care prieteni joacă asta</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Prietenii care joacă nu au putut fi încărcați acum</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Activitatea prietenilor</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} a obținut {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} a jucat {1} pentru prima dată</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Nicio activitate a prietenilor în ultimele 30 de zile</value>
+  </data>
 </root>

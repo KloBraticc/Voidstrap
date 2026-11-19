@@ -10473,4 +10473,40 @@ Installera SteamVR nu?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Startar den virtuella skärmen</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Vänner som spelar</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>I spelet just nu</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Spelat nyligen ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Spelat tidigare ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} av {1} märken</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Ingen av dina vänner har spelat det här än</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Logga in på Roblox för att se vilka vänner som spelar det här</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Vänner som spelar kunde inte läsas in just nu</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Vänaktivitet</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} fick {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} spelade {1} för första gången</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Ingen vänaktivitet de senaste 30 dagarna</value>
+  </data>
 </root>

@@ -10164,4 +10164,40 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>ပကတိမဟုတ်သော ဖန်သားပြင်ကို စတင်နေသည်</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>ကစားနေသော သူငယ်ချင်းများ</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>ယခု ဂိမ်းထဲတွင်</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>မကြာသေးမီက ကစားခဲ့သည် ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>ယခင်က ကစားခဲ့သည် ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>တံဆိပ် {1} ခုအနက် {0} ခု</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>သင့်သူငယ်ချင်းများထဲမှ မည်သူမျှ ဤဂိမ်းကို မကစားရသေးပါ</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>ဤဂိမ်းကို မည်သည့်သူငယ်ချင်းများ ကစားသည်ကို ကြည့်ရန် Roblox သို့ ဝင်ပါ</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>ကစားနေသော သူငယ်ချင်းများကို ယခု မဖွင့်နိုင်ပါ</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>သူငယ်ချင်း လှုပ်ရှားမှု</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} သည် {1} ကို ရရှိခဲ့သည်</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} သည် {1} ကို ပထမဆုံး ကစားခဲ့သည်</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>လွန်ခဲ့သော ရက် 30 အတွင်း သူငယ်ချင်း လှုပ်ရှားမှု မရှိပါ</value>
+  </data>
 </root>

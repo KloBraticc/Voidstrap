@@ -10165,4 +10165,40 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Na-amalite ihuenyo mebere</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Ndị enyi na-egwu</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Nọ n'egwuregwu ugbu a</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Gwuru n'oge na-adịbeghị anya ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Gwuru na mbụ ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} n'ime baajị {1}</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>O nweghị onye n'ime ndị enyi gị gwuworo nke a</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Banye na Roblox ka ịhụ ndị enyi na-egwu nke a</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Enweghị ike ibudata ndị enyi na-egwu ugbu a</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Ọrụ ndị enyi</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} nwetara {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} gwuru {1} na nke mbụ ya</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Enweghị ọrụ ndị enyi n'ime ụbọchị 30 gara aga</value>
+  </data>
 </root>

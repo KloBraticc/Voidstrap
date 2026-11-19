@@ -10164,4 +10164,40 @@ Uptime: {1}
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>مەۋھۇم ئېكران قوزغىتىلىۋاتىدۇ</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>ئوينايدىغان دوستلار</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>ھازىر ئويۇندا</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>يېقىندا ئوينىغان ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>ئىلگىرى ئوينىغان ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{1} بەلگىدىن {0}</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>دوستلىرىڭىزنىڭ ھېچقايسىسى بۇنى تېخى ئوينىمىغان</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>قايسى دوستلارنىڭ بۇنى ئوينايدىغانلىقىنى كۆرۈش ئۈچۈن Roblox غا كىرىڭ</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>ئوينايدىغان دوستلارنى ھازىر يۈكلىگىلى بولمىدى</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>دوستلار پائالىيىتى</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} {1} گە ئېرىشتى</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} {1} نى تۇنجى قېتىم ئوينىدى</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>ئاخىرقى 30 كۈندە دوستلار پائالىيىتى يوق</value>
+  </data>
 </root>

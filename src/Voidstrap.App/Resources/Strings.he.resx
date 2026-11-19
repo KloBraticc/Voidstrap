@@ -10165,4 +10165,40 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>מפעיל את המסך הווירטואלי</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>חברים שמשחקים</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>במשחק כרגע</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>שיחקו לאחרונה ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>שיחקו בעבר ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} מתוך {1} תגים</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>אף אחד מהחברים שלך עדיין לא שיחק בזה</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>התחבר ל Roblox כדי לראות אילו חברים משחקים בזה</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>לא ניתן לטעון כרגע את החברים שמשחקים</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>פעילות חברים</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} הרוויח את {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} שיחק ב {1} בפעם הראשונה</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>אין פעילות חברים ב 30 הימים האחרונים</value>
+  </data>
 </root>

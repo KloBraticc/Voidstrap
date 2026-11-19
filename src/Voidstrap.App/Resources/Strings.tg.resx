@@ -10164,4 +10164,40 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Оғози дисплейи маҷозӣ</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Дӯстоне, ки бозӣ мекунанд</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Ҳозир дар бозӣ</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Ба наздикӣ бозӣ кардаанд ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Пештар бозӣ кардаанд ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} аз {1} нишон</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Ҳеҷ яке аз дӯстони шумо ҳанӯз инро бозӣ накардааст</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Ба Roblox ворид шавед, то бинед кадом дӯстон инро бозӣ мекунанд</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Дӯстони бозӣкунандаро ҳоло бор кардан нашуд</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Фаъолияти дӯстон</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} {1} гирифт</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} бори аввал {1}-ро бозӣ кард</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Дар 30 рӯзи охир фаъолияти дӯстон нест</value>
+  </data>
 </root>

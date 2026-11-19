@@ -10164,4 +10164,40 @@ Installeer SteamVR nou?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Begin die virtuele skerm</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Vriende wat speel</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Nou in die speletjie</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Onlangs gespeel ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Voorheen gespeel ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} van {1} kentekens</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Nie een van jou vriende het dit al gespeel nie</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Meld aan by Roblox om te sien watter vriende dit speel</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Vriende wat speel kon nie nou gelaai word nie</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Vriendaktiwiteit</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} het {1} verdien</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} het {1} vir die eerste keer gespeel</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Geen vriendaktiwiteit in die afgelope 30 dae nie</value>
+  </data>
 </root>

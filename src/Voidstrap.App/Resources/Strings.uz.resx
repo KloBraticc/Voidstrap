@@ -10164,4 +10164,40 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Virtual displey ishga tushirilmoqda</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>O'ynaydigan do'stlar</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Hozir o'yinda</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Yaqinda o'ynagan ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Avval o'ynagan ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{1} ta nishondan {0} ta</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Do'stlaringizdan hech biri buni hali o'ynamagan</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Qaysi do'stlar buni o'ynashini ko'rish uchun Roblox ga kiring</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>O'ynaydigan do'stlarni hozir yuklab bo'lmadi</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Do'stlar faolligi</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} {1} ni qo'lga kiritdi</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} {1} ni birinchi marta o'ynadi</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Oxirgi 30 kunda do'stlar faolligi yo'q</value>
+  </data>
 </root>

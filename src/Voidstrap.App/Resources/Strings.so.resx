@@ -10165,4 +10165,40 @@ Hadda rakib SteamVR?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Waxaa la bilaabayaa shaashadda casriga ah</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Saaxiibada ciyaara</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Hadda ciyaarta ku jira</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Dhawaan ciyaaray ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Hore u ciyaaray ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} ka mid ah {1} calaamadood</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Saaxiibadaada midna weli ma ciyaarin tan</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Gal Roblox si aad u aragto saaxiibada ciyaara tan</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Saaxiibada ciyaara hadda lama soo rari karin</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Dhaqdhaqaaqa saaxiibada</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} wuxuu helay {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} wuxuu markii ugu horreysay ciyaaray {1}</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Ma jiro dhaqdhaqaaq saaxiibo 30kii maalmood ee la soo dhaafay</value>
+  </data>
 </root>

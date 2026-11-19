@@ -10164,4 +10164,40 @@ Ludantoj: {2}</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Lanĉante la virtualan ekranon</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Amikoj, kiuj ludas</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Nun en la ludo</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Ludis lastatempe ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Ludis antaŭe ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} el {1} insignoj</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Neniu el viaj amikoj ankoraŭ ludis ĉi tion</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Ensalutu en Roblox por vidi, kiuj amikoj ludas ĉi tion</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Amikoj, kiuj ludas, ne povis esti ŝargitaj nun</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Agado de amikoj</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} gajnis {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} ludis {1} unuafoje</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Neniu agado de amikoj en la lastaj 30 tagoj</value>
+  </data>
 </root>

@@ -10165,4 +10165,40 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Виртуалды дисплей іске қосылуда</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Ойнайтын достар</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Қазір ойында</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Жақында ойнаған ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Бұрын ойнаған ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{1} белгінің {0}</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Достарыңыздың ешқайсысы мұны әлі ойнаған жоқ</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Қай достар мұны ойнайтынын көру үшін Roblox жүйесіне кіріңіз</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Ойнайтын достарды қазір жүктеу мүмкін болмады</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Достар әрекеті</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} {1} алды</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} {1} ойынын алғаш рет ойнады</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Соңғы 30 күнде достар әрекеті жоқ</value>
+  </data>
 </root>

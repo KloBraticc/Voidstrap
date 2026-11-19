@@ -10474,4 +10474,40 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>正在启动虚拟显示器</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>玩过的好友</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>正在游戏中</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>最近玩过 ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>以前玩过 ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0}/{1} 个徽章</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>您还没有好友玩过这个游戏</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>请登录 Roblox 查看哪些好友在玩这个游戏</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>目前无法加载玩过的好友</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>好友动态</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} 获得了 {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} 首次玩了 {1}</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>过去 30 天内没有好友动态</value>
+  </data>
 </root>

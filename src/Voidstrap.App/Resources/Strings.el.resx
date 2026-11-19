@@ -10164,4 +10164,40 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Εκκίνηση της εικονικής οθόνης</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Φίλοι που παίζουν</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Στο παιχνίδι τώρα</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Έπαιξαν πρόσφατα ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Έπαιξαν παλαιότερα ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} από {1} σήματα</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Κανείς από τους φίλους σου δεν το έχει παίξει ακόμα</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Συνδέσου στο Roblox για να δεις ποιοι φίλοι το παίζουν</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η φόρτωση των φίλων που παίζουν αυτή τη στιγμή</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Δραστηριότητα φίλων</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>Ο/Η {0} κέρδισε {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>Ο/Η {0} έπαιξε {1} για πρώτη φορά</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Καμία δραστηριότητα φίλων τις τελευταίες 30 ημέρες</value>
+  </data>
 </root>

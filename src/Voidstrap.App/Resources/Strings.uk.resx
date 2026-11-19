@@ -10474,4 +10474,40 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Запуск віртуального дисплея</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Друзі, які грають</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Зараз у грі</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Грали нещодавно ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Грали раніше ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} з {1} значків</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Ніхто з Ваших друзів ще не грав у це</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Увійдіть у Roblox, щоб побачити, хто з друзів грає в це</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Не вдалося завантажити друзів, які грають</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Активність друзів</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} отримав {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} уперше зіграв у {1}</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Немає активності друзів за останні 30 днів</value>
+  </data>
 </root>

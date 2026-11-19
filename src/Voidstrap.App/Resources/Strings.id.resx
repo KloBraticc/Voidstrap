@@ -10475,4 +10475,40 @@ Instal SteamVR sekarang?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Memulai layar virtual</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Teman yang bermain</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Sedang dalam game</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Baru saja bermain ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Pernah bermain ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} dari {1} lencana</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Belum ada teman Anda yang memainkan ini</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Masuk ke Roblox untuk melihat teman mana yang memainkan ini</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Teman yang bermain tidak dapat dimuat saat ini</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Aktivitas teman</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} mendapatkan {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} memainkan {1} untuk pertama kalinya</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Tidak ada aktivitas teman dalam 30 hari terakhir</value>
+  </data>
 </root>

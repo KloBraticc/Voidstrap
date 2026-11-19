@@ -2893,6 +2893,18 @@ namespace Voidstrap.Resources {
 
         public static string Library_Badges_Stat => ResourceManager.GetString("Library.Badges.Stat", resourceCulture);
 
+        public static string Library_Friends_Title => ResourceManager.GetString("Library.Friends.Title", resourceCulture);
+        public static string Library_Friends_PlayingNow => ResourceManager.GetString("Library.Friends.PlayingNow", resourceCulture);
+        public static string Library_Friends_Recent => ResourceManager.GetString("Library.Friends.Recent", resourceCulture);
+        public static string Library_Friends_Previous => ResourceManager.GetString("Library.Friends.Previous", resourceCulture);
+        public static string Library_Friends_BadgeProgress => ResourceManager.GetString("Library.Friends.BadgeProgress", resourceCulture);
+        public static string Library_Friends_None => ResourceManager.GetString("Library.Friends.None", resourceCulture);
+        public static string Library_Friends_SignIn => ResourceManager.GetString("Library.Friends.SignIn", resourceCulture);
+        public static string Library_Friends_Unavailable => ResourceManager.GetString("Library.Friends.Unavailable", resourceCulture);
+        public static string Library_Friends_Activity => ResourceManager.GetString("Library.Friends.Activity", resourceCulture);
+        public static string Library_Friends_EarnedBadge => ResourceManager.GetString("Library.Friends.EarnedBadge", resourceCulture);
+        public static string Library_Friends_FirstPlay => ResourceManager.GetString("Library.Friends.FirstPlay", resourceCulture);
+        public static string Library_Friends_NoActivity => ResourceManager.GetString("Library.Friends.NoActivity", resourceCulture);
         public static string Library_Badges_Tab => ResourceManager.GetString("Library.Badges.Tab", resourceCulture);
 
         public static string Library_Badges_StatNone => ResourceManager.GetString("Library.Badges.StatNone", resourceCulture);

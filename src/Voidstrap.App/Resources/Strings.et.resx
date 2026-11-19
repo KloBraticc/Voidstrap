@@ -10164,4 +10164,40 @@ Kas installida SteamVR kohe?</value>
   <data name="Bootstrapper.Status.StartingVirtualDisplay" xml:space="preserve">
     <value>Virtuaalse ekraani käivitamine</value>
   </data>
+  <data name="Library.Friends.Title" xml:space="preserve">
+    <value>Mängivad sõbrad</value>
+  </data>
+  <data name="Library.Friends.PlayingNow" xml:space="preserve">
+    <value>Praegu mängus</value>
+  </data>
+  <data name="Library.Friends.Recent" xml:space="preserve">
+    <value>Mänginud hiljuti ({0})</value>
+  </data>
+  <data name="Library.Friends.Previous" xml:space="preserve">
+    <value>Mänginud varem ({0})</value>
+  </data>
+  <data name="Library.Friends.BadgeProgress" xml:space="preserve">
+    <value>{0} / {1} märki</value>
+  </data>
+  <data name="Library.Friends.None" xml:space="preserve">
+    <value>Ükski su sõber pole seda veel mänginud</value>
+  </data>
+  <data name="Library.Friends.SignIn" xml:space="preserve">
+    <value>Logi Roblox kontole sisse, et näha, millised sõbrad seda mängivad</value>
+  </data>
+  <data name="Library.Friends.Unavailable" xml:space="preserve">
+    <value>Mängivaid sõpru ei õnnestunud praegu laadida</value>
+  </data>
+  <data name="Library.Friends.Activity" xml:space="preserve">
+    <value>Sõprade tegevus</value>
+  </data>
+  <data name="Library.Friends.EarnedBadge" xml:space="preserve">
+    <value>{0} teenis {1}</value>
+  </data>
+  <data name="Library.Friends.FirstPlay" xml:space="preserve">
+    <value>{0} mängis {1} esimest korda</value>
+  </data>
+  <data name="Library.Friends.NoActivity" xml:space="preserve">
+    <value>Viimase 30 päeva jooksul pole sõprade tegevust</value>
+  </data>
 </root>
