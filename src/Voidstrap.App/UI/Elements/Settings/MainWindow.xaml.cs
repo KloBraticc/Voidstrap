@@ -5798,7 +5798,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         else if (RootFrame?.Content is Pages.ModCustomPage modPage && !string.IsNullOrWhiteSpace(text2))
         {
             details = text2;
-            state = Voidstrap.Utility.RpcText.Mark("Using a Voidstrap mod") + ": " + modPage.PluginName;
+            state = Voidstrap.Utility.RpcText.Mark("Using a Voidstrap mod") + " ✭ " + modPage.PluginName;
         }
         else if (!string.IsNullOrEmpty(text) && _voidRpcPageDescriptions.TryGetValue(text, out (string, string) value))
         {
@@ -5807,7 +5807,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             string tabPath = GetSelectedTabPath();
             if (tabPath.Length > 0)
             {
-                details = details + ": " + Voidstrap.Utility.RpcText.Mark(tabPath);
+                details = details + " ✶ " + Voidstrap.Utility.RpcText.Mark(tabPath);
             }
         }
         else if (!string.IsNullOrWhiteSpace(text2))
@@ -5815,7 +5815,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             string tabPath = GetSelectedTabPath();
             details =
                 tabPath.Length > 0
-                    ? Voidstrap.Utility.RpcText.Mark(text2) + ": " + Voidstrap.Utility.RpcText.Mark(tabPath)
+                    ? Voidstrap.Utility.RpcText.Mark(text2) + " ✶ " + Voidstrap.Utility.RpcText.Mark(tabPath)
                     : Voidstrap.Utility.RpcText.Mark(text2);
             state = Voidstrap.Utility.RpcText.Mark("Exploring the app");
         }
@@ -5834,6 +5834,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             state = Voidstrap.Utility.RpcText.Mark("Exploring the app");
         }
+        details = DiscordPresenceGuard.Text("✦ " + details + " ✦");
+        state = DiscordPresenceGuard.Text("˚ ･ " + state + " ･ ˚");
         string imageUrl = context != null && VoidstrapPresence.IsWebUrl(context.ImageUrl) ? DiscordPresenceGuard.Key(context.ImageUrl) : "";
         string buttonUrl = context != null && VoidstrapPresence.IsWebUrl(context.ButtonUrl) ? context.ButtonUrl : "";
         string extra =
@@ -5862,6 +5864,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         string versionText = string.IsNullOrWhiteSpace(text3)
             ? Voidstrap.Utility.Branding.Name
             : Voidstrap.Utility.Branding.Name + " v" + text3;
+        versionText = "✶ " + versionText + " ✶";
         string VoidstrapLogo = Voidstrap.Utility.Branding.RpcLogoUrl;
         try
         {
