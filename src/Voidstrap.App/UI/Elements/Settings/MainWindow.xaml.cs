@@ -361,6 +361,33 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private int _robloxCheckRunning;
 
+    private static readonly (string Before, string After)[] DetailSparkles =
+    [
+        ("✦ ", " ˚."),
+        ("˚✶ ", ""),
+        ("", " ✭˚"),
+        ("･ﾟ✦ ", ""),
+        ("✭ ", " ･"),
+        ("", " ˚✦."),
+    ];
+
+    private static readonly (string Before, string After)[] StateSparkles =
+    [
+        ("", " ･ﾟ✶"),
+        (". ˚ ", ""),
+        ("", " ✦"),
+        ("˚ ", " ･"),
+        ("", " ✭ ˚"),
+    ];
+
+    private static int StableSparkleSeed(string text)
+    {
+        int seed = 17;
+        foreach (char character in text)
+            seed = unchecked(seed * 31 + character) & int.MaxValue;
+        return seed;
+    }
+
     private static readonly Dictionary<string, (string Details, string State)> _voidRpcPageDescriptions = new Dictionary<
         string,
         (string, string)
@@ -5834,8 +5861,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             state = Voidstrap.Utility.RpcText.Mark("Exploring the app");
         }
-        details = DiscordPresenceGuard.Text("✦ " + details + " ✦");
-        state = DiscordPresenceGuard.Text("˚ ･ " + state + " ･ ˚");
+        int sparkle = StableSparkleSeed(details);
+        (string Before, string After) detailsSparkle = DetailSparkles[sparkle % DetailSparkles.Length];
+        (string Before, string After) stateSparkle = StateSparkles[(sparkle / DetailSparkles.Length) % StateSparkles.Length];
+        details = DiscordPresenceGuard.Text(detailsSparkle.Before + details + detailsSparkle.After);
+        state = DiscordPresenceGuard.Text(stateSparkle.Before + state + stateSparkle.After);
         string imageUrl = context != null && VoidstrapPresence.IsWebUrl(context.ImageUrl) ? DiscordPresenceGuard.Key(context.ImageUrl) : "";
         string buttonUrl = context != null && VoidstrapPresence.IsWebUrl(context.ButtonUrl) ? context.ButtonUrl : "";
         string extra =
