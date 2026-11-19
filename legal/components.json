@@ -1327,6 +1327,19 @@
   },
   {
     "ecosystem": "cargo",
+    "name": "virtualdisplay",
+    "version": "0.1.0",
+    "license": "MPL-2.0",
+    "source": "https://github.com/KloBraticc/virtualdisplay",
+    "documents": [
+      {
+        "path": "texts/2684de17300e0a434686.txt",
+        "source": "src/VirtualDisplay/virtualdisplay/LICENSE.txt"
+      }
+    ]
+  },
+  {
+    "ecosystem": "cargo",
     "name": "wasm-bindgen",
     "version": "0.2.128",
     "license": "MIT OR Apache-2.0",

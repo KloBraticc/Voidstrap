@@ -670,7 +670,9 @@ Full notices, including transitive dependencies and native libraries, are in [TH
 
 Dependencies brought in by these packages keep their own license terms. The links above identify version sources; they are not a complete license audit of every transitive package or system component. Preserve all required notices and source when redistributing them. A README entry does not replace those requirements.
 
-The macOS virtual display helper implements the [AppleBlox VirtualDisplay approach](https://github.com/AppleBlox/virtualdisplay) in Rust. Its [bundled notices](src/VirtualDisplay/THIRD-PARTY-NOTICES.txt) cover libc, objc2 and objc2-encode.
+The macOS virtual display helper uses [virtualdisplay](https://github.com/KloBraticc/virtualdisplay), our fork of [Froststrap's virtualdisplay](https://github.com/Froststrap/virtualdisplay), used with permission. That library is copyright 2026 Froststrap and stays under the [Mozilla Public License 2.0](LICENSES/MPL-2.0.txt); its source, including our changes, is public in the fork. The helper follows the [AppleBlox VirtualDisplay approach](https://github.com/AppleBlox/virtualdisplay), and its [bundled notices](src/VirtualDisplay/THIRD-PARTY-NOTICES.txt) cover virtualdisplay, libc, objc2 and objc2-encode.
+
+The [LICENSES](LICENSES) folder holds the MIT license for Voidstrap's own code and the MPL 2.0 text for the virtualdisplay library.
 
 </details>
 
