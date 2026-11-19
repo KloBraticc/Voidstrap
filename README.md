@@ -573,7 +573,7 @@ Voidstrap would not exist without the projects and people below. Thank you all.
 ### Inspiration
 
 - **[Froststrap](https://github.com/Froststrap)**, the inspiration for the title bar and many UI elements, the mod generator, the virtual display, and some of our custom cursor features.
-- **[Fishstrap](https://github.com/fishstrap/fishstrap)**, the inspiration for many features and ideas.
+- **[Fishstrap](https://github.com/fishstrap/fishstrap)**, the inspiration for many features and ideas, and the creator of the dock overlay.
 - **[Chevstrap](https://github.com/FrosSky/Chevstrap)**, the inspiration for the Android app, with attributed Android adaptations.
 - **[Funkstrap](https://github.com/DawndreamerStudios/funkstrap)**, the inspiration for window control, letting games move, resize, retitle and fade the Roblox window.
 - **[Helium](https://github.com/imputnet/helium)**, the inspiration for the title bar UI.
