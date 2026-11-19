@@ -34,7 +34,7 @@ public partial class GameFriendsView : UserControl
 
     private const int MaxPreviousAvatars = 24;
 
-    private CancellationTokenSource? _cts;
+    private long _shownUniverseId;
 
     public GameFriendsView()
     {
@@ -67,63 +67,62 @@ public partial class GameFriendsView : UserControl
             view.Restart();
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e) => Restart();
-
-    private void OnUnloaded(object sender, RoutedEventArgs e) => Stop();
-
-    private void Stop()
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        _cts?.Cancel();
-        _cts?.Dispose();
-        _cts = null;
+        RobloxGameFriends.ReportUpdated -= OnReportUpdated;
+        RobloxGameFriends.ReportUpdated += OnReportUpdated;
+        Restart();
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        RobloxGameFriends.ReportUpdated -= OnReportUpdated;
+        _shownUniverseId = 0;
+    }
+
+    private void OnReportUpdated(long universeId, GameFriendsReport report)
+    {
+        if (universeId != _shownUniverseId)
+            return;
+        Dispatcher.BeginInvoke(
+            () =>
+            {
+                if (universeId == _shownUniverseId && IsLoaded)
+                    Render(report);
+            }
+        );
     }
 
     private void Restart()
     {
-        Stop();
         TitleText.Text = ShowActivity ? Strings.Library_Friends_Activity : Strings.Library_Friends_Title;
         Rows.Children.Clear();
         StatusText.Visibility = Visibility.Collapsed;
         long universeId = UniverseId;
+        _shownUniverseId = universeId;
         if (universeId <= 0)
         {
             Visibility = Visibility.Collapsed;
+            LoadingBar.Visibility = Visibility.Collapsed;
             return;
         }
         Visibility = Visibility.Visible;
-        if (RobloxGameFriends.TryGetCached(universeId, out GameFriendsReport? cached) && cached != null)
+        if (RobloxGameFriends.TryGetCurrent(universeId, out GameFriendsReport? current) && current != null)
         {
-            Render(cached);
-            return;
-        }
-        LoadingBar.Visibility = Visibility.Visible;
-        _cts = new CancellationTokenSource();
-        _ = LoadAsync(universeId, _cts.Token);
-    }
-
-    private async Task LoadAsync(long universeId, CancellationToken token)
-    {
-        const string LOG_IDENT = "GameFriendsView::LoadAsync";
-
-        try
-        {
-            GameFriendsReport report = await RobloxGameFriends.GetAsync(universeId, token);
-            if (token.IsCancellationRequested || universeId != UniverseId)
+            Render(current);
+            if (current.Complete)
                 return;
-            Render(report);
         }
-        catch (OperationCanceledException) { }
-        catch (Exception ex)
+        else
         {
-            App.Logger.WriteLine(LOG_IDENT, ex.Message);
-            if (!token.IsCancellationRequested)
-                Render(new GameFriendsReport { Status = GameFriendsStatus.Unavailable });
+            LoadingBar.Visibility = Visibility.Visible;
         }
+        RobloxGameFriends.Start(universeId);
     }
 
     private void Render(GameFriendsReport report)
     {
-        LoadingBar.Visibility = Visibility.Collapsed;
+        LoadingBar.Visibility = report.Complete ? Visibility.Collapsed : Visibility.Visible;
         Rows.Children.Clear();
         string? status = report.Status switch
         {
@@ -137,7 +136,7 @@ public partial class GameFriendsView : UserControl
                 RenderActivity(report.Activity);
             else
                 RenderFriends(report);
-            if (Rows.Children.Count == 0)
+            if (Rows.Children.Count == 0 && report.Complete)
                 status = ShowActivity ? Strings.Library_Friends_NoActivity : Strings.Library_Friends_None;
         }
         StatusText.Text = status ?? "";
