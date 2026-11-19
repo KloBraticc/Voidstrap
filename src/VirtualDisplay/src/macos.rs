@@ -178,6 +178,10 @@ impl Drop for Transaction {
     }
 }
 
+fn note(message: std::fmt::Arguments<'_>) {
+    let _ = writeln!(std::io::stderr(), "{message}");
+}
+
 fn status(message: std::fmt::Arguments<'_>) -> Result<(), String> {
     let mut output = std::io::stdout().lock();
     writeln!(output, "{message}")
@@ -398,10 +402,10 @@ impl Session {
         let (width, height) = config.size.unwrap_or((0, 0));
         let refresh = aligned_refresh(config.refresh, refresh_rate(physical));
         if (refresh - config.refresh as f64).abs() >= 0.5 {
-            eprintln!(
+            note(format_args!(
                 "[virtualdisplay] using {refresh} Hz instead of {} Hz to match the physical display",
                 config.refresh
-            );
+            ));
         }
         let rates = refresh_rates(refresh);
         if unsafe {
@@ -521,10 +525,10 @@ impl Session {
             }
         }
         if let Some((mode, _)) = best {
-            eprintln!(
+            note(format_args!(
                 "[virtualdisplay] switching virtual display {display} to {} Hz",
                 self.refresh
-            );
+            ));
             let transaction = Transaction::begin()?;
             check(
                 unsafe {
