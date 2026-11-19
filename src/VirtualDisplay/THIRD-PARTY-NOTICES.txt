@@ -84,7 +84,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-virtualdisplay 0.1.0, Mozilla Public License 2.0
+virtualdisplay, Mozilla Public License 2.0
 
 Copyright 2026 Froststrap
 Source Code Form: https://github.com/KloBraticc/virtualdisplay

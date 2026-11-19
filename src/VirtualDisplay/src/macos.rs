@@ -5,7 +5,7 @@ use objc2::{
     runtime::{AnyClass, AnyObject},
 };
 use std::{
-    ffi::{CStr, CString, c_void},
+    ffi::{CStr, c_char, c_void},
     fs::{File, OpenOptions},
     io::Write,
     os::{fd::AsRawFd, unix::fs::OpenOptionsExt},
@@ -112,8 +112,17 @@ unsafe extern "C" {
     fn CFRunLoopTimerInvalidate(timer: Ref);
 }
 
-#[link(name = "Foundation", kind = "framework")]
-unsafe extern "C" {}
+unsafe extern "C" {
+    fn vd_configure(
+        name: *const c_char,
+        width: u32,
+        height: u32,
+        rates: *const f64,
+        count: usize,
+    ) -> i32;
+    fn vd_start() -> i32;
+    fn vd_stop();
+}
 
 const DISPLAY_NAME: &CStr = c"Voidstrap Virtual Display";
 const POLL_SECONDS: f64 = 0.05;
@@ -386,10 +395,7 @@ impl Session {
             return Err("No active main display".into());
         }
 
-        let (width, height) = config
-            .size
-            .map(|(w, h)| (w as usize, h as usize))
-            .unwrap_or((0, 0));
+        let (width, height) = config.size.unwrap_or((0, 0));
         let refresh = aligned_refresh(config.refresh, refresh_rate(physical));
         if (refresh - config.refresh as f64).abs() >= 0.5 {
             eprintln!(
@@ -398,9 +404,14 @@ impl Session {
             );
         }
         let rates = refresh_rates(refresh);
-        let name = CString::from(DISPLAY_NAME);
         if unsafe {
-            virtualdisplay::init(name.as_ptr(), width, height, rates.as_ptr(), rates.len())
+            vd_configure(
+                DISPLAY_NAME.as_ptr(),
+                width,
+                height,
+                rates.as_ptr(),
+                rates.len(),
+            )
         } != 0
         {
             return Err("The virtual display settings were rejected".into());
@@ -417,7 +428,7 @@ impl Session {
             stopped,
             started,
         };
-        if virtualdisplay::start_display() != 0 {
+        if unsafe { vd_start() } != 0 {
             return Err("macOS refused to create the virtual display".into());
         }
         session.active = true;
@@ -535,7 +546,7 @@ impl Session {
             return;
         }
         self.active = false;
-        virtualdisplay::end_display();
+        unsafe { vd_stop() };
     }
 
     fn stop(&self) {
