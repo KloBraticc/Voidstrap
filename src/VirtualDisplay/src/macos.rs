@@ -121,12 +121,14 @@ unsafe extern "C" {
         count: usize,
     ) -> i32;
     fn vd_start() -> i32;
+    fn vd_running() -> i32;
     fn vd_stop();
 }
 
 const DISPLAY_NAME: &CStr = c"Voidstrap Virtual Display";
 const POLL_SECONDS: f64 = 0.05;
 const MODE_RETRY: Duration = Duration::from_secs(2);
+const STARTUP_LIMIT: Duration = Duration::from_secs(10);
 
 struct OwnedRef(Ref);
 
@@ -446,6 +448,12 @@ impl Session {
         }
         if self.ready {
             return Ok(());
+        }
+        if unsafe { vd_running() } == 0 {
+            return Err("macOS removed the virtual display".into());
+        }
+        if self.started.elapsed() >= STARTUP_LIMIT {
+            return Err("The virtual display did not become ready".into());
         }
         let main = unsafe { CGMainDisplayID() };
         if main == 0 || main == self.physical {
