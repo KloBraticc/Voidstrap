@@ -235,6 +235,19 @@
   },
   {
     "ecosystem": "asset",
+    "name": "virtualdisplay",
+    "version": "bundled",
+    "license": "MPL-2.0",
+    "source": "https://github.com/KloBraticc/virtualdisplay",
+    "documents": [
+      {
+        "path": "texts/2684de17300e0a434686.txt",
+        "source": "src/VirtualDisplay/virtualdisplay/LICENSE.txt"
+      }
+    ]
+  },
+  {
+    "ecosystem": "asset",
     "name": "Voidstrap",
     "version": "bundled",
     "license": "MIT",
@@ -1322,19 +1335,6 @@
       {
         "path": "texts/f7db81051789b729fea5.txt",
         "source": "https://static.crates.io/crates/unicode-ident/unicode-ident-1.0.27.crate: unicode-ident-1.0.27/LICENSE-UNICODE"
-      }
-    ]
-  },
-  {
-    "ecosystem": "cargo",
-    "name": "virtualdisplay",
-    "version": "0.1.0",
-    "license": "MPL-2.0",
-    "source": "https://github.com/KloBraticc/virtualdisplay",
-    "documents": [
-      {
-        "path": "texts/2684de17300e0a434686.txt",
-        "source": "src/VirtualDisplay/virtualdisplay/LICENSE.txt"
       }
     ]
   },

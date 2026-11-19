@@ -100,6 +100,10 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: MIT
   Source: https://github.com/OMouta/Unishade
 
+- virtualdisplay bundled (asset)
+  Terms: MPL-2.0
+  Source: https://github.com/KloBraticc/virtualdisplay
+
 - Voidstrap bundled (asset)
   Terms: MIT
   Source: https://github.com/KloBraticc/Voidstrap
@@ -355,10 +359,6 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
 - unicode-ident 1.0.27 (cargo)
   Terms: (MIT OR Apache-2.0) AND Unicode-3.0
   Source: https://static.crates.io/crates/unicode-ident/unicode-ident-1.0.27.crate
-
-- virtualdisplay 0.1.0 (cargo)
-  Terms: MPL-2.0
-  Source: https://github.com/KloBraticc/virtualdisplay
 
 - wasm-bindgen 0.2.128 (cargo)
   Terms: MIT OR Apache-2.0
@@ -61191,7 +61191,7 @@ DEALINGS IN THE SOFTWARE.
 
 ### Notice 152
 
-virtualdisplay 0.1.0
+virtualdisplay bundled
 Origin: src/VirtualDisplay/virtualdisplay/LICENSE.txt
 Copyright 2026 Froststrap
 Source Code Form: https://github.com/KloBraticc/virtualdisplay, forked from https://github.com/Froststrap/virtualdisplay
