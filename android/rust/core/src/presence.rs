@@ -396,6 +396,31 @@ fn clip(value: &str) -> String {
     if utf16_len(&out) > 128 { format!("{}...", trim(utf16_prefix(&out, 125))) } else { out }
 }
 
+const DETAIL_SPARKLES: [(&str, &str); 6] = [
+    ("\u{2726} ", " \u{2da}."),
+    ("\u{2da}\u{2736} ", ""),
+    ("", " \u{272d}\u{2da}"),
+    ("\u{ff65}\u{ff9f}\u{2726} ", ""),
+    ("\u{272d} ", " \u{ff65}"),
+    ("", " \u{2da}\u{2726}."),
+];
+
+const STATE_SPARKLES: [(&str, &str); 5] = [
+    ("", " \u{ff65}\u{ff9f}\u{2736}"),
+    (". \u{2da} ", ""),
+    ("", " \u{2726}"),
+    ("\u{2da} ", " \u{ff65}"),
+    ("", " \u{272d} \u{2da}"),
+];
+
+fn sparkle_seed(text: &str) -> usize {
+    let mut seed: u32 = 17;
+    for unit in text.encode_utf16() {
+        seed = seed.wrapping_mul(31).wrapping_add(unit as u32) & 0x7fff_ffff;
+    }
+    seed as usize
+}
+
 pub fn app(a: &Value) -> Value {
     let scene = on(a, "scene");
     let mut details = clip(&opt_str(a, "details", ""));
@@ -406,8 +431,13 @@ pub fn app(a: &Value) -> Value {
     if utf16_len(&state) < 2 {
         state = "Exploring Voidstrap".into();
     }
+    let seed = sparkle_seed(&details);
+    let (before, after) = DETAIL_SPARKLES[seed % DETAIL_SPARKLES.len()];
+    let details = clip(&format!("{before}{details}{after}"));
+    let (before, after) = STATE_SPARKLES[(seed / DETAIL_SPARKLES.len()) % STATE_SPARKLES.len()];
+    let state = clip(&format!("{before}{state}{after}"));
     let https = |k: &str| Some(opt_str(a, k, "")).filter(|v| scene && v.starts_with("https://"));
-    let version = format!("Voidstrap Android v{}", opt_str(a, "version", ""));
+    let version = format!("\u{2736} Voidstrap Android v{} \u{2736}", opt_str(a, "version", ""));
     let avatar = a.get("avatar").cloned().unwrap_or(Value::Null);
     let (image, text, small) = match https("image") {
         Some(image) => {
