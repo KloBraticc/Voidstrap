@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using Voidstrap.UI.Elements.Base;
 using FontFamily = System.Windows.Media.FontFamily;
@@ -24,6 +25,8 @@ public static class AppFont
     ];
 
     private static FontFamily? _current;
+
+    private static readonly System.Collections.Generic.HashSet<FontFamily> AppliedFamilies = [];
 
     private static readonly FontFamily LinuxWpfUiFontFamily = Voidstrap.Utility.Platform.IsMacOS
         ? new(
@@ -103,25 +106,23 @@ public static class AppFont
                     }
                 }
         );
-        if (Voidstrap.Utility.Platform.UsesPortableUi)
+        EventManager.RegisterClassHandler(typeof(Page), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnControlShown));
+        EventManager.RegisterClassHandler(typeof(ToolTip), ToolTip.OpenedEvent, new RoutedEventHandler(OnControlShown));
+        EventManager.RegisterClassHandler(typeof(ContextMenu), ContextMenu.OpenedEvent, new RoutedEventHandler(OnControlShown));
+    }
+
+    private static void OnControlShown(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement control)
         {
-            EventManager.RegisterClassHandler(
-                typeof(Page),
-                FrameworkElement.LoadedEvent,
-                (RoutedEventHandler)
-                    delegate (object sender, RoutedEventArgs _)
-                    {
-                        if (sender is Page page)
-                        {
-                            ApplyToPage(page);
-                        }
-                    }
-            );
+            ApplyTo(control);
         }
     }
 
     private static void Load()
     {
+        if (_current != null)
+            AppliedFamilies.Add(_current);
         _current = null;
         if (Voidstrap.Utility.Platform.UsesPortableUi)
             SetRendererFonts(null);
@@ -202,19 +203,33 @@ public static class AppFont
     private static void SetRendererFonts(object? faces) { }
 #endif
 
-    private static void ApplyToPage(Page page)
+    private static void ApplyTo(FrameworkElement control)
     {
         try
         {
-            FontFamily family = CurrentFontFamily;
-            if (!string.Equals(page.FontFamily?.Source, family.Source, StringComparison.OrdinalIgnoreCase))
+            object local = control.ReadLocalValue(TextElement.FontFamilyProperty);
+            bool ours = local == DependencyProperty.UnsetValue || local is FontFamily family && AppliedFamilies.Contains(family);
+            if (!ours)
             {
-                page.SetCurrentValue(Page.FontFamilyProperty, family);
+                return;
+            }
+            if (_current != null || Voidstrap.Utility.Platform.UsesPortableUi)
+            {
+                FontFamily target = CurrentFontFamily;
+                if (!ReferenceEquals(local, target))
+                {
+                    AppliedFamilies.Add(target);
+                    control.SetValue(TextElement.FontFamilyProperty, target);
+                }
+            }
+            else if (local != DependencyProperty.UnsetValue)
+            {
+                control.ClearValue(TextElement.FontFamilyProperty);
             }
         }
         catch (Exception ex)
         {
-            App.Logger?.WriteLine("AppFont", "The page font could not be applied: " + ex.Message);
+            App.Logger?.WriteLine("AppFont", "The font could not be applied: " + ex.Message);
         }
     }
 
@@ -224,18 +239,7 @@ public static class AppFont
         {
             return;
         }
-        try
-        {
-            if (_current != null || Voidstrap.Utility.Platform.UsesPortableUi)
-            {
-                window.FontFamily = CurrentFontFamily;
-            }
-            else
-            {
-                ((DependencyObject)window).ClearValue(Control.FontFamilyProperty);
-            }
-        }
-        catch { }
+        ApplyTo(window);
     }
 
     public static void ApplyToAllWindows()
@@ -259,10 +263,7 @@ public static class AppFont
         foreach (Window window in current.Windows)
         {
             Apply(window);
-            if (Voidstrap.Utility.Platform.UsesPortableUi)
-            {
-                ApplyToPages(window);
-            }
+            ApplyToPages(window);
         }
     }
 
@@ -274,7 +275,7 @@ public static class AppFont
             DependencyObject child = VisualTreeHelper.GetChild(root, index);
             if (child is Page page)
             {
-                ApplyToPage(page);
+                ApplyTo(page);
             }
             ApplyToPages(child);
         }
@@ -293,6 +294,8 @@ public static class AppFont
     {
         App.Settings.Prop.AppFontPath = "";
         App.Settings.Save();
+        if (_current != null)
+            AppliedFamilies.Add(_current);
         _current = null;
         if (Voidstrap.Utility.Platform.UsesPortableUi)
             SetRendererFonts(null);
