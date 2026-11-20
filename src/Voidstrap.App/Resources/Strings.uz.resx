@@ -10200,4 +10200,10 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Oxirgi 30 kunda do'stlar faolligi yo'q</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Bu sozlamani yoqish resurslarning buzilgan ko'rinishiga olib kelishi mumkin. Ehtiyotkorlik bilan davom ettirilsinmi?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM sifat darajasini majburlash ba'zi o'yinlarda vizual muammolarga sabab bo'lishi mumkin. Undan ehtiyotkorlik bilan foydalaning.</value>
+  </data>
 </root>

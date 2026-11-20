@@ -10510,4 +10510,10 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Không có hoạt động nào của bạn bè trong 30 ngày qua</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Bật cài đặt này có thể khiến tài nguyên trông như bị hỏng. Bạn có muốn tiếp tục một cách thận trọng không?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Ép mức chất lượng FRM có thể gây ra lỗi hình ảnh trong một số trò chơi. Hãy sử dụng một cách thận trọng.</value>
+  </data>
 </root>

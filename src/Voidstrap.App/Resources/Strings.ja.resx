@@ -10511,4 +10511,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>過去 30 日間のフレンドのアクティビティはありません</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>この設定をオンにすると、アセットが壊れたように見える場合があります。注意して続行しますか？</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM の品質レベルを強制すると、一部のゲームで表示の問題が起きることがあります。注意してご使用ください。</value>
+  </data>
 </root>

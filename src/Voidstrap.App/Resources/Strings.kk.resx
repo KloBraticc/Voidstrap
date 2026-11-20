@@ -10201,4 +10201,10 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Соңғы 30 күнде достар әрекеті жоқ</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Бұл параметрді қосу ресурстардың бұзылған болып көрінуіне әкелуі мүмкін. Абайлап жалғастырасыз ба?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM сапа деңгейін мәжбүрлеп қою кейбір ойындарда көрнекі ақауларға әкелуі мүмкін. Оны абайлап пайдаланыңыз.</value>
+  </data>
 </root>

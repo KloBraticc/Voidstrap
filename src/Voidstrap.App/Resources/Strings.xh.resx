@@ -10200,4 +10200,10 @@ Faka i-SteamVR ngoku?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Akukho misebenzi yabahlobo kwiintsuku ezingama 30 ezidlulileyo</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Ukuvula esi seto kunokubangela ukuba izixhobo zibonakale zaphukile. Qhubeka ngononophelo?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Ukunyanzela inqanaba lomgangatho we FRM kunokubangela iingxaki zokubona kweminye imidlalo. Yisebenzise ngononophelo.</value>
+  </data>
 </root>

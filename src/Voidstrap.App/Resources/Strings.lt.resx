@@ -10511,4 +10511,10 @@ Veikimo laikas: {1}
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Per pastarąsias 30 dienų draugų veiklos nėra</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Įjungus šį nustatymą ištekliai gali atrodyti sugadinti. Ar tęsti atsargiai?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Priverstinis FRM kokybės lygis kai kuriuose žaidimuose gali sukelti vaizdo problemų. Naudokite jį atsargiai.</value>
+  </data>
 </root>

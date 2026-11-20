@@ -10511,4 +10511,10 @@ Instalirati SteamVR sada?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Nema aktivnosti prijatelja u zadnjih 30 dana</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Uključivanje ove postavke može uzrokovati da sadržaj izgleda pokvareno. Nastaviti s oprezom?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Prisiljavanje razine kvalitete FRM može uzrokovati vizualne probleme u nekim igrama. Koristi ga s oprezom.</value>
+  </data>
 </root>

@@ -10201,4 +10201,10 @@ Installa SteamVR issa?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>L-ebda attività tal-ħbieb fl-aħħar 30 jum</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Li tixgħel dan l-issettjar jista' jwassal għal assi li jidhru miksura. Tkompli b'attenzjoni?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Li tisforza l-livell tal-kwalità FRM jista' jikkawża problemi viżwali f'xi logħob. Użah b'attenzjoni.</value>
+  </data>
 </root>

@@ -10201,4 +10201,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Վերջին 30 օրում ընկերների ակտիվություն չկա</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Այս կարգավորումը միացնելը կարող է հանգեցնել ռեսուրսների, որոնք վնասված տեսք ունեն։ Շարունակե՞լ զգուշությամբ</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM որակի մակարդակի պարտադրումը կարող է որոշ խաղերում տեսողական խնդիրներ առաջացնել։ Օգտագործեք զգուշությամբ։</value>
+  </data>
 </root>

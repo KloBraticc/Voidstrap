@@ -10201,4 +10201,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>ଗତ 30 ଦିନରେ କୌଣସି ବନ୍ଧୁ କାର୍ଯ୍ୟକଳାପ ନାହିଁ</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ଏହି ସେଟିଂ ଚାଲୁ କଲେ ଆସେଟଗୁଡ଼ିକ ଭଙ୍ଗା ଦେଖାଯାଇପାରେ। ସାବଧାନତାର ସହ ଆଗକୁ ବଢ଼ିବେ କି?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM ଗୁଣବତ୍ତା ସ୍ତରକୁ ବାଧ୍ୟତାମୂଳକ କଲେ କିଛି ଗେମରେ ଦୃଶ୍ୟ ସମସ୍ୟା ହୋଇପାରେ। ଏହାକୁ ସାବଧାନତାର ସହ ବ୍ୟବହାର କରନ୍ତୁ।</value>
+  </data>
 </root>

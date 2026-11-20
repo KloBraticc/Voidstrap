@@ -10511,4 +10511,10 @@ Zainstalować SteamVR teraz?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Brak aktywności znajomych w ciągu ostatnich 30 dni</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Włączenie tego ustawienia może sprawić, że zasoby będą wyglądać na uszkodzone. Kontynuować ostrożnie?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Wymuszenie poziomu jakości FRM może powodować problemy wizualne w niektórych grach. Używaj go ostrożnie.</value>
+  </data>
 </root>

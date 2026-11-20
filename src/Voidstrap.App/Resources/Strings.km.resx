@@ -10201,4 +10201,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>គ្មានសកម្មភាពមិត្តភក្តិក្នុងរយៈពេល 30 ថ្ងៃចុងក្រោយ</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ការបើកការកំណត់នេះអាចធ្វើឱ្យទ្រព្យសកម្មមើលទៅខូច។ បន្តដោយប្រុងប្រយ័ត្នឬ?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>ការបង្ខំកម្រិតគុណភាព FRM អាចបង្កបញ្ហារូបភាពនៅក្នុងហ្គេមមួយចំនួន។ ប្រើវាដោយប្រុងប្រយ័ត្ន។</value>
+  </data>
 </root>

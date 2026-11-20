@@ -10201,4 +10201,10 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Сүүлийн 30 хоногт найзуудын үйл ажиллагаа алга</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Энэ тохиргоог асаах нь нөөцүүдийг эвдэрсэн мэт харагдуулж болзошгүй. Болгоомжтой үргэлжлүүлэх үү?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM чанарын түвшинг албадах нь зарим тоглоомд дүрслэлийн асуудал үүсгэж болзошгүй. Үүнийг болгоомжтой ашиглаарай.</value>
+  </data>
 </root>

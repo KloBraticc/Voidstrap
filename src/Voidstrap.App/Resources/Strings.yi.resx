@@ -10200,4 +10200,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>קיין פֿרײַנד טעטיקייט אין די לעצטע 30 טעג</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>אײַנשאַלטן דעם באַשטעל קען מאַכן אַז די רעסורסן זאָלן אויסזען צעבראָכן. ווײַטער גיין מיט פֿאָרזיכטיקייט?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>צווינגען דעם FRM קוואַליטעט ניוואָ קען פֿאַרשאַפֿן וויזועלע פּראָבלעמען אין עטלעכע שפּילן. ניצט עס מיט פֿאָרזיכטיקייט.</value>
+  </data>
 </root>

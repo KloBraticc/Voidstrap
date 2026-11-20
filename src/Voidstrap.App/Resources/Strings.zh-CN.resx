@@ -10510,4 +10510,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>过去 30 天内没有好友动态</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>开启此设置可能会导致资源看起来损坏。您要谨慎继续吗？</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>强制 FRM 画质等级可能会在部分游戏中造成画面问题。请谨慎使用。</value>
+  </data>
 </root>

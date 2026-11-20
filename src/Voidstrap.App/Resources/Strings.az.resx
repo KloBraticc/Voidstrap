@@ -10200,4 +10200,10 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Son 30 gündə dost fəaliyyəti yoxdur</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Bu ayarı yandırmaq aktivlərin xarab görünməsinə səbəb ola bilər. Ehtiyatla davam edilsin?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM keyfiyyət səviyyəsini məcburi etmək bəzi oyunlarda vizual problemlərə səbəb ola bilər. Ehtiyatla istifadə edin.</value>
+  </data>
 </root>

@@ -10201,4 +10201,10 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Enweghị ọrụ ndị enyi n'ime ụbọchị 30 gara aga</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Ịgbanye ntọala a nwere ike ime ka akụrụngwa yie ka ha mebiri emebi. Gaa n'ihu nke ọma?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Ịmanye ọkwa ịdị mma FRM nwere ike ịkpata nsogbu anya n'egwuregwu ụfọdụ. Jiri ya nke ọma.</value>
+  </data>
 </root>

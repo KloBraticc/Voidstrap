@@ -10201,4 +10201,10 @@ Installer SteamVR nå?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Ingen venneaktivitet de siste 30 dagene</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Å slå på denne innstillingen kan føre til at elementer ser ødelagte ut. Fortsette med forsiktighet?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Å tvinge FRM kvalitetsnivået kan gi visuelle problemer i noen spill. Bruk det med forsiktighet.</value>
+  </data>
 </root>

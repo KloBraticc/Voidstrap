@@ -10200,4 +10200,10 @@ Gosod SteamVR nawr?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Dim gweithgarwch ffrindiau yn y 30 diwrnod diwethaf</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Gall troi'r gosodiad hwn ymlaen achosi i asedau edrych yn doredig. Parhau yn ofalus?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Gall gorfodi lefel ansawdd FRM achosi problemau gweledol mewn rhai gemau. Defnyddia fe'n ofalus.</value>
+  </data>
 </root>

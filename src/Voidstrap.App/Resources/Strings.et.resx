@@ -10200,4 +10200,10 @@ Kas installida SteamVR kohe?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Viimase 30 päeva jooksul pole sõprade tegevust</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Selle seade sisselülitamine võib muuta varad katkise välimusega. Kas jätkata ettevaatlikult?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM kvaliteeditaseme sundimine võib mõnes mängus põhjustada visuaalseid probleeme. Kasuta seda ettevaatlikult.</value>
+  </data>
 </root>

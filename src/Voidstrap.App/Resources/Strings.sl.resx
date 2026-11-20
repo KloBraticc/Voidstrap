@@ -10201,4 +10201,10 @@ Namestite SteamVR zdaj?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>V zadnjih 30 dneh ni dejavnosti prijateljev</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Vklop te nastavitve lahko povzroči, da so sredstva videti pokvarjena. Želite nadaljevati previdno?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Vsiljevanje ravni kakovosti FRM lahko v nekaterih igrah povzroči vizualne težave. Uporabljajte ga previdno.</value>
+  </data>
 </root>

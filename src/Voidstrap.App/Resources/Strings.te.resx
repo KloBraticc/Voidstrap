@@ -10200,4 +10200,10 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>గత 30 రోజుల్లో స్నేహితుల కార్యకలాపం లేదు</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ఈ సెట్టింగ్‌ను ఆన్ చేయడం వల్ల అసెట్‌లు విరిగినట్లు కనిపించవచ్చు. జాగ్రత్తగా కొనసాగించాలా?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM నాణ్యత స్థాయిని బలవంతంగా సెట్ చేయడం వల్ల కొన్ని గేమ్‌లలో దృశ్య సమస్యలు రావచ్చు. దీన్ని జాగ్రత్తగా ఉపయోగించండి.</value>
+  </data>
 </root>

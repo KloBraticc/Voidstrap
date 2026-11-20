@@ -10200,4 +10200,10 @@ Uptime: {1}
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>ئاخىرقى 30 كۈندە دوستلار پائالىيىتى يوق</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>بۇ تەڭشەكنى ئېچىش مەنبەلەرنىڭ بۇزۇلغاندەك كۆرۈنۈشىنى كەلتۈرۈپ چىقىرىشى مۇمكىن. ئېھتىيات بىلەن داۋاملاشتۇرامسىز؟</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM سۈپەت دەرىجىسىنى مەجبۇرىي بەلگىلەش بەزى ئويۇنلاردا كۆرۈنۈش مەسىلىسى پەيدا قىلىشى مۇمكىن. ئېھتىيات بىلەن ئىشلىتىڭ.</value>
+  </data>
 </root>

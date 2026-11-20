@@ -10201,4 +10201,10 @@ Shigar SteamVR yanzu?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Babu ayyukan abokai a cikin kwanaki 30 da suka gabata</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Kunna wannan saitin na iya sa kadarori su yi kama da sun lalace. Ci gaba da taka tsantsan?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Tilasta matakin ingancin FRM na iya haifar da matsalolin gani a wasu wasanni. Yi amfani da shi da taka tsantsan.</value>
+  </data>
 </root>

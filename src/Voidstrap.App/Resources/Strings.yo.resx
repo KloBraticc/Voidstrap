@@ -10200,4 +10200,10 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Kò sí ìṣe àwọn ọ̀rẹ́ ní ọjọ́ 30 sẹ́yìn</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Títan ètò yìí lè mú kí àwọn ohun èlò dàbí èyí tí ó bàjẹ́. Tẹ̀síwájú pẹ̀lú ìṣọ́ra?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Fífi ipá mú ìpele dídára FRM lè fa àwọn ìṣòro ìrísí nínú àwọn eré kan. Lò ó pẹ̀lú ìṣọ́ra.</value>
+  </data>
 </root>

@@ -10201,4 +10201,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>मागील 30 दिवसांत मित्रांची कोणतीही क्रियाकलाप नाही</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ही सेटिंग चालू केल्याने अ‍ॅसेट्स तुटलेले दिसू शकतात. सावधगिरीने पुढे जायचे?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM गुणवत्ता स्तर सक्तीने लागू केल्याने काही गेम्समध्ये दृश्य समस्या येऊ शकतात. ते सावधगिरीने वापरा.</value>
+  </data>
 </root>

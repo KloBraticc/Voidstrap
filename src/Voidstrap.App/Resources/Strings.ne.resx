@@ -10201,4 +10201,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>पछिल्लो 30 दिनमा साथीहरूको कुनै गतिविधि छैन</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>यो सेटिङ अन गर्दा एसेटहरू बिग्रिएको जस्तो देखिन सक्छ। सावधानीसाथ अगाडि बढ्ने?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM गुणस्तर स्तर जबरजस्ती लागू गर्दा केही खेलहरूमा दृश्य समस्या आउन सक्छ। यसलाई सावधानीसाथ प्रयोग गर्नुहोस्।</value>
+  </data>
 </root>

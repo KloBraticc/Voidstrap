@@ -10201,4 +10201,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>છેલ્લા 30 દિવસમાં કોઈ મિત્ર પ્રવૃત્તિ નથી</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>આ સેટિંગ ચાલુ કરવાથી એસેટ્સ તૂટેલા દેખાઈ શકે છે. સાવધાની સાથે આગળ વધવું છે?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM ગુણવત્તા સ્તરને ફરજિયાત કરવાથી કેટલીક ગેમ્સમાં દ્રશ્ય સમસ્યાઓ થઈ શકે છે. તેનો સાવધાનીથી ઉપયોગ કરો.</value>
+  </data>
 </root>

@@ -10511,4 +10511,10 @@ Instal SteamVR sekarang?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Tidak ada aktivitas teman dalam 30 hari terakhir</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Mengaktifkan pengaturan ini dapat membuat aset terlihat rusak. Lanjutkan dengan hati hati?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Memaksakan tingkat kualitas FRM dapat menyebabkan masalah visual di beberapa game. Gunakan dengan hati hati.</value>
+  </data>
 </root>

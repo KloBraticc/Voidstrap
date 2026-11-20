@@ -10201,4 +10201,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>පසුගිය දින 30 තුළ මිතුරන්ගේ ක්‍රියාකාරකම් නැත</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>මෙම සැකසුම සක්‍රිය කිරීමෙන් වත්කම් කැඩී ඇති ලෙස පෙනිය හැක. ප්‍රවේශමෙන් ඉදිරියට යනවාද?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM ගුණාත්මක මට්ටම බලෙන් යෙදීම සමහර ක්‍රීඩාවල දෘශ්‍ය ගැටලු ඇති කළ හැක. එය ප්‍රවේශමෙන් භාවිතා කරන්න.</value>
+  </data>
 </root>

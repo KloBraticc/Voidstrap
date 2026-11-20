@@ -10200,4 +10200,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Καμία δραστηριότητα φίλων τις τελευταίες 30 ημέρες</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Η ενεργοποίηση αυτής της ρύθμισης μπορεί να κάνει τα στοιχεία να φαίνονται χαλασμένα. Συνέχεια με προσοχή;</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Ο εξαναγκασμός του επιπέδου ποιότητας FRM μπορεί να προκαλέσει οπτικά προβλήματα σε ορισμένα παιχνίδια. Χρησιμοποιήστε το με προσοχή.</value>
+  </data>
 </root>

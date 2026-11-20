@@ -10200,4 +10200,10 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>လွန်ခဲ့သော ရက် 30 အတွင်း သူငယ်ချင်း လှုပ်ရှားမှု မရှိပါ</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ဤဆက်တင်ကို ဖွင့်ခြင်းသည် အရင်းအမြစ်များကို ပျက်စီးနေသကဲ့သို့ ထင်ရစေနိုင်သည်။ သတိထား၍ ဆက်လုပ်မလား?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM အရည်အသွေးအဆင့်ကို အတင်းသတ်မှတ်ခြင်းသည် အချို့ဂိမ်းများတွင် မြင်ကွင်းပြဿနာများ ဖြစ်စေနိုင်သည်။ သတိထား၍ အသုံးပြုပါ။</value>
+  </data>
 </root>

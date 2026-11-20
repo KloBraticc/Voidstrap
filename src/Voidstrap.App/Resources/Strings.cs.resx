@@ -10510,4 +10510,10 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Žádná aktivita přátel za posledních 30 dní</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Zapnutí tohoto nastavení může způsobit, že prvky budou vypadat poškozeně. Chcete pokračovat s opatrností?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Vynucení úrovně kvality FRM může v některých hrách způsobit vizuální problémy. Používejte jej opatrně.</value>
+  </data>
 </root>

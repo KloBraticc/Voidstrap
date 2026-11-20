@@ -10510,4 +10510,10 @@
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>لا يوجد نشاط للأصدقاء خلال آخر 30 يومًا</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>قد يؤدي تشغيل هذا الإعداد إلى ظهور عناصر تبدو معطوبة. هل تريد المتابعة بحذر؟</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>قد يؤدي فرض مستوى جودة FRM إلى مشاكل بصرية في بعض الألعاب. استخدمه بحذر.</value>
+  </data>
 </root>

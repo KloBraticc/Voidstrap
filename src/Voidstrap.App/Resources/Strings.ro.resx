@@ -10511,4 +10511,10 @@ Instalați SteamVR acum?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Nicio activitate a prietenilor în ultimele 30 de zile</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Activarea acestei setări poate face ca resursele să arate stricate. Continui cu prudență?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Forțarea nivelului de calitate FRM poate cauza probleme vizuale în unele jocuri. Folosește o cu prudență.</value>
+  </data>
 </root>

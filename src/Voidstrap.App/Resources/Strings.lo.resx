@@ -10201,4 +10201,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>ບໍ່ມີກິດຈະກຳຂອງໝູ່ໃນ 30 ມື້ທີ່ຜ່ານມາ</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ການເປີດການຕັ້ງຄ່ານີ້ອາດເຮັດໃຫ້ຊັບສິນເບິ່ງຄືເພ. ດຳເນີນການຕໍ່ດ້ວຍຄວາມລະມັດລະວັງບໍ?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>ການບັງຄັບລະດັບຄຸນນະພາບ FRM ອາດເຮັດໃຫ້ເກີດບັນຫາພາບໃນບາງເກມ. ໃຊ້ມັນດ້ວຍຄວາມລະມັດລະວັງ.</value>
+  </data>
 </root>

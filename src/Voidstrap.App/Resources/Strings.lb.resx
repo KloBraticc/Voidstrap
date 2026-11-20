@@ -10201,4 +10201,10 @@ SteamVR elo installéieren?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Keng Aktivitéit vu Frënn an de leschten 30 Deeg</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Wann Dir dës Astellung aschalt, kënnen Assets futti ausgesinn. Mat Virsiicht virufueren?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>D'FRM Qualitéitsstuf ze forcéieren kann a verschiddene Spiller visuell Problemer verursaachen. Benotzt et mat Virsiicht.</value>
+  </data>
 </root>

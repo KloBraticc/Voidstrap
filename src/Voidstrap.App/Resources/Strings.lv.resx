@@ -10201,4 +10201,10 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Pēdējās 30 dienās nav draugu aktivitātes</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Ieslēdzot šo iestatījumu, resursi var izskatīties bojāti. Turpināt piesardzīgi?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM kvalitātes līmeņa uzspiešana dažās spēlēs var radīt vizuālas problēmas. Izmanto to piesardzīgi.</value>
+  </data>
 </root>

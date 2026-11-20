@@ -10201,4 +10201,10 @@ Hadda rakib SteamVR?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Ma jiro dhaqdhaqaaq saaxiibo 30kii maalmood ee la soo dhaafay</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Daarida dejintan waxay keeni kartaa in hantidu u ekaato kuwo jaban. Si taxaddar leh ma u sii socotaa?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Ku qasbidda heerka tayada FRM waxay keeni kartaa dhibaatooyin muuqaal ah ciyaaraha qaarkood. Si taxaddar leh u isticmaal.</value>
+  </data>
 </root>

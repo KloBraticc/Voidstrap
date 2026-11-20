@@ -10510,4 +10510,10 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Son 30 günde arkadaş etkinliği yok</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Bu ayarı açmak varlıkların bozuk görünmesine neden olabilir. Dikkatli bir şekilde devam etmek istiyor musunuz?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM kalite seviyesini zorlamak bazı oyunlarda görsel sorunlara neden olabilir. Dikkatli kullanın.</value>
+  </data>
 </root>

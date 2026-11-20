@@ -10200,4 +10200,10 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Дар 30 рӯзи охир фаъолияти дӯстон нест</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Фаъол кардани ин танзимот метавонад боиси он шавад, ки захираҳо вайрон ба назар расанд. Бо эҳтиёт идома диҳед?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Маҷбуран гузоштани сатҳи сифати FRM метавонад дар баъзе бозиҳо мушкилоти визуалӣ ба вуҷуд орад. Онро бо эҳтиёт истифода баред.</value>
+  </data>
 </root>

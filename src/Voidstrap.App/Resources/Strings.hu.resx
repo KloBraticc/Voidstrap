@@ -10511,4 +10511,10 @@ Telepítse most az SteamVR-t?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Nincs baráti tevékenység az elmúlt 30 napban</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>A beállítás bekapcsolása miatt egyes elemek hibásnak tűnhetnek. Óvatosan folytatod?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Az FRM minőségi szint kikényszerítése egyes játékokban vizuális hibákat okozhat. Óvatosan használd.</value>
+  </data>
 </root>

@@ -10200,4 +10200,10 @@ Instal·leu SteamVR ara?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Cap activitat dels amics en els darrers 30 dies</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Activar aquest paràmetre pot fer que els recursos es vegin trencats. Vols continuar amb precaució?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Forçar el nivell de qualitat FRM pot causar problemes visuals en alguns jocs. Fes-lo servir amb precaució.</value>
+  </data>
 </root>

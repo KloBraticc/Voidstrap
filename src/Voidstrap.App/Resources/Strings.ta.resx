@@ -10200,4 +10200,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>கடந்த 30 நாட்களில் நண்பர்களின் செயல்பாடு இல்லை</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>இந்த அமைப்பை இயக்குவதால் சொத்துக்கள் உடைந்தது போல் தோன்றக்கூடும். எச்சரிக்கையுடன் தொடரவா?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM தர நிலையைக் கட்டாயப்படுத்துவது சில கேம்களில் காட்சி சிக்கல்களை ஏற்படுத்தக்கூடும். எச்சரிக்கையுடன் பயன்படுத்தவும்.</value>
+  </data>
 </root>

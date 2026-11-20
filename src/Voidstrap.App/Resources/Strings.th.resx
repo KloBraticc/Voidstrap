@@ -10510,4 +10510,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>ไม่มีกิจกรรมของเพื่อนในช่วง 30 วันที่ผ่านมา</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>การเปิดการตั้งค่านี้อาจทำให้แอสเซ็ตดูเสียหาย ดำเนินการต่ออย่างระมัดระวังหรือไม่</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>การบังคับระดับคุณภาพ FRM อาจทำให้เกิดปัญหาด้านภาพในบางเกม โปรดใช้อย่างระมัดระวัง</value>
+  </data>
 </root>

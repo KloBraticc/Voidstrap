@@ -10201,4 +10201,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Нема активности пријатеља у последњих 30 дана</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Укључивање ове поставке може довести до тога да ресурси изгледају покварено. Наставити опрезно?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Наметање нивоа квалитета FRM може изазвати визуелне проблеме у неким играма. Користите га опрезно.</value>
+  </data>
 </root>

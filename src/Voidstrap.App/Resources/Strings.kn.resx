@@ -10201,4 +10201,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>ಕಳೆದ 30 ದಿನಗಳಲ್ಲಿ ಸ್ನೇಹಿತರ ಚಟುವಟಿಕೆ ಇಲ್ಲ</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ಈ ಸೆಟ್ಟಿಂಗ್ ಅನ್ನು ಆನ್ ಮಾಡುವುದರಿಂದ ಆಸ್ತಿಗಳು ಮುರಿದಂತೆ ಕಾಣಬಹುದು. ಎಚ್ಚರಿಕೆಯಿಂದ ಮುಂದುವರಿಯುವುದೇ?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM ಗುಣಮಟ್ಟದ ಮಟ್ಟವನ್ನು ಬಲವಂತವಾಗಿ ಹೊಂದಿಸುವುದರಿಂದ ಕೆಲವು ಆಟಗಳಲ್ಲಿ ದೃಶ್ಯ ಸಮಸ್ಯೆಗಳು ಉಂಟಾಗಬಹುದು. ಎಚ್ಚರಿಕೆಯಿಂದ ಬಳಸಿ.</value>
+  </data>
 </root>

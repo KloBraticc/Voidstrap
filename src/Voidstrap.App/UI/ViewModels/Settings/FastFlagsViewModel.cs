@@ -156,6 +156,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
             {
                 return;
             }
+            if (value && Frontend.ShowMessageBox(Strings.Ui_FastFlags_MeshDetail_Caution, MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+            {
+                OnPropertyChanged(nameof(MeshQualityEnabled));
+                return;
+            }
             if (value)
             {
                 for (int i = 0; i < LODLevels.Length; i++)

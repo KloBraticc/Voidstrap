@@ -10510,4 +10510,10 @@ Jugadores: {2}</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Sin actividad de amigos en los últimos 30 días</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Activar este ajuste puede hacer que los recursos se vean rotos. ¿Quieres continuar con precaución?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Forzar el nivel de calidad de FRM puede causar problemas visuales en algunos juegos. Úsalo con precaución.</value>
+  </data>
 </root>

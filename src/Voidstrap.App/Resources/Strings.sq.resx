@@ -10201,4 +10201,10 @@ Të instalohet SteamVR tani?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Asnjë aktivitet i miqve në 30 ditët e fundit</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Aktivizimi i këtij cilësimi mund të bëjë që asetet të duken të prishura. Të vazhdohet me kujdes?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Detyrimi i nivelit të cilësisë FRM mund të shkaktojë probleme vizuale në disa lojëra. Përdore me kujdes.</value>
+  </data>
 </root>

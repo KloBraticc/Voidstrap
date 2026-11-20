@@ -124,6 +124,7 @@
         </Grid>
       </HeaderedContentControl.Header>
       <StackPanel Margin="0,8,0,0">
+        <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Message="{resources:Loc Ui_FastFlags_FRMQualityOverride_Caution}" />
         <Grid Margin="0,8,0,0">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

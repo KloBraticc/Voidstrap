@@ -10200,4 +10200,10 @@ Kenya SteamVR hona joale?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Ha ho mesebetsi ya metswalle matsatsing a 30 a fetileng</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Ho bulela setlhophiso sena ho ka etsa hore thepa e shebahale e robehile. Tswela pele ka hloko?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Ho qobella boemo ba boleng ba FRM ho ka baka mathata a pono lipapading tse ling. E sebedise ka hloko.</value>
+  </data>
 </root>

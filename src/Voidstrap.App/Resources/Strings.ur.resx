@@ -10200,4 +10200,10 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>پچھلے 30 دنوں میں دوستوں کی کوئی سرگرمی نہیں</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>اس ترتیب کو آن کرنے سے اثاثے ٹوٹے ہوئے دکھائی دے سکتے ہیں۔ احتیاط کے ساتھ آگے بڑھیں؟</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM معیار کی سطح کو زبردستی لاگو کرنے سے کچھ گیمز میں بصری مسائل ہو سکتے ہیں۔ اسے احتیاط سے استعمال کریں۔</value>
+  </data>
 </root>

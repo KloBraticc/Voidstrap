@@ -10200,4 +10200,10 @@ SteamVR instalatu orain?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Ez dago lagunen jarduerarik azken 30 egunetan</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Ezarpen hau aktibatzeak baliabideak hautsita ikustea eragin dezake. Kontuz jarraitu nahi duzu?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM kalitate maila behartzeak arazo bisualak sor ditzake joko batzuetan. Erabili kontuz.</value>
+  </data>
 </root>

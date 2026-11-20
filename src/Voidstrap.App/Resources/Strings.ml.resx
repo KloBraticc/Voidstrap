@@ -10201,4 +10201,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>കഴിഞ്ഞ 30 ദിവസങ്ങളിൽ സുഹൃത്തുക്കളുടെ പ്രവർത്തനമില്ല</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ഈ ക്രമീകരണം ഓണാക്കുന്നത് അസറ്റുകൾ തകർന്നതായി കാണപ്പെടാൻ ഇടയാക്കിയേക്കാം. ജാഗ്രതയോടെ തുടരണോ?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM ഗുണനിലവാര നില നിർബന്ധമാക്കുന്നത് ചില ഗെയിമുകളിൽ ദൃശ്യ പ്രശ്നങ്ങൾ ഉണ്ടാക്കിയേക്കാം. ജാഗ്രതയോടെ ഉപയോഗിക്കുക.</value>
+  </data>
 </root>

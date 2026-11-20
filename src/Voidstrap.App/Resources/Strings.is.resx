@@ -10201,4 +10201,10 @@ Settu upp SteamVR núna?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Engin virkni vina síðustu 30 daga</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Að kveikja á þessari stillingu getur valdið því að eignir líti út fyrir að vera bilaðar. Halda áfram með varúð?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Að þvinga FRM gæðastig getur valdið sjónrænum vandamálum í sumum leikjum. Notaðu það með varúð.</value>
+  </data>
 </root>

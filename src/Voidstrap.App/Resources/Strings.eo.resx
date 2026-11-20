@@ -10200,4 +10200,10 @@ Ludantoj: {2}</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Neniu agado de amikoj en la lastaj 30 tagoj</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Ŝalti ĉi tiun agordon povas igi aktivaĵojn aspekti rompitaj. Ĉu daŭrigi singarde?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Devigi la FRM kvalitnivelon povas kaŭzi vidajn problemojn en iuj ludoj. Uzu ĝin singarde.</value>
+  </data>
 </root>

@@ -10201,4 +10201,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>گذريل 30 ڏينهن ۾ دوستن جي ڪا سرگرمي ناهي</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>هي سيٽنگ آن ڪرڻ سان اثاثا ٽٽل نظر اچي سگهن ٿا. احتياط سان اڳتي وڌو؟</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM معيار جي سطح کي زبردستي لاڳو ڪرڻ سان ڪجهه راندين ۾ بصري مسئلا ٿي سگهن ٿا. ان کي احتياط سان استعمال ڪريو.</value>
+  </data>
 </root>

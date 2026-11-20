@@ -10200,4 +10200,10 @@ Indi SteamVR guruň?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Soňky 30 günde dostlaryň işjeňligi ýok</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Bu sazlamany açmak serişdeleriň döwük görünmegine sebäp bolup biler. Seresaplylyk bilen dowam etmelimi?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM hil derejesini mejbury etmek käbir oýunlarda wizual meselelere sebäp bolup biler. Ony seresaplylyk bilen ulanyň.</value>
+  </data>
 </root>

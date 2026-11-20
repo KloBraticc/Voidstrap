@@ -10201,4 +10201,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>אין פעילות חברים ב 30 הימים האחרונים</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>הפעלת ההגדרה הזו עלולה לגרום לנכסים להיראות שבורים. להמשיך בזהירות?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>כפיית רמת האיכות של FRM עלולה לגרום לבעיות חזותיות בחלק מהמשחקים. השתמש בזה בזהירות.</value>
+  </data>
 </root>

@@ -10201,4 +10201,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>په تېرو 30 ورځو کې د ملګرو فعالیت نشته</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>د دې ترتیب فعالول ممکن د دې لامل شي چې شتمنۍ مات ښکاره شي. په احتیاط سره دوام ورکوئ؟</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>د FRM کیفیت کچې جبري کول ممکن په ځینو لوبو کې لیدلو ستونزې رامنځته کړي. په احتیاط سره یې وکاروئ.</value>
+  </data>
 </root>

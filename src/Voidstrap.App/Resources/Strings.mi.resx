@@ -10201,4 +10201,10 @@ Tāuta SteamVR ināianei?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Kāore he mahi a ngā hoa i ngā rā 30 kua hipa</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Mā te whakakā i tēnei tautuhinga ka āhua pakaru pea ngā rawa. Me haere tonu mā te tūpato?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Mā te akiaki i te taumata kounga FRM ka puta pea he raruraru ataata i ētahi kēmu. Whakamahia mā te tūpato.</value>
+  </data>
 </root>

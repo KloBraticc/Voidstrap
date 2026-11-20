@@ -10201,4 +10201,10 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>ਪਿਛਲੇ 30 ਦਿਨਾਂ ਵਿੱਚ ਦੋਸਤਾਂ ਦੀ ਕੋਈ ਗਤੀਵਿਧੀ ਨਹੀਂ</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ਇਹ ਸੈਟਿੰਗ ਚਾਲੂ ਕਰਨ ਨਾਲ ਐਸੇਟ ਟੁੱਟੇ ਹੋਏ ਦਿਖ ਸਕਦੇ ਹਨ। ਸਾਵਧਾਨੀ ਨਾਲ ਅੱਗੇ ਵਧਣਾ ਹੈ?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM ਗੁਣਵੱਤਾ ਪੱਧਰ ਨੂੰ ਜ਼ਬਰਦਸਤੀ ਲਾਗੂ ਕਰਨ ਨਾਲ ਕੁਝ ਗੇਮਾਂ ਵਿੱਚ ਦ੍ਰਿਸ਼ ਸਮੱਸਿਆਵਾਂ ਹੋ ਸਕਦੀਆਂ ਹਨ। ਇਸਨੂੰ ਸਾਵਧਾਨੀ ਨਾਲ ਵਰਤੋ।</value>
+  </data>
 </root>

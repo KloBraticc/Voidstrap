@@ -10510,4 +10510,10 @@ Asennetaan SteamVR nyt?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Ei kavereiden toimintaa viimeisen 30 päivän aikana</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Tämän asetuksen käyttöönotto voi saada resurssit näyttämään rikkinäisiltä. Jatketaanko varovasti?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM laatutason pakottaminen voi aiheuttaa visuaalisia ongelmia joissakin peleissä. Käytä sitä varoen.</value>
+  </data>
 </root>

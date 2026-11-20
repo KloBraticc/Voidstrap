@@ -10201,4 +10201,10 @@ Uptime: {1}
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>ბოლო 30 დღეში მეგობრების აქტივობა არ არის</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>ამ პარამეტრის ჩართვამ შეიძლება გამოიწვიოს რესურსების დაზიანებული იერსახე. გავაგრძელოთ სიფრთხილით?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>FRM ხარისხის დონის იძულებით დაყენებამ ზოგიერთ თამაშში შეიძლება ვიზუალური პრობლემები გამოიწვიოს. გამოიყენეთ სიფრთხილით.</value>
+  </data>
 </root>

@@ -10511,4 +10511,10 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Нет активности друзей за последние 30 дней</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Включение этого параметра может привести к тому, что ресурсы будут выглядеть сломанными. Продолжить с осторожностью?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Принудительный уровень качества FRM может вызвать визуальные проблемы в некоторых играх. Используйте его с осторожностью.</value>
+  </data>
 </root>

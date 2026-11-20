@@ -10200,4 +10200,10 @@ Sakinisha SteamVR sasa?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Hakuna shughuli za marafiki katika siku 30 zilizopita</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Kuwasha mpangilio huu kunaweza kusababisha rasilimali kuonekana zimeharibika. Endelea kwa tahadhari?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Kulazimisha kiwango cha ubora cha FRM kunaweza kusababisha matatizo ya kuona katika baadhi ya michezo. Kitumie kwa tahadhari.</value>
+  </data>
 </root>

@@ -10201,4 +10201,10 @@ Hametraka SteamVR izao?</value>
   <data name="Library.Friends.NoActivity" xml:space="preserve">
     <value>Tsy nisy hetsiky ny namana tao anatin'ny 30 andro farany</value>
   </data>
+  <data name="Ui.FastFlags.MeshDetail.Caution" xml:space="preserve">
+    <value>Ny fampandehanana an'ity fikirana ity dia mety hahatonga ny loharano ho toa simba. Hanohy amim-pitandremana ve?</value>
+  </data>
+  <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
+    <value>Ny fanerena ny haavon'ny kalitao FRM dia mety hiteraka olana amin'ny sary amin'ny lalao sasany. Ampiasao amim-pitandremana.</value>
+  </data>
 </root>
