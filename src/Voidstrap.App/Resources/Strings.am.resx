@@ -10206,4 +10206,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>የFRM ጥራት ደረጃን ማስገደድ በአንዳንድ ጨዋታዎች ውስጥ የእይታ ችግሮችን ሊያስከትል ይችላል። በጥንቃቄ ይጠቀሙበት።</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Roblox ከተዘጋ በኋላ Voidstrapን እንደገና ክፈት</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Robloxን ሲዘጉ Voidstrap ከመውጣት ይልቅ በመነሻ ገጽ ላይ ተመልሶ ይመጣል።</value>
+  </data>
 </root>

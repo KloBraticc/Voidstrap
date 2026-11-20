@@ -469,6 +469,19 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
         return choices;
     }
 
+    public bool ReopenAfterRobloxCloses
+    {
+        get { return App.Settings?.Prop?.ReopenAfterRobloxCloses == true; }
+        set
+        {
+            if (App.Settings?.Prop != null && App.Settings.Prop.ReopenAfterRobloxCloses != value)
+            {
+                App.Settings.Prop.ReopenAfterRobloxCloses = value;
+                OnPropertyChanged(nameof(ReopenAfterRobloxCloses));
+            }
+        }
+    }
+
     public bool AllowPreReleaseUpdates
     {
         get { return App.Settings?.Prop?.AllowPreReleaseUpdates == true; }

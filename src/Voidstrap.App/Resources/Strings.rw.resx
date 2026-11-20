@@ -10207,4 +10207,10 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Guhatira urwego rw'ubwiza bwa FRM bishobora gutera ibibazo byo kureba mu mikino imwe n'imwe. Bikoreshe witonze.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Ongera ufungure Voidstrap nyuma yo gufunga Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Igarura Voidstrap ku rupapuro rw'Ibanze iyo ufunze Roblox, aho kugira ngo ifunge.</value>
+  </data>
 </root>

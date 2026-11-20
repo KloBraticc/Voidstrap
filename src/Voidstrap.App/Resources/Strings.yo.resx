@@ -10206,4 +10206,10 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Fífi ipá mú ìpele dídára FRM lè fa àwọn ìṣòro ìrísí nínú àwọn eré kan. Lò ó pẹ̀lú ìṣọ́ra.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Tún Voidstrap ṣí lẹ́yìn tí Roblox bá pa</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Ó máa ń mú Voidstrap padà sí ojú ìwé Ilé nígbà tí o bá pa Roblox, dípò kí ó jáde.</value>
+  </data>
 </root>

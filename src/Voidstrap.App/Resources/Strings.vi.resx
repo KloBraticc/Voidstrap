@@ -10516,4 +10516,10 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Ép mức chất lượng FRM có thể gây ra lỗi hình ảnh trong một số trò chơi. Hãy sử dụng một cách thận trọng.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Mở lại Voidstrap sau khi đóng Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Đưa Voidstrap trở lại trang Chủ khi bạn đóng Roblox, thay vì thoát.</value>
+  </data>
 </root>

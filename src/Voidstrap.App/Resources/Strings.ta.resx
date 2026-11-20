@@ -10206,4 +10206,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM தர நிலையைக் கட்டாயப்படுத்துவது சில கேம்களில் காட்சி சிக்கல்களை ஏற்படுத்தக்கூடும். எச்சரிக்கையுடன் பயன்படுத்தவும்.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Roblox மூடிய பிறகு Voidstrap ஐ மீண்டும் திறக்கவும்</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Roblox ஐ மூடும்போது Voidstrap வெளியேறுவதற்குப் பதிலாக முகப்புப் பக்கத்திற்குத் திரும்பும்.</value>
+  </data>
 </root>

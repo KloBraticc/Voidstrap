@@ -10207,4 +10207,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>د FRM کیفیت کچې جبري کول ممکن په ځینو لوبو کې لیدلو ستونزې رامنځته کړي. په احتیاط سره یې وکاروئ.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>د Roblox له تړلو وروسته Voidstrap بیا پرانیزئ</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>کله چې Roblox وتړئ، Voidstrap د وتلو پر ځای بېرته کور پاڼې ته راځي.</value>
+  </data>
 </root>

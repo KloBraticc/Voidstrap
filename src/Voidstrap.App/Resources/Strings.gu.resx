@@ -10207,4 +10207,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM ગુણવત્તા સ્તરને ફરજિયાત કરવાથી કેટલીક ગેમ્સમાં દ્રશ્ય સમસ્યાઓ થઈ શકે છે. તેનો સાવધાનીથી ઉપયોગ કરો.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Roblox બંધ થયા પછી Voidstrap ફરી ખોલો</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Roblox બંધ કરો ત્યારે Voidstrap બંધ થવાને બદલે હોમ પેજ પર પાછું આવે છે.</value>
+  </data>
 </root>

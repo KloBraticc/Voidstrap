@@ -10207,4 +10207,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>כפיית רמת האיכות של FRM עלולה לגרום לבעיות חזותיות בחלק מהמשחקים. השתמש בזה בזהירות.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>פתיחה מחדש של Voidstrap לאחר סגירת Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>מחזיר את Voidstrap לדף הבית כשאתה סוגר את Roblox, במקום לצאת.</value>
+  </data>
 </root>

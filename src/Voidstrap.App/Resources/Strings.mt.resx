@@ -10207,4 +10207,10 @@ Installa SteamVR issa?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Li tisforza l-livell tal-kwalità FRM jista' jikkawża problemi viżwali f'xi logħob. Użah b'attenzjoni.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Erġa' iftaħ Voidstrap wara li Roblox jingħalaq</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Iġib lura Voidstrap fil-paġna Ewlenija meta tagħlaq Roblox, minflok ma joħroġ.</value>
+  </data>
 </root>

@@ -1241,6 +1241,8 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Channel_UpdatesToTestBuildsAsSoon => ResourceManager.GetString("Ui.Channel.UpdatesToTestBuildsAsSoon", resourceCulture);
 
+        public static string Ui_Channel_ReopenAfterRobloxCloses => ResourceManager.GetString("Ui.Channel.ReopenAfterRobloxCloses", resourceCulture);
+        public static string Ui_Channel_ReopenAfterRobloxCloses_Description => ResourceManager.GetString("Ui.Channel.ReopenAfterRobloxCloses.Description", resourceCulture);
         public static string Ui_Channel_LaunchRobloxWithoutVoidstrap => ResourceManager.GetString("Ui.Channel.LaunchRobloxWithoutVoidstrap", resourceCulture);
 
         public static string Ui_Channel_JoiningAGameFromYourBrowser => ResourceManager.GetString("Ui.Channel.JoiningAGameFromYourBrowser", resourceCulture);

@@ -10206,4 +10206,10 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Kulazimisha kiwango cha ubora cha FRM kunaweza kusababisha matatizo ya kuona katika baadhi ya michezo. Kitumie kwa tahadhari.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Fungua Voidstrap tena baada ya Roblox kufungwa</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Hurudisha Voidstrap kwenye ukurasa wa Nyumbani unapofunga Roblox, badala ya kufunga.</value>
+  </data>
 </root>

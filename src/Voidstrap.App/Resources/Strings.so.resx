@@ -10207,4 +10207,10 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Ku qasbidda heerka tayada FRM waxay keeni kartaa dhibaatooyin muuqaal ah ciyaaraha qaarkood. Si taxaddar leh u isticmaal.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Dib u fur Voidstrap marka Roblox la xiro</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Waxay Voidstrap ku soo celisaa bogga Hoyga marka aad xirto Roblox, halkii ay ka bixi lahayd.</value>
+  </data>
 </root>

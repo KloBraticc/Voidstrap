@@ -10206,4 +10206,10 @@ Ludantoj: {2}</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Devigi la FRM kvalitnivelon povas kaŭzi vidajn problemojn en iuj ludoj. Uzu ĝin singarde.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Remalfermi Voidstrap post kiam Roblox fermiĝas</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Revenigas Voidstrap al la Hejma paĝo kiam vi fermas Roblox, anstataŭ eliri.</value>
+  </data>
 </root>

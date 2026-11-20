@@ -10206,4 +10206,10 @@ Uptime: {1}
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM سۈپەت دەرىجىسىنى مەجبۇرىي بەلگىلەش بەزى ئويۇنلاردا كۆرۈنۈش مەسىلىسى پەيدا قىلىشى مۇمكىن. ئېھتىيات بىلەن ئىشلىتىڭ.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Roblox ياپىلغاندىن كېيىن Voidstrap نى قايتا ئېچىش</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Roblox نى ياپقاندا Voidstrap چېكىنىشنىڭ ئورنىغا باش بەتكە قايتىدۇ.</value>
+  </data>
 </root>

@@ -993,6 +993,7 @@ public partial class Watcher : IDisposable
             }
         }
         ReopenSettingsForTestMode();
+        ReopenHomeAfterRobloxCloses();
         await Bootstrapper.CompressInstallsAfterExitAsync().ConfigureAwait(false);
     }
 
@@ -1070,6 +1071,38 @@ public partial class Watcher : IDisposable
             return;
         }
         ReopenSettingsForTestModeOnce();
+    }
+
+    private void ReopenHomeAfterRobloxCloses()
+    {
+        const string LOG_IDENT = "Watcher::ReopenHomeAfterRobloxCloses";
+
+        if (
+            _disposed
+            || _lifetimeCancellation.IsCancellationRequested
+            || !Voidstrap.Utility.Platform.IsWindows
+            || !App.Settings.Prop.ReopenAfterRobloxCloses
+            || App.Settings.Prop.LaunchWithoutVoidstrap
+            || App.LaunchSettings.TestModeFlag.Active
+        )
+        {
+            return;
+        }
+        try
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Paths.LaunchExecutable, UseShellExecute = false };
+            startInfo.ArgumentList.Add("-settings");
+            startInfo.ArgumentList.Add(Voidstrap.UI.TaskbarJumpList.HomeView);
+            using Process? settingsProcess = Process.Start(startInfo);
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                settingsProcess == null ? "Voidstrap could not be reopened after Roblox closed" : "Roblox closed, Voidstrap reopened on the Home page"
+            );
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+        }
     }
 
     private static int _testModeReopened;

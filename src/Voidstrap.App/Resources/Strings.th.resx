@@ -10516,4 +10516,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>การบังคับระดับคุณภาพ FRM อาจทำให้เกิดปัญหาด้านภาพในบางเกม โปรดใช้อย่างระมัดระวัง</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>เปิด Voidstrap อีกครั้งหลังจากปิด Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>นำ Voidstrap กลับมาที่หน้าหลักเมื่อคุณปิด Roblox แทนที่จะออกจากโปรแกรม</value>
+  </data>
 </root>

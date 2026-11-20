@@ -10517,4 +10517,10 @@ Veikimo laikas: {1}
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Priverstinis FRM kokybės lygis kai kuriuose žaidimuose gali sukelti vaizdo problemų. Naudokite jį atsargiai.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Vėl atidaryti Voidstrap uždarius Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Uždarius Roblox, Voidstrap grįžta į pagrindinį puslapį, užuot išsijungęs.</value>
+  </data>
 </root>

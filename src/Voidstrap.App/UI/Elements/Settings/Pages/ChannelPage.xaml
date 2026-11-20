@@ -33,6 +33,9 @@
           <controls:OptionControl Header="{resources:Loc Ui_Channel_LaunchRobloxWithoutVoidstrap}" Description="{resources:Loc Ui_Channel_JoiningAGameFromYourBrowser}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_ReopenAfterRobloxCloses}" Description="{resources:Loc Ui_Channel_ReopenAfterRobloxCloses_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <ui:ToggleSwitch IsChecked="{Binding ReopenAfterRobloxCloses, Mode=TwoWay}" />
+          </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
           <Expander Header="{resources:Loc Ui_Channel_AppSettings}" IsExpanded="False" Margin="0,8,0,0">
             <StackPanel>

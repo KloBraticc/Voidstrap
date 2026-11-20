@@ -119,6 +119,7 @@ namespace Voidstrap.Models.Persistable
         public bool ConfirmLaunches { get; set; } = true;
         public bool CompressRobloxInstalls { get; set; }
         public bool LaunchWithoutVoidstrap { get; set; }
+        public bool ReopenAfterRobloxCloses { get; set; }
         public string VoidstrapMatchmakerPresetUrl { get; set; } = "";
         public int LaunchSelectionIndex { get; set; }
 

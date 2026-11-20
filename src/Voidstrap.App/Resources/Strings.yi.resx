@@ -10206,4 +10206,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>צווינגען דעם FRM קוואַליטעט ניוואָ קען פֿאַרשאַפֿן וויזועלע פּראָבלעמען אין עטלעכע שפּילן. ניצט עס מיט פֿאָרזיכטיקייט.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>עפֿנט ווידער Voidstrap נאָך דעם ווי Roblox פֿאַרמאַכט זיך</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>ברענגט צוריק Voidstrap אויף דער היים זײַט ווען איר פֿאַרמאַכט Roblox, אַנשטאָט אַרויסצוגיין.</value>
+  </data>
 </root>

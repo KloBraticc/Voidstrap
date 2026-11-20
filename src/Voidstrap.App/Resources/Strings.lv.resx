@@ -10207,4 +10207,10 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM kvalitātes līmeņa uzspiešana dažās spēlēs var radīt vizuālas problēmas. Izmanto to piesardzīgi.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Atkārtoti atvērt Voidstrap pēc Roblox aizvēršanas</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Aizverot Roblox, Voidstrap atgriežas sākumlapā, nevis aizveras.</value>
+  </data>
 </root>

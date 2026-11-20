@@ -10516,4 +10516,10 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM kalite seviyesini zorlamak bazı oyunlarda görsel sorunlara neden olabilir. Dikkatli kullanın.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Roblox kapandıktan sonra Voidstrap'i yeniden açın</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Roblox'u kapattığınızda Voidstrap çıkmak yerine Ana sayfaya geri döner.</value>
+  </data>
 </root>

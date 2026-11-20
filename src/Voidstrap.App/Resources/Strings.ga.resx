@@ -10207,4 +10207,10 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>D'fhéadfadh fadhbanna amhairc a bheith i roinnt cluichí má chuirtear leibhéal cáilíochta FRM i bhfeidhm. Bain úsáid as go cúramach.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Athoscail Voidstrap tar éis do Roblox dúnadh</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Tugann sé Voidstrap ar ais ar an leathanach Baile nuair a dhúnann tú Roblox, in ionad scoir.</value>
+  </data>
 </root>

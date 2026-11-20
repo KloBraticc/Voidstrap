@@ -10207,4 +10207,10 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM сапат деңгээлин мажбурлоо айрым оюндарда көрүнүш көйгөйлөрүн жаратышы мүмкүн. Аны этияттык менен колдонуңуз.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Roblox жабылгандан кийин Voidstrap кайра ачуу</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Roblox жапканда Voidstrap чыгуунун ордуна Башкы бетке кайтып келет.</value>
+  </data>
 </root>

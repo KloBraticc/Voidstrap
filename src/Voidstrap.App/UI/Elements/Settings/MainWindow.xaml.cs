@@ -662,6 +662,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 case Voidstrap.UI.TaskbarJumpList.LibraryView:
                     TopNavLibrary_Click(this, new RoutedEventArgs());
                     break;
+                case Voidstrap.UI.TaskbarJumpList.HomeView:
+                    if (RootFrame.Content is not HomePage)
+                        RootNavigation.Navigate(typeof(HomePage));
+                    break;
                 case Voidstrap.UI.TaskbarJumpList.ModInstallView:
                     _voidstrapModsPage ??= new VoidstrapModsPage();
                     if (!ReferenceEquals(RootFrame.Content, _voidstrapModsPage))

@@ -10516,4 +10516,10 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>اجباری کردن سطح کیفیت FRM ممکن است در برخی بازی‌ها مشکلات بصری ایجاد کند. با احتیاط از آن استفاده کنید.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>باز کردن دوباره Voidstrap پس از بسته شدن Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>وقتی Roblox را می‌بندید، Voidstrap به‌جای خروج دوباره در صفحه اصلی نمایش داده می‌شود.</value>
+  </data>
 </root>

@@ -10206,4 +10206,10 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM အရည်အသွေးအဆင့်ကို အတင်းသတ်မှတ်ခြင်းသည် အချို့ဂိမ်းများတွင် မြင်ကွင်းပြဿနာများ ဖြစ်စေနိုင်သည်။ သတိထား၍ အသုံးပြုပါ။</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Roblox ပိတ်ပြီးနောက် Voidstrap ကို ပြန်ဖွင့်ရန်</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Roblox ကို ပိတ်သောအခါ Voidstrap သည် ထွက်မသွားဘဲ ပင်မစာမျက်နှာသို့ ပြန်လာသည်။</value>
+  </data>
 </root>

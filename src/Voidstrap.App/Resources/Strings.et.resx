@@ -10206,4 +10206,10 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM kvaliteeditaseme sundimine võib mõnes mängus põhjustada visuaalseid probleeme. Kasuta seda ettevaatlikult.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Ava Voidstrap uuesti pärast Roblox sulgemist</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Toob Voidstrap Roblox sulgemisel tagasi avalehele, selle asemel et väljuda.</value>
+  </data>
 </root>

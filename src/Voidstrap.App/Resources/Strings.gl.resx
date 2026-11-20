@@ -10207,4 +10207,10 @@ Instalar SteamVR agora?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Forzar o nivel de calidade de FRM pode causar problemas visuais nalgúns xogos. Úsao con precaución.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Volver abrir Voidstrap ao pechar Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Volve mostrar Voidstrap na páxina de inicio cando pechas Roblox, en lugar de saír.</value>
+  </data>
 </root>

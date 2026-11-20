@@ -10516,4 +10516,10 @@
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>قد يؤدي فرض مستوى جودة FRM إلى مشاكل بصرية في بعض الألعاب. استخدمه بحذر.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>إعادة فتح Voidstrap بعد إغلاق Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>يعيد Voidstrap إلى الصفحة الرئيسية عند إغلاق Roblox بدلًا من الخروج.</value>
+  </data>
 </root>

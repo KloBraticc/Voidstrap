@@ -10207,4 +10207,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Наметање нивоа квалитета FRM може изазвати визуелне проблеме у неким играма. Користите га опрезно.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Поново отвори Voidstrap након затварања Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Враћа Voidstrap на почетну страницу када затворите Roblox, уместо да изађе.</value>
+  </data>
 </root>

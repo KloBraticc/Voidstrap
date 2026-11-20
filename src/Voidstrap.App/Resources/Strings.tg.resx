@@ -10206,4 +10206,10 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Маҷбуран гузоштани сатҳи сифати FRM метавонад дар баъзе бозиҳо мушкилоти визуалӣ ба вуҷуд орад. Онро бо эҳтиёт истифода баред.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Пас аз пӯшидани Roblox Voidstrap-ро дубора кушодан</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Ҳангоми пӯшидани Roblox, Voidstrap ба ҷои баромадан ба саҳифаи асосӣ бармегардад.</value>
+  </data>
 </root>

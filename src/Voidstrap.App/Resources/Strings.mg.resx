@@ -10207,4 +10207,10 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Ny fanerena ny haavon'ny kalitao FRM dia mety hiteraka olana amin'ny sary amin'ny lalao sasany. Ampiasao amim-pitandremana.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Sokafy indray ny Voidstrap rehefa mihidy ny Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Mamerina ny Voidstrap amin'ny pejy fandraisana rehefa manidy ny Roblox ianao, fa tsy mivoaka.</value>
+  </data>
 </root>

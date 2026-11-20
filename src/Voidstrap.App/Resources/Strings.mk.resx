@@ -10207,4 +10207,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Наметнувањето на нивото на квалитет FRM може да предизвика визуелни проблеми во некои игри. Користете го претпазливо.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Повторно отвори Voidstrap по затворањето на Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Го враќа Voidstrap на почетната страница кога ќе го затворите Roblox, наместо да излезе.</value>
+  </data>
 </root>

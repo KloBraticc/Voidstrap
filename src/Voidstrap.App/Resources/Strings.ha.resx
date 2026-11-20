@@ -10207,4 +10207,10 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Tilasta matakin ingancin FRM na iya haifar da matsalolin gani a wasu wasanni. Yi amfani da shi da taka tsantsan.</value>
   </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
+    <value>Sake buɗe Voidstrap bayan an rufe Roblox</value>
+  </data>
+  <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
+    <value>Yana dawo da Voidstrap a shafin Gida idan ka rufe Roblox, maimakon fita.</value>
+  </data>
 </root>
