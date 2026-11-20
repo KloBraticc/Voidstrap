@@ -775,6 +775,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         //IL_01cc: Unknown result type (might be due to invalid IL or missing references)
         //IL_01de: Expected O, but got Unknown
         InitializeComponent();
+        Voidstrap.UI.NavigationSoundSuppressor.Attach(RootFrame);
         Wpf.Ui.Controls.StickyTabStrip.Register();
         SyncHomeTargetMenuBrush();
         InstallLaunchButton.SetBinding(
@@ -7755,6 +7756,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WpfUiWindow_Closed(object sender, EventArgs e)
     {
+        Voidstrap.UI.NavigationSoundSuppressor.Detach(RootFrame);
         if (_friendsPage != null)
             _friendsPage.RequestCountChanged -= FriendsPage_RequestCountChanged;
         if (_searchSpanTimer != null)

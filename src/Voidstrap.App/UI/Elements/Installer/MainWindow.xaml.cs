@@ -81,6 +81,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _viewModel.PageRequest += OnPageRequest;
         base.DataContext = _viewModel;
         InitializeComponent();
+        Voidstrap.UI.NavigationSoundSuppressor.Attach(RootFrame);
         RootFrame.RenderTransform = _frameSlide;
         StepHeadingText.RenderTransform = _headingSlide;
         _importFadeOut.Completed += ImportFadeOut_Completed;
@@ -136,6 +137,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void MainWindow_Closed(object? sender, EventArgs e)
     {
+        Voidstrap.UI.NavigationSoundSuppressor.Detach(RootFrame);
         _pendingSlide = 0;
         StopSlide();
         _importFadeOut.Completed -= ImportFadeOut_Completed;

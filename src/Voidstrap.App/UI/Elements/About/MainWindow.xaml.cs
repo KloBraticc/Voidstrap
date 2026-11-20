@@ -18,9 +18,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     public MainWindow()
     {
         InitializeComponent();
+        Voidstrap.UI.NavigationSoundSuppressor.Attach(RootFrame);
         App.Logger.WriteLine("MainWindow", "Initializing about window");
         if (Locale.CurrentCulture.Name.StartsWith("tr", StringComparison.Ordinal))
             TranslatorsText.FontSize = 9.0;
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        Voidstrap.UI.NavigationSoundSuppressor.Detach(RootFrame);
+        base.OnClosed(e);
     }
 
     public Frame GetFrame()
