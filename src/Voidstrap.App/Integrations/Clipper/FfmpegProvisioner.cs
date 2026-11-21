@@ -194,7 +194,9 @@ public static class FfmpegProvisioner
         }
         if (Voidstrap.Utility.Platform.IsMacOS)
         {
-            return "https://evermeet.cx/ffmpeg/getrelease/zip";
+            return RuntimeInformation.ProcessArchitecture == Architecture.Arm64
+                ? "https://ffmpeg.martin-riedl.de/redirect/latest/macos/arm64/release/ffmpeg.zip"
+                : "https://ffmpeg.martin-riedl.de/redirect/latest/macos/amd64/release/ffmpeg.zip";
         }
         return string.Empty;
     }
