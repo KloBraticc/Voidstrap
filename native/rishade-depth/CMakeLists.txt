@@ -30,11 +30,15 @@ fetch_file("${RESHADE_HEADERS_URL}/reshade_api_resource.hpp" 32cdafe6d783813f3ac
 fetch_file("${RESHADE_HEADERS_URL}/reshade_events.hpp" 2717f56e2bd89af6d708c9c316353d6581c5a41d4526629fadba51d13be57a89 "${RESHADE_INCLUDE}/reshade_events.hpp")
 fetch_file("${RESHADE_HEADERS_URL}/reshade_overlay.hpp" ed914b12fbc41ed038287b0163c0bc934772afcff2c22392044c6008adc5ae79 "${RESHADE_INCLUDE}/reshade_overlay.hpp")
 
-set(ONNXRUNTIME_INCLUDE "${CMAKE_BINARY_DIR}/onnxruntime/include")
-set(ONNXRUNTIME_HEADERS_URL "https://raw.githubusercontent.com/microsoft/onnxruntime/v1.24.4/include/onnxruntime/core/session")
-fetch_file("${ONNXRUNTIME_HEADERS_URL}/onnxruntime_c_api.h" 9ed0d7054a4e74249467365b25b415d36f51a44a6349e2a994a1812e4723d1e2 "${ONNXRUNTIME_INCLUDE}/onnxruntime_c_api.h")
-fetch_file("${ONNXRUNTIME_HEADERS_URL}/onnxruntime_ep_c_api.h" e94ac3490697bdb107844fa9d403952ee7136134132a057eae5c1207b57ce352 "${ONNXRUNTIME_INCLUDE}/onnxruntime_ep_c_api.h")
-fetch_file("https://raw.githubusercontent.com/microsoft/onnxruntime/v1.24.4/include/onnxruntime/core/providers/dml/dml_provider_factory.h" 893ddb645545bddad8c3f24bb768e97651c9ce45ec22076b435439889e4228c8 "${ONNXRUNTIME_INCLUDE}/dml_provider_factory.h")
+set(ONNXRUNTIME_PACKAGE "${CMAKE_BINARY_DIR}/onnxruntime/microsoft.ml.onnxruntime.directml.1.24.4.nupkg")
+set(ONNXRUNTIME_PACKAGE_URL "https://api.nuget.org/v3-flatcontainer/microsoft.ml.onnxruntime.directml/1.24.4/microsoft.ml.onnxruntime.directml.1.24.4.nupkg")
+set(ONNXRUNTIME_INCLUDE "${CMAKE_BINARY_DIR}/onnxruntime/package/build/native/include")
+if(NOT EXISTS "${ONNXRUNTIME_INCLUDE}/onnxruntime_c_api.h"
+   OR NOT EXISTS "${ONNXRUNTIME_INCLUDE}/onnxruntime_ep_c_api.h"
+   OR NOT EXISTS "${ONNXRUNTIME_INCLUDE}/dml_provider_factory.h")
+    fetch_file("${ONNXRUNTIME_PACKAGE_URL}" 57e9f11b73437bef7a309496135d4c1f96b1a8e9ddba60013fa27bfc1d788681 "${ONNXRUNTIME_PACKAGE}")
+    file(ARCHIVE_EXTRACT INPUT "${ONNXRUNTIME_PACKAGE}" DESTINATION "${CMAKE_BINARY_DIR}/onnxruntime/package" PATTERNS "build/native/include/*")
+endif()
 
 add_library(rishade_depth_bridge SHARED
     src/depth_bridge.cpp
