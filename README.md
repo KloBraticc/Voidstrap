@@ -606,11 +606,11 @@ Voidstrap would not exist without the projects and people below. Thank you all.
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/project-licenses-dark.svg"><img src="assets/readme/project-licenses-light.svg" alt="Project licenses" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-Voidstrap's own code is released under the [GNU General Public License 3.0](LICENSE.VOIDSTRAP). Versions released before 2.0.0.0 remain available under the MIT License. Third party code, fonts, artwork and packages keep their own licenses. The Bloxstrap and Fishstrap notices are also preserved:
+Voidstrap's own code is released under the [GNU General Public License 3.0](LICENSE). Versions released before 2.0.0.0 remain available under the MIT License. Third party code, fonts, artwork and packages keep their own licenses. The Bloxstrap and Fishstrap notices are also preserved:
 
 | Project | License | Copyright | File |
 | --- | --- | --- | --- |
-| Voidstrap | GPL 3.0 | © 2026 Bratic | [LICENSE.VOIDSTRAP](LICENSE.VOIDSTRAP) |
+| Voidstrap | GPL 3.0 | © 2026 Bratic | [LICENSE](LICENSE) |
 | Bloxstrap | MIT | © 2022 pizzaboxer | [LICENSE.BLOXSTRAP](LICENSE.BLOXSTRAP) |
 | Fishstrap | MIT | © 2025 returnrqt | [LICENSE.FISHSTRAP](LICENSE.FISHSTRAP) |
 

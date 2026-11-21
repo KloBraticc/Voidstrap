@@ -1831,7 +1831,7 @@ DEALINGS IN THE SOFTWARE.
 ### Notice 3
 
 Voidstrap bundled
-Origin: LICENSE.VOIDSTRAP
+Origin: LICENSE
 
 
 MIT License

@@ -2130,7 +2130,7 @@ if ($appImageTool) {
 }
 $packageSources = @(Get-ChildItem -LiteralPath (Join-Path $Root 'build/Packaging') -Recurse -File |
     Sort-Object FullName | ForEach-Object { $_.FullName + ':' + (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash })
-foreach ($sourcePath in @('publish-all.ps1', 'Directory.Build.props', 'LICENSE.VOIDSTRAP', 'THIRD-PARTY-NOTICES.txt', 'legal/sources/Bibata-Cursor-v2.0.7.tar.gz', 'src/Voidstrap.App/Voidstrap.png')) {
+foreach ($sourcePath in @('publish-all.ps1', 'Directory.Build.props', 'LICENSE', 'THIRD-PARTY-NOTICES.txt', 'legal/sources/Bibata-Cursor-v2.0.7.tar.gz', 'src/Voidstrap.App/Voidstrap.png')) {
     $packageSources += (Get-FileHash -LiteralPath (Join-Path $Root $sourcePath) -Algorithm SHA256).Hash
 }
 if ($appImageTool) { $packageSources += (Get-FileHash -LiteralPath $appImageTool -Algorithm SHA256).Hash }

@@ -109,7 +109,7 @@ cp "$ROOT/THIRD-PARTY-NOTICES.txt" "$ROOT/legal/sources/Bibata-Cursor-v2.0.7.tar
 chmod 755 "$APPLICATION/Contents/Resources/licenses"
 chmod 644 "$APPLICATION/Contents/Resources/licenses/"*
 cp "$ROOT/src/VirtualDisplay/THIRD-PARTY-NOTICES.txt" "$APPLICATION/Contents/Resources/VirtualDisplay-Notices.txt"
-cp "$ROOT/LICENSE.VOIDSTRAP" "$APPLICATION/Contents/Resources/VirtualDisplay-License.txt"
+cp "$ROOT/LICENSE" "$APPLICATION/Contents/Resources/VirtualDisplay-License.txt"
 chmod 644 "$APPLICATION/Contents/Resources/VirtualDisplay-Notices.txt" "$APPLICATION/Contents/Resources/VirtualDisplay-License.txt"
 NOTICES="$APPLICATION/Contents/MacOS/LibreWPF/Notices"
 if [ -d "$NOTICES" ]; then

@@ -27,7 +27,7 @@ printf 'Install the FreeBSD runtime dependencies:\n\n  pkg install %s\n\nRun ./V
 cp "$ROOT/build/Packaging/Linux/voidstrap.desktop" "$BUNDLE/share/applications/$APPLICATION_ID.desktop"
 cp "$ROOT/src/Voidstrap.App/Voidstrap.png" "$BUNDLE/share/icons/hicolor/256x256/apps/$APPLICATION_ID.png"
 cp "$ROOT/build/Packaging/Linux/$APPLICATION_ID.metainfo.xml" "$BUNDLE/share/metainfo/$APPLICATION_ID.metainfo.xml"
-cp "$ROOT/LICENSE.VOIDSTRAP" "$BUNDLE/share/licenses/voidstrap/LICENSE"
+cp "$ROOT/LICENSE" "$BUNDLE/share/licenses/voidstrap/LICENSE"
 cp "$ROOT/THIRD-PARTY-NOTICES.txt" "$ROOT/legal/sources/Bibata-Cursor-v2.0.7.tar.gz" "$BUNDLE/share/licenses/voidstrap/"
 [ ! -f "$NATIVE/GLFW-LICENSE.txt" ] || cp "$NATIVE/GLFW-LICENSE.txt" "$BUNDLE/share/licenses/voidstrap/GLFW-LICENSE.txt"
 [ ! -d "$PUBLISH/licenses" ] || cp "$PUBLISH/licenses/"* "$BUNDLE/share/licenses/voidstrap/"

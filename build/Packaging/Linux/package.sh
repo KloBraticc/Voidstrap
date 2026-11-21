@@ -11,7 +11,7 @@ APPLICATION_ID="io.github.KloBraticc.Voidstrap"
 DESKTOP_FILE="$ROOT/build/Packaging/Linux/voidstrap.desktop"
 ICON_FILE="$ROOT/src/Voidstrap.App/Voidstrap.png"
 METAINFO_FILE="$ROOT/build/Packaging/Linux/$APPLICATION_ID.metainfo.xml"
-LICENSE_FILE="$ROOT/LICENSE.VOIDSTRAP"
+LICENSE_FILE="$ROOT/LICENSE"
 DOTNET_COMMAND="${DOTNET_ROOT:-}/dotnet"
 
 if [ ! -x "$DOTNET_COMMAND" ]; then

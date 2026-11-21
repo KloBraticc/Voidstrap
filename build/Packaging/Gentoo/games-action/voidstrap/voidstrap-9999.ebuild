@@ -120,7 +120,7 @@ src_install() {
 	doins build/Packaging/Linux/io.github.KloBraticc.Voidstrap.metainfo.xml
 
 	dodoc \
-		LICENSE.VOIDSTRAP \
+		LICENSE \
 		LICENSE.BLOXSTRAP \
 		LICENSE.FISHSTRAP \
 		README.md

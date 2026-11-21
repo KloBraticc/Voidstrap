@@ -90,7 +90,7 @@ PublisherSupportUrl: https://github.com/KloBraticc/Voidstrap/issues
 PackageName: Voidstrap
 PackageUrl: https://github.com/KloBraticc/Voidstrap
 License: GPL-3.0-only
-LicenseUrl: https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP
+LicenseUrl: https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE
 ShortDescription: Fast, customizable Roblox bootstrapper with FastFlags, mods and deep customization
 Description: |-
   Voidstrap is a launcher for Roblox on Windows with FastFlags, custom integrations,

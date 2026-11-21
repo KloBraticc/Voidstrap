@@ -250,12 +250,12 @@
     "ecosystem": "asset",
     "name": "Voidstrap",
     "version": "bundled",
-    "license": "MIT",
+    "license": "GPL-3.0-only",
     "source": "https://github.com/KloBraticc/Voidstrap",
     "documents": [
       {
-        "path": "texts/03df6453b86351a6eb94.txt",
-        "source": "LICENSE.VOIDSTRAP"
+        "path": "texts/e57f1c320b8cf8798a7d.txt",
+        "source": "LICENSE"
       }
     ]
   },
