@@ -72,7 +72,7 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: MIT
   Source: https://raw.githubusercontent.com/Orbmu2k/nvidiaProfileInspector/master/LICENSE.txt
 
-- ONNX Runtime DirectML 1.24.4 downloaded on demand (dll)
+- ONNX Runtime DirectML 1.24.4 downloaded for native builds and on demand (headers, dll)
   Terms: MIT
   Source: https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.DirectML/1.24.4
 
