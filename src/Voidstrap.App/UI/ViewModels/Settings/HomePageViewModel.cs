@@ -1353,7 +1353,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 App.FastFlags.FlushDeferred();
 
                 string voidstrapPath = Paths.LaunchExecutable;
-                Process.Start(
+                Process? child = Process.Start(
                     new ProcessStartInfo
                     {
                         FileName = voidstrapPath,
@@ -1363,13 +1363,41 @@ namespace Voidstrap.UI.ViewModels.Pages
                         WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? "",
                     }
                 );
-
-                Application.Current.Shutdown();
+                if (child == null)
+                    throw new InvalidOperationException("The launch process did not start");
+                _ = ConfirmLaunchStartedAsync(child);
             }
             catch (Exception ex)
             {
                 App.Logger.WriteException("HomePageViewModel::LaunchGame", ex);
+                Frontend.ShowMessageBox(string.Format(Strings.Ui_Shortcuts_LaunchFailed, ex.Message), MessageBoxImage.Error);
             }
+        }
+
+        private static async Task ConfirmLaunchStartedAsync(Process child)
+        {
+            const string LOG_IDENT = "HomePageViewModel::ConfirmLaunchStartedAsync";
+            using (child)
+            {
+                bool exited;
+                try
+                {
+                    using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(2));
+                    await child.WaitForExitAsync(timeout.Token);
+                    exited = true;
+                }
+                catch (OperationCanceledException)
+                {
+                    exited = false;
+                }
+                if (exited && child.ExitCode != 0)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, $"The launch process stopped right away with exit code {child.ExitCode}");
+                    Frontend.ShowMessageBox(string.Format(Strings.Ui_Shortcuts_LaunchFailed, child.ExitCode), MessageBoxImage.Error);
+                    return;
+                }
+            }
+            Application.Current?.Shutdown();
         }
 
         private void CopyDeeplink(HistoryGameEntry? entry)

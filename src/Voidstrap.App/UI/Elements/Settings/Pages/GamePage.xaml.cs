@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,34 +77,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_placeId == 0)
-                return;
-
-            try
-            {
-                string uri = $"roblox://experiences/start?placeId={_placeId}";
-                string voidstrapPath = Paths.LaunchExecutable;
-                App.Settings.FlushDeferred();
-                App.State.FlushDeferred();
-                App.FastFlags.FlushDeferred();
-
-                Process.Start(
-                    new ProcessStartInfo
-                    {
-                        FileName = voidstrapPath,
-                        Arguments = $"-player \"{uri}\" -homematchmaker",
-                        UseShellExecute = false,
-                        CreateNoWindow = true,
-                        WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? "",
-                    }
-                );
-
-                Application.Current.Shutdown();
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException($"{LOG_IDENT}::Play", ex);
-            }
+            if (_placeId != 0)
+                Voidstrap.UI.ViewModels.Pages.HomePageViewModel.LaunchPlace(_placeId);
         }
 
         private async Task LoadGameAsync(CancellationToken token)
