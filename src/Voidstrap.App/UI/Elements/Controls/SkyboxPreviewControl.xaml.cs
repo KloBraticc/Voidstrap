@@ -13,7 +13,7 @@ namespace Voidstrap.UI.Elements.Controls
 {
     public partial class SkyboxPreviewControl : UserControl
     {
-        private const int FaceSegments = 40;
+        private const int FaceSegments = 16;
 
         private const double DefaultYaw = 180.0;
 
@@ -27,7 +27,9 @@ namespace Voidstrap.UI.Elements.Controls
 
         private const int SoftwareFrameLimit = 1024;
 
-        private static readonly bool Supports3D = Voidstrap.Utility.Platform.IsWindows;
+        private static readonly bool Supports3D = Voidstrap.Utility.Platform.IsWindows
+            && (RenderCapability.Tier >> 16) >= 2
+            && RenderOptions.ProcessRenderMode != System.Windows.Interop.RenderMode.SoftwareOnly;
 
         private static readonly Color PlaceholderColor = (Color)ColorConverter.ConvertFromString(PlaceholderHex);
 

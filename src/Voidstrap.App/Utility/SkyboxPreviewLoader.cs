@@ -15,7 +15,7 @@ internal static class SkyboxPreviewLoader
 {
     private const string LogIdent = "SkyboxPreviewLoader";
 
-    private const int PreviewTextureLimit = 4096;
+    private const int PreviewTextureLimit = 1024;
 
     private static readonly SemaphoreSlim DownloadGate = new(1, 1);
 
@@ -83,7 +83,7 @@ internal static class SkyboxPreviewLoader
             }
             if (width > PreviewTextureLimit || height > PreviewTextureLimit)
             {
-                Raster resized = new Raster(width, height, bgra).ResizeToCover(PreviewTextureLimit, PreviewTextureLimit, RasterFilter.Bilinear);
+                Raster resized = new Raster(width, height, bgra).ResizeToCover(PreviewTextureLimit, PreviewTextureLimit, RasterFilter.Bicubic);
                 width = resized.Width;
                 height = resized.Height;
                 bgra = resized.Pixels;
