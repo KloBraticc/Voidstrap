@@ -47,7 +47,11 @@ public static class RobloxBadges
 
     private static long _cooldownUntilTicks;
 
+    private static int _throttleLevel;
+
     private static int _foreground;
+
+    private static int _friendScans;
 
     public sealed class StoredSummary
     {
@@ -103,9 +107,19 @@ public static class RobloxBadges
 
     public static async Task WaitForForegroundAsync(CancellationToken token)
     {
-        while (Volatile.Read(ref _foreground) > 0)
+        while (Volatile.Read(ref _foreground) > 0 || Volatile.Read(ref _friendScans) > 0)
             await Task.Delay(500, token).ConfigureAwait(false);
     }
+
+    public static async Task WaitForOwnProgressAsync(CancellationToken token)
+    {
+        while (Volatile.Read(ref _foreground) > 0)
+            await Task.Delay(250, token).ConfigureAwait(false);
+    }
+
+    public static void BeginFriendScan() => Interlocked.Increment(ref _friendScans);
+
+    public static void EndFriendScan() => Interlocked.Decrement(ref _friendScans);
 
     public static bool TryGetStoredSummary(long universeId, long userId, out int earned, out int total, out bool fresh)
     {
@@ -286,6 +300,7 @@ public static class RobloxBadges
         long userId,
         long universeId,
         IReadOnlyList<Badge> badges,
+        bool complete,
         CancellationToken token
     )
     {
@@ -295,7 +310,7 @@ public static class RobloxBadges
             return cached.Awarded;
         try
         {
-            return await GetAwardedAsync(userId, universeId, badges, token).ConfigureAwait(false);
+            return await GetAwardedAsync(userId, universeId, badges, token, remember: complete).ConfigureAwait(false);
         }
         catch (AwardedRefusedException)
         {
@@ -363,7 +378,8 @@ public static class RobloxBadges
         long userId,
         long universeId,
         IReadOnlyList<Badge> badges,
-        CancellationToken token
+        CancellationToken token,
+        bool remember = true
     )
     {
         Dictionary<long, DateTime> awarded = new();
@@ -388,7 +404,8 @@ public static class RobloxBadges
                 awarded[id] = when;
             }
         }
-        AwardedCache[(userId, universeId)] = (DateTime.UtcNow, awarded);
+        if (remember)
+            AwardedCache[(userId, universeId)] = (DateTime.UtcNow, awarded);
         return awarded;
     }
 
@@ -417,17 +434,23 @@ public static class RobloxBadges
                 int status = (int)response.StatusCode;
                 if (signedIn && status is 401 or 403)
                     throw new AwardedRefusedException();
-                if (status == 429 && attempt < 6)
+                if (status == 429 && attempt < 8)
                 {
-                    TimeSpan backoff = TimeSpan.FromSeconds(10 * Math.Pow(2, attempt));
-                    TimeSpan wait = response.Headers.RetryAfter?.Delta is { } asked && asked > backoff ? asked : backoff;
-                    if (wait > TimeSpan.FromSeconds(90))
-                        wait = TimeSpan.FromSeconds(90);
-                    Interlocked.Exchange(ref _cooldownUntilTicks, Environment.TickCount64 + (long)wait.TotalMilliseconds);
-                    App.Logger.WriteLine(
-                        "RobloxBadges",
-                        "Roblox asked to slow down, waiting " + (int)wait.TotalSeconds + " seconds before asking again"
-                    );
+                    long now = Environment.TickCount64;
+                    long current = Interlocked.Read(ref _cooldownUntilTicks);
+                    if (current > now)
+                        continue;
+                    int level = Math.Min(Interlocked.Increment(ref _throttleLevel), 3);
+                    TimeSpan wait = response.Headers.RetryAfter?.Delta is { } asked && asked > TimeSpan.Zero
+                        ? asked
+                        : TimeSpan.FromSeconds(4 << (level - 1));
+                    if (wait > TimeSpan.FromSeconds(30))
+                        wait = TimeSpan.FromSeconds(30);
+                    if (Interlocked.CompareExchange(ref _cooldownUntilTicks, now + (long)wait.TotalMilliseconds, current) == current)
+                        App.Logger.WriteLine(
+                            "RobloxBadges",
+                            "Roblox asked to slow down, waiting " + (int)wait.TotalSeconds + " seconds before asking again"
+                        );
                     continue;
                 }
                 if (status >= 500 && attempt < 3)
@@ -436,6 +459,7 @@ public static class RobloxBadges
                     continue;
                 }
                 response.EnsureSuccessStatusCode();
+                Interlocked.Exchange(ref _throttleLevel, 0);
                 return await Http.ReadStringBoundedAsync(response.Content, 4 * 1024 * 1024, token).ConfigureAwait(false);
             }
         }

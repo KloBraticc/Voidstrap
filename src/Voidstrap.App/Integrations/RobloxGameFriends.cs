@@ -6,7 +6,9 @@ public static class RobloxGameFriends
 {
     private const int MaxFriendsChecked = 200;
 
-    private const int Concurrency = 8;
+    private const int Concurrency = 6;
+
+    private const int ProbeBadges = 100;
 
     private const int MaxActivity = 40;
 
@@ -112,23 +114,63 @@ public static class RobloxGameFriends
             .ToList();
         if (state.Badges.Count > 0)
         {
+            List<RobloxBadges.Badge> probe = state.Badges.OrderByDescending(badge => badge.AwardedCount).Take(ProbeBadges).ToList();
+            bool probeComplete = probe.Count == state.Badges.Count;
             ConcurrentDictionary<long, IReadOnlyDictionary<long, DateTime>> found = new();
-            int changed = 0;
-            using SemaphoreSlim gate = new(Concurrency, Concurrency);
+            await CheckFriendsAsync(universeId, state, checkedIds, probe, probeComplete, found, token).ConfigureAwait(false);
+            if (!probeComplete && !found.IsEmpty)
+            {
+                HashSet<long> probed = probe.Select(badge => badge.Id).ToHashSet();
+                List<RobloxBadges.Badge> rest = state.Badges.Where(badge => !probed.Contains(badge.Id)).ToList();
+                await CheckFriendsAsync(universeId, state, found.Keys.ToList(), rest, false, found, token).ConfigureAwait(false);
+            }
+            state.Awarded = new Dictionary<long, IReadOnlyDictionary<long, DateTime>>(found);
+        }
+
+        await EnrichAsync(state, token).ConfigureAwait(false);
+        GameFriendsReport report = Compose(state, true);
+        App.Logger.WriteLine(
+            LOG_IDENT,
+            $"Checked {checkedIds.Count} of {friendIds.Count} friends for universe {universeId}: {report.Recent.Count} recent, {report.Previous.Count} previous, {report.Activity.Count} activity entries"
+        );
+        return report;
+    }
+
+    private static async Task CheckFriendsAsync(
+        long universeId,
+        Snapshot state,
+        IReadOnlyList<long> friendIds,
+        IReadOnlyList<RobloxBadges.Badge> badges,
+        bool complete,
+        ConcurrentDictionary<long, IReadOnlyDictionary<long, DateTime>> found,
+        CancellationToken token
+    )
+    {
+        const string LOG_IDENT = "RobloxGameFriends::CheckFriendsAsync";
+
+        int changed = 0;
+        using SemaphoreSlim gate = new(Concurrency, Concurrency);
+        RobloxBadges.BeginFriendScan();
+        try
+        {
             Task work = Task.WhenAll(
-                checkedIds.Select(async friendId =>
+                friendIds.Select(async friendId =>
                 {
                     await gate.WaitAsync(token).ConfigureAwait(false);
                     try
                     {
+                        await RobloxBadges.WaitForOwnProgressAsync(token).ConfigureAwait(false);
                         IReadOnlyDictionary<long, DateTime>? awarded = await RobloxBadges
-                            .GetAwardedForUserAsync(friendId, universeId, state.Badges, token)
+                            .GetAwardedForUserAsync(friendId, universeId, badges, complete, token)
                             .ConfigureAwait(false);
-                        if (awarded is { Count: > 0 })
-                        {
-                            found[friendId] = awarded;
-                            Interlocked.Exchange(ref changed, 1);
-                        }
+                        if (awarded is not { Count: > 0 })
+                            return;
+                        found.AddOrUpdate(
+                            friendId,
+                            awarded,
+                            (_, existing) => existing.Concat(awarded).GroupBy(pair => pair.Key).ToDictionary(group => group.Key, group => group.First().Value)
+                        );
+                        Interlocked.Exchange(ref changed, 1);
                     }
                     catch (Exception ex) when (ex is not OperationCanceledException)
                     {
@@ -150,16 +192,11 @@ public static class RobloxGameFriends
                 Publish(universeId, Compose(state, false));
             }
             await work.ConfigureAwait(false);
-            state.Awarded = new Dictionary<long, IReadOnlyDictionary<long, DateTime>>(found);
         }
-
-        await EnrichAsync(state, token).ConfigureAwait(false);
-        GameFriendsReport report = Compose(state, true);
-        App.Logger.WriteLine(
-            LOG_IDENT,
-            $"Checked {checkedIds.Count} of {friendIds.Count} friends for universe {universeId}: {report.Recent.Count} recent, {report.Previous.Count} previous, {report.Activity.Count} activity entries"
-        );
-        return report;
+        finally
+        {
+            RobloxBadges.EndFriendScan();
+        }
     }
 
     private static async Task<IReadOnlyList<RobloxBadges.Badge>> LoadBadgesAsync(long universeId, CancellationToken token)
