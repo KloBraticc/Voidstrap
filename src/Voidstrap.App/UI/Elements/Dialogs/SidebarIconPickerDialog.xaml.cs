@@ -80,17 +80,28 @@ public partial class SidebarIconPickerDialog : WpfUiWindow
     }
 
     private readonly ListCollectionView _symbols = new ListCollectionView(AllSymbols);
+    private readonly bool _hosted;
 
     private string _query = "";
+
+    public event EventHandler? ChoiceCommitted;
 
     public PickerChoice Choice { get; private set; }
 
     public SymbolRegular SelectedIcon { get; private set; }
 
-    public SidebarIconPickerDialog(SymbolRegular currentIcon)
+    public Window? HostWindow => Window.GetWindow(SearchBox);
+
+    public SidebarIconPickerDialog(SymbolRegular currentIcon, string? title = null, bool hosted = false)
     {
+        _hosted = hosted;
         Resources[IconFontResourceKey] = FullIconFont;
         InitializeComponent();
+        if (title != null)
+        {
+            Title = title;
+            RootTitleBar.Title = title;
+        }
         _symbols.Filter = FilterSymbol;
         IconList.ItemsSource = _symbols;
         IconList.SelectedItem = AllSymbols.FirstOrDefault(item => item.Icon == currentIcon) ?? AllSymbols.FirstOrDefault();
@@ -101,7 +112,7 @@ public partial class SidebarIconPickerDialog : WpfUiWindow
         return item is SymbolOption option && (_query.Length == 0 || option.Name.Contains(_query, StringComparison.OrdinalIgnoreCase));
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private void SearchBox_Loaded(object sender, RoutedEventArgs e)
     {
         SearchBox.Focus();
         Keyboard.Focus(SearchBox);
@@ -126,23 +137,36 @@ public partial class SidebarIconPickerDialog : WpfUiWindow
         }
         SelectedIcon = option.Icon;
         Choice = PickerChoice.Symbol;
-        DialogResult = true;
+        CompleteChoice(true);
     }
 
     private void CustomImageButton_Click(object sender, RoutedEventArgs e)
     {
         Choice = PickerChoice.Image;
-        DialogResult = true;
+        CompleteChoice(true);
     }
 
     private void DefaultButton_Click(object sender, RoutedEventArgs e)
     {
         Choice = PickerChoice.Default;
-        DialogResult = true;
+        CompleteChoice(true);
     }
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
-        DialogResult = false;
+        CompleteChoice(false);
+    }
+
+    private void CompleteChoice(bool accepted)
+    {
+        if (_hosted)
+        {
+            if (accepted)
+                ChoiceCommitted?.Invoke(this, EventArgs.Empty);
+            Close();
+            return;
+        }
+
+        DialogResult = accepted;
     }
 }

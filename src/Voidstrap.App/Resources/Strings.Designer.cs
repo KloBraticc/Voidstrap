@@ -8740,6 +8740,12 @@ namespace Voidstrap.Resources {
         public static string Ui_OverlayStudio_LayerReadout => ResourceManager.GetString("Ui.OverlayStudio.LayerReadout", resourceCulture);
         public static string Ui_OverlayStudio_LayerNotifications => ResourceManager.GetString("Ui.OverlayStudio.LayerNotifications", resourceCulture);
         public static string Ui_OverlayStudio_LayerDock => ResourceManager.GetString("Ui.OverlayStudio.LayerDock", resourceCulture);
+        public static string Ui_OverlayStudio_DockActionLayout => ResourceManager.GetString("Ui.OverlayStudio.DockActionLayout", resourceCulture);
+        public static string Ui_OverlayStudio_DockActionLayoutDescription => ResourceManager.GetString("Ui.OverlayStudio.DockActionLayoutDescription", resourceCulture);
+        public static string Ui_OverlayStudio_DockActionIconPickerTitle => ResourceManager.GetString("Ui.OverlayStudio.DockActionIconPickerTitle", resourceCulture);
+        public static string Ui_OverlayStudio_DockActionShown => ResourceManager.GetString("Ui.OverlayStudio.DockActionShown", resourceCulture);
+        public static string Ui_OverlayStudio_DockActionHidden => ResourceManager.GetString("Ui.OverlayStudio.DockActionHidden", resourceCulture);
+        public static string Ui_OverlayStudio_DockActionAlwaysVisibleHint => ResourceManager.GetString("Ui.OverlayStudio.DockActionAlwaysVisibleHint", resourceCulture);
         public static string Ui_OverlayStudio_LayerCrosshair => ResourceManager.GetString("Ui.OverlayStudio.LayerCrosshair", resourceCulture);
         public static string Ui_OverlayStudio_LayerFrameGen => ResourceManager.GetString("Ui.OverlayStudio.LayerFrameGen", resourceCulture);
         public static string Ui_OverlayStudio_LayerPanels => ResourceManager.GetString("Ui.OverlayStudio.LayerPanels", resourceCulture);

@@ -500,6 +500,272 @@
             </Border>
           </StackPanel>
         </Border>
+        <ui:CardExpander Margin="0,10,0,0" IsExpanded="False">
+          <HeaderedContentControl.Header>
+            <StackPanel>
+              <TextBlock FontSize="14" Text="{resources:Loc Ui_OverlayStudio_DockActionLayout}" />
+              <TextBlock Margin="0,2,0,0" FontSize="12"
+                         Text="{resources:Loc Ui_OverlayStudio_DockActionLayoutDescription}"
+                         Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            </StackPanel>
+          </HeaderedContentControl.Header>
+          <StackPanel>
+            <DataGrid x:Name="DockActionGrid" AutoGenerateColumns="False" SelectionMode="Single"
+                      SelectionUnit="Cell" PreviewMouseWheel="DockActionGrid_PreviewMouseWheel"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                      CanUserResizeRows="False" CanUserSortColumns="False" HeadersVisibility="Column"
+                      GridLinesVisibility="None" RowHeaderWidth="0" RowHeight="42" Background="#00FFFFFF"
+                      BorderThickness="0" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}">
+              <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell" BasedOn="{StaticResource VoidstrapDataGridCellStyle}">
+                  <Setter Property="Cursor" Value="Arrow" />
+                  <Setter Property="Padding" Value="4,0" />
+                  <Setter Property="Focusable" Value="False" />
+                  <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                      <Setter Property="Background" Value="#00FFFFFF" />
+                      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </DataGrid.CellStyle>
+              <DataGrid.Resources>
+                <Style x:Key="DockActionMoveIconStyle" TargetType="ui:SymbolIcon"
+                       BasedOn="{StaticResource {x:Type ui:SymbolIcon}}">
+                  <Setter Property="FontSize" Value="16" />
+                  <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                      <Setter Property="Opacity" Value="0.3" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </DataGrid.Resources>
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="{resources:Loc Common_Name}" Width="*"
+                                    IsReadOnly="True" Binding="{Binding Name}" />
+                <DataGridTemplateColumn Header="{resources:Loc Menu_Appearance_Icon_Title}" Width="138"
+                                        CanUserSort="False">
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <ui:Button Height="30" Margin="4,3" Padding="8,0" HorizontalContentAlignment="Left"
+                                 ToolTip="{resources:Loc Menu_Appearance_Icon_Title}" Tag="{Binding}"
+                                 Click="DockActionIcon_Click">
+                        <StackPanel Orientation="Horizontal">
+                          <Grid Width="22" Height="22">
+                            <TextBlock Text="{Binding DefaultGlyph}" FontSize="18">
+                              <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource Glyph}">
+                                  <Setter Property="Visibility" Value="Visible" />
+                                  <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HasCustomSymbol}" Value="True">
+                                      <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding HasImagePreview}" Value="True">
+                                      <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                  </Style.Triggers>
+                                </Style>
+                              </TextBlock.Style>
+                            </TextBlock>
+                            <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="18"
+                                           Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+                              <ui:SymbolIcon.Style>
+                                <Style TargetType="{x:Type ui:SymbolIcon}"
+                                       BasedOn="{StaticResource {x:Type ui:SymbolIcon}}">
+                                  <Setter Property="Visibility" Value="Collapsed" />
+                                  <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HasCustomSymbol}" Value="True">
+                                      <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                  </Style.Triggers>
+                                </Style>
+                              </ui:SymbolIcon.Style>
+                            </ui:SymbolIcon>
+                            <Image Source="{Binding PreviewImage}" Width="20" Height="20" Stretch="Uniform"
+                                   RenderOptions.BitmapScalingMode="HighQuality">
+                              <Image.Style>
+                                <Style TargetType="Image">
+                                  <Setter Property="Visibility" Value="Collapsed" />
+                                  <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HasImagePreview}" Value="True">
+                                      <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                  </Style.Triggers>
+                                </Style>
+                              </Image.Style>
+                            </Image>
+                          </Grid>
+                          <TextBlock Margin="7,0,0,0" MaxWidth="82" VerticalAlignment="Center"
+                                     Text="{Binding IconLabel}" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                      </ui:Button>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{resources:Loc Ui_Appearance_Show}" Width="90"
+                                        CanUserSort="False">
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <ui:Button MinWidth="74" Height="30" Padding="10,0" HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" Content="{Binding VisibilityLabel}"
+                                 IsEnabled="{Binding CanHide}" Tag="{Binding}"
+                                 Click="DockActionVisibility_Click"
+                                 AutomationProperties.Name="{Binding VisibilityLabel}">
+                        <ui:Button.Style>
+                          <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                            <Setter Property="Appearance" Value="Secondary" />
+                            <Style.Triggers>
+                              <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                                <Setter Property="Appearance" Value="Primary" />
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </ui:Button.Style>
+                      </ui:Button>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{resources:Loc Ui_Appearance_Move}" Width="86"
+                                        CanUserSort="False">
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <ui:Button Width="34" Height="30" Padding="0" Margin="0,0,4,0"
+                                   ToolTip="{resources:Loc Ui_Appearance_MoveUp}"
+                                   AutomationProperties.Name="{resources:Loc Ui_Appearance_MoveUp}"
+                                   Tag="{Binding}" Click="MoveDockActionUp_Click"
+                                   IsEnabled="{Binding CanMoveUp}">
+                          <ui:SymbolIcon Symbol="ChevronUp24" Style="{StaticResource DockActionMoveIconStyle}" />
+                        </ui:Button>
+                        <ui:Button Width="34" Height="30" Padding="0"
+                                   ToolTip="{resources:Loc Ui_Appearance_MoveDown}"
+                                   AutomationProperties.Name="{resources:Loc Ui_Appearance_MoveDown}"
+                                   Tag="{Binding}" Click="MoveDockActionDown_Click"
+                                   IsEnabled="{Binding CanMoveDown}">
+                          <ui:SymbolIcon Symbol="ChevronDown24" Style="{StaticResource DockActionMoveIconStyle}" />
+                        </ui:Button>
+                      </StackPanel>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+            <ItemsControl x:Name="LinuxDockActionList" Visibility="Collapsed">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Margin="0,0,0,6" Padding="10" CornerRadius="6" BorderThickness="1"
+                          BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                          Background="{DynamicResource ControlFillColorDefaultBrush}">
+                    <StackPanel>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource Label}"
+                                   TextTrimming="CharacterEllipsis" Margin="0,0,8,0" />
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                          <ui:Button Width="136" Height="32" Padding="8,0" Margin="0,0,6,0"
+                                     Tag="{Binding}" Click="DockActionIcon_Click"
+                                     ToolTip="{resources:Loc Menu_Appearance_Icon_Title}">
+                            <StackPanel Orientation="Horizontal">
+                              <Grid Width="22" Height="22">
+                                <TextBlock Text="{Binding DefaultGlyph}" FontSize="18">
+                                  <TextBlock.Style>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource Glyph}">
+                                      <Setter Property="Visibility" Value="Visible" />
+                                      <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasCustomSymbol}" Value="True">
+                                          <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding HasImagePreview}" Value="True">
+                                          <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                      </Style.Triggers>
+                                    </Style>
+                                  </TextBlock.Style>
+                                </TextBlock>
+                                <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="18"
+                                               Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+                                  <ui:SymbolIcon.Style>
+                                    <Style TargetType="{x:Type ui:SymbolIcon}"
+                                           BasedOn="{StaticResource {x:Type ui:SymbolIcon}}">
+                                      <Setter Property="Visibility" Value="Collapsed" />
+                                      <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasCustomSymbol}" Value="True">
+                                          <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                      </Style.Triggers>
+                                    </Style>
+                                  </ui:SymbolIcon.Style>
+                                </ui:SymbolIcon>
+                                <Image Source="{Binding PreviewImage}" Width="20" Height="20" Stretch="Uniform"
+                                       RenderOptions.BitmapScalingMode="HighQuality">
+                                  <Image.Style>
+                                    <Style TargetType="Image">
+                                      <Setter Property="Visibility" Value="Collapsed" />
+                                      <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasImagePreview}" Value="True">
+                                          <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                      </Style.Triggers>
+                                    </Style>
+                                  </Image.Style>
+                                </Image>
+                              </Grid>
+                              <TextBlock Margin="7,0,0,0" MaxWidth="86" VerticalAlignment="Center"
+                                         Text="{Binding IconLabel}" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                          </ui:Button>
+                          <ui:Button MinWidth="76" Height="32" Margin="0,0,6,4" Padding="8,0"
+                                     Content="{Binding VisibilityLabel}" IsEnabled="{Binding CanHide}"
+                                     Tag="{Binding}" Click="DockActionVisibility_Click">
+                            <ui:Button.Style>
+                              <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                <Setter Property="Appearance" Value="Secondary" />
+                                <Style.Triggers>
+                                  <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                                    <Setter Property="Appearance" Value="Primary" />
+                                  </DataTrigger>
+                                </Style.Triggers>
+                              </Style>
+                            </ui:Button.Style>
+                          </ui:Button>
+                          <ui:Button Width="30" Height="30" Padding="0" Margin="6,0,3,0"
+                                     Tag="{Binding}" Click="MoveDockActionUp_Click"
+                                     IsEnabled="{Binding CanMoveUp}"
+                                     ToolTip="{resources:Loc Ui_Appearance_MoveUp}"
+                                     AutomationProperties.Name="{resources:Loc Ui_Appearance_MoveUp}">
+                            <ui:SymbolIcon Symbol="ChevronUp24" FontSize="16" />
+                          </ui:Button>
+                          <ui:Button Width="30" Height="30" Padding="0"
+                                     Tag="{Binding}" Click="MoveDockActionDown_Click"
+                                     IsEnabled="{Binding CanMoveDown}"
+                                     ToolTip="{resources:Loc Ui_Appearance_MoveDown}"
+                                     AutomationProperties.Name="{resources:Loc Ui_Appearance_MoveDown}">
+                            <ui:SymbolIcon Symbol="ChevronDown24" FontSize="16" />
+                          </ui:Button>
+                        </StackPanel>
+                      </Grid>
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Border Style="{StaticResource LastRow}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{resources:Loc Ui_OverlayStudio_DockActionAlwaysVisibleHint}"
+                           Style="{StaticResource Hint}" />
+                <ui:Button Grid.Column="1" Content="{resources:Loc Common_Reset}" Click="ResetDockActions_Click" />
+              </Grid>
+            </Border>
+          </StackPanel>
+        </ui:CardExpander>
       </StackPanel>
 
       <StackPanel x:Name="CrosshairInspector" Margin="0,12,0,0" Visibility="Collapsed">

@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
 using Voidstrap.Integrations.Keystrokes;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.ContextMenu;
+using Voidstrap.UI.Elements.Dialogs;
+using Voidstrap.Utility;
+using Wpf.Ui.Common;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
@@ -54,6 +61,7 @@ public partial class SessionOverlayLayoutEditor : Window
     private readonly Border _stageMusicWrapper;
     private readonly Border _stageMusicIsland;
     private readonly TextBlock _stageMusicText;
+    private readonly List<DockActionEditorItem> _dockActionItems = new();
 
     private OverlayStudioLayer _selectedLayer = OverlayStudioLayer.Readout;
     private OverlayStudioLayer? _stageDraggingLayer;
@@ -65,6 +73,69 @@ public partial class SessionOverlayLayoutEditor : Window
     private bool _ready;
     private bool _loading;
     private bool _closed;
+    private bool _dockActionRowsLoaded;
+
+    private sealed class DockActionEditorItem : INotifyPropertyChanged
+    {
+        private bool _isVisible;
+
+        public string Key { get; }
+        public string Name { get; }
+        public string DefaultGlyph { get; }
+        public SymbolRegular Icon { get; }
+        public bool HasCustomSymbol { get; }
+        public bool HasCustomImage { get; }
+        public ImageSource? PreviewImage { get; }
+        public bool HasImagePreview => PreviewImage != null;
+        public string IconLabel =>
+            HasCustomImage ? Strings.Ui_EditorSettings_Image
+            : HasCustomSymbol ? Icon.ToString()
+            : Strings.Common_Default;
+        public string VisibilityLabel => IsVisible ? Strings.Ui_OverlayStudio_DockActionShown : Strings.Ui_OverlayStudio_DockActionHidden;
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                if (_isVisible == value)
+                    return;
+                _isVisible = value;
+                OnPropertyChanged(nameof(IsVisible));
+                OnPropertyChanged(nameof(VisibilityLabel));
+            }
+        }
+        public bool CanHide { get; }
+        public bool CanMoveUp { get; }
+        public bool CanMoveDown { get; }
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public DockActionEditorItem(
+            SessionDockActionDefinition definition,
+            bool isVisible,
+            SymbolRegular icon,
+            bool hasCustomSymbol,
+            bool hasCustomImage,
+            ImageSource? previewImage,
+            bool canMoveUp,
+            bool canMoveDown
+        )
+        {
+            Key = definition.Key;
+            Name = definition.Label();
+            DefaultGlyph = definition.DefaultGlyph;
+            Icon = icon;
+            HasCustomSymbol = hasCustomSymbol;
+            HasCustomImage = hasCustomImage;
+            PreviewImage = previewImage;
+            IsVisible = isVisible;
+            CanHide = definition.CanHide;
+            CanMoveUp = canMoveUp;
+            CanMoveDown = canMoveDown;
+        }
+
+        private void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 
     internal bool IsScreenDragActive => _screenDragWindow is { IsVisible: true };
 
@@ -85,7 +156,14 @@ public partial class SessionOverlayLayoutEditor : Window
     {
         _gameIcon = gameIcon;
         _sendTestNotification = sendTestNotification;
+        Resources[SidebarIconPickerDialog.IconFontResourceKey] = SidebarIconPickerDialog.FullIconFont;
         InitializeComponent();
+        DockActionGrid.Resources[SidebarIconPickerDialog.IconFontResourceKey] = SidebarIconPickerDialog.FullIconFont;
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
+        {
+            DockActionGrid.Visibility = Visibility.Collapsed;
+            LinuxDockActionList.Visibility = Visibility.Visible;
+        }
         Voidstrap.UI.Elements.Editor.VisualStudioTheme.Apply(this);
         StageBackgroundBrush.ImageSource = gameIcon;
         Voidstrap.Utility.DynamicRenderSystem.SetPortableBrushImage(StageImageHost, gameIcon);
@@ -418,6 +496,9 @@ public partial class SessionOverlayLayoutEditor : Window
         KeystrokesInspector.Visibility = layer == OverlayStudioLayer.Keystrokes ? Visibility.Visible : Visibility.Collapsed;
         PanelsInspector.Visibility = layer == OverlayStudioLayer.Panels ? Visibility.Visible : Visibility.Collapsed;
         MusicInspector.Visibility = layer == OverlayStudioLayer.Music ? Visibility.Visible : Visibility.Collapsed;
+
+        if (layer == OverlayStudioLayer.Dock && !_dockActionRowsLoaded)
+            LoadDockActionRows();
 
         if (layer == OverlayStudioLayer.Panels)
             RebuildPanelsList();
@@ -1061,6 +1142,256 @@ public partial class SessionOverlayLayoutEditor : Window
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 
+    private void LoadDockActionRows()
+    {
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+        layout.DockActionOrder ??= [];
+        layout.DockHiddenActions ??= [];
+        layout.DockActionIcons ??= [];
+        layout.DockActionIconImages ??= [];
+
+        IReadOnlyList<string> order = SessionDock.GetDockActionOrder(layout);
+        HashSet<string> hidden = new HashSet<string>(layout.DockHiddenActions, StringComparer.Ordinal);
+        _dockActionItems.Clear();
+        for (int i = 0; i < order.Count; i++)
+        {
+            SessionDockActionDefinition definition = SessionDock.DockActionDefinitions.First(item => item.Key == order[i]);
+            SymbolRegular icon = GetDefaultDockActionIcon(definition);
+            bool hasCustomSymbol =
+                layout.DockActionIcons.TryGetValue(definition.Key, out string? iconName)
+                && Enum.TryParse(iconName, out icon)
+                && SidebarIconPickerDialog.CanRender(icon)
+                && !layout.DockActionIconImages.ContainsKey(definition.Key);
+            if (!hasCustomSymbol)
+                icon = GetDefaultDockActionIcon(definition);
+
+            ImageSource? preview = null;
+            bool hasCustomImage = layout.DockActionIconImages.TryGetValue(definition.Key, out string? imagePath);
+            if (hasCustomImage)
+            {
+                preview = SafeImaging.FromFile(imagePath, 48);
+                if (preview == null)
+                    App.Logger?.WriteLine("SessionOverlayLayoutEditor::LoadDockActionRows", "Could not load dock icon image: " + imagePath);
+            }
+
+            _dockActionItems.Add(
+                new DockActionEditorItem(
+                    definition,
+                    !definition.CanHide || !hidden.Contains(definition.Key),
+                    icon,
+                    hasCustomSymbol,
+                    hasCustomImage,
+                    preview,
+                    i > 0,
+                    i < order.Count - 1
+                )
+            );
+        }
+        DockActionGrid.ItemsSource = _dockActionItems.ToList();
+        LinuxDockActionList.ItemsSource = _dockActionItems.ToList();
+        _dockActionRowsLoaded = true;
+    }
+
+    private void DockActionGrid_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+    {
+        if (e.Handled || sender is not FrameworkElement { Parent: UIElement parent })
+            return;
+
+        e.Handled = true;
+        parent.RaiseEvent(new System.Windows.Input.MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+        {
+            RoutedEvent = UIElement.MouseWheelEvent,
+            Source = sender
+        });
+    }
+
+    private static SymbolRegular GetDefaultDockActionIcon(SessionDockActionDefinition definition)
+    {
+        return Enum.TryParse(definition.DefaultSymbol, out SymbolRegular icon) && SidebarIconPickerDialog.CanRender(icon)
+            ? icon
+            : SymbolRegular.Apps24;
+    }
+
+    private void DockActionVisibility_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Wpf.Ui.Controls.Button button || button.Tag is not DockActionEditorItem item || !item.CanHide)
+            return;
+
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+        List<string> hidden = layout.DockHiddenActions ??= [];
+        hidden.RemoveAll(key => string.Equals(key, item.Key, StringComparison.Ordinal));
+        item.IsVisible = !item.IsVisible;
+        if (!item.IsVisible)
+            hidden.Add(item.Key);
+        App.Settings.SaveDeferred();
+        SessionDock.ActiveInstance?.RefreshDockActionVisibilityLive(item.Key);
+    }
+
+    private void MoveDockActionUp_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { Tag: DockActionEditorItem item })
+            MoveDockAction(item, -1);
+    }
+
+    private void MoveDockActionDown_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { Tag: DockActionEditorItem item })
+            MoveDockAction(item, 1);
+    }
+
+    private void MoveDockAction(DockActionEditorItem item, int direction)
+    {
+        int index = _dockActionItems.IndexOf(item);
+        int target = index + direction;
+        if (index < 0 || target < 0 || target >= _dockActionItems.Count)
+            return;
+
+        (_dockActionItems[index], _dockActionItems[target]) = (_dockActionItems[target], _dockActionItems[index]);
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+        layout.DockActionOrder = _dockActionItems.Select(action => action.Key).ToList();
+        SaveDockActionChanges();
+    }
+
+    private void DockActionIcon_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement { Tag: DockActionEditorItem item } element)
+            return;
+
+        string title = Strings.Ui_OverlayStudio_DockActionIconPickerTitle;
+        if (SessionDock.ActiveInstance is { } dock)
+        {
+            dock.ShowTool(
+                "dock-icon-picker-" + item.Key,
+                title,
+                () =>
+                {
+                    SidebarIconPickerDialog picker = new SidebarIconPickerDialog(item.Icon, title, hosted: true);
+                    picker.ChoiceCommitted += (_, _) => ApplyDockActionIconChoice(item, picker, picker.HostWindow);
+                    return picker;
+                }
+            );
+            return;
+        }
+
+        Window? owner = Window.GetWindow(element);
+        if (owner == this || owner is { IsVisible: false })
+            owner = null;
+
+        using SidebarIconPickerDialog dialog = new SidebarIconPickerDialog(item.Icon, title);
+        if (owner != null)
+            dialog.Owner = owner;
+        else
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+        if (dialog.ShowDialog() != true)
+            return;
+
+        ApplyDockActionIconChoice(item, dialog, owner);
+    }
+
+    private void ApplyDockActionIconChoice(DockActionEditorItem item, SidebarIconPickerDialog dialog, Window? owner)
+    {
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+        layout.DockActionIcons ??= [];
+        layout.DockActionIconImages ??= [];
+        switch (dialog.Choice)
+        {
+            case SidebarIconPickerDialog.PickerChoice.Symbol:
+                layout.DockActionIcons[item.Key] = dialog.SelectedIcon.ToString();
+                layout.DockActionIconImages.Remove(item.Key);
+                break;
+            case SidebarIconPickerDialog.PickerChoice.Image:
+                if (!ChooseDockActionImage(item.Key, owner))
+                    return;
+                break;
+            case SidebarIconPickerDialog.PickerChoice.Default:
+                layout.DockActionIcons.Remove(item.Key);
+                layout.DockActionIconImages.Remove(item.Key);
+                break;
+            default:
+                return;
+        }
+        SaveDockActionChanges();
+    }
+
+    private bool ChooseDockActionImage(string key, Window? owner)
+    {
+        OpenFileDialog picker = new OpenFileDialog
+        {
+            Title = Strings.Menu_Appearance_Icon_Title,
+            Filter = Strings.Menu_IconFiles + "|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.ico;*.webp",
+            CheckFileExists = true,
+            Multiselect = false,
+        };
+        bool? result = owner != null ? picker.ShowDialog(owner) : picker.ShowDialog();
+        if (result != true)
+            return false;
+
+        string extension = Path.GetExtension(picker.FileName).ToLowerInvariant();
+        if (
+            extension is not ".png"
+                and not ".jpg"
+                and not ".jpeg"
+                and not ".bmp"
+                and not ".gif"
+                and not ".ico"
+                and not ".webp"
+            || SafeImaging.FromFile(picker.FileName, 48) == null
+        )
+        {
+            ShowDockActionImageError(owner);
+            return false;
+        }
+
+        try
+        {
+            string directory = Path.Combine(Paths.Data, "SessionDockIcons");
+            Directory.CreateDirectory(directory);
+            string target = Path.Combine(directory, key + extension);
+            if (!string.Equals(Path.GetFullPath(picker.FileName), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase))
+                File.Copy(picker.FileName, target, true);
+
+            OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+            layout.DockActionIcons.Remove(key);
+            (layout.DockActionIconImages ??= [])[key] = target;
+            return true;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
+        {
+            App.Logger?.WriteLine("SessionOverlayLayoutEditor::ChooseDockActionImage", "Could not save the dock icon image: " + ex.Message);
+            ShowDockActionImageError(owner);
+            return false;
+        }
+    }
+
+    private void ShowDockActionImageError(Window? owner)
+    {
+        if (owner != null)
+            MessageBox.Show(owner, Strings.Dialog_IconLoadFailed, Strings.Ui_Nav_Settings, MessageBoxButton.OK, MessageBoxImage.Error);
+        else
+            MessageBox.Show(Strings.Dialog_IconLoadFailed, Strings.Ui_Nav_Settings, MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+
+    private void ResetDockActions_Click(object sender, RoutedEventArgs e)
+    {
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+        layout.ResetDockActions();
+        SaveDockActionChanges();
+    }
+
+    private void SaveDockActionChanges()
+    {
+        App.Settings.SaveDeferred();
+        LoadDockActionRows();
+        SessionDock.ActiveInstance?.RefreshDockActionLayoutLive();
+    }
+
+    private void RefreshDockActionRowsIfLoaded()
+    {
+        if (_dockActionRowsLoaded)
+            LoadDockActionRows();
+    }
+
     private void CrosshairControl_Changed(object sender, RoutedEventArgs e)
     {
         if (!_ready || _loading)
@@ -1430,6 +1761,8 @@ public partial class SessionOverlayLayoutEditor : Window
         }
 
         App.Settings.Prop.NotificationAppearance = notif.Copy();
+        if (preset == "default")
+            RefreshDockActionRowsIfLoaded();
 
         RefreshAllLiveOverlays();
         App.Settings.SaveDeferred();
@@ -1454,7 +1787,9 @@ public partial class SessionOverlayLayoutEditor : Window
         else if (_selectedLayer == OverlayStudioLayer.Dock)
         {
             layout.ResetDock();
+            RefreshDockActionRowsIfLoaded();
             SessionDock.ActiveInstance?.RefreshLayoutLive();
+            SessionDock.ActiveInstance?.RefreshDockActionLayoutLive();
         }
         else if (_selectedLayer == OverlayStudioLayer.Crosshair)
         {
@@ -1489,6 +1824,7 @@ public partial class SessionOverlayLayoutEditor : Window
     {
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         layout.ResetAll();
+        RefreshDockActionRowsIfLoaded();
         App.Settings.Prop.NotificationAppearance = new NotificationAppearance();
         App.Settings.Prop.MusicIslandPosition = MusicIslandPosition.BottomRight;
         RefreshAllLiveOverlays();
@@ -1504,6 +1840,7 @@ public partial class SessionOverlayLayoutEditor : Window
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         KeystrokeOverlayWindow.Reconcile();
         SessionDock.ActiveInstance?.RefreshLayoutLive();
+        SessionDock.ActiveInstance?.RefreshDockActionLayoutLive();
         Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
     }
 

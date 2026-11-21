@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Voidstrap.Models.Persistable;
@@ -37,6 +38,10 @@ public sealed class OverlayLayoutSettings
     public double DockEdgeSpacing { get; set; } = DefaultDockEdgeSpacing;
     public double DockScale { get; set; } = DefaultDockScale;
     public double DockBackdropOpacity { get; set; } = DefaultDockBackdropOpacity;
+    public List<string> DockActionOrder { get; set; } = [];
+    public List<string> DockHiddenActions { get; set; } = [];
+    public Dictionary<string, string> DockActionIcons { get; set; } = [];
+    public Dictionary<string, string> DockActionIconImages { get; set; } = [];
 
     public double KeystrokesHorizontal { get; set; } = DefaultKeystrokesHorizontal;
     public double KeystrokesVertical { get; set; } = DefaultKeystrokesVertical;
@@ -120,6 +125,10 @@ public sealed class OverlayLayoutSettings
         DockEdgeSpacing = SafeDockEdgeSpacing,
         DockScale = SafeDockScale,
         DockBackdropOpacity = double.IsFinite(DockBackdropOpacity) ? DockBackdropOpacity : DefaultDockBackdropOpacity,
+        DockActionOrder = DockActionOrder is null ? [] : [.. DockActionOrder],
+        DockHiddenActions = DockHiddenActions is null ? [] : [.. DockHiddenActions],
+        DockActionIcons = DockActionIcons is null ? [] : new Dictionary<string, string>(DockActionIcons),
+        DockActionIconImages = DockActionIconImages is null ? [] : new Dictionary<string, string>(DockActionIconImages),
         KeystrokesHorizontal = SafeKeystrokesHorizontal,
         KeystrokesVertical = SafeKeystrokesVertical,
         KeystrokesEdgeSpacing = SafeKeystrokesEdgeSpacing,
@@ -148,6 +157,16 @@ public sealed class OverlayLayoutSettings
         DockEdgeSpacing = DefaultDockEdgeSpacing;
         DockScale = DefaultDockScale;
         DockBackdropOpacity = DefaultDockBackdropOpacity;
+        ResetDockActions();
+    }
+
+    public void ResetDockActions()
+    {
+        DockActionOrder = [];
+        DockHiddenActions = [];
+        DockActionIcons = [];
+        DockActionIconImages = [];
+
     }
 
     public void ResetKeystrokes()

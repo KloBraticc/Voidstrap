@@ -197,6 +197,7 @@ public partial class SessionDock : Window
         if (!Voidstrap.Utility.Platform.IsWindows)
             WebButton.Visibility = Visibility.Collapsed;
         ClipsButton.Visibility = App.Settings.Prop.ClipperEnabled ? Visibility.Visible : Visibility.Collapsed;
+        InitializeDockActionLayout();
         ApplyQuickToggleVisibility();
         Voidstrap.Integrations.Clipper.ClipperService.StateChanged += OnClipperStateChanged;
         FitWidth();
@@ -229,12 +230,7 @@ public partial class SessionDock : Window
         if (_closed)
             return;
         bool enabled = App.Settings.Prop.ClipperEnabled && Voidstrap.Integrations.Clipper.ClipperService.Supported;
-        Visibility target = enabled ? Visibility.Visible : Visibility.Collapsed;
-        if (ClipsButton.Visibility != target)
-        {
-            ClipsButton.Visibility = target;
-            QueueFitWidth();
-        }
+        RefreshDockActionVisibilityLive("clips");
         if (!enabled && _panels.TryGetValue("clips", out SessionPanelWindow? panel) && !panel.IsClosed)
         {
             panel.Close();
