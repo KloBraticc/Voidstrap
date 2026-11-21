@@ -21,7 +21,7 @@
               <Separator />
               <MenuItem Tag="outfit-update" Header="{resources:Loc Accounts_Outfits_UpdateCurrent}" Click="OnItemMenuClick" />
               <MenuItem Tag="outfit-rename" Header="{resources:Loc Accounts_Outfits_Rename}" Click="OnItemMenuClick" />
-              <MenuItem Tag="outfit-delete" Header="{resources:Loc Accounts_Outfits_Delete}" Click="OnItemMenuClick" />
+              <MenuItem Tag="outfit-delete" Header="{resources:Loc Accounts_Outfits_Delete}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Click="OnItemMenuClick" />
               <MenuItem Tag="view" Header="{resources:Loc Library_ViewOnRoblox}" Click="OnItemMenuClick" />
               <MenuItem Tag="copy" Header="{resources:Loc Accounts_CopyId}" Click="OnItemMenuClick" />
             </ContextMenu>
@@ -47,7 +47,7 @@
               <Separator />
               <MenuItem Tag="outfit-update" Header="{resources:Loc Accounts_Outfits_UpdateCurrent}" Click="OnItemMenuClick" />
               <MenuItem Tag="outfit-rename" Header="{resources:Loc Accounts_Outfits_Rename}" Click="OnItemMenuClick" />
-              <MenuItem Tag="outfit-delete" Header="{resources:Loc Accounts_Outfits_Delete}" Click="OnItemMenuClick" />
+              <MenuItem Tag="outfit-delete" Header="{resources:Loc Accounts_Outfits_Delete}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Click="OnItemMenuClick" />
               <MenuItem Tag="view" Header="{resources:Loc Library_ViewOnRoblox}" Click="OnItemMenuClick" />
               <MenuItem Tag="copy" Header="{resources:Loc Accounts_CopyId}" Click="OnItemMenuClick" />
             </ContextMenu>

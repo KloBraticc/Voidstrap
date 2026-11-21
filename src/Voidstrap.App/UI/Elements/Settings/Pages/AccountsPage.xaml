@@ -279,7 +279,7 @@
                             <MenuItem Header="{resources:Loc Accounts_Outfits_Rename}" Command="{Binding PlacementTarget.Tag.RenameOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
                             <MenuItem Header="{resources:Loc Accounts_Outfits_UpdateCurrent}" Command="{Binding PlacementTarget.Tag.UpdateOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
                             <Separator />
-                            <MenuItem Header="{resources:Loc Accounts_Outfits_Delete}" Command="{Binding PlacementTarget.Tag.DeleteOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                            <MenuItem Header="{resources:Loc Accounts_Outfits_Delete}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Command="{Binding PlacementTarget.Tag.DeleteOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
                           </ContextMenu>
                         </ui:Button.ContextMenu>
                         <StackPanel HorizontalAlignment="Stretch">
