@@ -124,8 +124,52 @@ public partial class FastFlagsPage : UiPage
 
     private void OnBreadcrumbBack(object sender, RoutedEventArgs e)
     {
+        if (ReferenceEquals(FlagTabs.SelectedItem, NvidiaTab) &&
+            NvidiaFrame.Content is NvidiaFFlagEditorPage)
+        {
+            if (NvidiaFrame.NavigationService?.CanGoBack == true)
+                NvidiaFrame.NavigationService.GoBack();
+            else
+                NvidiaFrame.Navigate(new NvidiaFastFlagsPage());
+
+            return;
+        }
+
         if (ReferenceEquals(FlagTabs.SelectedItem, AdvancedFlagsTab))
             FlagTabs.SelectedIndex = 0;
+    }
+
+    private void NvidiaFrame_Navigated(object sender, NavigationEventArgs e)
+    {
+        UpdateBreadcrumb();
+    }
+
+    private void UpdateBreadcrumb()
+    {
+        if (ReferenceEquals(FlagTabs.SelectedItem, NvidiaTab) &&
+            NvidiaFrame.Content is NvidiaFFlagEditorPage)
+        {
+            Wpf.Ui.Controls.Breadcrumb.SetRootTitle(
+                this,
+                Voidstrap.Resources.Strings.Menu_FastFlags_Title);
+            Voidstrap.UI.BreadcrumbHeader.SetLocalized(
+                this,
+                nameof(Voidstrap.Resources.Strings.Ui_Pages_NVIDIAFFlagEditor));
+        }
+        else
+        {
+            Wpf.Ui.Controls.Breadcrumb.SetRootTitle(this, null);
+
+            if (ReferenceEquals(FlagTabs.SelectedItem, AdvancedFlagsTab))
+                Voidstrap.UI.BreadcrumbHeader.SetLocalized(
+                    this,
+                    nameof(Voidstrap.Resources.Strings.Ui_FastFlags_AdvancedFFlags));
+            else
+                Voidstrap.UI.BreadcrumbHeader.Clear(this);
+        }
+
+        if (Window.GetWindow(this) is Voidstrap.UI.Elements.Settings.MainWindow mainWindow)
+            mainWindow.RefreshGlobalSearchBoxVisibility();
     }
 
     private void RestartNvidiaWarning(object sender, RoutedEventArgs e)
@@ -150,12 +194,7 @@ public partial class FastFlagsPage : UiPage
     {
         if (!ReferenceEquals(e.OriginalSource, FlagTabs))
             return;
-        if (ReferenceEquals(FlagTabs.SelectedItem, AdvancedFlagsTab))
-            Voidstrap.UI.BreadcrumbHeader.SetLocalized(this, nameof(Voidstrap.Resources.Strings.Ui_FastFlags_AdvancedFFlags));
-        else
-            Voidstrap.UI.BreadcrumbHeader.Clear(this);
-        if (Window.GetWindow(this) is Voidstrap.UI.Elements.Settings.MainWindow mainWindow)
-            mainWindow.RefreshGlobalSearchBoxVisibility();
+        UpdateBreadcrumb();
         if (ReferenceEquals(FlagTabs.SelectedItem, NvidiaTab))
             ShowNvidiaWarning();
         else
