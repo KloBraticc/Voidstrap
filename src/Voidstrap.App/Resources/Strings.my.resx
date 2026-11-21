@@ -10215,4 +10215,16 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL လိုင်စင် 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>သိမ်းဆည်းပြီး စတင်လိုက်ပါ။ (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>တပ်ဆင်ပါ။ (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>သိမ်းဆည်းပြီး စတင်လိုက်ပါ။ ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>တပ်ဆင်ပါ။ ({0})</value>
+  </data>
 </root>

@@ -10216,4 +10216,16 @@ Të instalohet SteamVR tani?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Licenca GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Ruaj dhe nis Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Instaloni Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Ruaj dhe nis {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Instaloni {0}</value>
+  </data>
 </root>

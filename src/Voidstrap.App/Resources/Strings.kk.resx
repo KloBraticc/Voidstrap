@@ -10216,4 +10216,16 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL лицензиясы 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Сақтау және іске қосу (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Орнату (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Сақтау және іске қосу ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Орнату ({0})</value>
+  </data>
 </root>

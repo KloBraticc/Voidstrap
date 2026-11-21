@@ -10525,4 +10525,16 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>ใบอนุญาต GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>บันทึกและเปิด Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>ติดตั้ง Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>บันทึกและเปิด {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>ติดตั้ง {0}</value>
+  </data>
 </root>

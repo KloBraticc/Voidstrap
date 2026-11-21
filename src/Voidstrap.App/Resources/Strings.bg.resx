@@ -10525,4 +10525,16 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Лиценз на GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Запази и стартирай Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Инсталирай Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Запази и стартирай {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Инсталирай {0}</value>
+  </data>
 </root>

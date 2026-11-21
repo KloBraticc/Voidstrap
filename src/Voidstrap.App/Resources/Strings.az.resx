@@ -10215,4 +10215,16 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL Lisenziyası 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Saxla və Başla (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Quraşdırın (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Saxla və Başla ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Quraşdırın ({0})</value>
+  </data>
 </root>

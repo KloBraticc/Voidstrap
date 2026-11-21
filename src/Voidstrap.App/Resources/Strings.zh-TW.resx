@@ -10525,4 +10525,16 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL 許可證 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>儲存並啟動 Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>安裝 Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>儲存並啟動 {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>安裝 {0}</value>
+  </data>
 </root>

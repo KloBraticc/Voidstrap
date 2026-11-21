@@ -10525,4 +10525,16 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL Lisansı 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Kaydet ve Başlat (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Yükle (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Kaydet ve Başlat ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Yükle ({0})</value>
+  </data>
 </root>

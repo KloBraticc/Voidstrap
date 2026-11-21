@@ -10216,4 +10216,16 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>רישיון GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>שמור והפעל Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>לְהַתְקִין Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>שמור והפעל {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>לְהַתְקִין {0}</value>
+  </data>
 </root>

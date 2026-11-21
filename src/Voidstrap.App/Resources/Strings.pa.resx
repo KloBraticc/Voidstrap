@@ -10216,4 +10216,16 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL ਲਾਇਸੰਸ 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>ਸੇਵ ਕਰੋ ਅਤੇ ਲਾਂਚ ਕਰੋ (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>ਇੰਸਟਾਲ ਕਰੋ (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>ਸੇਵ ਕਰੋ ਅਤੇ ਲਾਂਚ ਕਰੋ ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>ਇੰਸਟਾਲ ਕਰੋ ({0})</value>
+  </data>
 </root>

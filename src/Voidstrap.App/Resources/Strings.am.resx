@@ -10215,4 +10215,16 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL ፈቃድ 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>አስቀምጥ እና አስጀምር (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>ጫን (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>አስቀምጥ እና አስጀምር ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>ጫን ({0})</value>
+  </data>
 </root>

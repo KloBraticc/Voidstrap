@@ -10216,4 +10216,16 @@ Shigar SteamVR yanzu?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Lasisi na GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Ajiye kuma Kaddamar Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Shigar Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Ajiye kuma Kaddamar {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Shigar {0}</value>
+  </data>
 </root>

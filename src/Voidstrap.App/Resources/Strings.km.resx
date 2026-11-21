@@ -10216,4 +10216,16 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>អាជ្ញាប័ណ្ណ GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>រក្សាទុកនិងបើកដំណើរការ Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>ដំឡើង Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>រក្សាទុកនិងបើកដំណើរការ {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>ដំឡើង {0}</value>
+  </data>
 </root>

@@ -286,7 +286,7 @@ Windows vil be deg om å bekrefte sletting av sertifikatet neste gang. Klikk Ja 
     <value>Lagre endringer i {0}?</value>
   </data>
   <data name="CustomTheme.Editor.Save" xml:space="preserve">
-    <value>Spare</value>
+    <value>Lagre</value>
   </data>
   <data name="CustomTheme.Editor.Preview" xml:space="preserve">
     <value>Forhåndsvisning</value>
@@ -385,7 +385,7 @@ Windows vil be deg om å bekrefte sletting av sertifikatet neste gang. Klikk Ja 
     <value>Slett</value>
   </data>
   <data name="Common.Save" xml:space="preserve">
-    <value>Spare</value>
+    <value>Lagre</value>
   </data>
   <data name="Common.DiscordRichPresence" xml:space="preserve">
     <value>Discord Rich Presence</value>
@@ -1213,7 +1213,7 @@ Hvis du velger 'Nei', ignoreres denne advarselen og fortsetter installasjonen.</
     <value>Klikk for mer informasjon om dette alternativet.</value>
   </data>
   <data name="Menu.Save" xml:space="preserve">
-    <value>Spare</value>
+    <value>Lagre</value>
   </data>
   <data name="Menu.SettingsSaved.Message" xml:space="preserve">
     <value>Endringene trer i kraft neste gang du starter Roblox.</value>
@@ -10215,5 +10215,17 @@ Installer SteamVR nå?</value>
   </data>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU-GPL-lisens 3.0</value>
+  </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Lagre og start Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Installer Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Lagre og start {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Installer {0}</value>
   </data>
 </root>

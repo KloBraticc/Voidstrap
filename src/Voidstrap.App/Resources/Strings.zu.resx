@@ -10215,4 +10215,16 @@ Faka i-SteamVR manje?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Ilayisense ye-GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Londoloza bese Wethula Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Faka Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Londoloza bese Wethula {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Faka {0}</value>
+  </data>
 </root>

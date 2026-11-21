@@ -10526,4 +10526,16 @@ Pasang SteamVR sekarang?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Lesen GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Simpan dan lancarkan Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Pasang Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Simpan dan lancarkan {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Pasang {0}</value>
+  </data>
 </root>

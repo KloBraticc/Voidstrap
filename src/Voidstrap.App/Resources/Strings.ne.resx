@@ -10216,4 +10216,16 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL लाइसेन्स 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>बचत गर्नुहोस् र लन्च गर्नुहोस् (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>स्थापना गर्नुहोस् (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>बचत गर्नुहोस् र लन्च गर्नुहोस् ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>स्थापना गर्नुहोस् ({0})</value>
+  </data>
 </root>

@@ -10524,4 +10524,16 @@ I-install ang SteamVR ngayon?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Lisensya ng GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>I-save at ilunsad Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>I-install Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>I-save at ilunsad {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>I-install {0}</value>
+  </data>
 </root>

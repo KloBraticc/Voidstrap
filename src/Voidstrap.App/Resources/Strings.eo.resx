@@ -10215,4 +10215,16 @@ Ludantoj: {2}</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU-GPL-Licenco 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Konservu kaj Lanĉu Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Instali Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Konservu kaj Lanĉu {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Instali {0}</value>
+  </data>
 </root>

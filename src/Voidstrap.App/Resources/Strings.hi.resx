@@ -10216,4 +10216,16 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL लाइसेंस 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>सहेजें और लॉन्च करें (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>स्थापित करना (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>सहेजें और लॉन्च करें ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>स्थापित करना ({0})</value>
+  </data>
 </root>

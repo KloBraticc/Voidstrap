@@ -10216,4 +10216,16 @@ Tāuta SteamVR ināianei?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Raihana GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Tiaki me te Whakarewa Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Tāuta Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Tiaki me te Whakarewa {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Tāuta {0}</value>
+  </data>
 </root>

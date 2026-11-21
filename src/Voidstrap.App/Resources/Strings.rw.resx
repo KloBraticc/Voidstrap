@@ -10216,4 +10216,16 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Uruhushya rwa GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Bika kandi utangire Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Shyiramo Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Bika kandi utangire {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Shyiramo {0}</value>
+  </data>
 </root>

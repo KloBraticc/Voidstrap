@@ -10524,4 +10524,16 @@ SteamVR jetzt installieren?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU-GPL-Lizenz 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Speichern und starten Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Installieren Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Speichern und starten {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Installieren {0}</value>
+  </data>
 </root>

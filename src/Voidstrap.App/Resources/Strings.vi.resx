@@ -10525,4 +10525,16 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Giấy phép GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Lưu và khởi chạy Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Cài đặt Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Lưu và khởi chạy {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Cài đặt {0}</value>
+  </data>
 </root>

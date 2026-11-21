@@ -10216,4 +10216,16 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Licencia GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Uložiť a spustiť Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Inštalovať Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Uložiť a spustiť {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Inštalovať {0}</value>
+  </data>
 </root>

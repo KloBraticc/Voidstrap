@@ -10216,4 +10216,16 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Akwụkwọ ikike GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Chekwa ma malite Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Wụnye Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Chekwa ma malite {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Wụnye {0}</value>
+  </data>
 </root>

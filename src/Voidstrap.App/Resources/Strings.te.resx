@@ -10215,4 +10215,16 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL లైసెన్స్ 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>సేవ్ చేసి ప్రారంభించండి (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>ఇన్స్టాల్ చేయండి (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>సేవ్ చేసి ప్రారంభించండి ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>ఇన్స్టాల్ చేయండి ({0})</value>
+  </data>
 </root>

@@ -10215,4 +10215,16 @@ Gosod SteamVR nawr?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Trwydded GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Cadw a Lansio Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Gosod Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Cadw a Lansio {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Gosod {0}</value>
+  </data>
 </root>

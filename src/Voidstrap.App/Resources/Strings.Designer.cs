@@ -8050,6 +8050,30 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("Menu.SaveAndLaunch", resourceCulture);
             }
         }
+
+        public static string Menu_SaveAndLaunchStudio {
+            get {
+                return ResourceManager.GetString("Menu.SaveAndLaunchStudio", resourceCulture);
+            }
+        }
+
+        public static string Menu_InstallStudio {
+            get {
+                return ResourceManager.GetString("Menu.InstallStudio", resourceCulture);
+            }
+        }
+
+        public static string Menu_SaveAndLaunchRuntime {
+            get {
+                return ResourceManager.GetString("Menu.SaveAndLaunchRuntime", resourceCulture);
+            }
+        }
+
+        public static string Menu_InstallRuntime {
+            get {
+                return ResourceManager.GetString("Menu.InstallRuntime", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Changes will take effect the next time you launch Roblox..

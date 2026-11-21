@@ -10526,4 +10526,16 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Лицензия GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Сохранить и запустить Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Установить Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Сохранить и запустить {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Установить {0}</value>
+  </data>
 </root>

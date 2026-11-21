@@ -10216,4 +10216,16 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL බලපත්‍රය 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>සුරකින්න සහ දියත් කරන්න (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>ස්ථාපනය කරන්න (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>සුරකින්න සහ දියත් කරන්න ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>ස්ථාපනය කරන්න ({0})</value>
+  </data>
 </root>

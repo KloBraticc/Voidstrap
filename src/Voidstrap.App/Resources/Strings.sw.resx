@@ -10215,4 +10215,16 @@ Sakinisha SteamVR sasa?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Leseni ya GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Hifadhi na Uzindue Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Sakinisha Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Hifadhi na Uzindue {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Sakinisha {0}</value>
+  </data>
 </root>

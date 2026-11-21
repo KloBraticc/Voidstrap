@@ -10525,4 +10525,16 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>مجوز GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>ذخیره و اجرا (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>نصب (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>ذخیره و اجرا ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>نصب ({0})</value>
+  </data>
 </root>

@@ -10216,4 +10216,16 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL լիցենզիա 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Պահպանել և գործարկել (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Տեղադրեք (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Պահպանել և գործարկել ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Տեղադրեք ({0})</value>
+  </data>
 </root>

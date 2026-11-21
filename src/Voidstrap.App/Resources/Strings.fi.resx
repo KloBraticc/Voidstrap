@@ -10525,4 +10525,16 @@ Asennetaan SteamVR nyt?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU-GPL-lisenssi 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Tallenna ja käynnistä Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Asentaa Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Tallenna ja käynnistä {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Asentaa {0}</value>
+  </data>
 </root>

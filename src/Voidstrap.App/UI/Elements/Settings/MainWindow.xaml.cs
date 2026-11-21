@@ -843,6 +843,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         InitializeDiscordRPC();
         _backgroundSettings = AppearanceViewModel.LoadSettings();
         GlobalBackground.Changed += OnGlobalBackgroundChanged;
+        Voidstrap.Resources.LocalizedStrings.Instance.PropertyChanged += OnLocalizedStringsChanged;
         ApplyBackgroundSettings();
         PopulateTopSearch();
         ContentRendered += OnStartupContentRendered;
@@ -7272,6 +7273,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Delegate.Combine(mainWindowViewModel.RequestCloseWindowEvent, new EventHandler(OnRequestCloseWindow));
     }
 
+    private void OnLocalizedStringsChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) => UpdateButtonContent();
+
     private void UpdateButtonContent()
     {
         if (InstallLaunchButton == null)
@@ -7285,7 +7288,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             && Voidstrap.Utility.ClassicClients.IsClientInstalled(clientVm.SelectedLaunchClient)
         )
         {
-            content = "Save and Launch";
+            content = Strings.Menu_SaveAndLaunch;
         }
         else
         {
@@ -7300,12 +7303,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                         ? "Rosemary"
                     : studio ? "Vinegar"
                     : "Sober";
-                content = installed ? "Save and Launch " + runtime : "Install " + runtime;
+                content = string.Format(installed ? Strings.Menu_SaveAndLaunchRuntime : Strings.Menu_InstallRuntime, runtime);
             }
             else
             {
                 content = (
-                    studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install")
+                    studio ? (installed ? Strings.Menu_SaveAndLaunchStudio : Strings.Menu_InstallStudio) : (installed ? Strings.Menu_SaveAndLaunch : Strings.Common_Navigation_Install)
                 );
             }
         }
@@ -7814,6 +7817,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RootNavigation.Navigated -= SaveNavigation;
         RootNavigation.Navigated -= RootNavigation_RpcNavigated;
         GlobalBackground.Changed -= OnGlobalBackgroundChanged;
+        Voidstrap.Resources.LocalizedStrings.Instance.PropertyChanged -= OnLocalizedStringsChanged;
         Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged -= OnLinuxReducedMotionChanged;
         ContentRendered -= OnStartupContentRendered;
         PreviewMouseMove -= OnLinuxGradientMouseMove;

@@ -10216,4 +10216,16 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL ଲାଇସେନ୍ସ 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>ସେଭ୍ ଏବଂ ଲଞ୍ଚ୍ | (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>ସଂସ୍ଥାପନ କରନ୍ତୁ | (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>ସେଭ୍ ଏବଂ ଲଞ୍ଚ୍ | ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>ସଂସ୍ଥାପନ କରନ୍ତୁ | ({0})</value>
+  </data>
 </root>

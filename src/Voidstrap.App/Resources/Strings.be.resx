@@ -10215,4 +10215,16 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Ліцэнзія GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Захаваць і запусціць Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Усталяваць Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Захаваць і запусціць {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Усталяваць {0}</value>
+  </data>
 </root>

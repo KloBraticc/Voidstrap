@@ -10215,4 +10215,16 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Iwe-aṣẹ GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Fipamọ ati Ifilọlẹ Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Fi sori ẹrọ Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Fipamọ ati Ifilọlẹ {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Fi sori ẹrọ {0}</value>
+  </data>
 </root>

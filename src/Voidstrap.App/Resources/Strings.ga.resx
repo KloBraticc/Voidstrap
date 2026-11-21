@@ -10216,4 +10216,16 @@ Suiteáil SteamVR anois?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Ceadúnas GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Sábháil agus Seoladh Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Suiteáil Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Sábháil agus Seoladh {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Suiteáil {0}</value>
+  </data>
 </root>

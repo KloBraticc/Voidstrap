@@ -10216,4 +10216,16 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL лиценца 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Сачувај и покрени Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Инсталирај Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Сачувај и покрени {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Инсталирај {0}</value>
+  </data>
 </root>

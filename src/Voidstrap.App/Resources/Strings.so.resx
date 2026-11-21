@@ -10216,4 +10216,16 @@ Hadda rakib SteamVR?</value>
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Shatiga GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Keydi oo bilow Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Ku rakib Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Keydi oo bilow {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Ku rakib {0}</value>
+  </data>
 </root>

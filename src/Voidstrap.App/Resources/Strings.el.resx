@@ -10215,4 +10215,16 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>Άδεια χρήσης GNU GPL 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Αποθήκευση και εκκίνηση Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>Εγκαθιστώ Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>Αποθήκευση και εκκίνηση {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>Εγκαθιστώ {0}</value>
+  </data>
 </root>

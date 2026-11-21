@@ -10216,4 +10216,16 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL 3.0 License</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>ບັນທຶກແລະເປີດຕົວ Studio</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>ຕິດຕັ້ງ Studio</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>ບັນທຶກແລະເປີດຕົວ {0}</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>ຕິດຕັ້ງ {0}</value>
+  </data>
 </root>

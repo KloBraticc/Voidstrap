@@ -10216,4 +10216,16 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
     <value>GNU GPL परवाना 3.0</value>
   </data>
+  <data name="Menu.SaveAndLaunchStudio" xml:space="preserve">
+    <value>जतन करा आणि लाँच करा (Studio)</value>
+  </data>
+  <data name="Menu.InstallStudio" xml:space="preserve">
+    <value>स्थापित करा (Studio)</value>
+  </data>
+  <data name="Menu.SaveAndLaunchRuntime" xml:space="preserve">
+    <value>जतन करा आणि लाँच करा ({0})</value>
+  </data>
+  <data name="Menu.InstallRuntime" xml:space="preserve">
+    <value>स्थापित करा ({0})</value>
+  </data>
 </root>
