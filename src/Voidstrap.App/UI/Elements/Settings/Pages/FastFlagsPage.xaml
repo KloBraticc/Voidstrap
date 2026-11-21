@@ -342,7 +342,7 @@
         </TabItem.Header>
         <Grid>
           <Grid Visibility="{Binding HasNvidiaGpu, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Frame x:Name="NvidiaFrame" Margin="10" Source="NvidiaFastFlagsPage.xaml" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal" Background="Transparent" PreviewMouseWheel="NvidiaFrame_PreviewMouseWheel" Visibility="Collapsed" />
+            <Frame x:Name="NvidiaFrame" Margin="10" Source="NvidiaFastFlagsPage.xaml" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal" Background="Transparent" PreviewMouseWheel="NvidiaFrame_PreviewMouseWheel" Navigated="NvidiaFrame_Navigated" Visibility="Collapsed" />
             <StackPanel x:Name="NvidiaWarning" Margin="24,32" MaxWidth="620" VerticalAlignment="Center">
               <Image HorizontalAlignment="Center" Source="pack://application:,,,/Resources/MessageBox/Warning.png" RenderOptions.BitmapScalingMode="HighQuality" Width="96" />
               <TextBlock HorizontalAlignment="Center" Text="{resources:Loc Common_Warning}" FontSize="48" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
