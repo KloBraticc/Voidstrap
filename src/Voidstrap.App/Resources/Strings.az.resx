@@ -10212,4 +10212,7 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox bağladıqda Voidstrap çıxmaq əvəzinə Əsas səhifədə yenidən açılır.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL Lisenziyası 3.0</value>
+  </data>
 </root>

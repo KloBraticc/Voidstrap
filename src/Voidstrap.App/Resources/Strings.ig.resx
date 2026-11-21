@@ -10213,4 +10213,7 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Na-eweghachi Voidstrap na peeji Ụlọ mgbe ị mechiri Roblox, kama ịpụ.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Akwụkwọ ikike GNU GPL 3.0</value>
+  </data>
 </root>

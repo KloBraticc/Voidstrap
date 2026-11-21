@@ -10213,4 +10213,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox बंद केल्यावर Voidstrap बाहेर पडण्याऐवजी होम पेजवर परत येते.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL परवाना 3.0</value>
+  </data>
 </root>

@@ -10212,4 +10212,7 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Yn dod â Voidstrap yn ôl ar y dudalen Hafan pan fyddi di'n cau Roblox, yn lle gadael.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Trwydded GNU GPL 3.0</value>
+  </data>
 </root>

@@ -10213,4 +10213,7 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Tugann sé Voidstrap ar ais ar an leathanach Baile nuair a dhúnann tú Roblox, in ionad scoir.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Ceadúnas GNU GPL 3.0</value>
+  </data>
 </root>

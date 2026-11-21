@@ -606,11 +606,11 @@ Voidstrap would not exist without the projects and people below. Thank you all.
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/project-licenses-dark.svg"><img src="assets/readme/project-licenses-light.svg" alt="Project licenses" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-Voidstrap's own code is released under the [MIT License](LICENSE.VOIDSTRAP). Third party code, fonts, artwork and packages keep their own licenses. The Bloxstrap and Fishstrap notices are also preserved:
+Voidstrap's own code is released under the [GNU General Public License 3.0](LICENSE.VOIDSTRAP). Versions released before 2.0.0.0 remain available under the MIT License. Third party code, fonts, artwork and packages keep their own licenses. The Bloxstrap and Fishstrap notices are also preserved:
 
 | Project | License | Copyright | File |
 | --- | --- | --- | --- |
-| Voidstrap | MIT | © 2026 Bratic | [LICENSE.VOIDSTRAP](LICENSE.VOIDSTRAP) |
+| Voidstrap | GPL 3.0 | © 2026 Bratic | [LICENSE.VOIDSTRAP](LICENSE.VOIDSTRAP) |
 | Bloxstrap | MIT | © 2022 pizzaboxer | [LICENSE.BLOXSTRAP](LICENSE.BLOXSTRAP) |
 | Fishstrap | MIT | © 2025 returnrqt | [LICENSE.FISHSTRAP](LICENSE.FISHSTRAP) |
 
@@ -662,7 +662,7 @@ The build manifests are the source of truth for dependency versions. Use the fil
 
 A manifest can allow a version range; a Cargo lockfile records the resolved versions used by a locked build. Check restored NuGet metadata and resolved Maven dependencies when auditing a particular build.
 
-The [license inventory](legal/components.json) records publisher terms and notice origins, and [legal/texts](legal/texts) retains license texts. Preserve the required notices when redistributing packages. A dependency does not inherit Voidstrap's MIT license simply because it is used by this project.
+The [license inventory](legal/components.json) records publisher terms and notice origins, and [legal/texts](legal/texts) retains license texts. Preserve the required notices when redistributing packages. A dependency does not inherit Voidstrap's GPL 3.0 license simply because it is used by this project.
 
 The [LibreWPF SDK](https://www.nuget.org/packages/LibreWPF.Sdk/) uses MIT. Cross platform builds also include runtime dependency notices under LibreWPF/Notices; preserve their individual terms.
 
@@ -672,7 +672,7 @@ Dependencies brought in by these packages keep their own license terms. The link
 
 The macOS virtual display helper uses [virtualdisplay](https://github.com/KloBraticc/virtualdisplay), our fork of [Froststrap's virtualdisplay](https://github.com/Froststrap/virtualdisplay), used with permission. That library is copyright 2026 Froststrap and stays under the [Mozilla Public License 2.0](LICENSES/MPL-2.0.txt); its source, including our changes, is public in the fork. The helper follows the [AppleBlox VirtualDisplay approach](https://github.com/AppleBlox/virtualdisplay), and its [bundled notices](src/VirtualDisplay/THIRD-PARTY-NOTICES.txt) cover virtualdisplay, libc, objc2 and objc2-encode.
 
-The [LICENSES](LICENSES) folder holds the MIT license for Voidstrap's own code and the MPL 2.0 text for the virtualdisplay library.
+The [LICENSES](LICENSES) folder holds the GPL 3.0 license for Voidstrap's own code, the MIT license text for code released before 2.0.0.0 and contributed MIT components, and the MPL 2.0 text for the virtualdisplay library.
 
 </details>
 

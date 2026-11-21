@@ -124,4 +124,4 @@ To inspect its decisions without changing an issue, maintainers can run **Commun
 
 ## License
 
-By contributing, you agree that your contributions are licensed under the [MIT License](LICENSE.VOIDSTRAP).
+By contributing, you agree that your contributions are licensed under the [GNU General Public License 3.0](LICENSE.VOIDSTRAP).

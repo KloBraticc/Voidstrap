@@ -10212,4 +10212,7 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Ҳангоми пӯшидани Roblox, Voidstrap ба ҷои баромадан ба саҳифаи асосӣ бармегардад.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Литсензияи GNU GPL 3.0</value>
+  </data>
 </root>

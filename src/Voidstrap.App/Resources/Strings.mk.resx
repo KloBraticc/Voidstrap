@@ -10213,4 +10213,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Го враќа Voidstrap на почетната страница кога ќе го затворите Roblox, наместо да излезе.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL лиценца 3.0</value>
+  </data>
 </root>

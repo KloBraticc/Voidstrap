@@ -10523,4 +10523,7 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Po zamknięciu Roblox Voidstrap wraca na stronę główną, zamiast się wyłączać.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Licencja GNU GPL 3.0</value>
+  </data>
 </root>

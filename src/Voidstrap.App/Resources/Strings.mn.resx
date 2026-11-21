@@ -10213,4 +10213,7 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox хаахад Voidstrap гарахын оронд Нүүр хуудсанд буцаж ирнэ.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL лиценз 3.0</value>
+  </data>
 </root>

@@ -10213,4 +10213,7 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox ਬੰਦ ਕਰਨ 'ਤੇ Voidstrap ਬੰਦ ਹੋਣ ਦੀ ਬਜਾਏ ਹੋਮ ਪੇਜ 'ਤੇ ਵਾਪਸ ਆ ਜਾਂਦਾ ਹੈ।</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL ਲਾਇਸੰਸ 3.0</value>
+  </data>
 </root>

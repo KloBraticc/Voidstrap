@@ -10212,4 +10212,7 @@ Faka i-SteamVR ngoku?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Ibuyisela i Voidstrap kwiphepha leKhaya xa uvala i Roblox, endaweni yokuphuma.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Ilayisensi yeGNU GPL 3.0</value>
+  </data>
 </root>

@@ -10521,4 +10521,7 @@ Installera SteamVR nu?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Tar tillbaka Voidstrap till startsidan när du stänger Roblox, i stället för att avsluta.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU-GPL-licens 3.0</value>
+  </data>
 </root>

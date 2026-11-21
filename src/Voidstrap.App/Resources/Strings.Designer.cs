@@ -6076,6 +6076,8 @@ namespace Voidstrap.Resources {
             }
         }
         
+        public static string Menu_About_Licenses_GPL3 => ResourceManager.GetString("Menu.About.Licenses.GPL3", resourceCulture);
+        
         /// <summary>
         ///   Looks up a localized string similar to BSD 2-Clause License.
         /// </summary>

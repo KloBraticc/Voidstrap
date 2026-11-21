@@ -10522,4 +10522,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>นำ Voidstrap กลับมาที่หน้าหลักเมื่อคุณปิด Roblox แทนที่จะออกจากโปรแกรม</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>ใบอนุญาต GNU GPL 3.0</value>
+  </data>
 </root>

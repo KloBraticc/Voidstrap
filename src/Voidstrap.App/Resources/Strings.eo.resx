@@ -10212,4 +10212,7 @@ Ludantoj: {2}</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Revenigas Voidstrap al la Hejma paĝo kiam vi fermas Roblox, anstataŭ eliri.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU-GPL-Licenco 3.0</value>
+  </data>
 </root>

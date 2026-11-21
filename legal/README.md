@@ -2,13 +2,13 @@
 
 `components.json` records the package versions, publisher terms, document origins and bundled asset notices. Files in `texts` retain the original license text. Their filenames contain the first 20 characters of their SHA256 checksum.
 
-When updating a dependency, update the inventory and THIRD-PARTY-NOTICES.txt together. Review direct and transitive dependencies, native components, document checksums and bundled source archives. NuGet package metadata, Maven POMs and the published package contents are the sources for the inventory. Preserve publisher notices rather than assigning every dependency the project's MIT license.
+When updating a dependency, update the inventory and THIRD-PARTY-NOTICES.txt together. Review direct and transitive dependencies, native components, document checksums and bundled source archives. NuGet package metadata, Maven POMs and the published package contents are the sources for the inventory. Preserve publisher notices rather than assigning every dependency the project's GPL 3.0 license.
 
 `THIRD-PARTY-NOTICES.txt` is embedded in the Windows and cross platform app. Windows compresses the embedded notices and reads them when the licenses page opens. It embeds the Bibata source archive too and does not create a separate licenses folder beside the executable. Linux and macOS packages carry the notices and source archive as files. Android includes the notices as an asset and shows them from its licenses screen. The Bibata source archive carries its editable SVG source and build files with the GPL cursor images.
 
-`sources/Bibata-Cursor-v2.0.7.tar.gz` contains the complete tracked source tree at upstream commit `35ccfe209a808e40d6c2ca60a46cbe4faf68b690`. It includes the SVG artwork, rendering settings, build scripts, dependency lockfile and GPL license. The archive excludes Git metadata and normalizes timestamps and archive ownership. Voidstrap's adapted PNG files remain in the desktop resources and Android assets. These third party cursor assets keep GPLv3 terms. This does not relabel the original Voidstrap code as GPL.
+`sources/Bibata-Cursor-v2.0.7.tar.gz` contains the complete tracked source tree at upstream commit `35ccfe209a808e40d6c2ca60a46cbe4faf68b690`. It includes the SVG artwork, rendering settings, build scripts, dependency lockfile and GPL license. The archive excludes Git metadata and normalizes timestamps and archive ownership. Voidstrap's adapted PNG files remain in the desktop resources and Android assets. These third party cursor assets keep their own GPLv3 terms and upstream copyright.
 
-ImageSharp 3.1.12 grants Apache 2.0 terms to this open source project under the Six Labors Split License. The original split-license text is retained so its conditions remain visible. The Play app update libraries and Google Play services have separate publisher terms, linked in their inventory entries. They are not MIT dependencies.
+ImageSharp 3.1.12 grants Apache 2.0 terms to this open source project under the Six Labors Split License. The original split-license text is retained so its conditions remain visible. The Play app update libraries and Google Play services have separate publisher terms, linked in their inventory entries. They are not GPL dependencies.
 
 ## Verification limits
 

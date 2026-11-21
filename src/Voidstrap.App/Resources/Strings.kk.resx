@@ -10213,4 +10213,7 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox жапқанда Voidstrap шығудың орнына Басты бетке қайта оралады.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL лицензиясы 3.0</value>
+  </data>
 </root>

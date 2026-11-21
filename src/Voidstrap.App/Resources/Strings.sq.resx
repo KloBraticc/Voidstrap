@@ -10213,4 +10213,7 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>E kthen Voidstrap në faqen kryesore kur mbyll Roblox, në vend që të dalë.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Licenca GNU GPL 3.0</value>
+  </data>
 </root>

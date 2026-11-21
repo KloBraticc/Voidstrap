@@ -10213,4 +10213,7 @@ Instalar SteamVR agora?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Volve mostrar Voidstrap na páxina de inicio cando pechas Roblox, en lugar de saír.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Licenza GNU GPL 3.0</value>
+  </data>
 </root>

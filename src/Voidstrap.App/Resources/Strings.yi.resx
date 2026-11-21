@@ -10212,4 +10212,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>ברענגט צוריק Voidstrap אויף דער היים זײַט ווען איר פֿאַרמאַכט Roblox, אַנשטאָט אַרויסצוגיין.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL ליסענסע 3.0</value>
+  </data>
 </root>

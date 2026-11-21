@@ -10523,4 +10523,7 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Mengembalikan Voidstrap ke halaman Beranda saat Anda menutup Roblox, alih alih keluar.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Lisensi GNU GPL 3.0</value>
+  </data>
 </root>

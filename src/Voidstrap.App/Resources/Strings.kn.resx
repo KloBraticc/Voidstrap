@@ -10213,4 +10213,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox ಅನ್ನು ಮುಚ್ಚಿದಾಗ Voidstrap ನಿರ್ಗಮಿಸುವ ಬದಲು ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗುತ್ತದೆ.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL ಪರವಾನಗಿ 3.0</value>
+  </data>
 </root>

@@ -10213,4 +10213,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Враћа Voidstrap на почетну страницу када затворите Roblox, уместо да изађе.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL лиценца 3.0</value>
+  </data>
 </root>

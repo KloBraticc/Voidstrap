@@ -10522,4 +10522,7 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox'u kapattığınızda Voidstrap çıkmak yerine Ana sayfaya geri döner.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL Lisansı 3.0</value>
+  </data>
 </root>

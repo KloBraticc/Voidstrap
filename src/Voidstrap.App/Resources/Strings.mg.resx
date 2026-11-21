@@ -10213,4 +10213,7 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Mamerina ny Voidstrap amin'ny pejy fandraisana rehefa manidy ny Roblox ianao, fa tsy mivoaka.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL 3.0 License</value>
+  </data>
 </root>

@@ -10521,4 +10521,7 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Ibinabalik ang Voidstrap sa Home page kapag isinara mo ang Roblox, sa halip na lumabas.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Lisensya ng GNU GPL 3.0</value>
+  </data>
 </root>

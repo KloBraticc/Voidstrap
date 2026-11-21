@@ -1,10 +1,10 @@
 # Voidstrap licenses and third party notices
 
-Voidstrap code is licensed under MIT. Bundled dependencies and assets keep their own terms. This inventory covers the desktop and Android distributions, including transitive dependencies and platform-specific components. An entry does not mean that every target includes that component.
+Voidstrap code is licensed under the GNU General Public License 3.0. Bundled dependencies and assets keep their own terms. This inventory covers the desktop and Android distributions, including transitive dependencies and platform-specific components. An entry does not mean that every target includes that component.
 
 Bibata cursor source and build files accompany releases in Bibata-Cursor-v2.0.7.tar.gz. They are also available at https://github.com/KloBraticc/Voidstrap/tree/main/legal/sources and https://github.com/ful1e5/Bibata_Cursor/tree/v2.0.7. Voidstrap ships PNG adaptations of the cursor artwork. The PNG files and the upstream editable SVG source retain GPLv3 terms. Twemoji artwork was adapted into Voidstrap Emoji by build/Packaging/Linux/build-emoji-font.py and retains CC BY 4.0 attribution and terms.
 
-Google Play libraries keep their publisher terms. They are not licensed under Voidstrap's MIT license.
+Google Play libraries keep their publisher terms. They are not licensed under Voidstrap's GPL 3.0 license.
 
 ## Components
 

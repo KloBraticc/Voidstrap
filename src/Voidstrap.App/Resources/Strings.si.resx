@@ -10213,4 +10213,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox වැසූ විට Voidstrap පිටවීම වෙනුවට මුල් පිටුවට නැවත පැමිණේ.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL බලපත්‍රය 3.0</value>
+  </data>
 </root>

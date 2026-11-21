@@ -23,7 +23,7 @@
       <StackPanel Margin="0,0,14,0">
         <TextBlock Margin="0,0,0,16" FontSize="24" FontWeight="Medium" Text="{resources:Loc Menu_About_Licenses}" />
         <ItemsControl ItemTemplate="{StaticResource LicenseRowTemplate}">
-          <data:LicenseEntry Name="Voidstrap" Url="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="Voidstrap" Url="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" License="{resources:Loc Menu_About_Licenses_GPL3}" />
           <data:LicenseEntry Name="WPF-UI" Url="https://github.com/lepoco/wpfui/blob/main/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
           <data:LicenseEntry Name="ShellLink" Url="https://github.com/securifybv/ShellLink/blob/master/LICENSE.txt" License="{resources:Loc Menu_About_Licenses_MIT}" />
           <data:LicenseEntry Name="DiscordRPC" Url="https://github.com/Lachee/discord-rpc-csharp/blob/master/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />

@@ -10212,4 +10212,7 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Ó máa ń mú Voidstrap padà sí ojú ìwé Ilé nígbà tí o bá pa Roblox, dípò kí ó jáde.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Iwe-aṣẹ GNU GPL 3.0</value>
+  </data>
 </root>

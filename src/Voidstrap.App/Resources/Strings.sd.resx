@@ -10213,4 +10213,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>جڏهن توهان Roblox بند ڪريو ٿا ته Voidstrap نڪرڻ بدران هوم پيج تي واپس اچي ٿو.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL لائسنس 3.0</value>
+  </data>
 </root>

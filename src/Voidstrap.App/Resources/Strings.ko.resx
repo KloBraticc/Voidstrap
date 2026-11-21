@@ -10523,4 +10523,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox를 닫으면 Voidstrap이 종료되지 않고 홈 페이지로 다시 표시됩니다.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL 라이센스 3.0</value>
+  </data>
 </root>

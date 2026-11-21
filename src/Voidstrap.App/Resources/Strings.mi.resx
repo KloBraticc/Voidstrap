@@ -10213,4 +10213,7 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Ka whakahokia mai a Voidstrap ki te whārangi Kāinga ina katia e koe a Roblox, kaua e puta.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Raihana GNU GPL 3.0</value>
+  </data>
 </root>

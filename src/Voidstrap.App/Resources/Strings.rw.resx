@@ -10213,4 +10213,7 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Igarura Voidstrap ku rupapuro rw'Ibanze iyo ufunze Roblox, aho kugira ngo ifunge.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Uruhushya rwa GNU GPL 3.0</value>
+  </data>
 </root>

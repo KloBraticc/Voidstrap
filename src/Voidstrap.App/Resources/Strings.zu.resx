@@ -10212,4 +10212,7 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Ibuyisela i Voidstrap ekhasini Lasekhaya uma uvala i Roblox, esikhundleni sokuphuma.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Ilayisense ye-GNU GPL 3.0</value>
+  </data>
 </root>

@@ -10213,4 +10213,7 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Po zatvorení Roblox sa Voidstrap namiesto ukončenia vráti na domovskú stránku.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Licencia GNU GPL 3.0</value>
+  </data>
 </root>

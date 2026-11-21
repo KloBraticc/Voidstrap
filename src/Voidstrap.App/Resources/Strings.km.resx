@@ -10213,4 +10213,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>នាំ Voidstrap ត្រឡប់មកទំព័រដើមវិញពេលអ្នកបិទ Roblox ជំនួសឱ្យការចាកចេញ។</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>អាជ្ញាប័ណ្ណ GNU GPL 3.0</value>
+  </data>
 </root>

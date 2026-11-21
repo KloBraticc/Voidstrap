@@ -10213,4 +10213,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>کله چې Roblox وتړئ، Voidstrap د وتلو پر ځای بېرته کور پاڼې ته راځي.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>د GNU GPL جواز 3.0</value>
+  </data>
 </root>

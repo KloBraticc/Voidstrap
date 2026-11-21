@@ -10212,4 +10212,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Επαναφέρει το Voidstrap στην Αρχική σελίδα όταν κλείνετε το Roblox, αντί να τερματίζεται.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Άδεια χρήσης GNU GPL 3.0</value>
+  </data>
 </root>

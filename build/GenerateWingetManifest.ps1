@@ -89,7 +89,7 @@ PublisherUrl: https://github.com/KloBraticc
 PublisherSupportUrl: https://github.com/KloBraticc/Voidstrap/issues
 PackageName: Voidstrap
 PackageUrl: https://github.com/KloBraticc/Voidstrap
-License: MIT
+License: GPL-3.0-only
 LicenseUrl: https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP
 ShortDescription: Fast, customizable Roblox bootstrapper with FastFlags, mods and deep customization
 Description: |-

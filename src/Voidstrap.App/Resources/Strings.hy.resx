@@ -10213,4 +10213,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox-ը փակելիս Voidstrap-ը դուրս գալու փոխարեն վերադառնում է Գլխավոր էջ։</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL լիցենզիա 3.0</value>
+  </data>
 </root>

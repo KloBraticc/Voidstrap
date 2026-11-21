@@ -146,7 +146,7 @@ buildDotnetModule (finalAttrs: {
     description = "Roblox bootstrapper that launches Roblox through Sober on Linux";
     homepage = "https://github.com/KloBraticc/Voidstrap";
     changelog = "https://github.com/KloBraticc/Voidstrap/releases/tag/v${finalAttrs.version}";
-    license = lib.licenses.mit;
+    license = lib.licenses.gpl3Only;
     mainProgram = "voidstrap";
     platforms = [
       "x86_64-linux"

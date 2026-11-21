@@ -10213,4 +10213,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox बंद करने पर Voidstrap बंद होने के बजाय होम पेज पर वापस आ जाता है।</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL लाइसेंस 3.0</value>
+  </data>
 </root>

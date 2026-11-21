@@ -10522,4 +10522,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>关闭 Roblox 后，Voidstrap 会回到主页，而不是直接退出。</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL 许可证 3.0</value>
+  </data>
 </root>

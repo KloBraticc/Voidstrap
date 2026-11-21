@@ -10212,4 +10212,7 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>جب آپ Roblox بند کرتے ہیں تو Voidstrap باہر نکلنے کے بجائے ہوم پیج پر واپس آ جاتا ہے۔</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL لائسنس 3.0</value>
+  </data>
 </root>

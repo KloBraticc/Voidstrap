@@ -10212,4 +10212,7 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Hurudisha Voidstrap kwenye ukurasa wa Nyumbani unapofunga Roblox, badala ya kufunga.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Leseni ya GNU GPL 3.0</value>
+  </data>
 </root>

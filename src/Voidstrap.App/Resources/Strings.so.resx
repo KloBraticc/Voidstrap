@@ -10213,4 +10213,7 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Waxay Voidstrap ku soo celisaa bogga Hoyga marka aad xirto Roblox, halkii ay ka bixi lahayd.</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>Shatiga GNU GPL 3.0</value>
+  </data>
 </root>

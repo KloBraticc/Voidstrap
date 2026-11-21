@@ -10212,4 +10212,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Channel.ReopenAfterRobloxCloses.Description" xml:space="preserve">
     <value>Roblox বন্ধ করলে Voidstrap বন্ধ না হয়ে হোম পেজে ফিরে আসে।</value>
   </data>
+  <data name="Menu.About.Licenses.GPL3" xml:space="preserve">
+    <value>GNU GPL লাইসেন্স 3.0</value>
+  </data>
 </root>
