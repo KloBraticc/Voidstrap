@@ -22,6 +22,20 @@ public static class RobloxBadges
 
     private sealed class AwardedRefusedException : Exception { }
 
+    public sealed class RateLimitedException : Exception
+    {
+        public RateLimitedException()
+            : base("Roblox is rate limiting badge requests") { }
+    }
+
+    private const int MaxThrottleLevel = 4;
+
+    private const int MaxRateLimitedAttempts = 6;
+
+    private static readonly TimeSpan MaxCooldown = TimeSpan.FromSeconds(30);
+
+    private static readonly SemaphoreSlim RequestSlots = new(3, 3);
+
     private static readonly TimeSpan BadgeListLifetime = TimeSpan.FromMinutes(30);
 
     private static readonly TimeSpan AwardedLifetime = TimeSpan.FromMinutes(3);
@@ -411,46 +425,55 @@ public static class RobloxBadges
 
     private static async Task<string> GetWithRetryAsync(string url, CancellationToken token, bool signedIn = false)
     {
+        const string LOG_IDENT = "RobloxBadges::GetWithRetryAsync";
+        int rateLimited = 0;
         for (int attempt = 0; ; attempt++)
         {
             long waitTicks = Interlocked.Read(ref _cooldownUntilTicks) - Environment.TickCount64;
             if (waitTicks > 0)
-                await Task.Delay(TimeSpan.FromMilliseconds(waitTicks), token).ConfigureAwait(false);
-            using HttpRequestMessage request = new(HttpMethod.Get, url);
-            if (signedIn && RobloxCookie.Get() is { Length: > 0 } cookie)
-                request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+                await Task.Delay(TimeSpan.FromMilliseconds(waitTicks + Random.Shared.Next(0, 1500)), token).ConfigureAwait(false);
             HttpResponseMessage response;
+            await RequestSlots.WaitAsync(token).ConfigureAwait(false);
             try
             {
+                using HttpRequestMessage request = new(HttpMethod.Get, url);
+                if (signedIn && RobloxCookie.Get() is { Length: > 0 } cookie)
+                    request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
                 response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
             }
             catch (HttpRequestException) when (attempt < 2)
             {
+                RequestSlots.Release();
                 await Task.Delay(TimeSpan.FromSeconds(1.5 * (attempt + 1)), token).ConfigureAwait(false);
                 continue;
             }
+            catch
+            {
+                RequestSlots.Release();
+                throw;
+            }
+            RequestSlots.Release();
             using (response)
             {
                 int status = (int)response.StatusCode;
                 if (signedIn && status is 401 or 403)
                     throw new AwardedRefusedException();
-                if (status == 429 && attempt < 8)
+                if (status == 429)
                 {
+                    if (++rateLimited >= MaxRateLimitedAttempts)
+                        throw new RateLimitedException();
                     long now = Environment.TickCount64;
                     long current = Interlocked.Read(ref _cooldownUntilTicks);
                     if (current > now)
                         continue;
-                    int level = Math.Min(Interlocked.Increment(ref _throttleLevel), 3);
-                    TimeSpan wait = response.Headers.RetryAfter?.Delta is { } asked && asked > TimeSpan.Zero
-                        ? asked
-                        : TimeSpan.FromSeconds(4 << (level - 1));
-                    if (wait > TimeSpan.FromSeconds(30))
-                        wait = TimeSpan.FromSeconds(30);
+                    int level = Math.Min(Interlocked.Increment(ref _throttleLevel), MaxThrottleLevel);
+                    TimeSpan wait = TimeSpan.FromSeconds(4 << (level - 1));
+                    if (response.Headers.RetryAfter?.Delta is { } asked && asked > wait)
+                        wait = asked;
+                    if (wait > MaxCooldown)
+                        wait = MaxCooldown;
                     if (Interlocked.CompareExchange(ref _cooldownUntilTicks, now + (long)wait.TotalMilliseconds, current) == current)
-                        App.Logger.WriteLine(
-                            "RobloxBadges",
-                            "Roblox asked to slow down, waiting " + (int)wait.TotalSeconds + " seconds before asking again"
-                        );
+                        App.Logger.WriteLine(LOG_IDENT, "Roblox asked to slow down, waiting " + (int)wait.TotalSeconds + " seconds before asking again");
                     continue;
                 }
                 if (status >= 500 && attempt < 3)
@@ -459,10 +482,16 @@ public static class RobloxBadges
                     continue;
                 }
                 response.EnsureSuccessStatusCode();
-                Interlocked.Exchange(ref _throttleLevel, 0);
+                EaseThrottle();
                 return await Http.ReadStringBoundedAsync(response.Content, 4 * 1024 * 1024, token).ConfigureAwait(false);
             }
         }
+    }
+
+    private static void EaseThrottle()
+    {
+        int level;
+        while ((level = Volatile.Read(ref _throttleLevel)) > 0 && Interlocked.CompareExchange(ref _throttleLevel, level - 1, level) != level) { }
     }
 
     private static HttpClient CreateClient()

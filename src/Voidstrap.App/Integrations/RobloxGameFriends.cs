@@ -75,6 +75,11 @@ public static class RobloxGameFriends
         {
             report = await BuildAsync(universeId, timeout.Token).ConfigureAwait(false);
         }
+        catch (OperationCanceledException) when (timeout.IsCancellationRequested)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Friends who play took too long to load for universe " + universeId);
+            report = new GameFriendsReport { Status = GameFriendsStatus.Unavailable, Complete = true };
+        }
         catch (Exception ex)
         {
             App.Logger.WriteLine(LOG_IDENT, "Friends who play could not be loaded for universe " + universeId + ": " + ex.Message);
@@ -149,6 +154,8 @@ public static class RobloxGameFriends
         const string LOG_IDENT = "RobloxGameFriends::CheckFriendsAsync";
 
         int changed = 0;
+        int rateLimited = 0;
+        int skipped = 0;
         using SemaphoreSlim gate = new(Concurrency, Concurrency);
         RobloxBadges.BeginFriendScan();
         try
@@ -159,6 +166,11 @@ public static class RobloxGameFriends
                     await gate.WaitAsync(token).ConfigureAwait(false);
                     try
                     {
+                        if (Volatile.Read(ref rateLimited) != 0)
+                        {
+                            Interlocked.Increment(ref skipped);
+                            return;
+                        }
                         await RobloxBadges.WaitForOwnProgressAsync(token).ConfigureAwait(false);
                         IReadOnlyDictionary<long, DateTime>? awarded = await RobloxBadges
                             .GetAwardedForUserAsync(friendId, universeId, badges, complete, token)
@@ -171,6 +183,11 @@ public static class RobloxGameFriends
                             (_, existing) => existing.Concat(awarded).GroupBy(pair => pair.Key).ToDictionary(group => group.Key, group => group.First().Value)
                         );
                         Interlocked.Exchange(ref changed, 1);
+                    }
+                    catch (RobloxBadges.RateLimitedException)
+                    {
+                        Interlocked.Increment(ref skipped);
+                        Interlocked.Exchange(ref rateLimited, 1);
                     }
                     catch (Exception ex) when (ex is not OperationCanceledException)
                     {
@@ -192,6 +209,8 @@ public static class RobloxGameFriends
                 Publish(universeId, Compose(state, false));
             }
             await work.ConfigureAwait(false);
+            if (skipped > 0)
+                App.Logger.WriteLine(LOG_IDENT, $"Roblox kept rate limiting badge requests, {skipped} of {friendIds.Count} friends were not checked for universe {universeId}");
         }
         finally
         {

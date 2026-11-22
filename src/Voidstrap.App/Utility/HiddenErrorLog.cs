@@ -577,6 +577,8 @@ internal static partial class HiddenErrorLog
     {
         if (Integrations.Plugins.ModTranspiler.IsProbingJavaScript && ex is Acornima.ParseErrorException)
             return true;
+        if (ex is RobloxBadges.RateLimitedException)
+            return true;
         return ex.GetType().Name == "TypeNameParserException" && ex.TargetSite?.DeclaringType?.Namespace == "MS.Internal.Xaml.Parser";
     }
 
