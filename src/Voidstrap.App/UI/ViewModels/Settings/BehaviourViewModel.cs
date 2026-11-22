@@ -1929,6 +1929,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                 item.PingMeasured = false;
             ApplyDistances();
             await MeasureDatacenterPingsAsync();
+            App.Logger.WriteLine(LOG_IDENT, $"Measured {Datacenters.Count(item => item.PingMeasured)} of {Datacenters.Count} datacenters");
         }
         finally
         {
