@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.ViewModels.Installer;
 using Wpf.Ui.Common;
+using WpfContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
@@ -20,8 +21,8 @@ public partial class LaunchMenuDialog : WpfUiWindow
     public NextAction CloseAction;
     private static readonly TimeSpan ChevronDuration = TimeSpan.FromMilliseconds(220);
     private static readonly TimeSpan MenuCloseDelay = TimeSpan.FromMilliseconds(220);
-    private System.Windows.Controls.ContextMenu? _launchTargetMenu;
-    private System.Windows.Controls.ContextMenu? _accountMenu;
+    private WpfContextMenu? _launchTargetMenu;
+    private WpfContextMenu? _accountMenu;
     private System.Windows.Controls.MenuItem? _verifyAllAccountsItem;
     private System.Windows.Controls.MenuItem? _accountStatusItem;
     private DispatcherTimer? _menuCloseTimer;
@@ -54,7 +55,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
         if (!_viewModel.CanOpenAccounts)
             return;
 
-        System.Windows.Controls.ContextMenu menu = new()
+        WpfContextMenu menu = new()
         {
             PlacementTarget = AccountSelectorButton,
             Placement = PlacementMode.Bottom,
@@ -166,13 +167,13 @@ public partial class LaunchMenuDialog : WpfUiWindow
 
     private void AccountMenu_Opened(object sender, RoutedEventArgs e)
     {
-        if (sender is ContextMenu menu)
+        if (sender is WpfContextMenu menu)
             menu.HorizontalOffset = Math.Min(0, AccountSelectorButton.ActualWidth - menu.ActualWidth);
     }
 
     private void AccountMenu_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key != Key.Escape || sender is not ContextMenu menu)
+        if (e.Key != Key.Escape || sender is not WpfContextMenu menu)
             return;
         e.Handled = true;
         menu.IsOpen = false;
@@ -217,7 +218,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
 
     private void AccountMenu_Closed(object sender, RoutedEventArgs e)
     {
-        if (sender is not System.Windows.Controls.ContextMenu menu)
+        if (sender is not WpfContextMenu menu)
             return;
         menu.Opened -= AccountMenu_Opened;
         menu.PreviewKeyDown -= AccountMenu_PreviewKeyDown;
@@ -243,7 +244,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
             return;
         }
         object? current = _viewModel.CurrentTarget();
-        System.Windows.Controls.ContextMenu menu = new()
+        WpfContextMenu menu = new()
         {
             PlacementTarget = LaunchTargetButton,
             Placement = PlacementMode.Bottom,
@@ -316,13 +317,13 @@ public partial class LaunchMenuDialog : WpfUiWindow
 
     private void LaunchTargetMenu_Opened(object sender, RoutedEventArgs e)
     {
-        if (sender is System.Windows.Controls.ContextMenu menu)
+        if (sender is WpfContextMenu menu)
             menu.HorizontalOffset = LaunchTargetButton.ActualWidth - menu.ActualWidth;
     }
 
     private void LaunchTargetMenu_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key != Key.Escape || sender is not System.Windows.Controls.ContextMenu menu)
+        if (e.Key != Key.Escape || sender is not WpfContextMenu menu)
             return;
         e.Handled = true;
         menu.IsOpen = false;
@@ -362,7 +363,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
 
     private void LaunchTargetMenu_Closed(object sender, RoutedEventArgs e)
     {
-        if (sender is not System.Windows.Controls.ContextMenu menu)
+        if (sender is not WpfContextMenu menu)
             return;
         menu.PreviewKeyDown -= LaunchTargetMenu_PreviewKeyDown;
         menu.Closed -= LaunchTargetMenu_Closed;
