@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.15" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="11.0.0" />
   </ItemGroup>
 
 </Project>
