@@ -199,23 +199,50 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         CancellationToken token = default
     )
     {
-        int valid = 0;
+        List<(SavedAccount Saved, RobloxAccount? Verified)> results = new(accounts.Count);
         foreach (SavedAccount saved in accounts)
         {
             token.ThrowIfCancellationRequested();
             string? cookie = ReadCurrentCookie(saved);
-            RobloxAccount? account = string.IsNullOrEmpty(cookie) ? null : await RobloxCookie.GetAccountAsync(cookie, token);
-            bool expired = account == null;
-            if (!expired)
-            {
-                valid++;
-                saved.Username = account!.Username;
-                saved.DisplayName = account.DisplayName;
-            }
-            saved.Expired = expired;
-            await UpdateAsync(saved);
+            RobloxAccount? verified = string.IsNullOrEmpty(cookie)
+                ? null
+                : await RobloxCookie.VerifyAccountAsync(cookie, token).ConfigureAwait(false);
+            results.Add((saved, saved.UserId == 0 || verified?.UserId == saved.UserId ? verified : null));
         }
-        return (valid, accounts.Count);
+
+        await AccountStoreGate.WaitAsync(token).ConfigureAwait(false);
+        try
+        {
+            List<SavedAccount> stored = ReadStoredAccounts();
+            foreach (var (saved, verified) in results)
+            {
+                SavedAccount? updated = stored.Find(account => account.DatFile == saved.DatFile && account.UserId == saved.UserId);
+                if (updated == null)
+                    continue;
+                updated.Expired = verified == null;
+                if (verified != null)
+                {
+                    updated.Username = verified.Username;
+                    updated.DisplayName = verified.DisplayName;
+                }
+            }
+            Write(stored);
+            foreach (var (saved, verified) in results)
+            {
+                saved.Expired = verified == null;
+                if (verified != null)
+                {
+                    saved.Username = verified.Username;
+                    saved.DisplayName = verified.DisplayName;
+                }
+            }
+        }
+        finally
+        {
+            AccountStoreGate.Release();
+        }
+        RaiseChanged();
+        return (results.Count(result => result.Verified != null), accounts.Count);
     }
 
     public static async Task SaveOrderAsync(IReadOnlyList<SavedAccount> ordered)

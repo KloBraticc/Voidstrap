@@ -756,30 +756,24 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private async Task CheckAllAsync()
         {
+            const string LOG_IDENT = "AccountsViewModel::CheckAllAsync";
             if (_busy)
                 return;
             IsBusy = true;
-            int valid = 0;
             try
             {
-                foreach (AccountRow row in _all.ToList())
-                {
-                    string? cookie = SavedAccounts.ReadCurrentCookie(row.Model);
-                    RobloxAccount? account = string.IsNullOrEmpty(cookie) ? null : await RobloxCookie.GetAccountAsync(cookie, _cts.Token);
-                    bool expired = account == null;
-                    if (!expired)
-                    {
-                        valid++;
-                        row.Model.Username = account!.Username;
-                        row.Model.DisplayName = account.DisplayName;
-                    }
-                    row.Model.Expired = expired;
+                List<AccountRow> rows = _all.ToList();
+                (int valid, int total) = await SavedAccounts.CheckAllAsync(rows.Select(row => row.Model).ToList(), _cts.Token);
+                foreach (AccountRow row in rows)
                     row.Refresh();
-                    await SavedAccounts.UpdateAsync(row.Model);
-                }
-                Status = string.Format(Strings.Accounts_Status_Checked, valid, _all.Count);
+                Status = string.Format(Strings.Accounts_Status_Checked, valid, total);
             }
-            catch (OperationCanceledException) { }
+            catch (OperationCanceledException) when (_cts.IsCancellationRequested) { }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The saved accounts could not be checked: " + ex.Message);
+                Status = Strings.Accounts_Status_Failed;
+            }
             finally
             {
                 IsBusy = false;

@@ -68,7 +68,7 @@
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Padding="14,12,12,12" Tag="4,0,0,4" Style="{StaticResource LaunchSplitPartStyle}" TabIndex="0" AutomationProperties.Name="{resources:Loc LaunchMenu_LaunchRoblox}" Command="{Binding LaunchRobloxCommand, Mode=OneTime}">
+            <Button Grid.Column="0" Padding="14,12,12,12" Tag="4,0,0,4" Style="{StaticResource LaunchSplitPartStyle}" TabIndex="0" IsEnabled="{Binding CanLeaveLaunchMenu}" AutomationProperties.Name="{resources:Loc LaunchMenu_LaunchRoblox}" Command="{Binding LaunchRobloxCommand, Mode=OneTime}">
               <StackPanel Orientation="Horizontal">
                 <ui:SymbolIcon Symbol="Games28" FontSize="24" Margin="0,0,14,0" VerticalAlignment="Center" />
                 <StackPanel VerticalAlignment="Center">
@@ -92,51 +92,18 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <Border Grid.Column="0" Margin="0,0,8,0" CornerRadius="{DynamicResource ControlCornerRadius}" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" SnapsToDevicePixels="True">
-            <Button x:Name="AccountSelectorButton" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Transparent" BorderThickness="0" Cursor="Hand" TabIndex="2" Click="AccountSelectorButton_Click" IsEnabled="{Binding CanOpenAccounts}" ToolTip="{resources:Loc Accounts_Title}" AutomationProperties.Name="{Binding CurrentAccountTitle}">
-              <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}">
-                  <Border x:Name="AccountButtonBackground" Background="Transparent" CornerRadius="{DynamicResource ControlCornerRadius}">
-                    <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                  </Border>
-                  <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                      <Setter TargetName="AccountButtonBackground" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-                    </Trigger>
-                    <Trigger Property="IsPressed" Value="True">
-                      <Setter TargetName="AccountButtonBackground" Property="Background" Value="{DynamicResource ControlFillColorTertiaryBrush}" />
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="False">
-                      <Setter TargetName="AccountButtonBackground" Property="Opacity" Value="0.65" />
-                    </Trigger>
-                  </ControlTemplate.Triggers>
-                </ControlTemplate>
-              </Button.Template>
-              <Grid Margin="10,0">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="32" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="20" />
-                </Grid.ColumnDefinitions>
-                <Grid Width="30" Height="30" VerticalAlignment="Center">
-                  <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
-                  <ui:SymbolIcon Symbol="PersonCircle24" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                  <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding CurrentAvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
-                    <Image.Clip>
-                      <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15" />
-                    </Image.Clip>
-                  </Image>
-                </Grid>
-                <StackPanel Grid.Column="1" Margin="8,0,3,0" VerticalAlignment="Center">
-                  <TextBlock FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding CurrentAccountTitle, Mode=OneWay}" />
-                  <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding CurrentAccountUsername, Mode=OneWay}" Visibility="{Binding CurrentAccountUsernameVisibility}" />
-                </StackPanel>
-                <ui:SymbolIcon Grid.Column="2" Symbol="ChevronUpDown20" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-              </Grid>
-            </Button>
-          </Border>
-          <ui:Button Grid.Column="1" Width="56" Height="56" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Center" Appearance="Secondary" TabIndex="3" Command="{Binding LaunchSettingsCommand, Mode=OneTime}" AutomationProperties.Name="{resources:Loc Ui_Nav_Settings}" ToolTip="{resources:Loc Ui_Nav_Settings}">
-            <ui:SymbolIcon Symbol="Settings24" FontSize="24" />
+          <ui:CardAction Grid.Column="0" Margin="0,0,4,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="Settings28" TabIndex="2" IsEnabled="{Binding CanLeaveLaunchMenu}" Command="{Binding LaunchSettingsCommand, Mode=OneTime}">
+            <TextBlock FontSize="14" TextTrimming="None" Text="{resources:Loc Ui_Nav_Settings}" />
+          </ui:CardAction>
+          <ui:Button x:Name="AccountSelectorButton" Grid.Column="1" Margin="4,0,0,0" Width="56" Height="56" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Center" Appearance="Secondary" TabIndex="3" Click="AccountSelectorButton_Click" IsEnabled="{Binding CanOpenAccounts}" Visibility="{Binding AccountSelectorVisibility}" AutomationProperties.Name="{resources:Loc Accounts_Title}" ToolTip="{Binding CurrentAccountTitle}">
+            <Grid Width="28" Height="28">
+              <ui:SymbolIcon Symbol="PersonCircle24" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding CurrentAvatarUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
+                <Image.Clip>
+                  <EllipseGeometry Center="14,14" RadiusX="14" RadiusY="14" />
+                </Image.Clip>
+              </Image>
+            </Grid>
           </ui:Button>
         </Grid>
         <ui:CardAction Margin="0,12,0,0" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/KloBraticc/Voidstrap" Icon="Code24" IconFilled="False" TabIndex="4">

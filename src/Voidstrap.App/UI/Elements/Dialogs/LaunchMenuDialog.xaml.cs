@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -6,7 +7,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Voidstrap.Models;
 using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.ViewModels.Installer;
 using Wpf.Ui.Common;
@@ -33,6 +33,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
         base.DataContext = _viewModel;
         InitializeComponent();
         base.Loaded += OnLoaded;
+        base.Closing += OnClosing;
         base.Closed += OnClosed;
         base.PreviewMouseDown += OnPreviewMouseDown;
         base.Deactivated += OnDeactivated;
@@ -59,66 +60,11 @@ public partial class LaunchMenuDialog : WpfUiWindow
             Placement = PlacementMode.Bottom,
             StaysOpen = true,
         };
+        menu.Items.Add(new MenuItem { Header = _viewModel.CurrentAccountTitle, IsEnabled = false });
+        menu.Items.Add(new Separator());
         foreach (AccountChoice choice in _viewModel.OtherAccounts)
-        {
-            Grid header = new() { Margin = new Thickness(0, 1, 16, 1) };
-            header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-
-            Grid avatar = new() { Width = 32, Height = 32, Margin = new Thickness(0, 0, 8, 0) };
-            avatar.Children.Add(new Ellipse { Fill = (Brush)FindResource("ControlFillColorSecondaryBrush") });
-            avatar.Children.Add(
-                new Wpf.Ui.Controls.SymbolIcon
-                {
-                    Symbol = SymbolRegular.PersonCircle24,
-                    FontSize = 22,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Foreground = (Brush)FindResource("TextFillColorTertiaryBrush"),
-                }
-            );
-            Image avatarImage = new()
-            {
-                Stretch = Stretch.UniformToFill,
-                Clip = new EllipseGeometry(new Point(16, 16), 16, 16),
-            };
-            RenderOptions.SetBitmapScalingMode(avatarImage, BitmapScalingMode.HighQuality);
-            DynamicRenderSystem.SetLazyImageSource(avatarImage, choice.AvatarUrl);
-            avatar.Children.Add(avatarImage);
-            header.Children.Add(avatar);
-
-            StackPanel accountDetails = new() { VerticalAlignment = VerticalAlignment.Center };
-            accountDetails.Children.Add(
-                new TextBlock
-                {
-                    FontWeight = FontWeights.SemiBold,
-                    Text = string.IsNullOrWhiteSpace(choice.Account.DisplayName) ? choice.Username : choice.Account.DisplayName,
-                }
-            );
-            accountDetails.Children.Add(
-                new TextBlock
-                {
-                    FontSize = 11,
-                    Foreground = (Brush)FindResource("TextFillColorTertiaryBrush"),
-                    Text = "@" + choice.Username,
-                }
-            );
-            if (choice.Account.Expired)
-                accountDetails.Children.Add(new TextBlock { FontSize = 10, Text = Strings.Accounts_Expired });
-            Grid.SetColumn(accountDetails, 1);
-            header.Children.Add(accountDetails);
-
-            System.Windows.Controls.MenuItem item = new()
-            {
-                Header = header,
-                Tag = choice,
-                IsEnabled = _viewModel.CanSwitchAccounts && !choice.Account.Expired,
-                StaysOpenOnClick = true,
-            };
-            item.Click += AccountMenuItem_Click;
-            menu.Items.Add(item);
-        }
-        if (menu.Items.Count == 0)
+            menu.Items.Add(CreateAccountMenuItem(choice));
+        if (menu.Items.Count == 2)
             menu.Items.Add(new System.Windows.Controls.MenuItem { Header = Strings.Accounts_Empty, IsEnabled = false });
 
         Separator separator = new()
@@ -142,30 +88,122 @@ public partial class LaunchMenuDialog : WpfUiWindow
         menu.Items.Add(_verifyAllAccountsItem);
         _accountStatusItem = new System.Windows.Controls.MenuItem
         {
-            Header = "",
+            Header = _viewModel.AccountStatus,
             IsEnabled = false,
-            Visibility = Visibility.Collapsed,
+            Visibility = string.IsNullOrEmpty(_viewModel.AccountStatus) ? Visibility.Collapsed : Visibility.Visible,
         };
         menu.Items.Add(_accountStatusItem);
+        menu.Opened += AccountMenu_Opened;
+        menu.PreviewKeyDown += AccountMenu_PreviewKeyDown;
         menu.Closed += AccountMenu_Closed;
         _accountMenu = menu;
         menu.IsOpen = true;
     }
 
+    private MenuItem CreateAccountMenuItem(AccountChoice choice)
+    {
+        Grid header = new() { Margin = new Thickness(0, 1, 16, 1) };
+        header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+        Grid avatar = new() { Width = 32, Height = 32, Margin = new Thickness(0, 0, 8, 0) };
+        avatar.Children.Add(new Ellipse { Fill = (Brush)FindResource("ControlFillColorSecondaryBrush") });
+        avatar.Children.Add(
+            new Wpf.Ui.Controls.SymbolIcon
+            {
+                Symbol = SymbolRegular.PersonCircle24,
+                FontSize = 22,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = (Brush)FindResource("TextFillColorTertiaryBrush"),
+            }
+        );
+        Image avatarImage = new()
+        {
+            Stretch = Stretch.UniformToFill,
+            Clip = new EllipseGeometry(new Point(16, 16), 16, 16),
+        };
+        RenderOptions.SetBitmapScalingMode(avatarImage, BitmapScalingMode.HighQuality);
+        DynamicRenderSystem.SetLazyImageSource(avatarImage, choice.AvatarUrl);
+        avatar.Children.Add(avatarImage);
+        header.Children.Add(avatar);
+
+        StackPanel accountDetails = new() { VerticalAlignment = VerticalAlignment.Center };
+        accountDetails.Children.Add(
+            new TextBlock
+            {
+                FontWeight = FontWeights.SemiBold,
+                Text = string.IsNullOrWhiteSpace(choice.Account.DisplayName) ? choice.Username : choice.Account.DisplayName,
+            }
+        );
+        accountDetails.Children.Add(
+            new TextBlock
+            {
+                FontSize = 11,
+                Foreground = (Brush)FindResource("TextFillColorTertiaryBrush"),
+                Text = "@" + choice.Username,
+            }
+        );
+        accountDetails.Children.Add(new TextBlock
+        {
+            FontSize = 10,
+            Text = Strings.Accounts_Expired,
+            Visibility = choice.Account.Expired ? Visibility.Visible : Visibility.Collapsed,
+        });
+        Grid.SetColumn(accountDetails, 1);
+        header.Children.Add(accountDetails);
+
+        System.Windows.Controls.MenuItem item = new()
+        {
+            Header = header,
+            Tag = choice,
+            IsEnabled = _viewModel.CanSwitchAccounts && !choice.Account.Expired,
+            StaysOpenOnClick = true,
+        };
+        item.Click += AccountMenuItem_Click;
+        return item;
+    }
+
+    private void AccountMenu_Opened(object sender, RoutedEventArgs e)
+    {
+        if (sender is ContextMenu menu)
+            menu.HorizontalOffset = Math.Min(0, AccountSelectorButton.ActualWidth - menu.ActualWidth);
+    }
+
+    private void AccountMenu_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Escape || sender is not ContextMenu menu)
+            return;
+        e.Handled = true;
+        menu.IsOpen = false;
+    }
+
     private async void VerifyAllAccounts_Click(object sender, RoutedEventArgs e)
     {
-        if (_verifyAllAccountsItem != null)
-            _verifyAllAccountsItem.IsEnabled = false;
-        if (_accountStatusItem != null)
+        if (_accountMenu is not { } menu || _verifyAllAccountsItem is not { } verifyItem || _accountStatusItem is not { } statusItem)
+            return;
+        verifyItem.IsEnabled = false;
+        statusItem.Header = Strings.Accounts_SignIn_Verifying;
+        statusItem.Visibility = Visibility.Visible;
+        foreach (MenuItem item in menu.Items.OfType<MenuItem>())
         {
-            _accountStatusItem.Header = Strings.Accounts_SignIn_Verifying;
-            _accountStatusItem.Visibility = Visibility.Visible;
+            if (item.Tag is AccountChoice)
+                item.IsEnabled = false;
         }
+
         await _viewModel.VerifyAllAccountsAsync();
-        if (_verifyAllAccountsItem != null)
-            _verifyAllAccountsItem.IsEnabled = _viewModel.CanVerifyAccounts;
-        if (_accountStatusItem != null)
-            _accountStatusItem.Header = _viewModel.AccountStatus;
+        if (!ReferenceEquals(_accountMenu, menu))
+            return;
+        verifyItem.IsEnabled = _viewModel.CanVerifyAccounts;
+        statusItem.Header = _viewModel.AccountStatus;
+        foreach (MenuItem item in menu.Items.OfType<MenuItem>().ToArray())
+        {
+            if (item.Tag is not AccountChoice choice)
+                continue;
+            int index = menu.Items.IndexOf(item);
+            item.Click -= AccountMenuItem_Click;
+            menu.Items[index] = CreateAccountMenuItem(choice);
+        }
     }
 
     private async void AccountMenuItem_Click(object sender, RoutedEventArgs e)
@@ -181,6 +219,8 @@ public partial class LaunchMenuDialog : WpfUiWindow
     {
         if (sender is not System.Windows.Controls.ContextMenu menu)
             return;
+        menu.Opened -= AccountMenu_Opened;
+        menu.PreviewKeyDown -= AccountMenu_PreviewKeyDown;
         menu.Closed -= AccountMenu_Closed;
         foreach (System.Windows.Controls.MenuItem item in menu.Items.OfType<System.Windows.Controls.MenuItem>())
         {
@@ -341,12 +381,23 @@ public partial class LaunchMenuDialog : WpfUiWindow
         Close();
     }
 
+    private void OnClosing(object? sender, CancelEventArgs e)
+    {
+        if (!_viewModel.CanLeaveLaunchMenu)
+            e.Cancel = true;
+    }
+
     private void OnClosed(object? sender, EventArgs e)
     {
         StopMenuCloseTimer();
+        if (_accountMenu is { } accountMenu)
+            accountMenu.IsOpen = false;
+        if (_launchTargetMenu is { } launchTargetMenu)
+            launchTargetMenu.IsOpen = false;
         base.Loaded -= OnLoaded;
         _viewModel.CloseWindowRequest -= OnCloseWindowRequest;
         _viewModel.Dispose();
+        base.Closing -= OnClosing;
         base.Closed -= OnClosed;
         base.PreviewMouseDown -= OnPreviewMouseDown;
         base.Deactivated -= OnDeactivated;
