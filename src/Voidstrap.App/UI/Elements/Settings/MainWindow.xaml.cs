@@ -6081,7 +6081,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _navShortcutsReady = true;
         ApplyNavAcceleratorKeys(RootNavigation.Items);
         ApplyNavAcceleratorKeys(RootNavigation.Footer);
-        SetupNavTag();
+        SetupHoverTag();
         PreviewKeyDown += MainWindow_PreviewKeyDown;
     }
 
@@ -7180,7 +7180,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     protected override void OnDeactivated(EventArgs e)
     {
         base.OnDeactivated(e);
-        HideNavTag(false);
+        HideHoverTag(false);
         CloseOverlayPopups();
         SnowCanvas?.SetActive(false);
         try
@@ -7728,7 +7728,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void WpfUiWindow_Closed(object sender, EventArgs e)
     {
         Voidstrap.UI.NavigationSoundSuppressor.Detach(RootFrame);
-        TeardownNavTag();
+        TeardownHoverTag();
         if (_friendsPage != null)
             _friendsPage.RequestCountChanged -= FriendsPage_RequestCountChanged;
         if (_searchSpanTimer != null)
