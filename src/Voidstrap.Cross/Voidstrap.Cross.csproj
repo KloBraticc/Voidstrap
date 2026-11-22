@@ -10,7 +10,7 @@
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 		<PublishTrimmed>false</PublishTrimmed>
 		<SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
-		<ProGpuWpfSystemFormatsNrbfVersion>10.0.14</ProGpuWpfSystemFormatsNrbfVersion>
+		<ProGpuWpfSystemFormatsNrbfVersion>11.0.0</ProGpuWpfSystemFormatsNrbfVersion>
 		<BaseOutputPath Condition="'$(RuntimeIdentifier)' != '' And '$(VoidstrapLinuxPackagingRoot)' == ''">bin-$(RuntimeIdentifier)\</BaseOutputPath>
 		<AssemblyName>Voidstrap</AssemblyName>
 		<RootNamespace>Voidstrap</RootNamespace>
@@ -403,7 +403,7 @@
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
 		<PackageReference Include="System.Drawing.Common" Version="10.0.15" />
-		<PackageReference Include="System.Management" Version="10.0.15" />
+		<PackageReference Include="System.Management" Version="11.0.0" />
 		<PackageReference Include="System.Resources.Extensions" Version="11.0.0" />
 		<PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />
 		<PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
