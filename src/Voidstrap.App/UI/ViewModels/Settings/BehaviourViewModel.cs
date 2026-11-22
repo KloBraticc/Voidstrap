@@ -1929,7 +1929,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
                 item.PingMeasured = false;
             ApplyDistances();
             await MeasureDatacenterPingsAsync();
-            App.Logger.WriteLine(LOG_IDENT, $"Measured {Datacenters.Count(item => item.PingMeasured)} of {Datacenters.Count} datacenters");
+            List<DatacenterItem> measurable = Datacenters.Where(item => item.Cidrs.Count > 0).ToList();
+            List<string> unanswered = measurable.Where(item => !item.PingMeasured).Select(item => item.Location).ToList();
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                $"Measured {measurable.Count - unanswered.Count} of {measurable.Count} datacenters with known server addresses, {Datacenters.Count - measurable.Count} more only have estimates"
+                    + (unanswered.Count > 0 ? ", no answer from " + string.Join(", ", unanswered) : "")
+            );
         }
         finally
         {
