@@ -119,7 +119,7 @@ jobs:
       RELEASE_VERSION: ${{ needs.build.outputs.version }}
     steps:
       - name: Sign executable with SignPath test certificate
-        uses: signpath/github-action-submit-signing-request@f6d04783b4569d051e0c80105fe66e82819d0092
+        uses: signpath/github-action-submit-signing-request@4a84eb4ad763290f059275786f2deed97c2c672b
         with:
           api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
           organization-id: ed77d7e3-732a-453f-9ba9-0c25de62f363
@@ -226,7 +226,7 @@ jobs:
       RELEASE_VERSION: ${{ needs.build.outputs.version }}
     steps:
       - name: Sign launcher with SignPath test certificate
-        uses: signpath/github-action-submit-signing-request@f6d04783b4569d051e0c80105fe66e82819d0092
+        uses: signpath/github-action-submit-signing-request@4a84eb4ad763290f059275786f2deed97c2c672b
         with:
           api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
           organization-id: ed77d7e3-732a-453f-9ba9-0c25de62f363
