@@ -124,15 +124,29 @@ internal static class RobloxNews
 
     private static readonly string[] Acronyms = ["rdc", "ip", "ugc", "api", "sdk", "ai", "ui", "ux", "vr", "ar", "os", "fps", "cdn", "npc", "id"];
 
-    private static string ResolveTag(List<string>? tags)
+    private static string ResolveTag(List<JsonElement>? tags)
     {
-        string? tag = tags?.FirstOrDefault(entry => !string.IsNullOrWhiteSpace(entry) && !entry.Equals("featured", StringComparison.OrdinalIgnoreCase));
+        string? tag = tags?.Select(TagName).FirstOrDefault(entry => !string.IsNullOrWhiteSpace(entry) && !entry.Equals("featured", StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrWhiteSpace(tag))
             return string.Empty;
         string[] words = tag.Replace('-', ' ').Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         return string.Join(' ', words.Select(word => Acronyms.Contains(word, StringComparer.OrdinalIgnoreCase)
             ? word.ToUpperInvariant()
             : char.ToUpper(word[0], CultureInfo.InvariantCulture) + word[1..]));
+    }
+
+    private static string? TagName(JsonElement tag)
+    {
+        if (tag.ValueKind == JsonValueKind.String)
+            return tag.GetString();
+        if (tag.ValueKind != JsonValueKind.Object)
+            return null;
+        foreach (string property in new[] { "name", "slug" })
+        {
+            if (tag.TryGetProperty(property, out JsonElement value) && value.ValueKind == JsonValueKind.String)
+                return value.GetString();
+        }
+        return null;
     }
 
     private sealed class FeedResponse
@@ -174,7 +188,7 @@ internal static class RobloxNews
         public int PostsCount { get; set; }
 
         [JsonPropertyName("tags")]
-        public List<string>? Tags { get; set; }
+        public List<JsonElement>? Tags { get; set; }
 
         [JsonPropertyName("created_at")]
         public DateTime? CreatedAt { get; set; }
