@@ -6079,12 +6079,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         _navShortcutsReady = true;
-        ApplyNavToolTips(RootNavigation.Items);
-        ApplyNavToolTips(RootNavigation.Footer);
+        ApplyNavAcceleratorKeys(RootNavigation.Items);
+        ApplyNavAcceleratorKeys(RootNavigation.Footer);
+        SetupNavTag();
         PreviewKeyDown += MainWindow_PreviewKeyDown;
     }
 
-    private static void ApplyNavToolTips(System.Collections.IEnumerable items)
+    private static void ApplyNavAcceleratorKeys(System.Collections.IEnumerable items)
     {
         if (items == null)
         {
@@ -6092,57 +6093,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         foreach (object obj in items)
         {
-            if (!(obj is Wpf.Ui.Controls.NavigationItem item) || item.PageType == null)
+            if (obj is not Wpf.Ui.Controls.NavigationItem item || item.PageType == null)
             {
                 continue;
             }
             foreach (var shortcut in NavShortcuts)
             {
-                if (shortcut.Page != item.PageType)
+                if (shortcut.Page == item.PageType)
                 {
-                    continue;
+                    AutomationProperties.SetAcceleratorKey(item, shortcut.Label);
+                    break;
                 }
-                item.ToolTip = new System.Windows.Controls.ToolTip
-                {
-                    Content = BuildShortcutToolTip(
-                        item.Content?.ToString() ?? "",
-                        Wpf.Ui.Converters.ShortcutTextConverter.Format(shortcut.Label)
-                    ),
-                    Placement = PlacementMode.Right,
-                    HorizontalOffset = 8,
-                    VerticalOffset = 0,
-                };
-                ToolTipService.SetInitialShowDelay(item, 350);
-                ToolTipService.SetBetweenShowDelay(item, 60);
-                ToolTipService.SetPlacement(item, PlacementMode.Right);
-                break;
             }
         }
-    }
-
-    private static StackPanel BuildShortcutToolTip(string title, string shortcut)
-    {
-        StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
-        panel.Children.Add(new TextBlock { Text = title, VerticalAlignment = VerticalAlignment.Center });
-        Border keycap = new Border
-        {
-            Margin = new Thickness(10.0, 0.0, 0.0, 0.0),
-            Padding = new Thickness(5.0, 1.0, 5.0, 1.0),
-            CornerRadius = new CornerRadius(4.0),
-            BorderThickness = new Thickness(1.0),
-            VerticalAlignment = VerticalAlignment.Center,
-            Child = new TextBlock
-            {
-                Text = shortcut,
-                FontSize = 11,
-                Opacity = 0.8,
-                VerticalAlignment = VerticalAlignment.Center,
-            },
-        };
-        keycap.SetResourceReference(Border.BackgroundProperty, "ControlFillColorSecondaryBrush");
-        keycap.SetResourceReference(Border.BorderBrushProperty, "ControlElevationBorderBrush");
-        panel.Children.Add(keycap);
-        return panel;
     }
 
     private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -7217,6 +7180,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     protected override void OnDeactivated(EventArgs e)
     {
         base.OnDeactivated(e);
+        HideNavTag(false);
         CloseOverlayPopups();
         SnowCanvas?.SetActive(false);
         try
@@ -7764,6 +7728,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void WpfUiWindow_Closed(object sender, EventArgs e)
     {
         Voidstrap.UI.NavigationSoundSuppressor.Detach(RootFrame);
+        TeardownNavTag();
         if (_friendsPage != null)
             _friendsPage.RequestCountChanged -= FriendsPage_RequestCountChanged;
         if (_searchSpanTimer != null)

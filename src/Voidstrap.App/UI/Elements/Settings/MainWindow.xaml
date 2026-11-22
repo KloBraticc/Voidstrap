@@ -1288,5 +1288,24 @@
         </Grid>
       </Border>
     </Grid>
+    <Canvas x:Name="NavTagLayer" Grid.RowSpan="3" Panel.ZIndex="900" IsHitTestVisible="False">
+      <Border x:Name="NavTag" Visibility="Collapsed" Opacity="0" Padding="12,8" BorderThickness="1" CornerRadius="4" ClipToBounds="True" SnapsToDevicePixels="True" UseLayoutRounding="True" TextElement.FontSize="12" BorderBrush="{DynamicResource ControlElevationBorderBrush}">
+        <Border.Background>
+          <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
+        </Border.Background>
+        <TextElement.Foreground>
+          <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+        </TextElement.Foreground>
+        <Border.RenderTransform>
+          <TranslateTransform x:Name="NavTagShift" />
+        </Border.RenderTransform>
+        <StackPanel x:Name="NavTagContent" Orientation="Horizontal">
+          <TextBlock x:Name="NavTagTitle" VerticalAlignment="Center" />
+          <Border x:Name="NavTagKeycap" Margin="10,0,0,0" Padding="5,1" CornerRadius="4" BorderThickness="1" VerticalAlignment="Center" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}">
+            <TextBlock x:Name="NavTagKey" FontSize="11" Opacity="0.8" VerticalAlignment="Center" />
+          </Border>
+        </StackPanel>
+      </Border>
+    </Canvas>
   </Grid>
 </base:WpfUiWindow>
