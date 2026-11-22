@@ -199,6 +199,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         public string LogPath { get; init; } = "";
 
+        public string Key { get; init; } = "";
+
         public bool IsUnread { get; init; }
 
         public SymbolRegular Icon { get; init; } = SymbolRegular.Info24;
@@ -241,6 +243,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 Text = text,
                 TimeAgo = FormatAge(source.LastSeen),
                 LogPath = source.LogPath,
+                Key = source.Key,
                 IsUnread = !source.Read,
                 Icon = icon,
                 IconBrush = brush,
@@ -2984,6 +2987,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void TopNavNews_Click(object sender, RoutedEventArgs e)
     {
         PagesMenuPopup.IsOpen = false;
+        OpenNewsPage();
+    }
+
+    private void OpenNewsPage()
+    {
         if (_newsPage != null && ReferenceEquals(RootFrame.Content, _newsPage))
             return;
         _newsPage?.Release();
@@ -5989,6 +5997,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             else if (Voidstrap.Utility.Platform.IsWindows)
                 KeepInsideWorkArea();
             SetupNavShortcuts();
+            _ = VoidstrapNewsFeed.WatchAsync(_lifetimeCts.SafeToken());
             _ = Dispatcher.BeginInvoke(new Action(ResetNavigationHistory), DispatcherPriority.ApplicationIdle);
             Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
             Microsoft.Win32.SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
@@ -7059,6 +7068,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (item.IsUnread)
         {
             Voidstrap.Utility.AppNotifications.MarkRead(item.Id);
+        }
+        if (VoidstrapNewsFeed.IsNewsNotification(item.Key))
+        {
+            CloseSimpleModal();
+            OpenNewsPage();
+            return;
         }
         if (!string.IsNullOrEmpty(item.LogPath) && File.Exists(item.LogPath))
         {

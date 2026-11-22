@@ -256,7 +256,7 @@ public static class AppNotifications
             return false;
         if (kind is KindError or KindCrash)
             return settings.NotifyErrors;
-        if (key.StartsWith("info:upgrade:", StringComparison.Ordinal))
+        if (key.StartsWith("info:upgrade:", StringComparison.Ordinal) || key.StartsWith("info:news:", StringComparison.Ordinal))
             return settings.NotifyUpdates;
         if (key.StartsWith("info:roblox:", StringComparison.Ordinal) || key.StartsWith("info:mods:", StringComparison.Ordinal))
             return settings.NotifyRoblox;
