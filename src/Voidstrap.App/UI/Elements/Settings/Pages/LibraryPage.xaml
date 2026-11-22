@@ -53,7 +53,7 @@
           </MenuItem.Icon>
         </MenuItem>
       </ContextMenu>
-      <ContextMenu x:Key="CollectionGroupMenu" Opened="CollectionGroupMenu_Opened">
+      <ContextMenu x:Key="CollectionGroupMenu">
         <MenuItem Header="{resources:Loc Library_RenameCollection}" Click="RenameCollection_Click">
           <MenuItem.Icon>
             <ui:SymbolIcon Symbol="Rename24" />
@@ -253,7 +253,7 @@
                   <Setter.Value>
                     <ControlTemplate TargetType="{x:Type GroupItem}">
                       <StackPanel x:Name="GroupRoot" Margin="0,0,14,0">
-                        <ToggleButton x:Name="GroupToggle" IsChecked="True" Focusable="False" Cursor="Hand" ContextMenu="{StaticResource CollectionGroupMenu}">
+                        <ToggleButton x:Name="GroupToggle" IsChecked="True" Focusable="False" Cursor="Hand" ContextMenu="{StaticResource CollectionGroupMenu}" ContextMenuOpening="GroupToggle_ContextMenuOpening">
                           <ToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type ToggleButton}">
                               <Border Background="Transparent" Padding="10,12,10,0">

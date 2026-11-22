@@ -80,13 +80,10 @@ public partial class LibraryPage : UiPage
             _viewModel.RemoveFromCollection(action.Game, action.CollectionId);
     }
 
-    private void CollectionGroupMenu_Opened(object sender, RoutedEventArgs e)
+    private void GroupToggle_ContextMenuOpening(object sender, ContextMenuEventArgs e)
     {
-        if (sender is not System.Windows.Controls.ContextMenu menu)
-            return;
-        bool isCollection = GroupFromMenu(menu)?.CollectionId != null;
-        if (!isCollection)
-            menu.IsOpen = false;
+        if (sender is not FrameworkElement { DataContext: System.Windows.Data.CollectionViewGroup { Name: LibrarySidebarGroup { CollectionId: not null } } })
+            e.Handled = true;
     }
 
     private void RenameCollection_Click(object sender, RoutedEventArgs e)
