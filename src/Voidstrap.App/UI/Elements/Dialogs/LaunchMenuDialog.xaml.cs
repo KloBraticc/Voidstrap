@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -14,6 +15,10 @@ public partial class LaunchMenuDialog : WpfUiWindow
     private readonly LaunchMenuViewModel _viewModel;
 
     public NextAction CloseAction;
+    private static readonly TimeSpan ChevronDuration = TimeSpan.FromMilliseconds(220);
+    private static readonly TimeSpan MenuCloseDelay = TimeSpan.FromMilliseconds(220);
+    private System.Windows.Controls.ContextMenu? _launchTargetMenu;
+    private DispatcherTimer? _menuCloseTimer;
 
     public LaunchMenuDialog()
     {
@@ -22,15 +27,23 @@ public partial class LaunchMenuDialog : WpfUiWindow
         base.DataContext = _viewModel;
         InitializeComponent();
         base.Closed += OnClosed;
+        base.PreviewMouseDown += OnPreviewMouseDown;
+        base.Deactivated += OnDeactivated;
     }
 
     private void LaunchTargetButton_Click(object sender, RoutedEventArgs e)
     {
+        if (_launchTargetMenu is { } existingMenu)
+        {
+            existingMenu.IsOpen = false;
+            return;
+        }
         object? current = _viewModel.CurrentTarget();
         System.Windows.Controls.ContextMenu menu = new()
         {
             PlacementTarget = LaunchTargetButton,
             Placement = PlacementMode.Bottom,
+            StaysOpen = true,
             HorizontalOffset = LaunchTargetButton.ActualWidth,
             VerticalOffset = 4,
         };
@@ -52,20 +65,13 @@ public partial class LaunchMenuDialog : WpfUiWindow
             item.Click += LaunchTargetItem_Click;
             menu.Items.Add(item);
         }
+        menu.PreviewKeyDown += LaunchTargetMenu_PreviewKeyDown;
         menu.Closed += LaunchTargetMenu_Closed;
         menu.Opened += LaunchTargetMenu_Opened;
-        menu.IsOpen = true;
         _launchTargetMenu = menu;
+        menu.IsOpen = true;
         RotateChevron(180);
     }
-
-    private static readonly TimeSpan ChevronDuration = TimeSpan.FromMilliseconds(220);
-
-    private static readonly TimeSpan MenuCloseDelay = TimeSpan.FromMilliseconds(220);
-
-    private System.Windows.Controls.ContextMenu? _launchTargetMenu;
-
-    private DispatcherTimer? _menuCloseTimer;
 
     private void RotateChevron(double angle)
     {
@@ -110,10 +116,37 @@ public partial class LaunchMenuDialog : WpfUiWindow
             menu.HorizontalOffset = LaunchTargetButton.ActualWidth - menu.ActualWidth;
     }
 
+    private void LaunchTargetMenu_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Escape || sender is not System.Windows.Controls.ContextMenu menu)
+            return;
+        e.Handled = true;
+        menu.IsOpen = false;
+    }
+
+    private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (_launchTargetMenu?.IsOpen != true)
+            return;
+        if (new Rect(LaunchTargetButton.RenderSize).Contains(e.GetPosition(LaunchTargetButton)))
+            return;
+        if (!_launchTargetMenu.IsMouseOver)
+            _launchTargetMenu.IsOpen = false;
+    }
+
+    private void OnDeactivated(object? sender, EventArgs e)
+    {
+        if (new Rect(LaunchTargetButton.RenderSize).Contains(Mouse.GetPosition(LaunchTargetButton)))
+            return;
+        if (_launchTargetMenu != null)
+            _launchTargetMenu.IsOpen = false;
+    }
+
     private void LaunchTargetMenu_Closed(object sender, RoutedEventArgs e)
     {
         if (sender is not System.Windows.Controls.ContextMenu menu)
             return;
+        menu.PreviewKeyDown -= LaunchTargetMenu_PreviewKeyDown;
         menu.Closed -= LaunchTargetMenu_Closed;
         menu.Opened -= LaunchTargetMenu_Opened;
         StopMenuCloseTimer();
@@ -135,5 +168,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
         StopMenuCloseTimer();
         _viewModel.CloseWindowRequest -= OnCloseWindowRequest;
         base.Closed -= OnClosed;
+        base.PreviewMouseDown -= OnPreviewMouseDown;
+        base.Deactivated -= OnDeactivated;
     }
 }
