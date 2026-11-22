@@ -127,6 +127,9 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_StayWithFriends}" Description="{resources:Loc Ui_Bootstrapper_StayWithFriendsDescription}">
+                <ui:ToggleSwitch IsChecked="{Binding VoidstrapMatchmakerStayWithFriends, Mode=TwoWay}" />
+              </controls:OptionControl>
               <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/matchmaker/" Header="{resources:Loc Ui_Bootstrapper_HowHardToSearch}" Description="{Binding SearchDepthDescription}">
                 <StackPanel Orientation="Horizontal" Margin="0,2">
                   <ui:ToggleSwitch VerticalAlignment="Center" Margin="0,0,8,0" IsChecked="{Binding VoidstrapMatchmakerAutoCandidates, Mode=TwoWay}" />

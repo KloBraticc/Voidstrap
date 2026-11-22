@@ -4230,6 +4230,12 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Виміряйте пінг до кожного центру обробки даних знову замість використання збережених результатів</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Залишатися на серверах друзів</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Коли ви приєднуєтеся до друга, залишайтеся на його сервері замість переміщення на ближчий</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Вимкніть один, щоб ніколи туди не потрапляти. Якщо Roblox помістить Вас у заблокований дата-центр, Voidstrap перенесе Вас.</value>
   </data>

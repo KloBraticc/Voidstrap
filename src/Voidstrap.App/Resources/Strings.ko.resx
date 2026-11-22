@@ -4230,6 +4230,12 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>저장된 결과를 사용하지 않고 모든 데이터 센터의 핑을 다시 측정합니다</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>친구 서버에 머무르기</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>친구에게 참여하면 더 가까운 서버로 옮기지 않고 친구의 서버를 유지합니다</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>하나를 끄면 그곳에 배치되지 않습니다. Roblox가 차단된 데이터 센터에 배치하면 Voidstrap이 옮겨 줍니다.</value>
   </data>

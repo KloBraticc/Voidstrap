@@ -4215,6 +4215,12 @@
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>重新测量到每个数据中心的延迟，而不是使用已保存的结果</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>留在好友的服务器</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>加入好友时保留其服务器，而不是把您移到更近的服务器</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>关闭某个数据中心后将不会被分配到那里。如果 Roblox 将您分配到被屏蔽的数据中心，Voidstrap 会把您移出。</value>
   </data>

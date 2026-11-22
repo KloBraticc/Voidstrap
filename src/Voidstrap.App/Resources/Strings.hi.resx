@@ -4004,6 +4004,12 @@ Roblox डाउनलोड हो जाएगा। आप लॉन्च �
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>सहेजे गए परिणामों का उपयोग करने के बजाय हर डेटासेंटर का पिंग फिर से मापें</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>दोस्तों के सर्वर में रहें</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>किसी दोस्त से जुड़ने पर आपको नज़दीकी सर्वर पर ले जाने के बजाय उसी का सर्वर रखें</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>एक को बंद कर दें ताकि उसे वहां कभी न रखा जाए। यदि Roblox आपको अवरुद्ध डेटासेंटर में डालता है, तो Voidstrap आपको बाहर निकाल देता है।</value>
   </data>

@@ -4004,6 +4004,12 @@ X'tixtieq tagħmel?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Erġa' kejjel il-ping għal kull ċentru tad-data minflok tuża riżultati salvati</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Ibqa' fis-servers tal-ħbieb</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Meta tingħaqad ma' ħabib, żomm is-server tiegħu minflok tiġi mċaqlaq għal wieħed eqreb</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Itfi waħda biex qatt ma titqiegħed hemm. Jekk Roblox ipoġġik f'datacenter imblukkat, Voidstrap imexxik 'il barra.</value>
   </data>

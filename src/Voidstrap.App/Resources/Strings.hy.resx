@@ -4004,6 +4004,12 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Կրկին չափեք պինգը յուրաքանչյուր տվյալների կենտրոնի համար՝ պահված արդյունքների փոխարեն</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Մնալ ընկերների սերվերներում</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Ընկերոջը միանալիս պահել նրա սերվերը՝ ձեզ ավելի մոտ սերվեր տեղափոխելու փոխարեն</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Անջատեք մեկը, որպեսզի երբեք չտեղավորվեք այնտեղ: Եթե  Roblox-ը ձեզ դնում է արգելափակված տվյալների կենտրոնի մեջ, Voidstrap-ը ձեզ դուրս է հանում:</value>
   </data>

@@ -4004,6 +4004,12 @@ Roblox ჩამოიტვირთება, როდესაც მას 
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>შენახული შედეგების ნაცვლად თითოეულ მონაცემთა ცენტრამდე პინგის ხელახლა გაზომვა</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>მეგობრების სერვერებზე დარჩენა</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>მეგობართან შეერთებისას შეინარჩუნეთ მისი სერვერი, ახლოს მდებარეზე გადაყვანის ნაცვლად</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>გამორთეთ ერთი ისე, რომ არასოდეს განთავსდეთ იქ. თუ Roblox გაყენებთ დაბლოკილ მონაცემთა ბაზაში, Voidstrap გადაგაქვთ გარეთ.</value>
   </data>

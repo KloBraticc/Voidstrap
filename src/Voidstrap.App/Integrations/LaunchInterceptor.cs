@@ -28,6 +28,13 @@ public static partial class LaunchInterceptor
     [GeneratedRegex("gameInstanceId=[^&]*", RegexOptions.IgnoreCase)]
     private static partial Regex GameInstanceIdValuePattern { get; }
 
+    [GeneratedRegex("^roblox://experiences/start\\?(?:[^#]*&)?userId=\\d+", RegexOptions.IgnoreCase)]
+    private static partial Regex FollowUserDeeplinkPattern { get; }
+
+    public static bool IsFriendJoin(string? args) =>
+        !string.IsNullOrWhiteSpace(args)
+        && (args.Contains("RequestFollowUser", StringComparison.OrdinalIgnoreCase) || FollowUserDeeplinkPattern.IsMatch(args.Trim()));
+
     private const string LOG_IDENT = "LaunchInterceptor";
 
     public static async Task<string?> MaybeRewriteForClosestAsync(

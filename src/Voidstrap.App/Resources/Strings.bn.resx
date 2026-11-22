@@ -4004,6 +4004,12 @@ Roblox ডাউনলোড করা হবে যখন আপনি এট�
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>সংরক্ষিত ফলাফল ব্যবহার না করে প্রতিটি ডেটাসেন্টারের পিং আবার মাপুন</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>বন্ধুর সার্ভারে থাকুন</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>কোনো বন্ধুর সাথে যোগ দিলে আপনাকে কাছের সার্ভারে না সরিয়ে তার সার্ভারেই রাখুন</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>সেখানে কখনও স্থাপন না করার জন্য একটি বন্ধ করুন। যদি Roblox আপনাকে একটি অবরুদ্ধ ডেটাসেন্টারে রাখে, Voidstrap আপনাকে সরিয়ে দেয়।</value>
   </data>

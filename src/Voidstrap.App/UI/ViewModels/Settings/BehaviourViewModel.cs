@@ -442,6 +442,19 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public bool VoidstrapMatchmakerStayWithFriends
+    {
+        get { return App.Settings.Prop.VoidstrapMatchmakerStayWithFriends; }
+        set
+        {
+            if (App.Settings.Prop.VoidstrapMatchmakerStayWithFriends != value)
+            {
+                App.Settings.Prop.VoidstrapMatchmakerStayWithFriends = value;
+                OnPropertyChanged(nameof(VoidstrapMatchmakerStayWithFriends));
+            }
+        }
+    }
+
     public bool VoidstrapMatchmakerAutoCandidates
     {
         get { return App.Settings.Prop.VoidstrapMatchmakerAutoCandidates; }

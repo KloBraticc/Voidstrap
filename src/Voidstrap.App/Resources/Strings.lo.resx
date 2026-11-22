@@ -4004,6 +4004,12 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>ວັດແທກ ping ໄປຫາແຕ່ລະສູນຂໍ້ມູນຄືນໃໝ່ ແທນການໃຊ້ຜົນທີ່ບັນທຶກໄວ້</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>ຢູ່ໃນເຊີບເວີຂອງໝູ່</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>ເມື່ອທ່ານເຂົ້າຮ່ວມກັບໝູ່ ໃຫ້ຢູ່ໃນເຊີບເວີຂອງເຂົາ ແທນການຍ້າຍທ່ານໄປເຊີບເວີທີ່ໃກ້ກວ່າ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ປິດອັນໜຶ່ງເພື່ອບໍ່ໃຫ້ວາງໄວ້ບ່ອນນັ້ນ. ຖ້າ Roblox ເຮັດໃຫ້ທ່ານຢູ່ໃນສູນຂໍ້ມູນທີ່ຖືກບລັອກ, Voidstrap ຈະຍ້າຍທ່ານອອກໄປ.</value>
   </data>

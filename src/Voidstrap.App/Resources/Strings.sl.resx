@@ -4004,6 +4004,12 @@ Kaj bi rad počel?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Znova izmeri ping do vsakega podatkovnega centra namesto uporabe shranjenih rezultatov</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Ostani na strežnikih prijateljev</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Ko se pridružiš prijatelju, ostaneš na njegovem strežniku, namesto da te premakne na bližjega</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Enega izklopite, da ga nikoli ne postavite tja. Če vas Roblox postavi v blokirano podatkovno središče, vas Voidstrap premakne ven.</value>
   </data>

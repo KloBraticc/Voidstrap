@@ -4004,6 +4004,12 @@ Què t'agradaria fer?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Torna a mesurar el ping a cada centre de dades en lloc d'utilitzar els resultats desats</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Queda't als servidors dels amics</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Quan t'uneixis a un amic, mantén el seu servidor en lloc de moure't a un de més proper</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Apagueu-ne un per no posar-hi mai. Si Roblox us posa en un centre de dades bloquejat, Voidstrap us trasllada.</value>
   </data>

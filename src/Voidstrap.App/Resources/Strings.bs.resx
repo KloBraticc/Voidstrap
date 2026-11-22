@@ -4004,6 +4004,12 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Ponovo izmjeri ping do svakog podatkovnog centra umjesto korištenja sačuvanih rezultata</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Ostani na serverima prijatelja</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Kada se pridružiš prijatelju, zadrži njegov server umjesto da te premjesti na bliži</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Isključite ga da nikada ne bude postavljen tamo. Ako vas Roblox stavi u blokirani centar podataka, Voidstrap vas iseli.</value>
   </data>

@@ -4004,6 +4004,12 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Znova zmerajte odozvu ku každému dátovému centru namiesto použitia uložených výsledkov</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Zostať na serveroch priateľov</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Keď sa pripojíte k priateľovi, zostanete na jeho serveri namiesto presunu na bližší</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Vypnite jeden, aby tam nikdy nebol umiestnený. Ak vás Roblox dostane do zablokovaného dátového centra, Voidstrap vás presunie von.</value>
   </data>

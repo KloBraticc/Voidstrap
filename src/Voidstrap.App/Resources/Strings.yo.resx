@@ -4004,6 +4004,12 @@ Kini iwọ yoo fẹ lati ṣe?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Wọn ping sí ibùdó dátà kọ̀ọ̀kan lẹ́ẹ̀kan sí i dípò lílo àwọn èsì tí a fipamọ́</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Dúró sí àwọn olupin ọ̀rẹ́</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Nígbà tí o bá darapọ̀ mọ́ ọ̀rẹ́ kan, dúró sí olupin rẹ̀ dípò kí a gbé ọ lọ sí èyí tí ó súnmọ́ jù</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Pa ọkan kuro lati ma gbe sibẹ. Ti Roblox ba fi ọ sinu ibi datacenter ti dina, Voidstrap gbe ọ jade.</value>
   </data>

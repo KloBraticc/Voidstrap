@@ -4004,6 +4004,12 @@ Roblox будзе спампаваны пры першым запуску пра
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Зноў вымераць пінг да кожнага цэнтра апрацоўкі даных замест захаваных вынікаў</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Заставацца на серверах сяброў</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Калі вы далучаецеся да сябра, заставацца на яго серверы, а не пераносіць вас на бліжэйшы</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Выключыце адзін, каб ніколі не размяшчацца там. Калі Roblox змяшчае вас у заблакаваны цэнтр апрацоўкі дадзеных, Voidstrap перамяшчае вас адтуль.</value>
   </data>

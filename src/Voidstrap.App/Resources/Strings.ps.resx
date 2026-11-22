@@ -4004,6 +4004,12 @@ Roblox به ډاونلوډ شي کله چې تاسو د لومړي ځل لپار
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>د خوندي شویو پایلو پر ځای هر ډیټا مرکز ته پینګ بیا اندازه کړئ</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>د ملګرو په سرورونو کې پاتې شئ</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>کله چې له ملګري سره یوځای شئ، د نږدې سرور ته د لېږدولو پر ځای د هغه سرور وساتئ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>یو بند کړئ ترڅو هیڅکله هلته ځای پر ځای نشي. که Roblox تاسو په بند شوي ډیټا سینټر کې واچوي، Voidstrap تاسو بهر حرکت کوي.</value>
   </data>

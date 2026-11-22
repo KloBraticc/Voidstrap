@@ -4212,6 +4212,12 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Kaydedilmiş sonuçları kullanmak yerine her veri merkezine olan pingi yeniden ölçün</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Arkadaş sunucularında kal</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Bir arkadaşınıza katıldığınızda sizi daha yakın bir sunucuya taşımak yerine onun sunucusunda tutar</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Asla oraya yerleştirilmemek için birini kapatın. Roblox sizi engellenmiş bir veri merkezine koyarsa Voidstrap sizi oradan çıkarır.</value>
   </data>

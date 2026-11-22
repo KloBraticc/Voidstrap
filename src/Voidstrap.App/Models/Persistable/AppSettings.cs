@@ -554,6 +554,8 @@ namespace Voidstrap.Models.Persistable
         public bool VoidstrapMatchmakerAutoCandidates { get; set; } = true;
         public List<string> VoidstrapMatchmakerDisabledDatacenters { get; set; } = [];
         public bool VoidstrapMatchmakerEnabled { get; set; } = false;
+
+        public bool VoidstrapMatchmakerStayWithFriends { get; set; } = false;
         public List<string> VoidstrapMatchmakerKickDatacenters { get; set; } = [];
         public int VoidstrapMatchmakerLearningGamesPlayed { get; set; } = 0;
         public int VoidstrapMatchmakerMaxCandidates { get; set; } = 14;

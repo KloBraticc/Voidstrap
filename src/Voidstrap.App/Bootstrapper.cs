@@ -10,6 +10,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
 using Voidstrap.AppData;
 using Voidstrap.Core;
+using Voidstrap.Integrations;
 using Voidstrap.Platform;
 using Voidstrap.Platform.Linux;
 using Voidstrap.RobloxInterfaces;
@@ -1951,6 +1952,7 @@ public partial class Bootstrapper
             ProcessId = _appPid,
             LogFile = logFileName,
             AutoclosePids = [.. _integrationAutoclosePids],
+            JoiningFriend = ServerMatchmaker.StaysWithFriend(App.LaunchSettings.RobloxLaunchArgs),
         };
         string text = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(watcherData)));
         try

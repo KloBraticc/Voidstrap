@@ -9,4 +9,6 @@ internal sealed class WatcherData
     public string? LogFile { get; set; }
 
     public List<int>? AutoclosePids { get; set; }
+
+    public bool JoiningFriend { get; set; }
 }

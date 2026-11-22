@@ -4218,6 +4218,12 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Измерете отново пинга до всеки център за данни, вместо да използвате запазените резултати</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Оставане в сървърите на приятели</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Когато се присъедините към приятел, запазете неговия сървър, вместо да ви премести на по близък</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Изключете един, за да не попадате никога там. Ако Roblox Ви постави в блокиран център, Voidstrap ще Ви премести.</value>
   </data>

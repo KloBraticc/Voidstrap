@@ -4004,6 +4004,12 @@ Roblox تۇنجى قېتىمVoidstrap ئارقىلىق چىقارغاندا چۈ
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>ساقلانغان نەتىجىلەرنى ئىشلىتىشنىڭ ئورنىغا ھەر بىر سانلىق مەلۇمات مەركىزىگە بولغان پىڭنى قايتا ئۆلچەش</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>دوستلارنىڭ مۇلازىمېتىرىدا قېلىش</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>دوستىڭىزغا قوشۇلغاندا سىزنى يېقىنراق مۇلازىمېتىرغا يۆتكىمەي، ئۇنىڭ مۇلازىمېتىرىدا ساقلايدۇ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>بىرنى ئېتىۋېتىڭ ، ئۇ يەرگە ھەرگىز قويۇلمايدۇ. ئەگەر Roblox سىزنى توسۇلغان سانلىق مەلۇمات مەركىزىگە قويسا ، Voidstrap سىزنى يۆتكىۋېتىدۇ.</value>
   </data>

@@ -4004,6 +4004,12 @@ Roblox ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾਵੇਗਾ ਜਦੋ
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>ਸੰਭਾਲੇ ਨਤੀਜੇ ਵਰਤਣ ਦੀ ਬਜਾਏ ਹਰ ਡਾਟਾਸੈਂਟਰ ਦਾ ਪਿੰਗ ਦੁਬਾਰਾ ਮਾਪੋ</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>ਦੋਸਤਾਂ ਦੇ ਸਰਵਰ ਵਿੱਚ ਰਹੋ</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>ਕਿਸੇ ਦੋਸਤ ਨਾਲ ਜੁੜਨ ਤੇ ਤੁਹਾਨੂੰ ਨੇੜਲੇ ਸਰਵਰ ਤੇ ਭੇਜਣ ਦੀ ਬਜਾਏ ਉਸ ਦਾ ਸਰਵਰ ਰੱਖੋ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ਉੱਥੇ ਕਦੇ ਨਾ ਰੱਖਣ ਲਈ ਇੱਕ ਨੂੰ ਬੰਦ ਕਰੋ। ਜੇਕਰ Roblox ਤੁਹਾਨੂੰ ਬਲੌਕ ਕੀਤੇ ਡੇਟਾਸੈਂਟਰ ਵਿੱਚ ਰੱਖਦਾ ਹੈ, ਤਾਂ Voidstrap ਤੁਹਾਨੂੰ ਬਾਹਰ ਲੈ ਜਾਂਦਾ ਹੈ।</value>
   </data>

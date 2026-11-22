@@ -4004,6 +4004,12 @@ Me aha koe?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Inea anō te ping ki ia pokapū raraunga, kaua e whakamahi i ngā hua kua tiakina</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Noho i ngā tūmau o ngā hoa</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Ka uru koe ki tētahi hoa, puritia tōna tūmau, kaua koe e nekehia ki tētahi e tata ake ana</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Whakawetohia tetahi kia kaua rawa e tuu ki reira. Mena ka tukuna koe e Roblox ki roto i te pokapū raraunga kua araia, ka nekehia koe e Voidstrap ki waho.</value>
   </data>

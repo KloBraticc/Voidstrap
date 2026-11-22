@@ -4004,6 +4004,12 @@ Roblox पहिलो पटकVoidstrap मार्फत लन्च गर
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>सुरक्षित नतिजा प्रयोग गर्नुको सट्टा प्रत्येक डेटासेन्टरको पिङ फेरि नाप्नुहोस्</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>साथीहरूको सर्भरमा रहनुहोस्</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>साथीसँग जोडिँदा तपाईंलाई नजिकको सर्भरमा सार्नुको सट्टा उनको सर्भरमै राख्नुहोस्</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>त्यहाँ कहिल्यै नराख्न एउटा बन्द गर्नुहोस्। यदि Roblox ले तपाईंलाई ब्लक गरिएको डाटासेन्टरमा राख्छ भने, Voidstrap ले तपाईंलाई बाहिर लैजान्छ।</value>
   </data>

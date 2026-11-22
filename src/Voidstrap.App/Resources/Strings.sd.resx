@@ -4004,6 +4004,12 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>محفوظ ٿيل نتيجن بدران هر ڊيٽا سينٽر جو پنگ ٻيهر ماپيو</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>دوستن جي سرورن ۾ رهو</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>جڏهن توهان ڪنهن دوست سان شامل ٿيو، توهان کي ويجهي سرور تي منتقل ڪرڻ بدران ان جو سرور رکو</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>هڪ بند ڪريو ته ڪڏهن به اتي نه رکيو وڃي. جيڪڏهن Roblox توهان کي بلاڪ ٿيل ڊيٽا سينٽر ۾ رکي ٿو، Voidstrap توهان کي ٻاهر ڪڍي ٿو.</value>
   </data>

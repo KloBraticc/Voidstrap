@@ -4004,6 +4004,12 @@ Kedu ihe ị ga-achọ ime?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Tụọ ping gaa na ebe nchekwa data ọ bụla ọzọ kama iji nsonaazụ echekwara</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Nọrọ na sava ndị enyi</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Mgbe ị sonyere enyi, debe sava ya kama ibuga gị na nke dị nso</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Gbanyụọ otu ka etinyeghị ya ebe ahụ. Ọ bụrụ na Roblox tinye gị na ebe nchekwa data egbochiri, Voidstrap ga-ebupụ gị.</value>
   </data>

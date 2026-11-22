@@ -4170,6 +4170,12 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Ukur ulang ping ke setiap pusat data alih alih menggunakan hasil yang disimpan</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Tetap di server teman</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Saat Anda bergabung dengan teman, tetap di servernya alih alih dipindahkan ke server yang lebih dekat</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Matikan salah satunya agar tidak pernah ditempatkan di sana. Jika Roblox menempatkan Anda di pusat data yang diblokir, Voidstrap memindahkan Anda.</value>
   </data>

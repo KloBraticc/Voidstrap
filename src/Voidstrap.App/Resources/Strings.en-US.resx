@@ -4315,6 +4315,12 @@ What would you like to do?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Measure the ping to every datacenter again instead of using saved results</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Stay in friend servers</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>When you join a friend, keep their server instead of moving you to a closer one</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Turn one off to never be placed there. If Roblox puts you in a blocked datacenter, Voidstrap moves you out.</value>
   </data>

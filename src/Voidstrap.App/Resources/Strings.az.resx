@@ -4004,6 +4004,12 @@ Nə etmək istərdiniz?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Saxlanmış nəticələrdən istifadə etmək əvəzinə hər data mərkəzinə pinqi yenidən ölçün</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Dost serverlərində qal</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Dosta qoşulduqda sizi daha yaxın serverə köçürmək əvəzinə onun serverində saxlayın</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Heç vaxt orada yerləşdirilməmək üçün birini söndürün. Roblox sizi bloklanmış məlumat mərkəzinə qoyursa, Voidstrap sizi çıxarır.</value>
   </data>

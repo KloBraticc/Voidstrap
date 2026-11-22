@@ -4004,6 +4004,12 @@ Wat wil jy graag doen?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Meet die ping na elke datasentrum weer in plaas daarvan om gestoorde resultate te gebruik</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Bly in vriende se bedieners</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Wanneer jy by 'n vriend aansluit, hou sy bediener in plaas daarvan om jou na 'n nader een te skuif</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Skakel een af om nooit daar geplaas te word nie. As Roblox jou in 'n geblokkeerde datasentrum plaas, skuif Voidstrap jou uit.</value>
   </data>

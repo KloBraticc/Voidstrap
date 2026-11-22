@@ -4004,6 +4004,12 @@ Näme etmek isleýärsiňiz?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Ýatda saklanan netijeleri ulanmagyň ýerine her maglumat merkezine pingi täzeden ölçe</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Dostlaryň serwerlerinde gal</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Dostuňyza goşulanyňyzda sizi has ýakyn serwere geçirmegiň ýerine onuň serwerinde saklaň</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Hiç haçan şol ýerde goýulmaz ýaly birini öçüriň. Roblox sizi petiklenen maglumat merkezine salsa, Voidstrap sizi daşlaşdyrýar.</value>
   </data>

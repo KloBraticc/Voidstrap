@@ -4004,6 +4004,12 @@ Roblox நீங்கள் முதல்முறையாகVoidstrap ம�
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>சேமித்த முடிவுகளைப் பயன்படுத்தாமல் ஒவ்வொரு தரவு மையத்திற்குமான பிங்கை மீண்டும் அளவிடவும்</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>நண்பர்களின் சர்வர்களில் இருங்கள்</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>நண்பருடன் சேரும்போது உங்களை அருகிலுள்ள சர்வருக்கு மாற்றாமல் அவர்களின் சர்வரிலேயே வைத்திருக்கும்</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ஒருபோதும் அங்கு வைக்கப்படாதபடி ஒன்றை அணைக்கவும். Roblox உங்களைத் தடுக்கப்பட்ட தரவு மையத்தில் வைத்தால், Voidstrap உங்களை வெளியேற்றும்.</value>
   </data>

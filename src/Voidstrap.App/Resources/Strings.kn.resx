@@ -4004,6 +4004,12 @@ Roblox ಅನ್ನು ನೀವು ಮೊದಲ ಬಾರಿಗೆVoidstrap ಮ
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>ಉಳಿಸಿದ ಫಲಿತಾಂಶಗಳನ್ನು ಬಳಸುವ ಬದಲು ಪ್ರತಿ ಡೇಟಾಸೆಂಟರ್‌ಗೆ ಪಿಂಗ್ ಅನ್ನು ಮತ್ತೆ ಅಳೆಯಿರಿ</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>ಸ್ನೇಹಿತರ ಸರ್ವರ್‌ಗಳಲ್ಲಿ ಉಳಿಯಿರಿ</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>ಸ್ನೇಹಿತರನ್ನು ಸೇರಿದಾಗ ನಿಮ್ಮನ್ನು ಹತ್ತಿರದ ಸರ್ವರ್‌ಗೆ ಸರಿಸುವ ಬದಲು ಅವರ ಸರ್ವರ್ ಇರಿಸಿ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ಎಂದಿಗೂ ಅಲ್ಲಿ ಇರಿಸದಂತೆ ಒಂದನ್ನು ಆಫ್ ಮಾಡಿ. Roblox ನಿಮ್ಮನ್ನು ನಿರ್ಬಂಧಿಸಿದ ಡೇಟಾಸೆಂಟರ್ನಲ್ಲಿ ಇರಿಸಿದರೆ, Voidstrap ನಿಮ್ಮನ್ನು ಹೊರಹಾಕುತ್ತದೆ.</value>
   </data>

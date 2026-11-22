@@ -4004,6 +4004,12 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>የተቀመጡ ውጤቶችን ከመጠቀም ይልቅ ወደ እያንዳንዱ የመረጃ ማዕከል ያለውን ፒንግ እንደገና ይለኩ</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>በጓደኛ አገልጋዮች ውስጥ ይቆዩ</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>ጓደኛን ሲቀላቀሉ ወደ ቅርብ አገልጋይ ከማዛወር ይልቅ የእሱን አገልጋይ ያቆዩ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>በጭራሽ እዚያ እንዳይቀመጥ አንዱን ያጥፉ። Roblox በተዘጋ ዳታ ማዕከል ውስጥ ካስቀመጣችሁ Voidstrap ያስወጣዎታል።</value>
   </data>

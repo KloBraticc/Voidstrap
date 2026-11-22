@@ -4004,6 +4004,12 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Хадгалсан үр дүнг ашиглахын оронд өгөгдлийн төв бүр хүртэлх пингийг дахин хэмжих</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Найзуудын серверт үлдэх</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Найздаа нэгдэх үед таныг ойрын сервер рүү шилжүүлэхийн оронд түүний серверт үлдээнэ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Тэнд хэзээ ч тавихгүйн тулд нэгийг нь унтраа. Хэрэв Roblox таныг хаагдсан дата төвд оруулбал Voidstrap таныг гадагшлуулах болно.</value>
   </data>

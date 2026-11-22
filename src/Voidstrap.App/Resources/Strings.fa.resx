@@ -4254,6 +4254,12 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>به جای استفاده از نتایج ذخیره‌شده، پینگ هر مرکز داده را دوباره اندازه بگیرید</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>ماندن در سرورهای دوستان</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>وقتی به یک دوست می‌پیوندید، به جای انتقال شما به سرور نزدیک‌تر، در سرور او بمانید</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>یکی را خاموش کنید تا هرگز در آن قرار نگیرید. اگر Roblox شما را در مرکز مسدودشده قرار دهد، Voidstrap شما را جابه‌جا می‌کند.</value>
   </data>

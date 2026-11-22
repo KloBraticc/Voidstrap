@@ -3992,6 +3992,12 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Sukatin muli ang ping sa bawat datacenter sa halip na gamitin ang mga naka-save na resulta</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Manatili sa mga server ng kaibigan</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Kapag sumali ka sa isang kaibigan, panatilihin ang server niya sa halip na ilipat ka sa mas malapit</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Patayin ang isa para hindi ka kailanman mailagay doon. Kapag inilagay ka ng Roblox sa naka block na datacenter, ililipat ka ng Voidstrap.</value>
   </data>

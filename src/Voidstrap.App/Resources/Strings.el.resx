@@ -4004,6 +4004,12 @@
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Μετρήστε ξανά το ping προς κάθε κέντρο δεδομένων αντί να χρησιμοποιήσετε αποθηκευμένα αποτελέσματα</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Παραμονή στους διακομιστές φίλων</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Όταν συνδέεστε με φίλο, διατηρείται ο διακομιστής του αντί να μεταφερθείτε σε πιο κοντινό</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Απενεργοποιήστε ένα για να μην το τοποθετήσετε ποτέ εκεί. Εάν το Roblox σας τοποθετεί σε ένα αποκλεισμένο κέντρο δεδομένων, το Voidstrap σας απομακρύνει.</value>
   </data>

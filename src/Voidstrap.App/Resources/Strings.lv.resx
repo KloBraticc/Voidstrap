@@ -4004,6 +4004,12 @@ Ko jūs vēlētos darīt?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Vēlreiz izmērīt pingu līdz katram datu centram, nevis izmantot saglabātos rezultātus</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Palikt draugu serveros</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Kad pievienojaties draugam, paliekat viņa serverī, nevis tiekat pārvietots uz tuvāku</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Izslēdziet vienu, lai nekad netiktu tur ievietots. Ja Roblox ievieto jūs bloķētā datu centrā, Voidstrap jūs pārvieto.</value>
   </data>

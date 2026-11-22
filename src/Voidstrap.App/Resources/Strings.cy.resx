@@ -4004,6 +4004,12 @@ Beth hoffech chi ei wneud?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Mesur y ping i bob canolfan ddata eto yn lle defnyddio canlyniadau sydd wedi'u cadw</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Aros yng ngweinyddion ffrindiau</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Pan fyddwch yn ymuno â ffrind, cadw ei weinydd yn lle eich symud i un agosach</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Trowch un i ffwrdd i beidio byth â chael ei osod yno. Os yw Roblox yn eich rhoi mewn canolfan ddata wedi'i blocio, mae Voidstrap yn eich symud allan.</value>
   </data>

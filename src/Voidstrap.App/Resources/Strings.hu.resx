@@ -4215,6 +4215,12 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Mérd meg újra a pinget minden adatközponthoz a mentett eredmények helyett</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Maradás a barátok szerverein</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Ha egy barátodhoz csatlakozol, az ő szerverén maradsz, ahelyett hogy egy közelebbire kerülnél</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Kapcsolj ki egyet, hogy soha ne kerülj oda. Ha a Roblox letiltott adatközpontba tesz, a Voidstrap áthelyez.</value>
   </data>

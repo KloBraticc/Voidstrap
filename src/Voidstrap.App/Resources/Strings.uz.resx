@@ -4004,6 +4004,12 @@ Nima qilishni xohlaysiz?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Saqlangan natijalar o'rniga har bir ma'lumot markazigacha pingni qayta o'lchash</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Do'stlar serverlarida qolish</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Do'stingizga qo'shilganingizda sizni yaqinroq serverga ko'chirish o'rniga uning serverida qoldiradi</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Hech qachon u erda joylashmaslik uchun birini o'chiring. Agar Roblox sizni bloklangan ma'lumotlar markaziga qo'ysa, Voidstrap sizni tashqariga chiqaradi.</value>
   </data>

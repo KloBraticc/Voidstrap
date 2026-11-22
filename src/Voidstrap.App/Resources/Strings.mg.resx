@@ -4004,6 +4004,12 @@ Inona no tianao hatao?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Refeso indray ny ping mankany amin'ny ivon-tahiry tsirairay fa tsy hampiasa valiny voatahiry</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Mijanòna ao amin'ny mpizara namana</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Rehefa miditra amin'ny namana ianao dia tazomy ny mpizarany fa tsy afindra any amin'ny akaiky kokoa</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Vonoy ny iray mba tsy hapetraka eo mihitsy. Raha mametraka anao ao amin'ny foibem-pandrafetana voasakana ny Roblox , dia mandroaka anao ny Voidstrap .</value>
   </data>

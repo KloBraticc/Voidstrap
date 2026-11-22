@@ -4212,6 +4212,12 @@ Co chcesz zrobić?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Zmierz ponownie ping do każdego centrum danych zamiast używać zapisanych wyników</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Zostań na serwerach znajomych</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Gdy dołączasz do znajomego, zostajesz na jego serwerze zamiast przenosin na bliższy</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Wyłącz jedno, aby nigdy tam nie trafić. Jeśli Roblox umieści cię w zablokowanym centrum, Voidstrap cię przeniesie.</value>
   </data>

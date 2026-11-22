@@ -70,6 +70,10 @@ public sealed class ServerMatchmaker : IDisposable
 
     private string? _manualJobId;
 
+    private string? _friendJobId;
+
+    private int _friendJoinSeen;
+
     private bool _disposed;
 
     public Func<NotifyIconWrapper?>? NotifyIconResolver { get; set; }
@@ -103,6 +107,16 @@ public sealed class ServerMatchmaker : IDisposable
             return;
 
         if (IsManualPick(data.JobId))
+            return;
+
+        if (_watcher.JoiningFriend && Interlocked.Exchange(ref _friendJoinSeen, 1) == 0)
+        {
+            Volatile.Write(ref _friendJobId, data.JobId);
+            App.Logger.WriteLine(LOG_IDENT, $"Joining a friend in place {data.PlaceId}, the matchmaker leaves this server alone");
+            return;
+        }
+
+        if (IsFriendServer(data))
             return;
 
         MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
@@ -207,6 +221,15 @@ public sealed class ServerMatchmaker : IDisposable
             if (IsManualPick(data.JobId))
             {
                 App.Logger.WriteLine(LOG_IDENT, "Joined the server you picked in the server browser, staying put");
+                ClearLinuxRejoin();
+                ClearAttempt(data.PlaceId);
+                CancelLinuxPrefetch();
+                return;
+            }
+
+            if (IsFriendServer(data))
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Joined a friend's server, staying put");
                 ClearLinuxRejoin();
                 ClearAttempt(data.PlaceId);
                 CancelLinuxPrefetch();
@@ -341,6 +364,12 @@ public sealed class ServerMatchmaker : IDisposable
             App.Logger?.WriteLine("ServerMatchmaker::SetExcluded", "Could not update the matchmaker exclusion list: " + ex.Message);
         }
     }
+
+    public static bool StaysWithFriend(string? launchArgs) =>
+        App.Settings.Prop.VoidstrapMatchmakerStayWithFriends && LaunchInterceptor.IsFriendJoin(launchArgs);
+
+    private bool IsFriendServer(ActivityData data) =>
+        _watcher.JoiningFriend && !string.IsNullOrEmpty(data.JobId) && string.Equals(Volatile.Read(ref _friendJobId), data.JobId, StringComparison.OrdinalIgnoreCase);
 
     public static bool IsEnabled()
     {

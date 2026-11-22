@@ -4004,6 +4004,12 @@ Mida sa teha tahaksid?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Mõõda ping iga andmekeskuseni uuesti, selle asemel et kasutada salvestatud tulemusi</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Jää sõprade serveritesse</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Kui liitud sõbraga, jää tema serverisse, selle asemel et sind lähemasse viia</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Lülitage üks välja, et teid kunagi sinna paigutada. Kui Roblox viib teid blokeeritud andmekeskusesse, viib Voidstrap teid välja.</value>
   </data>

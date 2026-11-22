@@ -4004,6 +4004,12 @@ Zer egin nahiko zenuke?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Neurtu berriro datu zentro bakoitzerako ping-a, gordetako emaitzak erabili beharrean</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Geratu lagunen zerbitzarietan</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Lagun batekin bat egitean, mantendu haren zerbitzaria hurbilago dagoen batera eraman beharrean</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Itzali bat inoiz bertan ez jartzeko. Roblox blokeatutako datu-zentro batean sartzen bazaitu, Voidstrap-k kanpora eramango zaitu.</value>
   </data>

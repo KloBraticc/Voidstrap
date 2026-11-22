@@ -4004,6 +4004,12 @@ Roblox డౌన్లోడ్ చేయబడుతుంది. మీరు 
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>సేవ్ చేసిన ఫలితాలను వాడకుండా ప్రతి డేటాసెంటర్‌కు పింగ్‌ను మళ్లీ కొలవండి</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>స్నేహితుల సర్వర్లలో ఉండండి</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>స్నేహితుడితో చేరినప్పుడు మిమ్మల్ని దగ్గరి సర్వర్‌కు మార్చకుండా వారి సర్వర్‌లోనే ఉంచుతుంది</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ఎప్పుడూ అక్కడ ఉంచబడకుండా ఒకదాన్ని ఆఫ్ చేయండి. Roblox మిమ్మల్ని బ్లాక్ చేయబడిన డేటాసెంటర్లో ఉంచినట్లయితే, Voidstrap మిమ్మల్ని బయటకు తరలిస్తుంది.</value>
   </data>

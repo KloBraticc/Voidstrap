@@ -4004,6 +4004,12 @@ Yini ongathanda ukuyenza?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Phinda ukale i-ping esikhungweni ngasinye sedatha esikhundleni sokusebenzisa imiphumela egciniwe</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Hlala kumaseva abangane</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Uma ujoyina umngane, gcina iseva yakhe esikhundleni sokukususela kwesiseduze</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Vala okukodwa ukuze ungalokothi ubekwe lapho. Uma i- Roblox ikubeka endaweni yedatha evinjiwe, i- Voidstrap ikukhipha.</value>
   </data>

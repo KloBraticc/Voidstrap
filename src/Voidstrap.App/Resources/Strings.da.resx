@@ -4004,6 +4004,12 @@ Hvad vil du gerne lave?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Mål pingen til hvert datacenter igen i stedet for at bruge gemte resultater</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Bliv på venners servere</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Når du slutter dig til en ven, beholdes vennens server i stedet for at flytte dig til en tættere</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Sluk en for aldrig at blive placeret der. Hvis Roblox placerer dig i et blokeret datacenter, flytter Voidstrap dig ud.</value>
   </data>

@@ -4139,6 +4139,12 @@ Que souhaitez-vous faire ?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Mesurez à nouveau le ping vers chaque centre de données au lieu d'utiliser les résultats enregistrés</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Rester sur les serveurs d'amis</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Lorsque vous rejoignez un ami, gardez son serveur au lieu d'être déplacé vers un serveur plus proche</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Désactivez-en un pour ne jamais y être placé. Si Roblox vous place dans un centre bloqué, Voidstrap vous en sort.</value>
   </data>

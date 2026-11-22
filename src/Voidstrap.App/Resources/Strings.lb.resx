@@ -4004,6 +4004,12 @@ Wat géift Dir gären maachen?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>De Ping op all Datenzentrum nach eng Kéier moossen amplaz gespäichert Resultater ze benotzen</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Op de Serveren vu Frënn bleiwen</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Wann s du engem Frënd bäitrëtts, bleif op sengem Server amplaz op ee méi noen verluecht ze ginn</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Schalt een aus fir ni do plazéiert ze ginn. Wann Roblox Iech an e blockéierten Datacenter setzt, bewegt Voidstrap Iech eraus.</value>
   </data>

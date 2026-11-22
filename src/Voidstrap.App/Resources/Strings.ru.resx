@@ -4221,6 +4221,12 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Измерить пинг до каждого дата центра заново вместо использования сохранённых результатов</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Оставаться на серверах друзей</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>При присоединении к другу оставаться на его сервере, а не переходить на более близкий</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Отключите один, чтобы никогда туда не попадать. Если Roblox поместит Вас в заблокированный дата-центр, Voidstrap перенесёт Вас.</value>
   </data>

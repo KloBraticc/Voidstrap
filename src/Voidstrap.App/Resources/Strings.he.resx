@@ -4004,6 +4004,12 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>מדוד שוב את הפינג לכל מרכז נתונים במקום להשתמש בתוצאות שמורות</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>להישאר בשרתים של חברים</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>כשאתה מצטרף לחבר, השאר בשרת שלו במקום להעביר אותך לשרת קרוב יותר</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>כבה אחד כדי שלעולם לא יוצב שם. אם Roblox מכניס אותך למרכז נתונים חסום, Voidstrap מעביר אותך החוצה.</value>
   </data>

@@ -45,6 +45,8 @@ public partial class Watcher : IDisposable
 
     public int RobloxProcessId => _watcherData?.ProcessId ?? 0;
 
+    public bool JoiningFriend => _watcherData?.JoiningFriend ?? false;
+
     public IntegrationWatcher? IntegrationWatcher;
 
     public WindowController? WindowController;

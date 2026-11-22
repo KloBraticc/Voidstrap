@@ -4221,6 +4221,12 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Đo lại ping đến từng trung tâm dữ liệu thay vì dùng kết quả đã lưu</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Ở lại máy chủ của bạn bè</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Khi bạn tham gia cùng bạn bè, giữ máy chủ của họ thay vì chuyển bạn sang máy chủ gần hơn</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Tắt một nơi để không bao giờ bị đưa vào đó. Nếu Roblox đưa bạn vào trung tâm bị chặn, Voidstrap sẽ chuyển bạn ra.</value>
   </data>

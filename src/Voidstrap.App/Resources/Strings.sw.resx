@@ -4004,6 +4004,12 @@ Je, ungependa kufanya nini?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Pima tena ping kwa kila kituo cha data badala ya kutumia matokeo yaliyohifadhiwa</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Baki kwenye seva za marafiki</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Unapojiunga na rafiki, baki kwenye seva yake badala ya kuhamishwa kwenda iliyo karibu zaidi</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Zima moja ili usiwahi kuwekwa hapo. Ikiwa Roblox itakuweka kwenye kituo cha data kilichozuiwa, Voidstrap itakutoa nje.</value>
   </data>

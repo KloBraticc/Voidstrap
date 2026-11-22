@@ -4004,6 +4004,12 @@ Roblox នឹងត្រូវបានទាញយក នៅពេលអ្ន
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>វាស់ ping ទៅមជ្ឈមណ្ឌលទិន្នន័យនីមួយៗម្ដងទៀត ជំនួសឱ្យការប្រើលទ្ធផលដែលបានរក្សាទុក</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>នៅក្នុងម៉ាស៊ីនមេរបស់មិត្តភក្តិ</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>នៅពេលអ្នកចូលរួមជាមួយមិត្តភក្តិ រក្សាម៉ាស៊ីនមេរបស់គេ ជំនួសឱ្យការផ្លាស់អ្នកទៅម៉ាស៊ីនមេដែលនៅជិតជាង</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>បិទមួយដើម្បីកុំឱ្យដាក់នៅទីនោះ។ ប្រសិនបើ Roblox ដាក់អ្នកនៅក្នុងមជ្ឈមណ្ឌលទិន្នន័យដែលត្រូវបានរារាំងនោះ Voidstrap នឹងផ្លាស់ទីអ្នកចេញ។</value>
   </data>

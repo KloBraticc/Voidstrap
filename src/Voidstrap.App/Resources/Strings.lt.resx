@@ -4251,6 +4251,12 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Iš naujo išmatuokite ping iki kiekvieno duomenų centro, užuot naudoję išsaugotus rezultatus</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Likti draugų serveriuose</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Kai prisijungiate prie draugo, liekate jo serveryje, užuot buvę perkelti į artimesnį</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Išjunkite vieną, kad niekada ten nepatektumėte. Jei Roblox jus įkels į užblokuotą centrą, Voidstrap jus perkels.</value>
   </data>

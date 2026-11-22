@@ -4209,6 +4209,12 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Mide de nuevo el ping a cada centro de datos en lugar de usar los resultados guardados</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Quedarse en servidores de amigos</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Cuando te unes a un amigo, mantén su servidor en lugar de moverte a uno más cercano</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Desactiva uno para no ser colocado nunca ahí. Si Roblox te coloca en un centro bloqueado, Voidstrap te saca.</value>
   </data>

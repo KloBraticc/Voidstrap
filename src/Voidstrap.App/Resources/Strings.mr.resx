@@ -4004,6 +4004,12 @@ Roblox तुम्ही प्रथमचVoidstrap द्वारे लॉ�
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>जतन केलेले निकाल वापरण्याऐवजी प्रत्येक डेटासेंटरचा पिंग पुन्हा मोजा</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>मित्रांच्या सर्व्हरमध्ये रहा</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>मित्रात सामील झाल्यावर तुम्हाला जवळच्या सर्व्हरवर हलवण्याऐवजी त्यांचा सर्व्हर ठेवा</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>तेथे कधीही न ठेवण्यासाठी एक बंद करा. Roblox ने तुम्हाला ब्लॉक केलेल्या डेटासेंटरमध्ये ठेवल्यास, Voidstrap तुम्हाला बाहेर हलवते.</value>
   </data>

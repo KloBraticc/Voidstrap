@@ -344,6 +344,11 @@ public partial class Bootstrapper
         {
             return launchCommandLine;
         }
+        if (ServerMatchmaker.StaysWithFriend(launchCommandLine))
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Joining a friend, launching with the original URL");
+            return launchCommandLine;
+        }
         if (ServerMatchmaker.IsExcluded(placeId))
         {
             App.Logger.WriteLine(

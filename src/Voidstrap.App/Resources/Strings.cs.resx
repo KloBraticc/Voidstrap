@@ -4197,6 +4197,12 @@ Co chcete udělat?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Znovu změřte odezvu ke každému datovému centru místo použití uložených výsledků</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Zůstat na serverech přátel</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Když se připojíte k příteli, zůstanete na jeho serveru, místo přesunu na bližší</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Vypněte některé, abyste do něj nikdy nebyli umístěni. Pokud vás Roblox umístí do blokovaného centra, Voidstrap vás přesune.</value>
   </data>

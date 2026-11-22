@@ -4004,6 +4004,12 @@ Roblox നിങ്ങൾ ആദ്യമായിVoidstrap വഴി ലോഞ�
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>സംരക്ഷിച്ച ഫലങ്ങൾ ഉപയോഗിക്കുന്നതിന് പകരം ഓരോ ഡാറ്റാ സെന്ററിലേക്കുമുള്ള പിംഗ് വീണ്ടും അളക്കുക</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>സുഹൃത്തുക്കളുടെ സെർവറുകളിൽ തുടരുക</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>ഒരു സുഹൃത്തിനൊപ്പം ചേരുമ്പോൾ അടുത്തുള്ള സെർവറിലേക്ക് മാറ്റുന്നതിന് പകരം അവരുടെ സെർവറിൽ തുടരുക</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ഒരിക്കലും അവിടെ സ്ഥാപിക്കാതിരിക്കാൻ ഒരെണ്ണം ഓഫ് ചെയ്യുക. Roblox നിങ്ങളെ ഒരു ബ്ലോക്ക് ചെയ്ത ഡാറ്റാസെൻ്ററിൽ ഉൾപ്പെടുത്തുകയാണെങ്കിൽ, Voidstrap നിങ്ങളെ പുറത്തേക്ക് നീക്കും.</value>
   </data>

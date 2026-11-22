@@ -4004,6 +4004,12 @@ Kion vi ŝatus fari?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Mezuri la pingon al ĉiu datumcentro denove anstataŭ uzi konservitajn rezultojn</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Resti en serviloj de amikoj</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Kiam vi aliĝas al amiko, konservu ĝian servilon anstataŭ movi vin al pli proksima</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Malŝaltu unu por neniam esti metita tie. Se Roblox metas vin en blokitan datumcentron, Voidstrap movas vin eksteren.</value>
   </data>

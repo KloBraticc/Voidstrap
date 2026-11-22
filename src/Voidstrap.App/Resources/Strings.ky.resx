@@ -4004,6 +4004,12 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Сакталган жыйынтыктардын ордуна ар бир маалымат борборуна пингди кайра өлчөө</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Достордун серверлеринде калуу</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Досуңузга кошулганда сизди жакыныраак серверге которбостон анын серверинде калтыруу</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Эч качан ал жерге жайгаштырбоо үчүн бирди өчүрүңүз. Эгерде Roblox сизди бөгөттөлгөн маалымат борборуна киргизсе, Voidstrap сизди сыртка жылдырат.</value>
   </data>

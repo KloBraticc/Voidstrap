@@ -4188,6 +4188,12 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Ukur semula ping ke setiap pusat data dan bukannya menggunakan keputusan yang disimpan</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Kekal dalam pelayan rakan</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Apabila anda menyertai rakan, kekalkan pelayannya dan bukannya memindahkan anda ke pelayan yang lebih dekat</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Matikan satu supaya anda tidak pernah diletakkan di sana. Jika Roblox meletakkan anda di pusat data yang disekat, Voidstrap memindahkan anda.</value>
   </data>

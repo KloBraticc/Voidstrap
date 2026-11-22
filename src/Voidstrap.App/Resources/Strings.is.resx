@@ -4004,6 +4004,12 @@ Hvað myndir þú vilja gera?</value>
   <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
     <value>Mæla pingið til hvers gagnavers aftur í stað þess að nota vistaðar niðurstöður</value>
   </data>
+  <data name="Ui.Bootstrapper.StayWithFriends" xml:space="preserve">
+    <value>Vera á netþjónum vina</value>
+  </data>
+  <data name="Ui.Bootstrapper.StayWithFriendsDescription" xml:space="preserve">
+    <value>Þegar þú gengur til liðs við vin, haltu netþjóni hans í stað þess að færa þig á nær netþjón</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Slökktu á einum til að vera aldrei settur þar. Ef Roblox setur þig í lokaða gagnaver, flytur Voidstrap þig út.</value>
   </data>
