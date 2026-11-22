@@ -62,22 +62,13 @@ public partial class LaunchMenuDialog : WpfUiWindow
             StaysOpen = true,
         };
         menu.Items.Add(new MenuItem { Header = _viewModel.CurrentAccountTitle, IsEnabled = false });
-        menu.Items.Add(new Separator());
+        menu.Items.Add(CreateAccountMenuSeparator());
         foreach (AccountChoice choice in _viewModel.OtherAccounts)
             menu.Items.Add(CreateAccountMenuItem(choice));
         if (menu.Items.Count == 2)
             menu.Items.Add(new System.Windows.Controls.MenuItem { Header = Strings.Accounts_Empty, IsEnabled = false });
 
-        Separator separator = new()
-        {
-            Height = 1,
-            Margin = new Thickness(8, 4, 8, 4),
-            BorderThickness = new Thickness(0, 1, 0, 0),
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-        };
-        separator.Style = (Style)FindResource(System.Windows.Controls.MenuItem.SeparatorStyleKey);
-        separator.SetResourceReference(Control.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
-        menu.Items.Add(separator);
+        menu.Items.Add(CreateAccountMenuSeparator());
         _verifyAllAccountsItem = new System.Windows.Controls.MenuItem
         {
             Header = Strings.Accounts_CheckAll,
@@ -99,6 +90,18 @@ public partial class LaunchMenuDialog : WpfUiWindow
         menu.Closed += AccountMenu_Closed;
         _accountMenu = menu;
         menu.IsOpen = true;
+    }
+
+    private Separator CreateAccountMenuSeparator()
+    {
+        Separator separator = new()
+        {
+            Margin = new Thickness(4, 2, 4, 2),
+            BorderThickness = new Thickness(0, 1, 0, 0),
+            Style = (Style)FindResource(MenuItem.SeparatorStyleKey),
+        };
+        separator.SetResourceReference(Control.BorderBrushProperty, "DividerStrokeColorDefaultBrush");
+        return separator;
     }
 
     private MenuItem CreateAccountMenuItem(AccountChoice choice)
