@@ -14,6 +14,9 @@
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <conv:TagColorConverter x:Key="TagColorConverter" />
+      <Style x:Key="FastFlagsEditingTextBoxStyle" TargetType="{x:Type TextBox}" BasedOn="{x:Static DataGridTextColumn.DefaultEditingElementStyle}">
+        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+      </Style>
     </ResourceDictionary>
   </FrameworkElement.Resources>
 
@@ -141,7 +144,7 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTextColumn x:Name="NameColumn" Width="2*" Header="{resources:Loc Common_Name}" Binding="{Binding Name}">
+          <DataGridTextColumn x:Name="NameColumn" EditingElementStyle="{StaticResource FastFlagsEditingTextBoxStyle}" Width="2*" Header="{resources:Loc Common_Name}" Binding="{Binding Name}">
             <DataGridTextColumn.ElementStyle>
               <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="VerticalAlignment" Value="Center" />
@@ -150,7 +153,7 @@
             </DataGridTextColumn.ElementStyle>
           </DataGridTextColumn>
 
-          <DataGridTextColumn x:Name="ValueColumn" Width="*" Header="{resources:Loc Common_Value}" Binding="{Binding Value}">
+          <DataGridTextColumn x:Name="ValueColumn" EditingElementStyle="{StaticResource FastFlagsEditingTextBoxStyle}" Width="*" Header="{resources:Loc Common_Value}" Binding="{Binding Value}">
             <DataGridTextColumn.ElementStyle>
               <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="VerticalAlignment" Value="Center" />
