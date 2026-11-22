@@ -55,7 +55,7 @@ namespace Voidstrap.UI.ViewModels.Installer
             }
         }
 
-        public bool CanOpenAccounts => !_accountsBusy;
+        public bool CanOpenAccounts => !_accountsBusy && SavedAccounts.SwitchingSupported;
 
         public bool CanSwitchAccounts => SavedAccounts.SwitchingSupported && !_accountsBusy;
 
@@ -249,6 +249,7 @@ namespace Voidstrap.UI.ViewModels.Installer
 
         public void SelectTarget(object target)
         {
+            bool accountSwitchingWasSupported = SavedAccounts.SwitchingSupported;
             switch (target)
             {
                 case DownloadsViewModel.ClientItem client:
@@ -272,6 +273,14 @@ namespace Voidstrap.UI.ViewModels.Installer
             }
             App.Settings.SaveDeferred();
             OnPropertyChanged(nameof(SelectedTargetName));
+            if (accountSwitchingWasSupported != SavedAccounts.SwitchingSupported)
+            {
+                OnPropertyChanged(nameof(AccountSelectorVisibility));
+                OnPropertyChanged(nameof(CanOpenAccounts));
+                OnPropertyChanged(nameof(CanSwitchAccounts));
+                if (SavedAccounts.SwitchingSupported)
+                    _ = LoadAccountsAsync();
+            }
         }
 
         private void LaunchSettings() => CloseWindowRequest?.Invoke(this, NextAction.LaunchSettings);

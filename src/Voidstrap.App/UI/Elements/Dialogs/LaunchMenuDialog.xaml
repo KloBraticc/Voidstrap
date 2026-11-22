@@ -78,7 +78,7 @@
               </StackPanel>
             </Button>
             <Rectangle Grid.Column="1" Width="1" Margin="0,10" Fill="{DynamicResource CardStrokeColorDefaultBrush}" />
-            <Button x:Name="LaunchTargetButton" Grid.Column="2" Width="44" Padding="0" Tag="0,4,4,0" Style="{StaticResource LaunchSplitPartStyle}" TabIndex="1" AutomationProperties.Name="{resources:Loc LaunchMenu_SelectVersion}" ToolTip="{resources:Loc LaunchMenu_SelectVersion}" Click="LaunchTargetButton_Click">
+            <Button x:Name="LaunchTargetButton" Grid.Column="2" Width="44" IsEnabled="{Binding CanLeaveLaunchMenu}" Padding="0" Tag="0,4,4,0" Style="{StaticResource LaunchSplitPartStyle}" TabIndex="1" AutomationProperties.Name="{resources:Loc LaunchMenu_SelectVersion}" ToolTip="{resources:Loc LaunchMenu_SelectVersion}" Click="LaunchTargetButton_Click">
               <ui:SymbolIcon x:Name="LaunchTargetChevron" Symbol="ChevronDown24" FontSize="14" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
                 <ui:SymbolIcon.RenderTransform>
                   <RotateTransform x:Name="LaunchTargetChevronRotation" Angle="0" />
