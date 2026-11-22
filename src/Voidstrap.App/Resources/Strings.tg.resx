@@ -6685,6 +6685,24 @@ Voidstrap ба ҷузвдони мизи корӣ навишта натавон�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Док сессия</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Тарҳбандии Док сессия</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Нишонаҳо ё тасвирҳои худро интихоб кунед, амалҳоро нишон диҳед ё пинҳон кунед ва тартиби унсурҳои Док сессия-ро иваз кунед.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Интихоби нишонаи Док сессия</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Намоён</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Пинҳон</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Танзимотҳо ва Студияи Overlay ҳамеша намоён мемонанд, то ин муҳаррирро дубора кушода тавонед.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Кроссэйр</value>
   </data>

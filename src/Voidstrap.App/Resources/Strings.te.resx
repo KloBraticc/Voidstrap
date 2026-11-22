@@ -6685,6 +6685,24 @@ Voidstrap డెస్క్టాప్ ఫోల్డర్కి వ్ర�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>సెషన్ డాక్</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>సెషన్ డాక్ లేఅవుట్</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>ఐకాన్‌లు లేదా సొంత చిత్రాలను ఎంచుకోండి, చర్యలను చూపండి లేదా దాచండి, మరియు సెషన్ డాక్ అంశాల క్రమాన్ని మార్చండి.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>సెషన్ డాక్ ఐకాన్‌ను ఎంచుకోండి</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>చూపబడింది</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>దాచబడింది</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ఈ ఎడిటర్‌ను మళ్లీ తెరవడానికి సెట్టింగ్లు మరియు అతివ్యాప్తి స్టూడియో ఎల్లప్పుడూ కనిపిస్తాయి.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>క్రాస్ షైర్</value>
   </data>

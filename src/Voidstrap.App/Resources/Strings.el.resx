@@ -6685,6 +6685,24 @@
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Αποβάθρα συνεδρίας</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Διάταξη: Αποβάθρα συνεδρίας</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Επιλέξτε εικονίδια ή δικές σας εικόνες, εμφανίστε ή αποκρύψτε ενέργειες και αλλάξτε τη σειρά των στοιχείων: Αποβάθρα συνεδρίας.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Επιλογή εικονιδίου: Αποβάθρα συνεδρίας</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Εμφανίζεται</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Κρυφό</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Οι Ρυθμίσεις και το Overlay Studio παραμένουν πάντα ορατά ώστε να μπορείτε να ανοίξετε ξανά αυτόν τον επεξεργαστή.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Σταυρόνημα</value>
   </data>

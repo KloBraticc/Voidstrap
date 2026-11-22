@@ -6685,6 +6685,24 @@ Voidstrap ഡെസ്ക്ടോപ്പ് ഫോൾഡറിലേക്ക
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>സെഷൻ ഡോക്ക്</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>സെഷൻ ഡോക്ക് ലേഔട്ട്</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>ഐക്കണുകളോ സ്വന്തം ചിത്രങ്ങളോ തിരഞ്ഞെടുക്കുക, പ്രവർത്തനങ്ങൾ കാണിക്കുകയോ മറയ്ക്കുകയോ ചെയ്യുക, സെഷൻ ഡോക്ക് ഇനങ്ങളുടെ ക്രമം മാറ്റുക.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>സെഷൻ ഡോക്ക് ഐക്കൺ തിരഞ്ഞെടുക്കുക</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>കാണിക്കുന്നു</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>മറച്ചിരിക്കുന്നു</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ഈ എഡിറ്റർ വീണ്ടും തുറക്കാൻ കഴിയുന്നതിനായി ക്രമീകരണങ്ങൾ, ഓവർലേ സ്റ്റുഡിയോ എന്നിവ എപ്പോഴും ദൃശ്യമായിരിക്കും.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ക്രോസ്ഷെയർ</value>
   </data>

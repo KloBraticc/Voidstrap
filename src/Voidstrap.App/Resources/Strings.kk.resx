@@ -6685,6 +6685,24 @@ Voidstrap жұмыс үстелі қалтасына жаза алмады.</val
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Сеанс док</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Сеанс док орналасуы</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Белгішелерді немесе өз суреттеріңізді таңдаңыз, әрекеттерді көрсетіңіз не жасырыңыз және Сеанс док элементтерінің ретін өзгертіңіз.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Сеанс док белгішесін таңдау</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Көрсетілген</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Жасырын</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Бұл редакторды қайта аша алуыңыз үшін Параметрлер мен Overlay Studio әрқашан көрініп тұрады.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Кросшер</value>
   </data>

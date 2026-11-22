@@ -6890,6 +6890,24 @@ Virhe: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Istuntotelakka</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Istuntotelakan asettelu</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Valitse kuvakkeet tai omat kuvat, näytä tai piilota toimintoja ja järjestä istuntotelakan kohteet uudelleen.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Valitse istuntotelakan kuvake</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Näkyvissä</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Piilotettu</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Asetukset ja Peittokuvastudio pysyvät aina näkyvissä, jotta voit avata tämän editorin uudelleen.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Tähtäin</value>
   </data>

@@ -6685,6 +6685,24 @@ Hapa: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Wātū Tauranga</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Tahora Wātū Tauranga</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Kōwhiria he ata iti, he whakaahua ritenga rānei, whakaaturia, hunaia rānei ngā mahi, ka whakaraupapa anō i ngā tūemi Wātū Tauranga.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Kōwhiria te ata iti Wātū Tauranga</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>E whakaaturia ana</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Huna</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Ka kitea tonu a Tautuhinga me Paparua Studio kia taea ai e koe te whakatuwhera anō i tēnei ētita.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Whakawhitiwhiti</value>
   </data>

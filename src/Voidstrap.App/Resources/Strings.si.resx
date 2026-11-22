@@ -6685,6 +6685,24 @@ Voidstrap ඩෙස්ක්ටොප් ෆෝල්ඩරයට ලිවී�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>සැසි ඩොක්</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>සැසි ඩොක් පිරිසැලසුම</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>අයිකන හෝ අභිරුචි රූප තෝරන්න, ක්‍රියා පෙන්වන්න හෝ සඟවන්න, සහ සැසි ඩොක් අයිතමවල අනුපිළිවෙල වෙනස් කරන්න.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>සැසි ඩොක් අයිකනය තෝරන්න</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>පෙන්වයි</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>සඟවා ඇත</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ඔබට මෙම සංස්කාරකය නැවත විවෘත කිරීමට හැකි වන පරිදි සැකසීම් සහ Overlay Studio සැමවිටම දිස් වේ.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>හරස්කඩ</value>
   </data>

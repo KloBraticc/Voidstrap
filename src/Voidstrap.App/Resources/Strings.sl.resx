@@ -6685,6 +6685,24 @@ Napaka: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Sejna vrstica</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Postavitev: Sejna vrstica</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Izberite ikone ali lastne slike, prikažite ali skrijte dejanja in spremenite vrstni red elementov: Sejna vrstica.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Izberite ikono: Sejna vrstica</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Prikazano</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Skrito</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Nastavitve in Overlay Studio vedno ostanejo vidni, da lahko znova odprete ta urejevalnik.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Nitni križ</value>
   </data>

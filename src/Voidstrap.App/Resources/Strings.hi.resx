@@ -6685,6 +6685,24 @@ Voidstrap डेस्कटॉप फ़ोल्डर में नहीं 
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>सत्र डॉक</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>सत्र डॉक लेआउट</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>आइकन या अपनी इमेज चुनें, एक्शन दिखाएँ या छिपाएँ, और सत्र डॉक आइटम का क्रम बदलें।</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>सत्र डॉक आइकन चुनें</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>दिखाया गया</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>छिपा हुआ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>सेटिंग्स और ओवरले स्टूडियो हमेशा दिखते रहते हैं ताकि आप इस एडिटर को फिर से खोल सकें।</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>क्रॉसहेयर</value>
   </data>

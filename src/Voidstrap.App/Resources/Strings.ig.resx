@@ -6685,6 +6685,24 @@ Voidstrap enweghị ike ide na nchekwa desktọpụ.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Dock Oge</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Nhazi Dock Oge</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Họrọ akara ngosi ma ọ bụ onyonyo nke gị, gosi ma ọ bụ zoo omume, ma hazigharịa ihe ndị dị na Dock Oge.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Họrọ akara ngosi Dock Oge</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Egosiri</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Ezoro ezo</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Ntọala na Ụlọ ihe nkiri machie na-anọgide na-ahụ anya mgbe niile ka ị nwee ike imeghe onye nchịkọta a ọzọ.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

@@ -6685,6 +6685,24 @@ Voidstrap ba zai iya rubutawa zuwa babban fayil ɗin tebur ba.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Dokin Zama</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Tsarin Dokin Zama</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Zaɓi gumaka ko hotunan kanka, nuna ko ɓoye ayyuka, kuma sake tsara abubuwan Dokin Zama.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Zaɓi gunkin Dokin Zama</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Ana nunawa</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>A ɓoye</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Saituna da Mai rufi Studio koyaushe suna bayyane don ka iya sake buɗe wannan editan.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

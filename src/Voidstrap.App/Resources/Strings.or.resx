@@ -6685,6 +6685,24 @@ Voidstrap ଡେସ୍କଟପ୍ ଫୋଲ୍ଡରକୁ ଲେଖିପା�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>ଅଧିବେଶନ ଡକ୍ |</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>ଅଧିବେଶନ ଡକ୍ ଲେଆଉଟ୍</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>ଆଇକନ୍ କିମ୍ବା ନିଜସ୍ୱ ଛବି ବାଛନ୍ତୁ, କାର୍ଯ୍ୟଗୁଡ଼ିକ ଦେଖାନ୍ତୁ କିମ୍ବା ଲୁଚାନ୍ତୁ, ଏବଂ ଅଧିବେଶନ ଡକ୍ ଆଇଟମଗୁଡ଼ିକର କ୍ରମ ବଦଳାନ୍ତୁ।</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>ଅଧିବେଶନ ଡକ୍ ଆଇକନ୍ ବାଛନ୍ତୁ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ଦେଖାଯାଉଛି</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>ଲୁଚାଯାଇଛି</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ଆପଣ ଏହି ଏଡିଟର୍ ପୁଣି ଖୋଲିପାରିବେ ବୋଲି ସେଟିଂସମୂହ ଏବଂ ଓଭରଲେ ଷ୍ଟୁଡିଓ ସର୍ବଦା ଦେଖାଯାଏ।</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>କ୍ରସ୍ ଚେୟାର |</value>
   </data>

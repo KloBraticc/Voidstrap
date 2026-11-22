@@ -6896,6 +6896,24 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>工作階段停靠列</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>工作階段停靠列版面配置</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>選擇圖示或自訂圖片，顯示或隱藏動作，並重新排列工作階段停靠列中的項目。</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>選擇工作階段停靠列圖示</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>顯示</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>隱藏</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>設定和疊加層工坊會一直顯示，讓你可以重新開啟這個編輯器。</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>準星</value>
   </data>

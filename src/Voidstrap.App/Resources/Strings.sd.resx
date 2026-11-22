@@ -6685,6 +6685,24 @@ Voidstrap ڊيسڪ ٽاپ فولڊر ۾ نه لکي سگھيو.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>سيشن ڊاک</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>سيشن ڊاک جو خاڪو</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>آئڪن يا پنهنجون تصويرون چونڊيو، عمل ڏيکاريو يا لڪايو، ۽ سيشن ڊاک شين جي ترتيب بدلايو.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>سيشن ڊاک آئڪن چونڊيو</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ڏيکاريل</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>لڪيل</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>سيٽنگون ۽ اوورلي اسٽوڊيو هميشه نظر اچن ٿا ته جيئن توهان هي ايڊيٽر ٻيهر کولي سگهو.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ڪراسئر</value>
   </data>

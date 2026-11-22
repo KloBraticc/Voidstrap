@@ -6685,6 +6685,24 @@ Voidstrap نشي کولی د ډیسټاپ فولډر ته ولیکي.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>د سیشن ډاک</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>د د سیشن ډاک ترتیب</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>نښې یا خپل انځورونه وټاکئ، کړنې وښایاست یا پټې کړئ، او د د سیشن ډاک توکو ترتیب بدل کړئ.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>د د سیشن ډاک نښه وټاکئ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ښودل شوی</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>پټ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ترتیبات او پوښښ سټوډیو تل ښکاري ترڅو تاسو دا سمونګر بیا پرانیزئ.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>کراسشیر</value>
   </data>

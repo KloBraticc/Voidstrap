@@ -6854,6 +6854,24 @@ Fout: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Sessiedock</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Sessiedock indeling</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Kies pictogrammen of eigen afbeeldingen, toon of verberg acties en wijzig de volgorde van items in het Sessiedock.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Sessiedock pictogram kiezen</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Zichtbaar</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Verborgen</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Instellingen en Overlay editor blijven altijd zichtbaar, zodat je deze editor opnieuw kunt openen.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Vizier</value>
   </data>

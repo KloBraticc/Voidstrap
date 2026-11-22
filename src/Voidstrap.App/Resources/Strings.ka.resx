@@ -6685,6 +6685,24 @@ Voidstrap-მ დესკტოპის საქაღალდეში ვ�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>სესიის დოკი</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>სესიის დოკის განლაგება</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>აირჩიეთ ხატულები ან საკუთარი სურათები, აჩვენეთ ან დამალეთ მოქმედებები და შეცვალეთ სესიის დოკის ელემენტების რიგი.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>აირჩიეთ სესიის დოკის ხატულა</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ნაჩვენებია</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>დამალულია</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>პარამეტრები და Overlay Studio ყოველთვის ჩანს, რათა ამ რედაქტორის ხელახლა გახსნა შეძლოთ.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ჯვარედინი</value>
   </data>

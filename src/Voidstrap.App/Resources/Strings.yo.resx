@@ -6685,6 +6685,24 @@ Voidstrap ko le kọ si folda tabili.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Dock Ikoni</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Ìgbékalẹ̀ Dock Ikoni</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Yan àwọn àmì tàbí àwòrán tirẹ, fihàn tàbí fi àwọn ìṣe pamọ́, kí o sì tún ètò àwọn ohun inú Dock Ikoni ṣe.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Yan àmì Dock Ikoni</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Ó ń hàn</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Ó farapamọ́</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Eto àti Overlay Studio máa ń hàn nígbà gbogbo kí o lè tún olùṣàtúnṣe yìí ṣí.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

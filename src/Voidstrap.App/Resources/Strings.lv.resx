@@ -6685,6 +6685,24 @@ Kļūda: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Sesijas doks</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Sesijas doks izkārtojums</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Izvēlieties ikonas vai pielāgotus attēlus, rādiet vai paslēpiet darbības un mainiet Sesijas doks vienumu secību.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Izvēlieties Sesijas doks ikonu</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Redzams</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Paslēpts</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Iestatījumi un Overlay Studio vienmēr paliek redzami, lai jūs varētu atkārtoti atvērt šo redaktoru.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Krusts</value>
   </data>

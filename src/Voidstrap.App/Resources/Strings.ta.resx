@@ -6685,6 +6685,24 @@ Voidstrap டெஸ்க்டாப் கோப்புறையில் �
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>அமர்வு கப்பல்துறை</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>அமர்வு கப்பல்துறை தளவமைப்பு</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>ஐகான்கள் அல்லது சொந்தப் படங்களைத் தேர்ந்தெடுக்கவும், செயல்களைக் காட்டவும் அல்லது மறைக்கவும், அமர்வு கப்பல்துறை உருப்படிகளின் வரிசையை மாற்றவும்.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>அமர்வு கப்பல்துறை ஐகானைத் தேர்ந்தெடுக்கவும்</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>காட்டப்படுகிறது</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>மறைக்கப்பட்டது</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>இந்த எடிட்டரை மீண்டும் திறக்க அமைப்புகள் மற்றும் மேலடுக்கு ஸ்டுடியோ எப்போதும் தெரியும்.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>குறுக்குவெட்டு</value>
   </data>

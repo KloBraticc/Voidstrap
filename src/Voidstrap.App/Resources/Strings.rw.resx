@@ -6685,6 +6685,24 @@ Ikosa: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Isomo rya Dock</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Imiterere ya Isomo rya Dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Hitamo amashusho mato cyangwa amafoto yawe, erekana cyangwa uhishe ibikorwa, kandi usubiremo gahunda y'ibintu bya Isomo rya Dock.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Hitamo ishusho ya Isomo rya Dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Biragaragara</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Byahishwe</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Igenamiterere na Sitidiyo Yuzuye bihora bigaragara kugira ngo ushobore kongera gufungura iyi mwanditsi.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Intebe</value>
   </data>

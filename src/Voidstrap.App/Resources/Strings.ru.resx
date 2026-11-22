@@ -6902,6 +6902,24 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Док сессии</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Макет: Док сессии</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Выбирайте значки или свои изображения, показывайте или скрывайте действия и меняйте порядок элементов: Док сессии.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Выберите значок: Док сессии</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Показано</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Скрыто</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Настройки и Студия оверлея всегда остаются видимыми, чтобы Вы могли снова открыть этот редактор.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Прицел</value>
   </data>

@@ -6685,6 +6685,24 @@ Voidstrap рабочий папкага жаза алган жок.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Сессия панели</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Сессия панели жайгашуусу</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Сүрөтчөлөрдү же өз сүрөттөрүңүздү тандаңыз, аракеттерди көрсөтүңүз же жашырыңыз жана Сессия панели элементтеринин тартибин өзгөртүңүз.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Сессия панели сүрөтчөсүн тандоо</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Көрсөтүлгөн</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Жашырылган</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Бул редакторду кайра ача алышыңыз үчүн Орнотуулар жана Overlay Studio дайыма көрүнүп турат.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

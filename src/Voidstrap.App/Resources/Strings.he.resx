@@ -6685,6 +6685,24 @@ Voidstrap לא הצליח לכתוב לתיקיית שולחן העבודה.</va
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>רציף הפעלה</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>פריסת רציף הפעלה</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>בחרו סמלים או תמונות מותאמות, הציגו או הסתירו פעולות ושנו את סדר הפריטים ברציף הפעלה.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>בחירת סמל לרציף הפעלה</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>מוצג</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>מוסתר</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>הגדרות וסטודיו Overlay תמיד נשארים גלויים כדי שתוכלו לפתוח מחדש את העורך הזה.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>צלב שיער</value>
   </data>

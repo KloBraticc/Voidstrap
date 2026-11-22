@@ -6685,6 +6685,24 @@ Voidstrap не можа запісаць у тэчку працоўнага ст
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Док сеанса</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Макет: Док сеанса</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Выбірайце значкі або свае выявы, паказвайце або хавайце дзеянні і змяняйце парадак элементаў: Док сеанса.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Выберыце значок: Док сеанса</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Паказана</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Схавана</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Налады і Студыя накладанняў заўсёды застаюцца бачнымі, каб вы маглі зноў адкрыць гэты рэдактар.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Прыцэл</value>
   </data>

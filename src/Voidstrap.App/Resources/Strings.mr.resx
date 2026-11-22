@@ -6685,6 +6685,24 @@ Voidstrap डेस्कटॉप फोल्डरवर लिहू शक�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>सत्र डॉक</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>सत्र डॉक मांडणी</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>आयकॉन किंवा स्वतःच्या प्रतिमा निवडा, क्रिया दाखवा किंवा लपवा, आणि सत्र डॉक आयटमचा क्रम बदला.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>सत्र डॉक आयकॉन निवडा</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>दाखवले</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>लपवलेले</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>हा संपादक पुन्हा उघडता यावा म्हणून सेटिंग्ज आणि आच्छादन स्टुडिओ नेहमी दिसत राहतात.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>क्रॉसहेअर</value>
   </data>

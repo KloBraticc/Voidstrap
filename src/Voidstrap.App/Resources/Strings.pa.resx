@@ -6685,6 +6685,24 @@ Voidstrap ਡੈਸਕਟਾਪ ਫੋਲਡਰ ਵਿੱਚ ਨਹੀਂ ਲਿ
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>ਸੈਸ਼ਨ ਡੌਕ</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>ਸੈਸ਼ਨ ਡੌਕ ਲੇਆਉਟ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>ਆਈਕਨ ਜਾਂ ਆਪਣੀਆਂ ਤਸਵੀਰਾਂ ਚੁਣੋ, ਕਾਰਵਾਈਆਂ ਦਿਖਾਓ ਜਾਂ ਲੁਕਾਓ, ਅਤੇ ਸੈਸ਼ਨ ਡੌਕ ਆਈਟਮਾਂ ਦਾ ਕ੍ਰਮ ਬਦਲੋ।</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>ਸੈਸ਼ਨ ਡੌਕ ਆਈਕਨ ਚੁਣੋ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ਦਿਖਾਇਆ ਗਿਆ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>ਲੁਕਾਇਆ ਗਿਆ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ਤਾਂ ਜੋ ਤੁਸੀਂ ਇਹ ਐਡੀਟਰ ਦੁਬਾਰਾ ਖੋਲ੍ਹ ਸਕੋ, ਸੈਟਿੰਗਾਂ ਅਤੇ ਓਵਰਲੇ ਸਟੂਡੀਓ ਹਮੇਸ਼ਾ ਦਿਖਾਈ ਦਿੰਦੇ ਹਨ।</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ਕਰਾਸਹੇਅਰ</value>
   </data>

@@ -6685,6 +6685,24 @@ Voidstrap ले डेस्कटप फोल्डरमा लेख्न 
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>सत्र डक</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>सत्र डक लेआउट</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>आइकन वा आफ्नै छविहरू छान्नुहोस्, कार्यहरू देखाउनुहोस् वा लुकाउनुहोस्, र सत्र डक वस्तुहरूको क्रम बदल्नुहोस्।</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>सत्र डक आइकन छान्नुहोस्</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>देखाइएको</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>लुकाइएको</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>तपाईं यो सम्पादक फेरि खोल्न सक्नुहोस् भनेर सेटिङहरू र ओभरले स्टुडियो सधैं देखिन्छन्।</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>क्रससेयर</value>
   </data>

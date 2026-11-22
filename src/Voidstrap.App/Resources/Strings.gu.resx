@@ -6685,6 +6685,24 @@ Voidstrap ડેસ્કટોપ ફોલ્ડરમાં લખી શક�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>સત્ર ડોક</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>સત્ર ડોક લેઆઉટ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>આઇકન અથવા કસ્ટમ છબીઓ પસંદ કરો, ક્રિયાઓ બતાવો અથવા છુપાવો, અને સત્ર ડોક આઇટમનો ક્રમ બદલો.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>સત્ર ડોક આઇકન પસંદ કરો</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>બતાવેલ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>છુપાવેલ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>સેટિંગ્સ અને ઓવરલે સ્ટુડિયો હંમેશા દેખાય છે જેથી તમે આ એડિટર ફરીથી ખોલી શકો.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ક્રોસશેર</value>
   </data>

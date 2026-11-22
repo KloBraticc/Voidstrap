@@ -6685,6 +6685,24 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Boema-kepe ba Kopano</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Moralo oa Boema-kepe ba Kopano</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Khetha matšoao kapa litšoantšo tsa hau, bontša kapa u pate liketso, 'me u hlophise lintho tsa Boema-kepe ba Kopano bocha.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Khetha letšoao la Boema-kepe ba Kopano</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>E bontšitsoe</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>E patiloe</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Litlhophiso le Ho koahela Studio li lula li bonahala hore u tsebe ho bula mohlophisi enoa hape.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

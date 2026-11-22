@@ -6685,6 +6685,24 @@ Voidstrap scríobh chuig an bhfillteán deisce.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Duga an tSeisiúin</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Leagan amach Duga an tSeisiúin</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Roghnaigh deilbhíní nó íomhánna saincheaptha, taispeáin nó folaigh gníomhartha, agus athordaigh míreanna Duga an tSeisiúin.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Roghnaigh deilbhín Duga an tSeisiúin</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Ar taispeáint</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>I bhfolach</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Fanann Socruithe agus Stiúideo Forleagan infheicthe i gcónaí ionas gur féidir leat an t-eagarthóir seo a athoscailt.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosaire</value>
   </data>

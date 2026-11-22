@@ -6929,6 +6929,24 @@
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>شريط الجلسة</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>تخطيط شريط الجلسة</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>اختر أيقونات أو صورًا مخصصة، وأظهر الإجراءات أو أخفها، وأعد ترتيب عناصر شريط الجلسة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>اختر أيقونة شريط الجلسة</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ظاهر</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>مخفي</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>تبقى الإعدادات واستوديو الواجهة ظاهرة دائمًا حتى تتمكن من إعادة فتح هذا المحرر.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>علامة التصويب</value>
   </data>

@@ -6685,6 +6685,24 @@ Voidstrap ширээний хавтас руу бичиж чадсангүй.</v
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Сешний самбар</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Сешний самбар байршил</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Дүрс тэмдэг эсвэл өөрийн зургийг сонгож, үйлдлүүдийг харуулах эсвэл нууж, Сешний самбар зүйлсийн дарааллыг өөрчилнө үү.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Сешний самбар дүрс тэмдэг сонгох</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Харагдаж байна</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Нуугдсан</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Энэ засварлагчийг дахин нээх боломжтой байхын тулд Тохиргоо болон Overlay Studio үргэлж харагдана.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

@@ -6911,6 +6911,24 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>세션 독</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>세션 독 레이아웃</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>아이콘이나 사용자 지정 이미지를 선택하고, 작업을 표시하거나 숨기고, 세션 독 항목의 순서를 변경합니다.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>세션 독 아이콘 선택</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>표시됨</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>숨겨짐</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>이 편집기를 다시 열 수 있도록 설정과 오버레이 스튜디오는 항상 표시됩니다.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>조준선</value>
   </data>

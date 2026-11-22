@@ -6685,6 +6685,24 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Dock ຂອງເຊດຊັນ</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>ໂຄງຮ່າງ Dock ຂອງເຊດຊັນ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>ເລືອກໄອຄອນ ຫຼື ຮູບພາບສ່ວນຕົວ, ສະແດງ ຫຼື ເຊື່ອງການກະທຳ, ແລະ ຈັດລຳດັບລາຍການ Dock ຂອງເຊດຊັນ ຄືນໃໝ່.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>ເລືອກໄອຄອນ Dock ຂອງເຊດຊັນ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ສະແດງ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>ເຊື່ອງ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ການຕັ້ງຄ່າ ແລະ Overlay Studio ຈະສະແດງຢູ່ສະເໝີ ເພື່ອໃຫ້ທ່ານສາມາດເປີດຕົວແກ້ໄຂນີ້ຄືນໄດ້.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ຜົມຂ້າມ</value>
   </data>

@@ -6685,6 +6685,24 @@ Voidstrap није могао да пише у фасциклу радне по�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Сессион Доцк</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Распоред траке сесије</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Изаберите иконе или сопствене слике, прикажите или сакријте радње и промените редослед ставки траке сесије.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Изаберите икону траке сесије</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Приказано</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Сакривено</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Подешавања и Студио преклопа увек остају видљиви како бисте могли поново да отворите овај уређивач.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Цроссхаир</value>
   </data>

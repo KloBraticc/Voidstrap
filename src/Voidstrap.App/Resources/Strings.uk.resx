@@ -6911,6 +6911,24 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Док сесії</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Макет: Док сесії</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Вибирайте значки або власні зображення, показуйте чи приховуйте дії та змінюйте порядок елементів: Док сесії.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Виберіть значок: Док сесії</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Показано</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Приховано</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Налаштування і Студія оверлею завжди залишаються видимими, щоб Ви могли знову відкрити цей редактор.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Приціл</value>
   </data>

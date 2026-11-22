@@ -6685,6 +6685,24 @@ Voidstrap ডেস্কটপ ফোল্ডারে লিখতে পা�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>সেশন ডক</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>সেশন ডক লেআউট</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>আইকন বা নিজের ছবি বেছে নিন, অ্যাকশন দেখান বা লুকান, এবং সেশন ডক আইটেমগুলোর ক্রম বদলান।</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>সেশন ডক আইকন বেছে নিন</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>দেখানো হচ্ছে</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>লুকানো</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>সেটিংস এবং ওভারলে স্টুডিও সবসময় দৃশ্যমান থাকে যাতে আপনি এই এডিটরটি আবার খুলতে পারেন।</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ক্রসশেয়ার</value>
   </data>

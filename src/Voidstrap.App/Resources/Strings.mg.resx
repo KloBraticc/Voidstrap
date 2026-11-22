@@ -6685,6 +6685,24 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Dock fivoriana</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Fandaharan'ny Dock fivoriana</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Mifidiana kisary na sary manokana, asehoy na afeno ny asa, ary alamino indray ireo singa ao amin'ny Dock fivoriana.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Safidio ny kisarin'ny Dock fivoriana</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Aseho</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Miafina</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Miseho foana ny Fikirana sy Overlay Studio mba hahafahanao manokatra indray ity mpanova ity.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

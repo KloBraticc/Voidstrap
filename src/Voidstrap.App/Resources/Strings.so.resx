@@ -6685,6 +6685,24 @@ Voidstrap wax u qori kari waayay galka miiska.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Fadhiga Fadhiga</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Qaabka Xidhmada Fadhiga</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Dooro calaamado ama sawirro gaar ah, muuji ama qari falalka, oo dib u habee walxaha Xidhmada Fadhiga.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Dooro calaamadda Xidhmada Fadhiga</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>La muujiyay</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>La qariyay</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Dejinta iyo Istuudiye Dulqaad had iyo jeer way muuqdaan si aad mar kale u furto tafatirahan.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Timo-jaridda</value>
   </data>

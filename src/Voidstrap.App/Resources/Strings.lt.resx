@@ -6932,6 +6932,24 @@ Klaida: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Sesijos dokas</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Sesijos dokas išdėstymas</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Pasirinkite piktogramas arba savo vaizdus, rodykite arba slėpkite veiksmus ir pakeiskite Sesijos dokas elementų tvarką.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Pasirinkite Sesijos dokas piktogramą</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Rodoma</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Paslėpta</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Nustatymai ir Perdangos studija visada lieka matomi, kad galėtumėte vėl atidaryti šį redaktorių.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Taikiklis</value>
   </data>

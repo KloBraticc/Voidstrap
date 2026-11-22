@@ -6685,6 +6685,24 @@ Voidstrap သည် ဒက်စ်တော့ဖိုင်တွဲသို
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>ဆက်ရှင် ဒေါ့ခ်</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>ဆက်ရှင် ဒေါ့ခ် အပြင်အဆင်</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>အိုင်ကွန်များ သို့မဟုတ် စိတ်ကြိုက်ပုံများကို ရွေးပါ၊ လုပ်ဆောင်ချက်များကို ပြပါ သို့မဟုတ် ဖျောက်ပါ၊ ဆက်ရှင် ဒေါ့ခ် အရာများ၏ အစီအစဉ်ကို ပြန်စီပါ။</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>ဆက်ရှင် ဒေါ့ခ် အိုင်ကွန်ကို ရွေးပါ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ပြထားသည်</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>ဖျောက်ထားသည်</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ဤတည်းဖြတ်ကိရိယာကို ပြန်ဖွင့်နိုင်ရန် ဆက်တင်များ နှင့် ထပ်ဆင့်စတူဒီယို ကို အမြဲပြထားသည်။</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ဆံပင်ညှပ်</value>
   </data>

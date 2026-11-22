@@ -6685,6 +6685,24 @@ Voidstrap קען נישט שרייַבן צו די דעסקטאַפּ טעקע.<
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>סעסיע דאָק</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>סעסיע דאָק אויסלייג</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>קלייַבט אייקאָנען אָדער אייגענע בילדער, ווייַזט אָדער באַהאַלט אַקציעס, און ענדערט די סדר פון סעסיע דאָק זאַכן.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>קלייַבט סעסיע דאָק אייקאָן</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>געוויזן</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>באַהאַלטן</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>סעטטינגס און אָוווערליי סטודיאָ בלייבן שטענדיק קענטיק כדי איר זאָלט קענען ווידער עפענען דעם רעדאַקטאָר.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>קראָסשאַיר</value>
   </data>

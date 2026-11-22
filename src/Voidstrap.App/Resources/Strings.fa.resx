@@ -6935,6 +6935,24 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>نوار نشست</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>چیدمان نوار نشست</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>نمادها یا تصاویر دلخواه را انتخاب کنید، عملکردها را نمایش دهید یا پنهان کنید و ترتیب موارد نوار نشست را تغییر دهید.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>انتخاب نماد نوار نشست</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>نمایان</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>پنهان</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>تنظیمات و استودیوی پوشش تصویر همیشه نمایان می‌مانند تا بتوانید این ویرایشگر را دوباره باز کنید.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>نشانه گر</value>
   </data>

@@ -6685,6 +6685,24 @@ Voidstrap ma setax jikteb fil-folder tad-desktop.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Sessjoni Dock</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Tqassim tad Sessjoni Dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Agħżel ikoni jew stampi tiegħek, uri jew aħbi azzjonijiet, u erġa' ordna l oġġetti tad Sessjoni Dock.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Agħżel ikona tad Sessjoni Dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Muri</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Moħbi</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Settings u Overlay Studio jibqgħu dejjem viżibbli biex tkun tista' terġa' tiftaħ dan l editur.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

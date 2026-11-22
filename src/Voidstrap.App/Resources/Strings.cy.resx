@@ -6685,6 +6685,24 @@ Ni allaiVoidstrap ysgrifennu i'r ffolder bwrdd gwaith.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Doc Sesiwn</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Cynllun Doc Sesiwn</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Dewiswch eiconau neu ddelweddau personol, dangoswch neu cuddiwch gamau gweithredu, ac aildrefnwch eitemau'r Doc Sesiwn.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Dewiswch eicon Doc Sesiwn</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Yn cael ei ddangos</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Cudd</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Mae Gosodiadau a Stiwdio Troshaen bob amser yn aros yn weladwy er mwyn i chi allu ailagor y golygydd hwn.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Croeswallt</value>
   </data>

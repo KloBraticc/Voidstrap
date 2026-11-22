@@ -6685,6 +6685,24 @@ Voidstrap ئۈستەل يۈزى قىسقۇچىغا يازالمىدى.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>ئولتۇرۇش تاختىسى</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>ئولتۇرۇش تاختىسى ئورۇنلاشتۇرۇشى</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>سىنبەلگە ياكى ئۆزىڭىزنىڭ رەسىملىرىنى تاللاڭ، مەشغۇلاتلارنى كۆرسىتىڭ ياكى يوشۇرۇڭ ھەمدە ئولتۇرۇش تاختىسى تۈرلىرىنىڭ تەرتىپىنى ئۆزگەرتىڭ.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>ئولتۇرۇش تاختىسى سىنبەلگىسىنى تاللاڭ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>كۆرسىتىلدى</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>يوشۇرۇلدى</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>بۇ تەھرىرلىگۈچنى قايتا ئاچالىشىڭىز ئۈچۈن تەڭشەك ۋە Overlay Studio ھەمىشە كۆرۈنۈپ تۇرىدۇ.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

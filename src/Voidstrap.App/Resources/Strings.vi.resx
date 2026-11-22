@@ -6902,6 +6902,24 @@ Lỗi: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Thanh Phiên</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Bố cục Thanh Phiên</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Chọn biểu tượng hoặc hình ảnh tùy chỉnh, hiện hoặc ẩn thao tác và sắp xếp lại các mục trên Thanh Phiên.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Chọn biểu tượng Thanh Phiên</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Đang hiện</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Đã ẩn</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Cài đặt và Studio Lớp phủ luôn hiển thị để bạn có thể mở lại trình chỉnh sửa này.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Tâm ngắm</value>
   </data>

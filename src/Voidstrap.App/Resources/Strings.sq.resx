@@ -6685,6 +6685,24 @@ Voidstrap nuk mund të shkruante në dosjen e desktopit.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Doku i sesionit</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Struktura e Doku i sesionit</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Zgjidh ikona ose imazhe të personalizuara, shfaq ose fshih veprimet dhe rirendit elementet e Doku i sesionit.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Zgjidh ikonën e Doku i sesionit</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>E shfaqur</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>E fshehur</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Cilësimet dhe Studio mbivendosje mbeten gjithmonë të dukshme që të mund ta rihapësh këtë redaktues.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Kryqëzimi</value>
   </data>

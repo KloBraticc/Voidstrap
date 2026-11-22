@@ -6685,6 +6685,24 @@ Errorea: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Saioaren kaia</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Saioaren kaia diseinua</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Aukeratu ikonoak edo irudi pertsonalizatuak, erakutsi edo ezkutatu ekintzak eta berrantolatu Saioaren kaia elementuak.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Aukeratu Saioaren kaia ikonoa</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Ikusgai</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Ezkutatuta</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Ezarpenak eta Overlay Studio beti ikusgai geratzen dira editore hau berriro ireki ahal izateko.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Gurutzea</value>
   </data>

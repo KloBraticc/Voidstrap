@@ -6908,6 +6908,24 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>セッションドック</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>セッションドックのレイアウト</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>アイコンやカスタム画像を選び、アクションの表示と非表示を切り替え、セッションドックの項目を並べ替えます。</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>セッションドックのアイコンを選択</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>非表示</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>このエディターをもう一度開けるように、設定とオーバーレイスタジオは常に表示されます。</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>クロスヘア</value>
   </data>

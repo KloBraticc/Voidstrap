@@ -6685,6 +6685,24 @@ Voidstrap не можеше да запише во папката на рабо�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Док за сесија</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Распоред: Док за сесија</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Изберете икони или сопствени слики, прикажете или скријте дејства и променете го редоследот на ставките: Док за сесија.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Изберете икона: Док за сесија</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Прикажано</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Скриено</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Поставки и Студио за преклопување секогаш остануваат видливи за да можете повторно да го отворите овој уредувач.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Крос</value>
   </data>

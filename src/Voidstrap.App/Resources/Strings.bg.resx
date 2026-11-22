@@ -6899,6 +6899,24 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Лента на сесията</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Оформление: Лента на сесията</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Изберете икони или собствени изображения, показвайте или скривайте действия и пренареждайте елементите: Лента на сесията.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Изберете икона: Лента на сесията</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Показано</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Скрито</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Настройки и Студио за овърлей винаги остават видими, за да можете да отворите този редактор отново.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Мерник</value>
   </data>

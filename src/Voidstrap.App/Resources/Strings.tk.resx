@@ -6685,6 +6685,24 @@ roralňyşlyk: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Sessiýa dok</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Sessiýa dok ýerleşişi</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Nyşanlary ýa-da öz suratlaryňyzy saýlaň, hereketleri görkeziň ýa-da gizläň we Sessiýa dok elementleriniň tertibini üýtgediň.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Sessiýa dok nyşanyny saýlaň</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Görkezilýär</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Gizlenen</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Bu redaktory täzeden açyp bilmegiňiz üçin Sazlamalar we Örtük studiýasy hemişe görünýär.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Kreslo</value>
   </data>

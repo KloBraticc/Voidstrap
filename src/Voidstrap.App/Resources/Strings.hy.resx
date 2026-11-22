@@ -6685,6 +6685,24 @@ Voidstrap-ը չկարողացավ գրել աշխատասեղանի թղթապա
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Սեսիայի վահանակ</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Սեսիայի վահանակի դասավորություն</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Ընտրեք պատկերակներ կամ ձեր պատկերները, ցուցադրեք կամ թաքցրեք գործողությունները և վերադասավորեք Սեսիայի վահանակի տարրերը։</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Ընտրեք Սեսիայի վահանակի պատկերակը</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Ցուցադրված</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Թաքցված</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Կարգավորումները և Overlay Studioն միշտ տեսանելի են մնում, որպեսզի կարողանաք կրկին բացել այս խմբագրիչը։</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Խաչմերուկ</value>
   </data>

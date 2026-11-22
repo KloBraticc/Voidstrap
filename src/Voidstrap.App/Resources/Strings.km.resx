@@ -6685,6 +6685,24 @@ Voidstrap មិនអាចសរសេរទៅថតផ្ទៃតុបា�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Dock វគ្គ</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>ប្លង់ Dock វគ្គ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>ជ្រើសរើសរូបតំណាង ឬរូបភាពផ្ទាល់ខ្លួន បង្ហាញ ឬលាក់សកម្មភាព និងរៀបលំដាប់ធាតុ Dock វគ្គ ឡើងវិញ។</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>ជ្រើសរើសរូបតំណាង Dock វគ្គ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>បានបង្ហាញ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>បានលាក់</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ការកំណត់ និង ស្ទូឌីយោត្រួតលើគ្នា។ តែងតែមើលឃើញ ដើម្បីឱ្យអ្នកអាចបើកកម្មវិធីកែនេះម្តងទៀតបាន។</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>កោរសក់</value>
   </data>

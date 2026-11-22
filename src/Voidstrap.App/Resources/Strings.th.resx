@@ -6896,6 +6896,24 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>ด็อกเซสชัน</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>เค้าโครงด็อกเซสชัน</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>เลือกไอคอนหรือรูปภาพที่กำหนดเอง แสดงหรือซ่อนการทำงาน และจัดลำดับรายการในด็อกเซสชันใหม่</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>เลือกไอคอนด็อกเซสชัน</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>แสดง</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>ซ่อน</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>การตั้งค่าและสตูดิโอโอเวอร์เลย์จะแสดงอยู่เสมอ เพื่อให้คุณเปิดตัวแก้ไขนี้ได้อีกครั้ง</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>เป้าเล็ง</value>
   </data>

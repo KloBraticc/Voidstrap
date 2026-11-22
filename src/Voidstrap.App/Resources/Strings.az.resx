@@ -6685,6 +6685,24 @@ Xətası: {0}</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Sessiya Dok</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Sessiya Dok düzümü</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>İkonlar və ya xüsusi şəkillər seçin, əməliyyatları göstərin və ya gizlədin, Sessiya Dok elementlərinin sırasını dəyişin.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Sessiya Dok ikonunu seçin</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Göstərilir</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Gizlədilib</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Parametrlər və Overlay Studio həmişə görünür qalır ki, bu redaktoru yenidən aça biləsiniz.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Çarpaz</value>
   </data>

@@ -6685,6 +6685,24 @@ Voidstrap haikuweza kuandika kwa folda ya eneo-kazi.</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>Gati ya Kikao</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>Mpangilio wa Gati ya Kikao</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>Chagua aikoni au picha zako, onyesha au ficha vitendo, na upange upya vipengee vya Gati ya Kikao.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>Chagua aikoni ya Gati ya Kikao</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>Inaonyeshwa</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>Imefichwa</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>Mipangilio na Studio ya Kufunika huonekana kila wakati ili uweze kufungua kihariri hiki tena.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>Crosshair</value>
   </data>

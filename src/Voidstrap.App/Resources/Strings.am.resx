@@ -6685,6 +6685,24 @@ Voidstrap ወደ ዴስክቶፕ አቃፊው መፃፍ አልቻለም።</valu
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>ክፍለ መትከያ</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>የክፍለ መትከያ አቀማመጥ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>አዶዎችን ወይም ብጁ ምስሎችን ይምረጡ፣ እርምጃዎችን ያሳዩ ወይም ይደብቁ፣ እና የክፍለ መትከያ ንጥሎችን እንደገና ይደርድሩ።</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>የክፍለ መትከያ አዶ ይምረጡ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ይታያል</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>ተደብቋል</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ቅንብሮች እና ተደራቢ ስቱዲዮ ይህን አርታዒ እንደገና መክፈት እንዲችሉ ሁልጊዜ ይታያሉ።</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ተሻጋሪ ፀጉር</value>
   </data>

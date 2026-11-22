@@ -6685,6 +6685,24 @@ Voidstrap ڈیسک ٹاپ فولڈر میں نہیں لکھ سکتا۔</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>سیشن ڈاک</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>سیشن ڈاک لے آؤٹ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>آئیکنز یا اپنی تصاویر منتخب کریں، کارروائیاں دکھائیں یا چھپائیں، اور سیشن ڈاک آئٹمز کی ترتیب بدلیں۔</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>سیشن ڈاک آئیکن منتخب کریں</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>دکھایا گیا</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>چھپا ہوا</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ترتیبات اور اوورلے اسٹوڈیو ہمیشہ نظر آتے ہیں تاکہ آپ یہ ایڈیٹر دوبارہ کھول سکیں۔</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>کراسئر</value>
   </data>

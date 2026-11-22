@@ -6896,6 +6896,24 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>会话停靠栏</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>会话停靠栏布局</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>选择图标或自定义图片，显示或隐藏操作，并重新排列会话停靠栏中的项目。</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>选择会话停靠栏图标</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>设置和叠加层工坊会始终保持显示，以便您重新打开此编辑器。</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>准星</value>
   </data>

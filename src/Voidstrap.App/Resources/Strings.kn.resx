@@ -6685,6 +6685,24 @@ Voidstrap ಡೆಸ್ಕ್ಟಾಪ್ ಫೋಲ್ಡರ್ಗೆ ಬರೆ�
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
     <value>ಸೆಷನ್ ಡಾಕ್</value>
   </data>
+  <data name="Ui.OverlayStudio.DockActionLayout" xml:space="preserve">
+    <value>ಸೆಷನ್ ಡಾಕ್ ವಿನ್ಯಾಸ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionLayoutDescription" xml:space="preserve">
+    <value>ಐಕಾನ್‌ಗಳು ಅಥವಾ ಕಸ್ಟಮ್ ಚಿತ್ರಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ, ಕ್ರಿಯೆಗಳನ್ನು ತೋರಿಸಿ ಅಥವಾ ಮರೆಮಾಡಿ, ಮತ್ತು ಸೆಷನ್ ಡಾಕ್ ಐಟಂಗಳ ಕ್ರಮವನ್ನು ಬದಲಾಯಿಸಿ.</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionIconPickerTitle" xml:space="preserve">
+    <value>ಸೆಷನ್ ಡಾಕ್ ಐಕಾನ್ ಆಯ್ಕೆಮಾಡಿ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionShown" xml:space="preserve">
+    <value>ತೋರಿಸಲಾಗಿದೆ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionHidden" xml:space="preserve">
+    <value>ಮರೆಮಾಡಲಾಗಿದೆ</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockActionAlwaysVisibleHint" xml:space="preserve">
+    <value>ಈ ಎಡಿಟರ್ ಅನ್ನು ಮತ್ತೆ ತೆರೆಯಲು ಸೆಟ್ಟಿಂಗ್ಗಳು ಮತ್ತು ಓವರ್ಲೇ ಸ್ಟುಡಿಯೋ ಯಾವಾಗಲೂ ಕಾಣಿಸುತ್ತವೆ.</value>
+  </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
     <value>ಕ್ರಾಸ್ಶೇರ್</value>
   </data>
