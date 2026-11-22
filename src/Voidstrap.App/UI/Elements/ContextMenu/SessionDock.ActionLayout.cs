@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Voidstrap.Models.Persistable;
-using Voidstrap.Resources;
 using Voidstrap.UI.Elements.Dialogs;
-using Voidstrap.Utility;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 
@@ -103,7 +97,7 @@ public partial class SessionDock
         if (_closed || FindDockActionButton(key) is not { } button)
             return;
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
-        SessionDockActionDefinition? definition = DockActionDefinitions.FirstOrDefault(item => item.Key == key);
+        SessionDockActionDefinition? definition = DockActionDefinitions.FirstOrDefault(item => string.Equals(item.Key, key, StringComparison.Ordinal));
         if (definition == null)
             return;
 
@@ -136,28 +130,41 @@ public partial class SessionDock
     private void ApplyDockActionOrder(OverlayLayoutSettings layout)
     {
         List<UIElement> children = ActionButtons.Children.Cast<UIElement>().ToList();
+        Dictionary<string, UIElement> actionButtons = new Dictionary<string, UIElement>(StringComparer.Ordinal);
         List<int> actionPositions = new List<int>();
-        foreach (int i in Enumerable.Range(0, children.Count))
+        for (int i = 0; i < children.Count; i++)
         {
-            if (children[i] is FrameworkElement { Tag: string key } && DockActionDefinitions.Any(item => item.Key == key))
+            if (children[i] is FrameworkElement { Tag: string key } && IsDockActionKey(key) && actionButtons.TryAdd(key, children[i]))
                 actionPositions.Add(i);
         }
 
-        Dictionary<string, UIElement> actionButtons = children
-            .OfType<FrameworkElement>()
-            .Where(item => item.Tag is string key && DockActionDefinitions.Any(definition => definition.Key == key))
-            .ToDictionary(item => (string)item.Tag, item => (UIElement)item, StringComparer.Ordinal);
-        List<UIElement> orderedButtons = GetDockActionOrder(layout).Select(key => actionButtons[key]).ToList();
+        List<UIElement> orderedButtons = GetDockActionOrder(layout)
+            .Where(actionButtons.ContainsKey)
+            .Select(key => actionButtons[key])
+            .ToList();
+        bool changed = false;
         for (int i = 0; i < actionPositions.Count; i++)
-            children[actionPositions[i]] = orderedButtons[i];
+        {
+            if (!ReferenceEquals(children[actionPositions[i]], orderedButtons[i]))
+            {
+                children[actionPositions[i]] = orderedButtons[i];
+                changed = true;
+            }
+        }
+        if (!changed)
+            return;
 
         ActionButtons.Children.Clear();
         foreach (UIElement child in children)
             ActionButtons.Children.Add(child);
     }
 
+    private static bool IsDockActionKey(string key) =>
+        DockActionDefinitions.Any(definition => string.Equals(definition.Key, key, StringComparison.Ordinal));
+
     private void ApplyDockActionIcon(Wpf.Ui.Controls.Button button, SessionDockActionDefinition definition, OverlayLayoutSettings layout)
     {
+        const string LOG_IDENT = "SessionDock::ApplyDockActionIcon";
         if (layout.DockActionIconImages.TryGetValue(definition.Key, out string? imagePath))
         {
             BitmapSource? image = SafeImaging.FromFile(imagePath, 48);
@@ -174,7 +181,7 @@ public partial class SessionDock
                 RenderOptions.SetBitmapScalingMode((Image)button.Content, BitmapScalingMode.HighQuality);
                 return;
             }
-            App.Logger?.WriteLine("SessionDock::ApplyDockActionIcon", "Could not load dock icon image: " + imagePath);
+            App.Logger?.WriteLine(LOG_IDENT, "Could not load the dock icon image " + imagePath);
         }
 
         if (

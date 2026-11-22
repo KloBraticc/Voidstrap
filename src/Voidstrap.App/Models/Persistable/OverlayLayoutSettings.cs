@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Voidstrap.Models.Persistable;
@@ -166,7 +165,6 @@ public sealed class OverlayLayoutSettings
         DockHiddenActions = [];
         DockActionIcons = [];
         DockActionIconImages = [];
-
     }
 
     public void ResetKeystrokes()

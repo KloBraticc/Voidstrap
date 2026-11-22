@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -15,7 +13,6 @@ using Voidstrap.Models.Persistable;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.ContextMenu;
 using Voidstrap.UI.Elements.Dialogs;
-using Voidstrap.Utility;
 using Wpf.Ui.Common;
 
 namespace Voidstrap.UI.Elements.Overlay;
@@ -1144,6 +1141,7 @@ public partial class SessionOverlayLayoutEditor : Window
 
     private void LoadDockActionRows()
     {
+        const string LOG_IDENT = "SessionOverlayLayoutEditor::LoadDockActionRows";
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         layout.DockActionOrder ??= [];
         layout.DockHiddenActions ??= [];
@@ -1171,7 +1169,7 @@ public partial class SessionOverlayLayoutEditor : Window
             {
                 preview = SafeImaging.FromFile(imagePath, 48);
                 if (preview == null)
-                    App.Logger?.WriteLine("SessionOverlayLayoutEditor::LoadDockActionRows", "Could not load dock icon image: " + imagePath);
+                    App.Logger?.WriteLine(LOG_IDENT, "Could not load the dock icon image " + imagePath);
             }
 
             _dockActionItems.Add(
@@ -1298,7 +1296,8 @@ public partial class SessionOverlayLayoutEditor : Window
         {
             case SidebarIconPickerDialog.PickerChoice.Symbol:
                 layout.DockActionIcons[item.Key] = dialog.SelectedIcon.ToString();
-                layout.DockActionIconImages.Remove(item.Key);
+                if (layout.DockActionIconImages.Remove(item.Key))
+                    DeleteDockActionImages(item.Key);
                 break;
             case SidebarIconPickerDialog.PickerChoice.Image:
                 if (!ChooseDockActionImage(item.Key, owner))
@@ -1306,7 +1305,8 @@ public partial class SessionOverlayLayoutEditor : Window
                 break;
             case SidebarIconPickerDialog.PickerChoice.Default:
                 layout.DockActionIcons.Remove(item.Key);
-                layout.DockActionIconImages.Remove(item.Key);
+                if (layout.DockActionIconImages.Remove(item.Key))
+                    DeleteDockActionImages(item.Key);
                 break;
             default:
                 return;
@@ -1316,6 +1316,7 @@ public partial class SessionOverlayLayoutEditor : Window
 
     private bool ChooseDockActionImage(string key, Window? owner)
     {
+        const string LOG_IDENT = "SessionOverlayLayoutEditor::ChooseDockActionImage";
         OpenFileDialog picker = new OpenFileDialog
         {
             Title = Strings.Menu_Appearance_Icon_Title,
@@ -1339,43 +1340,63 @@ public partial class SessionOverlayLayoutEditor : Window
             || SafeImaging.FromFile(picker.FileName, 48) == null
         )
         {
-            ShowDockActionImageError(owner);
+            ShowDockActionImageError();
             return false;
         }
 
         try
         {
-            string directory = Path.Combine(Paths.Data, "SessionDockIcons");
-            Directory.CreateDirectory(directory);
-            string target = Path.Combine(directory, key + extension);
+            Directory.CreateDirectory(DockActionIconDirectory);
+            string target = Path.Combine(DockActionIconDirectory, key + extension);
             if (!string.Equals(Path.GetFullPath(picker.FileName), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase))
                 File.Copy(picker.FileName, target, true);
+            DeleteDockActionImages(key, target);
 
             OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
-            layout.DockActionIcons.Remove(key);
+            (layout.DockActionIcons ??= []).Remove(key);
             (layout.DockActionIconImages ??= [])[key] = target;
             return true;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
         {
-            App.Logger?.WriteLine("SessionOverlayLayoutEditor::ChooseDockActionImage", "Could not save the dock icon image: " + ex.Message);
-            ShowDockActionImageError(owner);
+            App.Logger?.WriteLine(LOG_IDENT, "Could not save the dock icon image: " + ex.Message);
+            ShowDockActionImageError();
             return false;
         }
     }
 
-    private void ShowDockActionImageError(Window? owner)
+    private static void ShowDockActionImageError()
     {
-        if (owner != null)
-            MessageBox.Show(owner, Strings.Dialog_IconLoadFailed, Strings.Ui_Nav_Settings, MessageBoxButton.OK, MessageBoxImage.Error);
-        else
-            MessageBox.Show(Strings.Dialog_IconLoadFailed, Strings.Ui_Nav_Settings, MessageBoxButton.OK, MessageBoxImage.Error);
+        Frontend.ShowMessageBox(Strings.Dialog_IconLoadFailed, MessageBoxImage.Error);
+    }
+
+    private static string DockActionIconDirectory => Path.Combine(Paths.Data, "SessionDockIcons");
+
+    private static void DeleteDockActionImages(string? key, string? keepPath = null)
+    {
+        const string LOG_IDENT = "SessionOverlayLayoutEditor::DeleteDockActionImages";
+        try
+        {
+            if (!Directory.Exists(DockActionIconDirectory))
+                return;
+            string pattern = key == null ? "*" : key + ".*";
+            foreach (string file in Directory.EnumerateFiles(DockActionIconDirectory, pattern))
+            {
+                if (keepPath == null || !string.Equals(Path.GetFullPath(file), Path.GetFullPath(keepPath), StringComparison.OrdinalIgnoreCase))
+                    File.Delete(file);
+            }
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "Could not remove an old dock icon image: " + ex.Message);
+        }
     }
 
     private void ResetDockActions_Click(object sender, RoutedEventArgs e)
     {
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         layout.ResetDockActions();
+        DeleteDockActionImages(null);
         SaveDockActionChanges();
     }
 
@@ -1787,6 +1808,7 @@ public partial class SessionOverlayLayoutEditor : Window
         else if (_selectedLayer == OverlayStudioLayer.Dock)
         {
             layout.ResetDock();
+            DeleteDockActionImages(null);
             RefreshDockActionRowsIfLoaded();
             SessionDock.ActiveInstance?.RefreshLayoutLive();
             SessionDock.ActiveInstance?.RefreshDockActionLayoutLive();
@@ -1824,6 +1846,7 @@ public partial class SessionOverlayLayoutEditor : Window
     {
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         layout.ResetAll();
+        DeleteDockActionImages(null);
         RefreshDockActionRowsIfLoaded();
         App.Settings.Prop.NotificationAppearance = new NotificationAppearance();
         App.Settings.Prop.MusicIslandPosition = MusicIslandPosition.BottomRight;
