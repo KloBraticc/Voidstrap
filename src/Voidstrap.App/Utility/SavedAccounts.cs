@@ -194,6 +194,30 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         RaiseChanged();
     }
 
+    public static async Task<(int Valid, int Total)> CheckAllAsync(
+        IReadOnlyCollection<SavedAccount> accounts,
+        CancellationToken token = default
+    )
+    {
+        int valid = 0;
+        foreach (SavedAccount saved in accounts)
+        {
+            token.ThrowIfCancellationRequested();
+            string? cookie = ReadCurrentCookie(saved);
+            RobloxAccount? account = string.IsNullOrEmpty(cookie) ? null : await RobloxCookie.GetAccountAsync(cookie, token);
+            bool expired = account == null;
+            if (!expired)
+            {
+                valid++;
+                saved.Username = account!.Username;
+                saved.DisplayName = account.DisplayName;
+            }
+            saved.Expired = expired;
+            await UpdateAsync(saved);
+        }
+        return (valid, accounts.Count);
+    }
+
     public static async Task SaveOrderAsync(IReadOnlyList<SavedAccount> ordered)
     {
         const string LOG_IDENT = "SavedAccounts::SaveOrderAsync";
