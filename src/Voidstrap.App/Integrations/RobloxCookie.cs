@@ -182,7 +182,13 @@ public static partial class RobloxCookie
         return GetAccountAsync(Get() ?? "", ct);
     }
 
-    public static async Task<RobloxAccount?> GetAccountAsync(string cookie, CancellationToken ct = default(CancellationToken))
+    public static Task<RobloxAccount?> GetAccountAsync(string cookie, CancellationToken ct = default(CancellationToken)) =>
+        GetAccountAsync(cookie, ct, throwOnFailure: false);
+
+    internal static Task<RobloxAccount?> VerifyAccountAsync(string cookie, CancellationToken ct) =>
+        GetAccountAsync(cookie, ct, throwOnFailure: true);
+
+    private static async Task<RobloxAccount?> GetAccountAsync(string cookie, CancellationToken ct, bool throwOnFailure)
     {
         if (string.IsNullOrEmpty(cookie))
         {
@@ -199,6 +205,8 @@ public static partial class RobloxCookie
             ObserveRotation(res, cookie);
             if (!res.IsSuccessStatusCode)
             {
+                if (throwOnFailure && res.StatusCode != HttpStatusCode.Unauthorized)
+                    res.EnsureSuccessStatusCode();
                 return null;
             }
             using JsonDocument jsonDocument = JsonDocument.Parse(
@@ -216,6 +224,8 @@ public static partial class RobloxCookie
             string displayName = (rootElement.TryGetProperty("displayName", out value4) ? (value4.GetString() ?? "") : "");
             if (num == 0L || string.IsNullOrEmpty(text2))
             {
+                if (throwOnFailure)
+                    throw new InvalidDataException("Roblox returned incomplete account data");
                 return null;
             }
             return new RobloxAccount
@@ -225,7 +235,7 @@ public static partial class RobloxCookie
                 DisplayName = displayName,
             };
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException) when (!throwOnFailure)
         {
             App.Logger?.WriteLine(
                 "RobloxCookie",
@@ -235,7 +245,7 @@ public static partial class RobloxCookie
             );
             return null;
         }
-        catch (Exception ex)
+        catch (Exception ex) when (!throwOnFailure)
         {
             App.Logger?.WriteLine("RobloxCookie", "GetAccountAsync failed: " + ex.Message);
             return null;

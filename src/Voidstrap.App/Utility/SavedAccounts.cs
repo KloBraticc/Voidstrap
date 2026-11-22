@@ -194,6 +194,59 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         RaiseChanged();
     }
 
+    public static async Task<(int Valid, int Total)> CheckAllAsync(
+        IReadOnlyCollection<SavedAccount> accounts,
+        CancellationToken token = default
+    )
+    {
+        List<(SavedAccount Saved, RobloxAccount? Verified)> results = new(accounts.Count);
+        foreach (SavedAccount saved in accounts)
+        {
+            token.ThrowIfCancellationRequested();
+            string? cookie = ReadCurrentCookie(saved);
+            RobloxAccount? verified = string.IsNullOrEmpty(cookie)
+                ? null
+                : await RobloxCookie.VerifyAccountAsync(cookie, token).ConfigureAwait(false);
+            results.Add((saved, saved.UserId == 0 || verified?.UserId == saved.UserId ? verified : null));
+        }
+
+        await AccountStoreGate.WaitAsync(token).ConfigureAwait(false);
+        try
+        {
+            List<SavedAccount> stored = ReadStoredAccounts();
+            if (stored.Count == 0 && results.Count > 0)
+                throw new InvalidDataException("Saved account data could not be read");
+            foreach (var (saved, verified) in results)
+            {
+                SavedAccount? updated = stored.Find(account => account.DatFile == saved.DatFile && account.UserId == saved.UserId);
+                if (updated == null)
+                    continue;
+                updated.Expired = verified == null;
+                if (verified != null)
+                {
+                    updated.Username = verified.Username;
+                    updated.DisplayName = verified.DisplayName;
+                }
+            }
+            Write(stored);
+            foreach (var (saved, verified) in results)
+            {
+                saved.Expired = verified == null;
+                if (verified != null)
+                {
+                    saved.Username = verified.Username;
+                    saved.DisplayName = verified.DisplayName;
+                }
+            }
+        }
+        finally
+        {
+            AccountStoreGate.Release();
+        }
+        RaiseChanged();
+        return (results.Count(result => result.Verified != null), accounts.Count);
+    }
+
     public static async Task SaveOrderAsync(IReadOnlyList<SavedAccount> ordered)
     {
         const string LOG_IDENT = "SavedAccounts::SaveOrderAsync";
