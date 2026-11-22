@@ -3998,6 +3998,12 @@ Ko jūs vēlētos darīt?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Atļaut visu</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Pārbaudīt datu centrus vēlreiz</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Vēlreiz izmērīt pingu līdz katram datu centram, nevis izmantot saglabātos rezultātus</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Izslēdziet vienu, lai nekad netiktu tur ievietots. Ja Roblox ievieto jūs bloķētā datu centrā, Voidstrap jūs pārvieto.</value>
   </data>

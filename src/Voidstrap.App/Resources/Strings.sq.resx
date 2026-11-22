@@ -3998,6 +3998,12 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Lejo të gjitha</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Testo përsëri qendrat e të dhënave</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Mat përsëri ping drejt çdo qendre të dhënash në vend që të përdorësh rezultatet e ruajtura</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Fikeni njërën për të mos u vendosur kurrë atje. Nëse Roblox ju vendos në një qendër të dhënash të bllokuar, Voidstrap ju largon.</value>
   </data>

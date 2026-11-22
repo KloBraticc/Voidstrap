@@ -3998,6 +3998,12 @@
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Επιτρέψτε όλα</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Επανέλεγχος κέντρων δεδομένων</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Μετρήστε ξανά το ping προς κάθε κέντρο δεδομένων αντί να χρησιμοποιήσετε αποθηκευμένα αποτελέσματα</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Απενεργοποιήστε ένα για να μην το τοποθετήσετε ποτέ εκεί. Εάν το Roblox σας τοποθετεί σε ένα αποκλεισμένο κέντρο δεδομένων, το Voidstrap σας απομακρύνει.</value>
   </data>

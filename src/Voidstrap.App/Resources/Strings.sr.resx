@@ -3998,6 +3998,12 @@ Roblox биће преузето када га покренете Voidstrap пр
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Дозволи све</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Поново тестирај центре података</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Поново измери пинг до сваког центра података уместо коришћења сачуваних резултата</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Искључите га да никада не буде постављен тамо. Ако Roblox ставља вас у блокирани центар података, Voidstrap премешта те.</value>
   </data>

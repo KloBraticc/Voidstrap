@@ -3998,6 +3998,12 @@ Roblox डाउनलोड हो जाएगा। आप लॉन्च �
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>सभी को अनुमति दें</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>डेटासेंटर फिर से जांचें</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>सहेजे गए परिणामों का उपयोग करने के बजाय हर डेटासेंटर का पिंग फिर से मापें</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>एक को बंद कर दें ताकि उसे वहां कभी न रखा जाए। यदि Roblox आपको अवरुद्ध डेटासेंटर में डालता है, तो Voidstrap आपको बाहर निकाल देता है।</value>
   </data>

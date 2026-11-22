@@ -3998,6 +3998,12 @@ Cad ba mhaith leat a dhéanamh?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Ceadaigh go léir</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Tástáil na hionaid sonraí arís</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Tomhais an ping chuig gach ionad sonraí arís in ionad torthaí sábháilte a úsáid</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Múch ceann amháin chun nach gcuirfí ann riamh. Má chuireann Roblox isteach i lárionad sonraí blocáilte, bogann Voidstrap amach tú.</value>
   </data>

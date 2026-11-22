@@ -4203,6 +4203,12 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Salli kaikki</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Testaa datakeskukset uudelleen</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Mittaa ping jokaiseen datakeskukseen uudelleen tallennettujen tulosten käyttämisen sijaan</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Poista yksi käytöstä, jotta et koskaan päädy sinne. Jos Roblox sijoittaa sinut estettyyn datakeskukseen, Voidstrap siirtää sinut pois.</value>
   </data>

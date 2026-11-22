@@ -3998,6 +3998,12 @@ Zer egin nahiko zenuke?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Baimendu guztiak</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Probatu berriro datu zentroak</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Neurtu berriro datu zentro bakoitzerako ping-a, gordetako emaitzak erabili beharrean</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Itzali bat inoiz bertan ez jartzeko. Roblox blokeatutako datu-zentro batean sartzen bazaitu, Voidstrap-k kanpora eramango zaitu.</value>
   </data>

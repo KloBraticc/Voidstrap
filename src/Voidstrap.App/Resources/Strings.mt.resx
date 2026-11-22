@@ -3998,6 +3998,12 @@ X'tixtieq tagħmel?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Ħalli kollox</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Erġa' ittestja ċ-ċentri tad-data</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Erġa' kejjel il-ping għal kull ċentru tad-data minflok tuża riżultati salvati</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Itfi waħda biex qatt ma titqiegħed hemm. Jekk Roblox ipoġġik f'datacenter imblukkat, Voidstrap imexxik 'il barra.</value>
   </data>

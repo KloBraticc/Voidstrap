@@ -348,6 +348,8 @@ public static class VoidstrapMatchmaker
                     return _cachedGeo;
             }
             UserGeo? result = await FirstUserGeoAsync(token).ConfigureAwait(false);
+            if (!string.IsNullOrWhiteSpace(result?.Ip))
+                DatacenterLatency.UpdatePublicIp(result.Ip);
             if (result != null && LooksLikeVpn(result))
             {
                 UserGeo? saved = LoadSavedGeo();
@@ -527,6 +529,7 @@ public static class VoidstrapMatchmaker
             Region = ReadString(root, "region"),
             Country = ReadString(root, "country"),
             UtcOffsetMinutes = OffsetFromZoneId(ReadString(root, "timezone")),
+            Ip = ReadString(root, "ip"),
         };
     }
 
@@ -546,6 +549,7 @@ public static class VoidstrapMatchmaker
             UtcOffsetMinutes = root.TryGetProperty("timezone", out JsonElement zone) && zone.ValueKind == JsonValueKind.Object && TryReadDouble(zone, "offset", out double seconds)
                 ? (int)Math.Round(seconds / 60.0)
                 : null,
+            Ip = ReadString(root, "ip"),
         };
     }
 
@@ -561,6 +565,7 @@ public static class VoidstrapMatchmaker
             Region = ReadString(root, "region"),
             Country = ReadString(root, "country_code"),
             UtcOffsetMinutes = OffsetFromZoneId(ReadString(root, "timezone")),
+            Ip = ReadString(root, "ip"),
         };
     }
 

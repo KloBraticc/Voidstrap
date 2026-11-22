@@ -3998,6 +3998,12 @@ Què t'agradaria fer?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Permet-ho tot</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Torna a provar els centres de dades</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Torna a mesurar el ping a cada centre de dades en lloc d'utilitzar els resultats desats</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Apagueu-ne un per no posar-hi mai. Si Roblox us posa en un centre de dades bloquejat, Voidstrap us trasllada.</value>
   </data>

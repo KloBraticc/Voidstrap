@@ -3998,6 +3998,12 @@ Roblox သည် ၎င်းကိုVoidstrap မှတစ်ဆင့် ပ�
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>အားလုံးကို ခွင့်ပြုပါ။</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>ဒေတာစင်တာများကို ပြန်စမ်းသပ်ရန်</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>သိမ်းထားသောရလဒ်များကို အသုံးမပြုဘဲ ဒေတာစင်တာတိုင်းသို့ ping ကို ပြန်တိုင်းရန်</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ဘယ်တော့မှ မထားဖို့ တစ်လုံးကို ပိတ်လိုက်ပါ။ အကယ်၍ Roblox သည် သင့်အား ပိတ်ဆို့ထားသော ဒေတာစင်တာတစ်ခုတွင်ထားပါက၊ Voidstrap သည် သင့်အား ဖယ်ရှားပေးမည်ဖြစ်သည်။</value>
   </data>

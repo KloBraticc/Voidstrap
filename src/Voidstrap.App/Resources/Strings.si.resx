@@ -3998,6 +3998,12 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>සියල්ලට ඉඩ දෙන්න</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>දත්ත මධ්‍යස්ථාන නැවත පරීක්ෂා කරන්න</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>සුරකින ලද ප්‍රතිඵල භාවිතා කරනවා වෙනුවට සෑම දත්ත මධ්‍යස්ථානයකටම පිං නැවත මනින්න</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>කිසි විටෙකත් එහි නොතැබීම සඳහා එකක් නිවා දමන්න. Roblox ඔබව අවහිර කළ දත්ත මධ්‍යස්ථානයක තැබුවහොත්, Voidstrap ඔබව පිටතට ගෙන යයි.</value>
   </data>

@@ -3998,6 +3998,12 @@ Urashaka gukora iki?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Emera byose</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Ongera ugerageze ibigo by'amakuru</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Ongera upime ping ku kigo cy'amakuru cyose aho gukoresha ibisubizo byabitswe</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Zimya imwe kugirango itazigera ishyirwa aho. Niba Roblox igushize muri datacenter yahagaritswe, Voidstrap irakwimura.</value>
   </data>

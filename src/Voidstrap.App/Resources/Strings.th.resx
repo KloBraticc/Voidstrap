@@ -4209,6 +4209,12 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>อนุญาตทั้งหมด</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>ทดสอบศูนย์ข้อมูลอีกครั้ง</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>วัดค่า ping ไปยังศูนย์ข้อมูลทุกแห่งใหม่แทนการใช้ผลลัพธ์ที่บันทึกไว้</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ปิดแห่งใดแห่งหนึ่งเพื่อไม่ให้ถูกจัดไปที่นั่น หาก Roblox จัดคุณไปยังศูนย์ที่ถูกบล็อก Voidstrap จะย้ายคุณออก</value>
   </data>

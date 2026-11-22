@@ -3998,6 +3998,12 @@ U ka rata ho etsa eng?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Lumella tsohle</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Lekola ditsi tsa data hape</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Lekanya ping ho setsi se seng le se seng sa data hape ho fapana le ho sebedisa diphetho tse bolokilweng</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Koala e le 'ngoe hore e se ke ea beoa moo. Haeba Roblox e u kenya setsing sa data se koetsoeng, Voidstrap ea u ntša.</value>
   </data>

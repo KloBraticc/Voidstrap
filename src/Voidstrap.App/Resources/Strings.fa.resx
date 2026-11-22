@@ -4248,6 +4248,12 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>اجازه به همه</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>آزمایش دوباره مراکز داده</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>به جای استفاده از نتایج ذخیره‌شده، پینگ هر مرکز داده را دوباره اندازه بگیرید</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>یکی را خاموش کنید تا هرگز در آن قرار نگیرید. اگر Roblox شما را در مرکز مسدودشده قرار دهد، Voidstrap شما را جابه‌جا می‌کند.</value>
   </data>

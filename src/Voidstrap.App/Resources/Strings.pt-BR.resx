@@ -4191,6 +4191,12 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Permitir todos</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Testar datacenters novamente</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Meça de novo o ping para cada datacenter em vez de usar os resultados salvos</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Desative um para nunca ser colocado nele. Se o Roblox colocar você em um datacenter bloqueado, o Voidstrap tira você de lá.</value>
   </data>

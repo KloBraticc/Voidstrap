@@ -4182,6 +4182,12 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Benarkan semua</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Uji semula pusat data</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Ukur semula ping ke setiap pusat data dan bukannya menggunakan keputusan yang disimpan</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Matikan satu supaya anda tidak pernah diletakkan di sana. Jika Roblox meletakkan anda di pusat data yang disekat, Voidstrap memindahkan anda.</value>
   </data>

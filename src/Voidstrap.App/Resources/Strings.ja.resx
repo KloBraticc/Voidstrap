@@ -4221,6 +4221,12 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>すべて許可</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>データセンターを再テスト</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>保存された結果を使わずに、各データセンターへの ping を再測定します</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>オフにしたデータセンターには配置されません。Roblox がブロックされたデータセンターに配置した場合、Voidstrap が移動させます。</value>
   </data>

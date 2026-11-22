@@ -3998,6 +3998,12 @@ Roblox នឹងត្រូវបានទាញយក នៅពេលអ្ន
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>អនុញ្ញាតទាំងអស់។</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>សាកល្បងមជ្ឈមណ្ឌលទិន្នន័យម្ដងទៀត</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>វាស់ ping ទៅមជ្ឈមណ្ឌលទិន្នន័យនីមួយៗម្ដងទៀត ជំនួសឱ្យការប្រើលទ្ធផលដែលបានរក្សាទុក</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>បិទមួយដើម្បីកុំឱ្យដាក់នៅទីនោះ។ ប្រសិនបើ Roblox ដាក់អ្នកនៅក្នុងមជ្ឈមណ្ឌលទិន្នន័យដែលត្រូវបានរារាំងនោះ Voidstrap នឹងផ្លាស់ទីអ្នកចេញ។</value>
   </data>

@@ -3998,6 +3998,12 @@ Roblox будзе спампаваны пры першым запуску пра
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Дазволіць усім</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Праверыць цэнтры апрацоўкі даных зноў</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Зноў вымераць пінг да кожнага цэнтра апрацоўкі даных замест захаваных вынікаў</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Выключыце адзін, каб ніколі не размяшчацца там. Калі Roblox змяшчае вас у заблакаваны цэнтр апрацоўкі дадзеных, Voidstrap перамяшчае вас адтуль.</value>
   </data>

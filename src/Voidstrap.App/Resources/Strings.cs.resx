@@ -4191,6 +4191,12 @@ Co chcete udělat?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Povolit vše</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Znovu otestovat datová centra</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Znovu změřte odezvu ke každému datovému centru místo použití uložených výsledků</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Vypněte některé, abyste do něj nikdy nebyli umístěni. Pokud vás Roblox umístí do blokovaného centra, Voidstrap vás přesune.</value>
   </data>

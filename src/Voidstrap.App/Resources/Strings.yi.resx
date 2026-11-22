@@ -3998,6 +3998,12 @@ Roblox וועט זיין דאַונלאָודיד ווען איר קאַטער �
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>לאָזן אַלע</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>פּרובירט ווידער די דאַטן צענטערס</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>מעסט ווידער דעם פּינג צו יעדן דאַטן צענטער אַנשטאָט ניצן געשפּאָרטע רעזולטאַטן</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>קער איינער אַוועק צו קיינמאָל זיין שטעלן דאָרט. אויב Roblox לייגט איר אין אַ אפגעשטעלט דאַטאַסענטער, Voidstrap באוועגט איר אויס.</value>
   </data>

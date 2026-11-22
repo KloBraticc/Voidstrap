@@ -4167,6 +4167,12 @@ Wat wil je doen?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Alles toestaan</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Datacenters opnieuw testen</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Meet de ping naar elk datacenter opnieuw in plaats van opgeslagen resultaten te gebruiken</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Schakel er een uit om er nooit geplaatst te worden. Zet Roblox je in een geblokkeerd datacenter, dan haalt Voidstrap je eruit.</value>
   </data>

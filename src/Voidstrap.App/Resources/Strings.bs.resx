@@ -3998,6 +3998,12 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Dozvoli sve</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Ponovo testiraj podatkovne centre</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Ponovo izmjeri ping do svakog podatkovnog centra umjesto korištenja sačuvanih rezultata</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Isključite ga da nikada ne bude postavljen tamo. Ako vas Roblox stavi u blokirani centar podataka, Voidstrap vas iseli.</value>
   </data>

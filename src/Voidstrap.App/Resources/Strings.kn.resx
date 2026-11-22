@@ -3998,6 +3998,12 @@ Roblox ಅನ್ನು ನೀವು ಮೊದಲ ಬಾರಿಗೆVoidstrap ಮ
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>ಎಲ್ಲವನ್ನು ಅನುಮತಿಸಿ</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>ಡೇಟಾಸೆಂಟರ್‌ಗಳನ್ನು ಮರುಪರೀಕ್ಷಿಸಿ</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>ಉಳಿಸಿದ ಫಲಿತಾಂಶಗಳನ್ನು ಬಳಸುವ ಬದಲು ಪ್ರತಿ ಡೇಟಾಸೆಂಟರ್‌ಗೆ ಪಿಂಗ್ ಅನ್ನು ಮತ್ತೆ ಅಳೆಯಿರಿ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ಎಂದಿಗೂ ಅಲ್ಲಿ ಇರಿಸದಂತೆ ಒಂದನ್ನು ಆಫ್ ಮಾಡಿ. Roblox ನಿಮ್ಮನ್ನು ನಿರ್ಬಂಧಿಸಿದ ಡೇಟಾಸೆಂಟರ್ನಲ್ಲಿ ಇರಿಸಿದರೆ, Voidstrap ನಿಮ್ಮನ್ನು ಹೊರಹಾಕುತ್ತದೆ.</value>
   </data>

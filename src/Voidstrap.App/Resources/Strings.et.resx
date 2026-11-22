@@ -3998,6 +3998,12 @@ Mida sa teha tahaksid?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Luba kõik</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Testi andmekeskusi uuesti</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Mõõda ping iga andmekeskuseni uuesti, selle asemel et kasutada salvestatud tulemusi</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Lülitage üks välja, et teid kunagi sinna paigutada. Kui Roblox viib teid blokeeritud andmekeskusesse, viib Voidstrap teid välja.</value>
   </data>

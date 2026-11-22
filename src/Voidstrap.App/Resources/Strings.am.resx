@@ -3998,6 +3998,12 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>ሁሉንም ፍቀድ</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>የመረጃ ማዕከላትን እንደገና ሞክር</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>የተቀመጡ ውጤቶችን ከመጠቀም ይልቅ ወደ እያንዳንዱ የመረጃ ማዕከል ያለውን ፒንግ እንደገና ይለኩ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>በጭራሽ እዚያ እንዳይቀመጥ አንዱን ያጥፉ። Roblox በተዘጋ ዳታ ማዕከል ውስጥ ካስቀመጣችሁ Voidstrap ያስወጣዎታል።</value>
   </data>

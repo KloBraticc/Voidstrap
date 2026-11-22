@@ -15,6 +15,12 @@ public partial class AdvancedMatchmakerPage : UiPage
         InitializeComponent();
     }
 
+    private async void RetestDatacenters_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is BehaviourViewModel viewModel)
+            await viewModel.RetestDatacentersAsync();
+    }
+
     private void ResetDatacenters_Click(object sender, RoutedEventArgs e)
     {
         (DataContext as BehaviourViewModel)?.ResetDatacenters();

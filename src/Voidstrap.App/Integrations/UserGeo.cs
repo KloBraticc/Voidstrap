@@ -13,4 +13,7 @@ public sealed class UserGeo
     public string Country { get; init; } = "";
 
     public int? UtcOffsetMinutes { get; init; }
+
+    [JsonIgnore]
+    public string Ip { get; init; } = "";
 }

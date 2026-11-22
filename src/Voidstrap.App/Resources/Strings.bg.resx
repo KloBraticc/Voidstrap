@@ -4212,6 +4212,12 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Разреши всички</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Повторен тест на центровете за данни</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Измерете отново пинга до всеки център за данни, вместо да използвате запазените резултати</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Изключете един, за да не попадате никога там. Ако Roblox Ви постави в блокиран център, Voidstrap ще Ви премести.</value>
   </data>

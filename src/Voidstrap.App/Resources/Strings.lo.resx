@@ -3998,6 +3998,12 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>ອະນຸຍາດທັງໝົດ</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>ທົດສອບສູນຂໍ້ມູນຄືນໃໝ່</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>ວັດແທກ ping ໄປຫາແຕ່ລະສູນຂໍ້ມູນຄືນໃໝ່ ແທນການໃຊ້ຜົນທີ່ບັນທຶກໄວ້</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ປິດອັນໜຶ່ງເພື່ອບໍ່ໃຫ້ວາງໄວ້ບ່ອນນັ້ນ. ຖ້າ Roblox ເຮັດໃຫ້ທ່ານຢູ່ໃນສູນຂໍ້ມູນທີ່ຖືກບລັອກ, Voidstrap ຈະຍ້າຍທ່ານອອກໄປ.</value>
   </data>

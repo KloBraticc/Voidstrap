@@ -3998,6 +3998,12 @@ Hvad vil du gerne lave?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Tillad alle</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Test datacentre igen</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Mål pingen til hvert datacenter igen i stedet for at bruge gemte resultater</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Sluk en for aldrig at blive placeret der. Hvis Roblox placerer dig i et blokeret datacenter, flytter Voidstrap dig ud.</value>
   </data>

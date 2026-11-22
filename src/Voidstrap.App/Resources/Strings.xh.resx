@@ -3998,6 +3998,12 @@ Yintoni ongathanda ukuyenza?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Vumela konke</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Phinda uvavanye amaziko edatha</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Phinda ulinganise i-ping kwiziko ngalinye ledatha endaweni yokusebenzisa iziphumo ezigciniweyo</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Cima enye ukuze ungaze ubekwe apho. Ukuba i- Roblox ikubeka kwindawo evaliweyo yedatha, i- Voidstrap ikukhupha.</value>
   </data>

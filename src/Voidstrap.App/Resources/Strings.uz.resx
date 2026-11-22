@@ -3998,6 +3998,12 @@ Nima qilishni xohlaysiz?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Hammaga ruxsat bering</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Ma'lumot markazlarini qayta sinash</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Saqlangan natijalar o'rniga har bir ma'lumot markazigacha pingni qayta o'lchash</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Hech qachon u erda joylashmaslik uchun birini o'chiring. Agar Roblox sizni bloklangan ma'lumotlar markaziga qo'ysa, Voidstrap sizni tashqariga chiqaradi.</value>
   </data>

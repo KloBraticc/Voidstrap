@@ -3998,6 +3998,12 @@ Maxaad jeclaan lahayd inaad samayso?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Allow dhammaan</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Dib u tijaabi xarumaha xogta</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Dib u cabbir ping ku socda xarun kasta oo xog ah halkii aad isticmaali lahayd natiijooyinka la keydiyay</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Mid dami si aan weligii halkaas loo dhigin. Haddii Roblox uu ku geliyo xarun xogeed xanniban, Voidstrap ayaa ku saaraysa.</value>
   </data>

@@ -3998,6 +3998,12 @@ Hvað myndir þú vilja gera?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Leyfðu allt</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Prófa gagnaver aftur</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Mæla pingið til hvers gagnavers aftur í stað þess að nota vistaðar niðurstöður</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Slökktu á einum til að vera aldrei settur þar. Ef Roblox setur þig í lokaða gagnaver, flytur Voidstrap þig út.</value>
   </data>

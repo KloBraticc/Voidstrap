@@ -4209,6 +4209,12 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Összes engedélyezése</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Adatközpontok újratesztelése</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Mérd meg újra a pinget minden adatközponthoz a mentett eredmények helyett</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Kapcsolj ki egyet, hogy soha ne kerülj oda. Ha a Roblox letiltott adatközpontba tesz, a Voidstrap áthelyez.</value>
   </data>

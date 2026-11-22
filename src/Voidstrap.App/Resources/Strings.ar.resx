@@ -4242,6 +4242,12 @@
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>السماح للكل</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>إعادة اختبار مراكز البيانات</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>قِس زمن الاستجابة لكل مركز بيانات مرة أخرى بدلًا من استخدام النتائج المحفوظة</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>أوقف أحدها كي لا توضع فيه أبدًا. إذا وضعك Roblox في مركز محظور، ينقلك Voidstrap منه.</value>
   </data>

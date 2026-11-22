@@ -3998,6 +3998,12 @@ Roblox تۇنجى قېتىمVoidstrap ئارقىلىق چىقارغاندا چۈ
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>ھەممىگە يول قويۇڭ</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>سانلىق مەلۇمات مەركەزلىرىنى قايتا سىناش</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>ساقلانغان نەتىجىلەرنى ئىشلىتىشنىڭ ئورنىغا ھەر بىر سانلىق مەلۇمات مەركىزىگە بولغان پىڭنى قايتا ئۆلچەش</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>بىرنى ئېتىۋېتىڭ ، ئۇ يەرگە ھەرگىز قويۇلمايدۇ. ئەگەر Roblox سىزنى توسۇلغان سانلىق مەلۇمات مەركىزىگە قويسا ، Voidstrap سىزنى يۆتكىۋېتىدۇ.</value>
   </data>

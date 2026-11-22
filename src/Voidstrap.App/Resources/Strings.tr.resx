@@ -4206,6 +4206,12 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Tümüne izin ver</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Veri merkezlerini yeniden test et</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Kaydedilmiş sonuçları kullanmak yerine her veri merkezine olan pingi yeniden ölçün</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Asla oraya yerleştirilmemek için birini kapatın. Roblox sizi engellenmiş bir veri merkezine koyarsa Voidstrap sizi oradan çıkarır.</value>
   </data>

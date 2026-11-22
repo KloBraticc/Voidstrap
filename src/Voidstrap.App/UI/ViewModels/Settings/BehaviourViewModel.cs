@@ -1910,6 +1910,33 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    private bool _retestingDatacenters;
+
+    public bool CanRetestDatacenters => !_retestingDatacenters;
+
+    public async Task RetestDatacentersAsync()
+    {
+        const string LOG_IDENT = "BehaviourViewModel::RetestDatacentersAsync";
+        if (_retestingDatacenters)
+            return;
+        _retestingDatacenters = true;
+        OnPropertyChanged(nameof(CanRetestDatacenters));
+        try
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Measuring every datacenter again");
+            DatacenterLatency.ClearCache();
+            foreach (DatacenterItem item in Datacenters)
+                item.PingMeasured = false;
+            ApplyDistances();
+            await MeasureDatacenterPingsAsync();
+        }
+        finally
+        {
+            _retestingDatacenters = false;
+            OnPropertyChanged(nameof(CanRetestDatacenters));
+        }
+    }
+
     public void ResetDatacenters()
     {
         App.Settings.Prop.VoidstrapMatchmakerDisabledDatacenters?.Clear();

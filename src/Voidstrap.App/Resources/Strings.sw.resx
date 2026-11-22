@@ -3998,6 +3998,12 @@ Je, ungependa kufanya nini?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Ruhusu yote</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Jaribu tena vituo vya data</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Pima tena ping kwa kila kituo cha data badala ya kutumia matokeo yaliyohifadhiwa</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Zima moja ili usiwahi kuwekwa hapo. Ikiwa Roblox itakuweka kwenye kituo cha data kilichozuiwa, Voidstrap itakutoa nje.</value>
   </data>

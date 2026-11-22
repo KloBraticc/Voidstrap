@@ -3998,6 +3998,12 @@ Roblox ڈاؤن لوڈ ہو جائے گا۔ آپ لانچ کرنے سے پہلے
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>سب کو اجازت دیں۔</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>ڈیٹا سینٹرز دوبارہ جانچیں</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>محفوظ نتائج استعمال کرنے کے بجائے ہر ڈیٹا سینٹر کا پنگ دوبارہ ناپیں</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ایک کو بند کر دیں تاکہ وہاں کبھی نہ رکھا جائے۔ اگر Roblox آپ کو بلاک شدہ ڈیٹا سینٹر میں رکھتا ہے، Voidstrap آپ کو باہر لے جاتا ہے۔</value>
   </data>

@@ -3998,6 +3998,12 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Ба ҳама иҷозат диҳед</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Санҷиши дубораи марказҳои маълумот</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Ба ҷои истифодаи натиҷаҳои захирашуда пингро то ҳар маркази маълумот дубора чен кунед</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Якеро хомӯш кунед, то ҳеҷ гоҳ дар он ҷо ҷойгир нашавед. Агар Roblox шуморо дар маркази додаҳои басташуда ҷойгир кунад, Voidstrap шуморо берун мекунад.</value>
   </data>

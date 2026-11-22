@@ -3998,6 +3998,12 @@ Roblox оныVoidstrap арқылы алғаш рет іске қосқан ке
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Барлығына рұқсат етіңіз</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Деректер орталықтарын қайта тексеру</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Сақталған нәтижелердің орнына әр деректер орталығына дейінгі пингті қайта өлшеу</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Ешқашан ол жерге қоймау үшін біреуін өшіріңіз. Егер Roblox сізді блокталған деректер орталығына орналастырса, Voidstrap сізді сыртқа шығарады.</value>
   </data>

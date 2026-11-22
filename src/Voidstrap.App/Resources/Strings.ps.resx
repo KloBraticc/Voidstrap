@@ -3998,6 +3998,12 @@ Roblox به ډاونلوډ شي کله چې تاسو د لومړي ځل لپار
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>ټولو ته اجازه ورکړئ</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>ډیټا مرکزونه بیا وازمویئ</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>د خوندي شویو پایلو پر ځای هر ډیټا مرکز ته پینګ بیا اندازه کړئ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>یو بند کړئ ترڅو هیڅکله هلته ځای پر ځای نشي. که Roblox تاسو په بند شوي ډیټا سینټر کې واچوي، Voidstrap تاسو بهر حرکت کوي.</value>
   </data>

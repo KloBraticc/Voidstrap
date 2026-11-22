@@ -4191,6 +4191,12 @@ Ce vrei să faci?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Permite toate</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Testează din nou centrele de date</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Măsoară din nou pingul către fiecare centru de date în loc să folosești rezultatele salvate</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Dezactivează unul ca să nu fii pus niciodată acolo. Dacă Roblox te pune într un centru blocat, Voidstrap te mută.</value>
   </data>

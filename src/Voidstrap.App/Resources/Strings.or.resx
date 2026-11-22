@@ -3998,6 +3998,12 @@ Roblox ଡାଉନଲୋଡ୍ ହେବ | ଲଞ୍ଚ କରିବା ପୂ�
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>ସମସ୍ତଙ୍କୁ ଅନୁମତି ଦିଅନ୍ତୁ |</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>ଡାଟାସେଣ୍ଟର ପୁଣି ପରୀକ୍ଷା କରନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>ସଞ୍ଚିତ ଫଳାଫଳ ବ୍ୟବହାର କରିବା ବଦଳରେ ପ୍ରତ୍ୟେକ ଡାଟାସେଣ୍ଟରର ପିଙ୍ଗ ପୁଣି ମାପନ୍ତୁ</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ସେଠାରେ କେବେବି ରଖାଯିବା ପାଇଁ ଗୋଟିଏ ବନ୍ଦ କର | ଯଦି Roblox ଆପଣଙ୍କୁ ଏକ ଅବରୋଧିତ ଡାଟାସେଣ୍ଟରରେ ରଖେ, Voidstrap ଆପଣଙ୍କୁ ବାହାରକୁ ନେଇଯାଏ |</value>
   </data>

@@ -6,12 +6,14 @@
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
                   <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Bootstrapper_Datacenters}" />
                   <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding BlockedDatacenterSummary}" />
                 </StackPanel>
-                <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="{resources:Loc Ui_Bootstrapper_AllowAll}" Icon="ArrowReset24" Click="ResetDatacenters_Click" />
+                <ui:Button Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Content="{resources:Loc Ui_Bootstrapper_RetestDatacenters}" ToolTip="{resources:Loc Ui_Bootstrapper_RetestDatacentersTip}" Icon="ArrowSync24" IsEnabled="{Binding CanRetestDatacenters}" Click="RetestDatacenters_Click" />
+                <ui:Button Grid.Column="2" Margin="12,0,8,0" VerticalAlignment="Center" Content="{resources:Loc Ui_Bootstrapper_AllowAll}" Icon="ArrowReset24" Click="ResetDatacenters_Click" />
               </Grid>
             </HeaderedContentControl.Header>
             <StackPanel>

@@ -3998,6 +3998,12 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Бүгдийг зөвшөөр</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Өгөгдлийн төвүүдийг дахин шалгах</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Хадгалсан үр дүнг ашиглахын оронд өгөгдлийн төв бүр хүртэлх пингийг дахин хэмжих</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Тэнд хэзээ ч тавихгүйн тулд нэгийг нь унтраа. Хэрэв Roblox таныг хаагдсан дата төвд оруулбал Voidstrap таныг гадагшлуулах болно.</value>
   </data>

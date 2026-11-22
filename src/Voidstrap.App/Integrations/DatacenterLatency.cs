@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 
 namespace Voidstrap.Integrations;
 
@@ -14,7 +15,9 @@ public static class DatacenterLatency
 
     private const int MaxConcurrentProbes = 32;
 
-    private static readonly TimeSpan ResultLifetime = TimeSpan.FromMinutes(10);
+    private static readonly TimeSpan ResultLifetime = TimeSpan.FromHours(24);
+
+    private static readonly TimeSpan SaveDelay = TimeSpan.FromSeconds(3);
 
     private static readonly TimeSpan FailureLifetime = TimeSpan.FromMinutes(3);
 
@@ -29,6 +32,137 @@ public static class DatacenterLatency
     private static readonly ConcurrentDictionary<string, string> _pingTargets = new(StringComparer.OrdinalIgnoreCase);
 
     private static readonly SemaphoreSlim _probeSlots = new(MaxConcurrentProbes);
+
+    private static readonly object _cacheLock = new();
+
+    private static bool _loaded;
+
+    private static string _network = "";
+
+    private static string _network6 = "";
+
+    private static int _savePending;
+
+    private static string CachePath => Path.Combine(ServerFetchStore.FolderPath, "DatacenterLatency.json");
+
+    public static void UpdatePublicIp(string ip)
+    {
+        const string LOG_IDENT = "DatacenterLatency::UpdatePublicIp";
+        if (!IPAddress.TryParse(ip.Trim(), out IPAddress? address))
+            return;
+        if (address.IsIPv4MappedToIPv6)
+            address = address.MapToIPv4();
+        bool v6 = address.AddressFamily == AddressFamily.InterNetworkV6;
+        byte[] bytes = address.GetAddressBytes();
+        if (v6)
+            Array.Clear(bytes, 8, 8);
+        string network = Convert.ToHexString(SHA256.HashData(bytes));
+        EnsureLoaded();
+        bool changed;
+        lock (_cacheLock)
+        {
+            string previous = v6 ? _network6 : _network;
+            if (string.Equals(previous, network, StringComparison.Ordinal))
+                return;
+            changed = previous.Length > 0;
+            if (v6)
+                _network6 = network;
+            else
+                _network = network;
+        }
+        if (changed)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The public IP changed, datacenter latency will be measured again");
+            _results.Clear();
+        }
+        QueueSave();
+    }
+
+    public static void ClearCache()
+    {
+        const string LOG_IDENT = "DatacenterLatency::ClearCache";
+        EnsureLoaded();
+        _results.Clear();
+        App.Logger.WriteLine(LOG_IDENT, "Saved datacenter latency results were cleared");
+        QueueSave();
+    }
+
+    private static void EnsureLoaded()
+    {
+        const string LOG_IDENT = "DatacenterLatency::EnsureLoaded";
+        if (Volatile.Read(ref _loaded))
+            return;
+        lock (_cacheLock)
+        {
+            if (_loaded)
+                return;
+            try
+            {
+                if (!File.Exists(CachePath))
+                    return;
+                DatacenterLatencyCache? cache = JsonSerializer.Deserialize<DatacenterLatencyCache>(File.ReadAllText(CachePath));
+                if (cache == null)
+                    return;
+                _network = cache.Network ?? "";
+                _network6 = cache.Network6 ?? "";
+                DateTime now = DateTime.UtcNow;
+                int restored = 0;
+                foreach (KeyValuePair<string, DatacenterLatencyResult> pair in cache.Results ?? new())
+                {
+                    if (pair.Value == null || !IsMeasurableCidr(pair.Key) || pair.Value.Ms < 0 || pair.Value.MeasuredUtc > now || now - pair.Value.MeasuredUtc > ResultLifetime)
+                        continue;
+                    if (_results.TryAdd(pair.Key, (pair.Value.Ms, pair.Value.MeasuredUtc)))
+                        restored++;
+                }
+                App.Logger.WriteLine(LOG_IDENT, $"Restored {restored} saved datacenter latency results");
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or NotSupportedException)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Saved datacenter latency results could not be read: " + ex.Message);
+            }
+            finally
+            {
+                Volatile.Write(ref _loaded, true);
+            }
+        }
+    }
+
+    private static void QueueSave()
+    {
+        if (Interlocked.Exchange(ref _savePending, 1) == 1)
+            return;
+        _ = SaveSoonAsync();
+    }
+
+    private static async Task SaveSoonAsync()
+    {
+        const string LOG_IDENT = "DatacenterLatency::SaveSoonAsync";
+        await Task.Delay(SaveDelay).ConfigureAwait(false);
+        Interlocked.Exchange(ref _savePending, 0);
+        try
+        {
+            DatacenterLatencyCache cache = new DatacenterLatencyCache();
+            lock (_cacheLock)
+            {
+                cache.Network = _network;
+                cache.Network6 = _network6;
+            }
+            DateTime now = DateTime.UtcNow;
+            foreach (var pair in _results)
+            {
+                if (pair.Value.Ms >= 0 && now - pair.Value.MeasuredUtc <= ResultLifetime)
+                    cache.Results[pair.Key] = new DatacenterLatencyResult { Ms = pair.Value.Ms, MeasuredUtc = pair.Value.MeasuredUtc };
+            }
+            Directory.CreateDirectory(ServerFetchStore.FolderPath);
+            string temp = CachePath + ".tmp";
+            await File.WriteAllTextAsync(temp, JsonSerializer.Serialize(cache)).ConfigureAwait(false);
+            File.Move(temp, CachePath, true);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Datacenter latency results could not be saved: " + ex.Message);
+        }
+    }
 
     public static void RememberPingTarget(string cidr, string ip)
     {
@@ -49,6 +183,7 @@ public static class DatacenterLatency
 
     public static bool TryGetCached(string? cidr, out int ms)
     {
+        EnsureLoaded();
         ms = -1;
         if (string.IsNullOrWhiteSpace(cidr) || !_results.TryGetValue(cidr, out var result) || result.Ms < 0)
             return false;
@@ -60,6 +195,7 @@ public static class DatacenterLatency
 
     public static int BestKnownMs()
     {
+        EnsureLoaded();
         DateTime now = DateTime.UtcNow;
         int best = -1;
         foreach (var result in _results.Values)
@@ -80,6 +216,7 @@ public static class DatacenterLatency
     {
         if (!IsMeasurableCidr(cidr))
             return -1;
+        EnsureLoaded();
         if (_results.TryGetValue(cidr, out var cached))
         {
             TimeSpan age = DateTime.UtcNow - cached.MeasuredUtc;
@@ -115,6 +252,7 @@ public static class DatacenterLatency
 
     public static double CalibrationRatio(double userLat, double userLon)
     {
+        EnsureLoaded();
         DateTime now = DateTime.UtcNow;
         List<double> ratios = new();
         foreach (var pair in _results)
@@ -187,6 +325,7 @@ public static class DatacenterLatency
         {
             _pingTargets[cidr] = pingIp;
             ServerFetchStore.RecordPing(cidr, pingIp, ms);
+            QueueSave();
         }
         return ms;
     }

@@ -3998,6 +3998,12 @@ Roblox ჩამოიტვირთება, როდესაც მას 
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>დაუშვით ყველა</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>მონაცემთა ცენტრების ხელახლა შემოწმება</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>შენახული შედეგების ნაცვლად თითოეულ მონაცემთა ცენტრამდე პინგის ხელახლა გაზომვა</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>გამორთეთ ერთი ისე, რომ არასოდეს განთავსდეთ იქ. თუ Roblox გაყენებთ დაბლოკილ მონაცემთა ბაზაში, Voidstrap გადაგაქვთ გარეთ.</value>
   </data>

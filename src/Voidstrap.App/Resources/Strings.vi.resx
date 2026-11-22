@@ -4215,6 +4215,12 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Cho phép tất cả</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Kiểm tra lại các trung tâm dữ liệu</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Đo lại ping đến từng trung tâm dữ liệu thay vì dùng kết quả đã lưu</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Tắt một nơi để không bao giờ bị đưa vào đó. Nếu Roblox đưa bạn vào trung tâm bị chặn, Voidstrap sẽ chuyển bạn ra.</value>
   </data>

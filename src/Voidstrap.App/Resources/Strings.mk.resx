@@ -3998,6 +3998,12 @@ Roblox ќе се преземе кога ќе го стартувате прек
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Дозволи сите</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Повторно тестирај податочни центри</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Повторно измерете го пингот до секој податочен центар наместо да ги користите зачуваните резултати</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Исклучете еден за никогаш да не биде ставен таму. Ако Roblox ве стави во блокиран центар за податоци, Voidstrap ве преместува.</value>
   </data>

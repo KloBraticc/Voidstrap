@@ -3998,6 +3998,12 @@ Näme etmek isleýärsiňiz?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Hemmesine rugsat beriň</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Maglumat merkezlerini täzeden barla</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Ýatda saklanan netijeleri ulanmagyň ýerine her maglumat merkezine pingi täzeden ölçe</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Hiç haçan şol ýerde goýulmaz ýaly birini öçüriň. Roblox sizi petiklenen maglumat merkezine salsa, Voidstrap sizi daşlaşdyrýar.</value>
   </data>

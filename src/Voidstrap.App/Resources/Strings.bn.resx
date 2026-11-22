@@ -3998,6 +3998,12 @@ Roblox ডাউনলোড করা হবে যখন আপনি এট�
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>সব অনুমতি দিন</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>ডেটাসেন্টার আবার পরীক্ষা করুন</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>সংরক্ষিত ফলাফল ব্যবহার না করে প্রতিটি ডেটাসেন্টারের পিং আবার মাপুন</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>সেখানে কখনও স্থাপন না করার জন্য একটি বন্ধ করুন। যদি Roblox আপনাকে একটি অবরুদ্ধ ডেটাসেন্টারে রাখে, Voidstrap আপনাকে সরিয়ে দেয়।</value>
   </data>

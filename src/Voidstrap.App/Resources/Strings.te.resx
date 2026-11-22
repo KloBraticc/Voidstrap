@@ -3998,6 +3998,12 @@ Roblox డౌన్లోడ్ చేయబడుతుంది. మీరు 
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>అన్నింటినీ అనుమతించండి</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>డేటాసెంటర్లను మళ్లీ పరీక్షించండి</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>సేవ్ చేసిన ఫలితాలను వాడకుండా ప్రతి డేటాసెంటర్‌కు పింగ్‌ను మళ్లీ కొలవండి</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>ఎప్పుడూ అక్కడ ఉంచబడకుండా ఒకదాన్ని ఆఫ్ చేయండి. Roblox మిమ్మల్ని బ్లాక్ చేయబడిన డేటాసెంటర్లో ఉంచినట్లయితే, Voidstrap మిమ్మల్ని బయటకు తరలిస్తుంది.</value>
   </data>

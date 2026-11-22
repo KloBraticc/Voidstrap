@@ -995,6 +995,10 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Bootstrapper_Datacenters => ResourceManager.GetString("Ui.Bootstrapper.Datacenters", resourceCulture);
 
+        public static string Ui_Bootstrapper_RetestDatacenters => ResourceManager.GetString("Ui.Bootstrapper.RetestDatacenters", resourceCulture);
+
+        public static string Ui_Bootstrapper_RetestDatacentersTip => ResourceManager.GetString("Ui.Bootstrapper.RetestDatacentersTip", resourceCulture);
+
         public static string Ui_Bootstrapper_AllowAll => ResourceManager.GetString("Ui.Bootstrapper.AllowAll", resourceCulture);
 
         public static string Ui_Bootstrapper_TurnOneOffToNeverBe => ResourceManager.GetString("Ui.Bootstrapper.TurnOneOffToNeverBe", resourceCulture);

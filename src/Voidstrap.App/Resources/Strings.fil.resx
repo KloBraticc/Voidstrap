@@ -3986,6 +3986,12 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Payagan lahat</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Subukan muli ang mga datacenter</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Sukatin muli ang ping sa bawat datacenter sa halip na gamitin ang mga naka-save na resulta</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Patayin ang isa para hindi ka kailanman mailagay doon. Kapag inilagay ka ng Roblox sa naka block na datacenter, ililipat ka ng Voidstrap.</value>
   </data>

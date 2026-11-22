@@ -3998,6 +3998,12 @@ Me kuke so ku yi?</value>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Izinin duka</value>
   </data>
+  <data name="Ui.Bootstrapper.RetestDatacenters" xml:space="preserve">
+    <value>Sake gwada cibiyoyin bayanai</value>
+  </data>
+  <data name="Ui.Bootstrapper.RetestDatacentersTip" xml:space="preserve">
+    <value>Sake auna ping zuwa kowace cibiyar bayanai maimakon amfani da sakamakon da aka adana</value>
+  </data>
   <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
     <value>Kashe ɗaya don kada a taɓa sanya shi a wurin. Idan Roblox ya sanya ku a cikin cibiyar bayanai da aka katange, Voidstrap yana fitar da ku.</value>
   </data>
