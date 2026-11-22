@@ -214,6 +214,8 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         try
         {
             List<SavedAccount> stored = ReadStoredAccounts();
+            if (stored.Count == 0 && results.Count > 0)
+                throw new InvalidDataException("Saved account data could not be read");
             foreach (var (saved, verified) in results)
             {
                 SavedAccount? updated = stored.Find(account => account.DatFile == saved.DatFile && account.UserId == saved.UserId);
