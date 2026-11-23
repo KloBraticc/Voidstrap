@@ -10,9 +10,13 @@ namespace Voidstrap.UI.ViewModels.Installer
 {
     public class LaunchMenuViewModel : NotifyPropertyChangedViewModel, IDisposable
     {
+        private const int AvatarDecodeWidth = 64;
+
         private readonly CancellationTokenSource _accountsCts = new();
         private List<AccountChoice> _accounts = new();
+
         private CurrentAccountInfo? _currentAccount;
+        private ImageSource? _currentAvatar;
         private bool _accountsBusy;
         private bool _switchingAccount;
         private bool _disposed;
@@ -36,7 +40,7 @@ namespace Voidstrap.UI.ViewModels.Installer
             string.IsNullOrWhiteSpace(_currentAccount?.DisplayName) ? _currentAccount?.Username ?? Strings.Accounts_NotSignedIn
             : _currentAccount.DisplayName;
 
-        public string? CurrentAvatarUrl => _currentAccount?.AvatarUrl;
+        public ImageSource? CurrentAvatar => _currentAvatar;
 
         public Visibility AccountSelectorVisibility => SavedAccounts.SwitchingSupported ? Visibility.Visible : Visibility.Collapsed;
 
@@ -69,6 +73,7 @@ namespace Voidstrap.UI.ViewModels.Installer
             if (IsAccountsBusy || !SavedAccounts.SwitchingSupported)
                 return;
             CancellationToken token = _accountsCts.Token;
+            SetCurrentAccount(SavedAccounts.ReadCachedLaunchAccount());
             IsAccountsBusy = true;
             try
             {
@@ -166,11 +171,21 @@ namespace Voidstrap.UI.ViewModels.Installer
 
         private async Task RefreshAccountsAsync(CancellationToken token)
         {
-            CurrentAccountInfo? current = await SavedAccounts.RefreshCurrentAsync(token);
+            const string LOG_IDENT = "LaunchMenuViewModel::RefreshAccountsAsync";
+            try
+            {
+                CurrentAccountInfo? current = await SavedAccounts.RefreshLaunchAccountAsync(token);
+                token.ThrowIfCancellationRequested();
+                SetCurrentAccount(current);
+            }
+            catch (Exception ex) when (!token.IsCancellationRequested)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The current account could not be refreshed: " + ex.Message);
+            }
+
             List<SavedAccount> saved = await SavedAccounts.LoadAsync(token);
             Dictionary<long, string> avatars = await SavedAccounts.GetAvatarsAsync(saved.Select(account => account.UserId), token);
             token.ThrowIfCancellationRequested();
-            SetCurrentAccount(current);
             _accounts = saved.Select(account => new AccountChoice
             {
                 Account = account,
@@ -180,10 +195,28 @@ namespace Voidstrap.UI.ViewModels.Installer
 
         private void SetCurrentAccount(CurrentAccountInfo? account)
         {
+            string? previousUrl = _currentAccount?.AvatarUrl;
             if (!SetProperty(ref _currentAccount, account))
                 return;
             OnPropertyChanged(nameof(CurrentAccountTitle));
-            OnPropertyChanged(nameof(CurrentAvatarUrl));
+            string? url = account?.AvatarUrl;
+            if (url == previousUrl)
+                return;
+            ImageSource? cached = string.IsNullOrEmpty(url) ? null : AppImage.LoadCachedBitmap(url, AvatarDecodeWidth);
+            SetProperty(ref _currentAvatar, cached, nameof(CurrentAvatar));
+            if (cached == null && !string.IsNullOrEmpty(url))
+                _ = LoadCurrentAvatarAsync(url, _accountsCts.Token);
+        }
+
+        private async Task LoadCurrentAvatarAsync(string url, CancellationToken token)
+        {
+            try
+            {
+                ImageSource? avatar = await AppImage.LoadAsync(url, AvatarDecodeWidth, token);
+                if (!token.IsCancellationRequested && _currentAccount?.AvatarUrl == url)
+                    SetProperty(ref _currentAvatar, avatar, nameof(CurrentAvatar));
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested) { }
         }
 
         public IReadOnlyList<object> LaunchTargets()

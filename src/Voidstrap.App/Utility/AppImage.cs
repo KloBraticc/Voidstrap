@@ -387,22 +387,44 @@ namespace Voidstrap.Utility
             );
         }
 
+        internal static BitmapSource? LoadCachedBitmap(string url, int decodeWidth)
+        {
+            foreach (string candidate in GetCandidates(url, decodeWidth))
+            {
+                try
+                {
+                    BitmapSource? image = ByteCache.TryGetValue(candidate, out byte[]? bytes)
+                        ? SafeImaging.FromBytes(bytes, decodeWidth)
+                        : SafeImaging.FromFile(GetDiskCacheFile(candidate, DiskCachePruneAge), decodeWidth);
+                    if (image != null)
+                        return image;
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                }
+            }
+
+            return null;
+        }
+
+        private static string? GetDiskCacheFile(string url, TimeSpan maxAge)
+        {
+            if (!IsRemote(url))
+                return null;
+            FileInfo file = new(DiskCachePath(url));
+            return file.Exists
+                && file.Length is > 0 and <= MaxDiskCachedBytes
+                && DateTime.UtcNow - file.LastWriteTimeUtc <= maxAge
+                ? file.FullName
+                : null;
+        }
+
         private static async Task<byte[]?> ReadDiskCacheAsync(string url, CancellationToken ct)
         {
             try
             {
-                if (!IsRemote(url))
-                    return null;
-                string path = DiskCachePath(url);
-                FileInfo info = new FileInfo(path);
-                if (
-                    !info.Exists
-                    || info.Length == 0
-                    || info.Length > MaxDiskCachedBytes
-                    || DateTime.UtcNow - info.LastWriteTimeUtc > DiskCacheAge
-                )
-                    return null;
-                return await File.ReadAllBytesAsync(path, ct).ConfigureAwait(false);
+                string? path = GetDiskCacheFile(url, DiskCacheAge);
+                return path == null ? null : await File.ReadAllBytesAsync(path, ct).ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)
             {

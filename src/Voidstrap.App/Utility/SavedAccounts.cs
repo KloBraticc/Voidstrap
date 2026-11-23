@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,7 +56,11 @@ public static class SavedAccounts
     private static readonly Dictionary<long, string> AvatarCache = new Dictionary<long, string>();
 private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRetryDelay = TimeSpan.FromSeconds(2);
 
+    private sealed record LaunchAccountPreview(string LoginFingerprint, CurrentAccountInfo Account);
+
     private static CurrentAccountInfo? _current;
+
+    private static string LaunchAccountPreviewPath => Path.Combine(Paths.Cache, "LaunchAccount.json");
 
     public static event Action? Changed;
 
@@ -462,8 +467,12 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
             if (saved != null)
                 saved.LastUsedUtc = target.LastUsedUtc;
             Write(stored);
-            AvatarCache.TryGetValue(target.UserId, out string? avatar);
-            _current = new CurrentAccountInfo(target.UserId, target.Username, target.DisplayName, avatar);
+            string? avatar;
+            lock (AvatarCache)
+                AvatarCache.TryGetValue(target.UserId, out avatar);
+            CurrentAccountInfo current = new(target.UserId, target.Username, target.DisplayName, avatar);
+            _current = current;
+            SaveLaunchAccountPreview(current, RobloxCookie.ExtractCookieFromDat(live));
             App.Logger?.WriteLine(LogIdent, "Switched the Roblox login to a saved account");
         }
         finally
@@ -530,12 +539,64 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         RaiseChanged();
     }
 
-    public static async Task<CurrentAccountInfo?> RefreshCurrentAsync(CancellationToken token = default)
+    internal static CurrentAccountInfo? ReadCachedLaunchAccount()
+    {
+        if (!SwitchingSupported || ReadLaunchAccountPreview() is not { } preview)
+            return null;
+        string? cookie = RobloxCookie.ExtractCookieFromDat(LiveCookiePath);
+        return !string.IsNullOrEmpty(cookie) && GetLoginFingerprint(cookie) == preview.LoginFingerprint ? preview.Account : null;
+    }
+
+    private static string GetLoginFingerprint(string cookie) =>
+        Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(cookie)));
+
+    private static LaunchAccountPreview? ReadLaunchAccountPreview()
+    {
+        try
+        {
+            return File.Exists(LaunchAccountPreviewPath)
+                ? JsonFile.Deserialize<LaunchAccountPreview>(LaunchAccountPreviewPath, maximumBytes: 8192)
+                : null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidDataException)
+        {
+            return null;
+        }
+    }
+
+    private static void SaveLaunchAccountPreview(CurrentAccountInfo account, string? cookie)
+    {
+        const string LOG_IDENT = "SavedAccounts::SaveLaunchAccountPreview";
+        if (string.IsNullOrEmpty(cookie) || string.IsNullOrEmpty(account.AvatarUrl))
+            return;
+        LaunchAccountPreview preview = new(GetLoginFingerprint(cookie), account);
+        if (preview == ReadLaunchAccountPreview())
+            return;
+        try
+        {
+            JsonFile.SerializeAtomic(LaunchAccountPreviewPath, preview, createBackup: false);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "The account preview could not be saved: " + ex.Message);
+        }
+    }
+
+    public static Task<CurrentAccountInfo?> RefreshCurrentAsync(CancellationToken token = default) =>
+        RefreshCurrentAsync(false, token);
+
+    internal static Task<CurrentAccountInfo?> RefreshLaunchAccountAsync(CancellationToken token) =>
+        RefreshCurrentAsync(true, token);
+
+    private static async Task<CurrentAccountInfo?> RefreshCurrentAsync(bool forLaunchMenu, CancellationToken token)
     {
         string? cookie = SwitchingSupported ? RobloxCookie.ExtractCookieFromDat(LiveCookiePath) : RobloxCookie.Get();
         RobloxAccount? account = string.IsNullOrEmpty(cookie)
             ? null
-            : await RobloxCookie.GetAccountAsync(cookie, token).ConfigureAwait(false);
+            : forLaunchMenu
+                ? await RobloxCookie.VerifyAccountAsync(cookie, token).ConfigureAwait(false)
+                : await RobloxCookie.GetAccountAsync(cookie, token).ConfigureAwait(false);
+        token.ThrowIfCancellationRequested();
         if (account == null)
         {
             bool hadOne = _current != null;
@@ -547,6 +608,8 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         Dictionary<long, string> avatars = await GetAvatarsAsync(new[] { account.UserId }, token).ConfigureAwait(false);
         avatars.TryGetValue(account.UserId, out string? avatar);
         CurrentAccountInfo info = new CurrentAccountInfo(account.UserId, account.Username, account.DisplayName, avatar);
+        if (forLaunchMenu)
+            SaveLaunchAccountPreview(info, cookie);
         if (info != _current)
         {
             _current = info;
