@@ -132,9 +132,19 @@ public partial class SessionDock : Window
     {
         Server,
         Profile,
+        Robux,
     }
 
+    private sealed record RobuxPurchaseRow(string Name, string Subtitle, string AmountText);
+
     private PopoutView _popoutView = PopoutView.Server;
+    private long _selfUserId;
+    private DispatcherTimer? _robuxTimer;
+    private bool _robuxRefreshing;
+    private bool _robuxPurchasesLoading;
+    private (long UniverseId, long PlaceId) _robuxPurchasesCacheKey;
+    private DateTime _robuxPurchasesUtc = DateTime.MinValue;
+    private IReadOnlyList<RobloxPurchase>? _robuxPurchasesCache;
     private RobloxProfileInfo? _profileInfo;
     private DateTime _profileInfoUtc = DateTime.MinValue;
     private bool _profileInfoLoading;
@@ -517,6 +527,12 @@ public partial class SessionDock : Window
         _islandExpanded = false;
         _islandClock.Stop();
         _islandClock.Tick -= OnIslandClockTick;
+        if (_robuxTimer != null)
+        {
+            _robuxTimer.Stop();
+            _robuxTimer.Tick -= OnRobuxTimerTick;
+            _robuxTimer = null;
+        }
         NowPlayingIsland.BeginAnimation(WidthProperty, null);
         NowPlayingIsland.BeginAnimation(HeightProperty, null);
         IslandShape.BeginAnimation(System.Windows.Shapes.Rectangle.RadiusXProperty, null);
@@ -835,6 +851,9 @@ public partial class SessionDock : Window
                 });
                 return;
             }
+            _selfUserId = self.Value;
+            StartRobuxTimer();
+            _ = RefreshRobuxAsync();
             RobloxChatUser? user = RobloxChat.GetCachedUser(self.Value);
             await Dispatcher.InvokeAsync(() =>
             {
@@ -1651,7 +1670,7 @@ public partial class SessionDock : Window
         DockScroll.HorizontalScrollBarVisibility = vertical ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Hidden;
         DockScroll.VerticalScrollBarVisibility = vertical ? ScrollBarVisibility.Hidden : ScrollBarVisibility.Disabled;
         DockScroll.ScrollToHome();
-        foreach (FrameworkElement divider in new FrameworkElement[] { ProfileDivider, GameDivider, ActionsDivider })
+        foreach (FrameworkElement divider in new FrameworkElement[] { ProfileDivider, RobuxDivider, GameDivider, ActionsDivider })
         {
             divider.Width = vertical ? 30 : 1;
             divider.Height = vertical ? 1 : 30;
@@ -1662,11 +1681,15 @@ public partial class SessionDock : Window
         Visibility text = vertical ? Visibility.Collapsed : Visibility.Visible;
         ProfileText.Visibility = text;
         ProfileChevron.Visibility = text;
+        RobuxText.Visibility = text;
+        RobuxChevron.Visibility = text;
         GameText.Visibility = text;
         GameChevron.Visibility = text;
         ProfileAvatarHost.Margin = vertical ? new Thickness(0) : new Thickness(0, 0, 12, 0);
+        RobuxGlyph.Margin = vertical ? new Thickness(0) : new Thickness(0, 0, 6, 0);
         GamePicture.Margin = vertical ? new Thickness(0) : new Thickness(0, 0, 12, 0);
         ProfileCard.HorizontalAlignment = HorizontalAlignment.Center;
+        RobuxCard.HorizontalAlignment = HorizontalAlignment.Center;
         GameCard.HorizontalAlignment = HorizontalAlignment.Center;
         ActionButtons.Orientation = flow;
         ActionButtons.Margin = vertical ? new Thickness(0, 6, 0, 6) : new Thickness(6, 0, 6, 0);
@@ -2197,6 +2220,12 @@ public partial class SessionDock : Window
         TogglePopout(PopoutView.Profile);
     }
 
+    private void RobuxCard_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        e.Handled = true;
+        TogglePopout(PopoutView.Robux);
+    }
+
     private void GameCard_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         e.Handled = true;
@@ -2300,6 +2329,9 @@ public partial class SessionDock : Window
         if (ProfilePanel.Parent is Panel profileParent)
             profileParent.Children.Remove(ProfilePanel);
         ProfilePanel.Visibility = Visibility.Visible;
+        if (RobuxPanel.Parent is Panel robuxParent)
+            robuxParent.Children.Remove(RobuxPanel);
+        RobuxPanel.Visibility = Visibility.Visible;
         if (ServerPanel.Parent is Panel parent)
             parent.Children.Remove(ServerPanel);
         ServerPanel.Margin = new Thickness(0);
@@ -2337,7 +2369,6 @@ public partial class SessionDock : Window
     {
         if (_closed || !_opened)
             return;
-        bool profile = _popoutView == PopoutView.Profile;
         if (_popout == null)
         {
             _popout = new Window
@@ -2364,12 +2395,23 @@ public partial class SessionDock : Window
                 _popout.PreviewMouseDown += OnPopoutPointerDown;
             }
         }
-        object view = profile ? ProfilePanel : ServerPanel;
+        object view = _popoutView switch
+        {
+            PopoutView.Profile => ProfilePanel,
+            PopoutView.Robux => RobuxPanel,
+            _ => ServerPanel,
+        };
         if (!ReferenceEquals(_popout.Content, view))
             _popout.Content = view;
-        GameChevron.Text = profile ? "\uE70E" : "\uE70D";
-        ProfileChevron.Text = profile ? "\uE70D" : "\uE70E";
-        MarkOpenCard(profile ? ProfileCard : GameCard);
+        GameChevron.Text = _popoutView == PopoutView.Server ? "\uE70D" : "\uE70E";
+        ProfileChevron.Text = _popoutView == PopoutView.Profile ? "\uE70D" : "\uE70E";
+        RobuxChevron.Text = _popoutView == PopoutView.Robux ? "\uE70D" : "\uE70E";
+        MarkOpenCard(_popoutView switch
+        {
+            PopoutView.Profile => ProfileCard,
+            PopoutView.Robux => RobuxCard,
+            _ => GameCard,
+        });
         UpdateReadout();
         bool wasVisible = _popout.IsVisible;
         try
@@ -2387,9 +2429,14 @@ public partial class SessionDock : Window
         PlacePopout();
         UpdateNowPlayingVisibility();
         RaiseAboveDimmer();
-        if (profile)
+        if (_popoutView == PopoutView.Profile)
         {
             _ = PortableOverlay.RunAsync(this, LoadProfileDetailsAsync);
+            return;
+        }
+        if (_popoutView == PopoutView.Robux)
+        {
+            _ = PortableOverlay.RunAsync(this, LoadRobuxPurchasesAsync);
             return;
         }
         UpdateReadout();
@@ -2583,9 +2630,167 @@ public partial class SessionDock : Window
         }
     }
 
+    private void StartRobuxTimer()
+    {
+        if (_closed || _robuxTimer != null)
+            return;
+        _robuxTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(60) };
+        _robuxTimer.Tick += OnRobuxTimerTick;
+        _robuxTimer.Start();
+    }
+
+    private void OnRobuxTimerTick(object? sender, EventArgs e)
+    {
+        if (!_closed)
+            _ = RefreshRobuxAsync();
+    }
+
+    private async Task RefreshRobuxAsync()
+    {
+        if (_closed || _robuxRefreshing || _selfUserId <= 0)
+            return;
+        _robuxRefreshing = true;
+        try
+        {
+            long? robux = await RobloxEconomy.GetRobuxAsync(_selfUserId, _lifetimeToken);
+            if (_closed || robux is not long value)
+                return;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (_closed)
+                    return;
+                RobuxText.Text = value.ToString("N0", CultureInfo.CurrentCulture);
+                RobuxCard.Visibility = Visibility.Visible;
+                RobuxDivider.Visibility = Visibility.Visible;
+                QueueFitWidth();
+            });
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Your Robux balance could not be loaded: " + ex.Message);
+        }
+        finally
+        {
+            _robuxRefreshing = false;
+        }
+    }
+
+    private async Task LoadRobuxPurchasesAsync()
+    {
+        _ = RefreshRobuxAsync();
+        if (_closed)
+            return;
+        if (_selfUserId <= 0)
+        {
+            ShowRobuxStatus("Sign in to see purchases");
+            return;
+        }
+
+        long universeId = _data is { } data ? (data.UniverseId > 0 ? data.UniverseId : data.UniverseDetails?.Data?.Id ?? 0) : 0;
+        long placeId = _data?.PlaceId ?? 0;
+        if (universeId <= 0 && placeId <= 0)
+        {
+            ShowRobuxStatus("Could not load purchases");
+            return;
+        }
+
+        (long UniverseId, long PlaceId) key = (universeId, placeId);
+        if (_robuxPurchasesCache != null && _robuxPurchasesCacheKey == key && DateTime.UtcNow - _robuxPurchasesUtc < TimeSpan.FromMinutes(2))
+        {
+            ShowRobuxPurchases(_robuxPurchasesCache);
+            return;
+        }
+
+        if (_robuxPurchasesLoading)
+            return;
+
+        _robuxPurchasesLoading = true;
+        ShowRobuxStatus("Loading...");
+        try
+        {
+            IReadOnlyList<RobloxPurchase>? purchases = await RobloxEconomy.GetGamePurchasesAsync(_selfUserId, universeId, placeId, _lifetimeToken);
+            if (_closed || _popoutView != PopoutView.Robux)
+                return;
+            if (purchases == null)
+            {
+                ShowRobuxStatus("Could not load purchases");
+                return;
+            }
+
+            _robuxPurchasesCacheKey = key;
+            _robuxPurchasesUtc = DateTime.UtcNow;
+            _robuxPurchasesCache = purchases;
+            ShowRobuxPurchases(purchases);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Your game purchases could not be loaded: " + ex.Message);
+            if (!_closed && _popoutView == PopoutView.Robux)
+                ShowRobuxStatus("Could not load purchases");
+        }
+        finally
+        {
+            _robuxPurchasesLoading = false;
+        }
+    }
+
+    private void ShowRobuxStatus(string message)
+    {
+        RobuxList.ItemsSource = null;
+        RobuxList.Visibility = Visibility.Collapsed;
+        RobuxTotalText.Text = string.Empty;
+        RobuxStatus.Text = message;
+        RobuxStatus.Visibility = Visibility.Visible;
+    }
+
+    private void ShowRobuxPurchases(IReadOnlyList<RobloxPurchase> purchases)
+    {
+        if (purchases.Count == 0)
+        {
+            ShowRobuxStatus("No purchases in this game yet");
+            return;
+        }
+
+        List<RobuxPurchaseRow> rows = new(purchases.Count);
+        long total = 0;
+        foreach (RobloxPurchase purchase in purchases)
+        {
+            total += purchase.Amount;
+            string typeLabel = FormatPurchaseType(purchase.Type);
+            string when = purchase.CreatedUtc.ToLocalTime().ToString("g", CultureInfo.CurrentCulture);
+            string subtitle = string.IsNullOrEmpty(typeLabel) ? when : typeLabel + " · " + when;
+            rows.Add(new RobuxPurchaseRow(purchase.Name, subtitle, "R$ " + purchase.Amount.ToString("N0", CultureInfo.CurrentCulture)));
+        }
+
+        RobuxStatus.Visibility = Visibility.Collapsed;
+        RobuxList.ItemsSource = rows;
+        RobuxList.Visibility = Visibility.Visible;
+        string countText = rows.Count == 1 ? "1 purchase" : rows.Count.ToString(CultureInfo.CurrentCulture) + " purchases";
+        RobuxTotalText.Text = countText + " · R$ " + total.ToString("N0", CultureInfo.CurrentCulture) + " spent";
+    }
+
+    private static string FormatPurchaseType(string type) => type switch
+    {
+        "DeveloperProduct" => "Developer Product",
+        "GamePass" => "Game Pass",
+        "PrivateServer" => "Private Server",
+        _ => type,
+    };
+
     private double OpenCardTop()
     {
-        Border card = _popoutView == PopoutView.Profile ? ProfileCard : GameCard;
+        Border card = _popoutView switch
+        {
+            PopoutView.Profile => ProfileCard,
+            PopoutView.Robux => RobuxCard,
+            _ => GameCard,
+        };
         if (!card.IsVisible || !card.IsDescendantOf(this))
             return Pill.TransformToAncestor(this).Transform(new Point(0, 0)).Y;
         return card.TransformToAncestor(this).Transform(new Point(0, 0)).Y;
@@ -2593,7 +2798,7 @@ public partial class SessionDock : Window
 
     private void MarkOpenCard(Border? open)
     {
-        foreach (Border card in new[] { ProfileCard, GameCard })
+        foreach (Border card in new[] { ProfileCard, RobuxCard, GameCard })
         {
             if (ReferenceEquals(card, open))
                 card.SetResourceReference(Border.BackgroundProperty, "SubtleFillColorSecondaryBrush");
@@ -2607,6 +2812,7 @@ public partial class SessionDock : Window
         MarkOpenCard(null);
         GameChevron.Text = "\uE70E";
         ProfileChevron.Text = "\uE70E";
+        RobuxChevron.Text = "\uE70E";
         if (_popout is { IsVisible: true } popout)
             popout.Hide();
         UpdateNowPlayingVisibility();
@@ -3001,6 +3207,12 @@ public partial class SessionDock : Window
         _nowPlayingTimer.Tick -= OnNowPlayingTick;
         _islandClock.Stop();
         _islandClock.Tick -= OnIslandClockTick;
+        if (_robuxTimer != null)
+        {
+            _robuxTimer.Stop();
+            _robuxTimer.Tick -= OnRobuxTimerTick;
+            _robuxTimer = null;
+        }
         if (_popoutSlide != null)
         {
             _popoutSlide.Stop();

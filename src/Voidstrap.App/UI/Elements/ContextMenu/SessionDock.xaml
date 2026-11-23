@@ -271,6 +271,53 @@
         </StackPanel>
       </Grid>
     </Border>
+    <Border x:Name="RobuxPanel" Grid.Row="0" Visibility="Collapsed" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
+      <Grid Margin="20,16,20,16">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,0,12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="Purchases in this game" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"
+                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          <TextBlock x:Name="RobuxTotalText" Grid.Column="1" FontSize="12" VerticalAlignment="Center"
+                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        </Grid>
+        <ScrollViewer Grid.Row="1" MaxHeight="260" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <Grid>
+            <ItemsControl x:Name="RobuxList">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Margin="0,0,0,6" Padding="12,8" CornerRadius="8" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <StackPanel Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
+                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                        <TextBlock Text="{Binding Subtitle}" Margin="0,2,0,0" FontSize="11" TextTrimming="CharacterEllipsis"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                      </StackPanel>
+                      <TextBlock Grid.Column="1" Text="{Binding AmountText}" FontSize="13" FontWeight="SemiBold"
+                                 VerticalAlignment="Center" Typography.NumeralAlignment="Tabular"
+                                 Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock x:Name="RobuxStatus" FontSize="13" TextWrapping="Wrap" Visibility="Collapsed"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          </Grid>
+        </ScrollViewer>
+      </Grid>
+    </Border>
     <!-- The dock itself: a pill with a thin outline and a soft shadow. The shadow is a few faint rings drawn once,
          a blur effect had to be recalculated on every change and made the dock and the game stutter -->
     <Grid Grid.Row="1" HorizontalAlignment="Center">
@@ -289,6 +336,8 @@
       <ScrollViewer x:Name="DockScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Focusable="False" PreviewMouseWheel="DockScroll_PreviewMouseWheel">
       <Grid x:Name="DockContent" VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
@@ -326,8 +375,17 @@
         </Border>
         <Rectangle x:Name="ProfileDivider" Grid.Column="1" Style="{StaticResource DockDivider}" />
 
+        <Border x:Name="RobuxCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="Robux" Visibility="Collapsed" MouseLeftButtonUp="RobuxCard_MouseLeftButtonUp">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock x:Name="RobuxGlyph" Text="&#xE8C7;" Style="{StaticResource DockGlyph}" Margin="0,0,6,0" />
+            <TextBlock x:Name="RobuxText" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Typography.NumeralAlignment="Tabular" />
+            <TextBlock x:Name="RobuxChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
+          </StackPanel>
+        </Border>
+        <Rectangle x:Name="RobuxDivider" Grid.Column="3" Style="{StaticResource DockDivider}" Visibility="Collapsed" />
+
         <!-- The game, clickable like an option card, opens the game and server popout above the dock -->
-        <Border x:Name="GameCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Ui_Session_GameAndServer}" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
+        <Border x:Name="GameCard" Grid.Column="4" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Ui_Session_GameAndServer}" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
           <StackPanel Orientation="Horizontal">
             <Image x:Name="GamePicture" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center"
                    Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
@@ -361,9 +419,9 @@
             <TextBlock x:Name="GameChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
           </StackPanel>
         </Border>
-        <Rectangle x:Name="GameDivider" Grid.Column="3" Style="{StaticResource DockDivider}" HorizontalAlignment="Left" />
+        <Rectangle x:Name="GameDivider" Grid.Column="5" Style="{StaticResource DockDivider}" HorizontalAlignment="Left" />
 
-        <StackPanel x:Name="ActionButtons" Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,6,0">
+        <StackPanel x:Name="ActionButtons" Grid.Column="6" Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,6,0">
           <ui:Button ToolTip="{resources:Loc Ui_Session_ChatWithFriends}" Tag="chat" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE8BD;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
@@ -416,7 +474,7 @@
             <TextBlock Text="&#xE713;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
         </StackPanel>
-        <Rectangle x:Name="ActionsDivider" Grid.Column="5" Style="{StaticResource DockDivider}" />
+        <Rectangle x:Name="ActionsDivider" Grid.Column="7" Style="{StaticResource DockDivider}" />
 
       </Grid>
       </ScrollViewer>
