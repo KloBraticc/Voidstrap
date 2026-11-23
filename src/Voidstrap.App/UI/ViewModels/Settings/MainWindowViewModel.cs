@@ -333,6 +333,8 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 
     private static void LaunchClassicClient(string code, bool studio)
     {
+        const string LOG_IDENT = "MainWindowViewModel::LaunchClassicClient";
+
         StopVoidstrapRpcForClassic();
         IBootstrapperDialog dialog = App.Settings.Prop.BootstrapperStyle.GetNew();
         dialog.CancelEnabled = true;
@@ -349,7 +351,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
             Task.Run(delegate
             {
                 try { ClassicClients.ShutdownAll(); }
-                catch (Exception ex) { App.Logger.WriteLine("MainWindowViewModel", "Classic shutdown failed: " + ex.Message); }
+                catch (Exception ex) { App.Logger.WriteException(LOG_IDENT, ex); }
             });
         };
 
@@ -381,7 +383,9 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
                     if (config == null || !ClassicClients.HasStudio(config))
                         throw new InvalidOperationException("The selected ORC client does not include Studio.");
                     Status("Starting ORC Studio");
-                    Process? studioProcess = ClassicClients.Launch(code, ClientLaunchType.Studio, ClassicClients.DefaultPort, "localhost", Status);
+                    Process? studioProcess = await ClassicClients.LaunchAsync(
+                        code, ClientLaunchType.Studio, status: Status, token: launchCts.Token
+                    ).ConfigureAwait(false);
                     if (studioProcess == null)
                         throw new InvalidOperationException("ORC Studio could not be started.");
                     await Task.Delay(2000, launchCts.Token).ConfigureAwait(false);
@@ -405,11 +409,12 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
                 if (launchCts.IsCancellationRequested)
                     ClassicClients.ShutdownAll();
             }
-            catch (OperationCanceledException) when (launchCts.IsCancellationRequested)
+            catch (OperationCanceledException ex) when (launchCts.IsCancellationRequested || ex.CancellationToken == launchCts.Token)
             {
             }
             catch (Exception ex)
             {
+                App.Logger.WriteException(LOG_IDENT, ex);
                 Frontend.ShowMessageBox($"Could not launch {code}: {ex.Message}", MessageBoxImage.Error);
             }
         }).ContinueWith(delegate

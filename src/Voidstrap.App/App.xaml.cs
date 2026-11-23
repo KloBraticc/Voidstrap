@@ -94,6 +94,9 @@ public partial class App : Application
 
     public const string RobloxPlayerAppName = "RobloxPlayerBeta";
 
+    internal const string ClassicVisualCppDownloadUrl =
+        "https://download.microsoft.com/download/8/b/4/8b42259f-5d70-43f4-ac2e-4b208fd8d66a/vcredist_x86.EXE";
+
     public const string DiscordApplicationId = "1375529225230094507";
 
     public const string RobloxStudioAppName = "RobloxStudioBeta";

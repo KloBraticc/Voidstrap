@@ -598,7 +598,7 @@ namespace Voidstrap.Utility
             return path;
         }
 
-        private static void ValidateLaunchFiles(string client, ClassicClientConfig config, ClientLaunchType launchType, string? map = null)
+        private static string ValidateLaunchFiles(string client, ClassicClientConfig config, ClientLaunchType launchType, string? map = null)
         {
             if (!File.Exists(WebServerPath))
                 throw new FileNotFoundException("The ORC local service is missing. Repair the ORC engine and try again.", WebServerPath);
@@ -627,13 +627,16 @@ namespace Voidstrap.Utility
 
             if (string.IsNullOrWhiteSpace(directoryName) || string.IsNullOrWhiteSpace(executableName))
                 throw new InvalidOperationException("The ORC client configuration is incomplete.");
-            string executable = ResolvePathWithin(ClientsDir, client, directoryName, executableName);
+            if (executableName.Contains('\\') || executableName.Contains('/'))
+                throw new InvalidOperationException("The client config failed a security check.");
+            string executableDir = ResolvePathWithin(ClientsDir, client, directoryName);
+            string executable = ResolvePathWithin(executableDir, executableName);
             if (!File.Exists(executable))
                 throw new FileNotFoundException(
                     "The ORC client executable is missing. Repair the selected client and try again.",
                     executable
                 );
-            string helper = ResolvePathWithin(ClientsDir, client, directoryName, OriginalHelperName);
+            string helper = ResolvePathWithin(executableDir, OriginalHelperName);
             if (!File.Exists(helper))
                 throw new FileNotFoundException(
                     "The ORC compatibility helper is missing. Repair the selected client and try again.",
@@ -662,6 +665,7 @@ namespace Voidstrap.Utility
                         mapPath
                     );
             }
+            return executable;
         }
 
         public static bool EngineNeedsRepair()
@@ -1733,38 +1737,23 @@ namespace Voidstrap.Utility
             return config.Studio.Type != "None" && !string.IsNullOrEmpty(config.Studio.Type);
         }
 
-        public static Process? Launch(
+        public static async Task<Process?> LaunchAsync(
             string client,
             ClientLaunchType launchType,
             ushort port = DefaultPort,
             string ip = "localhost",
-            Action<string>? status = null
+            Action<string>? status = null,
+            CancellationToken token = default
         )
         {
+            const string LOG_IDENT = "ClassicClients::LaunchAsync";
+
             ClassicClientConfig? config = GetInstalledConfig(client);
             if (config == null)
                 throw new InvalidOperationException("The client config for " + client + " is missing.");
 
-            ValidateLaunchFiles(client, config, launchType);
-
-            Voidstrap.Integrations.Studio.StudioPluginInstaller.StashForClassicClient();
-
-            string? redirectFailure = Voidstrap.Integrations.ClassicHostRedirect.Set(enable: true);
-            if (redirectFailure != null)
-            {
-                App.Logger?.WriteLine("ClassicClients::Launch", "Host redirect failed: " + redirectFailure);
-                throw new InvalidOperationException(redirectFailure);
-            }
-
-            string? serviceFailure = EnsureWebServerRunning(client, status);
-            if (serviceFailure != null)
-            {
-                App.Logger?.WriteLine("ClassicClients::Launch", "Local service failed: " + serviceFailure);
-                throw new InvalidOperationException(serviceFailure);
-            }
-
-            string directoryName;
-            string executableName;
+            string executablePath = ValidateLaunchFiles(client, config, launchType);
+            string executableDir = Path.GetDirectoryName(executablePath)!;
             string argumentsFormat;
             string extraArgument;
             string url;
@@ -1772,24 +1761,16 @@ namespace Voidstrap.Utility
             switch (launchType)
             {
                 case ClientLaunchType.Play:
-                    directoryName = "Player";
-                    executableName = config.Player.ExecutableName;
                     argumentsFormat = config.Player.LaunchArguments;
                     extraArgument = config.Player.Sensitive ? "" : "-ip";
                     url = CreateJoinUrl(ip, port, config.Domain);
                     break;
                 case ClientLaunchType.Studio:
-                    if (!HasStudio(config))
-                        throw new InvalidOperationException("The selected client has no studio.");
-                    directoryName = GetStudioDirectory(config);
-                    executableName = GetStudioExecutable(config);
                     argumentsFormat = "";
                     extraArgument = config.Player.Sensitive ? "" : "-is";
                     url = "";
                     break;
                 case ClientLaunchType.Host:
-                    directoryName = config.Server.Directory;
-                    executableName = config.Server.ExecutableName;
                     argumentsFormat = config.Server.LaunchArguments;
                     extraArgument = "-ih";
                     url = CreateHostUrl(port, config.Domain);
@@ -1797,14 +1778,6 @@ namespace Voidstrap.Utility
                 default:
                     throw new NotImplementedException(launchType.ToString());
             }
-
-            if (executableName.Contains('\\') || executableName.Contains('/'))
-                throw new InvalidOperationException("The client config failed a security check.");
-
-            string executableDir = ResolvePathWithin(ClientsDir, client, directoryName);
-            string executablePath = ResolvePathWithin(executableDir, executableName);
-            if (!File.Exists(executablePath))
-                throw new FileNotFoundException("Could not find the client executable: " + executablePath);
 
             string domainValue = string.IsNullOrWhiteSpace(config.Domain) ? "roblox.com" : config.Domain.Trim();
             if (
@@ -1818,21 +1791,40 @@ namespace Voidstrap.Utility
                 arguments = (arguments + " " + extraArgument).Trim();
             if (arguments.Length > MaxLaunchArgumentCharacters)
                 throw new InvalidDataException("The ORC launch arguments are too long");
+            SplitLaunchArguments(arguments);
+
+            await EnsureVisualCpp2005Async(executablePath, status, token).ConfigureAwait(false);
+            token.ThrowIfCancellationRequested();
+
+            Voidstrap.Integrations.Studio.StudioPluginInstaller.StashForClassicClient();
+
+            string? redirectFailure = Voidstrap.Integrations.ClassicHostRedirect.Set(enable: true);
+            if (redirectFailure != null)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Host redirect failed: " + redirectFailure);
+                throw new InvalidOperationException(redirectFailure);
+            }
+
+            string? serviceFailure = EnsureWebServerRunning(client, status);
+            if (serviceFailure != null)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "Local service failed: " + serviceFailure);
+                throw new InvalidOperationException(serviceFailure);
+            }
 
             if (launchType == ClientLaunchType.Host)
                 VerifyHostScript(config.Domain);
             else
                 ClassicModApplier.Apply(executableDir);
 
-            var process = new Process();
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.FileName = executablePath;
-            process.StartInfo.WorkingDirectory = executableDir;
-            SplitLaunchArguments(arguments);
-            process.StartInfo.Arguments = arguments;
-            App.Logger?.WriteLine("ClassicClients::Launch", $"Launching {client} {launchType}: {executablePath} {arguments}");
-            process.Start();
-            return process;
+            App.Logger?.WriteLine(LOG_IDENT, $"Launching {client} {launchType}: {executablePath} {arguments}");
+            return Process.Start(new ProcessStartInfo
+            {
+                UseShellExecute = false,
+                FileName = executablePath,
+                WorkingDirectory = executableDir,
+                Arguments = arguments,
+            });
         }
 
         private static List<string> SplitLaunchArguments(string commandLine)
@@ -2638,14 +2630,14 @@ namespace Voidstrap.Utility
                 );
 
             status?.Invoke("Starting the local server");
-            Process? host = Launch(client, ClientLaunchType.Host, DefaultPort, "localhost", status);
+            Process? host = await LaunchAsync(client, ClientLaunchType.Host, DefaultPort, "localhost", status, ct).ConfigureAwait(false);
             if (host == null)
                 throw new InvalidOperationException("The ORC local server could not be started.");
             try
             {
                 await WaitForHostReadyAsync(host, DefaultPort, ct).ConfigureAwait(true);
                 status?.Invoke("Joining the game");
-                Process? player = Launch(client, ClientLaunchType.Play, DefaultPort, "127.0.0.1");
+                Process? player = await LaunchAsync(client, ClientLaunchType.Play, DefaultPort, "127.0.0.1", status, ct).ConfigureAwait(false);
                 if (player == null)
                     throw new InvalidOperationException("The ORC player could not be started.");
                 await Task.Delay(2000, ct).ConfigureAwait(true);

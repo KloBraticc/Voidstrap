@@ -84,6 +84,14 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Main_SettingNotChanged => ResourceManager.GetString("Ui.Main.SettingNotChanged", resourceCulture);
 
+        public static string ClassicClients_VisualCpp_InstallPrompt => ResourceManager.GetString("ClassicClients.VisualCpp.InstallPrompt", resourceCulture);
+
+        public static string ClassicClients_VisualCpp_Downloading => ResourceManager.GetString("ClassicClients.VisualCpp.Downloading", resourceCulture);
+
+        public static string ClassicClients_VisualCpp_Installing => ResourceManager.GetString("ClassicClients.VisualCpp.Installing", resourceCulture);
+
+        public static string ClassicClients_VisualCpp_InstallFailed => ResourceManager.GetString("ClassicClients.VisualCpp.InstallFailed", resourceCulture);
+
         public static string Ui_Main_MarkAllRead => ResourceManager.GetString("Ui.Main.MarkAllRead", resourceCulture);
 
         public static string Ui_Main_ClearAll => ResourceManager.GetString("Ui.Main.ClearAll", resourceCulture);
