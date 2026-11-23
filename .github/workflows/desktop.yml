@@ -798,6 +798,12 @@ jobs:
           EOF
           dotnet run --project "$check/OverlayCheck.csproj" -warnaserror
       - run: bash build/Packaging/MacOS/package.sh ${{ matrix.rid }} "" artifacts/package-${{ matrix.rid }}
+      - name: Check the packaged launch account selector
+        run: |
+          check="$RUNNER_TEMP/launch-account-${{ matrix.rid }}"
+          mkdir -p "$check"
+          tar -xzf "artifacts/package-${{ matrix.rid }}/Voidstrap-${{ matrix.rid }}.tar.gz" -C "$check"
+          VOIDSTRAP_AUDIT_ONLY=AuditLaunchAccountSelector "$check/Voidstrap.app/Contents/MacOS/Voidstrap" -windowaudit
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: ${{ matrix.rid }}

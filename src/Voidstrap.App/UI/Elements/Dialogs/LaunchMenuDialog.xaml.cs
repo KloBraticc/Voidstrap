@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -30,6 +31,8 @@ public partial class LaunchMenuDialog : WpfUiWindow
     public LaunchMenuDialog()
     {
         _viewModel = new LaunchMenuViewModel();
+        _viewModel.PrepareAccounts();
+        _viewModel.PropertyChanged += OnViewModelPropertyChanged;
         _viewModel.CloseWindowRequest += OnCloseWindowRequest;
         base.DataContext = _viewModel;
         InitializeComponent();
@@ -42,7 +45,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        _ = _viewModel.LoadAccountsAsync();
+        _viewModel.RefreshAccounts();
     }
 
     private void AccountSelectorButton_Click(object sender, RoutedEventArgs e)
@@ -60,7 +63,29 @@ public partial class LaunchMenuDialog : WpfUiWindow
             PlacementTarget = AccountSelectorButton,
             Placement = PlacementMode.Bottom,
             StaysOpen = true,
+            Style = (Style)FindResource("LaunchAccountMenuStyle"),
         };
+        PopulateAccountMenu(menu);
+        menu.Opened += AccountMenu_Opened;
+        menu.PreviewKeyDown += AccountMenu_PreviewKeyDown;
+        menu.Closed += AccountMenu_Closed;
+        _accountMenu = menu;
+        menu.IsOpen = true;
+    }
+
+    private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(LaunchMenuViewModel.AccountSelectorVisibility)
+            && _viewModel.AccountSelectorVisibility != Visibility.Visible && _accountMenu is { } openMenu)
+            openMenu.IsOpen = false;
+        if (e.PropertyName == nameof(LaunchMenuViewModel.OtherAccounts) && !_viewModel.IsAccountsBusy && _accountMenu is { } menu)
+            PopulateAccountMenu(menu);
+    }
+
+    private void PopulateAccountMenu(WpfContextMenu menu)
+    {
+        DetachAccountMenuItems(menu);
+        menu.Items.Clear();
         menu.Items.Add(new MenuItem { Header = _viewModel.CurrentAccountTitle, IsEnabled = false });
         menu.Items.Add(CreateAccountMenuSeparator());
         foreach (AccountChoice choice in _viewModel.OtherAccounts)
@@ -85,11 +110,6 @@ public partial class LaunchMenuDialog : WpfUiWindow
             Visibility = string.IsNullOrEmpty(_viewModel.AccountStatus) ? Visibility.Collapsed : Visibility.Visible,
         };
         menu.Items.Add(_accountStatusItem);
-        menu.Opened += AccountMenu_Opened;
-        menu.PreviewKeyDown += AccountMenu_PreviewKeyDown;
-        menu.Closed += AccountMenu_Closed;
-        _accountMenu = menu;
-        menu.IsOpen = true;
     }
 
     private Separator CreateAccountMenuSeparator()
@@ -112,16 +132,6 @@ public partial class LaunchMenuDialog : WpfUiWindow
 
         Grid avatar = new() { Width = 32, Height = 32, Margin = new Thickness(0, 0, 8, 0) };
         avatar.Children.Add(new Ellipse { Fill = (Brush)FindResource("ControlFillColorSecondaryBrush") });
-        avatar.Children.Add(
-            new Wpf.Ui.Controls.SymbolIcon
-            {
-                Symbol = SymbolRegular.PersonCircle24,
-                FontSize = 22,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Foreground = (Brush)FindResource("TextFillColorTertiaryBrush"),
-            }
-        );
         Image avatarImage = new()
         {
             Stretch = Stretch.UniformToFill,
@@ -129,6 +139,22 @@ public partial class LaunchMenuDialog : WpfUiWindow
         };
         RenderOptions.SetBitmapScalingMode(avatarImage, BitmapScalingMode.HighQuality);
         DynamicRenderSystem.SetLazyImageSource(avatarImage, choice.AvatarUrl);
+
+        Wpf.Ui.Controls.SymbolIcon placeholder = new()
+        {
+            Symbol = SymbolRegular.PersonCircle24,
+            FontSize = 22,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Foreground = (Brush)FindResource("TextFillColorTertiaryBrush"),
+        };
+        Style placeholderStyle = new(typeof(Wpf.Ui.Controls.SymbolIcon), (Style)FindResource(typeof(Wpf.Ui.Controls.SymbolIcon)));
+        placeholderStyle.Setters.Add(new Setter(VisibilityProperty, Visibility.Collapsed));
+        DataTrigger missingAvatar = new() { Binding = new Binding(nameof(Image.Source)) { Source = avatarImage }, Value = null };
+        missingAvatar.Setters.Add(new Setter(VisibilityProperty, Visibility.Visible));
+        placeholderStyle.Triggers.Add(missingAvatar);
+        placeholder.Style = placeholderStyle;
+        avatar.Children.Add(placeholder);
         avatar.Children.Add(avatarImage);
         header.Children.Add(avatar);
 
@@ -137,13 +163,18 @@ public partial class LaunchMenuDialog : WpfUiWindow
             new TextBlock
             {
                 FontWeight = FontWeights.SemiBold,
+                MaxWidth = 210,
+                TextTrimming = TextTrimming.CharacterEllipsis,
                 Text = string.IsNullOrWhiteSpace(choice.Account.DisplayName) ? choice.Username : choice.Account.DisplayName,
+                ToolTip = choice.Account.DisplayName,
             }
         );
         accountDetails.Children.Add(
             new TextBlock
             {
                 FontSize = 11,
+                MaxWidth = 210,
+                TextTrimming = TextTrimming.CharacterEllipsis,
                 Foreground = (Brush)FindResource("TextFillColorTertiaryBrush"),
                 Text = "@" + choice.Username,
             }
@@ -196,18 +227,8 @@ public partial class LaunchMenuDialog : WpfUiWindow
         }
 
         await _viewModel.VerifyAllAccountsAsync();
-        if (!ReferenceEquals(_accountMenu, menu))
-            return;
-        verifyItem.IsEnabled = _viewModel.CanVerifyAccounts;
-        statusItem.Header = _viewModel.AccountStatus;
-        foreach (MenuItem item in menu.Items.OfType<MenuItem>().ToArray())
-        {
-            if (item.Tag is not AccountChoice choice)
-                continue;
-            int index = menu.Items.IndexOf(item);
-            item.Click -= AccountMenuItem_Click;
-            menu.Items[index] = CreateAccountMenuItem(choice);
-        }
+        if (ReferenceEquals(_accountMenu, menu))
+            PopulateAccountMenu(menu);
     }
 
     private async void AccountMenuItem_Click(object sender, RoutedEventArgs e)
@@ -226,16 +247,21 @@ public partial class LaunchMenuDialog : WpfUiWindow
         menu.Opened -= AccountMenu_Opened;
         menu.PreviewKeyDown -= AccountMenu_PreviewKeyDown;
         menu.Closed -= AccountMenu_Closed;
-        foreach (System.Windows.Controls.MenuItem item in menu.Items.OfType<System.Windows.Controls.MenuItem>())
-        {
-            item.Click -= AccountMenuItem_Click;
-            item.Click -= VerifyAllAccounts_Click;
-        }
+        DetachAccountMenuItems(menu);
         if (ReferenceEquals(_accountMenu, menu))
         {
             _accountMenu = null;
             _verifyAllAccountsItem = null;
             _accountStatusItem = null;
+        }
+    }
+
+    private void DetachAccountMenuItems(WpfContextMenu menu)
+    {
+        foreach (MenuItem item in menu.Items.OfType<MenuItem>())
+        {
+            item.Click -= AccountMenuItem_Click;
+            item.Click -= VerifyAllAccounts_Click;
         }
     }
 
@@ -399,6 +425,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
         if (_launchTargetMenu is { } launchTargetMenu)
             launchTargetMenu.IsOpen = false;
         base.Loaded -= OnLoaded;
+        _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
         _viewModel.CloseWindowRequest -= OnCloseWindowRequest;
         _viewModel.Dispose();
         base.Closing -= OnClosing;

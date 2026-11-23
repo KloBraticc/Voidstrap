@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Voidstrap.UI.Elements.Dialogs;
 
 namespace Voidstrap.Utility;
 
@@ -182,6 +184,7 @@ internal static class WindowAudit
         AuditImageTools();
         AuditLicensesPage();
         AuditLinuxAccountStorage();
+        AuditLaunchAccountSelector();
         AuditLibraryLoading();
         AuditTextFlowScenarios();
         AuditProgressMarquee();
@@ -6878,6 +6881,88 @@ internal static class WindowAudit
         }
 
         return viewer.VerticalOffset;
+    }
+
+    private static void AuditLaunchAccountSelector()
+    {
+        string directory = Path.Combine(Path.GetTempPath(), "voidstrap-launch-account-" + Guid.NewGuid().ToString("N"));
+        string login = Path.Combine(directory, "login.dat");
+        string backup = Path.Combine(directory, "backup.dat");
+        string preview = Path.Combine(directory, "preview.json");
+        LaunchMenuDialog? dialog = null;
+        try
+        {
+            bool loginWritten = Voidstrap.Integrations.RobloxCookie.WriteLoginFile("sample-login", null, login);
+            if (!loginWritten)
+                throw new InvalidOperationException("The synthetic login could not be written");
+            SavedAccounts.CopyLoginFile(login, backup);
+            if (Voidstrap.Integrations.RobloxCookie.ExtractCookieFromDat(backup) != "sample-login")
+                throw new InvalidOperationException("The copied login could not be read");
+
+            byte[] thumbnail = Convert.FromBase64String(
+                "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEUlEQVR4nGO4y/D/PwMIwBgAPX8FtydZjwQAAAAASUVORK5CYII="
+            );
+            CurrentAccountInfo profile = new(123, "sample", "Sample", "https://example.invalid/avatar.png");
+            JsonFile.SerializeAtomic(preview, new
+            {
+                LoginFingerprint = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData("sample-login"u8)),
+                Account = profile,
+                Avatar = thumbnail,
+            });
+            (CurrentAccountInfo? cached, byte[]? bytes) = SavedAccounts.ReadCachedLaunchAccount(login, preview);
+            if (cached != profile || bytes == null || !bytes.SequenceEqual(thumbnail)
+                || SafeImaging.FromBytes(bytes) is not { PixelWidth: 2, PixelHeight: 2 })
+                throw new InvalidOperationException("The offline preview did not match the login");
+            if (!Voidstrap.Integrations.RobloxCookie.WriteLoginFile("other-login", backup, backup)
+                || SavedAccounts.ReadCachedLaunchAccount(backup, preview).Account != null)
+                throw new InvalidOperationException("The old preview was accepted for a different login");
+
+            dialog = new LaunchMenuDialog();
+            dialog.Show();
+            Wpf.Ui.Controls.Button selector = dialog.AccountSelectorButton;
+            if (!SavedAccounts.SwitchingSupported)
+            {
+                if (!PumpUntil(() => selector.Visibility == Visibility.Collapsed, 3000))
+                    throw new InvalidOperationException("The unsupported account selector is visible");
+                Emit("launch account selector audit: PASS, login copied and unsupported selector hidden");
+                return;
+            }
+            if (!PumpUntil(() => selector.IsVisible && selector.ActualHeight > 0, 8000)
+                || selector.Parent is not Grid row
+                || row.Children[0] is not Wpf.Ui.Controls.CardAction settings
+                || Math.Abs(settings.ActualHeight - selector.ActualHeight) > 0.5)
+                throw new InvalidOperationException("The launch buttons did not appear at the same height");
+
+            selector.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, selector));
+            FieldInfo menuField = typeof(LaunchMenuDialog).GetField("_accountMenu", BindingFlags.Instance | BindingFlags.NonPublic)!;
+            if (!PumpUntil(() => menuField.GetValue(dialog) is System.Windows.Controls.ContextMenu { IsOpen: true }, 4000))
+                throw new InvalidOperationException("The account popup did not open");
+            var menu = (System.Windows.Controls.ContextMenu)menuField.GetValue(dialog)!;
+            menu.ApplyTemplate();
+            if (menu.Template?.FindName("AccountMenuScrollViewer", menu) is not ScrollViewer scrollViewer)
+                throw new InvalidOperationException("The account popup did not create its scroll viewer");
+            for (int i = 0; i < 24; i++)
+                menu.Items.Add(new MenuItem { Header = "Sample account " + i });
+            if (!PumpUntil(() => scrollViewer.ScrollableHeight > 0, 4000))
+                throw new InvalidOperationException("The account popup could not scroll its overflow");
+            menu.IsOpen = false;
+            if (!PumpUntil(() => menuField.GetValue(dialog) == null, 4000))
+                throw new InvalidOperationException("The account popup did not close");
+            Emit("launch account selector audit: PASS, login copied and popup opened with scrolling and closed");
+        }
+        catch (Exception ex)
+        {
+            Emit("launch account selector audit: FAIL, " + ex.GetBaseException().Message.Split('\n')[0]);
+        }
+        finally
+        {
+            dialog?.Close();
+            File.Delete(login);
+            File.Delete(backup);
+            File.Delete(preview);
+            if (Directory.Exists(directory))
+                Directory.Delete(directory);
+        }
     }
 
     private static void AuditLinuxAccountStorage()

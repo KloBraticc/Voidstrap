@@ -54,11 +54,15 @@ public static class SavedAccounts
     private static readonly string[] LinuxRobloxProcessNames = { "sober", "Sober", "org.vinegarhq.Sober" };
 
     private static readonly Dictionary<long, string> AvatarCache = new Dictionary<long, string>();
-private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRetryDelay = TimeSpan.FromSeconds(2);
+    private const int AvatarAttempts = 4;
+    private const int MaxLaunchAvatarBytes = 256 * 1024;
+    private static readonly TimeSpan AvatarRetryDelay = TimeSpan.FromSeconds(2);
+    private static readonly object LaunchPreviewGate = new();
 
-    private sealed record LaunchAccountPreview(string LoginFingerprint, CurrentAccountInfo Account);
+    private sealed record LaunchAccountPreview(string LoginFingerprint, CurrentAccountInfo Account, byte[]? Avatar = null);
 
     private static CurrentAccountInfo? _current;
+    private static (string Previous, string Current)? _liveLoginRotation;
 
     private static string LaunchAccountPreviewPath => Path.Combine(Paths.Cache, "LaunchAccount.json");
 
@@ -129,7 +133,7 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
                 string path = DatPath(account);
                 if (
                     string.Equals(RobloxCookie.ExtractCookieFromDat(path), previous, StringComparison.Ordinal)
-                    && RobloxCookie.WriteLoginFile(rotated, path, path)
+                    && WriteRotatedLogin(path, rotated)
                 )
                     updated++;
             }
@@ -137,9 +141,12 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
             if (
                 !string.IsNullOrEmpty(live)
                 && string.Equals(RobloxCookie.ExtractCookieFromDat(live), previous, StringComparison.Ordinal)
-                && RobloxCookie.WriteLoginFile(rotated, live, live)
+                && WriteRotatedLogin(live, rotated)
             )
+            {
+                UpdateLaunchPreviewLogin(previous, rotated);
                 updated++;
+            }
             RobloxCookie.InvalidateCache();
             App.Logger?.WriteLine(LogIdent, "Saved a rotated Roblox session in " + updated + " login file(s)");
         }
@@ -153,6 +160,25 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         }
     }
 
+    private static bool WriteRotatedLogin(string path, string cookie)
+    {
+        string staged = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        try
+        {
+            using (new FileStream(staged, FileMode.CreateNew, FileAccess.Write, FileShare.None)) { }
+            if (!OperatingSystem.IsWindows())
+                File.SetUnixFileMode(staged, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+            if (!RobloxCookie.WriteLoginFile(cookie, path, staged))
+                return false;
+            CopyLoginFile(staged, path);
+            return true;
+        }
+        finally
+        {
+            File.Delete(staged);
+        }
+    }
+
     public static void RaiseChanged() => Changed?.Invoke();
 
     public static async Task<List<SavedAccount>> LoadAsync(CancellationToken token = default)
@@ -161,14 +187,10 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         try
         {
             EnsureFolder();
-            List<SavedAccount> stored = ReadStoredAccounts()
-                .Where(a => !string.IsNullOrEmpty(a.DatFile) && File.Exists(DatPath(a)))
-                .ToList();
+            List<SavedAccount> stored = ReadAvailableAccounts();
             bool changed = await MigrateLooseBackupsAsync(stored, token).ConfigureAwait(false);
-            List<SavedAccount> deduped = stored
-                .GroupBy(a => a.UserId == 0 ? -stored.IndexOf(a) - 1 : a.UserId)
-                .Select(g => g.OrderByDescending(a => a.LastUsedUtc).First())
-                .ToList();
+            token.ThrowIfCancellationRequested();
+            List<SavedAccount> deduped = DeduplicateAccounts(stored);
             if (changed || deduped.Count != stored.Count)
                 Write(deduped);
             return deduped;
@@ -178,6 +200,17 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
             AccountStoreGate.Release();
         }
     }
+
+    internal static List<SavedAccount> ReadLaunchAccounts() => DeduplicateAccounts(ReadAvailableAccounts());
+
+    private static List<SavedAccount> ReadAvailableAccounts() =>
+        ReadStoredAccounts().Where(a => File.Exists(DatPath(a))).ToList();
+
+    private static List<SavedAccount> DeduplicateAccounts(IEnumerable<SavedAccount> accounts) =>
+        accounts
+            .GroupBy(account => (account.UserId, account.UserId > 0 ? "" : account.DatFile))
+            .Select(group => group.MaxBy(account => account.LastUsedUtc)!)
+            .ToList();
 
     public static async Task UpdateAsync(SavedAccount account)
     {
@@ -229,6 +262,7 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
                 updated.Expired = verified == null;
                 if (verified != null)
                 {
+                    updated.UserId = verified.UserId;
                     updated.Username = verified.Username;
                     updated.DisplayName = verified.DisplayName;
                 }
@@ -239,6 +273,7 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
                 saved.Expired = verified == null;
                 if (verified != null)
                 {
+                    saved.UserId = verified.UserId;
                     saved.Username = verified.Username;
                     saved.DisplayName = verified.DisplayName;
                 }
@@ -418,11 +453,15 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
 
     public static async Task SwitchAsync(SavedAccount target)
     {
-        if (!File.Exists(DatPath(target)))
-            throw new FileNotFoundException(DatPath(target));
         await AccountStoreGate.WaitAsync().ConfigureAwait(false);
         try
         {
+            if (!SwitchingSupported)
+                throw new InvalidOperationException(Strings.Accounts_RosemaryNotice);
+            List<SavedAccount> stored = ReadStoredAccounts();
+            SavedAccount? saved = stored.Find(account => account.DatFile == target.DatFile && account.UserId == target.UserId);
+            if (saved == null || saved.Expired || ReadCookie(saved) is not { Length: > 0 } targetCookie)
+                throw new FileNotFoundException(Strings.Accounts_MissingLogin);
             string live = LiveCookiePath;
             bool backedUp = false;
             if (File.Exists(live))
@@ -432,14 +471,15 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
                     await CopyWithRetryAsync(live, PreviousSessionPath).ConfigureAwait(false);
                     backedUp = true;
                     string? liveCookie = RobloxCookie.ExtractCookieFromDat(live);
-                    using CancellationTokenSource timeout = new CancellationTokenSource(TimeSpan.FromSeconds(6.0));
-                    RobloxAccount? outgoingAccount = string.IsNullOrEmpty(liveCookie)
-                        ? null
-                        : await RobloxCookie.GetAccountAsync(liveCookie, timeout.Token).ConfigureAwait(false);
-                    SavedAccount? outgoing =
-                        outgoingAccount == null
-                            ? null
-                            : ReadStoredAccounts().FirstOrDefault(a => a.UserId == outgoingAccount.UserId && a.DatFile != target.DatFile);
+                    long outgoingId = FindLaunchAccountPreview(liveCookie)?.Account.UserId ?? 0;
+                    if (outgoingId == 0 && !string.IsNullOrEmpty(liveCookie) && stored.Count > 1)
+                    {
+                        using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(6));
+                        outgoingId = (await RobloxCookie.GetAccountAsync(liveCookie, timeout.Token).ConfigureAwait(false))?.UserId ?? 0;
+                    }
+                    SavedAccount? outgoing = outgoingId > 0
+                        ? stored.Find(account => account.UserId == outgoingId && account.DatFile != saved.DatFile)
+                        : null;
                     if (outgoing != null)
                         await CopyWithRetryAsync(live, DatPath(outgoing)).ConfigureAwait(false);
                 }
@@ -451,8 +491,8 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
             RoReviewService.InvalidateSession();
             try
             {
-                if (!await SwapLoginCookieAsync(target, live).ConfigureAwait(false))
-                    await CopyWithRetryAsync(DatPath(target), live).ConfigureAwait(false);
+                if (!await SwapLoginCookieAsync(targetCookie, live).ConfigureAwait(false))
+                    await CopyWithRetryAsync(DatPath(saved), live).ConfigureAwait(false);
             }
             catch when (backedUp && !File.Exists(live))
             {
@@ -461,18 +501,21 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
             }
             RobloxCookie.InvalidateCache();
             RoReviewService.InvalidateSession();
-            List<SavedAccount> stored = ReadStoredAccounts();
-            SavedAccount? saved = stored.FirstOrDefault(a => a.DatFile == target.DatFile);
-            target.LastUsedUtc = DateTime.UtcNow;
-            if (saved != null)
-                saved.LastUsedUtc = target.LastUsedUtc;
-            Write(stored);
+            saved.LastUsedUtc = target.LastUsedUtc = DateTime.UtcNow;
             string? avatar;
             lock (AvatarCache)
-                AvatarCache.TryGetValue(target.UserId, out avatar);
-            CurrentAccountInfo current = new(target.UserId, target.Username, target.DisplayName, avatar);
+                AvatarCache.TryGetValue(saved.UserId, out avatar);
+            CurrentAccountInfo current = new(saved.UserId, saved.Username, saved.DisplayName, avatar);
             _current = current;
-            SaveLaunchAccountPreview(current, RobloxCookie.ExtractCookieFromDat(live));
+            SaveLaunchAccountPreview(current, targetCookie);
+            try
+            {
+                Write(stored);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger?.WriteLine(LogIdent, "The last used account could not be saved: " + ex.Message);
+            }
             App.Logger?.WriteLine(LogIdent, "Switched the Roblox login to a saved account");
         }
         finally
@@ -482,12 +525,9 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         RaiseChanged();
     }
 
-    private static async Task<bool> SwapLoginCookieAsync(SavedAccount target, string live)
+    private static async Task<bool> SwapLoginCookieAsync(string cookie, string live)
     {
         if (!File.Exists(live))
-            return false;
-        string? cookie = ReadCookie(target);
-        if (string.IsNullOrEmpty(cookie))
             return false;
         string staged = Path.Combine(Paths.AccountBackups, "switch-" + Guid.NewGuid().ToString("N") + ".tmp");
         try
@@ -531,6 +571,7 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
                 RoReviewService.InvalidateSession();
             }
             _current = null;
+            ClearLaunchAccountPreview();
         }
         finally
         {
@@ -539,24 +580,41 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         RaiseChanged();
     }
 
-    internal static CurrentAccountInfo? ReadCachedLaunchAccount()
+    internal static (CurrentAccountInfo? Account, byte[]? Avatar) ReadCachedLaunchAccount()
     {
-        if (!SwitchingSupported || ReadLaunchAccountPreview() is not { } preview)
+        return SwitchingSupported ? ReadCachedLaunchAccount(LiveCookiePath, LaunchAccountPreviewPath) : (null, null);
+    }
+
+    internal static (CurrentAccountInfo? Account, byte[]? Avatar) ReadCachedLaunchAccount(string loginPath, string previewPath)
+    {
+        if (!File.Exists(previewPath))
+            return (null, null);
+        LaunchAccountPreview? preview = FindLaunchAccountPreview(RobloxCookie.ExtractCookieFromDat(loginPath), previewPath);
+        return (preview?.Account, preview?.Avatar);
+    }
+
+    private static LaunchAccountPreview? FindLaunchAccountPreview(string? cookie, string? previewPath = null)
+    {
+        if (string.IsNullOrEmpty(cookie))
             return null;
-        string? cookie = RobloxCookie.ExtractCookieFromDat(LiveCookiePath);
-        return !string.IsNullOrEmpty(cookie) && GetLoginFingerprint(cookie) == preview.LoginFingerprint ? preview.Account : null;
+        LaunchAccountPreview? preview = ReadLaunchAccountPreview(previewPath);
+        return preview?.LoginFingerprint == GetLoginFingerprint(cookie) ? preview : null;
     }
 
     private static string GetLoginFingerprint(string cookie) =>
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(cookie)));
 
-    private static LaunchAccountPreview? ReadLaunchAccountPreview()
+    private static LaunchAccountPreview? ReadLaunchAccountPreview(string? path = null)
     {
         try
         {
-            return File.Exists(LaunchAccountPreviewPath)
-                ? JsonFile.Deserialize<LaunchAccountPreview>(LaunchAccountPreviewPath, maximumBytes: 8192)
-                : null;
+            path ??= LaunchAccountPreviewPath;
+            if (!File.Exists(path))
+                return null;
+            LaunchAccountPreview preview = JsonFile.Deserialize<LaunchAccountPreview>(path, maximumBytes: 512 * 1024);
+            if (preview.Account is not { UserId: > 0 } || preview.LoginFingerprint is not { Length: 64 })
+                return null;
+            return preview.Avatar is { Length: > MaxLaunchAvatarBytes } ? preview with { Avatar = null } : preview;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidDataException)
         {
@@ -566,12 +624,60 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
 
     private static void SaveLaunchAccountPreview(CurrentAccountInfo account, string? cookie)
     {
-        const string LOG_IDENT = "SavedAccounts::SaveLaunchAccountPreview";
-        if (string.IsNullOrEmpty(cookie) || string.IsNullOrEmpty(account.AvatarUrl))
+        if (string.IsNullOrEmpty(cookie))
             return;
-        LaunchAccountPreview preview = new(GetLoginFingerprint(cookie), account);
-        if (preview == ReadLaunchAccountPreview())
+        lock (LaunchPreviewGate)
+        {
+            string fingerprint = GetLoginFingerprint(cookie);
+            string? live = RobloxCookie.ExtractCookieFromDat(LiveCookiePath);
+            if (string.IsNullOrEmpty(live))
+                return;
+            string liveFingerprint = GetLoginFingerprint(live);
+            if (fingerprint != liveFingerprint && _liveLoginRotation != (fingerprint, liveFingerprint))
+                return;
+
+            LaunchAccountPreview? previous = ReadLaunchAccountPreview();
+            byte[]? avatar = null;
+            if (previous?.Account.UserId == account.UserId)
+            {
+                account = account with { AvatarUrl = account.AvatarUrl ?? previous.Account.AvatarUrl };
+                if (previous.Account.AvatarUrl == account.AvatarUrl)
+                    avatar = previous.Avatar;
+            }
+            LaunchAccountPreview preview = new(liveFingerprint, account, avatar);
+            if (preview != previous)
+                WriteLaunchAccountPreview(preview);
+        }
+    }
+
+    internal static void CacheLaunchAvatar(CurrentAccountInfo account, byte[] bytes)
+    {
+        if (bytes.Length is 0 or > MaxLaunchAvatarBytes)
             return;
+        lock (LaunchPreviewGate)
+        {
+            LaunchAccountPreview? preview = ReadLaunchAccountPreview();
+            if (preview?.Account.UserId == account.UserId && preview.Account.AvatarUrl == account.AvatarUrl
+                && !bytes.AsSpan().SequenceEqual(preview.Avatar))
+                WriteLaunchAccountPreview(preview with { Avatar = bytes });
+        }
+    }
+
+    private static void UpdateLaunchPreviewLogin(string previous, string rotated)
+    {
+        lock (LaunchPreviewGate)
+        {
+            string previousFingerprint = GetLoginFingerprint(previous);
+            string rotatedFingerprint = GetLoginFingerprint(rotated);
+            _liveLoginRotation = (previousFingerprint, rotatedFingerprint);
+            if (ReadLaunchAccountPreview() is { } preview && preview.LoginFingerprint == previousFingerprint)
+                WriteLaunchAccountPreview(preview with { LoginFingerprint = rotatedFingerprint });
+        }
+    }
+
+    private static void WriteLaunchAccountPreview(LaunchAccountPreview preview)
+    {
+        const string LOG_IDENT = "SavedAccounts::WriteLaunchAccountPreview";
         try
         {
             JsonFile.SerializeAtomic(LaunchAccountPreviewPath, preview, createBackup: false);
@@ -579,6 +685,32 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             App.Logger?.WriteLine(LOG_IDENT, "The account preview could not be saved: " + ex.Message);
+        }
+    }
+
+    internal static void ForgetLaunchAccount(long userId)
+    {
+        lock (LaunchPreviewGate)
+        {
+            if (ReadLaunchAccountPreview()?.Account.UserId == userId)
+                ClearLaunchAccountPreview();
+        }
+    }
+
+    private static void ClearLaunchAccountPreview(string? rejectedCookie = null)
+    {
+        const string LOG_IDENT = "SavedAccounts::ClearLaunchAccountPreview";
+        lock (LaunchPreviewGate)
+        {
+            try
+            {
+                if (rejectedCookie == null || FindLaunchAccountPreview(rejectedCookie) != null)
+                    File.Delete(LaunchAccountPreviewPath);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The account preview could not be cleared: " + ex.Message);
+            }
         }
     }
 
@@ -599,6 +731,8 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         token.ThrowIfCancellationRequested();
         if (account == null)
         {
+            if (forLaunchMenu && !string.IsNullOrEmpty(cookie))
+                ClearLaunchAccountPreview(cookie);
             bool hadOne = _current != null;
             _current = null;
             if (hadOne)
@@ -607,8 +741,10 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         }
         Dictionary<long, string> avatars = await GetAvatarsAsync(new[] { account.UserId }, token).ConfigureAwait(false);
         avatars.TryGetValue(account.UserId, out string? avatar);
+        if (avatar == null && FindLaunchAccountPreview(cookie) is { } preview && preview.Account.UserId == account.UserId)
+            avatar = preview.Account.AvatarUrl;
         CurrentAccountInfo info = new CurrentAccountInfo(account.UserId, account.Username, account.DisplayName, avatar);
-        if (forLaunchMenu)
+        if (SwitchingSupported)
             SaveLaunchAccountPreview(info, cookie);
         if (info != _current)
         {
@@ -823,6 +959,7 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
         bool changed = false;
         foreach (string file in Directory.EnumerateFiles(Paths.AccountBackups, "*.dat", SearchOption.TopDirectoryOnly))
         {
+            token.ThrowIfCancellationRequested();
             string name = Path.GetFileName(file);
             if (known.Contains(name) || name.StartsWith("_", StringComparison.Ordinal))
                 continue;
@@ -863,7 +1000,13 @@ private const int AvatarAttempts = 4;  private static readonly TimeSpan AvatarRe
             return [];
         try
         {
-            return JsonFile.Deserialize<List<SavedAccount>>(AccountMetaPath, JsonOptions.Tolerant, 4194304) ?? [];
+            return JsonFile.Deserialize<List<SavedAccount>>(AccountMetaPath, JsonOptions.Tolerant, 4194304)
+                .Where(account => account != null && !string.IsNullOrEmpty(account.DatFile)
+                    && !account.DatFile.Contains('/') && !account.DatFile.Contains('\\')
+                    && !Path.IsPathRooted(account.DatFile)
+                    && account.DatFile.IndexOfAny(Path.GetInvalidFileNameChars()) < 0
+                    && string.Equals(Path.GetExtension(account.DatFile), ".dat", StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
         catch (Exception ex)
         {
