@@ -463,51 +463,68 @@ public static class SavedAccounts
             if (saved == null || saved.Expired || ReadCookie(saved) is not { Length: > 0 } targetCookie)
                 throw new FileNotFoundException(Strings.Accounts_MissingLogin);
             string live = LiveCookiePath;
+            string? liveCookie = RobloxCookie.ExtractCookieFromDat(live);
+            bool alreadyActive = targetCookie == liveCookie;
             bool backedUp = false;
-            if (File.Exists(live))
+            if (File.Exists(live) && !alreadyActive)
             {
                 try
                 {
                     await CopyWithRetryAsync(live, PreviousSessionPath).ConfigureAwait(false);
                     backedUp = true;
-                    string? liveCookie = RobloxCookie.ExtractCookieFromDat(live);
-                    long outgoingId = FindLaunchAccountPreview(liveCookie)?.Account.UserId ?? 0;
-                    if (outgoingId == 0 && !string.IsNullOrEmpty(liveCookie) && stored.Count > 1)
+                    if (!string.IsNullOrEmpty(liveCookie))
                     {
-                        using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(6));
-                        outgoingId = (await RobloxCookie.GetAccountAsync(liveCookie, timeout.Token).ConfigureAwait(false))?.UserId ?? 0;
+                        long outgoingId = FindLaunchAccountPreview(liveCookie)?.Account.UserId ?? 0;
+                        if (outgoingId == 0)
+                        {
+                            using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(6));
+                            try
+                            {
+                                outgoingId = (await RobloxCookie.VerifyAccountAsync(liveCookie, timeout.Token).ConfigureAwait(false))?.UserId ?? 0;
+                            }
+                            catch (Exception ex) when (ex is HttpRequestException or OperationCanceledException or JsonException or InvalidDataException)
+                            {
+                                throw new InvalidOperationException(Strings.Accounts_Status_Failed, ex);
+                            }
+                        }
+                        alreadyActive = outgoingId > 0 && outgoingId == saved.UserId;
+                        SavedAccount? outgoing = outgoingId > 0
+                            ? stored.Find(account => account.UserId == outgoingId)
+                            : null;
+                        if (outgoing != null)
+                            await CopyWithRetryAsync(live, DatPath(outgoing)).ConfigureAwait(false);
                     }
-                    SavedAccount? outgoing = outgoingId > 0
-                        ? stored.Find(account => account.UserId == outgoingId && account.DatFile != saved.DatFile)
-                        : null;
-                    if (outgoing != null)
-                        await CopyWithRetryAsync(live, DatPath(outgoing)).ConfigureAwait(false);
                 }
                 catch (InvalidDataException)
                 {
                     App.Logger?.WriteLine(LogIdent, "The current Roblox login file is damaged, switching without saving it");
                 }
             }
-            RoReviewService.InvalidateSession();
-            try
+            if (RobloxCookie.ExtractCookieFromDat(live) != liveCookie || (!alreadyActive && ReadCookie(saved) != targetCookie))
+                throw new InvalidOperationException(Strings.Accounts_Status_Failed);
+            if (!alreadyActive)
             {
-                if (!await SwapLoginCookieAsync(targetCookie, live).ConfigureAwait(false))
-                    await CopyWithRetryAsync(DatPath(saved), live).ConfigureAwait(false);
+                RoReviewService.InvalidateSession();
+                try
+                {
+                    if (!await SwapLoginCookieAsync(targetCookie, live).ConfigureAwait(false))
+                        await CopyWithRetryAsync(DatPath(saved), live).ConfigureAwait(false);
+                }
+                catch when (backedUp && !File.Exists(live))
+                {
+                    await CopyWithRetryAsync(PreviousSessionPath, live).ConfigureAwait(false);
+                    throw;
+                }
+                RobloxCookie.InvalidateCache();
+                RoReviewService.InvalidateSession();
             }
-            catch when (backedUp && !File.Exists(live))
-            {
-                await CopyWithRetryAsync(PreviousSessionPath, live).ConfigureAwait(false);
-                throw;
-            }
-            RobloxCookie.InvalidateCache();
-            RoReviewService.InvalidateSession();
             saved.LastUsedUtc = target.LastUsedUtc = DateTime.UtcNow;
             string? avatar;
             lock (AvatarCache)
                 AvatarCache.TryGetValue(saved.UserId, out avatar);
             CurrentAccountInfo current = new(saved.UserId, saved.Username, saved.DisplayName, avatar);
             _current = current;
-            SaveLaunchAccountPreview(current, targetCookie);
+            SaveLaunchAccountPreview(current, alreadyActive ? liveCookie : targetCookie);
             try
             {
                 Write(stored);
