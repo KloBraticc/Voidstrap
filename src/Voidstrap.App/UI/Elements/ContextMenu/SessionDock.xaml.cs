@@ -2223,7 +2223,14 @@ public partial class SessionDock : Window
     private void RobuxCard_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         e.Handled = true;
-        TogglePopout(PopoutView.Robux);
+        try
+        {
+            TogglePopout(PopoutView.Robux);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Your Robux purchases could not be opened: " + ex.Message);
+        }
     }
 
     private void GameCard_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -2641,8 +2648,15 @@ public partial class SessionDock : Window
 
     private void OnRobuxTimerTick(object? sender, EventArgs e)
     {
-        if (!_closed)
-            _ = RefreshRobuxAsync();
+        try
+        {
+            if (!_closed)
+                _ = RefreshRobuxAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Your Robux timer failed: " + ex.Message);
+        }
     }
 
     private async Task RefreshRobuxAsync()
@@ -2657,12 +2671,19 @@ public partial class SessionDock : Window
                 return;
             await Dispatcher.InvokeAsync(() =>
             {
-                if (_closed)
-                    return;
-                RobuxText.Text = value.ToString("N0", CultureInfo.CurrentCulture);
-                RobuxCard.Visibility = Visibility.Visible;
-                RobuxDivider.Visibility = Visibility.Visible;
-                QueueFitWidth();
+                try
+                {
+                    if (_closed)
+                        return;
+                    RobuxText.Text = value.ToString("N0", CultureInfo.CurrentCulture);
+                    RobuxCard.Visibility = Visibility.Visible;
+                    RobuxDivider.Visibility = Visibility.Visible;
+                    QueueFitWidth();
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("SessionDock", "Your Robux balance could not be shown: " + ex.Message);
+                }
             });
         }
         catch (OperationCanceledException)
@@ -2680,43 +2701,46 @@ public partial class SessionDock : Window
 
     private async Task LoadRobuxPurchasesAsync()
     {
-        _ = RefreshRobuxAsync();
-        if (_closed)
-            return;
-        if (_selfUserId <= 0)
-        {
-            ShowRobuxStatus(Voidstrap.Resources.Strings.Ui_Session_Robux_SignIn);
-            return;
-        }
-
-        long universeId = _data is { } data ? (data.UniverseId > 0 ? data.UniverseId : data.UniverseDetails?.Data?.Id ?? 0) : 0;
-        long placeId = _data?.PlaceId ?? 0;
-        if (universeId <= 0 && placeId <= 0)
-        {
-            ShowRobuxStatus(Voidstrap.Resources.Strings.Ui_Session_Robux_LoadFailed);
-            return;
-        }
-
-        (long UniverseId, long PlaceId) key = (universeId, placeId);
-        if (_robuxPurchasesCache != null && _robuxPurchasesCacheKey == key && DateTime.UtcNow - _robuxPurchasesUtc < TimeSpan.FromMinutes(2))
-        {
-            ShowRobuxPurchases(_robuxPurchasesCache);
-            return;
-        }
-
-        if (_robuxPurchasesLoading)
-            return;
-
-        _robuxPurchasesLoading = true;
-        ShowRobuxStatus(Voidstrap.Resources.Strings.Ui_Misc2_Loading);
+        bool owns = false;
         try
         {
+            _ = RefreshRobuxAsync();
+            if (_closed)
+                return;
+            if (_selfUserId <= 0)
+            {
+                ShowRobuxStatus(Res(Voidstrap.Resources.Strings.Ui_Session_Robux_SignIn, "Sign in to see purchases"));
+                return;
+            }
+
+            long universeId = _data is { } data ? (data.UniverseId > 0 ? data.UniverseId : data.UniverseDetails?.Data?.Id ?? 0) : 0;
+            long placeId = _data?.PlaceId ?? 0;
+            if (universeId <= 0 && placeId <= 0)
+            {
+                ShowRobuxStatus(Res(Voidstrap.Resources.Strings.Ui_Session_Robux_LoadFailed, "Could not load purchases"));
+                return;
+            }
+
+            (long UniverseId, long PlaceId) key = (universeId, placeId);
+            if (_robuxPurchasesCache != null && _robuxPurchasesCacheKey == key && DateTime.UtcNow - _robuxPurchasesUtc < TimeSpan.FromMinutes(2))
+            {
+                ShowRobuxPurchases(_robuxPurchasesCache);
+                return;
+            }
+
+            if (_robuxPurchasesLoading)
+                return;
+
+            _robuxPurchasesLoading = true;
+            owns = true;
+            ShowRobuxStatus(Res(Voidstrap.Resources.Strings.Ui_Misc2_Loading, "Loading..."));
+
             IReadOnlyList<RobloxPurchase>? purchases = await RobloxEconomy.GetGamePurchasesAsync(_selfUserId, universeId, placeId, _lifetimeToken);
             if (_closed || _popoutView != PopoutView.Robux)
                 return;
             if (purchases == null)
             {
-                ShowRobuxStatus(Voidstrap.Resources.Strings.Ui_Session_Robux_LoadFailed);
+                ShowRobuxStatus(Res(Voidstrap.Resources.Strings.Ui_Session_Robux_LoadFailed, "Could not load purchases"));
                 return;
             }
 
@@ -2732,72 +2756,128 @@ public partial class SessionDock : Window
         {
             App.Logger.WriteLine("SessionDock", "Your game purchases could not be loaded: " + ex.Message);
             if (!_closed && _popoutView == PopoutView.Robux)
-                ShowRobuxStatus(Voidstrap.Resources.Strings.Ui_Session_Robux_LoadFailed);
+                ShowRobuxStatus(Res(Voidstrap.Resources.Strings.Ui_Session_Robux_LoadFailed, "Could not load purchases"));
         }
         finally
         {
-            _robuxPurchasesLoading = false;
+            if (owns)
+                _robuxPurchasesLoading = false;
         }
     }
 
     private void ShowRobuxStatus(string message)
     {
-        RobuxList.ItemsSource = null;
-        RobuxList.Visibility = Visibility.Collapsed;
-        RobuxTotalText.Text = string.Empty;
-        RobuxStatus.Text = message;
-        RobuxStatus.Visibility = Visibility.Visible;
+        try
+        {
+            RobuxList.ItemsSource = null;
+            RobuxList.Visibility = Visibility.Collapsed;
+            RobuxTotalText.Text = string.Empty;
+            RobuxStatus.Text = message ?? string.Empty;
+            RobuxStatus.Visibility = Visibility.Visible;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Your Robux status could not be updated: " + ex.Message);
+        }
     }
 
     private void ShowRobuxPurchases(IReadOnlyList<RobloxPurchase> purchases)
     {
-        if (purchases.Count == 0)
+        try
         {
-            ShowRobuxStatus(Voidstrap.Resources.Strings.Ui_Session_Robux_None);
-            return;
-        }
+            if (purchases == null || purchases.Count == 0)
+            {
+                ShowRobuxStatus(Res(Voidstrap.Resources.Strings.Ui_Session_Robux_None, "No purchases in this game yet"));
+                return;
+            }
 
-        List<RobuxPurchaseRow> rows = new(purchases.Count);
-        long total = 0;
-        foreach (RobloxPurchase purchase in purchases)
+            List<RobuxPurchaseRow> rows = new(purchases.Count);
+            long total = 0;
+            foreach (RobloxPurchase purchase in purchases)
+            {
+                if (purchase == null)
+                    continue;
+                total = purchase.Amount > long.MaxValue - total ? long.MaxValue : total + purchase.Amount;
+                string name = string.IsNullOrWhiteSpace(purchase.Name)
+                    ? Res(Voidstrap.Resources.Strings.Ui_Session_Robux_DefaultName, "Purchase")
+                    : purchase.Name;
+                string typeLabel = FormatPurchaseType(purchase.Type);
+                string when = string.Empty;
+                try
+                {
+                    when = purchase.CreatedUtc.ToLocalTime().ToString("g", CultureInfo.CurrentCulture);
+                }
+                catch
+                {
+                }
+                string subtitle = string.IsNullOrEmpty(typeLabel) ? when : (string.IsNullOrEmpty(when) ? typeLabel : typeLabel + " · " + when);
+                string amountText = SafeFormat(
+                    Voidstrap.Resources.Strings.Ui_Session_Robux_Amount,
+                    "R$ {0}",
+                    purchase.Amount.ToString("N0", CultureInfo.CurrentCulture)
+                );
+                rows.Add(new RobuxPurchaseRow(name, subtitle, amountText));
+            }
+
+            if (rows.Count == 0)
+            {
+                ShowRobuxStatus(Res(Voidstrap.Resources.Strings.Ui_Session_Robux_None, "No purchases in this game yet"));
+                return;
+            }
+
+            RobuxStatus.Visibility = Visibility.Collapsed;
+            RobuxList.ItemsSource = rows;
+            RobuxList.Visibility = Visibility.Visible;
+            string countText = rows.Count == 1
+                ? Res(Voidstrap.Resources.Strings.Ui_Session_Robux_OnePurchase, "1 purchase")
+                : SafeFormat(
+                    Voidstrap.Resources.Strings.Ui_Session_Robux_PurchaseCount,
+                    "{0} purchases",
+                    rows.Count.ToString("N0", CultureInfo.CurrentCulture)
+                );
+            RobuxTotalText.Text = SafeFormat(
+                Voidstrap.Resources.Strings.Ui_Session_Robux_Spent,
+                "{0} · R$ {1} spent",
+                countText,
+                total.ToString("N0", CultureInfo.CurrentCulture)
+            );
+        }
+        catch (Exception ex)
         {
-            total += purchase.Amount;
-            string name = string.IsNullOrWhiteSpace(purchase.Name) ? Voidstrap.Resources.Strings.Ui_Session_Robux_DefaultName : purchase.Name;
-            string typeLabel = FormatPurchaseType(purchase.Type);
-            string when = purchase.CreatedUtc.ToLocalTime().ToString("g", CultureInfo.CurrentCulture);
-            string subtitle = string.IsNullOrEmpty(typeLabel) ? when : typeLabel + " · " + when;
-            string amountText = string.Format(
-                CultureInfo.CurrentCulture,
-                Voidstrap.Resources.Strings.Ui_Session_Robux_Amount,
-                purchase.Amount.ToString("N0", CultureInfo.CurrentCulture)
-            );
-            rows.Add(new RobuxPurchaseRow(name, subtitle, amountText));
+            App.Logger.WriteLine("SessionDock", "Your game purchases could not be rendered: " + ex.Message);
+            ShowRobuxStatus(Res(Voidstrap.Resources.Strings.Ui_Session_Robux_LoadFailed, "Could not load purchases"));
         }
+    }
 
-        RobuxStatus.Visibility = Visibility.Collapsed;
-        RobuxList.ItemsSource = rows;
-        RobuxList.Visibility = Visibility.Visible;
-        string countText = rows.Count == 1
-            ? Voidstrap.Resources.Strings.Ui_Session_Robux_OnePurchase
-            : string.Format(
-                CultureInfo.CurrentCulture,
-                Voidstrap.Resources.Strings.Ui_Session_Robux_PurchaseCount,
-                rows.Count.ToString("N0", CultureInfo.CurrentCulture)
-            );
-        RobuxTotalText.Text = string.Format(
-            CultureInfo.CurrentCulture,
-            Voidstrap.Resources.Strings.Ui_Session_Robux_Spent,
-            countText,
-            total.ToString("N0", CultureInfo.CurrentCulture)
-        );
+    private static string Res(string? value, string fallback) =>
+        string.IsNullOrWhiteSpace(value) ? fallback : value;
+
+    private static string SafeFormat(string? format, string fallback, params object[] args)
+    {
+        string template = string.IsNullOrWhiteSpace(format) ? fallback : format;
+        try
+        {
+            return string.Format(CultureInfo.CurrentCulture, template, args);
+        }
+        catch (FormatException)
+        {
+            try
+            {
+                return string.Format(CultureInfo.InvariantCulture, fallback, args);
+            }
+            catch
+            {
+                return string.Join(" ", args);
+            }
+        }
     }
 
     private static string FormatPurchaseType(string type) => type switch
     {
-        "DeveloperProduct" => Voidstrap.Resources.Strings.Ui_Session_Robux_DeveloperProduct,
-        "GamePass" => Voidstrap.Resources.Strings.Ui_Session_Robux_GamePass,
-        "PrivateServer" => Voidstrap.Resources.Strings.Ui_Session_Robux_PrivateServer,
-        _ => type,
+        "DeveloperProduct" => Res(Voidstrap.Resources.Strings.Ui_Session_Robux_DeveloperProduct, "Developer Product"),
+        "GamePass" => Res(Voidstrap.Resources.Strings.Ui_Session_Robux_GamePass, "Game Pass"),
+        "PrivateServer" => Res(Voidstrap.Resources.Strings.Ui_Session_Robux_PrivateServer, "Private Server"),
+        _ => type ?? string.Empty,
     };
 
     private double OpenCardTop()

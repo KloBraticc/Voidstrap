@@ -16,81 +16,114 @@ public static class RobloxEconomy
     private const string LOG_IDENT = "RobloxEconomy";
     private const int MaxApiResponseBytes = 2 * 1024 * 1024;
     private const int MaxTransactionPages = 5;
+    private const int MaxPurchases = 500;
     private static readonly HttpClient Client = CreateClient();
 
     public static async Task<long?> GetRobuxAsync(long userId, CancellationToken token)
     {
-        if (userId <= 0)
+        try
+        {
+            if (userId <= 0)
+                return null;
+            string? cookie = RobloxCookie.Get();
+            if (string.IsNullOrEmpty(cookie))
+                return null;
+            using JsonDocument? doc = await GetJsonAsync($"https://economy.roblox.com/v1/users/{userId}/currency", cookie, token).ConfigureAwait(false);
+            return ReadNumber(doc?.RootElement, "robux");
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Robux balance request failed: " + ex.Message);
             return null;
-        string? cookie = RobloxCookie.Get();
-        if (string.IsNullOrEmpty(cookie))
-            return null;
-        using JsonDocument? doc = await GetJsonAsync($"https://economy.roblox.com/v1/users/{userId}/currency", cookie, token).ConfigureAwait(false);
-        return ReadNumber(doc?.RootElement, "robux");
+        }
     }
 
     public static async Task<IReadOnlyList<RobloxPurchase>?> GetGamePurchasesAsync(long userId, long universeId, long placeId, CancellationToken token)
     {
-        if (userId <= 0 || (universeId <= 0 && placeId <= 0))
-            return Array.Empty<RobloxPurchase>();
-        string? cookie = RobloxCookie.Get();
-        if (string.IsNullOrEmpty(cookie))
-            return null;
-
         List<RobloxPurchase> purchases = new();
-        string? cursor = null;
-
-        for (int page = 0; page < MaxTransactionPages; page++)
+        try
         {
-            string url = $"https://economy.roblox.com/v2/users/{userId}/transactions?transactionType=Purchase&limit=100";
-            if (!string.IsNullOrEmpty(cursor))
-                url += "&cursor=" + Uri.EscapeDataString(cursor);
+            if (userId <= 0 || (universeId <= 0 && placeId <= 0))
+                return Array.Empty<RobloxPurchase>();
+            string? cookie = RobloxCookie.Get();
+            if (string.IsNullOrEmpty(cookie))
+                return null;
 
-            using JsonDocument? doc = await GetJsonAsync(url, cookie, token).ConfigureAwait(false);
-            if (doc == null || doc.RootElement.ValueKind != JsonValueKind.Object)
-                return page == 0 ? null : purchases;
+            string? cursor = null;
 
-            if (doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
+            for (int page = 0; page < MaxTransactionPages && purchases.Count < MaxPurchases; page++)
             {
-                foreach (JsonElement item in data.EnumerateArray())
+                string url = $"https://economy.roblox.com/v2/users/{userId}/transactions?transactionType=Purchase&limit=100";
+                if (!string.IsNullOrEmpty(cursor))
+                    url += "&cursor=" + Uri.EscapeDataString(cursor);
+
+                using JsonDocument? doc = await GetJsonAsync(url, cookie, token).ConfigureAwait(false);
+                if (doc == null || doc.RootElement.ValueKind != JsonValueKind.Object)
+                    return page == 0 ? null : purchases;
+
+                if (doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
                 {
-                    if (item.ValueKind != JsonValueKind.Object)
-                        continue;
+                    foreach (JsonElement item in data.EnumerateArray())
+                    {
+                        if (purchases.Count >= MaxPurchases)
+                            break;
+                        try
+                        {
+                            if (item.ValueKind != JsonValueKind.Object)
+                                continue;
 
-                    if (!item.TryGetProperty("details", out JsonElement details) || details.ValueKind != JsonValueKind.Object)
-                        continue;
+                            if (!item.TryGetProperty("details", out JsonElement details) || details.ValueKind != JsonValueKind.Object)
+                                continue;
 
-                    if (!details.TryGetProperty("place", out JsonElement place) || place.ValueKind != JsonValueKind.Object)
-                        continue;
+                            if (!details.TryGetProperty("place", out JsonElement place) || place.ValueKind != JsonValueKind.Object)
+                                continue;
 
-                    long? itemUniverseId = ReadNumber(place, "universeId");
-                    long? itemPlaceId = ReadNumber(place, "placeId");
-                    bool matches = universeId > 0 ? itemUniverseId == universeId : itemPlaceId == placeId;
-                    if (!matches)
-                        continue;
+                            long? itemUniverseId = ReadNumber(place, "universeId");
+                            long? itemPlaceId = ReadNumber(place, "placeId");
+                            bool matches = universeId > 0 ? itemUniverseId == universeId : itemPlaceId == placeId;
+                            if (!matches)
+                                continue;
 
-                    string createdRaw = ReadString(item, "created");
-                    if (!DateTime.TryParse(createdRaw, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime created))
-                        continue;
+                            string createdRaw = ReadString(item, "created");
+                            if (!DateTime.TryParse(createdRaw, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime created))
+                                continue;
 
-                    long rawAmount = 0;
-                    if (item.TryGetProperty("currency", out JsonElement currency) && currency.ValueKind == JsonValueKind.Object)
-                        rawAmount = ReadNumber(currency, "amount") ?? 0;
+                            long rawAmount = 0;
+                            if (item.TryGetProperty("currency", out JsonElement currency) && currency.ValueKind == JsonValueKind.Object)
+                                rawAmount = ReadNumber(currency, "amount") ?? 0;
 
-                    long amount = rawAmount == long.MinValue ? 0 : Math.Abs(rawAmount);
-                    string name = ReadString(details, "name").Trim();
-                    string type = ReadString(details, "type");
+                            long amount = rawAmount == long.MinValue ? 0 : Math.Abs(rawAmount);
+                            string name = ReadString(details, "name").Trim();
+                            string type = ReadString(details, "type");
 
-                    purchases.Add(new RobloxPurchase(name, type, amount, created.ToUniversalTime()));
+                            purchases.Add(new RobloxPurchase(name, type, amount, created.ToUniversalTime()));
+                        }
+                        catch
+                        {
+                        }
+                    }
                 }
+
+                cursor = ReadString(doc.RootElement, "nextPageCursor");
+                if (string.IsNullOrEmpty(cursor))
+                    break;
             }
 
-            cursor = ReadString(doc.RootElement, "nextPageCursor");
-            if (string.IsNullOrEmpty(cursor))
-                break;
+            return purchases;
         }
-
-        return purchases;
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Purchases request failed: " + ex.Message);
+            return purchases.Count > 0 ? purchases : null;
+        }
     }
 
     private static string ReadString(JsonElement? element, string name) =>
