@@ -10258,4 +10258,40 @@ Instalar SteamVR agora?</value>
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>Instalar {0}</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>Compras neste xogo</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>Inicia sesión para ver as compras</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>Non se puideron cargar as compras</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>Aínda non hai compras neste xogo</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 compra</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} compras</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} gastados</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>Compra</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>Produto de programador</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>Pase de xogo</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>Servidor privado</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

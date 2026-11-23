@@ -10258,4 +10258,40 @@ Shigar SteamVR yanzu?</value>
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>Shigar {0}</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>Siyayya a cikin wannan wasan</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>Shiga don ganin siyayya</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>Ba a iya loda siyayya ba</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>Babu siyayya a cikin wannan wasan tukuna</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>Siyayya 1</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>Siyayya {0}</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · an kashe R$ {1}</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>Siyayya</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>Samfurin mai haɓakawa</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>Izinin wasa</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>Uwar garken sirri</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

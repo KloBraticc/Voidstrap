@@ -10258,4 +10258,40 @@ Namestite SteamVR zdaj?</value>
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>Namestite {0}</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>Nakupi v tej igri</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>Prijavi se za ogled nakupov</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>Nakupov ni bilo mogoče naložiti</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>V tej igri še ni nakupov</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 nakup</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} nakupov</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · porabljenih R$ {1}</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>Nakup</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>Izdelek razvijalca</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>Igralna prepustnica</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>Zasebni strežnik</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

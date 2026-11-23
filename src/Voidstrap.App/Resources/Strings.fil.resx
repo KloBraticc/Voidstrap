@@ -10566,4 +10566,40 @@ I-install ang SteamVR ngayon?</value>
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>I-install {0}</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>Mga binili sa larong ito</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>Mag-sign in para makita ang mga binili</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>Hindi ma-load ang mga binili</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>Wala pang binili sa larong ito</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 binili</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} na binili</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} ang nagastos</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>Binili</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>Produkto ng Developer</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>Game Pass</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>Pribadong Server</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

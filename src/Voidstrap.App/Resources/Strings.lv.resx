@@ -10258,4 +10258,40 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>Instalējiet {0}</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>Pirkumi šajā spēlē</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>Pierakstieties, lai redzētu pirkumus</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>Neizdevās ielādēt pirkumus</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>Šajā spēlē vēl nav pirkumu</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 pirkums</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} pirkumi</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · iztērēti R$ {1}</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>Pirkums</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>Izstrādātāja produkts</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>Spēles caurlaide</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>Privāts serveris</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

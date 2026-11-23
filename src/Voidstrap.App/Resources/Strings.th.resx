@@ -10567,4 +10567,40 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>ติดตั้ง {0}</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>การซื้อในเกมนี้</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้เพื่อดูรายการซื้อ</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>ไม่สามารถโหลดรายการซื้อได้</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>ยังไม่มีการซื้อในเกมนี้</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 รายการซื้อ</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} รายการซื้อ</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · ใช้ไป R$ {1}</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>การซื้อ</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>สินค้าผู้พัฒนา</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>เกมพาส</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ส่วนตัว</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

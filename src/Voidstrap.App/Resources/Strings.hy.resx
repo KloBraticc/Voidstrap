@@ -10258,4 +10258,40 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>Տեղադրեք ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>Գնումներ այս խաղում</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>Մուտք գործեք գնումները տեսնելու համար</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>Չհաջողվեց բեռնել գնումները</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>Այս խաղում դեռ գնումներ չկան</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 գնում</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} գնում</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · ծախսվել է R$ {1}</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>Գնում</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>Մշակողի ապրանք</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>Խաղային անցագիր</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>Անձնական սերվեր</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

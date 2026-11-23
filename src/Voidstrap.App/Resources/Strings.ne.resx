@@ -10258,4 +10258,40 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>स्थापना गर्नुहोस् ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>यस खेलमा गरिएका खरिदहरू</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>खरिदहरू हेर्न साइन इन गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>खरिदहरू लोड गर्न सकिएन</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>यस खेलमा अहिलेसम्म कुनै खरिद छैन</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>१ खरिद</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} खरिदहरू</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} खर्च भयो</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>खरिद</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>डेभलपर उत्पादन</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>गेम पास</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>निजी सर्भर</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

@@ -10258,4 +10258,40 @@ Uptime: {1}
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>დააინსტალირეთ ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>შესყიდვები ამ თამაშში</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>შედით შესყიდვების სანახავად</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>შესყიდვების ჩატვირთვა ვერ მოხერხდა</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>ამ თამაშში ჯერ შესყიდვები არ არის</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 შესყიდვა</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} შესყიდვა</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · დახარჯულია R$ {1}</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>შესყიდვა</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>დეველოპერის პროდუქტი</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>თამაშის პასი</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>პირადი სერვერი</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

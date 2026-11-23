@@ -10258,4 +10258,40 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>نصب کړئ ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>په دې لوبه کې پېرودنې</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>د پېرودنو لیدو لپاره ننوځئ</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>پېرودنې پورته نه شوې</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>په دې لوبه کې لا تر اوسه کومه پېرودنه نشته</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>۱ پېرودنه</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} پېرودنې</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} مصرف شوي</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>پېرودنه</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>د پراختیاکوونکي محصول</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>د لوبې پاس</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>شخصي سرور</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

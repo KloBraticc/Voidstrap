@@ -10257,4 +10257,40 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>நிறுவவும் ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>இந்த விளையாட்டில் செய்த கொள்முதல்கள்</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>கொள்முதல்களைக் காண உள்நுழையவும்</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>கொள்முதல்களை ஏற்ற முடியவில்லை</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>இந்த விளையாட்டில் இன்னும் கொள்முதல்கள் இல்லை</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 கொள்முதல்</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} கொள்முதல்கள்</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} செலவிடப்பட்டது</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>கொள்முதல்</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>உருவாக்குநர் தயாரிப்பு</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>விளையாட்டு பாஸ்</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>தனிப்பட்ட சேவையகம்</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

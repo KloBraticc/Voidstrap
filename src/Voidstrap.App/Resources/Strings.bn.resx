@@ -10257,4 +10257,40 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>ইনস্টল করুন ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>এই গেমে কেনাকাটা</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>কেনাকাটা দেখতে সাইন ইন করুন</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>কেনাকাটা লোড করা যায়নি</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>এই গেমে এখনো কোনো কেনাকাটা নেই</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>১টি কেনাকাটা</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0}টি কেনাকাটা</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} খরচ হয়েছে</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>কেনাকাটা</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>ডেভেলপার পণ্য</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>গেম পাস</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>প্রাইভেট সার্ভার</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

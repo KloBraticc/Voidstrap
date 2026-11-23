@@ -10258,4 +10258,40 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>ਇੰਸਟਾਲ ਕਰੋ ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>ਇਸ ਗੇਮ ਵਿੱਚ ਖਰੀਦਦਾਰੀਆਂ</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>ਖਰੀਦਦਾਰੀਆਂ ਦੇਖਣ ਲਈ ਸਾਈਨ ਇਨ ਕਰੋ</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>ਖਰੀਦਦਾਰੀਆਂ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੀਆਂ</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>ਇਸ ਗੇਮ ਵਿੱਚ ਅਜੇ ਕੋਈ ਖਰੀਦਦਾਰੀ ਨਹੀਂ ਹੈ</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 ਖਰੀਦਦਾਰੀ</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} ਖਰੀਦਦਾਰੀਆਂ</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} ਖਰਚ ਕੀਤੇ</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>ਖਰੀਦਦਾਰੀ</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>ਡਿਵੈਲਪਰ ਉਤਪਾਦ</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>ਗੇਮ ਪਾਸ</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>ਪ੍ਰਾਈਵੇਟ ਸਰਵਰ</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

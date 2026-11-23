@@ -10412,5 +10412,17 @@ namespace Voidstrap.Resources {
         public static string Ui_Mods_OverrideClickCursorDescription => ResourceManager.GetString("Ui.Mods.OverrideClickCursorDescription", resourceCulture);
         public static string Ui_OverlayStudio_CrosshairOutlineThickness => ResourceManager.GetString("Ui.OverlayStudio.CrosshairOutlineThickness", resourceCulture);
         public static string Ui_Browser_KeepRunning => ResourceManager.GetString("Ui.Browser.KeepRunning", resourceCulture);
+        public static string Ui_Session_Robux_PurchasesTitle => ResourceManager.GetString("Ui.Session.Robux.PurchasesTitle", resourceCulture);
+        public static string Ui_Session_Robux_SignIn => ResourceManager.GetString("Ui.Session.Robux.SignIn", resourceCulture);
+        public static string Ui_Session_Robux_LoadFailed => ResourceManager.GetString("Ui.Session.Robux.LoadFailed", resourceCulture);
+        public static string Ui_Session_Robux_None => ResourceManager.GetString("Ui.Session.Robux.None", resourceCulture);
+        public static string Ui_Session_Robux_OnePurchase => ResourceManager.GetString("Ui.Session.Robux.OnePurchase", resourceCulture);
+        public static string Ui_Session_Robux_PurchaseCount => ResourceManager.GetString("Ui.Session.Robux.PurchaseCount", resourceCulture);
+        public static string Ui_Session_Robux_Spent => ResourceManager.GetString("Ui.Session.Robux.Spent", resourceCulture);
+        public static string Ui_Session_Robux_DefaultName => ResourceManager.GetString("Ui.Session.Robux.DefaultName", resourceCulture);
+        public static string Ui_Session_Robux_DeveloperProduct => ResourceManager.GetString("Ui.Session.Robux.DeveloperProduct", resourceCulture);
+        public static string Ui_Session_Robux_GamePass => ResourceManager.GetString("Ui.Session.Robux.GamePass", resourceCulture);
+        public static string Ui_Session_Robux_PrivateServer => ResourceManager.GetString("Ui.Session.Robux.PrivateServer", resourceCulture);
+        public static string Ui_Session_Robux_Amount => ResourceManager.GetString("Ui.Session.Robux.Amount", resourceCulture);
     }
 }

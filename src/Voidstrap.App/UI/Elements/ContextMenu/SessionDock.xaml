@@ -282,7 +282,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <TextBlock Text="Purchases in this game" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"
+          <TextBlock Text="{resources:Loc Ui_Session_Robux_PurchasesTitle}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"
                      Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
           <TextBlock x:Name="RobuxTotalText" Grid.Column="1" FontSize="12" VerticalAlignment="Center"
                      Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
@@ -375,7 +375,7 @@
         </Border>
         <Rectangle x:Name="ProfileDivider" Grid.Column="1" Style="{StaticResource DockDivider}" />
 
-        <Border x:Name="RobuxCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="Robux" Visibility="Collapsed" MouseLeftButtonUp="RobuxCard_MouseLeftButtonUp">
+        <Border x:Name="RobuxCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Accounts_Robux}" Visibility="Collapsed" MouseLeftButtonUp="RobuxCard_MouseLeftButtonUp">
           <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="RobuxGlyph" Text="&#xE8C7;" Style="{StaticResource DockGlyph}" Margin="0,0,6,0" />
             <TextBlock x:Name="RobuxText" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Typography.NumeralAlignment="Tabular" />

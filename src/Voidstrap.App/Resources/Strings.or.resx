@@ -10258,4 +10258,40 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>ସଂସ୍ଥାପନ କରନ୍ତୁ | ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>ଏହି ଗେମରେ କ୍ରୟଗୁଡ଼ିକ</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>କ୍ରୟ ଦେଖିବାକୁ ସାଇନ୍ ଇନ୍ କରନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>କ୍ରୟଗୁଡ଼ିକ ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>ଏହି ଗେମରେ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି କ୍ରୟ ନାହିଁ</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 କ୍ରୟ</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>{0} କ୍ରୟଗୁଡ଼ିକ</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} ଖର୍ଚ୍ଚ ହୋଇଛି</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>କ୍ରୟ</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>ଡେଭଲପର୍ ଉତ୍ପାଦ</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>ଗେମ୍ ପାସ୍</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>ପ୍ରାଇଭେଟ୍ ସର୍ଭର୍</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

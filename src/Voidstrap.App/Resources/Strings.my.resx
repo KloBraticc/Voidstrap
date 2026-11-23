@@ -10257,4 +10257,40 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>တပ်ဆင်ပါ။ ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>ဤဂိမ်းအတွင်း ဝယ်ယူမှုများ</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>ဝယ်ယူမှုများကြည့်ရန် အကောင့်ဝင်ပါ</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>ဝယ်ယူမှုများကို မဖွင့်နိုင်ပါ</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>ဤဂိမ်းတွင် ဝယ်ယူမှု မရှိသေးပါ</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>ဝယ်ယူမှု ၁ ခု</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>ဝယ်ယူမှု {0} ခု</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} သုံးစွဲထားသည်</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>ဝယ်ယူမှု</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>Developer Product</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>Game Pass</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>သီးသန့်ဆာဗာ</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>

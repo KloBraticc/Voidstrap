@@ -78,9 +78,7 @@ public static class RobloxEconomy
                         rawAmount = ReadNumber(currency, "amount") ?? 0;
 
                     long amount = rawAmount == long.MinValue ? 0 : Math.Abs(rawAmount);
-                    string name = ReadString(details, "name");
-                    if (string.IsNullOrWhiteSpace(name))
-                        name = "Purchase";
+                    string name = ReadString(details, "name").Trim();
                     string type = ReadString(details, "type");
 
                     purchases.Add(new RobloxPurchase(name, type, amount, created.ToUniversalTime()));

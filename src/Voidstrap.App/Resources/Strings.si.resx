@@ -10258,4 +10258,40 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Menu.InstallRuntime" xml:space="preserve">
     <value>ස්ථාපනය කරන්න ({0})</value>
   </data>
+  <data name="Ui.Session.Robux.PurchasesTitle" xml:space="preserve">
+    <value>මෙම ක්‍රීඩාවේ මිලදී ගැනීම්</value>
+  </data>
+  <data name="Ui.Session.Robux.SignIn" xml:space="preserve">
+    <value>මිලදී ගැනීම් බැලීමට පුරන්න</value>
+  </data>
+  <data name="Ui.Session.Robux.LoadFailed" xml:space="preserve">
+    <value>මිලදී ගැනීම් පූරණය කළ නොහැකි විය</value>
+  </data>
+  <data name="Ui.Session.Robux.None" xml:space="preserve">
+    <value>මෙම ක්‍රීඩාවේ තවමත් මිලදී ගැනීම් නොමැත</value>
+  </data>
+  <data name="Ui.Session.Robux.OnePurchase" xml:space="preserve">
+    <value>1 මිලදී ගැනීමක්</value>
+  </data>
+  <data name="Ui.Session.Robux.PurchaseCount" xml:space="preserve">
+    <value>මිලදී ගැනීම් {0}</value>
+  </data>
+  <data name="Ui.Session.Robux.Spent" xml:space="preserve">
+    <value>{0} · R$ {1} වැය විය</value>
+  </data>
+  <data name="Ui.Session.Robux.DefaultName" xml:space="preserve">
+    <value>මිලදී ගැනීම</value>
+  </data>
+  <data name="Ui.Session.Robux.DeveloperProduct" xml:space="preserve">
+    <value>සංවර්ධක නිෂ්පාදනය</value>
+  </data>
+  <data name="Ui.Session.Robux.GamePass" xml:space="preserve">
+    <value>ක්‍රීඩා අවසරපත</value>
+  </data>
+  <data name="Ui.Session.Robux.PrivateServer" xml:space="preserve">
+    <value>පුද්ගලික සේවාදායකය</value>
+  </data>
+  <data name="Ui.Session.Robux.Amount" xml:space="preserve">
+    <value>R$ {0}</value>
+  </data>
 </root>
