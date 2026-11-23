@@ -347,8 +347,20 @@
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
+        <Border x:Name="RobuxCard" Grid.Column="0" Style="{StaticResource DockCard}" Padding="10,6" ToolTip="{resources:Loc Accounts_Robux}" Visibility="Collapsed" MouseLeftButtonUp="RobuxCard_MouseLeftButtonUp">
+          <StackPanel Orientation="Horizontal">
+            <Path x:Name="RobuxGlyph" Width="16" Height="16" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,7,0"
+                  Stroke="{DynamicResource TextFillColorPrimaryBrush}" StrokeThickness="1.8" StrokeLineJoin="Round"
+                  StrokeStartLineCap="Round" StrokeEndLineCap="Round" Fill="Transparent"
+                  Data="M8,1 L14.06,4.5 L14.06,11.5 L8,15 L1.94,11.5 L1.94,4.5 Z M5.6,5.6 L10.4,5.6 L10.4,10.4 L5.6,10.4 Z" />
+            <TextBlock x:Name="RobuxText" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Typography.NumeralAlignment="Tabular" />
+            <TextBlock x:Name="RobuxChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
+          </StackPanel>
+        </Border>
+        <Rectangle x:Name="RobuxDivider" Grid.Column="1" Style="{StaticResource DockDivider}" Visibility="Collapsed" />
+
         <!-- You: avatar, display name and username -->
-        <Border x:Name="ProfileCard" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Ui_Session_YourProfile}" MouseLeftButtonUp="ProfileCard_MouseLeftButtonUp">
+        <Border x:Name="ProfileCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Ui_Session_YourProfile}" MouseLeftButtonUp="ProfileCard_MouseLeftButtonUp">
           <StackPanel Orientation="Horizontal">
             <Grid x:Name="ProfileAvatarHost" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center">
               <Ellipse Fill="{DynamicResource SubtleFillColorSecondaryBrush}" />
@@ -373,16 +385,7 @@
             <TextBlock x:Name="ProfileChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
           </StackPanel>
         </Border>
-        <Rectangle x:Name="ProfileDivider" Grid.Column="1" Style="{StaticResource DockDivider}" />
-
-        <Border x:Name="RobuxCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Accounts_Robux}" Visibility="Collapsed" MouseLeftButtonUp="RobuxCard_MouseLeftButtonUp">
-          <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="RobuxGlyph" Text="&#xE8C7;" Style="{StaticResource DockGlyph}" Margin="0,0,6,0" />
-            <TextBlock x:Name="RobuxText" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Typography.NumeralAlignment="Tabular" />
-            <TextBlock x:Name="RobuxChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
-          </StackPanel>
-        </Border>
-        <Rectangle x:Name="RobuxDivider" Grid.Column="3" Style="{StaticResource DockDivider}" Visibility="Collapsed" />
+        <Rectangle x:Name="ProfileDivider" Grid.Column="3" Style="{StaticResource DockDivider}" />
 
         <!-- The game, clickable like an option card, opens the game and server popout above the dock -->
         <Border x:Name="GameCard" Grid.Column="4" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Ui_Session_GameAndServer}" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
