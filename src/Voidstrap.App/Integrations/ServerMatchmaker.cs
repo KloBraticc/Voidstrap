@@ -58,6 +58,8 @@ public sealed class ServerMatchmaker : IDisposable
 
     private CancellationTokenSource? _currentCts;
 
+    private readonly object _prefetchGate = new();
+
     private CancellationTokenSource? _prefetchCts;
 
     private Task<MatchmakerCandidate?>? _prefetch;
@@ -133,9 +135,12 @@ public sealed class ServerMatchmaker : IDisposable
         if (!string.IsNullOrEmpty(data.JobId))
             tried.Add(data.JobId);
         CancellationTokenSource cts = new(PrefetchLimit);
-        _prefetchCts = cts;
-        _prefetchJobId = data.JobId;
-        _prefetch = PrefetchAsync(data.PlaceId, tried, ResolvePreferredDatacenterKey(data.PlaceId), cts);
+        lock (_prefetchGate)
+        {
+            _prefetchCts = cts;
+            _prefetchJobId = data.JobId;
+            _prefetch = PrefetchAsync(data.PlaceId, tried, ResolvePreferredDatacenterKey(data.PlaceId), cts);
+        }
         App.Logger.WriteLine(LOG_IDENT, $"Joining place {data.PlaceId}, searching for a better server while Roblox loads");
     }
 
@@ -158,22 +163,29 @@ public sealed class ServerMatchmaker : IDisposable
         }
         finally
         {
-            if (Interlocked.CompareExchange(ref _prefetchCts, null, cts) == cts)
-                cts.Dispose();
+            lock (_prefetchGate)
+            {
+                if (ReferenceEquals(_prefetchCts, cts))
+                {
+                    _prefetchCts = null;
+                    cts.Dispose();
+                }
+            }
         }
     }
 
-    private void CancelLinuxPrefetch()
+    private void CancelPrefetch(Task<MatchmakerCandidate?>? expectedPrefetch = null)
     {
-        if (Voidstrap.Utility.Platform.UsesLinuxHost)
-            CancelPrefetch();
-    }
-
-    private void CancelPrefetch()
-    {
-        CancellationTokenSource? cts = Interlocked.Exchange(ref _prefetchCts, null);
-        _prefetch = null;
-        _prefetchJobId = null;
+        CancellationTokenSource? cts;
+        lock (_prefetchGate)
+        {
+            if (expectedPrefetch != null && !ReferenceEquals(_prefetch, expectedPrefetch))
+                return;
+            cts = _prefetchCts;
+            _prefetchCts = null;
+            _prefetch = null;
+            _prefetchJobId = null;
+        }
         if (cts == null)
             return;
         cts.Cancel();
@@ -189,6 +201,7 @@ public sealed class ServerMatchmaker : IDisposable
     private async Task HandleGameJoinAsync()
     {
         CancellationTokenSource? ownedCts = null;
+        Task<MatchmakerCandidate?>? prefetch = null;
         try
         {
             if (_disposed)
@@ -198,8 +211,13 @@ public sealed class ServerMatchmaker : IDisposable
             if (data == null)
             {
                 App.Logger.WriteLine(LOG_IDENT, "Activity data unavailable, skipping");
-                CancelLinuxPrefetch();
+                CancelPrefetch();
                 return;
+            }
+            lock (_prefetchGate)
+            {
+                if (string.Equals(_prefetchJobId, data.JobId, StringComparison.OrdinalIgnoreCase))
+                    prefetch = _prefetch;
             }
             if (!data.MachineAddressValid)
             {
@@ -214,7 +232,6 @@ public sealed class ServerMatchmaker : IDisposable
 
             if (data.IsTeleport)
             {
-                CancelPrefetch();
                 return;
             }
 
@@ -223,7 +240,6 @@ public sealed class ServerMatchmaker : IDisposable
                 App.Logger.WriteLine(LOG_IDENT, "Joined the server you picked in the server browser, staying put");
                 ClearLinuxRejoin();
                 ClearAttempt(data.PlaceId);
-                CancelLinuxPrefetch();
                 return;
             }
 
@@ -232,14 +248,12 @@ public sealed class ServerMatchmaker : IDisposable
                 App.Logger.WriteLine(LOG_IDENT, "Joined a friend's server, staying put");
                 ClearLinuxRejoin();
                 ClearAttempt(data.PlaceId);
-                CancelLinuxPrefetch();
                 return;
             }
 
             if (!IsEnabled())
             {
                 App.Logger.WriteLine(LOG_IDENT, "Matchmaker is turned off, staying put");
-                CancelLinuxPrefetch();
                 return;
             }
 
@@ -247,7 +261,6 @@ public sealed class ServerMatchmaker : IDisposable
             {
                 App.Logger.WriteLine(LOG_IDENT, $"Place {data.PlaceId} is excluded from the matchmaker, staying put");
                 ClearAttempt(data.PlaceId);
-                CancelLinuxPrefetch();
                 return;
             }
 
@@ -255,7 +268,6 @@ public sealed class ServerMatchmaker : IDisposable
             {
                 App.Logger.WriteLine(LOG_IDENT, $"Server is {data.ServerType}, the matchmaker only reroutes from public servers");
                 ClearAttempt(data.PlaceId);
-                CancelLinuxPrefetch();
                 return;
             }
 
@@ -268,7 +280,6 @@ public sealed class ServerMatchmaker : IDisposable
                     $"Joined the server the matchmaker picked before launch in {city} ({launchPick.EstimatedPingMs}ms), staying put"
                 );
                 ClearAttempt(data.PlaceId);
-                CancelLinuxPrefetch();
                 ShowAlert($"Connected to {city}, about {launchPick.EstimatedPingMs}ms", 6);
                 return;
             }
@@ -280,7 +291,7 @@ public sealed class ServerMatchmaker : IDisposable
                 previous?.Cancel();
             }
             catch { }
-            await EvaluateAsync(data, ownedCts.Token).ConfigureAwait(false);
+            await EvaluateAsync(data, prefetch, ownedCts.Token).ConfigureAwait(false);
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
@@ -290,6 +301,8 @@ public sealed class ServerMatchmaker : IDisposable
         }
         finally
         {
+            if (prefetch != null)
+                CancelPrefetch(prefetch);
             if (ownedCts != null)
             {
                 Interlocked.CompareExchange(ref _currentCts, null, ownedCts);
@@ -399,14 +412,11 @@ public sealed class ServerMatchmaker : IDisposable
         return (App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "").Trim();
     }
 
-    private async Task EvaluateAsync(ActivityData data, CancellationToken token)
+    private async Task EvaluateAsync(ActivityData data, Task<MatchmakerCandidate?>? prefetch, CancellationToken token)
     {
         if (_linuxRejoinTarget != null && _linuxRejoinPlaceId != data.PlaceId)
             ClearLinuxRejoin();
 
-        Task<MatchmakerCandidate?>? prefetch = string.Equals(_prefetchJobId, data.JobId, StringComparison.OrdinalIgnoreCase)
-            ? _prefetch
-            : null;
         using CancellationTokenSource window = CancellationTokenSource.CreateLinkedTokenSource(token);
         window.CancelAfter(MoveWindow);
         try
@@ -421,10 +431,6 @@ public sealed class ServerMatchmaker : IDisposable
             );
             ClearLinuxRejoin();
             ClearAttempt(data.PlaceId);
-        }
-        finally
-        {
-            CancelLinuxPrefetch();
         }
     }
 

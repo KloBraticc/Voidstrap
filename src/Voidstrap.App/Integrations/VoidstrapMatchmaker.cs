@@ -117,9 +117,11 @@ public static class VoidstrapMatchmaker
 
     private static readonly SemaphoreSlim _ipLookupLock = new SemaphoreSlim(6, 6);
 
-    private static long _joinBackoffUntilTicks;
+    private static readonly object _joinBackoffGate = new();
+    private static long _joinBackoffUntilMs;
+    private static long _nextPacedJoinMs;
     private static int _joinRateLimitStreak;
-    private static long _joinPacedUntilTicks;
+    private static long _joinPacedUntilMs;
     private static readonly TimeSpan JoinPacedWindow = TimeSpan.FromSeconds(20);
     private static readonly TimeSpan JoinPacedSpacing = TimeSpan.FromMilliseconds(300);
 
@@ -1296,13 +1298,16 @@ public static class VoidstrapMatchmaker
         {
             if (!string.IsNullOrEmpty(_csrfToken))
                 return;
+            await WaitForJoinBackoffAsync(token).ConfigureAwait(false);
             using HttpRequestMessage req = BuildJoinRequest(UseV2(), placeId, Guid.Empty.ToString(), cookie, null);
             using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
             timeoutCts.CancelAfter(JoinTimeoutMs);
             using HttpResponseMessage res = await _joinClient
                 .SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token)
                 .ConfigureAwait(false);
-            if (res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
+            if (res.StatusCode == HttpStatusCode.TooManyRequests)
+                NoteJoinRateLimited(res.Headers.RetryAfter);
+            else if (res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
                 _csrfToken = values.FirstOrDefault();
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -1351,46 +1356,45 @@ public static class VoidstrapMatchmaker
 
     private static async Task WaitForJoinBackoffAsync(CancellationToken token)
     {
-        long now;
-        long slot;
         while (true)
         {
-            now = DateTime.UtcNow.Ticks;
-            long until = Interlocked.Read(ref _joinBackoffUntilTicks);
-            slot = Math.Max(until, now);
-            if (Interlocked.Read(ref _joinPacedUntilTicks) <= now)
-                break;
-            if (Interlocked.CompareExchange(ref _joinBackoffUntilTicks, slot + JoinPacedSpacing.Ticks, until) == until)
-                break;
+            token.ThrowIfCancellationRequested();
+            long waitMs;
+            lock (_joinBackoffGate)
+            {
+                long now = Environment.TickCount64;
+                waitMs = Math.Max(_joinBackoffUntilMs, _nextPacedJoinMs) - now;
+                if (waitMs <= 0)
+                {
+                    _nextPacedJoinMs = now < _joinPacedUntilMs ? now + (long)JoinPacedSpacing.TotalMilliseconds : 0;
+                    return;
+                }
+            }
+            await Task.Delay((int)Math.Min(waitMs + Random.Shared.Next(25, 201), int.MaxValue), token).ConfigureAwait(false);
         }
-        if (slot > now)
-            await Task.Delay(TimeSpan.FromTicks(slot - now) + TimeSpan.FromMilliseconds(Random.Shared.Next(25, 201)), token)
-                .ConfigureAwait(false);
     }
 
-    private static void NoteJoinRateLimited(TimeSpan? retryAfter)
+    private static void NoteJoinRateLimited(RetryConditionHeaderValue? retryAfter)
     {
-        int streak = Math.Min(Interlocked.Increment(ref _joinRateLimitStreak), 4);
-        Interlocked.Exchange(ref _joinPacedUntilTicks, DateTime.UtcNow.Ticks + JoinPacedWindow.Ticks);
-        SetJoinBackoff(retryAfter ?? TimeSpan.FromSeconds(1.5 * (1 << (streak - 1))));
+        lock (_joinBackoffGate)
+        {
+            _joinRateLimitStreak = Math.Min(_joinRateLimitStreak + 1, 4);
+            TimeSpan delay = retryAfter?.Delta
+                ?? (retryAfter?.Date is DateTimeOffset retryDate
+                    ? retryDate - DateTimeOffset.UtcNow
+                    : TimeSpan.FromSeconds(1.5 * (1 << (_joinRateLimitStreak - 1))));
+            long now = Environment.TickCount64;
+            _joinBackoffUntilMs = Math.Max(_joinBackoffUntilMs, now + Math.Max(0, (long)Math.Ceiling(delay.TotalMilliseconds)));
+            _joinPacedUntilMs = _joinBackoffUntilMs + (long)JoinPacedWindow.TotalMilliseconds;
+        }
     }
 
     private static void NoteJoinAccepted()
     {
-        if (Volatile.Read(ref _joinRateLimitStreak) != 0)
-            Interlocked.Exchange(ref _joinRateLimitStreak, 0);
-    }
-
-    private static void SetJoinBackoff(TimeSpan duration)
-    {
-        if (duration > TimeSpan.FromSeconds(8.0))
-            duration = TimeSpan.FromSeconds(8.0);
-        long until = DateTime.UtcNow.Ticks + duration.Ticks;
-        while (true)
+        lock (_joinBackoffGate)
         {
-            long existing = Interlocked.Read(ref _joinBackoffUntilTicks);
-            if (until <= existing || Interlocked.CompareExchange(ref _joinBackoffUntilTicks, until, existing) == existing)
-                return;
+            if (Environment.TickCount64 >= _joinBackoffUntilMs)
+                _joinRateLimitStreak = 0;
         }
     }
 
@@ -1556,7 +1560,7 @@ public static class VoidstrapMatchmaker
                 }
                 if (res.StatusCode == HttpStatusCode.TooManyRequests)
                 {
-                    NoteJoinRateLimited(res.Headers.RetryAfter?.Delta);
+                    NoteJoinRateLimited(res.Headers.RetryAfter);
                     return new ServerStartLookup(ServerStartStatus.Unavailable, default);
                 }
                 if (res.StatusCode == HttpStatusCode.Unauthorized)
@@ -1822,9 +1826,7 @@ public static class VoidstrapMatchmaker
                 if (res.StatusCode == HttpStatusCode.TooManyRequests)
                 {
                     LogProbeFailure(res.StatusCode);
-                    NoteJoinRateLimited(res.Headers.RetryAfter?.Delta);
-                    if (attempt == 0)
-                        continue;
+                    NoteJoinRateLimited(res.Headers.RetryAfter);
                     return new ResolveAttempt("", 0, false, false);
                 }
                 if (!res.IsSuccessStatusCode)
