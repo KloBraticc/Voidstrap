@@ -6890,6 +6890,9 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>ด็อกด้านบน</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>พรีเซ็ตที่ยังไม่ได้บันทึก</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>เวทีหน้าจอโต้ตอบ</value>
   </data>

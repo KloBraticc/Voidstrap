@@ -6679,6 +6679,9 @@ Voidstrap डेस्कटॉप फ़ोल्डर में नहीं 
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>शीर्ष गोदी</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>सहेजा नहीं गया प्रीसेट</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>इंटरैक्टिव स्क्रीन स्टेज</value>
   </data>

@@ -8750,6 +8750,7 @@ namespace Voidstrap.Resources {
         public static string Ui_OverlayStudio_PresetCompetitive => ResourceManager.GetString("Ui.OverlayStudio.PresetCompetitive", resourceCulture);
         public static string Ui_OverlayStudio_PresetStreamer => ResourceManager.GetString("Ui.OverlayStudio.PresetStreamer", resourceCulture);
         public static string Ui_OverlayStudio_PresetTopDock => ResourceManager.GetString("Ui.OverlayStudio.PresetTopDock", resourceCulture);
+        public static string Ui_OverlayStudio_UnsavedPreset => ResourceManager.GetString("Ui.OverlayStudio.UnsavedPreset", resourceCulture);
         public static string Ui_OverlayStudio_StagePreview => ResourceManager.GetString("Ui.OverlayStudio.StagePreview", resourceCulture);
         public static string Ui_OverlayStudio_StageHint => ResourceManager.GetString("Ui.OverlayStudio.StageHint", resourceCulture);
         public static string Ui_OverlayStudio_QuickAnchor => ResourceManager.GetString("Ui.OverlayStudio.QuickAnchor", resourceCulture);

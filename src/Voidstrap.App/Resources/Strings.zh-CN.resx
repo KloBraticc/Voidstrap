@@ -6890,6 +6890,9 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>顶部停靠栏</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>未保存的预设</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>交互式屏幕舞台</value>
   </data>

@@ -6679,6 +6679,9 @@ Feil: {0}</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Toppdokk</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Ikke lagret forhåndsinnstilling</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktiv skjermscene</value>
   </data>

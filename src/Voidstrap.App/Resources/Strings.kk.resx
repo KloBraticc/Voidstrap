@@ -6679,6 +6679,9 @@ Voidstrap жұмыс үстелі қалтасына жаза алмады.</val
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Жоғарғы док</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Сақталмаған алдын ала орнату</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Интерактивті экран кезеңі</value>
   </data>

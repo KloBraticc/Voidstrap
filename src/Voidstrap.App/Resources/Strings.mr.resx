@@ -6679,6 +6679,9 @@ Voidstrap डेस्कटॉप फोल्डरवर लिहू शक�
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>शीर्ष डॉक</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>जतन न केलेला प्रीसेट</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>संवादात्मक स्क्रीन स्टेज</value>
   </data>

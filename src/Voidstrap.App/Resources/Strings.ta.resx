@@ -6679,6 +6679,9 @@ Voidstrap டெஸ்க்டாப் கோப்புறையில் �
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>டாப் டாக்</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>சேமிக்கப்படாத முன்அமைவு</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>ஊடாடும் திரை நிலை</value>
   </data>

@@ -6679,6 +6679,9 @@ Voidstrap рабочий папкага жаза алган жок.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Жогорку панель</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Сакталбаган алдын ала жөндөө</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Интерактивдүү экран этап</value>
   </data>

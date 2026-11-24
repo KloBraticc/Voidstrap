@@ -6679,6 +6679,9 @@ Voidstrap ma setax jikteb fil-folder tad-desktop.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Dock fuq</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Preset mhux salvat</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Stadju tal-Iskrin Interattiv</value>
   </data>

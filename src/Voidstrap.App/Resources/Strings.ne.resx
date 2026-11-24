@@ -6679,6 +6679,9 @@ Voidstrap ले डेस्कटप फोल्डरमा लेख्न 
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>शीर्ष डक</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>सुरक्षित नगरिएको प्रिसेट</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>अन्तरक्रियात्मक स्क्रिन स्टेज</value>
   </data>

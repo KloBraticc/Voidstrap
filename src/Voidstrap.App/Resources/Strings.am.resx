@@ -6679,6 +6679,9 @@ Voidstrap ወደ ዴስክቶፕ አቃፊው መፃፍ አልቻለም።</valu
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>ከፍተኛ ዶክ</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>ያልተቀመጠ ቅድመ ቅንብር</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>በይነተገናኝ ማያ ገጽ ደረጃ</value>
   </data>

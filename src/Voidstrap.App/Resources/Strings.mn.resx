@@ -6679,6 +6679,9 @@ Voidstrap ширээний хавтас руу бичиж чадсангүй.</v
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Топ Док</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Хадгалаагүй урьдчилсан тохиргоо</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Интерактив дэлгэцийн үе шат</value>
   </data>

@@ -6679,6 +6679,9 @@ Voidstrap не можеше да запише во папката на рабо�
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Топ Док</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Незачувана поставка</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Сцена на интерактивен екран</value>
   </data>

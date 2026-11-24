@@ -6679,6 +6679,9 @@ Voidstrap ڊيسڪ ٽاپ فولڊر ۾ نه لکي سگھيو.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>مٿين ڊاک</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>محفوظ نه ڪيل پريسيٽ</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>انٽرويو اسڪرين اسٽيج</value>
   </data>

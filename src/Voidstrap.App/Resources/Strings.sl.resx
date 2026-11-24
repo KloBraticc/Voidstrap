@@ -6679,6 +6679,9 @@ Napaka: {0}</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Zgornja vrstica</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Neshranjena prednastavitev</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktivni zaslonski oder</value>
   </data>

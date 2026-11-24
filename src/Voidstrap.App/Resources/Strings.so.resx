@@ -6679,6 +6679,9 @@ Voidstrap wax u qori kari waayay galka miiska.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Dusha sare</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Dejin aan la kaydin</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Marxaladda Shaashada Is-dhexgalka</value>
   </data>

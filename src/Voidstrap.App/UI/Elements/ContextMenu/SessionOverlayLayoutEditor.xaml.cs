@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -71,6 +72,16 @@ public partial class SessionOverlayLayoutEditor : Window
     private bool _loading;
     private bool _closed;
     private bool _dockActionRowsLoaded;
+    private bool _refreshingPresetPicker;
+
+    private static readonly (string Id, Func<string> Label)[] BuiltInPresetDefinitions =
+    [
+        ("default", () => Strings.Ui_OverlayStudio_PresetDefault),
+        ("tophud", () => Strings.Ui_OverlayStudio_PresetTopBar),
+        ("competitive", () => Strings.Ui_OverlayStudio_PresetCompetitive),
+        ("streamer", () => Strings.Ui_OverlayStudio_PresetStreamer),
+        ("topdock", () => Strings.Ui_OverlayStudio_PresetTopDock),
+    ];
 
     private sealed class DockActionEditorItem : INotifyPropertyChanged
     {
@@ -228,6 +239,7 @@ public partial class SessionOverlayLayoutEditor : Window
 
         _ready = true;
         LoadAllControls();
+        RefreshPresetPickerState();
         SelectLayer(OverlayStudioLayer.Readout);
         Loaded += OnEditorLoaded;
         Closed += OnEditorClosed;
@@ -284,8 +296,9 @@ public partial class SessionOverlayLayoutEditor : Window
         Loaded -= OnEditorLoaded;
         Closed -= OnEditorClosed;
         PreviewKeyDown -= OnEditorPreviewKeyDown;
+        SessionDock.ActiveInstance?.CloseTool(SessionOverlayPresetSaveWindow.ToolKey);
         CloseScreenDragWindow();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         GC.SuppressFinalize(this);
     }
 
@@ -853,7 +866,7 @@ public partial class SessionOverlayLayoutEditor : Window
     private void CommitLayerChange()
     {
         RefreshAllLiveOverlays();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LoadAllControls();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
@@ -897,7 +910,7 @@ public partial class SessionOverlayLayoutEditor : Window
             return;
         App.Settings.Prop.MusicIslandOverlay = MusicEnableToggle.IsChecked == true;
         Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
     }
 
@@ -907,7 +920,7 @@ public partial class SessionOverlayLayoutEditor : Window
             return;
         App.Settings.Prop.MusicIslandPosition = (MusicIslandPosition)MusicPositionCombo.SelectedIndex;
         Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
     }
 
@@ -1044,7 +1057,7 @@ public partial class SessionOverlayLayoutEditor : Window
             Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
         }
 
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LoadAllControls();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
@@ -1061,7 +1074,7 @@ public partial class SessionOverlayLayoutEditor : Window
         prop.Clock24Hour = Readout24HourToggle.IsChecked == true;
         layout.ReadoutHorizontalLayout = ReadoutPillToggle.IsChecked == true;
         OverlayWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -1079,7 +1092,7 @@ public partial class SessionOverlayLayoutEditor : Window
         layout.ReadoutCornerRadius = Math.Round(ReadoutCornerSlider.Value);
         UpdateValueLabels();
         OverlayWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -1118,7 +1131,7 @@ public partial class SessionOverlayLayoutEditor : Window
             : OverlayDockSide.None;
         UpdateValueLabels();
         SessionDock.ActiveInstance?.RefreshLayoutLive();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -1134,7 +1147,7 @@ public partial class SessionOverlayLayoutEditor : Window
         layout.DockBackdropOpacity = Math.Round(DockDimmerSlider.Value) / 100.0;
         UpdateValueLabels();
         SessionDock.ActiveInstance?.RefreshLayoutLive();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -1221,7 +1234,7 @@ public partial class SessionOverlayLayoutEditor : Window
         item.IsVisible = !item.IsVisible;
         if (!item.IsVisible)
             hidden.Add(item.Key);
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         SessionDock.ActiveInstance?.RefreshDockActionVisibilityLive(item.Key);
     }
 
@@ -1402,7 +1415,7 @@ public partial class SessionOverlayLayoutEditor : Window
 
     private void SaveDockActionChanges()
     {
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LoadDockActionRows();
         SessionDock.ActiveInstance?.RefreshDockActionLayoutLive();
     }
@@ -1420,7 +1433,7 @@ public partial class SessionOverlayLayoutEditor : Window
         App.Settings.Prop.Crosshair = CrosshairEnableToggle.IsChecked == true;
         SyncCrosshairIni();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -1435,7 +1448,7 @@ public partial class SessionOverlayLayoutEditor : Window
             : 0;
         SyncCrosshairIni();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -1554,7 +1567,7 @@ public partial class SessionOverlayLayoutEditor : Window
         SyncCrosshairIni();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         Voidstrap.Integrations.Overlays.OverlayHub.RefreshCrosshair();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -1635,7 +1648,7 @@ public partial class SessionOverlayLayoutEditor : Window
         UpdateValueLabels();
         SyncCrosshairIni();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -1645,7 +1658,7 @@ public partial class SessionOverlayLayoutEditor : Window
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         layout.ResetCrosshairOffset();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LoadAllControls();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
@@ -1662,7 +1675,7 @@ public partial class SessionOverlayLayoutEditor : Window
         prop.KeystrokesShowSpaceAndShift = KeystrokesShowSpaceToggle.IsChecked == true;
         prop.KeystrokesShowCps = KeystrokesShowCpsToggle.IsChecked == true;
         KeystrokeOverlayWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -1677,16 +1690,174 @@ public partial class SessionOverlayLayoutEditor : Window
         layout.KeystrokesEdgeSpacing = Math.Round(KeystrokesEdgeSlider.Value);
         UpdateValueLabels();
         KeystrokeOverlayWindow.Reconcile();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 
-    private void Preset_Click(object sender, RoutedEventArgs e)
+    private void Preset_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (sender is not FrameworkElement { Tag: string preset })
+        if (!_ready || _refreshingPresetPicker || sender is not ComboBox { SelectedItem: ComboBoxItem { Tag: string preset } })
             return;
-        ApplyPreset(preset);
+
+        if (preset == "unsaved")
+            RefreshPresetPickerState();
+        else if (preset.StartsWith("saved:", StringComparison.Ordinal))
+            ApplySavedPreset(preset["saved:".Length..]);
+        else
+            ApplyPreset(preset);
+    }
+
+    private void SavePreset_Click(object sender, RoutedEventArgs e)
+    {
+        SessionDock.ActiveInstance?.ShowTool(
+            SessionOverlayPresetSaveWindow.ToolKey,
+            Strings.Common_Save,
+            () => new SessionOverlayPresetSaveWindow(SaveCurrentPreset)
+        );
+    }
+
+    private void RemovePreset_Click(object sender, RoutedEventArgs e)
+    {
+        if (PresetPicker.SelectedItem is not ComboBoxItem { Tag: string tag } || tag is "default" or "unsaved")
+            return;
+
+        AppSettings prop = App.Settings.Prop;
+        prop.SessionOverlayPresets ??= [];
+        prop.RemovedSessionOverlayPresetIds ??= [];
+        if (tag.StartsWith("saved:", StringComparison.Ordinal))
+        {
+            string id = tag["saved:".Length..];
+            SessionOverlayPreset? preset = prop.SessionOverlayPresets.FirstOrDefault(item => item.Id == id);
+            if (preset == null)
+                return;
+            prop.SessionOverlayPresets.Remove(preset);
+        }
+        else if (BuiltInPresetDefinitions.Any(preset => preset.Id == tag) && !prop.RemovedSessionOverlayPresetIds.Contains(tag, StringComparer.Ordinal))
+        {
+            prop.RemovedSessionOverlayPresetIds.Add(tag);
+        }
+        else
+        {
+            return;
+        }
+
+        ApplyPreset("default");
+    }
+
+    private bool SaveCurrentPreset(string name)
+    {
+        AppSettings prop = App.Settings.Prop;
+        prop.SessionOverlayPresets ??= [];
+        SessionOverlayPreset? existing = prop.SessionOverlayPresets.FirstOrDefault(preset =>
+            string.Equals(preset.Name, name, StringComparison.CurrentCultureIgnoreCase)
+        );
+        if (existing != null && !string.Equals(prop.SessionOverlayPresetId, "saved:" + existing.Id, StringComparison.Ordinal))
+            return false;
+
+        SessionOverlayPresetData snapshot = SessionOverlayPresetData.Capture(prop);
+        if (existing == null)
+        {
+            existing = new SessionOverlayPreset { Name = name };
+            prop.SessionOverlayPresets.Add(existing);
+        }
+        existing.Name = name;
+        existing.Settings = snapshot.Copy();
+        prop.SessionOverlayPresetId = "saved:" + existing.Id;
+        prop.SessionOverlayPresetSnapshot = snapshot.Copy();
+        SaveEditorSettingsDeferred();
+        return true;
+    }
+
+    private void ApplySavedPreset(string id)
+    {
+        AppSettings prop = App.Settings.Prop;
+        prop.SessionOverlayPresets ??= [];
+        SessionOverlayPreset? preset = prop.SessionOverlayPresets.FirstOrDefault(item => item.Id == id);
+        if (preset == null)
+        {
+            RefreshPresetPickerState();
+            return;
+        }
+
+        preset.Settings ??= new SessionOverlayPresetData();
+        preset.Settings.ApplyTo(prop);
+        prop.SessionOverlayPresetId = "saved:" + preset.Id;
+        prop.SessionOverlayPresetSnapshot = SessionOverlayPresetData.Capture(prop);
+        RefreshAllLiveOverlays();
+        SaveEditorSettingsDeferred();
+        LoadAllControls();
+        LayoutStagePreview();
+        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
+    }
+
+    private void RefreshPresetPickerState()
+    {
+        if (!_ready || _closed)
+            return;
+
+        AppSettings prop = App.Settings.Prop;
+        prop.SessionOverlayPresets ??= [];
+        prop.RemovedSessionOverlayPresetIds ??= [];
+        _refreshingPresetPicker = true;
+        try
+        {
+            while (PresetPicker.Items.Count > 0)
+                PresetPicker.Items.RemoveAt(PresetPicker.Items.Count - 1);
+
+            foreach ((string id, Func<string> label) in BuiltInPresetDefinitions)
+            {
+                bool removed = id != "default" && prop.RemovedSessionOverlayPresetIds.Contains(id, StringComparer.Ordinal);
+                if (!removed)
+                    PresetPicker.Items.Add(new ComboBoxItem { Content = label(), Tag = id });
+            }
+
+            foreach (SessionOverlayPreset preset in prop.SessionOverlayPresets.OrderBy(item => item.Name, StringComparer.CurrentCultureIgnoreCase))
+            {
+                if (string.IsNullOrWhiteSpace(preset.Id) || string.IsNullOrWhiteSpace(preset.Name))
+                    continue;
+                PresetPicker.Items.Add(new ComboBoxItem { Content = preset.Name, Tag = "saved:" + preset.Id });
+            }
+
+            SessionOverlayPresetData current = SessionOverlayPresetData.Capture(prop);
+            ComboBoxItem? selected = null;
+            string? activeId = prop.SessionOverlayPresetId;
+
+            SessionOverlayPreset? matchingSaved = prop.SessionOverlayPresets.FirstOrDefault(item => item.Settings?.Matches(current) == true);
+            if (matchingSaved != null)
+                selected = FindPresetItem("saved:" + matchingSaved.Id);
+
+            if (selected == null && prop.SessionOverlayPresetSnapshot?.Matches(current) == true)
+                selected = FindPresetItem(activeId);
+
+            if (selected == null)
+            {
+                selected = new ComboBoxItem { Content = Strings.Ui_OverlayStudio_UnsavedPreset, Tag = "unsaved" };
+                PresetPicker.Items.Add(selected);
+            }
+            PresetPicker.SelectedItem = selected;
+            RemovePresetButton.IsEnabled = selected.Tag is string selectedTag && selectedTag is not "default" and not "unsaved";
+        }
+        finally
+        {
+            _refreshingPresetPicker = false;
+        }
+    }
+
+    private ComboBoxItem? FindPresetItem(string? id)
+    {
+        foreach (object item in PresetPicker.Items)
+        {
+            if (item is ComboBoxItem comboItem && string.Equals(comboItem.Tag as string, id, StringComparison.Ordinal))
+                return comboItem;
+        }
+        return null;
+    }
+
+    private void SaveEditorSettingsDeferred()
+    {
+        App.Settings.SaveDeferred();
+        RefreshPresetPickerState();
     }
 
     private void ApplyPreset(string preset)
@@ -1782,59 +1953,14 @@ public partial class SessionOverlayLayoutEditor : Window
         }
 
         App.Settings.Prop.NotificationAppearance = notif.Copy();
-        if (preset == "default")
-            RefreshDockActionRowsIfLoaded();
+        layout.DockHiddenActions = [];
+        RefreshDockActionRowsIfLoaded();
+
+        prop.SessionOverlayPresetId = preset;
+        prop.SessionOverlayPresetSnapshot = SessionOverlayPresetData.Capture(prop);
 
         RefreshAllLiveOverlays();
-        App.Settings.SaveDeferred();
-        LoadAllControls();
-        LayoutStagePreview();
-        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
-    }
-
-    private void ResetLayer_Click(object sender, RoutedEventArgs e)
-    {
-        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
-        if (_selectedLayer == OverlayStudioLayer.Readout)
-        {
-            layout.ResetReadout();
-            OverlayWindow.Reconcile();
-        }
-        else if (_selectedLayer == OverlayStudioLayer.Notifications)
-        {
-            NotificationAppearance fresh = new();
-            App.Settings.Prop.NotificationAppearance = fresh;
-        }
-        else if (_selectedLayer == OverlayStudioLayer.Dock)
-        {
-            layout.ResetDock();
-            DeleteDockActionImages(null);
-            RefreshDockActionRowsIfLoaded();
-            SessionDock.ActiveInstance?.RefreshLayoutLive();
-            SessionDock.ActiveInstance?.RefreshDockActionLayoutLive();
-        }
-        else if (_selectedLayer == OverlayStudioLayer.Crosshair)
-        {
-            layout.ResetCrosshairOffset();
-            Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
-        }
-        else if (_selectedLayer == OverlayStudioLayer.Keystrokes)
-        {
-            layout.ResetKeystrokes();
-            KeystrokeOverlayWindow.Reconcile();
-        }
-        else if (_selectedLayer == OverlayStudioLayer.Music)
-        {
-            App.Settings.Prop.MusicIslandPosition = MusicIslandPosition.BottomRight;
-            Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
-        }
-        else if (_selectedLayer == OverlayStudioLayer.Panels)
-        {
-            SessionDock.ActiveInstance?.ResetAllPanelLayoutsLive();
-            RebuildPanelsList();
-        }
-
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LoadAllControls();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
@@ -1851,7 +1977,7 @@ public partial class SessionOverlayLayoutEditor : Window
         App.Settings.Prop.NotificationAppearance = new NotificationAppearance();
         App.Settings.Prop.MusicIslandPosition = MusicIslandPosition.BottomRight;
         RefreshAllLiveOverlays();
-        App.Settings.SaveDeferred();
+        SaveEditorSettingsDeferred();
         LoadAllControls();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
@@ -1958,3 +2084,4 @@ public partial class SessionOverlayLayoutEditor : Window
         }
     }
 }
+

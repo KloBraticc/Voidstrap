@@ -6887,6 +6887,9 @@ Błąd: {0}</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Górny dok</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Niezapisane ustawienie wstępne</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktywna scena ekranu</value>
   </data>

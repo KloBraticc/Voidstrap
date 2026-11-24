@@ -6679,6 +6679,9 @@ Ni allaiVoidstrap ysgrifennu i'r ffolder bwrdd gwaith.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Doc Uchaf</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Rhagosodiad heb ei gadw</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Cam Sgrin Rhyngweithiol</value>
   </data>

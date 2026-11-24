@@ -1,0 +1,35 @@
+<Window x:Class="Voidstrap.UI.Elements.Overlay.SessionOverlayPresetSaveWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:resources="clr-namespace:Voidstrap.Resources"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="{resources:Loc Common_Save}" Width="430" Height="210" MinWidth="360" MinHeight="200"
+        WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
+        WindowStartupLocation="Manual" FontFamily="Segoe UI">
+  <Border Padding="18" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <TextBlock Text="{resources:Loc Common_Save}" FontSize="17" FontWeight="SemiBold"
+                 Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+      <StackPanel Grid.Row="1" Margin="0,16,0,0">
+        <TextBlock Text="{resources:Loc SettingsProfiles_Name}" Margin="0,0,0,6"
+                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        <ui:TextBox x:Name="PresetNameBox" Height="34" MaxLength="48" VerticalContentAlignment="Center"
+                    KeyDown="PresetNameBox_KeyDown" TextChanged="PresetNameBox_TextChanged" />
+      </StackPanel>
+      <TextBlock x:Name="StatusText" Grid.Row="2" Margin="0,6,0,0" FontSize="12"
+                 Foreground="{DynamicResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" />
+      <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+        <ui:Button Content="{resources:Loc Common_Cancel}" Appearance="Secondary" Padding="14,6"
+                    Margin="0,0,8,0" Focusable="False" Click="Cancel_Click" />
+        <ui:Button x:Name="SaveButton" Content="{resources:Loc Common_Save}" Appearance="Primary" Padding="14,6"
+                    IsEnabled="False" Focusable="False" Click="Save_Click" />
+      </StackPanel>
+    </Grid>
+  </Border>
+</Window>

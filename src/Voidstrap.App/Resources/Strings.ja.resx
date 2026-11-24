@@ -6902,6 +6902,9 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>上部ドック</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>未保存のプリセット</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>インタラクティブ画面ステージ</value>
   </data>

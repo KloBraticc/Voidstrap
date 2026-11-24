@@ -356,6 +356,14 @@ namespace Voidstrap.Models.Persistable
 
         public OverlayLayoutSettings OverlayLayout { get; set; } = new();
 
+        public List<SessionOverlayPreset> SessionOverlayPresets { get; set; } = [];
+
+        public List<string> RemovedSessionOverlayPresetIds { get; set; } = [];
+
+        public string SessionOverlayPresetId { get; set; } = "";
+
+        public SessionOverlayPresetData? SessionOverlayPresetSnapshot { get; set; }
+
         // Shortcut that opens the session dock, Ctrl+Alt+L by default; a key of 0 means no shortcut
         public OverlayShortcut SessionDockShortcut { get; set; } = new();
 

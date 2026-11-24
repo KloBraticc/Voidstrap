@@ -6679,6 +6679,9 @@ Hapa: {0}</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Tauranga Runga</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Tatūkē kāore anō kia tiakina</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Tauwhitinga Mata Matapihi</value>
   </data>

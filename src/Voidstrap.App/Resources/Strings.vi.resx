@@ -6896,6 +6896,9 @@ Lỗi: {0}</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Thanh Dock Trên</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Cài đặt sẵn chưa lưu</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Sân khấu Màn hình Tương tác</value>
   </data>

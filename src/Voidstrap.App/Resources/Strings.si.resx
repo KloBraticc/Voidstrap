@@ -6679,6 +6679,9 @@ Voidstrap ඩෙස්ක්ටොප් ෆෝල්ඩරයට ලිවී�
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>ඉහළ dock</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>සුරැකී නැති පෙරනිමිය</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>අන්තර් ක්රියාකාරී තිර අදියර</value>
   </data>

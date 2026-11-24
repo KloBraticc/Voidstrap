@@ -6905,6 +6905,9 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Верхній док</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Незбережений пресет</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Інтерактивна сцена екрана</value>
   </data>

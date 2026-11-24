@@ -6679,6 +6679,9 @@ Voidstrap קען נישט שרייַבן צו די דעסקטאַפּ טעקע.<
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Top דאָק</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>נישט־אויפֿגעהיטע פּריסעט</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>ינטעראַקטיווע סקרין סטאַגע</value>
   </data>
