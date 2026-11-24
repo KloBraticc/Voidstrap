@@ -41,7 +41,8 @@ public final class Helper {
     }
 
     public static String deviceCommand(Context c) {
-        return "content read --uri content://" + StartScriptProvider.authority(c.getPackageName()) + "/" + StartScriptProvider.PATH + " | sh";
+        int user = HelperServer.androidUserId(android.os.Process.myUid());
+        return "content read --user " + user + " --uri content://" + StartScriptProvider.authority(c.getPackageName()) + "/" + StartScriptProvider.PATH + " | sh";
     }
 
     public static void keepRootHelper(Context c) {

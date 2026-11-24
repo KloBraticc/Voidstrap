@@ -12,6 +12,7 @@ public final class HelperServer {
     static final String STREAM_EXIT = "EXIT";
     static final String STREAM_IDLE = "IDLE";
     static final int SHELL_UID = 2000;
+    private static final int UIDS_PER_USER = 100_000;
     static final String CACHE_LIST = "/data/local/tmp/voidstrap_cache_";
     private static final String CLEANUP_END = "VOIDSTRAP_CLEANUP_END";
     static final String CLEANUP = "K=0\n"
@@ -38,10 +39,15 @@ public final class HelperServer {
     private HelperServer() {
     }
 
+    static int androidUserId(int uid) {
+        return uid / UIDS_PER_USER;
+    }
+
     static String launchLine(String pkg, int uid, String token) {
+        String packagePath = "pm path --user " + androidUserId(uid) + " " + pkg;
         return "TMPDIR=/data/local/tmp\nexport TMPDIR\n"
-                + "p=$(pm path " + pkg + " | sed -n 's/^package://p' | grep base.apk | head -n 1)\n"
-                + "[ -z \"$p\" ] && p=$(pm path " + pkg + " | sed -n '1s/^package://p')\n"
+                + "p=$(" + packagePath + " | sed -n 's/^package://p' | grep base.apk | head -n 1)\n"
+                + "[ -z \"$p\" ] && p=$(" + packagePath + " | sed -n '1s/^package://p')\n"
                 + "[ -z \"$p\" ] && { echo 'Voidstrap is not installed'; exit 1; }\n"
                 + "b=$(ls \"${p%/*}\"/lib/*/" + LIBRARY + " 2>/dev/null | head -n 1)\n"
                 + "[ -z \"$b\" ] && { echo 'The Voidstrap helper is missing from this install'; exit 1; }\n"
