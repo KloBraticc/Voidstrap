@@ -6679,6 +6679,9 @@ Voidstrap ڈیسک ٹاپ فولڈر میں نہیں لکھ سکتا۔</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>ٹاپ ڈاک</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>غیر محفوظ شدہ پیش سیٹ</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>انٹرایکٹو اسکرین اسٹیج</value>
   </data>

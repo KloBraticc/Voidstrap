@@ -6679,6 +6679,9 @@ Voidstrap dia tsy afaka nanoratra tamin'ny lahatahiry desktop.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Dock ambony</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Fikirana efa voafaritra tsy voatahiry</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Ecran Interactive</value>
   </data>

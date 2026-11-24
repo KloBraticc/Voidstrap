@@ -6679,6 +6679,9 @@ Voidstrap ডেস্কটপ ফোল্ডারে লিখতে পা�
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>শীর্ষ ডক</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>অসংরক্ষিত প্রিসেট</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>ইন্টারেক্টিভ স্ক্রিন স্টেজ</value>
   </data>

@@ -6679,6 +6679,9 @@ Voidstrap ບໍ່ສາມາດຂຽນໃສ່ໂຟນເດີ desktop �
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Dock ເທິງ</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>ຄ່າທີ່ຕັ້ງໄວ້ຍັງບໍ່ທັນບັນທຶກ</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>ໜ້າຈໍການໂຕ້ຕອບ</value>
   </data>

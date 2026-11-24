@@ -6905,6 +6905,9 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>상단 독</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>저장되지 않은 프리셋</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>대화형 화면 스테이지</value>
   </data>

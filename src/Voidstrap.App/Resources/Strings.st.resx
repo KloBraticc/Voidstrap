@@ -6679,6 +6679,9 @@ Voidstrap ha e khone ho ngolla foldareng ea komporo.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Dock e hodimo</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Peakanyo e sa bolokoang</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Sethala sa skrine se sebedisanang</value>
   </data>

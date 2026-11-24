@@ -6679,6 +6679,9 @@ Voidstrap haikuweza kuandika kwa folda ya eneo-kazi.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Gati ya Juu</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Mipangilio ya awali ambayo haijahifadhiwa</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Hatua ya skrini inayoingiliana</value>
   </data>

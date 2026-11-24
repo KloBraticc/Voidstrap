@@ -157,11 +157,9 @@
               <TextBlock Text="{resources:Loc Ui_OverlayStudio_QuickPresets}" Style="{StaticResource Label}" Margin="0,0,14,0" />
               <WrapPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <editor:EditorSettingsButton Margin="0,2,6,2" />
-                <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetDefault}" Tag="default" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
-                <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetTopBar}" Tag="tophud" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
-                <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetCompetitive}" Tag="competitive" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
-                <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetStreamer}" Tag="streamer" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
-                <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetTopDock}" Tag="topdock" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
+                <ComboBox x:Name="PresetPicker" MinWidth="180" Padding="8,4" Margin="0,2,8,2" VerticalAlignment="Center" SelectionChanged="Preset_SelectionChanged" />
+                <ui:Button Content="{resources:Loc Common_Save}" Margin="0,2,10,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="SavePreset_Click" />
+                <ui:Button x:Name="RemovePresetButton" Content="{resources:Loc Ui_Mods_Remove}" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" IsEnabled="False" Click="RemovePreset_Click" />
                 <ui:Button Content="{resources:Loc Ui_OverlayStudio_ResetLayer}" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="ResetLayer_Click" />
                 <ui:Button Content="{resources:Loc Ui_OverlayStudio_ResetAll}" Margin="0,2,0,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="ResetAll_Click" />
               </WrapPanel>

@@ -6679,6 +6679,9 @@ Voidstrap ба ҷузвдони мизи корӣ навишта натавон�
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Док боло</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Танзими пешакии захиранашуда</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Марҳилаи экрани интерактивӣ</value>
   </data>

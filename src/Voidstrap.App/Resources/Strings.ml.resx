@@ -6679,6 +6679,9 @@ Voidstrap ഡെസ്ക്ടോപ്പ് ഫോൾഡറിലേക്ക
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>ടോപ്പ് ഡോക്ക്</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>സംരക്ഷിക്കാത്ത പ്രീസെറ്റ്</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>ഇൻ്ററാക്ടീവ് സ്ക്രീൻ ഘട്ടം</value>
   </data>

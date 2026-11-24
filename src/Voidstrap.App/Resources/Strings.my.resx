@@ -6679,6 +6679,9 @@ Voidstrap သည် ဒက်စ်တော့ဖိုင်တွဲသို
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>ထိပ်တန်းအထိုင်</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>မသိမ်းဆည်းရသေးသော ကြိုတင်သတ်မှတ်ချက်</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>အပြန်အလှန်အကျိုးသက်ရောက်မှုမျက်နှာပြင်အဆင့်</value>
   </data>

@@ -6679,6 +6679,9 @@ Voidstrap ଡେସ୍କଟପ୍ ଫୋଲ୍ଡରକୁ ଲେଖିପା�
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>ଟପ୍ ଡକ୍ |</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>ସେଭ୍ ହୋଇନଥିବା ପ୍ରିସେଟ୍</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>ଇଣ୍ଟରାକ୍ଟିଭ୍ ସ୍କ୍ରିନ୍ ଷ୍ଟେଜ୍ |</value>
   </data>

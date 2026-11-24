@@ -6679,6 +6679,9 @@ Errorea: {0}</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Goiko kaia</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Gorde gabeko aurrezarpena</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Pantaila interaktiboaren etapa</value>
   </data>

@@ -6679,6 +6679,9 @@ Voidstrap نشي کولی د ډیسټاپ فولډر ته ولیکي.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>پورته ډاک</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>نه‌خوندي شوی مخکینی ترتیب</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>د متقابل سکرین مرحله</value>
   </data>

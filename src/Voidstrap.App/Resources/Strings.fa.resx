@@ -6929,6 +6929,9 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>نوار بالا</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>پیش‌تنظیم ذخیره‌نشده</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>صحنه تعاملی صفحه</value>
   </data>

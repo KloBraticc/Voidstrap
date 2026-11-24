@@ -6679,6 +6679,9 @@ Voidstrap డెస్క్టాప్ ఫోల్డర్కి వ్ర�
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>టాప్ డాక్</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>సేవ్ చేయని ప్రీసెట్</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>ఇంటరాక్టివ్ స్క్రీన్ స్టేజ్</value>
   </data>

@@ -6679,6 +6679,9 @@ Voidstrap ئۈستەل يۈزى قىسقۇچىغا يازالمىدى.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>ئۈستى تاختا</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>ساقلانمىغان ئالدىن بەلگىلەش</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>ئۆز-ئارا ئېكران سەھنىسى</value>
   </data>

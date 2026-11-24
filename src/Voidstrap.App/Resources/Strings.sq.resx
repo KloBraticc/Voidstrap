@@ -6679,6 +6679,9 @@ Voidstrap nuk mund të shkruante në dosjen e desktopit.</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Top Dok</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Paracaktim i paruajtur</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Skena e ekranit interaktiv</value>
   </data>

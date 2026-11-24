@@ -6923,6 +6923,9 @@
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>شريط علوي</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>إعداد مسبق غير محفوظ</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>منصة شاشة تفاعلية</value>
   </data>

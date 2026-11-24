@@ -6679,6 +6679,9 @@ Voidstrap није могао да пише у фасциклу радне по�
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Топ Доцк</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Несачувано унапред подешавање</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Интерактивна екранска фаза</value>
   </data>

@@ -6926,6 +6926,9 @@ Klaida: {0}</value>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Viršutinis dokas</value>
   </data>
+  <data name="Ui.OverlayStudio.UnsavedPreset" xml:space="preserve">
+    <value>Neišsaugotas išankstinis nustatymas</value>
+  </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interaktyvi ekrano scena</value>
   </data>
