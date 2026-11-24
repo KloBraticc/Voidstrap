@@ -1360,14 +1360,13 @@ public partial class SessionOverlayLayoutEditor : Window
         try
         {
             Directory.CreateDirectory(DockActionIconDirectory);
-            string target = Path.Combine(DockActionIconDirectory, key + extension);
-            if (!string.Equals(Path.GetFullPath(picker.FileName), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase))
-                File.Copy(picker.FileName, target, true);
-            DeleteDockActionImages(key, target);
+            string target = Path.Combine(DockActionIconDirectory, $"{key}.{Guid.NewGuid():N}{extension}");
+            File.Copy(picker.FileName, target);
 
             OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
             (layout.DockActionIcons ??= []).Remove(key);
             (layout.DockActionIconImages ??= [])[key] = target;
+            DeleteDockActionImages(key);
             return true;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
@@ -1385,17 +1384,28 @@ public partial class SessionOverlayLayoutEditor : Window
 
     private static string DockActionIconDirectory => Path.Combine(Paths.Data, "SessionDockIcons");
 
-    private static void DeleteDockActionImages(string? key, string? keepPath = null)
+    private static void DeleteDockActionImages(string? key)
     {
         const string LOG_IDENT = "SessionOverlayLayoutEditor::DeleteDockActionImages";
         try
         {
             if (!Directory.Exists(DockActionIconDirectory))
                 return;
+            AppSettings settings = App.Settings.Prop;
+            StringComparer comparer = Voidstrap.Utility.Platform.IsWindows ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
+            HashSet<string> referenced = new(comparer);
+            if (settings.OverlayLayout?.DockActionIconImages is { } currentImages)
+                referenced.UnionWith(currentImages.Values);
+            foreach (SessionOverlayPreset preset in settings.SessionOverlayPresets ?? [])
+            {
+                if (preset?.Settings?.OverlayLayout?.DockActionIconImages is { } savedImages)
+                    referenced.UnionWith(savedImages.Values);
+            }
+
             string pattern = key == null ? "*" : key + ".*";
             foreach (string file in Directory.EnumerateFiles(DockActionIconDirectory, pattern))
             {
-                if (keepPath == null || !string.Equals(Path.GetFullPath(file), Path.GetFullPath(keepPath), StringComparison.OrdinalIgnoreCase))
+                if (!referenced.Contains(file))
                     File.Delete(file);
             }
         }
@@ -1782,6 +1792,8 @@ public partial class SessionOverlayLayoutEditor : Window
 
         preset.Settings ??= new SessionOverlayPresetData();
         preset.Settings.ApplyTo(prop);
+        SyncCrosshairIni();
+        RefreshDockActionRowsIfLoaded();
         prop.SessionOverlayPresetId = "saved:" + preset.Id;
         prop.SessionOverlayPresetSnapshot = SessionOverlayPresetData.Capture(prop);
         RefreshAllLiveOverlays();
@@ -1823,12 +1835,15 @@ public partial class SessionOverlayLayoutEditor : Window
             ComboBoxItem? selected = null;
             string? activeId = prop.SessionOverlayPresetId;
 
-            SessionOverlayPreset? matchingSaved = prop.SessionOverlayPresets.FirstOrDefault(item => item.Settings?.Matches(current) == true);
-            if (matchingSaved != null)
-                selected = FindPresetItem("saved:" + matchingSaved.Id);
-
-            if (selected == null && prop.SessionOverlayPresetSnapshot?.Matches(current) == true)
+            if (prop.SessionOverlayPresetSnapshot?.Matches(current) == true)
                 selected = FindPresetItem(activeId);
+
+            if (selected == null)
+            {
+                SessionOverlayPreset? matchingSaved = prop.SessionOverlayPresets.FirstOrDefault(item => item.Settings?.Matches(current) == true);
+                if (matchingSaved != null)
+                    selected = FindPresetItem("saved:" + matchingSaved.Id);
+            }
 
             if (selected == null)
             {
@@ -1966,6 +1981,54 @@ public partial class SessionOverlayLayoutEditor : Window
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 
+    private void ResetLayer_Click(object sender, RoutedEventArgs e)
+    {
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+        if (_selectedLayer == OverlayStudioLayer.Readout)
+        {
+            layout.ResetReadout();
+            OverlayWindow.Reconcile();
+        }
+        else if (_selectedLayer == OverlayStudioLayer.Notifications)
+        {
+            NotificationAppearance fresh = new();
+            App.Settings.Prop.NotificationAppearance = fresh;
+        }
+        else if (_selectedLayer == OverlayStudioLayer.Dock)
+        {
+            layout.ResetDock();
+            DeleteDockActionImages(null);
+            RefreshDockActionRowsIfLoaded();
+            SessionDock.ActiveInstance?.RefreshLayoutLive();
+            SessionDock.ActiveInstance?.RefreshDockActionLayoutLive();
+        }
+        else if (_selectedLayer == OverlayStudioLayer.Crosshair)
+        {
+            layout.ResetCrosshairOffset();
+            Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
+        }
+        else if (_selectedLayer == OverlayStudioLayer.Keystrokes)
+        {
+            layout.ResetKeystrokes();
+            KeystrokeOverlayWindow.Reconcile();
+        }
+        else if (_selectedLayer == OverlayStudioLayer.Music)
+        {
+            App.Settings.Prop.MusicIslandPosition = MusicIslandPosition.BottomRight;
+            Voidstrap.Integrations.Overlays.MusicIslandOverlayWindow.Reconcile();
+        }
+        else if (_selectedLayer == OverlayStudioLayer.Panels)
+        {
+            SessionDock.ActiveInstance?.ResetAllPanelLayoutsLive();
+            RebuildPanelsList();
+        }
+
+        SaveEditorSettingsDeferred();
+        LoadAllControls();
+        LayoutStagePreview();
+        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
+    }
+
     private void ResetAll_Click(object sender, RoutedEventArgs e) => ResetAllCore();
 
     private void ResetAllCore()
@@ -2084,4 +2147,3 @@ public partial class SessionOverlayLayoutEditor : Window
         }
     }
 }
-
