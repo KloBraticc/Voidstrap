@@ -1690,7 +1690,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         INavigationControl[] controls = _defaultMainSidebarItems.Concat(_defaultFooterSidebarItems).ToArray();
         Dictionary<string, NavigationItem> items = controls
             .OfType<NavigationItem>()
-            .Where(item => !string.IsNullOrEmpty(item.Name))
+            .Where(item => !string.IsNullOrEmpty(item.Name) && item != CoreSidebarHeader && item != ConfigurationSidebarHeader)
             .ToDictionary(item => item.Name, StringComparer.Ordinal);
         _defaultSidebarContent ??= items.ToDictionary<KeyValuePair<string, NavigationItem>, string, object?>(
             pair => pair.Key,
@@ -1808,38 +1808,29 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             RootNavigation.Resources.Remove(Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.IconFontResourceKey);
         }
-        IEnumerable<SidebarItemDefinition> Ordered(string section)
+        IEnumerable<NavigationItem> Ordered(string section)
         {
             return allSidebarDefinitions
                 .Where(item => item.Section == section && items.ContainsKey(item.Key))
                 .OrderBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
-                .ThenBy(item => defaults[item.Key]);
+                .ThenBy(item => defaults[item.Key])
+                .Select(item => items[item.Key]);
         }
-        NavigationItem[] headers = _defaultMainSidebarItems.OfType<NavigationItem>().Where(item => !item.IsEnabled).Take(2).ToArray();
-        NavigationItem coreHeader = headers[0];
-        NavigationItem configurationHeader = headers[1];
-        Wpf.Ui.Controls.Navigation.NavigationSeparator separator = _defaultMainSidebarItems
-            .OfType<Wpf.Ui.Controls.Navigation.NavigationSeparator>()
-            .First();
-        bool hasConfigurationItems = Ordered("Configuration").Any(definition => items[definition.Key].Visibility == Visibility.Visible);
-        configurationHeader.Visibility = hasConfigurationItems ? Visibility.Visible : Visibility.Collapsed;
-        separator.Visibility = configurationHeader.Visibility;
-        List<INavigationControl> main = new List<INavigationControl> { coreHeader };
-        main.AddRange(Ordered("Core").Select(item => items[item.Key]));
-        main.Add(separator);
-        main.Add(configurationHeader);
-        main.AddRange(Ordered("Configuration").Select(item => items[item.Key]));
+        NavigationItem[] configurationItems = Ordered("Configuration").ToArray();
+        bool hasConfigurationItems = configurationItems.Any(item => item.Visibility == Visibility.Visible);
+        ConfigurationSidebarHeader.Visibility = hasConfigurationItems ? Visibility.Visible : Visibility.Collapsed;
+        ConfigurationSidebarSeparator.Visibility = ConfigurationSidebarHeader.Visibility;
         foreach (NavigationItem item in items.Values.Where(item => RootNavigation.Items.Contains(item)).ToArray())
         {
             RootNavigation.Items.Remove(item);
         }
-        int coreIndex = RootNavigation.Items.IndexOf(coreHeader) + 1;
-        foreach (INavigationControl item in main.Skip(1).TakeWhile(item => !ReferenceEquals(item, separator)))
+        int coreIndex = RootNavigation.Items.IndexOf(CoreSidebarHeader) + 1;
+        foreach (NavigationItem item in Ordered("Core"))
         {
             RootNavigation.Items.Insert(coreIndex++, item);
         }
-        int configurationIndex = RootNavigation.Items.IndexOf(configurationHeader) + 1;
-        foreach (INavigationControl item in main.SkipWhile(item => !ReferenceEquals(item, configurationHeader)).Skip(1))
+        int configurationIndex = RootNavigation.Items.IndexOf(ConfigurationSidebarHeader) + 1;
+        foreach (NavigationItem item in configurationItems)
         {
             RootNavigation.Items.Insert(configurationIndex++, item);
         }
@@ -1848,9 +1839,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.Footer.Remove(item);
         }
         int footerIndex = 0;
-        foreach (SidebarItemDefinition definition in Ordered("Footer"))
+        foreach (NavigationItem item in Ordered("Footer"))
         {
-            RootNavigation.Footer.Insert(footerIndex++, items[definition.Key]);
+            RootNavigation.Footer.Insert(footerIndex++, item);
         }
         if (IsLoaded)
         {
