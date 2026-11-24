@@ -427,7 +427,7 @@ public sealed partial class LinuxRuntimeConfiguration
 			{
 				string existing = await File.ReadAllTextAsync(configurationFile, cancellationToken).ConfigureAwait(false);
 				header = ExtractLeadingComments(existing);
-				JsonNode? configurationNode = ParseJsonNode(existing);
+				JsonNode? configurationNode = ParseOptionalJson(Encoding.UTF8.GetBytes(existing), new JsonObject());
 				if (configurationNode is not JsonObject configurationObject)
 					return OperationResult.Fail("SoberConfigurationInvalid", "The Sober configuration must contain a JSON object");
 				soberConfiguration = configurationObject;
@@ -520,7 +520,8 @@ public sealed partial class LinuxRuntimeConfiguration
 		if (!sourceSafety.Succeeded)
 			return OperationResult<JsonObject>.Fail(sourceSafety.Failure!.Code, sourceSafety.Failure.Message, sourceSafety.Failure.State);
 
-		JsonNode? sourceNode = await ReadJsonNodeAsync(sourceFile, cancellationToken).ConfigureAwait(false);
+		byte[] content = await File.ReadAllBytesAsync(sourceFile, cancellationToken).ConfigureAwait(false);
+		JsonNode? sourceNode = ParseOptionalJson(content, new JsonObject());
 		return sourceNode is JsonObject sourceFlags
 			? OperationResult<JsonObject>.Success(sourceFlags)
 			: OperationResult<JsonObject>.Fail("ClientSettingsInvalid", "Client settings must contain a JSON object");
@@ -912,7 +913,8 @@ public sealed partial class LinuxRuntimeConfiguration
 		if (!File.Exists(manifestFile))
 			return OperationResult<SoberOwnershipManifest>.Success(new SoberOwnershipManifest(names, settings));
 
-		JsonNode? node = await ReadJsonNodeAsync(manifestFile, cancellationToken).ConfigureAwait(false);
+		byte[] content = await File.ReadAllBytesAsync(manifestFile, cancellationToken).ConfigureAwait(false);
+		JsonNode? node = ParseOptionalJson(content, new JsonObject { ["names"] = new JsonArray() });
 		if (node is not JsonObject manifest || manifest["names"] is not JsonArray entries)
 			return OperationResult<SoberOwnershipManifest>.Fail("LinuxFlagManifestInvalid", "The managed flag manifest must contain a names array");
 		foreach (JsonNode? entry in entries)
@@ -1658,9 +1660,18 @@ public sealed partial class LinuxRuntimeConfiguration
 		return header.ToString();
 	}
 
-	private static JsonNode? ParseJsonNode(string content)
+	private static JsonNode? ParseOptionalJson(ReadOnlySpan<byte> content, JsonObject emptyObject)
 	{
-		return JsonNode.Parse(content, nodeOptions: null, DocumentOptions);
+		if (content.StartsWith(Encoding.UTF8.Preamble))
+			content = content[Encoding.UTF8.Preamble.Length..];
+
+		Utf8JsonReader reader = new(content, new JsonReaderOptions
+		{
+			AllowMultipleValues = true,
+			AllowTrailingCommas = DocumentOptions.AllowTrailingCommas,
+			CommentHandling = DocumentOptions.CommentHandling
+		});
+		return reader.Read() ? JsonNode.Parse(content, nodeOptions: null, DocumentOptions) : emptyObject;
 	}
 
 	private static async Task<JsonNode?> ReadJsonNodeAsync(string path, CancellationToken cancellationToken)
