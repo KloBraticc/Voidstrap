@@ -54,7 +54,10 @@
             <Border HorizontalAlignment="Left" Padding="6,2" Background="{DynamicResource ControlFillColorSecondaryBrush}">
               <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.FeaturedGame.GenreName}" />
             </Border>
-            <TextBlock Margin="0,8,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.FeaturedGame.PriceLine}" />
+            <StackPanel Margin="0,8,0,0" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding Storefront.FeaturedGame.PriceDisplay}">
+              <Path Width="12" Height="13" Margin="0,0,5,0" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding Storefront.FeaturedGame.PriceVisibility, FallbackValue=Collapsed}" />
+              <TextBlock FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.FeaturedGame.PriceLine}" VerticalAlignment="Center" />
+            </StackPanel>
             <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Storefront.FeaturedGame.PlayingLine}" />
             <controls:GameVoteBar Margin="0,8,0,0" HorizontalAlignment="Stretch" ShowRatio="False" UniverseId="{Binding Storefront.FeaturedGame.UniverseId}" />
           </StackPanel>
@@ -164,7 +167,10 @@
                   <TextBlock Margin="0,4,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding GenreName}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Margin="12,0" VerticalAlignment="Center">
-                  <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding PriceLine}" />
+                  <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding PriceDisplay}">
+                    <Path Width="11" Height="12" Margin="0,0,4,0" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding PriceVisibility}" />
+                    <TextBlock FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding PriceLine}" VerticalAlignment="Center" />
+                  </StackPanel>
                   <TextBlock Margin="0,3,0,0" HorizontalAlignment="Right" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding PlayingLine}" />
                 </StackPanel>
               </Grid>
@@ -175,9 +181,9 @@
       <StackPanel Grid.Column="1" Margin="12">
         <TextBlock FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" Text="{Binding Storefront.PreviewGame.Name}" />
         <TextBlock Margin="0,4,0,8" FontSize="12" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Text="{Binding Storefront.PreviewGame.LikePercent}" />
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Visibility="{Binding Storefront.PreviewGame.PriceVisibility, FallbackValue=Collapsed}">
-          <ui:SymbolIcon Symbol="Money24" FontSize="12" Foreground="#FF4ADE80" VerticalAlignment="Center" />
-          <TextBlock Margin="5,0,0,0" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.PreviewGame.PriceDisplay}" VerticalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" VerticalAlignment="Center" ToolTip="{Binding Storefront.PreviewGame.PriceDisplay}" Visibility="{Binding Storefront.PreviewGame.PriceVisibility, FallbackValue=Collapsed}">
+          <Path Width="12" Height="13" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" />
+          <TextBlock Margin="5,0,0,0" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.PreviewGame.PriceAmountDisplay}" VerticalAlignment="Center" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding Storefront.PreviewGame.Screenshots}">
           <ItemsControl.ItemTemplate>

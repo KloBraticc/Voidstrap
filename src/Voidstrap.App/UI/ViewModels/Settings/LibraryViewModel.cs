@@ -170,6 +170,7 @@ public class LibraryGameEntry : INotifyPropertyChanged
                 OnPropertyChanged(nameof(Price));
                 OnPropertyChanged(nameof(HasPrice));
                 OnPropertyChanged(nameof(PriceDisplay));
+                OnPropertyChanged(nameof(PriceAmountDisplay));
                 OnPropertyChanged(nameof(PriceVisibility));
                 OnPriceChanged();
             }
@@ -179,6 +180,8 @@ public class LibraryGameEntry : INotifyPropertyChanged
     public bool HasPrice => _price is > 0;
 
     public string PriceDisplay => Integrations.GameLiveData.FormatRobux(_price);
+
+    public string PriceAmountDisplay => Integrations.GameLiveData.FormatRobuxAmount(_price);
 
     public Visibility PriceVisibility => HasPrice ? Visibility.Visible : Visibility.Collapsed;
 

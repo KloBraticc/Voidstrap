@@ -16,6 +16,12 @@
       <SolidColorBrush x:Key="AccentColorTertiaryBrush" Color="{DynamicResource SystemAccentColorTertiary}" />
       <Color x:Key="AccentFillColorPrimary">#80B9EE</Color>
       <SolidColorBrush x:Key="AccentFillColorPrimaryBrush" Color="#80B9EE" />
+      <LinearGradientBrush x:Key="RobuxGoldBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#FFEEDFA2" />
+        <GradientStop Offset="0.59" Color="#FFA9935A" />
+        <GradientStop Offset="1" Color="#FFFEE3A5" />
+      </LinearGradientBrush>
+      <Geometry x:Key="RobuxGoldGeometry">F1 M 21.4,4.62 A 5.2,5.2 0 0 1 24,9.12 V 17 a 5.19,5.19 0 0 1 -2.6,4.5 l -6.8,3.93 a 5.19,5.19 0 0 1 -5.2,0 L 2.6,21.48 A 5.19,5.19 0 0 1 0,17 V 9.12 a 5.2,5.2 0 0 1 2.6,-4.5 L 9.4,0.7 a 5.19,5.19 0 0 1 5.2,0 Z M 10.31,2.48 L 3.69,6.31 A 3.35,3.35 0 0 0 2,9.23 v 7.65 A 3.36,3.36 0 0 0 3.69,19.8 l 6.62,3.83 a 3.4,3.4 0 0 0 3.38,0 l 6.62,-3.83 A 3.36,3.36 0 0 0 22,16.88 V 9.23 a 3.35,3.35 0 0 0 -1.69,-2.92 L 13.69,2.48 a 3.4,3.4 0 0 0 -3.38,0 Z M 13.39,4.62 l 5.22,3 A 2.78,2.78 0 0 1 20,10 v 6 a 2.76,2.76 0 0 1 -1.39,2.4 l -5.22,3 a 2.76,2.76 0 0 1 -2.78,0 l -5.22,-3 A 2.76,2.76 0 0 1 4,16.07 V 10 A 2.78,2.78 0 0 1 5.39,7.63 l 5.22,-3 a 2.76,2.76 0 0 1 2.78,0 Z M 9,16.05 h 6 v -6 H 9 Z</Geometry>
       <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource SystemAccentColor}" />
       <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="{DynamicResource TextOnAccentFillColorSelectedText}" />
       <Style TargetType="{x:Type FlowDocumentScrollViewer}">

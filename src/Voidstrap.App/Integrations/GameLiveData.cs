@@ -56,6 +56,9 @@ public static class GameLiveData
         return found;
     }
 
+    public static string FormatRobuxAmount(long? price) =>
+        price is long amount && amount > 0 ? amount.ToString("N0", CultureInfo.CurrentCulture) : string.Empty;
+
     public static string FormatRobux(long? price)
     {
         if (price is not long amount || amount <= 0)

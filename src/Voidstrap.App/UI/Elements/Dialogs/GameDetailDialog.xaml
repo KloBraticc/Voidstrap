@@ -74,16 +74,16 @@
           <Border x:Name="IconHost" CornerRadius="8" />
         </Border>
         <StackPanel Margin="14,0,0,2" VerticalAlignment="Bottom">
-          <Grid MaxWidth="590">
+          <Grid MaxWidth="590" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="TitleText" Grid.Column="0" FontSize="24" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
-            <Border x:Name="PriceChip" Grid.Column="1" Margin="10,0,0,0" Padding="10,4" CornerRadius="6" Background="#CC101010" BorderBrush="#4DFFFFFF" BorderThickness="1" VerticalAlignment="Center" ToolTip="{resources:Loc Ui_Mods_StudioPlugins_PriceLabel}" Visibility="Collapsed">
-              <StackPanel Orientation="Horizontal">
-                <ui:SymbolIcon Symbol="Money24" FontSize="13" Foreground="#FF4ADE80" VerticalAlignment="Center" />
-                <TextBlock x:Name="PriceText" Margin="5,0,0,0" FontSize="13" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" />
+            <Border x:Name="PriceChip" Grid.Column="1" Margin="10,3,0,0" Padding="9,4" CornerRadius="6" Background="#59000000" BorderBrush="#66FEE3A5" BorderThickness="1" VerticalAlignment="Center" Visibility="Collapsed">
+              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Path Width="14" Height="15" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" />
+                <TextBlock x:Name="PriceText" Margin="5,0,0,0" FontSize="13" FontWeight="SemiBold" Foreground="#FFFEE3A5" VerticalAlignment="Center" />
               </StackPanel>
             </Border>
           </Grid>

@@ -269,8 +269,9 @@ namespace Voidstrap.UI.Elements.Dialogs
 
         private void ApplyPrice(long? price)
         {
-            string text = GameLiveData.FormatRobux(price);
+            string text = GameLiveData.FormatRobuxAmount(price);
             PriceText.Text = text;
+            PriceChip.ToolTip = GameLiveData.FormatRobux(price);
             PriceChip.Visibility = text.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 

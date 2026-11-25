@@ -46,6 +46,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 {
                     OnPropertyChanged(nameof(HasPrice));
                     OnPropertyChanged(nameof(PriceDisplay));
+                    OnPropertyChanged(nameof(PriceAmountDisplay));
                     OnPropertyChanged(nameof(PriceVisibility));
                 }
             }
@@ -54,6 +55,8 @@ namespace Voidstrap.UI.ViewModels.Pages
         public bool HasPrice => _price is > 0;
 
         public string PriceDisplay => GameLiveData.FormatRobux(_price);
+
+        public string PriceAmountDisplay => GameLiveData.FormatRobuxAmount(_price);
 
         public Visibility PriceVisibility => HasPrice ? Visibility.Visible : Visibility.Collapsed;
 

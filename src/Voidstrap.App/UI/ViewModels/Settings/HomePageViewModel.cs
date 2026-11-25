@@ -119,6 +119,8 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public string PriceDisplay => GameLiveData.FormatRobux(Price);
 
+        public string PriceAmountDisplay => GameLiveData.FormatRobuxAmount(Price);
+
         public Visibility PriceVisibility => Price.HasValue ? Visibility.Visible : Visibility.Collapsed;
 
         public string LikePercent
@@ -212,6 +214,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             OnPropertyChanged(nameof(HasThumbnail));
             OnPropertyChanged(nameof(Price));
             OnPropertyChanged(nameof(PriceDisplay));
+            OnPropertyChanged(nameof(PriceAmountDisplay));
             OnPropertyChanged(nameof(PriceVisibility));
         }
     }
