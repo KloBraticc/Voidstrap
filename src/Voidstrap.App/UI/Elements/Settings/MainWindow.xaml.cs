@@ -1144,12 +1144,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
 
-        if (Voidstrap.Utility.Platform.IsWindows && e.Content is Page page)
-        {
-            page.SetCurrentValue(UseLayoutRoundingProperty, true);
-            page.SetCurrentValue(TextOptions.TextFormattingModeProperty, TextFormattingMode.Display);
-        }
-
         _pageSearchTargets.Clear();
         _lastPage = null;
         TrackNavigationHistory(e.Content);
