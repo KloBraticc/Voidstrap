@@ -10383,4 +10383,7 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox اور Voidstrap دونوں کے فعال ہونے پر ایک دوسرے کے کنٹرولر فیڈ بیک کو اوور رائٹ کر سکتے ہیں۔</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>کنٹرولر وائبریشن اور انکولی محرکات کو ترتیب دیں۔</value>
+  </data>
 </root>

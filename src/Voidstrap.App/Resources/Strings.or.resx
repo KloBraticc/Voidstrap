@@ -10384,4 +10384,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>ଉଭୟ ସକ୍ଷମ ହେଲେ ରୋବ୍ଲକ୍ସ ଏବଂ ଭୋଇଡଷ୍ଟ୍ରାପ୍ ପରସ୍ପରର ନିୟନ୍ତ୍ରକ ମତାମତକୁ ନବଲିଖନ କରିପାରନ୍ତି |</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>ନିୟନ୍ତ୍ରକ କମ୍ପନ ଏବଂ ଆଡାପ୍ଟିଭ୍ ଟ୍ରିଗରଗୁଡ଼ିକୁ ବିନ୍ୟାସ କରନ୍ତୁ |</value>
+  </data>
 </root>

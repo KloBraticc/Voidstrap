@@ -10384,4 +10384,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox ו-Voidstrap עשויים להחליף את המשוב של הבקר זה של זה כאשר שניהם מופעלים.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>קבע את התצורה של רטט בקר וטריגרים אדפטיביים.</value>
+  </data>
 </root>

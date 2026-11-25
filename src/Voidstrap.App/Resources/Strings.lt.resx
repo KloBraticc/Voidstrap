@@ -10694,4 +10694,7 @@ Veikimo laikas: {1}
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox ir Voidstrap gali perrašyti vienas kito valdiklio atsiliepimus, kai abu įjungti.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Konfigūruokite valdiklio vibraciją ir prisitaikančius paleidiklius.</value>
+  </data>
 </root>

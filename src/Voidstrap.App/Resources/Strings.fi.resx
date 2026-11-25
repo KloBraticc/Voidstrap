@@ -10693,4 +10693,7 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox ja Voidstrap voivat ylikirjoittaa toistensa ohjainpalautteen, kun molemmat ovat käytössä.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Määritä ohjaimen tärinä ja mukautuvat liipaisimet.</value>
+  </data>
 </root>

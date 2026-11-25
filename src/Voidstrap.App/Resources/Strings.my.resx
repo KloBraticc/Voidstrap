@@ -10383,4 +10383,7 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox နှင့် Voidstrap တို့သည် နှစ်ခုလုံးကို ဖွင့်ထားသောအခါ တစ်ခုနှင့်တစ်ခု၏ controller တုံ့ပြန်ချက်များကို overwrite လုပ်နိုင်သည်။</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>ထိန်းချုပ်ကိရိယာတုန်ခါမှုနှင့် လိုက်လျောညီထွေဖြစ်စေသော အစပျိုးမှုများကို စီစဉ်သတ်မှတ်ပါ။</value>
+  </data>
 </root>

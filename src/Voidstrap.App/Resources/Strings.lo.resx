@@ -10384,4 +10384,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox ແລະ Voidstrap ອາດຈະຂຽນທັບຄໍາຕິຊົມຂອງຕົວຄວບຄຸມຂອງກັນແລະກັນເມື່ອທັງສອງຖືກເປີດໃຊ້.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>ຕັ້ງຄ່າການສັ່ນສະເທືອນຂອງຕົວຄວບຄຸມ ແລະກະຕຸ້ນການປັບຕົວ.</value>
+  </data>
 </root>

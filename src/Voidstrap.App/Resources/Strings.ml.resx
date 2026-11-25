@@ -10384,4 +10384,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>രണ്ടും പ്രവർത്തനക്ഷമമാകുമ്പോൾ Roblox ഉം Voidstrap ഉം പരസ്പരം കൺട്രോളർ ഫീഡ്‌ബാക്ക് തിരുത്തിയെഴുതാം.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>കൺട്രോളർ വൈബ്രേഷനും അഡാപ്റ്റീവ് ട്രിഗറുകളും കോൺഫിഗർ ചെയ്യുക.</value>
+  </data>
 </root>

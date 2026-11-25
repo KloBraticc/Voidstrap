@@ -10383,4 +10383,7 @@ Ludantoj: {2}</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox kaj Voidstrap povas anstataŭigi reciproke la regilo-reagojn kiam ambaŭ estas ebligitaj.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Agordi regilon-vibradon kaj adaptajn ellasilon.</value>
+  </data>
 </root>

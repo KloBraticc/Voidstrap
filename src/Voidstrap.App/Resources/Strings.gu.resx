@@ -10384,4 +10384,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>જ્યારે બંને સક્ષમ હોય ત્યારે Roblox અને Voidstrap એકબીજાના નિયંત્રક પ્રતિસાદ પર ફરીથી લખી શકે છે.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>કંટ્રોલર વાઇબ્રેશન અને અનુકૂલનશીલ ટ્રિગર્સ ગોઠવો.</value>
+  </data>
 </root>

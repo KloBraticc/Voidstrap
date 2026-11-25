@@ -10383,4 +10383,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>ראָבלאָקס און וואָידסטראַפּ קען אָווועררייט יעדער אנדערע ס קאָנטראָללער באַמערקונגען ווען ביידע זענען ענייבאַלד.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>קאַנפיגיער קאָנטראָללער ווייבריישאַן און אַדאַפּטיוו טריגערז.</value>
+  </data>
 </root>

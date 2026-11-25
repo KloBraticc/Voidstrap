@@ -10383,4 +10383,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>ሁለቱም ሲነቁ Roblox እና Voidstrap አንዳቸው የሌላውን ተቆጣጣሪ ግብረመልስ ሊተኩ ይችላሉ።</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>የመቆጣጠሪያ ንዝረትን እና ተለዋዋጭ ቀስቅሴዎችን ያዋቅሩ።</value>
+  </data>
 </root>

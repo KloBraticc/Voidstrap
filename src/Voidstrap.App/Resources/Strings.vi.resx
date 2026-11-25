@@ -10693,4 +10693,7 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox và Voidstrap có thể ghi đè phản hồi của bộ điều khiển của nhau khi cả hai đều được bật.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Định cấu hình độ rung của bộ điều khiển và kích hoạt thích ứng.</value>
+  </data>
 </root>

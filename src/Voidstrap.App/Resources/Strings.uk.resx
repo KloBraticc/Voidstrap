@@ -10693,4 +10693,7 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox і Voidstrap можуть перезаписувати зворотній зв’язок контролера один одного, якщо обидва ввімкнені.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Налаштуйте вібрацію контролера та адаптивні тригери.</value>
+  </data>
 </root>

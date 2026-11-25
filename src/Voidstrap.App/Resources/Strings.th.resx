@@ -10693,4 +10693,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox และ Voidstrap อาจเขียนทับข้อเสนอแนะคอนโทรลเลอร์ของกันและกันเมื่อเปิดใช้งานทั้งคู่</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>กำหนดค่าการสั่นของคอนโทรลเลอร์และทริกเกอร์แบบปรับได้</value>
+  </data>
 </root>

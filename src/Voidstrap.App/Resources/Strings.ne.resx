@@ -10384,4 +10384,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox र Voidstrap दुवै सक्षम हुँदा एक अर्काको नियन्त्रक प्रतिक्रिया अधिलेखन गर्न सक्छन्।</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>नियन्त्रक कम्पन र अनुकूली ट्रिगरहरू कन्फिगर गर्नुहोस्।</value>
+  </data>
 </root>

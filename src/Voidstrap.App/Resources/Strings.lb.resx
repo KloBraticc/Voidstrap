@@ -10384,4 +10384,7 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox a Voidstrap kënnen all aner Controller Feedback iwwerschreiwe wa béid aktivéiert sinn.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Configuréieren Controller Vibration an adaptiven Ausléiser.</value>
+  </data>
 </root>

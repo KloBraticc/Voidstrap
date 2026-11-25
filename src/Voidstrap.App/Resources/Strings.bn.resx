@@ -10383,4 +10383,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox এবং Voidstrap উভয়ই সক্রিয় থাকা অবস্থায় একে অপরের কন্ট্রোলার প্রতিক্রিয়া ওভাররাইট করতে পারে।</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>কন্ট্রোলার ভাইব্রেশন এবং অভিযোজিত ট্রিগার কনফিগার করুন।</value>
+  </data>
 </root>

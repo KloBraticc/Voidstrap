@@ -10384,4 +10384,7 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox na Voidstrap nwere ike idegharị nzaghachi onye njikwa ọ bụla mgbe enyere ha abụọ aka.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Hazie ịma jijiji njikwa na ihe mkpalite.</value>
+  </data>
 </root>

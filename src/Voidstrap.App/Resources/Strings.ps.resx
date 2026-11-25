@@ -10384,4 +10384,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>روبلوکس او وایډسټریپ ممکن د یو بل کنټرولر فیډبیک له سره لیکي کله چې دواړه فعال شوي وي.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>د کنټرولر کمپن او تطابق محرکونه تنظیم کړئ.</value>
+  </data>
 </root>

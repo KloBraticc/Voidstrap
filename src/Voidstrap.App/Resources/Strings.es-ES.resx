@@ -10693,4 +10693,7 @@ Jugadores: {2}</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox y Voidstrap pueden sobrescribir la retroalimentación del controlador de cada uno cuando ambos están habilitados.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Configure la vibración del controlador y los disparadores adaptativos.</value>
+  </data>
 </root>

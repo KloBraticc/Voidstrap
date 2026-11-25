@@ -10383,4 +10383,7 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox le Voidstrap ba ka hlakola maikutlo a molaoli oa ba bang ha bobeli ba bona bo nolofalitsoe.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Lokisa ho thothomela ha selaolo le lithapo tse feto-fetohang.</value>
+  </data>
 </root>

@@ -10383,4 +10383,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox і Voidstrap могуць перазапісваць зваротную сувязь кантролера адзін аднаго, калі абодва ўключаны.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Наладзьце вібрацыю кантролера і адаптыўныя трыгеры.</value>
+  </data>
 </root>

@@ -10384,4 +10384,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox និង Voidstrap អាចនឹងសរសេរជាន់ពីលើមតិកែលម្អរបស់ឧបករណ៍បញ្ជាគ្នាទៅវិញទៅមក នៅពេលដែលទាំងពីរត្រូវបានបើក។</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>កំណត់រចនាសម្ព័ន្ធរំញ័ររបស់ឧបករណ៍បញ្ជា និងកេះអាដាប់ធ័រ។</value>
+  </data>
 </root>

@@ -1607,6 +1607,7 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Gbs_AdjustJoystickSensitivity => ResourceManager.GetString("Ui.Gbs.AdjustJoystickSensitivity", resourceCulture);
 
+        public static string Ui_Controller_Description => ResourceManager.GetString("Ui.Controller.Description", resourceCulture);
         public static string Ui_Controller_Tab => ResourceManager.GetString("Ui.Controller.Tab", resourceCulture);
         public static string Ui_Controller_EnableRobloxHaptics => ResourceManager.GetString("Ui.Controller.EnableRobloxHaptics", resourceCulture);
         public static string Ui_Controller_HapticsConflictWarning => ResourceManager.GetString("Ui.Controller.HapticsConflictWarning", resourceCulture);

@@ -10693,4 +10693,7 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox ve Voidstrap, her ikisi de etkinleştirildiğinde birbirlerinin denetleyici geri bildirimlerinin üzerine yazabilir.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Denetleyici titreşimini ve uyarlanabilir tetikleyicileri yapılandırın.</value>
+  </data>
 </root>

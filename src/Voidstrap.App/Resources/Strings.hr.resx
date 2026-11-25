@@ -10694,4 +10694,7 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox i Voidstrap mogu prebrisati međusobne povratne informacije kontrolera kada su oba omogućena.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Konfigurirajte vibraciju upravljača i prilagodljive okidače.</value>
+  </data>
 </root>

@@ -10384,4 +10384,7 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Ja abi ir iespējoti, Roblox un Voidstrap var pārrakstīt viena otras kontroliera atsauksmes.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Konfigurējiet kontroliera vibrāciju un adaptīvos trigerus.</value>
+  </data>
 </root>

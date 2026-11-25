@@ -10694,4 +10694,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox と Voidstrap は、両方が有効になっている場合、互いのコントローラー フィードバックを上書きする可能性があります。</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>コントローラーの振動とアダプティブトリガーを設定します。</value>
+  </data>
 </root>

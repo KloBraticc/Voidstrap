@@ -10693,4 +10693,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>当 Roblox 和 Voidstrap 都启用时，它们可能会覆盖彼此的控制器反馈。</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>配置控制器振动和自适应触发器。</value>
+  </data>
 </root>

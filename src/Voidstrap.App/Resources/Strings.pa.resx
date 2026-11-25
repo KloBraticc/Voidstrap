@@ -10384,4 +10384,7 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox ਅਤੇ Voidstrap ਇੱਕ ਦੂਜੇ ਦੇ ਕੰਟਰੋਲਰ ਫੀਡਬੈਕ ਨੂੰ ਓਵਰਰਾਈਟ ਕਰ ਸਕਦੇ ਹਨ ਜਦੋਂ ਦੋਵੇਂ ਸਮਰੱਥ ਹੁੰਦੇ ਹਨ।</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>ਕੰਟਰੋਲਰ ਵਾਈਬ੍ਰੇਸ਼ਨ ਅਤੇ ਅਡੈਪਟਿਵ ਟਰਿਗਰਸ ਨੂੰ ਕੌਂਫਿਗਰ ਕਰੋ।</value>
+  </data>
 </root>

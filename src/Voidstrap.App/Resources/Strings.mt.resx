@@ -10384,4 +10384,7 @@ Installa SteamVR issa?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox u Voidstrap jistgħu jissostitwixxu l-feedback tal-kontrollur ta &#x27;xulxin meta t-tnejn ikunu attivati.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Ikkonfigura l-vibrazzjoni tal-kontrollur u l-attivaturi adattivi.</value>
+  </data>
 </root>

@@ -10384,4 +10384,7 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox in Voidstrap lahko prepišeta povratne informacije krmilnikov drug drugega, ko sta oba omogočena.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Konfigurirajte vibriranje krmilnika in prilagodljive sprožilce.</value>
+  </data>
 </root>

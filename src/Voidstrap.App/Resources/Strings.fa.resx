@@ -10693,4 +10693,7 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox و Voidstrap ممکن است بازخورد کنترلر یکدیگر را زمانی که هر دو فعال هستند بازنویسی کنند.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>لرزش کنترلر و محرک های تطبیقی ​​را پیکربندی کنید.</value>
+  </data>
 </root>

@@ -10384,4 +10384,7 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox sy Voidstrap dia mety mifanipaka ny valin-kevitry ny mpanara-maso rehefa samy afaka.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Ampifanaraho ny vibration controller sy ny trigger adaptive.</value>
+  </data>
 </root>

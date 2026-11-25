@@ -10384,4 +10384,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox и Voidstrap може да ги презапишуваат повратните информации на контролорот кога и двете се овозможени.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Конфигурирајте ги вибрациите на контролорот и адаптивните активирања.</value>
+  </data>
 </root>

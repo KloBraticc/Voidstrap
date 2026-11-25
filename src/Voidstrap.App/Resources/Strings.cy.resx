@@ -10383,4 +10383,7 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Gall Roblox a Voidstrap drosysgrifo adborth rheolwyr ei gilydd pan fydd y ddau wedi&#x27;u galluogi.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Ffurfweddu dirgryniad rheolydd a sbardunau addasol.</value>
+  </data>
 </root>

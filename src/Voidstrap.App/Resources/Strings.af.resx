@@ -10383,4 +10383,7 @@ Installeer SteamVR nou?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox en Voidstrap kan mekaar se beheerderterugvoer oorskryf wanneer albei geaktiveer is.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Stel beheerdervibrasie en aanpasbare snellers op.</value>
+  </data>
 </root>

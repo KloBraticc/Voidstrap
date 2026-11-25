@@ -10384,4 +10384,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox आणि Voidstrap दोन्ही सक्षम असताना एकमेकांचा नियंत्रक फीडबॅक ओव्हरराइट करू शकतात.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>कंट्रोलर कंपन आणि अनुकूली ट्रिगर कॉन्फिगर करा.</value>
+  </data>
 </root>

@@ -10383,4 +10383,7 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox va Voidstrap ikkalasi ham yoqilganda bir-birining boshqaruvchi fikr-mulohazalarini qayta yozishi mumkin.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Tekshirish moslamasining tebranishini va moslashuvchi triggerlarni sozlang.</value>
+  </data>
 </root>

@@ -10384,4 +10384,7 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox a Voidstrap si môžu navzájom prepísať spätnú väzbu ovládača, keď sú obe povolené.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Nakonfigurujte vibrácie ovládača a adaptívne spúšťače.</value>
+  </data>
 </root>

@@ -10384,4 +10384,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox-ը և Voidstrap-ը կարող են վերագրել միմյանց վերահսկիչի կարծիքը, երբ երկուսն էլ միացված են:</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Կարգավորեք կարգավորիչի թրթռումը և հարմարվողական ձգանները:</value>
+  </data>
 </root>

@@ -10383,4 +10383,7 @@ Indi SteamVR guruň?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>“Roblox” we “Voidstrap” ikisi açyk bolanda biri-biriniň gözegçilik ediji seslenmelerini ýazyp bilerler.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Dolandyryjy titremäni we uýgunlaşdyrylan triggerleri sazlaň.</value>
+  </data>
 </root>

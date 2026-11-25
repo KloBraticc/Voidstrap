@@ -10692,4 +10692,7 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Maaaring i-overwrite ng Roblox at Voidstrap ang feedback ng controller ng isa&#x27;t isa kapag naka-enable ang dalawa.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>I-configure ang controller vibration at adaptive trigger.</value>
+  </data>
 </root>

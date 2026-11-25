@@ -10383,4 +10383,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox மற்றும் Voidstrap இரண்டும் இயக்கப்பட்டிருக்கும் போது ஒருவருக்கொருவர் கட்டுப்படுத்தி கருத்துக்களை மேலெழுதலாம்.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>கட்டுப்படுத்தி அதிர்வு மற்றும் தகவமைப்பு தூண்டுதல்களை உள்ளமைக்கவும்.</value>
+  </data>
 </root>

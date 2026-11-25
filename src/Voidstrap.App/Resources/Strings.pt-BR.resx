@@ -10694,4 +10694,7 @@ Instalar o SteamVR agora?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox e Voidstrap podem substituir o feedback do controlador um do outro quando ambos estão habilitados.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Configure a vibração do controlador e os gatilhos adaptativos.</value>
+  </data>
 </root>

@@ -10694,4 +10694,7 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox dan Voidstrap boleh menimpa maklum balas pengawal satu sama lain apabila kedua-duanya didayakan.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Konfigurasikan getaran pengawal dan pencetus penyesuaian.</value>
+  </data>
 </root>

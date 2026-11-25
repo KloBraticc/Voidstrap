@@ -10384,4 +10384,7 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox og Voidstrap gætu skrifað yfir endurgjöf stjórnanda hvors annars þegar hvort tveggja er virkt.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Stilltu titring stjórnanda og aðlögunarbúnað.</value>
+  </data>
 </root>

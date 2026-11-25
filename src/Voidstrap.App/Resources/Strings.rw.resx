@@ -10384,4 +10384,7 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox na Voidstrap barashobora kwandika hejuru yibitekerezo byabashinzwe kugenzura mugihe byombi bishobotse.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Kugena ibiyobora bigenzura no guhuza n&#x27;imiterere.</value>
+  </data>
 </root>

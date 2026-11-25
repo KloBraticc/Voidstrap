@@ -10384,4 +10384,7 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Ka taea e Roblox me Voidstrap te tuhi i nga urupare a tetahi ki tetahi i te wa e whakahohea ana e rua.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Whirihorahia te wiri kaiwhakahaere me nga keu urutau.</value>
+  </data>
 </root>

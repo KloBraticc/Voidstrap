@@ -10693,4 +10693,7 @@
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>قد يقوم كل من Roblox وVoidstrap بالكتابة فوق تعليقات وحدة التحكم الخاصة بكل منهما عند تمكين كليهما.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>تكوين اهتزاز وحدة التحكم والمشغلات التكيفية.</value>
+  </data>
 </root>

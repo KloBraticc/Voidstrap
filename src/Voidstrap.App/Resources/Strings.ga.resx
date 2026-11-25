@@ -10384,4 +10384,7 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Féadfaidh Roblox agus Voidstrap aiseolas rialtóra a chéile a fhorscríobh nuair atá an dá cheann cumasaithe.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Cumraigh creathadh rialaitheoir agus truicear oiriúnaitheach.</value>
+  </data>
 </root>

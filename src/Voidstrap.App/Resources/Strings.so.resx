@@ -10384,4 +10384,7 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox iyo Voidstrap ayaa laga yaabaa inay dib u qoraan jawaab celinta maamulaha midba midka kale marka labadaba la furo.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Habee gariirada xakamaynta iyo kiciya la qabsiga.</value>
+  </data>
 </root>

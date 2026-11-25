@@ -10384,4 +10384,7 @@ Uptime: {1}
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox-მა და Voidstrap-მა შეიძლება გადაწერონ ერთმანეთის კონტროლერის გამოხმაურება, როდესაც ორივე ჩართულია.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>კონტროლერის ვიბრაციის და ადაპტური ტრიგერების კონფიგურაცია.</value>
+  </data>
 </root>

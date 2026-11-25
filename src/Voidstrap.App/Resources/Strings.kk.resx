@@ -10384,4 +10384,7 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox және Voidstrap екеуі де қосылған кезде бір-бірінің контроллері пікірін қайта жазуы мүмкін.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Контроллердің дірілі мен бейімделу триггерлерін конфигурациялаңыз.</value>
+  </data>
 </root>

@@ -10384,4 +10384,7 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox болон Voidstrap нь хоёуланг нь идэвхжүүлсэн үед бие биенийхээ хянагчийн санал хүсэлтийг дарж бичиж болно.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Хянагчийн чичиргээ болон дасан зохицох гохыг тохируулах.</value>
+  </data>
 </root>

@@ -10694,4 +10694,7 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox dan Voidstrap dapat menimpa masukan pengontrol satu sama lain saat keduanya diaktifkan.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Konfigurasikan getaran pengontrol dan pemicu adaptif.</value>
+  </data>
 </root>

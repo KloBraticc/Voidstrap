@@ -10383,4 +10383,7 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox na Voidstrap zinaweza kubatilisha maoni ya kidhibiti cha kila mmoja wakati zote zimewashwa.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Sanidi mtetemo wa kidhibiti na vichochezi vinavyobadilika.</value>
+  </data>
 </root>

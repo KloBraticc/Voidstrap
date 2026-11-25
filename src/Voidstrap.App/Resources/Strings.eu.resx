@@ -10383,4 +10383,7 @@ SteamVR instalatu orain?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox eta Voidstrap-ek elkarren kontrolagailuaren iritzia gainidatzi dezakete biak gaituta daudenean.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Konfiguratu kontroladorearen bibrazioa eta abiarazle moldagarriak.</value>
+  </data>
 </root>

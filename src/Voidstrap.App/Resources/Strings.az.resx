@@ -10383,4 +10383,7 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox və Voidstrap hər ikisi aktiv olduqda bir-birinin nəzarətçi rəyinin üzərinə yaza bilər.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Nəzarətçinin vibrasiyasını və adaptiv tetikleyicileri konfiqurasiya edin.</value>
+  </data>
 </root>

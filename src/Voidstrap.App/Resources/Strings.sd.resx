@@ -10384,4 +10384,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox ۽ Voidstrap هڪ ٻئي جي ڪنٽرولر راءِ کي اوور رائٽ ڪري سگھن ٿا جڏهن ٻئي فعال آهن.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>ڪنٽرولر وائبريشن ۽ موافقت واري ٽارگيٽ کي ترتيب ڏيو.</value>
+  </data>
 </root>

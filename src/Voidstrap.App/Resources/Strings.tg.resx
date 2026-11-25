@@ -10383,4 +10383,7 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox ва Voidstrap метавонанд ҳангоми фаъол кардани ҳарду фикру мулоҳизаҳои контроллерии якдигарро аз нав нависанд.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Вибрацияи контроллер ва триггерҳои мутобиқшавандаро танзим кунед.</value>
+  </data>
 </root>

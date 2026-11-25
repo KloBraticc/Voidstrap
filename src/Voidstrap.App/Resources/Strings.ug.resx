@@ -10383,4 +10383,7 @@ Uptime: {1}
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox بىلەن Voidstrap ھەر ئىككىسى قوزغىتىلغاندا بىر-بىرىنىڭ كونتروللىغۇچنىڭ ئىنكاسىنى قاپلىۋېتىشى مۇمكىن.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>كونتروللىغۇچنىڭ تەۋرىنىشى ۋە ماسلىشىشچان قوزغاتقۇچنى سەپلەڭ.</value>
+  </data>
 </root>

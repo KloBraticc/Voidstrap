@@ -10383,4 +10383,7 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>I-Roblox ne-Voidstrap zingase zibhale phezu kwempendulo yesilawuli somunye uma zombili zinikwe amandla.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Lungiselela ukudlidliza kwesilawuli nezibangeli eziguqukayo.</value>
+  </data>
 </root>

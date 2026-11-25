@@ -10697,4 +10697,7 @@ Install SteamVR now?</value>
   <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
     <value>Roblox and Voidstrap may overwrite each other’s controller feedback when both are enabled.</value>
   </data>
+  <data name="Ui.Controller.Description" xml:space="preserve">
+    <value>Configure controller vibration and adaptive triggers.</value>
+  </data>
 </root>
