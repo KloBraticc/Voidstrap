@@ -10300,9 +10300,6 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>नियन्त्रक</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>अनुकूलन ट्रिगरहरू</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>कम्पन</value>
   </data>

@@ -10610,9 +10610,6 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controler</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Declanșatoare adaptive</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibrație</value>
   </data>

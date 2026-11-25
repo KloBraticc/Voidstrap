@@ -10609,9 +10609,6 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Bộ điều khiển</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Trình kích hoạt thích ứng</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Rung</value>
   </data>

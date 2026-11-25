@@ -10299,9 +10299,6 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Nazoratchi</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Moslashuvchan triggerlar</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Tebranish</value>
   </data>

@@ -10609,9 +10609,6 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>控制器</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>自適應觸發器</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>振動</value>
   </data>

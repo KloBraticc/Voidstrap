@@ -10300,9 +10300,6 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>בקר</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>טריגרים אדפטיביים</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>רטט</value>
   </data>

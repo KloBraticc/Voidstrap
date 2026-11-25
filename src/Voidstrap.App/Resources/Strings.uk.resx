@@ -10609,9 +10609,6 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Контролер</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Адаптивні тригери</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>вібрація</value>
   </data>

@@ -10300,9 +10300,6 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontrolluesi</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Shkaktarë përshtatës</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Dridhja</value>
   </data>

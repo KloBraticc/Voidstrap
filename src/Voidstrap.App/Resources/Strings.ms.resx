@@ -10610,9 +10610,6 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Pengawal</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Pencetus adaptif</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Getaran</value>
   </data>

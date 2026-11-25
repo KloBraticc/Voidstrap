@@ -10609,9 +10609,6 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>控制器</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>自适应触发器</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>振动</value>
   </data>

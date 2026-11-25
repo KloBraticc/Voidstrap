@@ -10300,9 +10300,6 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Onye njikwa</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Ihe na-akpali akpali</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Mmaji</value>
   </data>

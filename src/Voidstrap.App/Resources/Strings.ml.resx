@@ -10300,9 +10300,6 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>കൺട്രോളർ</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>അഡാപ്റ്റീവ് ട്രിഗറുകൾ</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>വൈബ്രേഷൻ</value>
   </data>

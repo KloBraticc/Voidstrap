@@ -10300,9 +10300,6 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Վերահսկիչ</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Հարմարվողական գործարկիչներ</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Վիբրացիա</value>
   </data>

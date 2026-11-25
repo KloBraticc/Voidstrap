@@ -10299,9 +10299,6 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kidhibiti</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Vichochezi vinavyobadilika</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Mtetemo</value>
   </data>

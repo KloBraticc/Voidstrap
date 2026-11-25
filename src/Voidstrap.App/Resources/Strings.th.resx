@@ -10609,9 +10609,6 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>คอนโทรลเลอร์</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>ทริกเกอร์แบบปรับตัวได้</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>การสั่นสะเทือน</value>
   </data>

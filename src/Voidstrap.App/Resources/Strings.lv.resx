@@ -10300,9 +10300,6 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontrolieris</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Adaptīvie trigeri</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibrācija</value>
   </data>

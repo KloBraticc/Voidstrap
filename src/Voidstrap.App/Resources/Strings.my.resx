@@ -10299,9 +10299,6 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ထိန်းချုပ်ကိရိယာ</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>သပ္ပါယစိတ်တိုခြင်း။</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>တုန်ခါမှု</value>
   </data>

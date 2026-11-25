@@ -10610,9 +10610,6 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>컨트롤러</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>적응형 트리거</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>진동</value>
   </data>

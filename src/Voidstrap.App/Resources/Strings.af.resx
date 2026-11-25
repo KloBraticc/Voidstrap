@@ -10299,9 +10299,6 @@ Installeer SteamVR nou?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Beheerder</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Aanpasbare snellers</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibrasie</value>
   </data>

@@ -10608,9 +10608,6 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controller</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Mga adaptive trigger</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Panginginig ng boses</value>
   </data>

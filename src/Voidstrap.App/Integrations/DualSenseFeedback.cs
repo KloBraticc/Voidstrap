@@ -173,11 +173,13 @@ internal static partial class DualSenseFeedback
 
     private sealed class FeedbackState
     {
+        private const int InputStaleMs = 500;
         private bool _leftPressed;
         private bool _rightPressed;
         private bool _rightPulse;
         private bool _hold;
         private long _pulseUntil;
+        private long _lastInputAt;
 
         public Output Update(Presets presets, (byte Left, byte Right)? triggers, long now)
         {
@@ -186,6 +188,7 @@ internal static partial class DualSenseFeedback
             _hold = presets.VibrateWhileHeld;
             if (presets.RumbleEnabled && triggers is { } input)
             {
+                _lastInputAt = now;
                 bool nextLeft = input.Left >= (_leftPressed ? 45 : 85);
                 bool nextRight = input.Right >= (_rightPressed ? 45 : 85);
                 if (!_hold && (nextLeft && !_leftPressed || nextRight && !_rightPressed))
@@ -197,7 +200,7 @@ internal static partial class DualSenseFeedback
                 _leftPressed = nextLeft;
                 _rightPressed = nextRight;
             }
-            else
+            else if (!presets.RumbleEnabled || now - _lastInputAt >= InputStaleMs)
             {
                 _leftPressed = _rightPressed = false;
             }
@@ -224,8 +227,10 @@ internal static partial class DualSenseFeedback
 
     private sealed class Device(FileStream stream, int inputLength, int outputLength) : IDisposable
     {
+        private const int RumbleRefreshMs = 100;
         private readonly byte[] _input = new byte[inputLength];
         private Output _applied;
+        private long _lastRumbleWrite;
 
         public static Device? Open(string selectedId)
         {
@@ -266,7 +271,10 @@ internal static partial class DualSenseFeedback
         public async Task ApplyAsync(Output output, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
-            if (output == _applied)
+            long now = Environment.TickCount64;
+            bool updateRumble = output.LowMotor != _applied.LowMotor || output.HighMotor != _applied.HighMotor
+                || (output.LowMotor != 0 || output.HighMotor != 0) && now - _lastRumbleWrite >= RumbleRefreshMs;
+            if (output == _applied && !updateRumble)
                 return;
 
             byte[] report = new byte[outputLength];
@@ -281,7 +289,7 @@ internal static partial class DualSenseFeedback
                 report[1] |= 0x08;
                 WriteTrigger(report.AsSpan(22, 11), output.Left);
             }
-            if (output.LowMotor != _applied.LowMotor || output.HighMotor != _applied.HighMotor)
+            if (updateRumble)
             {
                 report[1] |= 0x03;
                 report[3] = output.HighMotor;
@@ -290,6 +298,8 @@ internal static partial class DualSenseFeedback
 
             using CancellationTokenSource timeout = new(450);
             await stream.WriteAsync(report, timeout.Token).ConfigureAwait(false);
+            if (updateRumble)
+                _lastRumbleWrite = now;
             _applied = output;
         }
 

@@ -10300,9 +10300,6 @@ Installa SteamVR issa?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontrollur</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Jqajjem adattivi</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibrazzjoni</value>
   </data>

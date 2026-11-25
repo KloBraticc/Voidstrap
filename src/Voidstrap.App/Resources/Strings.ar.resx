@@ -10609,9 +10609,6 @@
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>المراقب المالي</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>المشغلات التكيفية</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>الاهتزاز</value>
   </data>

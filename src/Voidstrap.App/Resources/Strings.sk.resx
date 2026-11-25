@@ -10300,9 +10300,6 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Ovládač</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Adaptívne spúšťače</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibrácie</value>
   </data>

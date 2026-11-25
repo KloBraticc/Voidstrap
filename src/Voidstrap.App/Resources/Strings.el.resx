@@ -10299,9 +10299,6 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Ελεγκτής</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Προσαρμοστικοί ενεργοποιητές</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Δόνηση</value>
   </data>

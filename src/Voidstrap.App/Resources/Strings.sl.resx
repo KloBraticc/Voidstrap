@@ -10300,9 +10300,6 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Krmilnik</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Prilagodljivi sprožilci</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibracije</value>
   </data>

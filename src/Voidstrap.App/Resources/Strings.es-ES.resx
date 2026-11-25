@@ -10609,9 +10609,6 @@ Jugadores: {2}</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controlador</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Desencadenantes adaptativos</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibración</value>
   </data>

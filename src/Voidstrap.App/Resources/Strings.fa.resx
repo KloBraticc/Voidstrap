@@ -10609,9 +10609,6 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>کنترل کننده</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>محرک های تطبیقی</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>لرزش</value>
   </data>

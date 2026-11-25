@@ -10610,9 +10610,6 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontrolor</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Adaptivni okidači</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibracija</value>
   </data>

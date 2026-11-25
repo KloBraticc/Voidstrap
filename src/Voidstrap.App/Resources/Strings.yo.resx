@@ -10299,9 +10299,6 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Adarí</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Awọn okunfa adaṣe</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Gbigbọn</value>
   </data>

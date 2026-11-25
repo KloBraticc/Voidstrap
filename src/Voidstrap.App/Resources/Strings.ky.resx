@@ -10300,9 +10300,6 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controller</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Адаптивдүү триггерлер</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Вибрация</value>
   </data>

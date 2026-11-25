@@ -10299,9 +10299,6 @@ SteamVR instalatu orain?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontrolatzailea</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Abiarazle egokitzaileak</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Dardara</value>
   </data>

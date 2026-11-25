@@ -10608,9 +10608,6 @@ Installera SteamVR nu?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Styrenhet</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Adaptiva triggers</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibration</value>
   </data>

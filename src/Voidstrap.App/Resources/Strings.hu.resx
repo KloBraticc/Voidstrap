@@ -10610,9 +10610,6 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Vezérlő</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Adaptív triggerek</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Rezgés</value>
   </data>

@@ -10300,9 +10300,6 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Umugenzuzi</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Imbarutso</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Kunyeganyega</value>
   </data>

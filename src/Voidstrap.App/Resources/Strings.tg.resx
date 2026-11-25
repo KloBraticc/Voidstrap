@@ -10299,9 +10299,6 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Назоратчӣ</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Триггерҳои мутобиқшавӣ</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Вибрация</value>
   </data>

@@ -10300,9 +10300,6 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>नियंत्रक</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>अनुकूली ट्रिगर</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>कंपन</value>
   </data>

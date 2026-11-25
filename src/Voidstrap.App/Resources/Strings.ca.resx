@@ -10299,9 +10299,6 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controlador</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Activadors adaptatius</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibració</value>
   </data>

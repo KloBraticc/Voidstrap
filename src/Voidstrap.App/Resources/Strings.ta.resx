@@ -10299,9 +10299,6 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>கட்டுப்படுத்தி</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>தகவமைப்பு தூண்டுதல்கள்</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>அதிர்வு</value>
   </data>

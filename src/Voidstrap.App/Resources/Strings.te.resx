@@ -10299,9 +10299,6 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>కంట్రోలర్</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>అనుకూల ట్రిగ్గర్లు</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>కంపనం</value>
   </data>

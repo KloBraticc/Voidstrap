@@ -10610,9 +10610,6 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>コントローラー</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>アダプティブトリガー</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>振動</value>
   </data>

@@ -10300,9 +10300,6 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ਕੰਟਰੋਲਰ</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>ਅਨੁਕੂਲ ਟਰਿੱਗਰ</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>ਵਾਈਬ੍ਰੇਸ਼ਨ</value>
   </data>

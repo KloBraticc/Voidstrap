@@ -10300,9 +10300,6 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ឧបករណ៍បញ្ជា</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>កេះអាដាប់ធ័រ</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>រំញ័រ</value>
   </data>

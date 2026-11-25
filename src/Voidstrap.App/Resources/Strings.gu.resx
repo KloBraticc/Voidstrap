@@ -10300,9 +10300,6 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>નિયંત્રક</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>અનુકૂલનશીલ ટ્રિગર્સ</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>કંપન</value>
   </data>

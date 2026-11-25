@@ -10300,9 +10300,6 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>کنټرولر</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>تطابق محرکات</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>وایبریشن</value>
   </data>

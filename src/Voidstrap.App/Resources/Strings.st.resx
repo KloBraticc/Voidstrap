@@ -10299,9 +10299,6 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Molaoli</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Lintho tse susumetsang</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Ho thothomela</value>
   </data>

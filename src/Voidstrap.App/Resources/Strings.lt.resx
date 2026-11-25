@@ -10610,9 +10610,6 @@ Veikimo laikas: {1}
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Valdiklis</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>Adaptyvūs trigeriai</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>Vibracija</value>
   </data>

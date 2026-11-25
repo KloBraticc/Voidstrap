@@ -10299,9 +10299,6 @@ Uptime: {1}
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>كونتروللىغۇچ</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>ماسلىشىشچان قوزغاتقۇچ</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>تەۋرىنىش</value>
   </data>

@@ -10300,9 +10300,6 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ڪنٽرولر</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>موافقت وارو محرڪ</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>وائبريشن</value>
   </data>

@@ -10300,9 +10300,6 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ನಿಯಂತ್ರಕ</value>
   </data>
-  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
-    <value>ಅಡಾಪ್ಟಿವ್ ಟ್ರಿಗ್ಗರ್‌ಗಳು</value>
-  </data>
   <data name="Ui.Controller.Vibration" xml:space="preserve">
     <value>ಕಂಪನ</value>
   </data>
