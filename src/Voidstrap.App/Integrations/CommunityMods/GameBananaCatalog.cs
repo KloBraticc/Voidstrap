@@ -594,7 +594,8 @@ public static partial class GameBananaCatalog
         CommunityModFile file,
         IProgress<string>? progress,
         CancellationToken token,
-        CommunityModInstallTarget target = CommunityModInstallTarget.ManagedMods
+        CommunityModInstallTarget target = CommunityModInstallTarget.ManagedMods,
+        string? assetFolder = null
     )
     {
         CommunityModVerdict fileVerdict = CommunityModGuard.InspectFile(file);
@@ -669,7 +670,7 @@ public static partial class GameBananaCatalog
             {
                 string destination = ManagedModStore.GetFolder(record.Id);
                 Directory.CreateDirectory(destination);
-                int placed = ExtractVerified(archivePath, destination, token);
+                int placed = ExtractVerified(archivePath, destination, token, assetFolder);
                 App.Logger?.WriteLine(LogIdent, "Placed " + placed + " files for " + entry.Name);
                 try
                 {
@@ -1509,7 +1510,7 @@ public static partial class GameBananaCatalog
         }
     }
 
-    internal static async Task<string> InstallModAsync(long modId, long fileId, IProgress<string>? progress, CancellationToken token)
+    internal static async Task<string> InstallModAsync(long modId, long fileId, IProgress<string>? progress, CancellationToken token, string? assetFolder = null)
     {
         using JsonDocument document = await GetProfileAsync(modId, token).ConfigureAwait(false);
         CommunityModEntry listing = new CommunityModEntry
@@ -1530,7 +1531,7 @@ public static partial class GameBananaCatalog
         {
             throw new InvalidOperationException(verdict.Reason);
         }
-        return await InstallAsync(listing, file, progress, token, CommunityModInstallTarget.ManagedMods).ConfigureAwait(false);
+        return await InstallAsync(listing, file, progress, token, CommunityModInstallTarget.ManagedMods, assetFolder).ConfigureAwait(false);
     }
 
     internal static async Task<int> FetchAllAssetsAsync(
@@ -1724,7 +1725,7 @@ public static partial class GameBananaCatalog
         return written;
     }
 
-    internal static int ExtractVerified(string archivePath, string destination, CancellationToken token = default)
+    internal static int ExtractVerified(string archivePath, string destination, CancellationToken token = default, string? assetFolder = null)
     {
         string root = Path.GetFullPath(destination);
         Directory.CreateDirectory(root);
@@ -1751,6 +1752,10 @@ public static partial class GameBananaCatalog
                     throw new InvalidOperationException(verdict.Reason);
                 }
                 if (!CommunityModGuard.IsInstallableAsset(relative))
+                {
+                    continue;
+                }
+                if (assetFolder != null && !relative.StartsWith(assetFolder + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }

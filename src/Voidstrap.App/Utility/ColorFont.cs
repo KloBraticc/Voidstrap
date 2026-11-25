@@ -106,6 +106,8 @@ internal static class ColorFont
         int maxPoints = 0;
         int maxContours = 0;
         uint baseLength = (uint)Pad(glyf.Length);
+        bool vertical = Math.Abs(dx) < 1e-9;
+        bool horizontal = Math.Abs(dy) < 1e-9;
         for (int i = 0; i < glyphs.Count; i++)
         {
             ushort glyph = glyphs[i];
@@ -119,9 +121,18 @@ internal static class ColorFont
             for (int band = 1; band < bandCount; band++)
             {
                 double threshold = (double)band / bandCount;
+                double boundaryX = Math.Round(outline.XMin + (dx < 0 ? 1 - threshold : threshold) * width);
+                double boundaryY = Math.Round(outline.YMin + (dy < 0 ? threshold : 1 - threshold) * height);
                 double Side(Pt point) =>
-                    ((point.X - outline.XMin) / width * dx + (outline.YMax - point.Y) / height * dy - lowest) / range - threshold;
-                List<List<Seg>> clipped = [.. outline.Contours.Select(contour => Clip(contour, Side)).OfType<List<Seg>>()];
+                    vertical ? (boundaryY - point.Y) * dy
+                    : horizontal ? (point.X - boundaryX) * dx
+                    : ((point.X - outline.XMin) / width * dx + (outline.YMax - point.Y) / height * dy - lowest) / range - threshold;
+                Pt SnapBoundary(Pt point) =>
+                    vertical ? point with { Y = boundaryY }
+                    : horizontal ? point with { X = boundaryX }
+                    : point;
+                double AlongBoundary(Pt point) => point.X * dy / height + point.Y * dx / width;
+                List<List<Seg>> clipped = ClipOutline(outline, Side, SnapBoundary, AlongBoundary);
                 byte[]? encoded = EncodeGlyph(clipped, out int points, out int contours, out short xMin);
                 if (encoded == null)
                 {
@@ -130,7 +141,7 @@ internal static class ColorFont
                 ushort id = (ushort)(glyphCount + extraOffsets.Count);
                 extraOffsets.Add(baseLength + (uint)extra.Length);
                 extra.Write(encoded);
-                extraMetrics.Add((advances[glyph], xMin));
+                extraMetrics.Add((advances[glyph], checked((short)(bearings[glyph] + xMin - outline.XMin))));
                 maxPoints = Math.Max(maxPoints, points);
                 maxContours = Math.Max(maxContours, contours);
                 layers[i].Add((id, (ushort)band));
@@ -372,7 +383,7 @@ internal static class ColorFont
         return new Pt(wa * seg.A.X + wc * seg.C.X + wb * seg.B.X, wa * seg.A.Y + wc * seg.C.Y + wb * seg.B.Y);
     }
 
-    private static List<Seg>? Clip(List<Seg> contour, Func<Pt, double> side)
+    private static List<Seg>? Clip(List<Seg> contour, Func<Pt, double> side, Func<Pt, Pt> snapBoundary)
     {
         List<Seg> kept = [];
         bool whole = true;
@@ -419,8 +430,14 @@ internal static class ColorFont
                 }
                 if (side(Blossom(seg, (t0 + t1) / 2, (t0 + t1) / 2)) >= 0)
                 {
+                    Pt start = Blossom(seg, t0, t0);
                     Pt end = Blossom(seg, t1, t1);
-                    kept.Add(new Seg(Blossom(seg, t0, t0), seg.Quad ? Blossom(seg, t0, t1) : end, end, seg.Quad));
+                    kept.Add(new Seg(
+                        t0 > 0 ? snapBoundary(start) : start,
+                        seg.Quad ? Blossom(seg, t0, t1) : end,
+                        t1 < 1 ? snapBoundary(end) : end,
+                        seg.Quad
+                    ));
                 }
                 else
                 {
@@ -433,6 +450,78 @@ internal static class ColorFont
             return contour;
         }
         return kept.Count == 0 ? null : kept;
+    }
+
+    private static List<List<Seg>> ClipOutline(
+        Outline outline,
+        Func<Pt, double> side,
+        Func<Pt, Pt> snapBoundary,
+        Func<Pt, double> alongBoundary
+    )
+    {
+        List<List<Seg>> clipped = [.. outline.Contours.Select(contour => Clip(contour, side, snapBoundary)).OfType<List<Seg>>()];
+        List<List<Seg>> closed = [];
+        List<List<Seg>> runs = [];
+        foreach (List<Seg> contour in clipped)
+        {
+            List<int> starts = [];
+            for (int i = 0; i < contour.Count; i++)
+            {
+                Pt previous = contour[(i + contour.Count - 1) % contour.Count].B;
+                Pt current = contour[i].A;
+                if (Math.Abs(previous.X - current.X) > 1e-7 || Math.Abs(previous.Y - current.Y) > 1e-7)
+                    starts.Add(i);
+            }
+            if (starts.Count == 0)
+            {
+                closed.Add(contour);
+                continue;
+            }
+
+            for (int i = 0; i < starts.Count; i++)
+            {
+                int end = i + 1 < starts.Count ? starts[i + 1] : starts[0] + contour.Count;
+                List<Seg> run = [];
+                for (int j = starts[i]; j < end; j++)
+                    run.Add(contour[j % contour.Count]);
+                runs.Add(run);
+            }
+        }
+
+        List<(int Run, bool Starts, double Position)> endpoints = [];
+        for (int i = 0; i < runs.Count; i++)
+        {
+            endpoints.Add((i, true, alongBoundary(runs[i][0].A)));
+            endpoints.Add((i, false, alongBoundary(runs[i][^1].B)));
+        }
+        endpoints.Sort((a, b) => a.Position.CompareTo(b.Position));
+        int[] next = new int[runs.Count];
+        Stack<(int Run, bool Starts)> unmatched = [];
+        foreach (var (run, starts, _) in endpoints)
+        {
+            if (!unmatched.TryPeek(out var previous) || previous.Starts == starts)
+            {
+                unmatched.Push((run, starts));
+                continue;
+            }
+            unmatched.Pop();
+            next[starts ? previous.Run : run] = starts ? run : previous.Run;
+        }
+
+        bool[] visited = new bool[runs.Count];
+        for (int i = 0; i < runs.Count; i++)
+        {
+            if (visited[i])
+                continue;
+            List<Seg> contour = [];
+            for (int current = i; !visited[current]; current = next[current])
+            {
+                visited[current] = true;
+                contour.AddRange(runs[current]);
+            }
+            closed.Add(contour);
+        }
+        return closed;
     }
 
     private static byte[]? EncodeGlyph(List<List<Seg>> contours, out int pointTotal, out int contourTotal, out short xMin)

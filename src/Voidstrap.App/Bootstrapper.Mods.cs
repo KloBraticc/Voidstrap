@@ -231,11 +231,12 @@ public partial class Bootstrapper
         {
             FileModManager.FolderGate.Release();
         }
+        IReadOnlyDictionary<string, string>? preparedTextures = null;
         if (modsAllowed && !IsStudioLaunch)
         {
             try
             {
-                await ModGenerator
+                preparedTextures = await ModGenerator
                     .RefreshOutdatedAsync(_latestVersionDirectory, _latestVersionGuid, _cancelTokenSource.Token)
                     .ConfigureAwait(false);
             }
@@ -250,7 +251,8 @@ public partial class Bootstrapper
         }
         try
         {
-            ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles(IsStudioLaunch ? ModInstallTargets.Studio : ModInstallTargets.Roblox);
+            ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles(
+                IsStudioLaunch ? ModInstallTargets.Studio : ModInstallTargets.Roblox, preparedTextures);
             ignoredModFiles += scan.IgnoredSkipped;
             foreach (string id in scan.SuccessfulModIds)
                 nextManagedManifest[id] = [];

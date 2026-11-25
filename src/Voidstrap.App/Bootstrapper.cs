@@ -1447,7 +1447,7 @@ public partial class Bootstrapper
                 LinuxRuntimeConfiguration configuration = LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);
                 OperationResult prepared = await configuration.PrepareAsync(
                     installation,
-                    Voidstrap.Utility.SoberConfigurationMapper.CreatePlayerOptions(App.Settings.Prop),
+                    Voidstrap.Utility.SoberConfigurationMapper.CreatePlayerOptions(App.Settings.Prop, PreparedLinuxControllerTextures),
                     Voidstrap.Utility.VinegarConfigurationMapper.CreateStudioOptions(App.Settings.Prop),
                     cancellationToken
                 );

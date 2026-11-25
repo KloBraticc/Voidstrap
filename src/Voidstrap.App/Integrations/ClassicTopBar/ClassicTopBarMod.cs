@@ -237,8 +237,9 @@ internal static partial class ClassicTopBarMod
                     {
                         progress?.Report("Downloading the PS4 button icons");
                         installedId = await GameBananaCatalog
-                            .InstallModAsync(Ps4ButtonsModId, Ps4ButtonsFileId, progress, token)
+                            .InstallModAsync(Ps4ButtonsModId, Ps4ButtonsFileId, progress, token, assetFolder: "default")
                             .ConfigureAwait(false);
+                        ManagedModStore.SetTargets(installedId, ModInstallTargets.Roblox);
                         state.Ps4ButtonsModId = installedId;
                     }
                 }
@@ -920,6 +921,8 @@ internal static partial class ClassicTopBarMod
         }
         return ids;
     }
+
+    internal static string Ps4ButtonsPackageId => LoadState().Ps4ButtonsModId;
 
     private static readonly object StateGate = new();
 

@@ -5,7 +5,7 @@ namespace Voidstrap.Utility;
 
 internal static class SoberConfigurationMapper
 {
-    public static LinuxPlayerPreparationOptions CreatePlayerOptions(AppSettings settings)
+    public static LinuxPlayerPreparationOptions CreatePlayerOptions(AppSettings settings, IReadOnlyDictionary<string, string>? preparedFiles = null)
     {
         ArgumentNullException.ThrowIfNull(settings);
         bool modsAllowed = settings.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player;
@@ -14,18 +14,18 @@ internal static class SoberConfigurationMapper
                 && settings.FastFlagApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player,
             ApplyVirtualMachineProfile(CreateNativeOptions(settings)),
             modsAllowed,
-            modsAllowed ? CollectManagedModSources() : null,
+            modsAllowed ? CollectManagedModSources(preparedFiles) : null,
             ModAutoFixer.IsIgnoredModFile,
             CursorManager.GetPresetAssetHashes()
         );
     }
 
-    private static List<LinuxModSource> CollectManagedModSources()
+    private static List<LinuxModSource> CollectManagedModSources(IReadOnlyDictionary<string, string>? preparedFiles)
     {
         List<LinuxModSource> sources = [];
         try
         {
-            ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles();
+            ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles(preparedFiles: preparedFiles);
             foreach (ManagedModFile file in scan.Files)
             {
                 string relative = file.Relative.Replace('\\', '/');

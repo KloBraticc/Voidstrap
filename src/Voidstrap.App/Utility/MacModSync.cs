@@ -27,7 +27,13 @@ internal static class MacModSync
         public Dictionary<string, bool> Files { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     }
 
-    public static Dictionary<string, string> Collect(bool includeSky)
+    internal static string? FindOriginal(string resources, string relative)
+    {
+        string backup = Path.Combine(BackupRoot(resources), relative);
+        return File.Exists(Path.Combine(resources, MarkerName)) && File.Exists(backup) ? backup : null;
+    }
+
+    public static Dictionary<string, string> Collect(bool includeSky, IReadOnlyDictionary<string, string>? preparedFiles = null)
     {
         Dictionary<string, string> selected = new(StringComparer.OrdinalIgnoreCase);
         FileModManager.FolderGate.Wait();
@@ -49,7 +55,7 @@ internal static class MacModSync
         }
         try
         {
-            foreach (ManagedModFile file in ManagedModStore.ScanEnabledFiles().Files)
+            foreach (ManagedModFile file in ManagedModStore.ScanEnabledFiles(preparedFiles: preparedFiles).Files)
             {
                 string relative = file.Relative.Replace('\\', '/');
                 if (Accept(relative, includeSky))

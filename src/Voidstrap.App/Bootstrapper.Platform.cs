@@ -83,9 +83,12 @@ public partial class Bootstrapper
         App.Logger.WriteLine(logIdent, "Studio modifications are ready for Vinegar");
     }
 
+    internal IReadOnlyDictionary<string, string>? PreparedLinuxControllerTextures { get; private set; }
+
     internal async Task PrepareLinuxLaunchAsync(CancellationToken cancellationToken)
     {
         const string logIdent = "Bootstrapper::PrepareLinuxLaunch";
+        PreparedLinuxControllerTextures = null;
         try
         {
             Voidstrap.Utility.VirtualMachineProfile.ReportOnce();
@@ -189,7 +192,7 @@ public partial class Bootstrapper
 
         try
         {
-            await ModGenerator.RefreshOutdatedAsync(tree.ClientDirectory, tree.VersionGuid, cancellationToken);
+            PreparedLinuxControllerTextures = await ModGenerator.RefreshOutdatedAsync(tree.ClientDirectory, tree.VersionGuid, cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -269,11 +272,12 @@ public partial class Bootstrapper
             App.Logger.WriteLine(logIdent, "Mod folders could not be checked: " + ex.Message);
         }
 
+        IReadOnlyDictionary<string, string>? preparedTextures = null;
         if (!IsStudioLaunch && robloxVersion.Length > 0)
         {
             try
             {
-                await ModGenerator.RefreshOutdatedAsync(resources, robloxVersion, cancellationToken);
+                preparedTextures = await ModGenerator.RefreshOutdatedAsync(resources, robloxVersion, cancellationToken);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -286,7 +290,7 @@ public partial class Bootstrapper
         }
 
         cancellationToken.ThrowIfCancellationRequested();
-        MacModSync.Apply(resources, MacModSync.Collect(!IsStudioLaunch));
+        MacModSync.Apply(resources, MacModSync.Collect(!IsStudioLaunch, preparedTextures));
     }
 
     private static readonly string[] CanonicalModRoots = ["content", "ExtraContent", "PlatformContent"];

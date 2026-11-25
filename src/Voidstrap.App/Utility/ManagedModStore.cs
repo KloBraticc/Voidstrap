@@ -281,6 +281,26 @@ internal static class ManagedModStore
         return GetFolderCore(id);
     }
 
+    internal static void ReplacePackageFiles(string id, string staging)
+    {
+        string destination = GetFolderCore(id);
+        string backup = staging + ".previous";
+        lock (Sync)
+        {
+            Directory.Move(destination, backup);
+            try
+            {
+                Directory.Move(staging, destination);
+            }
+            catch
+            {
+                Directory.Move(backup, destination);
+                throw;
+            }
+        }
+        Discard(backup);
+    }
+
     public static IReadOnlyList<ManagedModLibraryEntry> ScanLibrary()
     {
         HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
@@ -329,7 +349,10 @@ internal static class ManagedModStore
         }
     }
 
-    public static ManagedModScanResult ScanEnabledFiles(ModInstallTargets target = ModInstallTargets.Roblox)
+    public static ManagedModScanResult ScanEnabledFiles(
+        ModInstallTargets target = ModInstallTargets.Roblox,
+        IReadOnlyDictionary<string, string>? preparedFiles = null
+    )
     {
         HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
         lock (Sync)
@@ -349,7 +372,8 @@ internal static class ManagedModStore
                         string relative = Path.GetRelativePath(folder, file);
                         if (!IsSafeRelativePath(relative))
                             continue;
-                        packageFiles.Add(new ManagedModFile(Clone(record), file, relative));
+                        string source = preparedFiles?.GetValueOrDefault(file) ?? file;
+                        packageFiles.Add(new ManagedModFile(Clone(record), source, relative));
                     }
                     foreach (ManagedModFile file in packageFiles)
                     {
@@ -524,7 +548,7 @@ internal static class ManagedModStore
         }
     }
 
-    private static IEnumerable<string> EnumeratePackageFiles(string root)
+    internal static IEnumerable<string> EnumeratePackageFiles(string root)
     {
         if (!Directory.Exists(root))
             yield break;

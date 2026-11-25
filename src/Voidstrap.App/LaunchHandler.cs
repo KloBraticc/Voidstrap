@@ -1719,7 +1719,7 @@ public static class LaunchHandler
                     Voidstrap.Platform.Linux.LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);
                 Voidstrap.Platform.OperationResult prepared = await configuration.PrepareAsync(
                     installation,
-                    Voidstrap.Utility.SoberConfigurationMapper.CreatePlayerOptions(App.Settings.Prop),
+                    Voidstrap.Utility.SoberConfigurationMapper.CreatePlayerOptions(App.Settings.Prop, bootstrapper.PreparedLinuxControllerTextures),
                     Voidstrap.Utility.VinegarConfigurationMapper.CreateStudioOptions(App.Settings.Prop)
                 );
                 if (!prepared.Succeeded)

@@ -57,6 +57,8 @@ public sealed class ModGeneratorSettings
     public string RobloxVersion { get; set; } = "";
 
     public DateTime GeneratedUtc { get; set; }
+
+    public int IconFontRevision { get; set; }
 }
 
 public sealed class ModGeneratorProgress
@@ -94,7 +96,7 @@ public sealed class ModGeneratorIcon
     public required BitmapSource Thumbnail { get; init; }
 }
 
-public static class ModGenerator
+public static partial class ModGenerator
 {
     private const string LogIdent = "ModGenerator";
 
@@ -103,6 +105,7 @@ public static class ModGenerator
     private const string FillImageName = "fill.png";
 
     private const int FontGradientBands = 24;
+    private const int CurrentIconFontRevision = 1;
 
     private const string LogoImageName = "logo.png";
 
@@ -450,10 +453,11 @@ public static class ModGenerator
         }
     }
 
-    public static async Task RefreshOutdatedAsync(string versionDirectory, string versionGuid, CancellationToken token)
+    internal static async Task<IReadOnlyDictionary<string, string>?> RefreshOutdatedAsync(string versionDirectory, string versionGuid, CancellationToken token)
     {
         await RefreshThemeAsync(versionDirectory, versionGuid, token).ConfigureAwait(false);
         await EmoteWheelGenerator.RefreshOutdatedAsync(versionDirectory, versionGuid, token).ConfigureAwait(false);
+        return await Task.Run(() => PrepareControllerTextures(versionDirectory, versionGuid, token), token).ConfigureAwait(false);
     }
 
     private static async Task RefreshThemeAsync(string versionDirectory, string versionGuid, CancellationToken token)
@@ -467,11 +471,14 @@ public static class ModGenerator
                 return;
             }
             ModGeneratorSettings? settings = LoadSettings(modId);
-            if (settings == null || string.Equals(settings.RobloxVersion, versionGuid, StringComparison.OrdinalIgnoreCase))
+            if (settings == null)
+                return;
+            bool oldGradientFont = settings.Fill == ModGeneratorFill.Gradient && settings.RecolorIconFont && settings.IconFontRevision < CurrentIconFontRevision;
+            if (!oldGradientFont && string.Equals(settings.RobloxVersion, versionGuid, StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
-            App.Logger?.WriteLine(LogIdent, "Roblox updated, regenerating " + settings.ModName + " for the new sprite sheets");
+            App.Logger?.WriteLine(LogIdent, "Refreshing " + settings.ModName + " for Roblox " + versionGuid);
             await Task.Run(() => GenerateCore(settings, modId, null, token, versionDirectory, versionGuid), token).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
@@ -851,6 +858,27 @@ public static class ModGenerator
         string? versionGuid = null
     )
     {
+        string staging = Path.Combine(Paths.ManagedMods, "Generating", Guid.NewGuid().ToString("N"));
+        try
+        {
+            return GenerateFiles(settings, existingId, progress, token, staging, versionDirectory, versionGuid);
+        }
+        finally
+        {
+            ManagedModStore.Discard(staging);
+        }
+    }
+
+    private static string GenerateFiles(
+        ModGeneratorSettings settings,
+        string? existingId,
+        IProgress<ModGeneratorProgress>? progress,
+        CancellationToken token,
+        string staging,
+        string? versionDirectory,
+        string? versionGuid
+    )
+    {
         RobloxPlayerData data = new RobloxPlayerData();
         if (versionDirectory == null || versionGuid == null)
         {
@@ -879,11 +907,6 @@ public static class ModGenerator
         settings.IconSwaps = StoreSwaps(settings.IconSwaps, Path.Combine(stateFolder, SwapFolderName));
 
         string output = ManagedModStore.GetFolder(modId);
-        string staging = output + ".generating";
-        if (Directory.Exists(staging))
-        {
-            Directory.Delete(staging, recursive: true);
-        }
         Directory.CreateDirectory(staging);
 
         HashSet<string> manifest = CurrentManifest(data);
@@ -1001,14 +1024,15 @@ public static class ModGenerator
         }
 
         progress?.Report(new ModGeneratorProgress(0.96, "Installing the mod"));
-        if (Directory.Exists(output))
-        {
-            Directory.Delete(output, recursive: true);
-        }
-        Directory.Move(staging, output);
+        string controllerManifest = Path.Combine(stateFolder, "controller-textures.json");
+        Dictionary<string, string> generatedControllers = PreserveControllerTextures(output, staging, controllerManifest, token);
+        token.ThrowIfCancellationRequested();
+        ManagedModStore.ReplacePackageFiles(modId, staging);
+        JsonFile.SerializeAtomic(controllerManifest, generatedControllers, JsonOptions.Indented);
 
         settings.RobloxVersion = versionGuid;
         settings.GeneratedUtc = DateTime.UtcNow;
+        settings.IconFontRevision = CurrentIconFontRevision;
         JsonFile.SerializeAtomic(Path.Combine(stateFolder, SettingsFileName), settings, JsonOptions.Indented);
         PruneOriginals(versionGuid);
         string summary =
