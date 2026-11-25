@@ -10378,4 +10378,10 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Ci gaba da rawar jiki har sai kun saki fararwa.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Kunna tunanin Roblox haptic</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox da Voidstrap na iya sake rubuta bayanan mai sarrafa juna lokacin da aka kunna duka biyun.</value>
+  </data>
 </root>

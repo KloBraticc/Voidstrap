@@ -10378,4 +10378,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>השאר את הרטט פועל עד שתשחרר את ההדק.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>אפשר משוב הפטי של Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox ו-Voidstrap עשויים להחליף את המשוב של הבקר זה של זה כאשר שניהם מופעלים.</value>
+  </data>
 </root>

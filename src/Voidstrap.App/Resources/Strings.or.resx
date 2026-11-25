@@ -10378,4 +10378,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>ତୁମେ ଟ୍ରିଗରକୁ ମୁକ୍ତ ନକରିବା ପର୍ଯ୍ୟନ୍ତ କମ୍ପନକୁ ଚାଲୁ ରଖ |</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>ରୋବ୍ଲକ୍ସ ହାପ୍ଟିକ୍ ଫିଡବ୍ୟାକ୍ ସକ୍ଷମ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>ଉଭୟ ସକ୍ଷମ ହେଲେ ରୋବ୍ଲକ୍ସ ଏବଂ ଭୋଇଡଷ୍ଟ୍ରାପ୍ ପରସ୍ପରର ନିୟନ୍ତ୍ରକ ମତାମତକୁ ନବଲିଖନ କରିପାରନ୍ତି |</value>
+  </data>
 </root>

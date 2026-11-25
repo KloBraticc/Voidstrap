@@ -10687,4 +10687,10 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Tetiği bırakana kadar titreşimi çalışır durumda tutun.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox dokunsal geri bildirimini etkinleştir</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox ve Voidstrap, her ikisi de etkinleştirildiğinde birbirlerinin denetleyici geri bildirimlerinin üzerine yazabilir.</value>
+  </data>
 </root>

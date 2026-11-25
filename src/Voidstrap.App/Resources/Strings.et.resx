@@ -10377,4 +10377,10 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Hoidke vibratsiooni töös, kuni päästiku vabastate.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Luba Robloxi haptiline tagasiside</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox ja Voidstrap võivad teineteise kontrolleri tagasiside üle kirjutada, kui mõlemad on lubatud.</value>
+  </data>
 </root>

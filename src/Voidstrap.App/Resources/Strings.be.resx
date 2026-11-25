@@ -10377,4 +10377,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Працягвайце вібрацыю, пакуль не адпусціце курок.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Уключыць тактыльную зваротную сувязь Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox і Voidstrap могуць перазапісваць зваротную сувязь кантролера адзін аднаго, калі абодва ўключаны.</value>
+  </data>
 </root>

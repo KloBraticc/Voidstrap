@@ -10688,4 +10688,10 @@ Instalar o SteamVR agora?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Mantenha a vibração funcionando até soltar o gatilho.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Ativar feedback tátil do Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox e Voidstrap podem substituir o feedback do controlador um do outro quando ambos estão habilitados.</value>
+  </data>
 </root>

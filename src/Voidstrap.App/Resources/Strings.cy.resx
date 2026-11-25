@@ -10377,4 +10377,10 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Cadwch y dirgryniad yn rhedeg nes i chi ryddhau&#x27;r sbardun.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Galluogi adborth haptig Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Gall Roblox a Voidstrap drosysgrifo adborth rheolwyr ei gilydd pan fydd y ddau wedi&#x27;u galluogi.</value>
+  </data>
 </root>

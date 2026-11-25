@@ -10377,4 +10377,10 @@ Uptime: {1}
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>قوزغاتقۇچنى چىقارغۇچە تەۋرىنىشنى ساقلاڭ.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox نىڭ خۇشاللىق ئىنكاسىنى قوزغىتىڭ</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox بىلەن Voidstrap ھەر ئىككىسى قوزغىتىلغاندا بىر-بىرىنىڭ كونتروللىغۇچنىڭ ئىنكاسىنى قاپلىۋېتىشى مۇمكىن.</value>
+  </data>
 </root>

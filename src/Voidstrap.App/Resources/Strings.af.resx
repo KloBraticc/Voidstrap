@@ -10377,4 +10377,10 @@ Installeer SteamVR nou?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Hou die vibrasie aan die gang totdat jy die sneller los.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Aktiveer Roblox haptiese terugvoer</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox en Voidstrap kan mekaar se beheerderterugvoer oorskryf wanneer albei geaktiveer is.</value>
+  </data>
 </root>

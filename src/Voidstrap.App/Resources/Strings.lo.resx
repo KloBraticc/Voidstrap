@@ -10378,4 +10378,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>ຮັກສາການສັ່ນສະເທືອນເຮັດວຽກຈົນກວ່າທ່ານຈະປ່ອຍຕົວກະຕຸ້ນ.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>ເປີດໃຊ້ Roblox haptic feedback</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox ແລະ Voidstrap ອາດຈະຂຽນທັບຄໍາຕິຊົມຂອງຕົວຄວບຄຸມຂອງກັນແລະກັນເມື່ອທັງສອງຖືກເປີດໃຊ້.</value>
+  </data>
 </root>

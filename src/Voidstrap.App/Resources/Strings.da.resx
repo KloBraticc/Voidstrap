@@ -10377,4 +10377,10 @@ Installer SteamVR nu?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Hold vibrationen kørende, indtil du slipper aftrækkeren.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Aktiver Roblox haptisk feedback</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox og Voidstrap kan overskrive hinandens controller-feedback, når begge er aktiveret.</value>
+  </data>
 </root>

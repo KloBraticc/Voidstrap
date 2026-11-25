@@ -10378,4 +10378,10 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Tohizo ny fihovitrovitra mandra-pamoaka ny trigger.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Alefaso Roblox haptic feedback</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox sy Voidstrap dia mety mifanipaka ny valin-kevitry ny mpanara-maso rehefa samy afaka.</value>
+  </data>
 </root>

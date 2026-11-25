@@ -10687,4 +10687,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>ให้การสั่นสะเทือนดำเนินต่อไปจนกว่าคุณจะปล่อยไกปืน</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>เปิดใช้งานการตอบสนองแบบสัมผัสของ Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox และ Voidstrap อาจเขียนทับข้อเสนอแนะคอนโทรลเลอร์ของกันและกันเมื่อเปิดใช้งานทั้งคู่</value>
+  </data>
 </root>

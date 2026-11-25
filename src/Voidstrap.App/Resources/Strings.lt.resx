@@ -10688,4 +10688,10 @@ Veikimo laikas: {1}
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Palaikykite vibraciją, kol atleisite gaiduką.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Įgalinti Roblox haptic grįžtamąjį ryšį</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox ir Voidstrap gali perrašyti vienas kito valdiklio atsiliepimus, kai abu įjungti.</value>
+  </data>
 </root>

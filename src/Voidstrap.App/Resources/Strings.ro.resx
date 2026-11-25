@@ -10688,4 +10688,10 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Mențineți vibrația în funcțiune până când eliberați declanșatorul.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Activați feedbackul haptic Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox și Voidstrap se pot suprascrie reciproc feedback-ul controlerului atunci când ambele sunt activate.</value>
+  </data>
 </root>

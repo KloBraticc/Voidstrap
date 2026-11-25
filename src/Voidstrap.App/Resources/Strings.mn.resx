@@ -10378,4 +10378,10 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Гохыг суллах хүртэл чичиргээг ажиллуул.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox-ийн мэдрэгчтэй санал хүсэлтийг идэвхжүүлэх</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox болон Voidstrap нь хоёуланг нь идэвхжүүлсэн үед бие биенийхээ хянагчийн санал хүсэлтийг дарж бичиж болно.</value>
+  </data>
 </root>

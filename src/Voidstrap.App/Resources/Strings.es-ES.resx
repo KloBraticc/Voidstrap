@@ -10687,4 +10687,10 @@ Jugadores: {2}</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Mantenga la vibración funcionando hasta que suelte el gatillo.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Habilitar la retroalimentación háptica de Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox y Voidstrap pueden sobrescribir la retroalimentación del controlador de cada uno cuando ambos están habilitados.</value>
+  </data>
 </root>

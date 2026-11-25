@@ -10687,4 +10687,10 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Nechejte vibrace běžet, dokud neuvolníte spoušť.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Povolit hmatovou zpětnou vazbu Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox a Voidstrap si mohou vzájemně přepsat zpětnou vazbu ovladače, když jsou oba povoleny.</value>
+  </data>
 </root>

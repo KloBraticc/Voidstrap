@@ -10687,4 +10687,10 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Giữ rung cho đến khi bạn nhả cò.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Kích hoạt phản hồi xúc giác Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox và Voidstrap có thể ghi đè phản hồi của bộ điều khiển của nhau khi cả hai đều được bật.</value>
+  </data>
 </root>

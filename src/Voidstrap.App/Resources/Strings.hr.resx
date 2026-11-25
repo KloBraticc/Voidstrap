@@ -10688,4 +10688,10 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Neka vibracija radi dok ne otpustite okidač.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Omogući Roblox taktilnu povratnu informaciju</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox i Voidstrap mogu prebrisati međusobne povratne informacije kontrolera kada su oba omogućena.</value>
+  </data>
 </root>

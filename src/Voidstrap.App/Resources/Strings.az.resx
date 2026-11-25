@@ -10377,4 +10377,10 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Tətiyi buraxana qədər vibrasiyanı davam etdirin.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox haptik rəyi aktivləşdirin</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox və Voidstrap hər ikisi aktiv olduqda bir-birinin nəzarətçi rəyinin üzərinə yaza bilər.</value>
+  </data>
 </root>

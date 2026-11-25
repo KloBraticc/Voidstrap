@@ -10377,4 +10377,10 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Mantingueu la vibració en marxa fins que deixeu anar el gallet.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Activa el feedback hàptic de Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox i Voidstrap poden sobreescriure els comentaris del controlador de l&#x27;altre quan tots dos estan activats.</value>
+  </data>
 </root>

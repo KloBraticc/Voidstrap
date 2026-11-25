@@ -10378,4 +10378,10 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Mbajeni dridhjen të funksionojë derisa të lëshoni këmbëzën.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Aktivizo reagimin haptik të Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox dhe Voidstrap mund të mbishkruajnë reagimet e kontrollorëve të njëri-tjetrit kur të dyja janë të aktivizuara.</value>
+  </data>
 </root>

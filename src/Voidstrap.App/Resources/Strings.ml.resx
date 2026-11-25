@@ -10378,4 +10378,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>നിങ്ങൾ ട്രിഗർ വിടുന്നത് വരെ വൈബ്രേഷൻ പ്രവർത്തിപ്പിക്കുക.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox ഹാപ്‌റ്റിക് ഫീഡ്‌ബാക്ക് പ്രവർത്തനക്ഷമമാക്കുക</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>രണ്ടും പ്രവർത്തനക്ഷമമാകുമ്പോൾ Roblox ഉം Voidstrap ഉം പരസ്പരം കൺട്രോളർ ഫീഡ്‌ബാക്ക് തിരുത്തിയെഴുതാം.</value>
+  </data>
 </root>

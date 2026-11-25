@@ -10377,4 +10377,10 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Weka mtetemo uendelee hadi uachilie kichochezi.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Washa maoni haptic ya Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox na Voidstrap zinaweza kubatilisha maoni ya kidhibiti cha kila mmoja wakati zote zimewashwa.</value>
+  </data>
 </root>

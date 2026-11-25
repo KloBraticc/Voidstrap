@@ -10378,4 +10378,10 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Komeza kunyeganyega kugeza igihe urekuye imbarutso.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Gushoboza ibitekerezo bya Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox na Voidstrap barashobora kwandika hejuru yibitekerezo byabashinzwe kugenzura mugihe byombi bishobotse.</value>
+  </data>
 </root>

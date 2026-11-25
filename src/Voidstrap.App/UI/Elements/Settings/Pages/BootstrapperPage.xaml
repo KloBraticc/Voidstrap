@@ -406,7 +406,7 @@
           </controls:OptionControl>
           <Expander Margin="0,6,0,0" Header="{resources:Loc Ui_Controller_Vibration}" IsExpanded="False">
             <StackPanel Margin="0,6,0,0">
-              <controls:OptionControl Header="{resources:Loc Ui_Gbs_EnableControllerVibration}" Description="{resources:Loc Ui_Gbs_ToggleHapticFeedbackOnControllers}">
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_EnableRobloxHaptics}" Description="{resources:Loc Ui_Controller_HapticsConflictWarning}">
                 <ui:ToggleSwitch IsChecked="{Binding ControllerGlobalSettings.ControllerVibration, Mode=TwoWay}" />
               </controls:OptionControl>
               <controls:OptionControl Header="{resources:Loc Ui_Controller_TriggerVibration}" Description="{resources:Loc Ui_Controller_TriggerVibrationDescription}">

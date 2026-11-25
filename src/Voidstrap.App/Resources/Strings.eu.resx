@@ -10377,4 +10377,10 @@ SteamVR instalatu orain?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Mantendu bibrazioa martxan jarri abiarazlea askatu arte.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Gaitu Roblox-en feedback haptikoa</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox eta Voidstrap-ek elkarren kontrolagailuaren iritzia gainidatzi dezakete biak gaituta daudenean.</value>
+  </data>
 </root>

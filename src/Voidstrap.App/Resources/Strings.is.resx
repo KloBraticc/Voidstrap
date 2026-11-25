@@ -10378,4 +10378,10 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Haltu titringnum gangandi þar til þú sleppir gikknum.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Virkjaðu Roblox haptic endurgjöf</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox og Voidstrap gætu skrifað yfir endurgjöf stjórnanda hvors annars þegar hvort tveggja er virkt.</value>
+  </data>
 </root>

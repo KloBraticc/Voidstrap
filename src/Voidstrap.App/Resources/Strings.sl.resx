@@ -10378,4 +10378,10 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Vibriranje naj deluje, dokler ne sprostite sprožilca.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Omogoči haptične povratne informacije Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox in Voidstrap lahko prepišeta povratne informacije krmilnikov drug drugega, ko sta oba omogočena.</value>
+  </data>
 </root>

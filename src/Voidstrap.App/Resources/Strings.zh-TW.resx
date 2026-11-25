@@ -10687,4 +10687,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>保持振動運行，直到鬆開扳機。</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>啟用 Roblox 觸覺回饋</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>當 Roblox 和 Voidstrap 都啟用時，它們可能會覆蓋彼此的控制器回饋。</value>
+  </data>
 </root>

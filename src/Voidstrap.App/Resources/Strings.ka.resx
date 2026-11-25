@@ -10378,4 +10378,10 @@ Uptime: {1}
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>გააგრძელეთ ვიბრაცია მანამ, სანამ არ გაათავისუფლებთ ტრიგერს.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>ჩართეთ Roblox-ის ჰაპტიკური გამოხმაურება</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox-მა და Voidstrap-მა შეიძლება გადაწერონ ერთმანეთის კონტროლერის გამოხმაურება, როდესაც ორივე ჩართულია.</value>
+  </data>
 </root>

@@ -10378,4 +10378,10 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Halt d&#x27;Vibratioun laafen bis Dir den Ausléiser läscht.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Aktivéiert Roblox haptesch Feedback</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox a Voidstrap kënnen all aner Controller Feedback iwwerschreiwe wa béid aktivéiert sinn.</value>
+  </data>
 </root>

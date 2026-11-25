@@ -10389,4 +10389,10 @@ Install SteamVR now?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Keep the vibration running until you release the trigger.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Enable Roblox haptic feedback</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox and Voidstrap may overwrite each other’s controller feedback when both are enabled.</value>
+  </data>
 </root>

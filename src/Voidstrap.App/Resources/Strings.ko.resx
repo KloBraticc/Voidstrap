@@ -10688,4 +10688,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>방아쇠를 놓을 때까지 진동을 계속 실행하십시오.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox 햅틱 피드백 활성화</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox와 Voidstrap이 모두 활성화되면 서로의 컨트롤러 피드백을 덮어쓸 수 있습니다.</value>
+  </data>
 </root>

@@ -10378,4 +10378,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>ඔබ ප්‍රේරකය මුදා හරින තෙක් කම්පනය ක්‍රියාත්මකව තබා ගන්න.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox haptic ප්‍රතිපෝෂණ සබල කරන්න</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox සහ Voidstrap දෙකම සක්‍රීය වූ විට එකිනෙකාගේ පාලක ප්‍රතිපෝෂණ උඩින් ලිවිය හැක.</value>
+  </data>
 </root>

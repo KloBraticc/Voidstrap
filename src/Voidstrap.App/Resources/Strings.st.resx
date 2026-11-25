@@ -10377,4 +10377,10 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Boloka ho thothomela ho ntse ho sebetsa ho fihlela o lokolla seqhutsu.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Lumella maikutlo a Roblox haptic</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox le Voidstrap ba ka hlakola maikutlo a molaoli oa ba bang ha bobeli ba bona bo nolofalitsoe.</value>
+  </data>
 </root>

@@ -10378,4 +10378,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>तपाईंले ट्रिगर जारी नगरेसम्म कम्पन चलिरहेको राख्नुहोस्।</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox haptic प्रतिक्रिया सक्षम गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox र Voidstrap दुवै सक्षम हुँदा एक अर्काको नियन्त्रक प्रतिक्रिया अधिलेखन गर्न सक्छन्।</value>
+  </data>
 </root>

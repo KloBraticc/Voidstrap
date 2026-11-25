@@ -10378,4 +10378,10 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Coinnigh an tonnchrith ag rith go dtí go scaoilfidh tú an truicear.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Cumasaigh aiseolas haptic Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Féadfaidh Roblox agus Voidstrap aiseolas rialtóra a chéile a fhorscríobh nuair atá an dá cheann cumasaithe.</value>
+  </data>
 </root>

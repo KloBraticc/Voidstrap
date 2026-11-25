@@ -10688,4 +10688,10 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Tartsa a vibrációt, amíg el nem engedi a ravaszt.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox haptikus visszajelzés engedélyezése</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>A Roblox és a Voidstrap felülírhatja egymás vezérlő visszajelzéseit, ha mindkettő engedélyezve van.</value>
+  </data>
 </root>

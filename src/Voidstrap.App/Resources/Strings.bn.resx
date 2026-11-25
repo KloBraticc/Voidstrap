@@ -10377,4 +10377,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>আপনি ট্রিগার ছেড়ে না দেওয়া পর্যন্ত কম্পন চলমান রাখুন।</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox হ্যাপটিক প্রতিক্রিয়া সক্ষম করুন</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox এবং Voidstrap উভয়ই সক্রিয় থাকা অবস্থায় একে অপরের কন্ট্রোলার প্রতিক্রিয়া ওভাররাইট করতে পারে।</value>
+  </data>
 </root>

@@ -10687,4 +10687,10 @@
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>استمر في تشغيل الاهتزاز حتى تحرر الزناد.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>تمكين ردود الفعل اللمسية Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>قد يقوم كل من Roblox وVoidstrap بالكتابة فوق تعليقات وحدة التحكم الخاصة بكل منهما عند تمكين كليهما.</value>
+  </data>
 </root>

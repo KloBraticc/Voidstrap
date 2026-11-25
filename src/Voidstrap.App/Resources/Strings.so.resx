@@ -10378,4 +10378,10 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Gariirku ha socdo ilaa aad sii dayso kiciyaha.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Daar ra&#x27;yi celinta haptic-ga ee Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox iyo Voidstrap ayaa laga yaabaa inay dib u qoraan jawaab celinta maamulaha midba midka kale marka labadaba la furo.</value>
+  </data>
 </root>

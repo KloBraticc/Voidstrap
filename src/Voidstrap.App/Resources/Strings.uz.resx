@@ -10377,4 +10377,10 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Tetikni qo&#x27;yib yubormaguningizcha tebranishni davom eting.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox sensorli fikr-mulohazalarini yoqing</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox va Voidstrap ikkalasi ham yoqilganda bir-birining boshqaruvchi fikr-mulohazalarini qayta yozishi mumkin.</value>
+  </data>
 </root>

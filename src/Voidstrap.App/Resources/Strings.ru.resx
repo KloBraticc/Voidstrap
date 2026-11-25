@@ -10688,4 +10688,10 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Продолжайте вибрацию, пока не отпустите спусковой крючок.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Включить тактильную обратную связь Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox и Voidstrap могут перезаписывать обратную связь контроллера друг друга, если оба включены.</value>
+  </data>
 </root>

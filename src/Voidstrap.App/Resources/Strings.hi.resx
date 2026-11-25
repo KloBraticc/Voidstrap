@@ -10378,4 +10378,10 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>जब तक आप ट्रिगर न छोड़ें, कंपन चालू रखें।</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox हैप्टिक फीडबैक सक्षम करें</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox और Voidstrap दोनों सक्षम होने पर एक दूसरे के नियंत्रक फ़ीडबैक को अधिलेखित कर सकते हैं।</value>
+  </data>
 </root>

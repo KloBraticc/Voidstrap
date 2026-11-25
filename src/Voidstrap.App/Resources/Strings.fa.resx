@@ -10687,4 +10687,10 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>ارتعاش را تا زمانی که ماشه را رها کنید به کار خود ادامه دهید.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>بازخورد لمسی Roblox را فعال کنید</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox و Voidstrap ممکن است بازخورد کنترلر یکدیگر را زمانی که هر دو فعال هستند بازنویسی کنند.</value>
+  </data>
 </root>

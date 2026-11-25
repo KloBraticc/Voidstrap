@@ -10377,4 +10377,10 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Jeki gbigbọn ṣiṣẹ titi ti o fi tu okunfa naa silẹ.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Mu awọn esi haptic Roblox ṣiṣẹ</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox ati Voidstrap le kọ awọn esi oludari kọọkan miiran nigbati awọn mejeeji ba ṣiṣẹ.</value>
+  </data>
 </root>

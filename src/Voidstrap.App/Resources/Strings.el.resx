@@ -10377,4 +10377,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Διατηρήστε τη δόνηση σε λειτουργία μέχρι να απελευθερώσετε τη σκανδάλη.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Ενεργοποιήστε την απτική ανάδραση Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Το Roblox και το Voidstrap ενδέχεται να αντικαταστήσουν το ένα τα σχόλια του ελεγκτή του άλλου όταν είναι ενεργοποιημένα και τα δύο.</value>
+  </data>
 </root>

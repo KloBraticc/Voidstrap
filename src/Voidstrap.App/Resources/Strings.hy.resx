@@ -10378,4 +10378,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Պահպանեք թրթռումը մինչև չարձակեք ձգանը:</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Միացնել Roblox հապտիկ արձագանքը</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox-ը և Voidstrap-ը կարող են վերագրել միմյանց վերահսկիչի կարծիքը, երբ երկուսն էլ միացված են:</value>
+  </data>
 </root>

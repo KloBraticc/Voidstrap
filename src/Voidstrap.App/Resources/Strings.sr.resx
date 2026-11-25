@@ -10378,4 +10378,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Држите вибрацију док не отпустите окидач.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Омогућите повратне информације Роблок-а</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Роблок и Воидстрап могу заменити повратне информације контролора једног другог када су оба омогућена.</value>
+  </data>
 </root>

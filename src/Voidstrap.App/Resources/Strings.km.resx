@@ -10378,4 +10378,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>រក្សារំញ័រដំណើរការរហូតដល់អ្នកបញ្ចេញគន្លឹះ។</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>បើកដំណើរការមតិកែលម្អ Roblox haptic</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox និង Voidstrap អាចនឹងសរសេរជាន់ពីលើមតិកែលម្អរបស់ឧបករណ៍បញ្ជាគ្នាទៅវិញទៅមក នៅពេលដែលទាំងពីរត្រូវបានបើក។</value>
+  </data>
 </root>

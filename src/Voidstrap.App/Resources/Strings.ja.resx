@@ -10688,4 +10688,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>トリガーを放すまで振動を続けます。</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox の触覚フィードバックを有効にする</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox と Voidstrap は、両方が有効になっている場合、互いのコントローラー フィードバックを上書きする可能性があります。</value>
+  </data>
 </root>

@@ -10378,4 +10378,10 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Триггерді босатқанша дірілді жалғастырыңыз.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox сенсорлық кері байланысын қосыңыз</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox және Voidstrap екеуі де қосылған кезде бір-бірінің контроллері пікірін қайта жазуы мүмкін.</value>
+  </data>
 </root>

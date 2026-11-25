@@ -10377,4 +10377,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>ቀስቅሴውን እስኪለቁ ድረስ ንዝረቱ እንዲሰራ ያድርጉት።</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>የ Roblox ሃፕቲክ ግብረመልስን አንቃ</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>ሁለቱም ሲነቁ Roblox እና Voidstrap አንዳቸው የሌላውን ተቆጣጣሪ ግብረመልስ ሊተኩ ይችላሉ።</value>
+  </data>
 </root>

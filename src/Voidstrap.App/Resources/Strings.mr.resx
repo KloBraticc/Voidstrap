@@ -10378,4 +10378,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>जोपर्यंत तुम्ही ट्रिगर सोडत नाही तोपर्यंत कंपन चालू ठेवा.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>रोब्लॉक्स हॅप्टिक फीडबॅक सक्षम करा</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox आणि Voidstrap दोन्ही सक्षम असताना एकमेकांचा नियंत्रक फीडबॅक ओव्हरराइट करू शकतात.</value>
+  </data>
 </root>

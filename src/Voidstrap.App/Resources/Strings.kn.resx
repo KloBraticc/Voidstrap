@@ -10378,4 +10378,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>ನೀವು ಪ್ರಚೋದಕವನ್ನು ಬಿಡುಗಡೆ ಮಾಡುವವರೆಗೆ ಕಂಪನವನ್ನು ಚಾಲನೆಯಲ್ಲಿಡಿ.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox ಹ್ಯಾಪ್ಟಿಕ್ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>ಎರಡೂ ಸಕ್ರಿಯಗೊಳಿಸಿದಾಗ Roblox ಮತ್ತು Voidstrap ಪರಸ್ಪರ ನಿಯಂತ್ರಕ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ತಿದ್ದಿ ಬರೆಯಬಹುದು.</value>
+  </data>
 </root>

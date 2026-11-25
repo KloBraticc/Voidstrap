@@ -10378,4 +10378,10 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>ਵਾਈਬ੍ਰੇਸ਼ਨ ਨੂੰ ਉਦੋਂ ਤੱਕ ਜਾਰੀ ਰੱਖੋ ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਟਰਿੱਗਰ ਜਾਰੀ ਨਹੀਂ ਕਰਦੇ।</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>ਰੋਬਲੋਕਸ ਹੈਪਟਿਕ ਫੀਡਬੈਕ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox ਅਤੇ Voidstrap ਇੱਕ ਦੂਜੇ ਦੇ ਕੰਟਰੋਲਰ ਫੀਡਬੈਕ ਨੂੰ ਓਵਰਰਾਈਟ ਕਰ ਸਕਦੇ ਹਨ ਜਦੋਂ ਦੋਵੇਂ ਸਮਰੱਥ ਹੁੰਦੇ ਹਨ।</value>
+  </data>
 </root>

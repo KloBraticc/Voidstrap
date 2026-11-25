@@ -10686,4 +10686,10 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Panatilihing tumatakbo ang vibration hanggang sa ilabas mo ang trigger.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Paganahin ang Roblox haptic feedback</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Maaaring i-overwrite ng Roblox at Voidstrap ang feedback ng controller ng isa&#x27;t isa kapag naka-enable ang dalawa.</value>
+  </data>
 </root>

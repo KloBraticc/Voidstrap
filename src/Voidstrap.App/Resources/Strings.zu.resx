@@ -10377,4 +10377,10 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Gcina ukudlidliza kusebenza kuze kube yilapho ukhulula i-trigger.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Nika amandla impendulo ye-Roblox haptic</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>I-Roblox ne-Voidstrap zingase zibhale phezu kwempendulo yesilawuli somunye uma zombili zinikwe amandla.</value>
+  </data>
 </root>

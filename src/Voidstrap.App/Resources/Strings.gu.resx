@@ -10378,4 +10378,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>જ્યાં સુધી તમે ટ્રિગર છોડો નહીં ત્યાં સુધી કંપન ચાલુ રાખો.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Roblox હેપ્ટિક પ્રતિસાદ સક્ષમ કરો</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>જ્યારે બંને સક્ષમ હોય ત્યારે Roblox અને Voidstrap એકબીજાના નિયંત્રક પ્રતિસાદ પર ફરીથી લખી શકે છે.</value>
+  </data>
 </root>

@@ -10688,4 +10688,10 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Pastikan getaran berjalan sehingga anda melepaskan picu.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>Dayakan maklum balas haptik Roblox</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox dan Voidstrap boleh menimpa maklum balas pengawal satu sama lain apabila kedua-duanya didayakan.</value>
+  </data>
 </root>

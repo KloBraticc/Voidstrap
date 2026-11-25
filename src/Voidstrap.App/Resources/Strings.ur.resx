@@ -10377,4 +10377,10 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>وائبریشن کو اس وقت تک جاری رکھیں جب تک کہ آپ ٹرگر جاری نہ کریں۔</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>روبلوکس ہیپٹک فیڈ بیک کو فعال کریں۔</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>Roblox اور Voidstrap دونوں کے فعال ہونے پر ایک دوسرے کے کنٹرولر فیڈ بیک کو اوور رائٹ کر سکتے ہیں۔</value>
+  </data>
 </root>

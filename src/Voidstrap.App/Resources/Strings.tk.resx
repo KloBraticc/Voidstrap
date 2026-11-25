@@ -10377,4 +10377,10 @@ Indi SteamVR guruň?</value>
   <data name="Ui.Controller.HoldDescription" xml:space="preserve">
     <value>Tüweleýi goýberýänçä titremäni dowam etdiriň.</value>
   </data>
+  <data name="Ui.Controller.EnableRobloxHaptics" xml:space="preserve">
+    <value>“Roblox” -yň gysga seslenmesini işjeňleşdiriň</value>
+  </data>
+  <data name="Ui.Controller.HapticsConflictWarning" xml:space="preserve">
+    <value>“Roblox” we “Voidstrap” ikisi açyk bolanda biri-biriniň gözegçilik ediji seslenmelerini ýazyp bilerler.</value>
+  </data>
 </root>
