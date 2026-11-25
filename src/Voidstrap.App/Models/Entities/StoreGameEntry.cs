@@ -29,5 +29,7 @@ public class StoreGameEntry : LibraryGameEntry
 
     public string PlayingLine => string.Format(Resources.Strings.Library_Store_Playing, PlayingDisplay);
 
-    public string PriceLine => Resources.Strings.Library_Store_Free;
+    public string PriceLine => HasPrice ? PriceDisplay : Resources.Strings.Library_Store_Free;
+
+    protected override void OnPriceChanged() => OnPropertyChanged(nameof(PriceLine));
 }

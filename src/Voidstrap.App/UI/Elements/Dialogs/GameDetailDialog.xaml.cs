@@ -31,6 +31,13 @@ namespace Voidstrap.UI.Elements.Dialogs
             DataContext = this;
             InitializeComponent();
             TitleText.Text = string.IsNullOrEmpty(name) ? $"Place {placeId}" : name;
+            if (universeId != 0)
+            {
+                if (GameLiveData.TryGetStats(universeId, out GameLiveStats cachedStats))
+                    ApplyPrice(cachedStats.Price);
+                else
+                    ApplyPrice(UniverseDetails.LoadFromCache(universeId)?.Data?.Price);
+            }
             Servers.IsServersTabSelected = true;
             Servers.SetViewActive(true);
             Servers.SetGame(new LibraryGameEntry { PlaceId = placeId, UniverseId = universeId, Name = TitleText.Text });
@@ -100,10 +107,12 @@ namespace Voidstrap.UI.Elements.Dialogs
                 long playing = g.TryGetProperty("playing", out JsonElement pl) && pl.ValueKind == JsonValueKind.Number ? pl.GetInt64() : 0;
                 long visits = g.TryGetProperty("visits", out JsonElement vi) && vi.ValueKind == JsonValueKind.Number ? vi.GetInt64() : 0;
                 long favorites = g.TryGetProperty("favoritedCount", out JsonElement fa) && fa.ValueKind == JsonValueKind.Number ? fa.GetInt64() : 0;
+                long? price = GameLiveData.ReadPrice(g);
                 if (token.IsCancellationRequested)
                     return;
                 if (name.Length > 0)
                     TitleText.Text = name;
+                ApplyPrice(price);
                 ReviewControl.SetGame(_universeId, _placeId, TitleText.Text);
                 CreatorText.Text = creator;
                 CreatorChip.Visibility = creator.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -245,9 +254,17 @@ namespace Voidstrap.UI.Elements.Dialogs
                 CountUpText.SetValue(ActiveText, stats.Playing);
                 CountUpText.SetValue(VisitsText, stats.Visits);
                 CountUpText.SetValue(FavoritesText, stats.Favorites);
+                ApplyPrice(stats.Price);
             }
             if (GameLiveData.TryGetVotes(universeId, out GameVoteCounts votes) && !double.IsNaN(votes.LikePercent))
                 CountUpText.SetValue(RatingText, votes.LikePercent);
+        }
+
+        private void ApplyPrice(long? price)
+        {
+            string text = GameLiveData.FormatRobux(price);
+            PriceText.Text = text;
+            PriceChip.Visibility = text.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private static readonly HttpClient SubplaceHttp = VpnHttpClient.Create(TimeSpan.FromSeconds(20));

@@ -543,6 +543,12 @@
                                             <TextBlock Text="{Binding FeaturedGame.PlayerCount}" FontSize="13" Foreground="#DDFFFFFF" Margin="5,-2,14,0" VerticalAlignment="Center"/>
                                             <Ellipse Width="8" Height="8" Fill="#FF22C55E" VerticalAlignment="Center" Visibility="{Binding FeaturedGame.LikeVisibility}"/>
                                             <TextBlock Text="{Binding FeaturedGame.LikePercent}" FontSize="13" Foreground="#DDFFFFFF" Margin="5,-2,0,0" VerticalAlignment="Center"/>
+                                            <Border Margin="14,0,0,0" CornerRadius="8" Padding="8,2" Background="#99101010" BorderBrush="#33FFFFFF" BorderThickness="1" VerticalAlignment="Center" Visibility="{Binding FeaturedGame.PriceVisibility}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon Symbol="Money24" FontSize="12" Foreground="#FF4ADE80" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding FeaturedGame.PriceDisplay}" FontSize="12" FontWeight="SemiBold" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
                                             <ui:Button x:Name="FeaturedPlayButton" Appearance="Primary" Icon="Play24" Padding="22,8" FontWeight="SemiBold" Content="{resources:Loc Ui_Home_Play}" Command="{Binding PlayDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
@@ -595,6 +601,12 @@
                                                     <Border Height="160" util:ResponsiveLayout.AspectRatio="1.7778" CornerRadius="12,12,0,0" util:TopRoundedClip.Radius="12" Cursor="Hand" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" MouseLeftButtonUp="GameThumbnail_Click" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                                                         <Grid>
                                                             <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl}"/>
+                                                            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" CornerRadius="8" Padding="7,3" Background="#CC101010" Visibility="{Binding PriceVisibility}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <ui:SymbolIcon Symbol="Money24" FontSize="11" Foreground="#FF4ADE80" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="{Binding PriceDisplay}" FontSize="11" FontWeight="SemiBold" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                            </Border>
                                                             <ui:Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8" Padding="8" Appearance="Primary" Icon="Play24" ToolTip="{resources:Loc Ui_Home_Play}" Command="{Binding DataContext.PlayDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>
                                                         </Grid>
                                                     </Border>
@@ -796,6 +808,12 @@
                                                     </Style>
                                                 </Image.Style>
                                             </Image>
+                                            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" CornerRadius="8" Padding="7,3" Background="#CC101010" Visibility="{Binding PriceVisibility}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon Symbol="Money24" FontSize="11" Foreground="#FF4ADE80" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding PriceDisplay}" FontSize="11" FontWeight="SemiBold" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
                                         </Grid>
                                     </Border>
 

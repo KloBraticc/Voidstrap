@@ -19,6 +19,8 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private bool _isFavorite;
 
+        private long? _price;
+
         public long UniverseId { get; init; }
 
         public long PlaceId { get; init; }
@@ -34,6 +36,26 @@ namespace Voidstrap.UI.ViewModels.Pages
         public int Rating { get; init; } = -1;
 
         public Visibility LikeVisibility => LikePercent.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+        public long? Price
+        {
+            get => _price;
+            set
+            {
+                if (SetProperty(ref _price, value))
+                {
+                    OnPropertyChanged(nameof(HasPrice));
+                    OnPropertyChanged(nameof(PriceDisplay));
+                    OnPropertyChanged(nameof(PriceVisibility));
+                }
+            }
+        }
+
+        public bool HasPrice => _price is > 0;
+
+        public string PriceDisplay => GameLiveData.FormatRobux(_price);
+
+        public Visibility PriceVisibility => HasPrice ? Visibility.Visible : Visibility.Collapsed;
 
         public string? ThumbnailUrl
         {
@@ -90,7 +112,7 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public ICommand OpenDiscoverCommand => _openDiscoverCommand ??= new RelayCommand<DiscoverGameEntry>(OpenDiscover);
 
-        private sealed record DiscoverCacheGame(long UniverseId, long PlaceId, string Name, string PlayerCount, string LikePercent, string? ThumbnailUrl);
+        private sealed record DiscoverCacheGame(long UniverseId, long PlaceId, string Name, string PlayerCount, string LikePercent, string? ThumbnailUrl, long? Price = null);
 
         private sealed record DiscoverCache(DiscoverCacheGame? Featured, string? FeaturedVideoPath, List<DiscoverCacheGame> Recommended);
 
@@ -99,7 +121,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         private static string DiscoverCachePath => Path.Combine(Paths.Cache, "HomeDiscover.json");
 
         private static DiscoverCacheGame ToCache(DiscoverGameEntry game) =>
-            new(game.UniverseId, game.PlaceId, game.Name, game.PlayerCount, game.LikePercent, game.ThumbnailUrl);
+            new(game.UniverseId, game.PlaceId, game.Name, game.PlayerCount, game.LikePercent, game.ThumbnailUrl, game.Price);
 
         private static DiscoverGameEntry FromCache(DiscoverCacheGame game) =>
             new()
@@ -110,6 +132,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 PlayerCount = game.PlayerCount,
                 LikePercent = game.LikePercent,
                 ThumbnailUrl = game.ThumbnailUrl,
+                Price = game.Price,
             };
 
         private static DiscoverCache? ReadDiscoverCache()
@@ -201,7 +224,12 @@ namespace Voidstrap.UI.ViewModels.Pages
                     .Take(FeaturedCandidateLimit)
                     .ToList();
 
-                await FillDiscoverThumbnailsAsync(picks.Concat(featuredCandidates).ToList()).ConfigureAwait(false);
+                List<DiscoverGameEntry> discoverGames = picks.Concat(featuredCandidates).ToList();
+                await Task.WhenAll(
+                        FillDiscoverThumbnailsAsync(discoverGames),
+                        FillGamePricesAsync(discoverGames, CancellationToken.None)
+                    )
+                    .ConfigureAwait(false);
 
                 if (picks.Count == 0 && featuredCandidates.Count == 0)
                     return;
@@ -403,6 +431,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             string name;
             long players;
             long rootPlaceId;
+            long? price;
             using (JsonDocument doc = JsonDocument.Parse(games.Body))
             {
                 if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array || data.GetArrayLength() == 0)
@@ -410,6 +439,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 name = data[0].TryGetProperty("name", out JsonElement n) ? n.GetString() ?? "" : "";
                 players = ReadLong(data[0], "playing");
                 rootPlaceId = ReadLong(data[0], "rootPlaceId");
+                price = GameLiveData.ReadPrice(data[0]);
             }
             long up = 0;
             long down = 0;
@@ -434,7 +464,31 @@ namespace Voidstrap.UI.ViewModels.Pages
                 Players = players,
                 Rating = up + down > 0 ? (int)(up * 100 / (up + down)) : -1,
                 LikePercent = up + down > 0 ? (up * 100 / (up + down)) + "%" : string.Empty,
+                Price = price,
             };
+        }
+
+        internal static async Task FillGamePricesAsync(List<DiscoverGameEntry> games, CancellationToken token)
+        {
+            if (games.Count == 0)
+                return;
+            Dictionary<long, long?> prices = await GameLiveData
+                .FetchPricesAsync(games.Select(static game => game.UniverseId), token)
+                .ConfigureAwait(false);
+            if (prices.Count == 0 || token.IsCancellationRequested)
+                return;
+            void Apply()
+            {
+                foreach (DiscoverGameEntry game in games)
+                {
+                    if (prices.TryGetValue(game.UniverseId, out long? price))
+                        game.Price = price;
+                }
+            }
+            if (Application.Current?.Dispatcher is { } dispatcher && !dispatcher.CheckAccess())
+                await dispatcher.InvokeAsync(Apply);
+            else
+                Apply();
         }
 
         internal static async Task FillGameIconsAsync(List<DiscoverGameEntry> games, CancellationToken token)

@@ -7,7 +7,7 @@ public readonly record struct GameVoteCounts(long Up, long Down)
     public double LikePercent => Up + Down > 0 ? Up * 100.0 / (Up + Down) : double.NaN;
 }
 
-public readonly record struct GameLiveStats(long Playing, long Visits, long Favorites);
+public readonly record struct GameLiveStats(long Playing, long Visits, long Favorites, long? Price = null);
 
 public enum GameVoteOutcome
 {
@@ -48,6 +48,63 @@ public static class GameLiveData
         bool found = Stats.TryGetValue(universeId, out (GameLiveStats Value, DateTime At) entry);
         stats = entry.Value;
         return found;
+    }
+
+    public static string FormatRobux(long? price)
+    {
+        if (price is not long amount || amount <= 0)
+            return string.Empty;
+        string formatted = amount.ToString("N0", CultureInfo.CurrentCulture);
+        try
+        {
+            return string.Format(CultureInfo.CurrentCulture, Resources.Strings.Ui_Session_Robux_Amount, formatted);
+        }
+        catch (FormatException)
+        {
+            return "R$ " + formatted;
+        }
+    }
+
+    internal static long? ReadPrice(JsonElement element, string propertyName = "price")
+    {
+        if (!element.TryGetProperty(propertyName, out JsonElement prop) || prop.ValueKind != JsonValueKind.Number)
+            return null;
+        return prop.TryGetInt64(out long value) && value > 0 ? value : null;
+    }
+
+    public static async Task<Dictionary<long, long?>> FetchPricesAsync(IEnumerable<long> universeIds, CancellationToken token)
+    {
+        const string LOG_IDENT = "GameLiveData::FetchPricesAsync";
+
+        Dictionary<long, long?> result = new();
+        List<long> ids = universeIds.Where(static id => id > 0).Distinct().ToList();
+        for (int i = 0; i < ids.Count; i += 50)
+        {
+            token.ThrowIfCancellationRequested();
+            string chunk = string.Join(',', ids.Skip(i).Take(50));
+            try
+            {
+                string json = await Utility.Http.GetString($"https://games.roblox.com/v1/games?universeIds={chunk}", token).ConfigureAwait(false);
+                using JsonDocument doc = JsonDocument.Parse(json);
+                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+                    continue;
+                foreach (JsonElement item in data.EnumerateArray())
+                {
+                    if (!item.TryGetProperty("id", out JsonElement idProp) || idProp.ValueKind != JsonValueKind.Number || !idProp.TryGetInt64(out long id) || id <= 0)
+                        continue;
+                    result[id] = ReadPrice(item);
+                }
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, ex.Message);
+            }
+        }
+        return result;
     }
 
     public static bool? GetUserVote(long universeId) => UserVotes.TryGetValue(universeId, out bool? vote) ? vote : null;
@@ -239,7 +296,8 @@ public static class GameLiveData
             long playing = g.TryGetProperty("playing", out JsonElement p) && p.ValueKind == JsonValueKind.Number ? p.GetInt64() : 0;
             long visits = g.TryGetProperty("visits", out JsonElement v) && v.ValueKind == JsonValueKind.Number ? v.GetInt64() : 0;
             long favorites = g.TryGetProperty("favoritedCount", out JsonElement f) && f.ValueKind == JsonValueKind.Number ? f.GetInt64() : 0;
-            GameLiveStats stats = new(playing, visits, favorites);
+            long? price = ReadPrice(g);
+            GameLiveStats stats = new(playing, visits, favorites, price);
             bool changed = !Stats.TryGetValue(universeId, out (GameLiveStats Value, DateTime At) old) || old.Value != stats;
             Stats[universeId] = (stats, DateTime.UtcNow);
             if (changed)

@@ -46,6 +46,7 @@ public class LibraryGameEntry : INotifyPropertyChanged
     private bool _isFavorite;
     private string _likePercent = "";
     private long _playing;
+    private long? _price;
 
     public long PlaceId { get; set; }
 
@@ -157,6 +158,31 @@ public class LibraryGameEntry : INotifyPropertyChanged
     public string PlayingDisplay => Playing > 0 ? LibraryViewModel.FormatCount(Playing) : "0";
 
     public string VisitsDisplay => Visits > 0 ? LibraryViewModel.FormatCount(Visits) : "0";
+
+    public long? Price
+    {
+        get => _price;
+        set
+        {
+            if (_price != value)
+            {
+                _price = value;
+                OnPropertyChanged(nameof(Price));
+                OnPropertyChanged(nameof(HasPrice));
+                OnPropertyChanged(nameof(PriceDisplay));
+                OnPropertyChanged(nameof(PriceVisibility));
+                OnPriceChanged();
+            }
+        }
+    }
+
+    public bool HasPrice => _price is > 0;
+
+    public string PriceDisplay => Integrations.GameLiveData.FormatRobux(_price);
+
+    public Visibility PriceVisibility => HasPrice ? Visibility.Visible : Visibility.Collapsed;
+
+    protected virtual void OnPriceChanged() { }
 
     public string LastPlayedDisplay
     {
@@ -916,6 +942,32 @@ public class LibraryViewModel : INotifyPropertyChanged
     {
         const string LOG_IDENT = "LibraryViewModel::RunSelectedGameLiveVotesLoopAsync";
 
+        if (game.UniverseId > 0 && UniverseDetails.LoadFromCache(game.UniverseId)?.Data == null)
+        {
+            try
+            {
+                Integrations.GameLiveStats? initialStats = await Integrations.GameLiveData.RefreshStatsAsync(game.UniverseId, token).ConfigureAwait(false);
+                if (initialStats is Integrations.GameLiveStats liveInitial)
+                {
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        if (token.IsCancellationRequested || !ReferenceEquals(SelectedGame, game))
+                            return;
+                        game.Playing = liveInitial.Playing;
+                        game.Price = liveInitial.Price;
+                    });
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, ex.Message);
+            }
+        }
+
         while (!token.IsCancellationRequested)
         {
             try
@@ -936,7 +988,10 @@ public class LibraryViewModel : INotifyPropertyChanged
                     if (votes is Integrations.GameVoteCounts counts && !double.IsNaN(counts.LikePercent))
                         game.LikePercent = $"{Math.Round(counts.LikePercent)}%";
                     if (stats is Integrations.GameLiveStats live)
+                    {
                         game.Playing = live.Playing;
+                        game.Price = live.Price;
+                    }
                 });
             }
             catch (OperationCanceledException)
@@ -1393,6 +1448,8 @@ public class LibraryViewModel : INotifyPropertyChanged
             target.LikePercent = source.LikePercent;
         if (source.Playing > 0)
             target.Playing = source.Playing;
+        if (source.Price != null)
+            target.Price = source.Price;
         if (target.PlaceId == 0)
             target.PlaceId = source.PlaceId;
     }
@@ -1479,6 +1536,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             game.Playing = details.Data.Playing;
             game.Visits = details.Data.Visits;
             game.MaxPlayers = details.Data.MaxPlayers;
+            game.Price = details.Data.Price is > 0 ? details.Data.Price : null;
             game.Genre = details.Data.Genre ?? "";
             game.Created = details.Data.Created;
             game.Updated = details.Data.Updated;
@@ -1698,6 +1756,8 @@ public class LibraryViewModel : INotifyPropertyChanged
             entry.Visits = pin.Visits;
         if (pin.MaxPlayers > 0)
             entry.MaxPlayers = pin.MaxPlayers;
+        if (pin.Price is > 0)
+            entry.Price = pin.Price;
         if (!string.IsNullOrWhiteSpace(pin.Genre))
             entry.Genre = pin.Genre;
         entry.Created ??= pin.Created;
@@ -1731,6 +1791,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             || pin.ThumbnailUrl != thumbnailUrl
             || pin.Visits != game.Visits
             || pin.MaxPlayers != game.MaxPlayers
+            || pin.Price != game.Price
             || pin.Genre != game.Genre
             || pin.Created != game.Created
             || pin.Updated != game.Updated;
@@ -1742,6 +1803,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         pin.ThumbnailUrl = thumbnailUrl;
         pin.Visits = game.Visits;
         pin.MaxPlayers = game.MaxPlayers;
+        pin.Price = game.Price;
         pin.Genre = game.Genre;
         pin.Created = game.Created;
         pin.Updated = game.Updated;

@@ -175,6 +175,10 @@
       <StackPanel Grid.Column="1" Margin="12">
         <TextBlock FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" Text="{Binding Storefront.PreviewGame.Name}" />
         <TextBlock Margin="0,4,0,8" FontSize="12" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Text="{Binding Storefront.PreviewGame.LikePercent}" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" Visibility="{Binding Storefront.PreviewGame.PriceVisibility, FallbackValue=Collapsed}">
+          <ui:SymbolIcon Symbol="Money24" FontSize="12" Foreground="#FF4ADE80" VerticalAlignment="Center" />
+          <TextBlock Margin="5,0,0,0" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.PreviewGame.PriceDisplay}" VerticalAlignment="Center" />
+        </StackPanel>
         <ItemsControl ItemsSource="{Binding Storefront.PreviewGame.Screenshots}">
           <ItemsControl.ItemTemplate>
             <DataTemplate>

@@ -667,6 +667,7 @@ namespace Voidstrap.Models.Persistable
             public string ThumbnailUrl { get; set; } = "";
             public long Visits { get; set; }
             public int MaxPlayers { get; set; }
+            public long? Price { get; set; }
             public string Genre { get; set; } = "";
             public DateTime? Created { get; set; }
             public DateTime? Updated { get; set; }

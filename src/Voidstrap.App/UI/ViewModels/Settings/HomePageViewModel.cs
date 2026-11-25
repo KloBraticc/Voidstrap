@@ -115,6 +115,12 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public bool HasThumbnail => !string.IsNullOrEmpty(ThumbnailUrl);
 
+        public long? Price => Data.UniverseDetails?.Data?.Price is long price && price > 0 ? price : null;
+
+        public string PriceDisplay => GameLiveData.FormatRobux(Price);
+
+        public Visibility PriceVisibility => Price.HasValue ? Visibility.Visible : Visibility.Collapsed;
+
         public string LikePercent
         {
             get => _likePercent;
@@ -204,6 +210,9 @@ namespace Voidstrap.UI.ViewModels.Pages
             OnPropertyChanged(nameof(CreatorName));
             OnPropertyChanged(nameof(ThumbnailUrl));
             OnPropertyChanged(nameof(HasThumbnail));
+            OnPropertyChanged(nameof(Price));
+            OnPropertyChanged(nameof(PriceDisplay));
+            OnPropertyChanged(nameof(PriceVisibility));
         }
     }
 

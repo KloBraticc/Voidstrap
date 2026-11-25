@@ -74,7 +74,19 @@
           <Border x:Name="IconHost" CornerRadius="8" />
         </Border>
         <StackPanel Margin="14,0,0,2" VerticalAlignment="Bottom">
-          <TextBlock x:Name="TitleText" FontSize="24" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" MaxWidth="520" />
+          <Grid MaxWidth="590">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="TitleText" Grid.Column="0" FontSize="24" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+            <Border x:Name="PriceChip" Grid.Column="1" Margin="10,0,0,0" Padding="10,4" CornerRadius="6" Background="#CC101010" BorderBrush="#4DFFFFFF" BorderThickness="1" VerticalAlignment="Center" ToolTip="{resources:Loc Ui_Mods_StudioPlugins_PriceLabel}" Visibility="Collapsed">
+              <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="Money24" FontSize="13" Foreground="#FF4ADE80" VerticalAlignment="Center" />
+                <TextBlock x:Name="PriceText" Margin="5,0,0,0" FontSize="13" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" />
+              </StackPanel>
+            </Border>
+          </Grid>
           <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
             <Border x:Name="CreatorChip" Padding="10,4" CornerRadius="6" Background="#33FFFFFF" Visibility="Collapsed">
               <StackPanel Orientation="Horizontal">

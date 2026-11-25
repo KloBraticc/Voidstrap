@@ -242,6 +242,7 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
                     playerCount = game.Playing,
                     totalUpVotes = int.TryParse(game.LikePercent.TrimEnd('%'), out int up) ? up : 0,
                     totalDownVotes = int.TryParse(game.LikePercent.TrimEnd('%'), out int likes) ? 100 - likes : 0,
+                    price = game.Price,
                     genreL1 = game.GenreName,
                     icon = game.IconUrl,
                     shots = game.Screenshots,
@@ -312,6 +313,7 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
             Name = game.GetProperty("name").GetString() ?? "",
             Playing = game.TryGetProperty("playerCount", out JsonElement players) ? players.GetInt64() : 0,
             LikePercent = up + down > 0 ? Math.Round(up * 100.0 / (up + down)) + "%" : "",
+            Price = Integrations.GameLiveData.ReadPrice(game, "price"),
             GenreName = genre,
             Genre = genre,
         };
@@ -327,10 +329,16 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
     {
         string ids = string.Join(',', chunk.Select(static game => game.UniverseId));
         Task<Dictionary<long, List<string>>> shots = FetchScreenshotsAsync(ids, token);
+        Task<Dictionary<long, long?>> prices = Integrations.GameLiveData.FetchPricesAsync(chunk.Select(static game => game.UniverseId), token);
         string iconUrl = $"https://thumbnails.roblox.com/v1/games/icons?universeIds={ids}&size=256x256&format=Png&isCircular=false";
         Task<string> icons = Http.GetStringBoundedAsync(HttpClient, iconUrl, token: token);
         try
         {
+            foreach (KeyValuePair<long, long?> pair in await prices.ConfigureAwait(false))
+            {
+                if (byUniverse.TryGetValue(pair.Key, out StoreGameEntry? priced))
+                    priced.Price = pair.Value;
+            }
             foreach (KeyValuePair<long, List<string>> pair in await shots.ConfigureAwait(false))
             {
                 if (pair.Value.Count == 0 || !byUniverse.TryGetValue(pair.Key, out StoreGameEntry? shown))

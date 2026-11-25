@@ -101,8 +101,11 @@ namespace Voidstrap.UI.Elements.Controls
                 List<DiscoverGameEntry> games = (await HomePageViewModel.ReadOmniRecommendationsAsync(PrefetchSession).ConfigureAwait(false))
                     .GroupBy(g => g.UniverseId).Select(g => g.First()).Take(MaxGames).ToList();
                 List<DiscoverGameEntry> missing = games.Where(g => g.ThumbnailUrl == null).ToList();
-                if (missing.Count > 0)
-                    await HomePageViewModel.FillGameIconsAsync(missing, CancellationToken.None).ConfigureAwait(false);
+                await Task.WhenAll(
+                        missing.Count > 0 ? HomePageViewModel.FillGameIconsAsync(missing, CancellationToken.None) : Task.CompletedTask,
+                        HomePageViewModel.FillGamePricesAsync(games, CancellationToken.None)
+                    )
+                    .ConfigureAwait(false);
                 return games;
             });
             return _recommendedTask;
@@ -281,8 +284,10 @@ namespace Voidstrap.UI.Elements.Controls
                     return;
                 Show(games, query);
                 List<DiscoverGameEntry> missing = games.Where(g => g.ThumbnailUrl == null).ToList();
-                if (missing.Count > 0)
-                    await HomePageViewModel.FillGameIconsAsync(missing, token);
+                await Task.WhenAll(
+                    missing.Count > 0 ? HomePageViewModel.FillGameIconsAsync(missing, token) : Task.CompletedTask,
+                    HomePageViewModel.FillGamePricesAsync(games, token)
+                );
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
