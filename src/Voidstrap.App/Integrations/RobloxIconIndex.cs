@@ -14,7 +14,7 @@ public static class RobloxIconIndex
 {
     private const string LogIdent = "RobloxIconIndex";
 
-    private const int CacheFormat = 1;
+    private const int CacheFormat = 2;
 
     private static readonly string[] Bundles =
     [
@@ -440,6 +440,10 @@ internal static class LuauAssetTables
                 return null;
             }
             int typesVersion = version >= 4 ? data[pos++] : 0;
+            if (version >= 4 && typesVersion is < 1 or > 3)
+            {
+                return null;
+            }
             int stringCount = ReadVarInt(data, ref pos);
             if (stringCount < 0 || stringCount > data.Length)
             {
@@ -471,20 +475,30 @@ internal static class LuauAssetTables
             List<Proto> protos = new(protoCount);
             for (int p = 0; p < protoCount; p++)
             {
+                int protoEnd = data.Length;
+                if (version >= 12)
+                {
+                    int protoSize = ReadVarInt(data, ref pos);
+                    if (protoSize <= 0 || protoSize > data.Length - pos)
+                    {
+                        return null;
+                    }
+                    protoEnd = pos + protoSize;
+                }
                 Proto proto = new();
                 pos += 4;
                 if (version >= 4)
                 {
                     pos++;
                     int typeSize = ReadVarInt(data, ref pos);
-                    if (typeSize < 0 || typeSize > data.Length - pos)
+                    if (typeSize < 0 || typeSize > protoEnd - pos)
                     {
                         return null;
                     }
                     pos += typeSize;
                 }
                 int codeSize = ReadVarInt(data, ref pos);
-                if (codeSize < 0 || (long)codeSize * 4 > data.Length - pos)
+                if (codeSize < 0 || (long)codeSize * 4 > protoEnd - pos)
                 {
                     return null;
                 }
@@ -495,7 +509,7 @@ internal static class LuauAssetTables
                     pos += 4;
                 }
                 int constantCount = ReadVarInt(data, ref pos);
-                if (constantCount < 0 || constantCount > data.Length)
+                if (constantCount < 0 || constantCount > protoEnd - pos)
                 {
                     return null;
                 }
@@ -528,7 +542,7 @@ internal static class LuauAssetTables
                         case 5:
                             {
                                 int keyCount = ReadVarInt(data, ref pos);
-                                if (keyCount < 0 || keyCount > data.Length - pos)
+                                if (keyCount < 0 || keyCount > protoEnd - pos)
                                 {
                                     return null;
                                 }
@@ -550,7 +564,7 @@ internal static class LuauAssetTables
                         case 8:
                             {
                                 int pairCount = ReadVarInt(data, ref pos);
-                                if (pairCount < 0 || pairCount > data.Length - pos)
+                                if (pairCount < 0 || (long)pairCount * 5 > protoEnd - pos)
                                 {
                                     return null;
                                 }
@@ -583,7 +597,17 @@ internal static class LuauAssetTables
                 }
                 ReadVarInt(data, ref pos);
                 int debugName = ReadVarInt(data, ref pos);
+                if (pos > protoEnd)
+                {
+                    return null;
+                }
                 proto.Name = debugName >= 1 && debugName <= stringCount ? strings[debugName] : null;
+                if (version >= 12)
+                {
+                    pos = protoEnd;
+                    protos.Add(proto);
+                    continue;
+                }
                 if (data[pos++] != 0)
                 {
                     int gap = data[pos++];
@@ -606,14 +630,30 @@ internal static class LuauAssetTables
                         ReadVarInt(data, ref pos);
                     }
                 }
+                if (version == 11)
+                {
+                    int feedbackCount = ReadVarInt(data, ref pos);
+                    if (feedbackCount < 0 || (long)feedbackCount * 2 > protoEnd - pos)
+                    {
+                        return null;
+                    }
+                    for (int i = 0; i < feedbackCount; i++)
+                    {
+                        if (data[pos++] != 0)
+                        {
+                            return null;
+                        }
+                        ReadVarInt(data, ref pos);
+                    }
+                }
                 if (pos > data.Length)
                 {
                     return null;
                 }
                 protos.Add(proto);
             }
-            ReadVarInt(data, ref pos);
-            return pos <= data.Length ? protos : null;
+            int mainProto = ReadVarInt(data, ref pos);
+            return mainProto >= 0 && mainProto < protos.Count ? protos : null;
         }
         catch (Exception ex) when (ex is IndexOutOfRangeException or ArgumentOutOfRangeException or OverflowException)
         {
