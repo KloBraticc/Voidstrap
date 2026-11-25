@@ -86,17 +86,19 @@ public partial class LaunchMenuDialog : WpfUiWindow
     {
         DetachAccountMenuItems(menu);
         menu.Items.Clear();
-        menu.Items.Add(new MenuItem { Header = _viewModel.CurrentAccountTitle, IsEnabled = false });
+        DataTemplate textTemplate = (DataTemplate)FindResource("LaunchAccountMenuText");
+        menu.Items.Add(new MenuItem { Header = _viewModel.CurrentAccountTitle, HeaderTemplate = textTemplate, IsEnabled = false });
         menu.Items.Add(CreateAccountMenuSeparator());
         foreach (AccountChoice choice in _viewModel.OtherAccounts)
             menu.Items.Add(CreateAccountMenuItem(choice));
         if (menu.Items.Count == 2)
-            menu.Items.Add(new System.Windows.Controls.MenuItem { Header = Strings.Accounts_Empty, IsEnabled = false });
+            menu.Items.Add(new MenuItem { Header = Strings.Accounts_Empty, HeaderTemplate = textTemplate, IsEnabled = false });
 
         menu.Items.Add(CreateAccountMenuSeparator());
         _verifyAllAccountsItem = new System.Windows.Controls.MenuItem
         {
             Header = Strings.Accounts_CheckAll,
+            HeaderTemplate = textTemplate,
             Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = SymbolRegular.ShieldCheckmark24 },
             IsEnabled = _viewModel.CanVerifyAccounts,
             StaysOpenOnClick = true,
@@ -106,6 +108,7 @@ public partial class LaunchMenuDialog : WpfUiWindow
         _accountStatusItem = new System.Windows.Controls.MenuItem
         {
             Header = _viewModel.AccountStatus,
+            HeaderTemplate = textTemplate,
             IsEnabled = false,
             Visibility = string.IsNullOrEmpty(_viewModel.AccountStatus) ? Visibility.Collapsed : Visibility.Visible,
         };
