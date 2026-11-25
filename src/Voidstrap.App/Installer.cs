@@ -1386,6 +1386,9 @@ internal sealed partial class Installer
             }
             break;
         }
+        if (Voidstrap.Utility.Platform.IsWindows)
+            _ = RemoveReplacedExecutablesAfterUpgradeAsync();
+
         if (Voidstrap.Utility.Platform.SupportsRegistry)
         {
             using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(
@@ -1701,8 +1704,13 @@ internal sealed partial class Installer
             {
                 File.Delete(stagedPath);
             }
-            RemoveReplacedExecutables();
         }
+    }
+
+    private static async Task RemoveReplacedExecutablesAfterUpgradeAsync()
+    {
+        await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+        TrySafe("remove replaced executables", RemoveReplacedExecutables);
     }
 
     private static string RetiredDirectory => Path.Combine(Path.GetDirectoryName(Paths.Application)!, ".replaced");
@@ -1726,9 +1734,12 @@ internal sealed partial class Installer
         string? directory = Path.GetDirectoryName(Paths.Application);
         if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
             return;
+        using InterProcessLock updateLock = new("AutoUpdater");
+        if (!updateLock.IsAcquired)
+            return;
         if (Directory.Exists(RetiredDirectory))
         {
-            int inUse = 0;
+            int deferred = 0;
             int lastError = 0;
             foreach (string file in Directory.EnumerateFiles(RetiredDirectory))
             {
@@ -1740,13 +1751,16 @@ internal sealed partial class Installer
                 Windows.Win32.PInvoke.SetFileAttributes(file, Windows.Win32.Storage.FileSystem.FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL);
                 if (Windows.Win32.PInvoke.DeleteFile(file))
                     continue;
-                inUse++;
-                lastError = Marshal.GetLastWin32Error();
+                error = Marshal.GetLastWin32Error();
+                if (error == 2)
+                    continue;
+                deferred++;
+                lastError = error;
             }
-            if (inUse > 0)
+            if (deferred > 0)
                 App.Logger.WriteLine(
                     LOG_IDENT,
-                    $"{inUse} previous executable(s) are still in use and are removed the next time Voidstrap starts, error {lastError}"
+                    $"Cleanup of {deferred} previous executable(s) was deferred. Windows error {lastError}. Voidstrap will retry on startup"
                 );
             if (!Directory.EnumerateFileSystemEntries(RetiredDirectory).Any())
             {
