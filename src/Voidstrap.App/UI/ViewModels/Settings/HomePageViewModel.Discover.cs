@@ -440,6 +440,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 players = ReadLong(data[0], "playing");
                 rootPlaceId = ReadLong(data[0], "rootPlaceId");
                 price = GameLiveData.ReadPrice(data[0]);
+                GameLiveData.RememberPrice(universeId, price);
             }
             long up = 0;
             long down = 0;

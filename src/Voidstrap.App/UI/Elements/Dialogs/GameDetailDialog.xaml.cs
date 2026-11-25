@@ -73,7 +73,11 @@ namespace Voidstrap.UI.Elements.Dialogs
                         _universeId = uid.GetInt64();
                 }
                 if (_universeId != 0)
+                {
                     VoteBar.UniverseId = _universeId;
+                    if (GameLiveData.TryGetPrice(_universeId, out long? cachedPrice))
+                        ApplyPrice(cachedPrice);
+                }
                 if (_universeId != 0)
                     await Task.WhenAll(LoadDetailsAsync(token), LoadVotesAsync(token), LoadImagesAsync(token));
             }
@@ -108,6 +112,7 @@ namespace Voidstrap.UI.Elements.Dialogs
                 long visits = g.TryGetProperty("visits", out JsonElement vi) && vi.ValueKind == JsonValueKind.Number ? vi.GetInt64() : 0;
                 long favorites = g.TryGetProperty("favoritedCount", out JsonElement fa) && fa.ValueKind == JsonValueKind.Number ? fa.GetInt64() : 0;
                 long? price = GameLiveData.ReadPrice(g);
+                GameLiveData.RememberPrice(_universeId, price);
                 if (token.IsCancellationRequested)
                     return;
                 if (name.Length > 0)
@@ -126,6 +131,8 @@ namespace Voidstrap.UI.Elements.Dialogs
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
+                if (ex is Http.RateLimitedException)
+                    GameLiveData.NoteRateLimit();
                 App.Logger.WriteLine(LOG_IDENT, ex.Message);
             }
         }

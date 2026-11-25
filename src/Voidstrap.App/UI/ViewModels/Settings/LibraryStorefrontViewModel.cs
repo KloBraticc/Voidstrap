@@ -322,23 +322,24 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
     private static async Task FetchMediaAsync(List<StoreGameEntry> games, CancellationToken token)
     {
         Dictionary<long, StoreGameEntry> byUniverse = games.ToDictionary(static game => game.UniverseId);
+        Task<Dictionary<long, long?>> pricesTask = Integrations.GameLiveData.FetchPricesAsync(byUniverse.Keys, token);
         await Task.WhenAll(games.Chunk(50).Select(chunk => FetchChunkAsync(chunk, byUniverse, token))).ConfigureAwait(false);
+        Dictionary<long, long?> prices = await pricesTask.ConfigureAwait(false);
+        foreach (KeyValuePair<long, long?> pair in prices)
+        {
+            if (byUniverse.TryGetValue(pair.Key, out StoreGameEntry? priced))
+                priced.Price = pair.Value;
+        }
     }
 
     private static async Task FetchChunkAsync(StoreGameEntry[] chunk, Dictionary<long, StoreGameEntry> byUniverse, CancellationToken token)
     {
         string ids = string.Join(',', chunk.Select(static game => game.UniverseId));
         Task<Dictionary<long, List<string>>> shots = FetchScreenshotsAsync(ids, token);
-        Task<Dictionary<long, long?>> prices = Integrations.GameLiveData.FetchPricesAsync(chunk.Select(static game => game.UniverseId), token);
         string iconUrl = $"https://thumbnails.roblox.com/v1/games/icons?universeIds={ids}&size=256x256&format=Png&isCircular=false";
         Task<string> icons = Http.GetStringBoundedAsync(HttpClient, iconUrl, token: token);
         try
         {
-            foreach (KeyValuePair<long, long?> pair in await prices.ConfigureAwait(false))
-            {
-                if (byUniverse.TryGetValue(pair.Key, out StoreGameEntry? priced))
-                    priced.Price = pair.Value;
-            }
             foreach (KeyValuePair<long, List<string>> pair in await shots.ConfigureAwait(false))
             {
                 if (pair.Value.Count == 0 || !byUniverse.TryGetValue(pair.Key, out StoreGameEntry? shown))

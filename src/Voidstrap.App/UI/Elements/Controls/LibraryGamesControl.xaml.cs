@@ -101,11 +101,8 @@ namespace Voidstrap.UI.Elements.Controls
                 List<DiscoverGameEntry> games = (await HomePageViewModel.ReadOmniRecommendationsAsync(PrefetchSession).ConfigureAwait(false))
                     .GroupBy(g => g.UniverseId).Select(g => g.First()).Take(MaxGames).ToList();
                 List<DiscoverGameEntry> missing = games.Where(g => g.ThumbnailUrl == null).ToList();
-                await Task.WhenAll(
-                        missing.Count > 0 ? HomePageViewModel.FillGameIconsAsync(missing, CancellationToken.None) : Task.CompletedTask,
-                        HomePageViewModel.FillGamePricesAsync(games, CancellationToken.None)
-                    )
-                    .ConfigureAwait(false);
+                if (missing.Count > 0)
+                    await HomePageViewModel.FillGameIconsAsync(missing, CancellationToken.None).ConfigureAwait(false);
                 return games;
             });
             return _recommendedTask;
@@ -228,7 +225,11 @@ namespace Voidstrap.UI.Elements.Controls
             HashSet<long> favorites = Integrations.FavoriteGames.Snapshot();
             List<DiscoverGameEntry> ordered = Sorted(games).ToList();
             foreach (DiscoverGameEntry game in ordered)
+            {
                 game.IsFavorite = favorites.Contains(game.PlaceId);
+                if (Integrations.GameLiveData.TryGetPrice(game.UniverseId, out long? cachedPrice))
+                    game.Price = cachedPrice;
+            }
             _games.Clear();
             for (int i = 0; i < ordered.Count; i++)
             {
@@ -286,7 +287,7 @@ namespace Voidstrap.UI.Elements.Controls
                 List<DiscoverGameEntry> missing = games.Where(g => g.ThumbnailUrl == null).ToList();
                 await Task.WhenAll(
                     missing.Count > 0 ? HomePageViewModel.FillGameIconsAsync(missing, token) : Task.CompletedTask,
-                    HomePageViewModel.FillGamePricesAsync(games, token)
+                    HomePageViewModel.FillGamePricesAsync(games.Take(100).ToList(), token)
                 );
             }
             catch (OperationCanceledException) { }

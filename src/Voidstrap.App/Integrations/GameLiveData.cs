@@ -22,15 +22,21 @@ public static class GameLiveData
 {
     private static readonly TimeSpan FreshFor = TimeSpan.FromSeconds(12);
 
+    private static readonly TimeSpan PriceFreshFor = TimeSpan.FromMinutes(30);
+
     private static readonly ConcurrentDictionary<long, (GameVoteCounts Value, DateTime At)> Votes = new();
 
     private static readonly ConcurrentDictionary<long, (GameLiveStats Value, DateTime At)> Stats = new();
+
+    private static readonly ConcurrentDictionary<long, (long? Value, DateTime At)> Prices = new();
 
     private static readonly ConcurrentDictionary<long, bool?> UserVotes = new();
 
     private static readonly ConcurrentDictionary<long, bool> CanVote = new();
 
     private static readonly ConcurrentDictionary<string, Task> InFlight = new();
+
+    private static readonly SemaphoreSlim PriceFetchGate = new(1, 1);
 
     private static long _backoffUntilTicks;
 
@@ -72,37 +78,104 @@ public static class GameLiveData
         return prop.TryGetInt64(out long value) && value > 0 ? value : null;
     }
 
+    public static bool TryGetPrice(long universeId, out long? price)
+    {
+        if (universeId <= 0)
+        {
+            price = null;
+            return false;
+        }
+        if (Prices.TryGetValue(universeId, out (long? Value, DateTime At) entry) && DateTime.UtcNow - entry.At < PriceFreshFor)
+        {
+            price = entry.Value;
+            return true;
+        }
+        if (UniverseDetails.LoadFromCache(universeId)?.Data is { } cachedData)
+        {
+            price = cachedData.Price is > 0 ? cachedData.Price : null;
+            return true;
+        }
+        price = null;
+        return false;
+    }
+
+    public static void RememberPrice(long universeId, long? price)
+    {
+        if (universeId > 0)
+            Prices[universeId] = (price is > 0 ? price : null, DateTime.UtcNow);
+    }
+
+    public static void NoteRateLimit() => Backoff(TimeSpan.FromSeconds(60));
+
     public static async Task<Dictionary<long, long?>> FetchPricesAsync(IEnumerable<long> universeIds, CancellationToken token)
     {
         const string LOG_IDENT = "GameLiveData::FetchPricesAsync";
 
         Dictionary<long, long?> result = new();
-        List<long> ids = universeIds.Where(static id => id > 0).Distinct().ToList();
-        for (int i = 0; i < ids.Count; i += 50)
+        List<long> missing = new();
+        foreach (long id in universeIds.Where(static id => id > 0).Distinct())
         {
-            token.ThrowIfCancellationRequested();
-            string chunk = string.Join(',', ids.Skip(i).Take(50));
-            try
+            if (TryGetPrice(id, out long? cached))
+                result[id] = cached;
+            else
+                missing.Add(id);
+        }
+        if (missing.Count == 0 || InBackoff())
+            return result;
+
+        await PriceFetchGate.WaitAsync(token).ConfigureAwait(false);
+        try
+        {
+            List<long> remaining = new();
+            foreach (long id in missing)
             {
-                string json = await Utility.Http.GetString($"https://games.roblox.com/v1/games?universeIds={chunk}", token).ConfigureAwait(false);
-                using JsonDocument doc = JsonDocument.Parse(json);
-                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
-                    continue;
-                foreach (JsonElement item in data.EnumerateArray())
+                if (TryGetPrice(id, out long? cached))
+                    result[id] = cached;
+                else
+                    remaining.Add(id);
+            }
+            if (remaining.Count == 0 || InBackoff())
+                return result;
+
+            for (int i = 0; i < remaining.Count; i += 100)
+            {
+                token.ThrowIfCancellationRequested();
+                if (InBackoff())
+                    break;
+                if (i > 0)
+                    await Task.Delay(350, token).ConfigureAwait(false);
+                string chunk = string.Join(',', remaining.Skip(i).Take(100));
+                try
                 {
-                    if (!item.TryGetProperty("id", out JsonElement idProp) || idProp.ValueKind != JsonValueKind.Number || !idProp.TryGetInt64(out long id) || id <= 0)
+                    string json = await Utility.Http.GetString($"https://games.roblox.com/v1/games?universeIds={chunk}", token).ConfigureAwait(false);
+                    using JsonDocument doc = JsonDocument.Parse(json);
+                    if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
                         continue;
-                    result[id] = ReadPrice(item);
+                    foreach (JsonElement item in data.EnumerateArray())
+                    {
+                        if (!item.TryGetProperty("id", out JsonElement idProp) || idProp.ValueKind != JsonValueKind.Number || !idProp.TryGetInt64(out long id) || id <= 0)
+                            continue;
+                        long? price = ReadPrice(item);
+                        RememberPrice(id, price);
+                        result[id] = price;
+                    }
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    if (IsRateLimit(ex))
+                        Backoff(TimeSpan.FromSeconds(60));
+                    App.Logger.WriteLine(LOG_IDENT, ex.Message);
+                    break;
                 }
             }
-            catch (OperationCanceledException) when (token.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine(LOG_IDENT, ex.Message);
-            }
+        }
+        finally
+        {
+            PriceFetchGate.Release();
         }
         return result;
     }
@@ -297,6 +370,7 @@ public static class GameLiveData
             long visits = g.TryGetProperty("visits", out JsonElement v) && v.ValueKind == JsonValueKind.Number ? v.GetInt64() : 0;
             long favorites = g.TryGetProperty("favoritedCount", out JsonElement f) && f.ValueKind == JsonValueKind.Number ? f.GetInt64() : 0;
             long? price = ReadPrice(g);
+            RememberPrice(universeId, price);
             GameLiveStats stats = new(playing, visits, favorites, price);
             bool changed = !Stats.TryGetValue(universeId, out (GameLiveStats Value, DateTime At) old) || old.Value != stats;
             Stats[universeId] = (stats, DateTime.UtcNow);
@@ -310,7 +384,10 @@ public static class GameLiveData
         }
     }
 
-    private static bool IsRateLimit(Exception ex) => ex is HttpRequestException { StatusCode: HttpStatusCode.TooManyRequests } || ex.Message.Contains("429", StringComparison.Ordinal);
+    private static bool IsRateLimit(Exception ex) =>
+        ex is Utility.Http.RateLimitedException
+        || ex is HttpRequestException { StatusCode: HttpStatusCode.TooManyRequests }
+        || ex.Message.Contains("429", StringComparison.Ordinal);
 
     private static void Backoff(TimeSpan span)
     {
