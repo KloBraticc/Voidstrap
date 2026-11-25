@@ -9200,6 +9200,9 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Ilab b'xejn</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Mixtri</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} qed jilagħbu</value>
   </data>

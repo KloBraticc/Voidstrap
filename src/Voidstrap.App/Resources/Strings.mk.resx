@@ -9200,6 +9200,9 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Играј бесплатно</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Купено</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>Играат {0}</value>
   </data>

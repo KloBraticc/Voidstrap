@@ -9200,6 +9200,9 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>უფასო თამაში</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>შეძენილია</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} თამაშობს</value>
   </data>

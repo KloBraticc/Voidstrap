@@ -9200,6 +9200,9 @@ Bada shi?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Kyauta don Wasa</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>An saya</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} suna wasa</value>
   </data>

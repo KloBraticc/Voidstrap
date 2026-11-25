@@ -9509,6 +9509,9 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Library.Store.Free" xml:space="preserve">
     <value>เล่นฟรี</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>ซื้อแล้ว</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} คนกำลังเล่น</value>
   </data>

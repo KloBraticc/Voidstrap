@@ -330,6 +330,16 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
             if (byUniverse.TryGetValue(pair.Key, out StoreGameEntry? priced))
                 priced.Price = pair.Value;
         }
+        List<long> paidIds = prices.Where(static p => p.Value is > 0).Select(static p => p.Key).ToList();
+        if (paidIds.Count > 0)
+        {
+            Dictionary<long, bool> owned = await Integrations.GameLiveData.FetchPurchasedAsync(paidIds, token).ConfigureAwait(false);
+            foreach (KeyValuePair<long, bool> pair in owned)
+            {
+                if (byUniverse.TryGetValue(pair.Key, out StoreGameEntry? priced))
+                    priced.IsPurchased = pair.Value;
+            }
+        }
     }
 
     private static async Task FetchChunkAsync(StoreGameEntry[] chunk, Dictionary<long, StoreGameEntry> byUniverse, CancellationToken token)

@@ -9199,6 +9199,9 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>இலவசமாக விளையாடலாம்</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>வாங்கப்பட்டது</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} பேர் விளையாடுகிறார்கள்</value>
   </data>

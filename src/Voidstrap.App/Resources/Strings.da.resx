@@ -9199,6 +9199,9 @@ tillade det?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Gratis at spille</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Købt</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} spiller</value>
   </data>

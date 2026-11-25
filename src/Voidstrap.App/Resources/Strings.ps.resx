@@ -9200,6 +9200,9 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
 <data name="Library.Store.Free" xml:space="preserve">
   <value>وړیا لوبه</value>
 </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>پېرل شوی</value>
+  </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} لوبه کوي</value>
 </data>

@@ -9510,6 +9510,9 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>基本プレイ無料</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>購入済み</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} 人がプレイ中</value>
   </data>

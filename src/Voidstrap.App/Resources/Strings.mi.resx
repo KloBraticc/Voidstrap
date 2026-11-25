@@ -9200,6 +9200,9 @@ Whakaaetia?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Tākaro kore utu</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Kua hokona</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} e tākaro ana</value>
   </data>

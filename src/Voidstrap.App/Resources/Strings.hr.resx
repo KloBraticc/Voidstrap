@@ -9510,6 +9510,9 @@ Dopustiti?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Besplatno za igrati</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Kupljeno</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} igra</value>
   </data>

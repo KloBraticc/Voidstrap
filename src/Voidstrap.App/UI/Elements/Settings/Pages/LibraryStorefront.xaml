@@ -54,8 +54,9 @@
             <Border HorizontalAlignment="Left" Padding="6,2" Background="{DynamicResource ControlFillColorSecondaryBrush}">
               <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.FeaturedGame.GenreName}" />
             </Border>
-            <StackPanel Margin="0,8,0,0" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding Storefront.FeaturedGame.PriceDisplay}">
-              <Path Width="12" Height="13" Margin="0,0,5,0" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding Storefront.FeaturedGame.PriceVisibility, FallbackValue=Collapsed}" />
+            <StackPanel Margin="0,8,0,0" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding Storefront.FeaturedGame.PriceTooltip}">
+              <Path Width="12" Height="13" Margin="0,0,5,0" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding Storefront.FeaturedGame.RobuxIconVisibility, FallbackValue=Collapsed}" />
+              <ui:SymbolIcon Margin="0,0,5,0" Symbol="CheckmarkCircle24" FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" VerticalAlignment="Center" Visibility="{Binding Storefront.FeaturedGame.PurchasedIconVisibility, FallbackValue=Collapsed}" />
               <TextBlock FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.FeaturedGame.PriceLine}" VerticalAlignment="Center" />
             </StackPanel>
             <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Storefront.FeaturedGame.PlayingLine}" />
@@ -167,8 +168,9 @@
                   <TextBlock Margin="0,4,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding GenreName}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Margin="12,0" VerticalAlignment="Center">
-                  <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding PriceDisplay}">
-                    <Path Width="11" Height="12" Margin="0,0,4,0" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding PriceVisibility}" />
+                  <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding PriceTooltip}">
+                    <Path Width="11" Height="12" Margin="0,0,4,0" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding RobuxIconVisibility}" />
+                    <ui:SymbolIcon Margin="0,0,4,0" Symbol="CheckmarkCircle24" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" VerticalAlignment="Center" Visibility="{Binding PurchasedIconVisibility}" />
                     <TextBlock FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding PriceLine}" VerticalAlignment="Center" />
                   </StackPanel>
                   <TextBlock Margin="0,3,0,0" HorizontalAlignment="Right" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding PlayingLine}" />
@@ -181,9 +183,10 @@
       <StackPanel Grid.Column="1" Margin="12">
         <TextBlock FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextWrapping="Wrap" Text="{Binding Storefront.PreviewGame.Name}" />
         <TextBlock Margin="0,4,0,8" FontSize="12" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Text="{Binding Storefront.PreviewGame.LikePercent}" />
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" VerticalAlignment="Center" ToolTip="{Binding Storefront.PreviewGame.PriceDisplay}" Visibility="{Binding Storefront.PreviewGame.PriceVisibility, FallbackValue=Collapsed}">
-          <Path Width="12" Height="13" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" />
-          <TextBlock Margin="5,0,0,0" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.PreviewGame.PriceAmountDisplay}" VerticalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" VerticalAlignment="Center" ToolTip="{Binding Storefront.PreviewGame.PriceTooltip}" Visibility="{Binding Storefront.PreviewGame.PriceVisibility, FallbackValue=Collapsed}">
+          <Path Width="12" Height="13" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding Storefront.PreviewGame.RobuxIconVisibility, FallbackValue=Collapsed}" />
+          <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" VerticalAlignment="Center" Visibility="{Binding Storefront.PreviewGame.PurchasedIconVisibility, FallbackValue=Collapsed}" />
+          <TextBlock Margin="5,0,0,0" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.PreviewGame.PriceBadgeText}" VerticalAlignment="Center" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding Storefront.PreviewGame.Screenshots}">
           <ItemsControl.ItemTemplate>

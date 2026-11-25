@@ -9200,6 +9200,9 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Үнэгүй тоглох</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Худалдан авсан</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} тоглож байна</value>
   </data>

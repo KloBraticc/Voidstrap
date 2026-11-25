@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9252,6 +9252,9 @@ Allow it?</value>
   </data>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Free to Play</value>
+  </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Purchased</value>
   </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} playing</value>

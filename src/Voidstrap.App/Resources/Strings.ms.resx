@@ -9510,6 +9510,9 @@ Benarkan?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Main Percuma</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Dibeli</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} sedang bermain</value>
   </data>

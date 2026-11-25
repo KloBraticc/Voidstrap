@@ -9200,6 +9200,9 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Акысыз ойноо</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Сатып алынган</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} ойноп жатат</value>
   </data>

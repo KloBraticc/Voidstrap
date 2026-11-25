@@ -9509,6 +9509,9 @@
   <data name="Library.Store.Free" xml:space="preserve">
     <value>مجاني للعب</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>تم الشراء</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} يلعبون حاليًا</value>
   </data>

@@ -9199,6 +9199,9 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Library.Store.Free" xml:space="preserve">
     <value>বিনামূল্যে খেলুন</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>কেনা হয়েছে</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} জন খেলছে</value>
   </data>

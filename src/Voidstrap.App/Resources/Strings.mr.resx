@@ -9200,6 +9200,9 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>मोफत खेळा</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>खरेदी केलेले</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} खेळत आहेत</value>
   </data>

@@ -10326,6 +10326,7 @@ namespace Voidstrap.Resources {
         public static string Library_Store_Featured => ResourceManager.GetString("Library.Store.Featured", resourceCulture);
         public static string Library_Store_BrowseGenre => ResourceManager.GetString("Library.Store.BrowseGenre", resourceCulture);
         public static string Library_Store_Free => ResourceManager.GetString("Library.Store.Free", resourceCulture);
+        public static string Library_Store_Purchased => ResourceManager.GetString("Library.Store.Purchased", resourceCulture);
         public static string Library_Store_Playing => ResourceManager.GetString("Library.Store.Playing", resourceCulture);
         public static string Library_Store_AllReviews => ResourceManager.GetString("Library.Store.AllReviews", resourceCulture);
         public static string Library_Store_ReleaseDate => ResourceManager.GetString("Library.Store.ReleaseDate", resourceCulture);

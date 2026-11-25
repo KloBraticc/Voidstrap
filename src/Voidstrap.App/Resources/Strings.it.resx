@@ -9510,6 +9510,9 @@ Consentire?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Gratis</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Acquistato</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} in gioco</value>
   </data>

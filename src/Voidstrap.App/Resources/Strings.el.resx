@@ -9199,6 +9199,9 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Δωρεάν για παιχνίδι</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Αγοράστηκε</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} παίζουν τώρα</value>
   </data>

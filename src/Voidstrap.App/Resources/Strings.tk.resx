@@ -9199,6 +9199,9 @@ Rugsat beriň?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Tegin oýnamak</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Satyn alyndy</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} oýnaýar</value>
   </data>

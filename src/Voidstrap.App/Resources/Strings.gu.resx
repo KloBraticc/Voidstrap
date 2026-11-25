@@ -9200,6 +9200,9 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Library.Store.Free" xml:space="preserve">
     <value>મફત રમત</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>ખરીદેલ</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} રમી રહ્યા છે</value>
   </data>

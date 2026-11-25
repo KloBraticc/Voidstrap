@@ -21,6 +21,8 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private long? _price;
 
+        private bool _isPurchased;
+
         public long UniverseId { get; init; }
 
         public long PlaceId { get; init; }
@@ -47,7 +49,26 @@ namespace Voidstrap.UI.ViewModels.Pages
                     OnPropertyChanged(nameof(HasPrice));
                     OnPropertyChanged(nameof(PriceDisplay));
                     OnPropertyChanged(nameof(PriceAmountDisplay));
+                    OnPropertyChanged(nameof(PriceBadgeText));
+                    OnPropertyChanged(nameof(RobuxIconVisibility));
+                    OnPropertyChanged(nameof(PurchasedIconVisibility));
+                    OnPropertyChanged(nameof(PriceTooltip));
                     OnPropertyChanged(nameof(PriceVisibility));
+                }
+            }
+        }
+
+        public bool IsPurchased
+        {
+            get => _isPurchased;
+            set
+            {
+                if (SetProperty(ref _isPurchased, value))
+                {
+                    OnPropertyChanged(nameof(PriceBadgeText));
+                    OnPropertyChanged(nameof(RobuxIconVisibility));
+                    OnPropertyChanged(nameof(PurchasedIconVisibility));
+                    OnPropertyChanged(nameof(PriceTooltip));
                 }
             }
         }
@@ -57,6 +78,14 @@ namespace Voidstrap.UI.ViewModels.Pages
         public string PriceDisplay => GameLiveData.FormatRobux(_price);
 
         public string PriceAmountDisplay => GameLiveData.FormatRobuxAmount(_price);
+
+        public string PriceBadgeText => IsPurchased ? Resources.Strings.Library_Store_Purchased : PriceAmountDisplay;
+
+        public Visibility RobuxIconVisibility => HasPrice && !IsPurchased ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility PurchasedIconVisibility => HasPrice && IsPurchased ? Visibility.Visible : Visibility.Collapsed;
+
+        public string PriceTooltip => HasPrice ? (IsPurchased ? $"{Resources.Strings.Library_Store_Purchased} ({PriceDisplay})" : PriceDisplay) : string.Empty;
 
         public Visibility PriceVisibility => HasPrice ? Visibility.Visible : Visibility.Collapsed;
 
@@ -481,12 +510,20 @@ namespace Voidstrap.UI.ViewModels.Pages
                 .ConfigureAwait(false);
             if (prices.Count == 0 || token.IsCancellationRequested)
                 return;
+            List<long> paidIds = prices.Where(static pair => pair.Value is > 0).Select(static pair => pair.Key).ToList();
+            Dictionary<long, bool> owned = paidIds.Count > 0
+                ? await GameLiveData.FetchPurchasedAsync(paidIds, token).ConfigureAwait(false)
+                : new Dictionary<long, bool>();
+            if (token.IsCancellationRequested)
+                return;
             void Apply()
             {
                 foreach (DiscoverGameEntry game in games)
                 {
                     if (prices.TryGetValue(game.UniverseId, out long? price))
                         game.Price = price;
+                    if (owned.TryGetValue(game.UniverseId, out bool isOwned))
+                        game.IsPurchased = isOwned;
                 }
             }
             if (Application.Current?.Dispatcher is { } dispatcher && !dispatcher.CheckAccess())

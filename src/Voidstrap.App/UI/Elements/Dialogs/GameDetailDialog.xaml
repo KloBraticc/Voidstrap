@@ -80,10 +80,11 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="TitleText" Grid.Column="0" FontSize="24" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
-            <Border x:Name="PriceChip" Grid.Column="1" Margin="10,3,0,0" Padding="9,4" CornerRadius="6" Background="#59000000" BorderBrush="#66FEE3A5" BorderThickness="1" VerticalAlignment="Center" Visibility="Collapsed">
+            <Border x:Name="PriceChip" Grid.Column="1" Margin="10,2,0,0" Padding="10,4" CornerRadius="6" Background="#33FFFFFF" VerticalAlignment="Center" Visibility="Collapsed">
               <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Path Width="14" Height="15" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" />
-                <TextBlock x:Name="PriceText" Margin="5,0,0,0" FontSize="13" FontWeight="SemiBold" Foreground="#FFFEE3A5" VerticalAlignment="Center" />
+                <Path x:Name="PriceRobuxIcon" Width="13" Height="14" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" />
+                <ui:SymbolIcon x:Name="PricePurchasedIcon" Symbol="CheckmarkCircle24" FontSize="13" Foreground="White" VerticalAlignment="Center" Visibility="Collapsed" />
+                <TextBlock x:Name="PriceText" Margin="5,0,0,0" FontSize="12" Foreground="White" VerticalAlignment="Center" />
               </StackPanel>
             </Border>
           </Grid>

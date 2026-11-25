@@ -9509,6 +9509,9 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>免费开玩</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>已购买</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} 人正在游戏</value>
   </data>

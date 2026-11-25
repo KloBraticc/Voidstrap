@@ -9199,6 +9199,9 @@ Je, unairuhusu?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Bure kucheza</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Imenunuliwa</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} wanacheza</value>
   </data>

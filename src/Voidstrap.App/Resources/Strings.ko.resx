@@ -9510,6 +9510,9 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Library.Store.Free" xml:space="preserve">
     <value>무료 플레이</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>구매함</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0}명 플레이 중</value>
   </data>

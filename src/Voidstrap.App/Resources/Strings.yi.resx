@@ -9199,6 +9199,9 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Library.Store.Free" xml:space="preserve">
     <value>פֿרײַ צו שפּילן</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>געקויפט</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} שפּילן איצט</value>
   </data>

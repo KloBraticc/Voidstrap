@@ -9509,6 +9509,9 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>免費暢玩</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>已購買</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} 人遊玩中</value>
   </data>

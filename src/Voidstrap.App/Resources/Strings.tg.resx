@@ -9199,6 +9199,9 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Бозии ройгон</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Харида шудааст</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} нафар бозӣ мекунанд</value>
   </data>

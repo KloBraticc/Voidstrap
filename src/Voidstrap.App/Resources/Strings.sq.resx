@@ -9200,6 +9200,9 @@ E lejon atë?</value>
 <data name="Library.Store.Free" xml:space="preserve">
   <value>Falas për të luajtur</value>
 </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Blerë</value>
+  </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} po luajnë</value>
 </data>

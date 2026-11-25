@@ -9510,6 +9510,9 @@ Toestaan?</value>
 <data name="Library.Store.Free" xml:space="preserve">
   <value>Gratis te spelen</value>
 </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Gekocht</value>
+  </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} spelen</value>
 </data>

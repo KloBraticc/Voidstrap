@@ -47,6 +47,7 @@ public class LibraryGameEntry : INotifyPropertyChanged
     private string _likePercent = "";
     private long _playing;
     private long? _price;
+    private bool _isPurchased;
 
     public long PlaceId { get; set; }
 
@@ -171,7 +172,30 @@ public class LibraryGameEntry : INotifyPropertyChanged
                 OnPropertyChanged(nameof(HasPrice));
                 OnPropertyChanged(nameof(PriceDisplay));
                 OnPropertyChanged(nameof(PriceAmountDisplay));
+                OnPropertyChanged(nameof(PriceBadgeText));
+                OnPropertyChanged(nameof(RobuxIconVisibility));
+                OnPropertyChanged(nameof(PurchasedIconVisibility));
+                OnPropertyChanged(nameof(PriceTooltip));
                 OnPropertyChanged(nameof(PriceVisibility));
+                OnPriceChanged();
+            }
+        }
+    }
+
+    [JsonIgnore]
+    public bool IsPurchased
+    {
+        get => _isPurchased;
+        set
+        {
+            if (_isPurchased != value)
+            {
+                _isPurchased = value;
+                OnPropertyChanged(nameof(IsPurchased));
+                OnPropertyChanged(nameof(PriceBadgeText));
+                OnPropertyChanged(nameof(RobuxIconVisibility));
+                OnPropertyChanged(nameof(PurchasedIconVisibility));
+                OnPropertyChanged(nameof(PriceTooltip));
                 OnPriceChanged();
             }
         }
@@ -182,6 +206,14 @@ public class LibraryGameEntry : INotifyPropertyChanged
     public string PriceDisplay => Integrations.GameLiveData.FormatRobux(_price);
 
     public string PriceAmountDisplay => Integrations.GameLiveData.FormatRobuxAmount(_price);
+
+    public string PriceBadgeText => IsPurchased ? Strings.Library_Store_Purchased : PriceAmountDisplay;
+
+    public Visibility RobuxIconVisibility => HasPrice && !IsPurchased ? Visibility.Visible : Visibility.Collapsed;
+
+    public Visibility PurchasedIconVisibility => HasPrice && IsPurchased ? Visibility.Visible : Visibility.Collapsed;
+
+    public string PriceTooltip => HasPrice ? (IsPurchased ? $"{Strings.Library_Store_Purchased} ({PriceDisplay})" : PriceDisplay) : string.Empty;
 
     public Visibility PriceVisibility => HasPrice ? Visibility.Visible : Visibility.Collapsed;
 
@@ -971,6 +1003,30 @@ public class LibraryViewModel : INotifyPropertyChanged
             }
         }
 
+        if (game.UniverseId > 0 && game.HasPrice)
+        {
+            try
+            {
+                Dictionary<long, bool> owned = await Integrations.GameLiveData.FetchPurchasedAsync(new[] { game.UniverseId }, token).ConfigureAwait(false);
+                if (owned.TryGetValue(game.UniverseId, out bool isOwned))
+                {
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        if (!token.IsCancellationRequested && ReferenceEquals(SelectedGame, game))
+                            game.IsPurchased = isOwned;
+                    });
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, ex.Message);
+            }
+        }
+
         while (!token.IsCancellationRequested)
         {
             try
@@ -1372,6 +1428,18 @@ public class LibraryViewModel : INotifyPropertyChanged
             )
             .ConfigureAwait(false);
         ApplyCachedDetails(games);
+        List<LibraryGameEntry> paid = games.Where(static g => g.HasPrice).ToList();
+        if (paid.Count > 0)
+        {
+            Dictionary<long, bool> owned = await Integrations.GameLiveData
+                .FetchPurchasedAsync(paid.Select(static g => g.UniverseId), token)
+                .ConfigureAwait(false);
+            foreach (LibraryGameEntry game in paid)
+            {
+                if (owned.TryGetValue(game.UniverseId, out bool isOwned))
+                    game.IsPurchased = isOwned;
+            }
+        }
         await FetchMissingIconsAsync(games, token).ConfigureAwait(false);
     }
 
@@ -1540,6 +1608,8 @@ public class LibraryViewModel : INotifyPropertyChanged
             game.Visits = details.Data.Visits;
             game.MaxPlayers = details.Data.MaxPlayers;
             game.Price = details.Data.Price is > 0 ? details.Data.Price : null;
+            if (game.HasPrice && Integrations.GameLiveData.TryGetPurchased(game.UniverseId, out bool cachedOwned))
+                game.IsPurchased = cachedOwned;
             game.Genre = details.Data.Genre ?? "";
             game.Created = details.Data.Created;
             game.Updated = details.Data.Updated;

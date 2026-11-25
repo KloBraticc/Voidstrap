@@ -9510,6 +9510,9 @@ Engedélyezed?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Ingyenesen játszható</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Megvásárolva</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} játékos játszik</value>
   </data>

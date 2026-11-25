@@ -9510,6 +9510,9 @@ Leisti?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Žaisti nemokamai</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Įsigyta</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>Žaidžia {0}</value>
   </data>

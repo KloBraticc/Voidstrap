@@ -9200,6 +9200,9 @@ Povoliť?</value>
 <data name="Library.Store.Free" xml:space="preserve">
   <value>Na hranie zdarma</value>
 </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Zakúpené</value>
+  </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} hrá</value>
 </data>

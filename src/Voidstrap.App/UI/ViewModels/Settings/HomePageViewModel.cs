@@ -35,6 +35,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         private DatacenterOption? _selectedDatacenter;
         private string _likePercent = "--";
         private string _playerCount = "--";
+        private bool _isPurchased;
 
         private readonly Action<HistoryGameEntry>? _favoriteChanged;
 
@@ -117,9 +118,34 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public long? Price => Data.UniverseDetails?.Data?.Price is long price && price > 0 ? price : null;
 
+        public bool IsPurchased
+        {
+            get => _isPurchased;
+            set
+            {
+                if (_isPurchased != value)
+                {
+                    _isPurchased = value;
+                    OnPropertyChanged(nameof(IsPurchased));
+                    OnPropertyChanged(nameof(PriceBadgeText));
+                    OnPropertyChanged(nameof(RobuxIconVisibility));
+                    OnPropertyChanged(nameof(PurchasedIconVisibility));
+                    OnPropertyChanged(nameof(PriceTooltip));
+                }
+            }
+        }
+
         public string PriceDisplay => GameLiveData.FormatRobux(Price);
 
         public string PriceAmountDisplay => GameLiveData.FormatRobuxAmount(Price);
+
+        public string PriceBadgeText => IsPurchased ? Resources.Strings.Library_Store_Purchased : PriceAmountDisplay;
+
+        public Visibility RobuxIconVisibility => Price.HasValue && !IsPurchased ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility PurchasedIconVisibility => Price.HasValue && IsPurchased ? Visibility.Visible : Visibility.Collapsed;
+
+        public string PriceTooltip => Price.HasValue ? (IsPurchased ? $"{Resources.Strings.Library_Store_Purchased} ({PriceDisplay})" : PriceDisplay) : string.Empty;
 
         public Visibility PriceVisibility => Price.HasValue ? Visibility.Visible : Visibility.Collapsed;
 
@@ -213,8 +239,13 @@ namespace Voidstrap.UI.ViewModels.Pages
             OnPropertyChanged(nameof(ThumbnailUrl));
             OnPropertyChanged(nameof(HasThumbnail));
             OnPropertyChanged(nameof(Price));
+            OnPropertyChanged(nameof(IsPurchased));
             OnPropertyChanged(nameof(PriceDisplay));
             OnPropertyChanged(nameof(PriceAmountDisplay));
+            OnPropertyChanged(nameof(PriceBadgeText));
+            OnPropertyChanged(nameof(RobuxIconVisibility));
+            OnPropertyChanged(nameof(PurchasedIconVisibility));
+            OnPropertyChanged(nameof(PriceTooltip));
             OnPropertyChanged(nameof(PriceVisibility));
         }
     }
@@ -873,6 +904,8 @@ namespace Voidstrap.UI.ViewModels.Pages
                 long playing = entry.Data.UniverseDetails?.Data?.Playing ?? 0;
                 if (playing > 0)
                     entry.PlayerCount = FormatCount(playing);
+                if (entry.Price.HasValue && GameLiveData.TryGetPurchased(entry.UniverseId, out bool cachedOwned))
+                    entry.IsPurchased = cachedOwned;
             }
         }
 
@@ -973,6 +1006,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             {
                 await UniverseDetails.FetchForEntriesAsync(entries);
 
+                List<long> paidIds = new();
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     foreach (var entry in _gameHistory)
@@ -980,10 +1014,28 @@ namespace Voidstrap.UI.ViewModels.Pages
                         if (entry.Data.UniverseDetails == null)
                             entry.Data.UniverseDetails = UniverseDetails.LoadFromCache(entry.UniverseId);
                         entry.RefreshDetails();
+                        if (entry.Price.HasValue)
+                            paidIds.Add(entry.UniverseId);
                     }
 
                     NotifyCollectionsChanged();
                 });
+
+                if (paidIds.Count > 0)
+                {
+                    Dictionary<long, bool> owned = await GameLiveData.FetchPurchasedAsync(paidIds, CancellationToken.None).ConfigureAwait(false);
+                    if (owned.Count > 0)
+                    {
+                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                        {
+                            foreach (var entry in _gameHistory)
+                            {
+                                if (owned.TryGetValue(entry.UniverseId, out bool isOwned))
+                                    entry.IsPurchased = isOwned;
+                            }
+                        });
+                    }
+                }
             }
             catch (Exception ex)
             {

@@ -9200,6 +9200,9 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Library.Store.Free" xml:space="preserve">
     <value>സൗജന്യമായി കളിക്കുക</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>വാങ്ങി</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} കളിക്കുന്നു</value>
   </data>

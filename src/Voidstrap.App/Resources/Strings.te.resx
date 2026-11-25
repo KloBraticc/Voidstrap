@@ -9199,6 +9199,9 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>ఉచితంగా ఆడండి</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>కొనుగోలు చేయబడింది</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} మంది ఆడుతున్నారు</value>
   </data>

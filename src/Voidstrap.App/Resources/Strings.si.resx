@@ -9200,6 +9200,9 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
 <data name="Library.Store.Free" xml:space="preserve">
   <value>නොමිලේ ක්‍රීඩා</value>
 </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>මිලදී ගත්තා</value>
+  </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} ක්‍රීඩා කරමින්</value>
 </data>

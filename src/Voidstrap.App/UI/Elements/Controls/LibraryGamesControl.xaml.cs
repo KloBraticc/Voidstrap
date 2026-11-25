@@ -229,6 +229,8 @@ namespace Voidstrap.UI.Elements.Controls
                 game.IsFavorite = favorites.Contains(game.PlaceId);
                 if (Integrations.GameLiveData.TryGetPrice(game.UniverseId, out long? cachedPrice))
                     game.Price = cachedPrice;
+                if (game.HasPrice && Integrations.GameLiveData.TryGetPurchased(game.UniverseId, out bool cachedOwned))
+                    game.IsPurchased = cachedOwned;
             }
             _games.Clear();
             for (int i = 0; i < ordered.Count; i++)
@@ -287,7 +289,7 @@ namespace Voidstrap.UI.Elements.Controls
                 List<DiscoverGameEntry> missing = games.Where(g => g.ThumbnailUrl == null).ToList();
                 await Task.WhenAll(
                     missing.Count > 0 ? HomePageViewModel.FillGameIconsAsync(missing, token) : Task.CompletedTask,
-                    HomePageViewModel.FillGamePricesAsync(games.Take(100).ToList(), token)
+                    HomePageViewModel.FillGamePricesAsync(games.Take(50).ToList(), token)
                 );
             }
             catch (OperationCanceledException) { }

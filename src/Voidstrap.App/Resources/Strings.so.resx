@@ -9200,6 +9200,9 @@ Oggolow?</value>
 <data name="Library.Store.Free" xml:space="preserve">
   <value>Bilaash la ciyaaro</value>
 </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>La iibsaday</value>
+  </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} ayaa ciyaaraya</value>
 </data>

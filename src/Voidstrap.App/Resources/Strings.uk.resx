@@ -9509,6 +9509,9 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Безкоштовна гра</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Придбано</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} грають</value>
   </data>

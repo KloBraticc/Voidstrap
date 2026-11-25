@@ -9199,6 +9199,9 @@ Ho permets?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Gratuït</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Comprat</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} jugant</value>
   </data>

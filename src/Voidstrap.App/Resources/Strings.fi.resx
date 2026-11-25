@@ -9509,6 +9509,9 @@ Sallitaanko?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Ilmainen pelattavaksi</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Ostettu</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} pelaamassa</value>
   </data>

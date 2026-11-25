@@ -9200,6 +9200,9 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>ຫຼິ້ນຟຣີ</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>ຊື້ແລ້ວ</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>ກຳລັງຫຼິ້ນ {0}</value>
   </data>

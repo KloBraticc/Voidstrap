@@ -24,11 +24,15 @@ public static class GameLiveData
 
     private static readonly TimeSpan PriceFreshFor = TimeSpan.FromMinutes(30);
 
+    private static readonly TimeSpan PurchasedFreshFor = TimeSpan.FromMinutes(15);
+
     private static readonly ConcurrentDictionary<long, (GameVoteCounts Value, DateTime At)> Votes = new();
 
     private static readonly ConcurrentDictionary<long, (GameLiveStats Value, DateTime At)> Stats = new();
 
     private static readonly ConcurrentDictionary<long, (long? Value, DateTime At)> Prices = new();
+
+    private static readonly ConcurrentDictionary<long, (bool Value, DateTime At)> Purchased = new();
 
     private static readonly ConcurrentDictionary<long, bool?> UserVotes = new();
 
@@ -37,6 +41,12 @@ public static class GameLiveData
     private static readonly ConcurrentDictionary<string, Task> InFlight = new();
 
     private static readonly SemaphoreSlim PriceFetchGate = new(1, 1);
+
+    private static readonly SemaphoreSlim PurchaseFetchGate = new(1, 1);
+
+    private static readonly object PurchasedCookieSync = new();
+
+    private static string _purchasedCookie = string.Empty;
 
     private static long _backoffUntilTicks;
 
@@ -140,14 +150,14 @@ public static class GameLiveData
             if (remaining.Count == 0 || InBackoff())
                 return result;
 
-            for (int i = 0; i < remaining.Count; i += 100)
+            for (int i = 0; i < remaining.Count; i += 50)
             {
                 token.ThrowIfCancellationRequested();
                 if (InBackoff())
                     break;
                 if (i > 0)
                     await Task.Delay(350, token).ConfigureAwait(false);
-                string chunk = string.Join(',', remaining.Skip(i).Take(100));
+                string chunk = string.Join(',', remaining.Skip(i).Take(50));
                 try
                 {
                     string json = await Utility.Http.GetString($"https://games.roblox.com/v1/games?universeIds={chunk}", token).ConfigureAwait(false);
@@ -179,6 +189,122 @@ public static class GameLiveData
         finally
         {
             PriceFetchGate.Release();
+        }
+        return result;
+    }
+
+    private static string GetActiveCookieKey()
+    {
+        string cookie = RobloxCookie.Get() ?? string.Empty;
+        lock (PurchasedCookieSync)
+        {
+            if (!string.Equals(_purchasedCookie, cookie, StringComparison.Ordinal))
+            {
+                _purchasedCookie = cookie;
+                Purchased.Clear();
+            }
+        }
+        return cookie;
+    }
+
+    public static bool TryGetPurchased(long universeId, out bool isPurchased)
+    {
+        if (universeId <= 0 || string.IsNullOrEmpty(GetActiveCookieKey()))
+        {
+            isPurchased = false;
+            return false;
+        }
+        if (Purchased.TryGetValue(universeId, out (bool Value, DateTime At) entry) && DateTime.UtcNow - entry.At < PurchasedFreshFor)
+        {
+            isPurchased = entry.Value;
+            return true;
+        }
+        isPurchased = false;
+        return false;
+    }
+
+    public static async Task<Dictionary<long, bool>> FetchPurchasedAsync(IEnumerable<long> paidUniverseIds, CancellationToken token)
+    {
+        const string LOG_IDENT = "GameLiveData::FetchPurchasedAsync";
+
+        Dictionary<long, bool> result = new();
+        if (string.IsNullOrEmpty(GetActiveCookieKey()))
+            return result;
+        List<long> missing = new();
+        foreach (long id in paidUniverseIds.Where(static id => id > 0).Distinct())
+        {
+            if (TryGetPurchased(id, out bool cached))
+                result[id] = cached;
+            else
+                missing.Add(id);
+        }
+        if (missing.Count == 0 || InBackoff())
+            return result;
+
+        await PurchaseFetchGate.WaitAsync(token).ConfigureAwait(false);
+        try
+        {
+            if (string.IsNullOrEmpty(GetActiveCookieKey()))
+                return result;
+            List<long> remaining = new();
+            foreach (long id in missing)
+            {
+                if (TryGetPurchased(id, out bool cached))
+                    result[id] = cached;
+                else
+                    remaining.Add(id);
+            }
+            if (remaining.Count == 0 || InBackoff())
+                return result;
+
+            for (int i = 0; i < remaining.Count; i += 50)
+            {
+                token.ThrowIfCancellationRequested();
+                if (InBackoff())
+                    break;
+                if (i > 0)
+                    await Task.Delay(350, token).ConfigureAwait(false);
+                string chunk = string.Join(',', remaining.Skip(i).Take(50));
+                try
+                {
+                    RobloxAuthedResult response = await RobloxAuthedClient
+                        .GetAsync($"https://games.roblox.com/v1/games/multiget-playability-status?universeIds={chunk}", token)
+                        .ConfigureAwait(false);
+                    if (!response.Succeeded)
+                    {
+                        if (response.Status == RobloxAuthedStatus.RateLimited)
+                            Backoff(response.RetryAfter ?? TimeSpan.FromSeconds(60));
+                        break;
+                    }
+                    using JsonDocument doc = JsonDocument.Parse(response.Body);
+                    if (doc.RootElement.ValueKind != JsonValueKind.Array)
+                        continue;
+                    foreach (JsonElement item in doc.RootElement.EnumerateArray())
+                    {
+                        long id = item.TryGetProperty("universeId", out JsonElement idProp) && idProp.ValueKind == JsonValueKind.Number && idProp.TryGetInt64(out long uid) ? uid : 0;
+                        if (id <= 0)
+                            continue;
+                        bool isPlayable = item.TryGetProperty("isPlayable", out JsonElement playableProp) && playableProp.ValueKind == JsonValueKind.True;
+                        string status = item.TryGetProperty("playabilityStatus", out JsonElement statusProp) && statusProp.ValueKind == JsonValueKind.String ? statusProp.GetString() ?? string.Empty : string.Empty;
+                        bool owned = isPlayable || string.Equals(status, "Playable", StringComparison.OrdinalIgnoreCase);
+                        Purchased[id] = (owned, DateTime.UtcNow);
+                        result[id] = owned;
+                    }
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, ex.Message);
+                    break;
+                }
+            }
+        }
+        finally
+        {
+            PurchaseFetchGate.Release();
         }
         return result;
     }

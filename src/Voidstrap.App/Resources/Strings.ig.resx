@@ -9200,6 +9200,9 @@ kwe ya?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Gbaa n'efu</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Azụtara</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} na-agba</value>
   </data>

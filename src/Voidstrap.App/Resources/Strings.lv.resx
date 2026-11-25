@@ -9200,6 +9200,9 @@ Vai atļaut?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Spēlēt bez maksas</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Iegādāts</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>Spēlē {0}</value>
   </data>

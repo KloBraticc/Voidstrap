@@ -9199,6 +9199,9 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>مفت کھیلیں</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>خریدا گیا</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} کھیل رہے ہیں</value>
   </data>

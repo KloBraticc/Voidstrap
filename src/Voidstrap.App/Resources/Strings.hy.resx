@@ -9200,6 +9200,9 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Անվճար խաղալ</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Գնված է</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} խաղում է</value>
   </data>

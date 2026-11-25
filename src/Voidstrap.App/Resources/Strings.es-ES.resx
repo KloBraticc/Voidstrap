@@ -9509,6 +9509,9 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Gratis para jugar</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Comprado</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} jugando</value>
   </data>

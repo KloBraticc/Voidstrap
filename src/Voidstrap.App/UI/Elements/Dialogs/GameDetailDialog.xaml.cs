@@ -13,6 +13,8 @@ namespace Voidstrap.UI.Elements.Dialogs
         private long _universeId;
         private readonly CancellationTokenSource _cts = new();
         private bool _released;
+        private long? _price;
+        private bool _isPurchased;
 
         public event EventHandler? CloseRequested;
 
@@ -33,10 +35,11 @@ namespace Voidstrap.UI.Elements.Dialogs
             TitleText.Text = string.IsNullOrEmpty(name) ? $"Place {placeId}" : name;
             if (universeId != 0)
             {
+                bool hasPurchased = GameLiveData.TryGetPurchased(universeId, out bool cachedOwned);
                 if (GameLiveData.TryGetStats(universeId, out GameLiveStats cachedStats))
-                    ApplyPrice(cachedStats.Price);
+                    ApplyPrice(cachedStats.Price, hasPurchased ? cachedOwned : null);
                 else
-                    ApplyPrice(UniverseDetails.LoadFromCache(universeId)?.Data?.Price);
+                    ApplyPrice(UniverseDetails.LoadFromCache(universeId)?.Data?.Price, hasPurchased ? cachedOwned : null);
             }
             Servers.IsServersTabSelected = true;
             Servers.SetViewActive(true);
@@ -76,7 +79,10 @@ namespace Voidstrap.UI.Elements.Dialogs
                 {
                     VoteBar.UniverseId = _universeId;
                     if (GameLiveData.TryGetPrice(_universeId, out long? cachedPrice))
-                        ApplyPrice(cachedPrice);
+                    {
+                        bool? cachedOwned = GameLiveData.TryGetPurchased(_universeId, out bool owned) ? owned : null;
+                        ApplyPrice(cachedPrice, cachedOwned);
+                    }
                 }
                 if (_universeId != 0)
                     await Task.WhenAll(LoadDetailsAsync(token), LoadVotesAsync(token), LoadImagesAsync(token));
@@ -117,7 +123,10 @@ namespace Voidstrap.UI.Elements.Dialogs
                     return;
                 if (name.Length > 0)
                     TitleText.Text = name;
-                ApplyPrice(price);
+                bool? cachedOwned = price is > 0 && GameLiveData.TryGetPurchased(_universeId, out bool owned) ? owned : null;
+                ApplyPrice(price, cachedOwned);
+                if (price is > 0)
+                    _ = LoadPurchasedAsync(_cts.Token);
                 ReviewControl.SetGame(_universeId, _placeId, TitleText.Text);
                 CreatorText.Text = creator;
                 CreatorChip.Visibility = creator.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -219,7 +228,11 @@ namespace Voidstrap.UI.Elements.Dialogs
         private void AccountBar_AccountSwitched(object? sender, EventArgs e)
         {
             if (!_released)
+            {
                 Servers.RefreshCommand.Execute(null);
+                if (_price is > 0 && _universeId != 0)
+                    _ = LoadPurchasedAsync(_cts.Token);
+            }
         }
 
         private async Task RunLiveLoopAsync(CancellationToken token)
@@ -261,18 +274,45 @@ namespace Voidstrap.UI.Elements.Dialogs
                 CountUpText.SetValue(ActiveText, stats.Playing);
                 CountUpText.SetValue(VisitsText, stats.Visits);
                 CountUpText.SetValue(FavoritesText, stats.Favorites);
-                ApplyPrice(stats.Price);
+                ApplyPrice(stats.Price, GameLiveData.TryGetPurchased(universeId, out bool owned) ? owned : null);
             }
             if (GameLiveData.TryGetVotes(universeId, out GameVoteCounts votes) && !double.IsNaN(votes.LikePercent))
                 CountUpText.SetValue(RatingText, votes.LikePercent);
         }
 
-        private void ApplyPrice(long? price)
+        private async Task LoadPurchasedAsync(CancellationToken token)
         {
-            string text = GameLiveData.FormatRobuxAmount(price);
-            PriceText.Text = text;
-            PriceChip.ToolTip = GameLiveData.FormatRobux(price);
-            PriceChip.Visibility = text.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+            const string LOG_IDENT = "GameDetailDialog::LoadPurchasedAsync";
+
+            try
+            {
+                Dictionary<long, bool> owned = await GameLiveData.FetchPurchasedAsync(new[] { _universeId }, token);
+                if (token.IsCancellationRequested || _released || !owned.TryGetValue(_universeId, out bool isOwned))
+                    return;
+                ApplyPrice(_price, isOwned);
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, ex.Message);
+            }
+        }
+
+        private void ApplyPrice(long? price, bool? isPurchased = null)
+        {
+            _price = price is > 0 ? price : null;
+            if (isPurchased.HasValue)
+                _isPurchased = isPurchased.Value;
+            else if (_price == null)
+                _isPurchased = false;
+            bool visible = _price is > 0;
+            bool owned = visible && _isPurchased;
+            PriceRobuxIcon.Visibility = visible && !owned ? Visibility.Visible : Visibility.Collapsed;
+            PricePurchasedIcon.Visibility = owned ? Visibility.Visible : Visibility.Collapsed;
+            string formatted = GameLiveData.FormatRobux(_price);
+            PriceText.Text = owned ? Strings.Library_Store_Purchased : GameLiveData.FormatRobuxAmount(_price);
+            PriceChip.ToolTip = owned ? $"{Strings.Library_Store_Purchased} ({formatted})" : formatted;
+            PriceChip.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private static readonly HttpClient SubplaceHttp = VpnHttpClient.Create(TimeSpan.FromSeconds(20));

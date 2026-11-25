@@ -9509,6 +9509,9 @@ Povolit?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Hrát zdarma</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Zakoupeno</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} hraje</value>
   </data>

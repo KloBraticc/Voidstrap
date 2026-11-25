@@ -9199,6 +9199,9 @@ Ruxsat berasizmi?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Bepul o‘ynash</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Sotib olingan</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} kishi o‘ynamoqda</value>
   </data>

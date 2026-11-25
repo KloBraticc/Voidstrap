@@ -9509,6 +9509,9 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Library.Store.Free" xml:space="preserve">
     <value>رایگان برای بازی</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>خریداری‌شده</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} در حال بازی</value>
   </data>

@@ -9200,6 +9200,9 @@ Ceadaigh é?</value>
   <data name="Library.Store.Free" xml:space="preserve">
     <value>Saor chun Imirt</value>
   </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Ceannaithe</value>
+  </data>
   <data name="Library.Store.Playing" xml:space="preserve">
     <value>{0} ag imirt</value>
   </data>

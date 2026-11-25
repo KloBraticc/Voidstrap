@@ -9510,6 +9510,9 @@ Permitir?</value>
 <data name="Library.Store.Free" xml:space="preserve">
   <value>Gratuito para jogar</value>
 </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>Comprado</value>
+  </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} jogando</value>
 </data>

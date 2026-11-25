@@ -9200,6 +9200,9 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
 <data name="Library.Store.Free" xml:space="preserve">
   <value>مفت راند</value>
 </data>
+  <data name="Library.Store.Purchased" xml:space="preserve">
+    <value>خريد ڪيل</value>
+  </data>
 <data name="Library.Store.Playing" xml:space="preserve">
   <value>{0} کيڏي رهيا آهن</value>
 </data>
