@@ -143,19 +143,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         SetBusy(true, Strings.ContextMenu_GameBrowser_Loading);
         try
         {
-            List<ActivityData> recent = new();
-            if (_activity.InGame && _activity.Data.PlaceId > 0)
-                recent.Add(_activity.Data);
-            lock (_activity.History)
-                recent.AddRange(_activity.History);
-            recent.AddRange(await Task.Run(LoadStoredHistory, _lifetimeToken));
-            List<ActivityData> games = recent
-                .Where(game => game.PlaceId > 0)
-                .OrderByDescending(game => game.TimeJoined)
-                .GroupBy(game => game.PlaceId)
-                .Select(group => group.First())
-                .Take(MaxRecentGames)
-                .ToList();
+            List<ActivityData> games = await LoadRecentEntriesAsync(_activity, MaxRecentGames, _lifetimeToken);
             await UniverseDetails.FetchForEntriesAsync(games, _lifetimeToken);
             _continue = games.Select(game => new GameBrowserTile(game)).ToList();
             _continueLoaded = true;
@@ -185,6 +173,21 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
 
     private readonly CancellationTokenSource _lifetime = new();
     private readonly CancellationToken _lifetimeToken;
+
+    internal static async Task<List<ActivityData>> LoadRecentEntriesAsync(ActivityWatcher activity, int limit, CancellationToken token)
+    {
+        List<ActivityData> recent = new();
+        if (activity.InGame)
+            recent.Add(activity.Data);
+        lock (activity.History)
+            recent.AddRange(activity.History);
+        recent.AddRange(await Task.Run(LoadStoredHistory, token).ConfigureAwait(false));
+        return recent.Where(game => game.PlaceId > 0)
+            .OrderByDescending(game => game.TimeJoined)
+            .DistinctBy(game => game.PlaceId)
+            .Take(limit)
+            .ToList();
+    }
 
     private static List<ActivityData> LoadStoredHistory()
     {
@@ -573,51 +576,49 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
 
     private async Task LaunchGameAsync(GameBrowserTile tile, string? accessCode)
     {
+        const string LOG_IDENT = "SessionGameBrowser::LaunchGameAsync";
         if (_launching || _closed || tile.PlaceId <= 0)
             return;
-        if (_matchmaker != null && _activity.InGame)
-        {
-            // Roblox is already running, so switch through the matchmaker handoff instead of starting a second client
-            _launching = true;
+        _launching = true;
+        bool handoff = _matchmaker != null && _activity.InGame;
+        if (handoff)
             SetBusy(true, Strings.ContextMenu_GameBrowser_Loading);
-            try
-            {
-                if (await Task.Run(() => _matchmaker.LaunchPlaceAsync(tile.PlaceId, null, CancellationToken.None, accessCode)))
-                    return;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("SessionGameBrowser", "The selected game could not be opened: " + ex.Message);
-            }
-            finally
-            {
-                _launching = false;
-                if (!_closed)
-                    SetBusy(false, string.Empty);
-            }
-            if (!_closed)
-                StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
-            return;
-        }
+        bool launched = false;
         try
         {
-            string executable = Paths.LaunchExecutable;
-            ProcessStartInfo startInfo = new()
-            {
-                FileName = executable,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WorkingDirectory = Path.GetDirectoryName(executable) ?? string.Empty
-            };
-            startInfo.ArgumentList.Add("-player");
-            startInfo.ArgumentList.Add(LaunchInterceptor.BuildExperienceUri(tile.PlaceId, accessCode: accessCode));
-            Process.Start(startInfo)?.Dispose();
+            launched = await LaunchExperienceAsync(_activity, _matchmaker, tile.PlaceId, accessCode);
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("SessionGameBrowser", "The selected game could not be opened: " + ex.Message);
-            StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
+            App.Logger.WriteLine(LOG_IDENT, "The selected game could not be opened: " + ex.Message);
         }
+        finally
+        {
+            _launching = false;
+            if (handoff && !_closed)
+                SetBusy(false, string.Empty);
+        }
+        if (!launched && !_closed)
+            StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
+    }
+
+    internal static async Task<bool> LaunchExperienceAsync(ActivityWatcher activity, ServerMatchmaker? matchmaker, long placeId, string? accessCode = null)
+    {
+        if (matchmaker != null && activity.InGame)
+            return await Task.Run(() => matchmaker.LaunchPlaceAsync(placeId, null, CancellationToken.None, accessCode)).ConfigureAwait(false);
+
+        string executable = Paths.LaunchExecutable;
+        ProcessStartInfo startInfo = new()
+        {
+            FileName = executable,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            WorkingDirectory = Path.GetDirectoryName(executable) ?? string.Empty
+        };
+        startInfo.ArgumentList.Add("-player");
+        startInfo.ArgumentList.Add(LaunchInterceptor.BuildExperienceUri(placeId, accessCode: accessCode));
+        using Process? process = Process.Start(startInfo);
+        return process != null;
     }
 
     // One tile per game: a game's subplaces and the same game reached from different places are the same tile

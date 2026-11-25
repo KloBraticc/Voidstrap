@@ -829,7 +829,7 @@ public partial class MenuContainer : WpfUiWindow
     {
         if (_sessionDock == null)
         {
-            _sessionDock = new SessionDock(activityWatcher, RunDockAction);
+            _sessionDock = new SessionDock(activityWatcher, RunDockAction, _watcher.ServerMatchmaker);
             _sessionDock.Closed += SessionDock_Closed;
         }
         return _sessionDock;

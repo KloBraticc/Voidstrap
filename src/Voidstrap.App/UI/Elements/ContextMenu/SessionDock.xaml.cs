@@ -25,7 +25,7 @@ namespace Voidstrap.UI.Elements.Overlay;
 
 public partial class SessionDock : Window
 {
-    private const double DockHeight = 70;
+    private const double DockHeight = 62;
     private const double PopoutHeight = 388;
     private const double PopoutGap = 12;
     private static readonly double DimmerOpacity = Voidstrap.Utility.Platform.IsWindows ? 0.45 : 0.22;
@@ -78,17 +78,14 @@ public partial class SessionDock : Window
     private static readonly AnimationTimeline DotBeat = Frozen(CreateDotBeat());
     private DispatcherTimer? _heartbeat;
 
-    // Far enough that the pill and its shadow start fully below the window's bottom edge
     private static readonly TimeSpan EntranceLength = TimeSpan.FromMilliseconds(300);
     private static readonly TimeSpan ExitLength = TimeSpan.FromMilliseconds(220);
 
-    // Room around the pill for its shadow, the window is the pill plus this
-    private const double ShadowRoomX = 40;
-
     private const double MaxDockWidth = 1180;
     private int _availableWidth;
+    private int _availableDepth;
     private OverlayDockSide? _appliedSide;
-    private const double DockWindowThickness = 96;
+    private bool _appliedTopEdge;
     private const double SidePopoutWidth = 900;
     private readonly NativeSlide _slide;
     private readonly TranslateTransform _linuxDockMotion = new();
@@ -179,27 +176,14 @@ public partial class SessionDock : Window
     private CancellationTokenSource? _refreshCts;
     private Task? _refreshTask;
 
-    public SessionDock(ActivityWatcher activity, Action<string> action)
+    public SessionDock(ActivityWatcher activity, Action<string> action, ServerMatchmaker? matchmaker)
     {
         ActiveInstance = this;
         _lifetimeToken = _lifetime.Token;
         _activity = activity;
         _action = action;
+        _gameMatchmaker = matchmaker;
         InitializeComponent();
-        if (Voidstrap.Utility.Platform.UsesLinuxHost)
-        {
-            DockRoot.Margin = new Thickness(0);
-            DockRoot.RowDefinitions[0].Height = new GridLength(0);
-            DockRoot.RowDefinitions[1].Height = new GridLength(DockHeight);
-            DockShadow1.Visibility = Visibility.Collapsed;
-            DockShadow2.Visibility = Visibility.Collapsed;
-            DockShadow3.Visibility = Visibility.Collapsed;
-            DockShadow4.Visibility = Visibility.Collapsed;
-            DockShadow5.Visibility = Visibility.Collapsed;
-            if (Pill.Parent is FrameworkElement container)
-                container.HorizontalAlignment = HorizontalAlignment.Stretch;
-            Pill.Height = DockHeight;
-        }
         PortableOverlay.Prepare(this);
         PreviewKeyDown += OnDockKey;
         _slide = new NativeSlide(this);
@@ -219,6 +203,8 @@ public partial class SessionDock : Window
         Closing += OnClosing;
         Closed += OnClosed;
         LocationChanged += OnDockMoved;
+        if (Voidstrap.Utility.Platform.IsWindows)
+            DpiChanged += OnDockDpiChanged;
         Pill.SizeChanged += OnPillSizeChanged;
         ProfileCard.SizeChanged += OnPillSizeChanged;
         GameCard.SizeChanged += OnPillSizeChanged;
@@ -283,6 +269,7 @@ public partial class SessionDock : Window
         if (!ReferenceEquals(GamePicture.Source, image))
             GamePicture.Source = image;
         GamePicture.Visibility = image == null ? Visibility.Collapsed : Visibility.Visible;
+        SetDeckGame(data, GameTitle.Text, image);
         QueueFitWidth();
         if (!changed)
             return;
@@ -641,6 +628,8 @@ public partial class SessionDock : Window
         if (NowPlayingPopup.IsOpen)
             UpdateNowPlayingVisibility();
     }
+
+    private void OnDockDpiChanged(object? sender, DpiChangedEventArgs e) => QueueFitWidth();
 
     private void UpdateNowPlayingVisibility()
     {
@@ -1075,7 +1064,7 @@ public partial class SessionDock : Window
         );
         Point? resumeFrom = _exiting ? _slide.CurrentPosition() : null;
         CancelEntrance();
-        if (resumeFrom == null && !IsVisible && NativeSlide.Supported && RobloxWindowTracker.Current.Valid)
+        if (!DockReducedMotion && resumeFrom == null && !IsVisible && NativeSlide.Supported && RobloxWindowTracker.Current.Valid)
             _slide.Conceal();
         try
         {
@@ -1114,28 +1103,15 @@ public partial class SessionDock : Window
         RaiseAboveDimmer();
         _clock.Start();
         _activateOnSettle = activatePanels;
+        IntroduceGameCards();
         StartEntrance(resumeFrom);
     }
 
     internal static (int Left, int Top) ComputeDockPosition(RobloxWindowRect rect, double scaleX, double scaleY, int width, int height)
     {
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
-        if (layout.DockSideways)
-        {
-            int along = Math.Max(0, (int)Math.Round(12 * scaleY));
-            int across = Math.Max(1, (int)Math.Round(layout.SafeDockEdgeSpacing * scaleX));
-            int minTop = rect.Top + along;
-            int maxTop = Math.Max(minTop, rect.Top + rect.Height - height - along);
-            int sideTop = minTop + (int)Math.Round((maxTop - minTop) * (layout.SafeDockHorizontal / 100.0));
-            int sideLeft = layout.DockSide == OverlayDockSide.Left ? rect.Left + across : rect.Left + Math.Max(0, rect.Width - width - across);
-            return (sideLeft, sideTop);
-        }
-        int sideMargin = Math.Max(0, (int)Math.Round(12 * scaleX));
-        int edgeMargin = Math.Max(1, (int)Math.Round(layout.SafeDockEdgeSpacing * scaleY));
-        int minLeft = rect.Left + sideMargin;
-        int maxLeft = Math.Max(minLeft, rect.Left + rect.Width - width - sideMargin);
-        int left = minLeft + (int)Math.Round((maxLeft - minLeft) * (layout.SafeDockHorizontal / 100.0));
-        int top = layout.DockTopEdge ? rect.Top + edgeMargin : rect.Top + Math.Max(0, rect.Height - height - edgeMargin);
+        int left = layout.DockSide == OverlayDockSide.Right ? rect.Left + Math.Max(0, rect.Width - width) : rect.Left;
+        int top = layout.DockSideways || layout.DockTopEdge ? rect.Top : rect.Top + Math.Max(0, rect.Height - height);
         return (left, top);
     }
 
@@ -1148,8 +1124,7 @@ public partial class SessionDock : Window
     public void SetScreenDragDimOverride(bool active)
     {
         _screenDragDimOverride = active;
-        DockRoot.Opacity = active ? 0 : 1;
-        DockRoot.IsHitTestVisible = !active;
+        DockSurface.Visibility = active ? Visibility.Hidden : Visibility.Visible;
         if (_opened && _dimmer != null)
             FadeDimmer(active ? Math.Min(0.10, ResolveConfiguredDimmerOpacity()) : ResolveConfiguredDimmerOpacity());
     }
@@ -1272,13 +1247,17 @@ public partial class SessionDock : Window
             return;
         }
         RobloxWindowRect game = RobloxWindowTracker.Current;
-        if (!NativeSlide.Supported || !game.Valid || _slide.CurrentPosition() is not Point target)
+        if (DockReducedMotion || !NativeSlide.Supported || !game.Valid || _slide.CurrentPosition() is not Point target)
         {
             _slide.RemoveClip();
             Settle();
             return;
         }
-        Point from = resumeFrom ?? OffscreenPoint(target, game);
+        Vector entry = DockEdgeDirection;
+        Point from = resumeFrom ?? new Point(
+            target.X + entry.X * 28 * VisualTreeHelper.GetDpi(this).DpiScaleX,
+            target.Y + entry.Y * 28 * VisualTreeHelper.GetDpi(this).DpiScaleY
+        );
         Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
         if (!_slide.Start(from, target, clip, EntranceLength, true, OnEntranceFinished))
         {
@@ -1474,7 +1453,7 @@ public partial class SessionDock : Window
     {
         CancelLinuxDockAnimation();
         RobloxWindowRect bounds = RobloxWindowTracker.Current;
-        if (!bounds.Valid || !IsVisible || Wpf.Ui.Animations.RenderReady.ReducedMotion || CurrentSide != OverlayDockSide.None)
+        if (!bounds.Valid || !IsVisible || DockReducedMotion || CurrentSide != OverlayDockSide.None)
         {
             completed();
             return;
@@ -1486,7 +1465,7 @@ public partial class SessionDock : Window
         double distance = topEdge
             ? -Math.Max(DockHeight, Top + Height - bounds.Top)
             : Math.Max(DockHeight, bounds.Top + bounds.Height - Top);
-        double from = entering ? distance : 0;
+        double from = entering ? DockEdgeDirection.Y * 28 : 0;
         double to = entering ? 0 : distance;
         _linuxDockMotion.Y = to;
         _linuxMotionActive = true;
@@ -1496,7 +1475,6 @@ public partial class SessionDock : Window
             Interval = duration + TimeSpan.FromMilliseconds(1500),
         };
         _linuxMotionDeadline.Tick += OnLinuxMotionDeadline;
-        Voidstrap.Platform.Linux.LinuxWindowShadow.Track(PortableOverlay.Handle(this), 16, 1, true, unmanaged: true);
         PlaceLinuxDockFrame(from);
         Wpf.Ui.Animations.RenderReady.Run(
             this,
@@ -1536,7 +1514,7 @@ public partial class SessionDock : Window
         int height = Math.Max(1, (int)Math.Ceiling(Height));
         int clipTop = Math.Max(0, _linuxMotionBounds.Top - top);
         int clipBottom = Math.Clamp(_linuxMotionBounds.Top + _linuxMotionBounds.Height - top, 0, height);
-        Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(handle, width, height, 16, clipTop, clipBottom);
+        Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(handle, width, height, 0, clipTop, clipBottom);
         Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(handle, (int)Math.Round(_linuxMotionOrigin.X), top, width, height);
     }
 
@@ -1581,7 +1559,7 @@ public partial class SessionDock : Window
 
     private bool StartExit()
     {
-        if (Voidstrap.Utility.Platform.UsesLinuxHost)
+        if (Voidstrap.Utility.Platform.UsesLinuxHost || DockReducedMotion)
             return false;
         RobloxWindowRect game = RobloxWindowTracker.Current;
         if (_slide.CurrentPosition() is not Point from)
@@ -1629,37 +1607,30 @@ public partial class SessionDock : Window
     private void ApplyOrientation()
     {
         OverlayDockSide side = CurrentSide;
-        if (_appliedSide == side)
+        bool top = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
+        if (_appliedSide == side && _appliedTopEdge == top)
             return;
+        bool axisChanged = _appliedSide != side;
         _appliedSide = side;
+        _appliedTopEdge = top;
         bool sideways = side != OverlayDockSide.None;
-        bool linux = Voidstrap.Utility.Platform.UsesLinuxHost;
-        double thickness = linux ? DockHeight : DockWindowThickness;
-        ArrangeDockAxis(sideways, linux);
-        if (!linux)
-            DockRoot.Margin = sideways ? new Thickness(14, 20, 18, 20) : new Thickness(20, 18, 20, 14);
-        DockRoot.RowDefinitions[0].Height = sideways || linux ? new GridLength(0) : new GridLength(1, GridUnitType.Star);
-        DockRoot.RowDefinitions[1].Height = sideways ? new GridLength(1, GridUnitType.Star) : new GridLength(linux ? DockHeight : 64);
-        if (sideways)
-            Width = thickness;
-        else
-            Height = thickness;
-        NowPlayingPopup.PlacementTarget = sideways ? DockRoot : Pill;
+        if (axisChanged)
+            ArrangeDockAxis(sideways);
+        ArrangeDeck(side, top);
         _availableWidth = 0;
     }
 
-    private void ArrangeDockAxis(bool vertical, bool linux)
+    private void ArrangeDockAxis(bool vertical)
     {
         Orientation flow = vertical ? Orientation.Vertical : Orientation.Horizontal;
         if (Pill.Parent is FrameworkElement host)
         {
             host.LayoutTransform = Transform.Identity;
-            host.HorizontalAlignment = linux && !vertical ? HorizontalAlignment.Stretch : HorizontalAlignment.Center;
-            host.VerticalAlignment = linux && vertical ? VerticalAlignment.Stretch : vertical ? VerticalAlignment.Center : VerticalAlignment.Stretch;
+            host.HorizontalAlignment = vertical ? HorizontalAlignment.Stretch : HorizontalAlignment.Left;
+            host.VerticalAlignment = vertical ? VerticalAlignment.Top : VerticalAlignment.Stretch;
         }
-        double thickness = linux ? DockHeight : 64;
-        Pill.Width = vertical ? thickness : double.NaN;
-        Pill.Height = vertical ? double.NaN : linux ? DockHeight : double.NaN;
+        Pill.Width = vertical ? DockHeight : double.NaN;
+        Pill.Height = vertical ? double.NaN : DockHeight;
         Pill.Padding = vertical ? new Thickness(0, 14, 0, 12) : new Thickness(14, 0, 12, 0);
         PillLayout.VerticalAlignment = vertical ? VerticalAlignment.Stretch : VerticalAlignment.Center;
         PillLayout.HorizontalAlignment = vertical ? HorizontalAlignment.Center : HorizontalAlignment.Stretch;
@@ -1733,7 +1704,11 @@ public partial class SessionDock : Window
     {
         OverlayDockSide side = ActiveInstance?.VisualSide ?? CurrentSide;
         if (side == OverlayDockSide.None)
+        {
+            if (App.Settings.Prop.OverlayLayout?.DockTopEdge == true)
+                return [new CustomPopupPlacement(new Point((targetSize.Width - popupSize.Width) / 2, targetSize.Height + 6), PopupPrimaryAxis.Horizontal)];
             return Voidstrap.UI.OverlayToolTipPlacement.Above(popupSize, targetSize, offset);
+        }
         double top = (targetSize.Height - popupSize.Height) / 2;
         CustomPopupPlacement after = new(new Point(targetSize.Width + 6, top), PopupPrimaryAxis.Vertical);
         CustomPopupPlacement before = new(new Point(-popupSize.Width - 6, top), PopupPrimaryAxis.Vertical);
@@ -1744,35 +1719,7 @@ public partial class SessionDock : Window
     {
         ApplyOrientation();
         bool sideways = _appliedSide is OverlayDockSide.Left or OverlayDockSide.Right;
-        double userScale = (App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings()).SafeDockScale;
-        SetPillScale(userScale);
-        Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        double shadowRoom = Voidstrap.Utility.Platform.UsesLinuxHost ? 0 : ShadowRoomX;
-        double width = Math.Min(MaxDockWidth * userScale, Math.Ceiling(PillLength(sideways))) + shadowRoom;
-        if (RobloxWindowTracker.Current is { Valid: true } bounds && DockExtent(bounds) > 0)
-        {
-            _availableWidth = DockExtent(bounds);
-            DpiScale windowDpi = VisualTreeHelper.GetDpi(this);
-            double dpiX = PortableOverlay.Active ? 1.0 : Math.Max(0.5, sideways ? windowDpi.DpiScaleY : windowDpi.DpiScaleX);
-            double gameWidth = _availableWidth / dpiX;
-            double available = Math.Max(1, gameWidth - shadowRoom - (PortableOverlay.Active ? 0 : 24));
-            double fitScale = Math.Min(1, available / Math.Max(1, width - shadowRoom));
-            double combinedScale = userScale * fitScale;
-            SetPillScale(combinedScale);
-            Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            width = Math.Min(gameWidth, Math.Ceiling(PillLength(sideways)) + shadowRoom);
-        }
-        if (Voidstrap.Utility.Platform.UsesLinuxHost)
-        {
-            width = Math.Ceiling(width / 32) * 32;
-            if (PortableOverlay.Active && _availableWidth > 0)
-                width = Math.Min(_availableWidth, width);
-        }
-        bool changed = width > shadowRoom && Math.Abs(width - (sideways ? Height : Width)) >= 0.5;
-        if (changed && sideways)
-            Height = width;
-        else if (changed)
-            Width = width;
+        bool changed = FitDeckAndCommands(sideways);
         if (!changed && !_fitAnchorPending)
             return;
         if (_opened && !_slide.IsRunning && !_linuxMotionActive)
@@ -1811,7 +1758,7 @@ public partial class SessionDock : Window
         }
         if (_linuxMotionActive && !bounds.Matches(_linuxMotionBounds))
             FinishLinuxDockAnimation(_linuxMotionGeneration);
-        if (bounds.Valid && DockExtent(bounds) != _availableWidth)
+        if (bounds.Valid && (DockExtent(bounds) != _availableWidth || DockDepth(bounds) != _availableDepth))
             FitWidth();
         if (_opened && !bounds.Foreground)
         {
@@ -3126,49 +3073,13 @@ public partial class SessionDock : Window
         }
         if (universeId <= 0 || universeId == _bannerUniverse || _closed)
             return;
-        string url =
-            "https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds="
-            + universeId
-            + "&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false";
-        using System.Net.Http.HttpResponseMessage response = await App.HttpClient.GetAsync(url, _lifetimeToken);
-        if (!response.IsSuccessStatusCode)
-            return;
-        using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(
-            await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 512 * 1024, _lifetimeToken)
-        );
-        string? image = null;
-        if (
-            document.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement items)
-            && items.ValueKind == System.Text.Json.JsonValueKind.Array
-        )
+        BitmapSource? banner = _experienceCards.FirstOrDefault() is { HasCover: true, Artwork.Background: ImageBrush { ImageSource: BitmapSource currentCover } }
+            && _deckPlaceId == data.PlaceId ? currentCover : null;
+        if (banner == null)
         {
-            foreach (System.Text.Json.JsonElement item in items.EnumerateArray())
-            {
-                if (
-                    !item.TryGetProperty("thumbnails", out System.Text.Json.JsonElement thumbnails)
-                    || thumbnails.ValueKind != System.Text.Json.JsonValueKind.Array
-                )
-                    continue;
-                foreach (System.Text.Json.JsonElement thumbnail in thumbnails.EnumerateArray())
-                {
-                    if (
-                        thumbnail.TryGetProperty("imageUrl", out System.Text.Json.JsonElement value)
-                        && value.ValueKind == System.Text.Json.JsonValueKind.String
-                        && value.GetString() is { } candidate
-                        && candidate.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
-                    )
-                    {
-                        image = candidate;
-                        break;
-                    }
-                }
-                if (image != null)
-                    break;
-            }
+            Dictionary<long, string> artwork = await UniverseDetails.FetchArtworkUrlsAsync([universeId], _lifetimeToken);
+            banner = await Voidstrap.Utility.SafeImaging.FromHttpAsync(artwork.GetValueOrDefault(universeId), 820, _lifetimeToken);
         }
-        if (image == null || _closed)
-            return;
-        System.Windows.Media.Imaging.BitmapSource? banner = await Voidstrap.Utility.SafeImaging.FromHttpAsync(image, 820, _lifetimeToken);
         if (banner == null || _closed || !ReferenceEquals(_data, data))
             return;
         await Dispatcher.InvokeAsync(() =>
@@ -3300,6 +3211,8 @@ public partial class SessionDock : Window
         _opened = false;
         Closing -= OnClosing;
         LocationChanged -= OnDockMoved;
+        if (Voidstrap.Utility.Platform.IsWindows)
+            DpiChanged -= OnDockDpiChanged;
         _nowPlayingTimer.Stop();
         _nowPlayingTimer.Tick -= OnNowPlayingTick;
         _islandClock.Stop();
@@ -3442,24 +3355,8 @@ public partial class SessionDock : Window
         if (_closed || !Voidstrap.Utility.Platform.UsesLinuxHost || !IsVisible || _linuxMotionActive)
             return;
         nint handle = PortableOverlay.Handle(this);
-        if (
-            handle == 0
-            || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out _, out _, out int width, out int height)
-        )
-            return;
-        double scale = ActualWidth > 0 ? width / ActualWidth : 1;
-        int radius = Math.Max(1, (int)Math.Round(16 * Math.Max(0.5, scale)));
-        bool rounded = Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(handle, width, height, radius);
-        Voidstrap.Platform.Linux.LinuxWindowShadow.Track(
-            handle,
-            rounded ? radius : 0,
-            scale,
-            !rounded,
-            message => App.Logger.WriteLine("LinuxWindowShadow", message),
-            true
-        );
-        if (!rounded)
-            App.Logger.WriteLine("SessionDock", "Linux could not round the dock window, its soft shadow is suppressed");
+        if (handle != 0)
+            Voidstrap.Platform.Linux.LinuxWindowInterop.TryClearShape(handle);
     }
 }
 

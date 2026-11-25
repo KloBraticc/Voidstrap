@@ -214,6 +214,31 @@ public class UniverseDetails
         return icons;
     }
 
+    private sealed record ExperienceArtwork(
+        [property: JsonPropertyName("universeId")] long UniverseId,
+        [property: JsonPropertyName("thumbnails")] List<ThumbnailResponse?>? Thumbnails
+    );
+
+    public static async Task<Dictionary<long, string>> FetchArtworkUrlsAsync(IEnumerable<long> universeIds, CancellationToken token)
+    {
+        Dictionary<long, string> artwork = new();
+        foreach (long[] batch in universeIds.Where(id => id > 0).Distinct().Chunk(MaxIdsPerRequest))
+        {
+            ApiArrayResponse<ExperienceArtwork> response = await Http.GetJson<ApiArrayResponse<ExperienceArtwork>>(
+                "https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=" + string.Join(',', batch)
+                    + "&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false",
+                token
+            ).ConfigureAwait(false);
+            foreach (ExperienceArtwork item in response.Data ?? Enumerable.Empty<ExperienceArtwork>())
+            {
+                string? url = item?.Thumbnails?.FirstOrDefault(HasImage)?.ImageUrl;
+                if (url != null && Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps)
+                    artwork[item!.UniverseId] = url;
+            }
+        }
+        return artwork;
+    }
+
     public static async Task RefreshMissingThumbnailsAsync(
         IEnumerable<long> universeIds,
         CancellationToken token = default(CancellationToken)
