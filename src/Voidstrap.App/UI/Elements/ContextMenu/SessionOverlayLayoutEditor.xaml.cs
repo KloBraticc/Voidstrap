@@ -1161,7 +1161,7 @@ public partial class SessionOverlayLayoutEditor : Window
         layout.DockActionIcons ??= [];
         layout.DockActionIconImages ??= [];
 
-        IReadOnlyList<string> order = SessionDock.GetDockActionOrder(layout);
+        List<string> order = SessionDock.GetDockActionOrder(layout).Where(key => key != "clips").ToList();
         HashSet<string> hidden = new HashSet<string>(layout.DockHiddenActions, StringComparer.Ordinal);
         _dockActionItems.Clear();
         for (int i = 0; i < order.Count; i++)
@@ -1257,9 +1257,12 @@ public partial class SessionOverlayLayoutEditor : Window
         if (index < 0 || target < 0 || target >= _dockActionItems.Count)
             return;
 
-        (_dockActionItems[index], _dockActionItems[target]) = (_dockActionItems[target], _dockActionItems[index]);
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
-        layout.DockActionOrder = _dockActionItems.Select(action => action.Key).ToList();
+        List<string> order = SessionDock.GetDockActionOrder(layout).ToList();
+        int sourceIndex = order.IndexOf(item.Key);
+        int targetIndex = order.IndexOf(_dockActionItems[target].Key);
+        (order[sourceIndex], order[targetIndex]) = (order[targetIndex], order[sourceIndex]);
+        layout.DockActionOrder = order;
         SaveDockActionChanges();
     }
 
