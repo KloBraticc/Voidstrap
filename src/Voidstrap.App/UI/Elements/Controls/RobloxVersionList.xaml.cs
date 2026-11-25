@@ -8,6 +8,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using CommunityToolkit.Mvvm.Input;
+using Voidstrap.Resources;
 using Voidstrap.UI.ViewModels.Settings;
 
 namespace Voidstrap.UI.Elements.Controls;
@@ -26,6 +28,8 @@ public partial class RobloxVersionList : UserControl
     public event EventHandler<object>? ItemScrolled;
 
     public event EventHandler<object>? ItemPlayed;
+
+    public event EventHandler<object>? ItemManagementCompleted;
 
     public IEnumerable? ItemsSource
     {
@@ -80,6 +84,52 @@ public partial class RobloxVersionList : UserControl
         if (item == null || !IsSelectable(item))
             return;
         ItemChosen?.Invoke(this, item);
+    }
+
+    private void VersionItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+    {
+        if (!Voidstrap.Utility.Platform.IsWindows
+            || sender is not ListBoxItem { DataContext: { } item, ContextMenu: { } menu }
+            || GetManagementCommand(item) is not { } action)
+        {
+            e.Handled = true;
+            return;
+        }
+
+        MenuItem entry = new()
+        {
+            Header = action.IsUninstall ? Strings.Uninstaller_Uninstall : Strings.Common_Navigation_Install,
+            IsEnabled = !action.IsBusy && action.Command.CanExecute(null),
+            Tag = (item, action.IsUninstall),
+        };
+        if (action.IsUninstall)
+            entry.SetResourceReference(ForegroundProperty, "SystemFillColorCriticalBrush");
+        entry.Click += ManageVersion_Click;
+        menu.Items.Clear();
+        menu.Items.Add(entry);
+    }
+
+    private static (ICommand Command, bool IsUninstall, bool IsBusy)? GetManagementCommand(object item) => item switch
+    {
+        DownloadsViewModel.DownloadItem download => (
+            download.IsInstalled ? download.UninstallCommand : download.InstallCommand, download.IsInstalled, download.IsBusy),
+        DownloadsViewModel.ClientItem { IsInstalled: true } classic => (classic.UninstallCommand, true, classic.IsBusy),
+        DownloadsViewModel.VrItem vr => (vr.IsInstalled ? vr.UninstallCommand : vr.InstallCommand, vr.IsInstalled, vr.IsBusy),
+        _ => null
+    };
+
+    private async void ManageVersion_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not MenuItem { Tag: ValueTuple<object, bool> request }
+            || GetManagementCommand(request.Item1) is not { IsBusy: false } action
+            || action.IsUninstall != request.Item2 || !action.Command.CanExecute(null))
+            return;
+
+        if (action.Command is IAsyncRelayCommand asyncCommand)
+            await asyncCommand.ExecuteAsync(null);
+        else
+            action.Command.Execute(null);
+        ItemManagementCompleted?.Invoke(this, request.Item1);
     }
 
     private static readonly IEasingFunction HoverEaseOut = new CubicEase { EasingMode = EasingMode.EaseOut };

@@ -8213,7 +8213,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (downloads.Vr != null && string.Equals(code, App.SteamVrLaunchClientCode, StringComparison.Ordinal))
                 current = downloads.Vr;
             else if (!string.IsNullOrEmpty(code))
-                current = downloads.ClientItems.FirstOrDefault(client =>
+                current = entries.OfType<DownloadsViewModel.ClientItem>().FirstOrDefault(client =>
                     string.Equals(client.Code, code, StringComparison.OrdinalIgnoreCase)
                 );
             Voidstrap.Enums.LaunchMode mode =
@@ -8262,6 +8262,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void LaunchTargetList_ItemScrolled(object? sender, object item)
     {
         ApplyLaunchTarget(item);
+    }
+
+    private void LaunchTargetList_ItemManagementCompleted(object? sender, object item)
+    {
+        if (_isClosed)
+            return;
+        if (item is DownloadsViewModel.ClientItem { IsInstalled: false } classic
+            && DataContext is MainWindowViewModel viewModel
+            && string.Equals(viewModel.SelectedLaunchClient, classic.Code, StringComparison.OrdinalIgnoreCase))
+        {
+            viewModel.SelectedLaunchClient = "";
+            viewModel.SelectedLaunchModeIndex = 0;
+        }
+        RefreshLaunchTargetStates();
+        UpdateButtonContent();
     }
 
     private void ApplyLaunchTarget(object item)

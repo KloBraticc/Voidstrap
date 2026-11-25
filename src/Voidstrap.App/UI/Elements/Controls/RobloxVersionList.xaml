@@ -11,6 +11,12 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="ContextMenu">
+          <Setter.Value>
+            <ContextMenu />
+          </Setter.Value>
+        </Setter>
+        <EventSetter Event="ContextMenuOpening" Handler="VersionItem_ContextMenuOpening" />
         <EventSetter Event="PreviewMouseLeftButtonDown" Handler="VersionItem_PreviewMouseLeftButtonDown" />
         <EventSetter Event="MouseLeftButtonUp" Handler="VersionItem_MouseLeftButtonUp" />
         <EventSetter Event="MouseEnter" Handler="VersionItem_MouseEnter" />
