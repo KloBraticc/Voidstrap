@@ -10300,8 +10300,17 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontrolieris</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Pievienojiet DualSense, izmantojot USB, un pēc palaišanas palaidiet Voidstrap. Sprūda efekti tiek piemēroti, kamēr Roblox ir fokusēts.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptīvie trigeri</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibrācija</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Turiet vibrācijas trigerus</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Apturēt priekšskatījumu</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Kreisais adaptīvais trigeris</value>
@@ -10331,7 +10340,7 @@ Vai instalēt SteamVR tūlīt?</value>
     <value>Izmēģiniet trigerus tūlīt.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Atsauksmju priekšskatījums ir pabeigts.</value>
+    <value>Atsauksmju priekšskatījums ir apturēts.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Lai priekšskatītu, atlasiet atsauksmju sākotnējo iestatījumu.</value>

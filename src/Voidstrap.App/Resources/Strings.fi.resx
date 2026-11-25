@@ -10609,8 +10609,17 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Ohjain</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Liitä DualSense USB:llä ja pidä Voidstrap käynnissä käynnistyksen jälkeen. Laukaisutehosteet ovat voimassa, kun Roblox on keskittynyt.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Mukautuvat liipaisimet</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Tärinä</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Pidä tärinäliipaisimia painettuna</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Lopeta esikatselu</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Vasen adaptiivinen liipaisin</value>
@@ -10640,7 +10649,7 @@ Asennetaan SteamVR nyt?</value>
     <value>Kokeile laukaisimia nyt.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Palautteen esikatselu on valmis.</value>
+    <value>Palautteen esikatselu pysäytetty.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Valitse esikatsella palauteesiasetus.</value>

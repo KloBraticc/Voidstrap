@@ -10299,8 +10299,17 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>کنٹرولر</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>ڈوئل سینس کو USB کے ذریعے جوڑیں اور لانچ کے بعد Voidstrap کو چلاتے رہیں۔ جب روبلوکس فوکس ہوتا ہے تو ٹرگر اثرات لاگو ہوتے ہیں۔</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>انکولی محرکات</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>کمپن</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>وائبریشن ٹرگرز کو پکڑیں۔</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>پیش نظارہ بند کریں۔</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>بایاں انکولی ٹرگر</value>
@@ -10330,7 +10339,7 @@ SteamVR ابھی انسٹال کریں؟</value>
     <value>ابھی محرکات آزمائیں۔</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>تاثرات کا پیش نظارہ مکمل۔</value>
+    <value>تاثرات کا پیش نظارہ روک دیا گیا۔</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>پیش نظارہ کرنے کے لیے فیڈ بیک پیش سیٹ منتخب کریں۔</value>

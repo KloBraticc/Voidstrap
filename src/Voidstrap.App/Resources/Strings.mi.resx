@@ -10300,8 +10300,17 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kaiwhakahaere</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Honoa te DualSense ma te USB ka pupuri tonu i te Voidstrap i muri i te whakarewatanga. Ka pa nga hua keu i te wa e arotahi ana a Roblox.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Nga keu urutau</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Wiri</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Puritia nga whakaoho wiri</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Kati te arokite</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Mauī keu urutau</value>
@@ -10331,7 +10340,7 @@ Tāuta SteamVR ināianei?</value>
     <value>Whakamātauria ngā keu ināianei.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Kua oti te arokite urupare.</value>
+    <value>Ka mutu te arokite urupare.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Tīpakohia he tatūkē urupare hei arokite.</value>

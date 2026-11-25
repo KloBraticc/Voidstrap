@@ -10299,8 +10299,17 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>קאָנטראָללער</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>פאַרבינדן אַ DualSense דורך וסב און האַלטן Voidstrap פליסנדיק נאָך קאַטער. צינגל יפעקץ אַפּלייז בשעת ראָבלאָקס איז פאָוקיסט.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>אַדאַפּטיוו טריגערז</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>ווייבריישאַן</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>האַלטן ווייבריישאַן טריגערז</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>האַלטן פאָרויסיקע ווייַזונג</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>לינקס אַדאַפּטיוו צינגל</value>
@@ -10330,7 +10339,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
     <value>פּרוּווט די טריגערז איצט.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>באַמערקונגען פאָרויסיקע ווייַזונג גאַנץ.</value>
+    <value>באַמערקונגען פאָרויסיקע ווייַזונג פארשטאפט.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>אויסקלייַבן אַ באַמערקונגען פּריסעט צו פאָרויסיקע ווייַזונג.</value>

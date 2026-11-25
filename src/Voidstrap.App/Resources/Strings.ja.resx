@@ -10610,8 +10610,17 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>コントローラー</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB で DualSense を接続し、起動後も Voidstrap を実行し続けます。 Roblox が集中している間、トリガー効果が適用されます。</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>アダプティブトリガー</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>振動</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>振動トリガーを押し続ける</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>プレビューを停止する</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>左アダプティブトリガー</value>
@@ -10641,7 +10650,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
     <value>今すぐトリガーを試してください。</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>フィードバックのプレビューが完了しました。</value>
+    <value>フィードバックのプレビューが停止しました。</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>プレビューするフィードバック プリセットを選択します。</value>

@@ -142,6 +142,19 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
     public bool DualSenseUsesPulse => !DualSenseVibrateWhileHeld;
 
+    public int DualSenseHoldTriggers
+    {
+        get => (int)DualSenseFeedback.ReadPresets(App.Settings.Prop).HoldTriggers;
+        set
+        {
+            if (value is < 0 or > 2 || App.Settings.Prop.DualSenseHoldTriggers == value)
+                return;
+            App.Settings.Prop.DualSenseHoldTriggers = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DualSenseHoldTriggers));
+        }
+    }
+
     private void SetControllerSlider(int value, int current, int minimum, int maximum, Action<AppSettings, int> apply, [CallerMemberName] string property = "")
     {
         int bounded = Math.Clamp(value, minimum, maximum);

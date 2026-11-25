@@ -10610,8 +10610,17 @@ Instalar o SteamVR agora?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controlador</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Conecte um DualSense por USB e mantenha o Voidstrap funcionando após o lançamento. Os efeitos de gatilho se aplicam enquanto o Roblox está focado.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Gatilhos adaptativos</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibração</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Segure os gatilhos de vibração</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Parar visualização</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Gatilho adaptativo esquerdo</value>
@@ -10641,7 +10650,7 @@ Instalar o SteamVR agora?</value>
     <value>Experimente os gatilhos agora.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Visualização do feedback concluída.</value>
+    <value>A visualização do feedback foi interrompida.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Selecione uma predefinição de feedback para visualizar.</value>

@@ -10300,8 +10300,17 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Վերահսկիչ</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Միացրեք DualSense-ը USB-ով և գործարկելուց հետո աշխատեք Voidstrap-ը: Գործարկման էֆեկտները կիրառվում են, երբ Roblox-ը կենտրոնացած է:</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Հարմարվողական գործարկիչներ</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Վիբրացիա</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Պահեք թրթռման ձգանները</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Դադարեցրեք նախադիտումը</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Ձախ հարմարվողական ձգան</value>
@@ -10331,7 +10340,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
     <value>Փորձեք ձգանները հիմա:</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Հետադարձ կապի նախադիտումն ավարտված է:</value>
+    <value>Հետադարձ կապի նախադիտումը դադարեցվեց:</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Նախադիտելու համար ընտրեք հետադարձ կապի նախադրյալը:</value>

@@ -10610,8 +10610,17 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>컨트롤러</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB로 DualSense를 연결하고 실행 후에도 Voidtrap을 계속 실행하세요. Roblox가 집중하는 동안 트리거 효과가 적용됩니다.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>적응형 트리거</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>진동</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>진동 트리거 유지</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>미리보기 중지</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>왼쪽 적응형 트리거</value>
@@ -10641,7 +10650,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
     <value>지금 트리거를 사용해 보세요.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>피드백 미리보기가 완료되었습니다.</value>
+    <value>피드백 미리보기가 중지되었습니다.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>미리 볼 피드백 사전 설정을 선택하세요.</value>

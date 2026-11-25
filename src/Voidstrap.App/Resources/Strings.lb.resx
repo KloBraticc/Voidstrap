@@ -10300,8 +10300,17 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controller</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Connect en DualSense iwwer USB an haalt Voidstrap laafen nom Start. Trigger Effekter gëllen wärend Roblox fokusséiert ass.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptive Ausléiser</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibratioun</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Halt Vibrationsausléiser</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Stop Virschau</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Lénks adaptiven Ausléiser</value>
@@ -10331,7 +10340,7 @@ SteamVR elo installéieren?</value>
     <value>Probéiert elo d&#x27;Ausléiser.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Feedback Virschau komplett.</value>
+    <value>Feedback Virschau gestoppt.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Wielt e Feedback Preset fir Virschau.</value>

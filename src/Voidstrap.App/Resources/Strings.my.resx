@@ -10299,8 +10299,17 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ထိန်းချုပ်ကိရိယာ</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>DualSense ကို USB ဖြင့်ချိတ်ဆက်ပြီး လွှင့်တင်ပြီးနောက် Voidstrap လည်ပတ်နေပါစေ။ Roblox ကို အာရုံစိုက်နေချိန်တွင် Trigger Effect သက်ရောက်သည်။</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>သပ္ပါယစိတ်တိုခြင်း။</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>တုန်ခါမှု</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>တုန်ခါမှုအစပျိုးမှုများကို ထိန်းထားပါ။</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>အစမ်းကြည့်ရှုခြင်းကို ရပ်လိုက်ပါ။</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>လက်ဝဲသပ္ပါယ်</value>
@@ -10330,7 +10339,7 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
     <value>အစပျိုးမှုများကို ယခုစမ်းကြည့်ပါ။</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>အကြံပြုချက် အစမ်းကြည့်ရှုမှု ပြီးပါပြီ။</value>
+    <value>အကြံပြုချက် အစမ်းကြည့်ရှုမှု ရပ်သွားသည်။</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>အစမ်းကြည့်ရှုရန် အကြံပြုချက် ကြိုတင်သတ်မှတ်မှုတစ်ခုကို ရွေးပါ။</value>

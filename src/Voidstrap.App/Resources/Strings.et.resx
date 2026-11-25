@@ -10299,8 +10299,17 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontroller</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Ühendage DualSense USB kaudu ja hoidke Voidstrap pärast käivitamist töös. Kui Roblox on keskendunud, rakenduvad käivitusefektid.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptiivsed päästikud</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibratsioon</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Hoidke vibratsioonipäästikuid</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Peata eelvaade</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Vasakpoolne adaptiivne päästik</value>
@@ -10330,7 +10339,7 @@ Kas installida SteamVR kohe?</value>
     <value>Proovige käivitajaid kohe.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Tagasiside eelvaade on lõpetatud.</value>
+    <value>Tagasiside eelvaade peatatud.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Valige eelvaateks tagasiside eelseadistus.</value>

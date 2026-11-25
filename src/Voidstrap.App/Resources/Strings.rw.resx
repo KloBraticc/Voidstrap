@@ -10300,8 +10300,17 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Umugenzuzi</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Huza DualSense na USB hanyuma ukomeze Voidstrap ikore nyuma yo gutangira. Ingaruka zitera zikurikizwa mugihe Roblox yibanze.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Imbarutso</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Kunyeganyega</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Fata ibitera</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Hagarika kureba</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Ibumoso bwo guhuza n&#x27;imiterere</value>
@@ -10331,7 +10340,7 @@ Shyiramo SteamVR ubungubu?</value>
     <value>Gerageza imbarutso ubungubu.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Ibitekerezo byatanzwe byuzuye.</value>
+    <value>Ibitekerezo byatanzwe birahagarara.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Hitamo ibitekerezo byateganijwe mbere yo kureba.</value>

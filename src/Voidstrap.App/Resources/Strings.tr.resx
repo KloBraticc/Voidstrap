@@ -10609,8 +10609,17 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Denetleyici</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>DualSense&#x27;i USB ile bağlayın ve Voidstrap&#x27;in başlatıldıktan sonra çalışmaya devam etmesini sağlayın. Roblox odaklanmışken tetikleme efektleri uygulanır.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Uyarlanabilir tetikleyiciler</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Titreşim</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Titreşim tetikleyicilerini basılı tutun</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Önizlemeyi durdur</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Sol uyarlanabilir tetik</value>
@@ -10640,7 +10649,7 @@ SteamVR şimdi kurulsun mu?</value>
     <value>Şimdi tetikleyicileri deneyin.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Geri bildirim önizlemesi tamamlandı.</value>
+    <value>Geri bildirim önizlemesi durduruldu.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Önizlemek için bir geri bildirim ön ayarı seçin.</value>

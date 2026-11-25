@@ -10608,8 +10608,17 @@ SteamVR jetzt installieren?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controller</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Schließen Sie einen DualSense über USB an und lassen Sie Voidstrap nach dem Start laufen. Auslöseeffekte werden angewendet, während Roblox fokussiert ist.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptive Trigger</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibration</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Halten Sie die Vibrationsauslöser gedrückt</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Vorschau stoppen</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Linker adaptiver Trigger</value>
@@ -10639,7 +10648,7 @@ SteamVR jetzt installieren?</value>
     <value>Probieren Sie die Trigger jetzt aus.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Feedback-Vorschau abgeschlossen.</value>
+    <value>Die Feedback-Vorschau wurde gestoppt.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Wählen Sie eine Feedback-Voreinstellung für die Vorschau aus.</value>

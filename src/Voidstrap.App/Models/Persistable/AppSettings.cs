@@ -521,6 +521,7 @@ namespace Voidstrap.Models.Persistable
         public int DualSenseVibrationStrength { get; set; } = 100;
         public int DualSensePulseLength { get; set; } = 100;
         public bool DualSenseVibrateWhileHeld { get; set; }
+        public int DualSenseHoldTriggers { get; set; }
         public string DualSenseDeviceId { get; set; } = "";
         public string DoubleMovementCurve { get; set; } = "Linear";
         public bool DoubleMovementEnabled { get; set; } = false;

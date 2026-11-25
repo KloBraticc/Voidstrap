@@ -10300,8 +10300,17 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Контроллер</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB арқылы DualSense қосыңыз және іске қосылғаннан кейін Voidstrap жұмысын жалғастырыңыз. Триггер әсерлері Roblox фокусталған кезде қолданылады.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Адаптивті триггерлер</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Діріл</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Діріл триггерлерін ұстаңыз</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Алдын ала қарауды тоқтату</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Сол жақ адаптивті триггер</value>
@@ -10331,7 +10340,7 @@ SteamVR қазір орнатыңыз ба?</value>
     <value>Триггерлерді қазір қолданып көріңіз.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Кері пікірді алдын ала қарау аяқталды.</value>
+    <value>Кері пікірді алдын ала қарау тоқтатылды.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Алдын ала қарау үшін кері байланыс алдын ала орнатуды таңдаңыз.</value>

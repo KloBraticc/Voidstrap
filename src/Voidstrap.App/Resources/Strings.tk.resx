@@ -10299,8 +10299,17 @@ Indi SteamVR guruň?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Dolandyryjy</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>“DualSense” -ni USB bilen birikdiriň we “Voidstrap” -y işe girizeniňizden soň işlediň. Trigger effektleri Roblox ünsi jemlän mahaly ulanylýar.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Uýgunlaşdyrylan triggerler</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Wibrasiýa</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Wibrasiýa triggerlerini saklaň</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Öňünden görmegi bes ediň</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Çep uýgunlaşdyryjy trigger</value>
@@ -10330,7 +10339,7 @@ Indi SteamVR guruň?</value>
     <value>Indi triggerleri synap görüň.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Seslenme deslapky syn.</value>
+    <value>Seslenme deslapky syn bes edildi.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Öňünden görmek üçin seslenme deslapky görnüşini saýlaň.</value>

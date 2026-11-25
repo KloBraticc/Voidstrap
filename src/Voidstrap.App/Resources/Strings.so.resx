@@ -10300,8 +10300,17 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Xakamaynta</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Ku xidh DualSense USB oo ku hay Voidstrap inuu socdo ka dib marka la bilaabo. Saamaynta kicinta ayaa lagu dabaqaa marka Roblox diiradda la saaro.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Kiciyeyaasha la qabsiga</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Gariir</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Qabo kiciya gariir</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Jooji aragtida</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Kiciyaha la qabsiga bidix</value>
@@ -10331,7 +10340,7 @@ Hadda rakib SteamVR?</value>
     <value>Isku day kiciya hadda.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Aragtida jawaab celintu waa dhammaatay</value>
+    <value>Aragtida jawaab celinta waa joogsatay</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Dooro horudhac faallo celin ah si aad u aragto.</value>

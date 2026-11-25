@@ -10608,8 +10608,17 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controller</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Ikonekta ang isang DualSense sa pamamagitan ng USB at panatilihing tumatakbo ang Voidstrap pagkatapos ng paglunsad. Nalalapat ang mga trigger effect habang nakatutok ang Roblox.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Mga adaptive trigger</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Panginginig ng boses</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>I-hold ang mga trigger ng vibration</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Ihinto ang preview</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Kaliwang adaptive trigger</value>
@@ -10639,7 +10648,7 @@ I-install ang SteamVR ngayon?</value>
     <value>Subukan ang mga trigger ngayon.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Kumpleto na ang preview ng feedback.</value>
+    <value>Huminto ang preview ng feedback.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Pumili ng preset ng feedback na i-preview.</value>

@@ -10300,8 +10300,17 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ڪنٽرولر</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB ذريعي هڪ DualSense ڳنڍيو ۽ لانچ کان پوءِ Voidstrap کي هلايو. ٽرگر اثرات لاڳو ٿين ٿا جڏهن روبلوڪس مرکوز آهي.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>موافقت وارو محرڪ</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>وائبريشن</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>وائبريشن ٽرگرز کي رکو</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>ڏيکاءُ بند ڪريو</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>کاٻي موافقت وارو محرڪ</value>
@@ -10331,7 +10340,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
     <value>ھاڻي ٽريگرز جي ڪوشش ڪريو.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>موٽ جو ڏيک مڪمل.</value>
+    <value>موٽ جو ڏيک بند ڪيو ويو.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>ڏيک ڏيڻ لاءِ هڪ راءِ اڳواٽ چونڊيو.</value>

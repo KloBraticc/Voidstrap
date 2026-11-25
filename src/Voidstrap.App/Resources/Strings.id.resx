@@ -10610,8 +10610,17 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Pengendali</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Hubungkan DualSense melalui USB dan biarkan Voidstrap tetap berjalan setelah peluncuran. Efek pemicu berlaku saat Roblox fokus.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Pemicu adaptif</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Getaran</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Tahan pemicu getaran</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Hentikan pratinjau</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Pemicu adaptif kiri</value>
@@ -10641,7 +10650,7 @@ Instal SteamVR sekarang?</value>
     <value>Coba pemicunya sekarang.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Pratinjau masukan selesai.</value>
+    <value>Pratinjau masukan dihentikan.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Pilih preset umpan balik untuk dipratinjau.</value>

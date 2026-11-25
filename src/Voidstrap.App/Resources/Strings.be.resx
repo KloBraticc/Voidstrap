@@ -10299,8 +10299,17 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Кантралёр</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Падключыце DualSense праз USB і працягвайце працаваць Voidstrap пасля запуску. Эфекты запуску прымяняюцца, пакуль Roblox знаходзіцца ў цэнтры ўвагі.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Адаптыўныя трыгеры</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Вібрацыя</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Утрымлівайце трыгеры вібрацыі</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Спыніць папярэдні прагляд</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Левы адаптыўны курок</value>
@@ -10330,7 +10339,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
     <value>Паспрабуйце трыгеры зараз.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Папярэдні прагляд водгуку завершаны.</value>
+    <value>Папярэдні прагляд зваротнай сувязі спынены.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Выберыце перадустаноўку зваротнай сувязі для папярэдняга прагляду.</value>

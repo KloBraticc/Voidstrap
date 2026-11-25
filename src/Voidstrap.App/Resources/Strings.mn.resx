@@ -10300,8 +10300,17 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Хянагч</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>DualSense-г USB-ээр холбож, ажиллуулсны дараа Voidstrap-ийг ажиллуулаарай. Roblox анхаарлаа төвлөрүүлж байх үед триггер эффектүүд хэрэгжинэ.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Дасан зохицох триггерүүд</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Чичиргээ</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Чичиргээний гохыг барина уу</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Урьдчилан үзэхийг зогсоох</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Зүүн дасан зохицох гох</value>
@@ -10331,7 +10340,7 @@ SteamVR-г одоо суулгах уу?</value>
     <value>Одоо өдөөгчийг туршиж үзээрэй.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Санал хүсэлтийг урьдчилан харж дууслаа.</value>
+    <value>Санал хүсэлтийг урьдчилан харахыг зогсоосон.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Урьдчилан үзэхийн тулд санал хүсэлтийн урьдчилсан тохируулгыг сонгоно уу.</value>

@@ -10299,8 +10299,17 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Nazoratchi</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>DualSense-ni USB orqali ulang va ishga tushirilgandan so&#x27;ng Voidstrap-ni ishga tushiring. Roblox fokuslanganda tetik effektlari qo&#x27;llaniladi.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Moslashuvchan triggerlar</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Tebranish</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Vibratsiyali tetiklarni ushlab turing</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Ko‘rib chiqishni to‘xtatish</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Chapga moslashtiruvchi tetik</value>
@@ -10330,7 +10339,7 @@ SteamVR hozir o'rnatilsinmi?</value>
     <value>Triggerlarni hozir sinab ko&#x27;ring.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Fikr-mulohazalarni ko‘rib chiqish tugallandi.</value>
+    <value>Fikr-mulohazalarni ko‘rish to‘xtatildi.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Oldindan ko&#x27;rish uchun oldindan fikr-mulohazalarni tanlang.</value>

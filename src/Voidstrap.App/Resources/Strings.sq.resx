@@ -10300,8 +10300,17 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontrolluesi</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Lidhni një DualSense me USB dhe mbajeni Voidstrap të funksionojë pas nisjes. Efektet e aktivizimit zbatohen ndërsa Roblox është i fokusuar.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Shkaktarë përshtatës</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Dridhja</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Mbajini këmbëzat e dridhjeve</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Ndalo pamjen paraprake</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Shkaku i majtë adaptiv</value>
@@ -10331,7 +10340,7 @@ Të instalohet SteamVR tani?</value>
     <value>Provoni nxitësit tani.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Pamja paraprake e komenteve përfundoi.</value>
+    <value>Pamja paraprake e komenteve u ndal.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Zgjidhni një paracaktim të komenteve për ta parë.</value>

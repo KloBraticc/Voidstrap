@@ -10610,8 +10610,17 @@ SteamVR nu installeren?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controleur</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Sluit een DualSense aan via USB en zorg ervoor dat Voidstrap blijft werken na het opstarten. Triggereffecten zijn van toepassing terwijl Roblox gefocust is.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptieve triggers</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Trillingen</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Houd de trillingstriggers vast</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Voorbeeld stoppen</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Linker adaptieve trigger</value>
@@ -10641,7 +10650,7 @@ SteamVR nu installeren?</value>
     <value>Probeer nu de triggers.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Feedbackvoorbeeld voltooid.</value>
+    <value>Feedbackvoorbeeld gestopt.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Selecteer een feedbackvoorinstelling waarvan u een voorbeeld wilt bekijken.</value>

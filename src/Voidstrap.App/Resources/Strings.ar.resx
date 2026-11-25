@@ -10609,8 +10609,17 @@
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>المراقب المالي</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>قم بتوصيل DualSense عبر USB واستمر في تشغيل Voidstrap بعد الإطلاق. تنطبق تأثيرات الزناد أثناء تركيز Roblox.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>المشغلات التكيفية</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>الاهتزاز</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>عقد مشغلات الاهتزاز</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>إيقاف المعاينة</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>الزناد التكيفي الأيسر</value>
@@ -10640,7 +10649,7 @@
     <value>جرب المشغلات الآن.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>اكتملت معاينة التعليقات.</value>
+    <value>توقفت معاينة التعليقات.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>حدد إعدادًا مسبقًا للتعليقات لمعاينتها.</value>

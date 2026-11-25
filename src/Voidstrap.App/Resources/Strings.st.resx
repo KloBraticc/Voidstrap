@@ -10299,8 +10299,17 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Molaoli</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Hokela DualSense ka USB &#x27;me u boloke Voidstrap e ntse e sebetsa kamora ho qala. Litlamorao li sebetsa ha Roblox e tsepamisitse maikutlo.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Lintho tse susumetsang</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Ho thothomela</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Tšoara lintho tse susumetsang ho sisinyeha</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Emisa ponelopele</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Sehlahisoa se feto-fetohang ka ho le letšehali</value>
@@ -10330,7 +10339,7 @@ Kenya SteamVR hona joale?</value>
     <value>Leka lisebelisoa hona joale.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Ponahalo ea maikutlo e felile.</value>
+    <value>Ponahalo ea maikutlo e emisitsoe.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Kgetha tlhophiso ya maikutlo hore o shebe esale pele.</value>

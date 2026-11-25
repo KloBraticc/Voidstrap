@@ -10609,8 +10609,17 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Ovladač</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Připojte DualSense přes USB a po spuštění nechte Voidstrap spuštěný. Spouštěcí efekty se použijí, když je Roblox zaostřený.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptivní spouštěče</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibrace</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Držte vibrační spouště</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Zastavit náhled</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Levá adaptivní spoušť</value>
@@ -10640,7 +10649,7 @@ Nainstalovat SteamVR nyní?</value>
     <value>Vyzkoušejte spouštěče nyní.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Náhled zpětné vazby dokončen.</value>
+    <value>Náhled zpětné vazby byl zastaven.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Vyberte předvolbu zpětné vazby, kterou chcete zobrazit.</value>

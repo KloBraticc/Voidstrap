@@ -10610,8 +10610,17 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Контроллер</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Подключите DualSense через USB и продолжайте работу Voidstrap после запуска. Триггерные эффекты применяются, пока Роблокс сосредоточен.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Адаптивные триггеры</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Вибрация</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Удерживайте триггеры вибрации</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Остановить предварительный просмотр</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Левый адаптивный триггер</value>
@@ -10641,7 +10650,7 @@ Voidstrap блокирует программы, другие папки и Ва
     <value>Попробуйте триггеры прямо сейчас.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Предварительный просмотр отзыва завершен.</value>
+    <value>Предварительный просмотр отзыва остановлен.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Выберите набор настроек обратной связи для предварительного просмотра.</value>

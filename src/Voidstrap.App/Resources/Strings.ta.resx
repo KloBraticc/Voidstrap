@@ -10299,8 +10299,17 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>கட்டுப்படுத்தி</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>யூ.எஸ்.பி மூலம் டூயல்சென்ஸை இணைத்து, வொய்ட்ஸ்ட்ராப்பை அறிமுகப்படுத்திய பின் தொடர்ந்து இயக்கவும். Roblox கவனம் செலுத்தும் போது தூண்டுதல் விளைவுகள் பொருந்தும்.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>தகவமைப்பு தூண்டுதல்கள்</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>அதிர்வு</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>அதிர்வு தூண்டுதல்களை வைத்திருங்கள்</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>முன்னோட்டத்தை நிறுத்து</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>இடது தழுவல் தூண்டுதல்</value>
@@ -10330,7 +10339,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
     <value>இப்போது தூண்டுதல்களை முயற்சிக்கவும்.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>பின்னூட்ட முன்னோட்டம் முடிந்தது.</value>
+    <value>பின்னூட்ட முன்னோட்டம் நிறுத்தப்பட்டது.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>முன்னோட்டத்தைப் பார்க்க பின்னூட்ட முன்னமைவைத் தேர்ந்தெடுக்கவும்.</value>

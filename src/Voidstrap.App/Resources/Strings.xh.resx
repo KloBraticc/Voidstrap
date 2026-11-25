@@ -10299,8 +10299,17 @@ Faka i-SteamVR ngoku?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Umlawuli</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Qhagamshela iDualSense nge-USB kwaye ugcine iVoidstrap isebenza emva kokuqaliswa. Iimpembelelo ze-trigger zisebenza ngelixa i-Roblox igxininise.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Izichukumisi eziguqukayo</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Ukungcangcazela</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Bamba iintshukumo zokungcangcazela</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Misa umboniso</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Isixhobo sokuxhobisa ekhohlo</value>
@@ -10330,7 +10339,7 @@ Faka i-SteamVR ngoku?</value>
     <value>Zama izibasi ngoku.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Ingxelo yangaphambili igqityiwe.</value>
+    <value>Umboniso wengxelo uyekile.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Khetha ukusetwa kwangaphambili ukuze ujonge.</value>

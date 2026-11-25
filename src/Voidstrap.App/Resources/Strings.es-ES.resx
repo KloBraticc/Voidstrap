@@ -10609,8 +10609,17 @@ Jugadores: {2}</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controlador</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Conecte un DualSense por USB y mantenga Voidstrap funcionando después del lanzamiento. Los efectos de activación se aplican mientras Roblox está enfocado.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Desencadenantes adaptativos</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibración</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Mantenga presionados los activadores de vibración</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Detener vista previa</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Gatillo adaptativo izquierdo</value>
@@ -10640,7 +10649,7 @@ Jugadores: {2}</value>
     <value>Pruebe los desencadenantes ahora.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Vista previa de comentarios completada.</value>
+    <value>Se detuvo la vista previa de comentarios.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Seleccione un ajuste preestablecido de comentarios para obtener una vista previa.</value>

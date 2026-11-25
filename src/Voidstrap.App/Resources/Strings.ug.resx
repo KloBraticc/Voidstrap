@@ -10299,8 +10299,17 @@ Uptime: {1}
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>كونتروللىغۇچ</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB ئارقىلىق DualSense نى ئۇلاڭ ۋە قويۇپ بېرىلگەندىن كېيىن Voidstrap نى ئىجرا قىلىڭ. Roblox فوكۇسلانغان ۋاقىتتا قوزغىتىش ئۈنۈمى قوللىنىلىدۇ.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>ماسلىشىشچان قوزغاتقۇچ</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>تەۋرىنىش</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>تەۋرىنىش قوزغاتقۇچنى تۇتۇڭ</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>ئالدىن كۆرۈشنى توختىتىڭ</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>سول ماسلىشىشچان قوزغىتىش</value>
@@ -10330,7 +10339,7 @@ Uptime: {1}
     <value>قوزغىتىشنى سىناپ بېقىڭ.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>تەكلىپلەرنى ئالدىن كۆرۈش تاماملاندى.</value>
+    <value>تەكلىپلەرنى كۆرۈش توختىتىلدى.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>ئالدىن كۆرۈش ئۈچۈن قايتما ئىنكاسنى تاللاڭ.</value>

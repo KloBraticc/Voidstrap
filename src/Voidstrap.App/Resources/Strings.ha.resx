@@ -10300,8 +10300,17 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Mai sarrafawa</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Haɗa DualSense ta USB kuma kiyaye Voidstrap yana gudana bayan ƙaddamarwa. Ana amfani da tasirin tayar da hankali yayin da Roblox ke mai da hankali.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Abubuwan da ke daidaitawa</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Jijjiga</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Rike abubuwan motsa jiki</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Dakatar da samfoti</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Hagu mai daidaitawa</value>
@@ -10331,7 +10340,7 @@ Shigar SteamVR yanzu?</value>
     <value>Gwada abubuwan jan hankali yanzu.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>An kammala samfotin samfoti.</value>
+    <value>An daina ganin samfoti.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Zaɓi saitattun martani don samfoti.</value>

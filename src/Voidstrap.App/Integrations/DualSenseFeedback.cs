@@ -20,13 +20,21 @@ internal static partial class DualSenseFeedback
     }
 
     internal readonly record struct Presets(
-        Trigger Left, Trigger Right, int Vibration, int VibrationStrength, int PulseLength, bool VibrateWhileHeld, string DeviceId)
+        Trigger Left,
+        Trigger Right,
+        int Vibration,
+        int VibrationStrength,
+        int PulseLength,
+        bool VibrateWhileHeld,
+        HoldTrigger HoldTriggers,
+        string DeviceId)
     {
         public bool RumbleEnabled => Vibration != 0 && VibrationStrength != 0;
         public bool Enabled => Left.Enabled || Right.Enabled || RumbleEnabled;
     }
 
     internal readonly record struct Controller(string Id, string Name);
+    internal enum HoldTrigger { Both, Left, Right }
 
     private readonly record struct Output(Trigger Left, Trigger Right, byte LowMotor = 0, byte HighMotor = 0);
 
@@ -37,12 +45,18 @@ internal static partial class DualSenseFeedback
         Math.Clamp(settings?.DualSenseVibrationStrength ?? 100, 0, 100),
         Math.Clamp(settings?.DualSensePulseLength ?? 100, 50, 200),
         settings?.DualSenseVibrateWhileHeld ?? false,
+        settings?.DualSenseHoldTriggers switch
+        {
+            1 => HoldTrigger.Left,
+            2 => HoldTrigger.Right,
+            _ => HoldTrigger.Both
+        },
         settings?.DualSenseDeviceId ?? ""
     );
 
     private static int Validate(int? value) => value is >= 1 and <= 3 ? value.Value : 0;
 
-    internal enum PreviewResult { NoPreset, NoController, Sent, Failed }
+    internal enum PreviewResult { NoPreset, NoController, Stopped, Failed }
 
     public static IReadOnlyList<Controller> FindControllers()
     {
@@ -61,8 +75,9 @@ internal static partial class DualSenseFeedback
         return controllers;
     }
 
-    public static async Task<PreviewResult> PreviewAsync(Presets presets)
+    public static async Task<PreviewResult> PreviewAsync(Func<Presets> readPresets, CancellationToken token)
     {
+        Presets presets = readPresets();
         if (!presets.Enabled)
             return PreviewResult.NoPreset;
         if (!OperatingSystem.IsWindows())
@@ -72,15 +87,18 @@ internal static partial class DualSenseFeedback
         if (device == null)
             return PreviewResult.NoController;
 
-        using CancellationTokenSource preview = new(4000);
         try
         {
-            await UpdateAsync(device, () => presets, preview.Token).ConfigureAwait(false);
-            return PreviewResult.Sent;
+            await UpdateAsync(device, () =>
+            {
+                Presets current = readPresets();
+                return string.Equals(current.DeviceId, presets.DeviceId, StringComparison.OrdinalIgnoreCase) ? current : null;
+            }, token).ConfigureAwait(false);
+            return PreviewResult.Stopped;
         }
-        catch (OperationCanceledException) when (preview.IsCancellationRequested)
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
-            return PreviewResult.Sent;
+            return PreviewResult.Stopped;
         }
         catch (Exception ex) when (ex is IOException or OperationCanceledException)
         {
@@ -184,8 +202,10 @@ internal static partial class DualSenseFeedback
                 _leftPressed = _rightPressed = false;
             }
 
-            bool rumble = presets.RumbleEnabled && (_hold ? _leftPressed || _rightPressed : now < _pulseUntil);
-            var pulse = rumble ? Pulse(presets.Vibration, _hold ? _rightPressed : _rightPulse) : default;
+            bool leftHeld = _leftPressed && presets.HoldTriggers != HoldTrigger.Right;
+            bool rightHeld = _rightPressed && presets.HoldTriggers != HoldTrigger.Left;
+            bool rumble = presets.RumbleEnabled && (_hold ? leftHeld || rightHeld : now < _pulseUntil);
+            var pulse = rumble ? Pulse(presets.Vibration, _hold ? rightHeld : _rightPulse) : default;
             return new(
                 presets.Left.Enabled ? presets.Left : default,
                 presets.Right.Enabled ? presets.Right : default,

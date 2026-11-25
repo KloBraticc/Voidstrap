@@ -10300,8 +10300,17 @@ Uptime: {1}
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>კონტროლერი</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>შეაერთეთ DualSense USB-ით და გააგრძელეთ Voidstrap გაშვების შემდეგ. ტრიგერის ეფექტები მოქმედებს, როდესაც Roblox ფოკუსირებულია.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>ადაპტაციური ტრიგერები</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>ვიბრაცია</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>დაიჭირეთ ვიბრაციის ტრიგერები</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>გადახედვის შეწყვეტა</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>მარცხენა ადაპტური ტრიგერი</value>
@@ -10331,7 +10340,7 @@ Uptime: {1}
     <value>სცადეთ ტრიგერები ახლავე.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>გამოხმაურების გადახედვა დასრულდა.</value>
+    <value>გამოხმაურების გადახედვა შეწყდა.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>აირჩიეთ უკუკავშირის წინასწარ დაყენება წინასწარ გადასახედად.</value>

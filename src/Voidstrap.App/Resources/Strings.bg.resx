@@ -10609,8 +10609,17 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Контролер</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Свържете DualSense чрез USB и поддържайте Voidstrap работещ след стартиране. Ефектите на задействане се прилагат, докато Roblox е фокусиран.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Адаптивни тригери</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Вибрация</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Задръжте тригерите за вибрации</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Спрете визуализацията</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Ляв адаптивен спусък</value>
@@ -10640,7 +10649,7 @@ Voidstrap блокира програми, други папки и Вашия �
     <value>Опитайте тригерите сега.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Визуализацията на обратната връзка е завършена.</value>
+    <value>Визуализацията на обратната връзка е спряна.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Изберете предварително зададена обратна връзка за преглед.</value>

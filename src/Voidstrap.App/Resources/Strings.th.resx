@@ -10609,8 +10609,17 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>คอนโทรลเลอร์</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>เชื่อมต่อ DualSense ด้วย USB และให้ Voidstrap ทำงานต่อไปหลังจากเปิดตัว เอฟเฟกต์ทริกเกอร์จะมีผลในขณะที่ Roblox โฟกัสอยู่</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>ทริกเกอร์แบบปรับตัวได้</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>การสั่นสะเทือน</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>กดทริกเกอร์การสั่นสะเทือนค้างไว้</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>หยุดแสดงตัวอย่าง</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ทริกเกอร์แบบปรับตัวด้านซ้าย</value>
@@ -10640,7 +10649,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
     <value>ลองใช้ทริกเกอร์ตอนนี้</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>การแสดงตัวอย่างคำติชมเสร็จสมบูรณ์</value>
+    <value>หยุดการแสดงตัวอย่างความคิดเห็นแล้ว</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>เลือกคำติชมที่ตั้งไว้ล่วงหน้าเพื่อดูตัวอย่าง</value>

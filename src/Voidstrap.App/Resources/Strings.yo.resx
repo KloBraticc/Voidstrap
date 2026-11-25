@@ -10299,8 +10299,17 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Adarí</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>So DualSense kan pọ nipasẹ USB ki o jẹ ki Voidstrap ṣiṣẹ lẹhin ifilọlẹ. Awọn ipa okunfa waye lakoko ti Roblox wa ni idojukọ.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Awọn okunfa adaṣe</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Gbigbọn</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Mu awọn okunfa gbigbọn mu</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Duro awotẹlẹ</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Osi okunfa aṣamubadọgba</value>
@@ -10330,7 +10339,7 @@ Fi sori ẹrọ SteamVR bayi?</value>
     <value>Gbiyanju awọn okunfa bayi.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Awotẹlẹ esi ti pari.</value>
+    <value>Awotẹlẹ esi duro.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Yan tito esi esi lati ṣe awotẹlẹ.</value>

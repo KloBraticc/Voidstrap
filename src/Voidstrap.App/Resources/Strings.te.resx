@@ -10299,8 +10299,17 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>కంట్రోలర్</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB ద్వారా DualSenseని కనెక్ట్ చేయండి మరియు ప్రారంభించిన తర్వాత Voidstrapని రన్ చేస్తూ ఉండండి. Roblox కేంద్రీకరించబడినప్పుడు ట్రిగ్గర్ ప్రభావాలు వర్తిస్తాయి.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>అనుకూల ట్రిగ్గర్లు</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>కంపనం</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>వైబ్రేషన్ ట్రిగ్గర్‌లను పట్టుకోండి</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>ప్రివ్యూను ఆపండి</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ఎడమ అనుకూల ట్రిగ్గర్</value>
@@ -10330,7 +10339,7 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
     <value>ఇప్పుడు ట్రిగ్గర్‌లను ప్రయత్నించండి.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>ఫీడ్‌బ్యాక్ ప్రివ్యూ పూర్తయింది.</value>
+    <value>ఫీడ్‌బ్యాక్ ప్రివ్యూ ఆగిపోయింది.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>ప్రివ్యూ చేయడానికి ఫీడ్‌బ్యాక్ ప్రీసెట్‌ను ఎంచుకోండి.</value>

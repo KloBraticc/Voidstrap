@@ -10299,8 +10299,17 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controlador</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Connecteu un DualSense per USB i mantingueu funcionant Voidstrap després del llançament. Els efectes del disparador s&#x27;apliquen mentre Roblox està enfocat.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Activadors adaptatius</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibració</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Mantenir els disparadors de vibració</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Atura la previsualització</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Disparador adaptatiu esquerre</value>
@@ -10330,7 +10339,7 @@ Instal·leu SteamVR ara?</value>
     <value>Proveu els activadors ara.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>S&#x27;ha completat la visualització prèvia dels comentaris.</value>
+    <value>S&#x27;ha aturat la previsualització dels comentaris.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Seleccioneu un valor predefinit per obtenir una vista prèvia.</value>

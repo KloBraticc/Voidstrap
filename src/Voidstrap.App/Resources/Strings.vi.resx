@@ -10609,8 +10609,17 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Bộ điều khiển</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Kết nối DualSense bằng USB và giữ cho Voidtrap hoạt động sau khi khởi chạy. Hiệu ứng kích hoạt được áp dụng trong khi Roblox được tập trung.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Trình kích hoạt thích ứng</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Rung</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Giữ bộ kích hoạt rung</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Dừng xem trước</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Trình kích hoạt thích ứng bên trái</value>
@@ -10640,7 +10649,7 @@ Cài đặt SteamVR ngay bây giờ?</value>
     <value>Hãy thử kích hoạt ngay bây giờ.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Bản xem trước phản hồi đã hoàn tất.</value>
+    <value>Đã dừng xem trước phản hồi.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Chọn cài đặt trước phản hồi để xem trước.</value>

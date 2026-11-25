@@ -10608,8 +10608,17 @@ Installera SteamVR nu?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Styrenhet</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Anslut en DualSense via USB och håll Voidstrap igång efter lanseringen. Triggereffekter gäller medan Roblox är fokuserad.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptiva triggers</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibration</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Håll vibrationsavtryckarna</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Stoppa förhandsgranskningen</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Vänster adaptiv trigger</value>
@@ -10639,7 +10648,7 @@ Installera SteamVR nu?</value>
     <value>Prova triggers nu.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Förhandsgranskning av feedback är klar.</value>
+    <value>Förhandsgranskning av feedback stoppades.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Välj en förinställning för feedback att förhandsgranska.</value>

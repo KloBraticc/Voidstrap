@@ -10299,8 +10299,17 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ተቆጣጣሪ</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>DualSense በUSB ያገናኙ እና ከተነሳ በኋላ Voidstrap እንዲሰራ ያድርጉት። Roblox በሚያተኩርበት ጊዜ ቀስቅሴዎች ይተገበራሉ።</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>የሚለምደዉ ቀስቅሴዎች</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>ንዝረት</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>የንዝረት ቀስቅሴዎችን ይያዙ</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>ቅድመ እይታን አቁም</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ግራ የሚለምደዉ ቀስቅሴ</value>
@@ -10330,7 +10339,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
     <value>ቀስቅሴዎችን አሁን ይሞክሩ።</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>የግብረመልስ ቅድመ እይታ ተጠናቅቋል።</value>
+    <value>የግብረመልስ ቅድመ እይታ ቆሟል።</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>ለቅድመ-እይታ የግብረመልስ ቅድመ ዝግጅትን ይምረጡ።</value>

@@ -10300,8 +10300,17 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Krmilnik</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Povežite DualSense prek USB-ja in Voidstrap naj deluje po zagonu. Učinki sprožilca veljajo, ko je Roblox osredotočen.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Prilagodljivi sprožilci</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibracije</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Držite sprožilce vibracij</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Ustavi predogled</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Levi prilagodljivi sprožilec</value>
@@ -10331,7 +10340,7 @@ Namestite SteamVR zdaj?</value>
     <value>Preizkusite sprožilce zdaj.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Predogled povratnih informacij je končan.</value>
+    <value>Predogled povratnih informacij je ustavljen.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Izberite prednastavitev povratnih informacij za predogled.</value>

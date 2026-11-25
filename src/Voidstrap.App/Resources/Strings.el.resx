@@ -10299,8 +10299,17 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Ελεγκτής</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Συνδέστε ένα DualSense μέσω USB και διατηρήστε το Voidstrap σε λειτουργία μετά την εκκίνηση. Τα εφέ ενεργοποίησης εφαρμόζονται ενώ το Roblox είναι εστιασμένο.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Προσαρμοστικοί ενεργοποιητές</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Δόνηση</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Κρατήστε τις σκανδάλες δόνησης</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Διακοπή προεπισκόπησης</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Αριστερή προσαρμοστική σκανδάλη</value>
@@ -10330,7 +10339,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
     <value>Δοκιμάστε τις σκανδάλες τώρα.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Ολοκληρώθηκε η προεπισκόπηση σχολίων.</value>
+    <value>Η προεπισκόπηση σχολίων σταμάτησε.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Επιλέξτε μια προεπιλογή σχολίων για προεπισκόπηση.</value>

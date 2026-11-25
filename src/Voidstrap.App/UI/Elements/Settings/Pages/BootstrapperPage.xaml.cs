@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +22,7 @@ public partial class BehaviourPage : UiPage
 
     private int _settingsRevision;
     private bool _refreshingControllers;
+    private CancellationTokenSource? _controllerPreviewCancellation;
 
     public BehaviourPage()
     {
@@ -65,6 +67,7 @@ public partial class BehaviourPage : UiPage
 
     private void OnPageUnloaded(object sender, RoutedEventArgs e)
     {
+        _controllerPreviewCancellation?.Cancel();
         (RobloxIntegrations.DataContext as IDisposable)?.Dispose();
         RobloxIntegrations.DataContext = null;
         _settingsRevision = App.Settings.Revision;
@@ -82,15 +85,23 @@ public partial class BehaviourPage : UiPage
 
     private async void ControllerPreview_Click(object sender, RoutedEventArgs e)
     {
-        ControllerPreviewButton.IsEnabled = false;
+        if (_controllerPreviewCancellation is { } activePreview)
+        {
+            activePreview.Cancel();
+            return;
+        }
+
+        using CancellationTokenSource preview = new();
+        _controllerPreviewCancellation = preview;
+        ControllerPreviewButton.SetBinding(ContentControl.ContentProperty, ControllerText(nameof(Strings.Ui_Controller_StopPreview)));
         SetControllerPreviewStatus(nameof(Strings.Ui_Controller_Previewing));
         try
         {
-            DualSenseFeedback.Presets presets = DualSenseFeedback.ReadPresets(App.Settings.Prop);
-            DualSenseFeedback.PreviewResult result = await Task.Run(() => DualSenseFeedback.PreviewAsync(presets));
+            DualSenseFeedback.PreviewResult result = await Task.Run(() =>
+                DualSenseFeedback.PreviewAsync(() => DualSenseFeedback.ReadPresets(App.Settings.Prop), preview.Token));
             SetControllerPreviewStatus(result switch
             {
-                DualSenseFeedback.PreviewResult.Sent => nameof(Strings.Ui_Controller_Previewed),
+                DualSenseFeedback.PreviewResult.Stopped => nameof(Strings.Ui_Controller_Previewed),
                 DualSenseFeedback.PreviewResult.NoPreset => nameof(Strings.Ui_Controller_SelectPreset),
                 DualSenseFeedback.PreviewResult.NoController => nameof(Strings.Ui_Controller_NoController),
                 _ => nameof(Strings.Ui_Controller_PreviewFailed)
@@ -98,15 +109,19 @@ public partial class BehaviourPage : UiPage
         }
         finally
         {
-            ControllerPreviewButton.IsEnabled = true;
+            _controllerPreviewCancellation = null;
+            ControllerPreviewButton.SetBinding(ContentControl.ContentProperty, ControllerText(nameof(Strings.Ui_Controller_Preview)));
         }
     }
 
     private async void DeploymentTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (ControllerTab != null && ReferenceEquals(sender, e.OriginalSource)
-            && ReferenceEquals(DeploymentTabs.SelectedItem, ControllerTab))
+        if (ControllerTab == null || !ReferenceEquals(sender, e.OriginalSource))
+            return;
+        if (ReferenceEquals(DeploymentTabs.SelectedItem, ControllerTab))
             await RefreshControllersAsync();
+        else
+            _controllerPreviewCancellation?.Cancel();
     }
 
     private async void ControllerRefresh_Click(object sender, RoutedEventArgs e) => await RefreshControllersAsync();
@@ -128,6 +143,8 @@ public partial class BehaviourPage : UiPage
 
     private void SetControllerPreviewStatus(string resourceKey)
     {
-        ControllerPreviewStatus.SetBinding(TextBlock.TextProperty, new Binding($"[{resourceKey}]") { Source = LocalizedStrings.Instance });
+        ControllerPreviewStatus.SetBinding(TextBlock.TextProperty, ControllerText(resourceKey));
     }
+
+    private static Binding ControllerText(string resourceKey) => new($"[{resourceKey}]") { Source = LocalizedStrings.Instance };
 }

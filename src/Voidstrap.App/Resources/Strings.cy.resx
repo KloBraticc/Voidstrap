@@ -10299,8 +10299,17 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Rheolydd</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Cysylltwch DualSense gan USB a chadw Voidstrap i redeg ar ôl ei lansio. Mae effeithiau sbardun yn berthnasol tra bod Roblox yn canolbwyntio.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Sbardunau addasol</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Dirgryniad</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Daliwch sbardunau dirgryniad</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Stopio rhagolwg</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Sbardun addasol chwith</value>
@@ -10330,7 +10339,7 @@ Gosod SteamVR nawr?</value>
     <value>Rhowch gynnig ar y sbardunau nawr.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Rhagolwg adborth wedi&#x27;i gwblhau.</value>
+    <value>Rhagolwg adborth wedi&#x27;i atal.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Dewiswch ragosodiad adborth i gael rhagolwg.</value>

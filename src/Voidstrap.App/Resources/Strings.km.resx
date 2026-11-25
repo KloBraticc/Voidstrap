@@ -10300,8 +10300,17 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ឧបករណ៍បញ្ជា</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>ភ្ជាប់ DualSense ដោយ USB និងបន្តដំណើរការ Voidstrap បន្ទាប់ពីបើកដំណើរការ។ ផលប៉ះពាល់កេះត្រូវបានអនុវត្តខណៈពេលដែល Roblox ត្រូវបានផ្តោត។</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>កេះអាដាប់ធ័រ</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>រំញ័រ</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>សង្កត់គន្លឹះរំញ័រ</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>បញ្ឈប់ការមើលជាមុន</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>គន្លឹះបន្ស៊ាំឆ្វេង</value>
@@ -10331,7 +10340,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
     <value>សាកល្បងគន្លឹះឥឡូវនេះ។</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>ការមើលមតិកែលម្អត្រូវបានបញ្ចប់។</value>
+    <value>ការមើលមតិកែលម្អបានឈប់។</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>ជ្រើសរើសការកំណត់ជាមុនដើម្បីមើលជាមុន។</value>

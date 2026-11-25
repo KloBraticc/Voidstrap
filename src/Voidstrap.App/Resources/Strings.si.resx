@@ -10300,8 +10300,17 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>පාලකය</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB මගින් DualSense සම්බන්ධ කර දියත් කිරීමෙන් පසුව Voidstrap ක්‍රියාත්මකව තබා ගන්න. Roblox නාභිගත කර ඇති අතරතුර ප්‍රේරක බලපෑම් යෙදේ.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>අනුවර්තන ප්‍රේරක</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>කම්පනය</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>කම්පන ප්‍රේරක රඳවා තබා ගන්න</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>පෙරදසුන නවත්වන්න</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>වම් අනුවර්තන ප්‍රේරකය</value>
@@ -10331,7 +10340,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
     <value>දැන් ප්‍රේරක උත්සාහ කරන්න.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>ප්‍රතිපෝෂණ පෙරදසුන සම්පූර්ණයි.</value>
+    <value>ප්‍රතිපෝෂණ පෙරදසුන නතර විය.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>පෙරදසුන් කිරීමට ප්‍රතිපෝෂණ පෙරසිටුවක් තෝරන්න.</value>

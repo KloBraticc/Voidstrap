@@ -10300,8 +10300,17 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>नियंत्रक</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB द्वारे DualSense कनेक्ट करा आणि लॉन्च झाल्यानंतर व्हॉइडस्ट्रॅप चालू ठेवा. रॉब्लॉक्स केंद्रित असताना ट्रिगर प्रभाव लागू होतात.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>अनुकूली ट्रिगर</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>कंपन</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>कंपन ट्रिगर्स धरा</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>पूर्वावलोकन थांबवा</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>डावा अनुकूली ट्रिगर</value>
@@ -10331,7 +10340,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
     <value>आता ट्रिगर वापरून पहा.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>अभिप्राय पूर्वावलोकन पूर्ण.</value>
+    <value>फीडबॅक पूर्वावलोकन थांबवले.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>पूर्वावलोकन करण्यासाठी फीडबॅक प्रीसेट निवडा.</value>

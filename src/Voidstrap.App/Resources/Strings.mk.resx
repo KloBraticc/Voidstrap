@@ -10300,8 +10300,17 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Контролор</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Поврзете DualSense преку USB и продолжете да работи Voidstrap по стартувањето. Ефектите на активирањето се применуваат додека Roblox е фокусиран.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Адаптивни предизвикувачи</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Вибрации</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Држете ги активирачите за вибрации</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Стоп за преглед</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Лево адаптивно активирање</value>
@@ -10331,7 +10340,7 @@ Voidstrap ја проверува секоја датотека во библи�
     <value>Обидете се со предизвикувачите сега.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Прегледот на повратните информации е завршен.</value>
+    <value>Прегледот на повратни информации престана.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Изберете претходно поставено повратни информации за преглед.</value>

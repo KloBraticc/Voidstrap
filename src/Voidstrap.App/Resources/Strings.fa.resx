@@ -10609,8 +10609,17 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>کنترل کننده</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>DualSense را با USB وصل کنید و Voidstrap را پس از راه‌اندازی در حال اجرا نگه دارید. هنگامی که Roblox متمرکز است، جلوه های ماشه اعمال می شود.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>محرک های تطبیقی</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>لرزش</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>محرک های لرزش را نگه دارید</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>توقف پیش نمایش</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ماشه تطبیقی سمت چپ</value>
@@ -10640,7 +10649,7 @@ SteamVR را الان نصب کنم؟</value>
     <value>اکنون محرک ها را امتحان کنید.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>پیش نمایش بازخورد کامل شد.</value>
+    <value>پیش نمایش بازخورد متوقف شد.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>یک پیش تنظیم بازخورد را برای پیش نمایش انتخاب کنید.</value>

@@ -10299,8 +10299,17 @@ Ludantoj: {2}</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Regilo</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Konektu DualSense per USB kaj tenu Voidstrap funkcianta post lanĉo. Ekzilaj efikoj validas dum Roblox estas fokusita.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptigaj ellasiloj</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibro</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Tenu vibrajn ellasilon</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Ĉesu antaŭrigardon</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Maldekstra adapta ellasilo</value>
@@ -10330,7 +10339,7 @@ Ludantoj: {2}</value>
     <value>Provu la ellasilon nun.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Reago antaŭrigardo kompleta.</value>
+    <value>Antaŭrigardo de rimarkoj ĉesis.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Elektu sugeston antaŭdifinitan por antaŭrigardi.</value>

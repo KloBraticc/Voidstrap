@@ -10300,8 +10300,17 @@ Instalar SteamVR agora?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controlador</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Conecta un DualSense por USB e mantén Voidstrap funcionando despois do lanzamento. Os efectos de activación aplícanse mentres Roblox está enfocado.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Disparadores adaptativos</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibración</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Manteña os disparadores de vibración</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Deter a vista previa</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Gatillo adaptativo esquerdo</value>
@@ -10331,7 +10340,7 @@ Instalar SteamVR agora?</value>
     <value>Proba agora os disparadores.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Completouse a vista previa de comentarios.</value>
+    <value>Detívose a vista previa dos comentarios.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Seleccione un valor predefinido de comentarios para previsualizar.</value>

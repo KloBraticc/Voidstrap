@@ -10610,8 +10610,17 @@ Veikimo laikas: {1}
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Valdiklis</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Prijunkite „DualSense“ per USB ir paleidę „Voidstrap“ leiskite veikti. Trigeriniai efektai taikomi, kai Roblox yra sutelktas.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptyvūs trigeriai</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibracija</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Laikykite vibracijos paleidiklius</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Sustabdyti peržiūrą</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Kairysis prisitaikantis gaidukas</value>
@@ -10641,7 +10650,7 @@ Veikimo laikas: {1}
     <value>Išbandykite paleidiklius dabar.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Atsiliepimų peržiūra baigta.</value>
+    <value>Atsiliepimų peržiūra sustabdyta.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Norėdami peržiūrėti, pasirinkite išankstinį atsiliepimų nustatymą.</value>

@@ -10300,8 +10300,17 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>בקר</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>חבר DualSense באמצעות USB והשאר את Voidstrap פועל לאחר ההשקה. אפקטי טריגר חלים כאשר רובלוקס ממוקד.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>טריגרים אדפטיביים</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>רטט</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>החזק מפעילי רטט</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>עצור את התצוגה המקדימה</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>טריגר אדפטיבי שמאלי</value>
@@ -10331,7 +10340,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
     <value>נסה את הטריגרים עכשיו.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>התצוגה המקדימה של המשוב הושלמה.</value>
+    <value>תצוגה מקדימה של משוב הופסקה.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>בחר הגדרת משוב מראש לתצוגה מקדימה.</value>

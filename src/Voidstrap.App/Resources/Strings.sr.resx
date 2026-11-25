@@ -10300,8 +10300,17 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Контролор</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Повежите ДуалСенсе преко УСБ-а и оставите Воидстрап да ради након покретања. Ефекти окидача се примењују док је Роблок фокусиран.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Прилагодљиви окидачи</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Вибрације</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Задржите окидаче вибрације</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Заустави преглед</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Леви адаптивни окидач</value>
@@ -10331,7 +10340,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
     <value>Пробајте окидаче сада.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Преглед повратних информација је завршен.</value>
+    <value>Преглед повратних информација је заустављен.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Изаберите унапред подешену повратну информацију за преглед.</value>

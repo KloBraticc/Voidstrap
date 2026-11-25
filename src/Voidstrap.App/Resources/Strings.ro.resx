@@ -10610,8 +10610,17 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controler</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Conectați un DualSense prin USB și mențineți Voidstrap să funcționeze după lansare. Efectele de declanșare se aplică în timp ce Roblox este concentrat.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Declanșatoare adaptive</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibrație</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Țineți declanșatoarele de vibrații</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Opriți previzualizarea</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Declanșator adaptiv stânga</value>
@@ -10641,7 +10650,7 @@ Instalați SteamVR acum?</value>
     <value>Încercați declanșatoarele acum.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Previzualizarea feedbackului s-a încheiat.</value>
+    <value>Previzualizarea feedbackului a fost oprită.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Selectați o presetare de feedback pentru a previzualiza.</value>

@@ -10300,8 +10300,17 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>കൺട്രോളർ</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB മുഖേന DualSense കണക്റ്റുചെയ്‌ത് ലോഞ്ച് ചെയ്‌തതിന് ശേഷം Voidstrap പ്രവർത്തിപ്പിക്കുന്നത് നിലനിർത്തുക. Roblox ഫോക്കസ് ചെയ്യുമ്പോൾ ട്രിഗർ ഇഫക്റ്റുകൾ ബാധകമാണ്.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>അഡാപ്റ്റീവ് ട്രിഗറുകൾ</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>വൈബ്രേഷൻ</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>വൈബ്രേഷൻ ട്രിഗറുകൾ പിടിക്കുക</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>പ്രിവ്യൂ നിർത്തുക</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ഇടത് അഡാപ്റ്റീവ് ട്രിഗർ</value>
@@ -10331,7 +10340,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
     <value>ഇപ്പോൾ ട്രിഗറുകൾ പരീക്ഷിക്കുക.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>ഫീഡ്‌ബാക്ക് പ്രിവ്യൂ പൂർത്തിയായി.</value>
+    <value>ഫീഡ്‌ബാക്ക് പ്രിവ്യൂ നിർത്തി.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>പ്രിവ്യൂ ചെയ്യാൻ ഒരു ഫീഡ്ബാക്ക് പ്രീസെറ്റ് തിരഞ്ഞെടുക്കുക.</value>

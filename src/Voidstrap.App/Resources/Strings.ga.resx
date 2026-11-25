@@ -10300,8 +10300,17 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Rialaitheoir</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Ceangail DualSense le USB agus coinnigh Voidstrap ag rith tar éis é a sheoladh. Tá éifeachtaí truicear i bhfeidhm agus Roblox dírithe.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Truiceoirí oiriúnaitheacha</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Creathadh</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Coinnigh truicear creathadh</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Stop réamhamharc</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Truicear oiriúnaitheach chlé</value>
@@ -10331,7 +10340,7 @@ Suiteáil SteamVR anois?</value>
     <value>Bain triail as na triggers anois.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Réamhamharc aiseolais críochnaithe.</value>
+    <value>Cuireadh stop leis an réamhamharc aiseolais.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Roghnaigh réamhshocrú aiseolais chun réamhamharc a dhéanamh.</value>

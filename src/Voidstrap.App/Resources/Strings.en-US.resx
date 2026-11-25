@@ -10613,8 +10613,17 @@ Install SteamVR now?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controller</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Connect a DualSense by USB and keep Voidstrap running after launch. Trigger effects apply while Roblox is focused.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptive triggers</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibration</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Hold vibration triggers</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Stop preview</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Left adaptive trigger</value>
@@ -10644,7 +10653,7 @@ Install SteamVR now?</value>
     <value>Try the triggers now.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Feedback preview complete.</value>
+    <value>Feedback preview stopped.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Select a feedback preset to preview.</value>

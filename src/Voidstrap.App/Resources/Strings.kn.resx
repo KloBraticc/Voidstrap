@@ -10300,8 +10300,17 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ನಿಯಂತ್ರಕ</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB ಮೂಲಕ DualSense ಅನ್ನು ಸಂಪರ್ಕಿಸಿ ಮತ್ತು ಪ್ರಾರಂಭಿಸಿದ ನಂತರ Voidstrap ರನ್ ಆಗುತ್ತಿರಿ. Roblox ಕೇಂದ್ರೀಕೃತವಾಗಿರುವಾಗ ಪ್ರಚೋದಕ ಪರಿಣಾಮಗಳು ಅನ್ವಯಿಸುತ್ತವೆ.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>ಅಡಾಪ್ಟಿವ್ ಟ್ರಿಗ್ಗರ್‌ಗಳು</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>ಕಂಪನ</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>ಕಂಪನ ಪ್ರಚೋದಕಗಳನ್ನು ಹಿಡಿದುಕೊಳ್ಳಿ</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>ಪೂರ್ವವೀಕ್ಷಣೆ ನಿಲ್ಲಿಸಿ</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ಎಡ ಹೊಂದಾಣಿಕೆಯ ಪ್ರಚೋದಕ</value>
@@ -10331,7 +10340,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
     <value>ಈಗ ಪ್ರಚೋದಕಗಳನ್ನು ಪ್ರಯತ್ನಿಸಿ.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>ಪ್ರತಿಕ್ರಿಯೆ ಪೂರ್ವವೀಕ್ಷಣೆ ಪೂರ್ಣಗೊಂಡಿದೆ.</value>
+    <value>ಪ್ರತಿಕ್ರಿಯೆ ಪೂರ್ವವೀಕ್ಷಣೆ ನಿಲ್ಲಿಸಲಾಗಿದೆ.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>ಪೂರ್ವವೀಕ್ಷಣೆಗಾಗಿ ಪ್ರತಿಕ್ರಿಯೆ ಪೂರ್ವನಿಗದಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.</value>

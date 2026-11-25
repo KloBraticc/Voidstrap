@@ -10300,8 +10300,17 @@ Installa SteamVR issa?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontrollur</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Qabbad DualSense permezz tal-USB u żomm Voidstrap jaħdem wara t-tnedija. Effetti trigger japplikaw waqt Roblox huwa ffukat.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Jqajjem adattivi</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibrazzjoni</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Żomm il-vibrazzjoni jqajjem</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Waqqaf preview</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Grillu adattiv tax-xellug</value>
@@ -10331,7 +10340,7 @@ Installa SteamVR issa?</value>
     <value>Ipprova t-tqanqal issa.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Preview ta&#x27; feedback komplut.</value>
+    <value>Preview tar-rispons waqaf.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Agħżel feedback issettjat minn qabel biex tipprevedi.</value>

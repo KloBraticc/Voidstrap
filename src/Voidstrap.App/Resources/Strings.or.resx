@@ -10300,8 +10300,17 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ନିୟନ୍ତ୍ରକ</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB ଦ୍ୱାରା ଏକ DualSense କୁ ସଂଯୋଗ କରନ୍ତୁ ଏବଂ ଲ launch ୍ଚ ହେବା ପରେ Voidstrap ଚାଲୁ ରଖନ୍ତୁ | ରୋବ୍ଲକ୍ସ ଫୋକସ୍ ହୋଇଥିବାବେଳେ ଟ୍ରିଗର ପ୍ରଭାବ ପ୍ରୟୋଗ ହୁଏ |</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>ଆଡାପ୍ଟିଭ୍ ଟ୍ରିଗରଗୁଡିକ |</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>କମ୍ପନ</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>କମ୍ପନ ଟ୍ରିଗରଗୁଡିକ ଧରି ରଖନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>ପୂର୍ବାବଲୋକନ ବନ୍ଦ କରନ୍ତୁ |</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ବାମ ଆଡାପ୍ଟିଭ୍ ଟ୍ରିଗର |</value>
@@ -10331,7 +10340,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
     <value>ବର୍ତ୍ତମାନ ଟ୍ରିଗରଗୁଡିକ ଚେଷ୍ଟା କରନ୍ତୁ |</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>ମତାମତ ପୂର୍ବାବଲୋକନ ସମ୍ପୂର୍ଣ୍ଣ |</value>
+    <value>ମତାମତ ପୂର୍ବାବଲୋକନ ବନ୍ଦ ହେଲା |</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>ପୂର୍ବାବଲୋକନ ପାଇଁ ଏକ ମତାମତ ପ୍ରିସେଟ୍ ଚୟନ କରନ୍ତୁ |</value>

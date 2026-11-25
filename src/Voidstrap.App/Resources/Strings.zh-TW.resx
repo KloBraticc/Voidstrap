@@ -10609,8 +10609,17 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>控制器</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>透過 USB 連接 DualSense 並在啟動後保持 Voidstrap 運作。當 Roblox 專注時，觸發效果生效。</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>自適應觸發器</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>振動</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>按住振動觸發器</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>停止預覽</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>左自適應觸發器</value>
@@ -10640,7 +10649,7 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
     <value>立即嘗試觸發器。</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>反饋預覽完成。</value>
+    <value>回饋預覽已停止。</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>選擇要預覽的回饋預設。</value>

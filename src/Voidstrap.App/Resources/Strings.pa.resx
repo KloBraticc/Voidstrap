@@ -10300,8 +10300,17 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ਕੰਟਰੋਲਰ</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB ਦੁਆਰਾ ਇੱਕ DualSense ਨੂੰ ਕਨੈਕਟ ਕਰੋ ਅਤੇ ਲਾਂਚ ਤੋਂ ਬਾਅਦ ਵੋਇਡਸਟ੍ਰੈਪ ਨੂੰ ਚੱਲਦਾ ਰੱਖੋ। ਜਦੋਂ ਰੋਬਲੋਕਸ ਫੋਕਸ ਹੁੰਦਾ ਹੈ ਤਾਂ ਟਰਿੱਗਰ ਪ੍ਰਭਾਵ ਲਾਗੂ ਹੁੰਦੇ ਹਨ।</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>ਅਨੁਕੂਲ ਟਰਿੱਗਰ</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>ਵਾਈਬ੍ਰੇਸ਼ਨ</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>ਵਾਈਬ੍ਰੇਸ਼ਨ ਟਰਿਗਰਸ ਨੂੰ ਫੜੋ</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>ਝਲਕ ਬੰਦ ਕਰੋ</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ਖੱਬਾ ਅਨੁਕੂਲਨ ਟਰਿੱਗਰ</value>
@@ -10331,7 +10340,7 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
     <value>ਹੁਣੇ ਟਰਿਗਰਾਂ ਨੂੰ ਅਜ਼ਮਾਓ।</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>ਫੀਡਬੈਕ ਪੂਰਵਦਰਸ਼ਨ ਪੂਰਾ ਹੋਇਆ।</value>
+    <value>ਫੀਡਬੈਕ ਪੂਰਵਦਰਸ਼ਨ ਰੋਕਿਆ ਗਿਆ।</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>ਪ੍ਰੀਵਿਊ ਕਰਨ ਲਈ ਫੀਡਬੈਕ ਪ੍ਰੀਸੈੱਟ ਚੁਣੋ।</value>

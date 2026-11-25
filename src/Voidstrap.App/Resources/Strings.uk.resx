@@ -10609,8 +10609,17 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Контролер</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Підключіть DualSense через USB і продовжуйте працювати Voidstrap після запуску. Тригерні ефекти застосовуються, поки Roblox фокусується.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Адаптивні тригери</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>вібрація</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Тримайте тригери вібрації</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Зупинити попередній перегляд</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Лівий адаптивний тригер</value>
@@ -10640,7 +10649,7 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
     <value>Спробуйте тригери зараз.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Попередній перегляд відгуку завершено.</value>
+    <value>Попередній перегляд відгуків зупинено.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Виберіть стиль відгуку для попереднього перегляду.</value>

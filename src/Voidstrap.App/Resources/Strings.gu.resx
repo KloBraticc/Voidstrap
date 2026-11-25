@@ -10300,8 +10300,17 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>નિયંત્રક</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>યુએસબી દ્વારા ડ્યુઅલસેન્સ કનેક્ટ કરો અને લોંચ થયા પછી વોઈડસ્ટ્રેપ ચાલુ રાખો. જ્યારે Roblox કેન્દ્રિત હોય ત્યારે ટ્રિગર અસરો લાગુ થાય છે.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>અનુકૂલનશીલ ટ્રિગર્સ</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>કંપન</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>વાઇબ્રેશન ટ્રિગર્સ પકડી રાખો</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>પૂર્વાવલોકન રોકો</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ડાબું અનુકૂલનશીલ ટ્રિગર</value>
@@ -10331,7 +10340,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
     <value>હવે ટ્રિગર્સ અજમાવી જુઓ.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>પ્રતિસાદ પૂર્વાવલોકન પૂર્ણ.</value>
+    <value>પ્રતિસાદ પૂર્વાવલોકન બંધ કર્યું.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>પૂર્વાવલોકન કરવા માટે પ્રતિસાદ પ્રીસેટ પસંદ કરો.</value>

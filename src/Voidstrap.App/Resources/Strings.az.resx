@@ -10299,8 +10299,17 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Nəzarətçi</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>DualSense-i USB ilə qoşun və işə salındıqdan sonra Voidstrap-ı işə salın. Roblox fokuslanarkən tetik effektləri tətbiq olunur.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptiv tetikler</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibrasiya</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Vibrasiya tetikleyicilerini saxlayın</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Önizləməni dayandırın</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Sol adaptiv tətik</value>
@@ -10330,7 +10339,7 @@ SteamVR indi quraşdırılsın?</value>
     <value>İndi tetikleyicileri sınayın.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Rəy önizləməsi tamamlandı.</value>
+    <value>Rəy önizləməsi dayandırıldı.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Öncədən baxmaq üçün rəy əvvəlcədən təyinini seçin.</value>

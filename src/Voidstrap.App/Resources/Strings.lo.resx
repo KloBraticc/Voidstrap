@@ -10300,8 +10300,17 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>ຜູ້ຄວບຄຸມ</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>ເຊື່ອມຕໍ່ DualSense ດ້ວຍ USB ແລະສືບຕໍ່ແລ່ນ Voidstrap ຫຼັງຈາກເປີດຕົວ. ເອັບເຟັກ Trigger ນຳໃຊ້ໃນຂະນະທີ່ Roblox ຖືກສຸມໃສ່.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>ກະຕຸ້ນການປັບຕົວ</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>ການສັ່ນສະເທືອນ</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>ຖືຕົວກະຕຸ້ນການສັ່ນສະເທືອນ</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>ຢຸດການສະແດງຕົວຢ່າງ</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>ຕົວກະຕຸ້ນການປັບຕົວຊ້າຍ</value>
@@ -10331,7 +10340,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
     <value>ລອງໃຊ້ຕົວກະຕຸ້ນດຽວນີ້.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>ສຳເລັດການສະແດງຕົວຢ່າງຄຳຕິຊົມ.</value>
+    <value>ຢຸດການສະແດງຕົວຢ່າງຄຳຕິຊົມແລ້ວ.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>ເລືອກ​ຄໍາ​ຄິດ​ເຫັນ​ທີ່​ຕັ້ງ​ໄວ້​ລ່ວງ​ຫນ້າ​ເພື່ອ​ເບິ່ງ​ຕົວ​ຢ່າງ​.</value>

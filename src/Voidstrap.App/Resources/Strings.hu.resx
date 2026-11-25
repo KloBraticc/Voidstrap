@@ -10610,8 +10610,17 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Vezérlő</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Csatlakoztasson DualSense-t USB-n keresztül, és tartsa a Voidstrap-et az indítás után. Kiváltó effektusok érvényesek, amíg a Roblox fókuszban van.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptív triggerek</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Rezgés</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Tartsa lenyomva a vibrációs triggereket</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Az előnézet leállítása</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Bal oldali adaptív trigger</value>
@@ -10641,7 +10650,7 @@ Telepítse most az SteamVR-t?</value>
     <value>Próbálja ki a triggereket most.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>A visszajelzés előnézete befejeződött.</value>
+    <value>A visszajelzés előnézete leállt.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Az előnézethez válassza ki a visszajelzési készletet.</value>

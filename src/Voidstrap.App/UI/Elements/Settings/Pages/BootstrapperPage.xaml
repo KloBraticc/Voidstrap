@@ -366,7 +366,6 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
-          <ui:InfoBar Margin="0,0,0,8" IsOpen="True" IsClosable="False" Message="{resources:Loc Ui_Controller_Support}" />
           <controls:OptionControl Header="{resources:Loc Ui_Controller_Device}">
             <StackPanel Orientation="Horizontal">
               <ComboBox MinWidth="170" ItemsSource="{Binding ControllerDevices}" DisplayMemberPath="Display" SelectedValuePath="Id"
@@ -375,64 +374,80 @@
                          AutomationProperties.Name="{resources:Loc Ui_Controller_Refresh}" Click="ControllerRefresh_Click" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Gbs_EnableControllerVibration}" Description="{resources:Loc Ui_Gbs_ToggleHapticFeedbackOnControllers}">
-            <ui:ToggleSwitch IsChecked="{Binding ControllerGlobalSettings.ControllerVibration, Mode=TwoWay}" />
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Controller_LeftTrigger}">
-            <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseLeftTrigger, Mode=TwoWay}">
-              <ComboBoxItem Content="{resources:Loc Ui_Sound_Equalizer_Off}" />
-              <ComboBoxItem Content="{resources:Loc Ui_Controller_Light}" />
-              <ComboBoxItem Content="{resources:Loc Ui_Controller_Strong}" />
-              <ComboBoxItem Content="{resources:Loc Ui_Controller_Fps}" />
-            </ComboBox>
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Controller_LeftStrength}">
-            <StackPanel Orientation="Horizontal">
-              <Slider Width="130" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
-                      AutomationProperties.Name="{resources:Loc Ui_Controller_LeftStrength}" Value="{Binding DualSenseLeftStrength, Mode=TwoWay}" />
-              <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSenseLeftStrength, StringFormat={}{0}%}" />
+          <Expander Margin="0,6,0,0" Header="{resources:Loc Ui_Controller_AdaptiveTriggers}" IsExpanded="False">
+            <StackPanel Margin="0,6,0,0">
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_LeftTrigger}">
+                <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseLeftTrigger, Mode=TwoWay}">
+                  <ComboBoxItem Content="{resources:Loc Ui_Sound_Equalizer_Off}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Controller_Light}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Controller_Strong}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Controller_Fps}" />
+                </ComboBox>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_LeftStrength}">
+                <StackPanel Orientation="Horizontal">
+                  <Slider Width="130" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
+                          AutomationProperties.Name="{resources:Loc Ui_Controller_LeftStrength}" Value="{Binding DualSenseLeftStrength, Mode=TwoWay}" />
+                  <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSenseLeftStrength, StringFormat={}{0}%}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_RightTrigger}">
+                <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseRightTrigger, Mode=TwoWay}">
+                  <ComboBoxItem Content="{resources:Loc Ui_Sound_Equalizer_Off}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Controller_Light}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Controller_Strong}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Controller_Fps}" />
+                </ComboBox>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_RightStrength}">
+                <StackPanel Orientation="Horizontal">
+                  <Slider Width="130" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
+                          AutomationProperties.Name="{resources:Loc Ui_Controller_RightStrength}" Value="{Binding DualSenseRightStrength, Mode=TwoWay}" />
+                  <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSenseRightStrength, StringFormat={}{0}%}" />
+                </StackPanel>
+              </controls:OptionControl>
             </StackPanel>
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Controller_RightTrigger}">
-            <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseRightTrigger, Mode=TwoWay}">
-              <ComboBoxItem Content="{resources:Loc Ui_Sound_Equalizer_Off}" />
-              <ComboBoxItem Content="{resources:Loc Ui_Controller_Light}" />
-              <ComboBoxItem Content="{resources:Loc Ui_Controller_Strong}" />
-              <ComboBoxItem Content="{resources:Loc Ui_Controller_Fps}" />
-            </ComboBox>
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Controller_RightStrength}">
-            <StackPanel Orientation="Horizontal">
-              <Slider Width="130" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
-                      AutomationProperties.Name="{resources:Loc Ui_Controller_RightStrength}" Value="{Binding DualSenseRightStrength, Mode=TwoWay}" />
-              <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSenseRightStrength, StringFormat={}{0}%}" />
+          </Expander>
+          <Expander Margin="0,6,0,0" Header="{resources:Loc Ui_Controller_Vibration}" IsExpanded="False">
+            <StackPanel Margin="0,6,0,0">
+              <controls:OptionControl Header="{resources:Loc Ui_Gbs_EnableControllerVibration}" Description="{resources:Loc Ui_Gbs_ToggleHapticFeedbackOnControllers}">
+                <ui:ToggleSwitch IsChecked="{Binding ControllerGlobalSettings.ControllerVibration, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_TriggerVibration}" Description="{resources:Loc Ui_Controller_TriggerVibrationDescription}">
+                <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseVibration, Mode=TwoWay}">
+                  <ComboBoxItem Content="{resources:Loc Ui_Sound_Equalizer_Off}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Controller_Light}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Controller_Strong}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Controller_Fps}" />
+                </ComboBox>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_VibrationStrength}">
+                <StackPanel Orientation="Horizontal">
+                  <Slider Width="130" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
+                          AutomationProperties.Name="{resources:Loc Ui_Controller_VibrationStrength}" Value="{Binding DualSenseVibrationStrength, Mode=TwoWay}" />
+                  <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSenseVibrationStrength, StringFormat={}{0}%}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_Hold}" Description="{resources:Loc Ui_Controller_HoldDescription}">
+                <ui:ToggleSwitch IsChecked="{Binding DualSenseVibrateWhileHeld, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_HoldTriggers}" IsEnabled="{Binding DualSenseVibrateWhileHeld}">
+                <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseHoldTriggers, Mode=TwoWay}"
+                          AutomationProperties.Name="{resources:Loc Ui_Controller_HoldTriggers}">
+                  <ComboBoxItem Content="{resources:Loc Ui_SessionNotify_Both}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Mods_Left}" />
+                  <ComboBoxItem Content="{resources:Loc Ui_Mods_Right}" />
+                </ComboBox>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Controller_PulseLength}" IsEnabled="{Binding DualSenseUsesPulse}">
+                <StackPanel Orientation="Horizontal">
+                  <Slider Width="130" Minimum="50" Maximum="200" TickFrequency="5" IsSnapToTickEnabled="True"
+                          AutomationProperties.Name="{resources:Loc Ui_Controller_PulseLength}" Value="{Binding DualSensePulseLength, Mode=TwoWay}" />
+                  <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSensePulseLength, StringFormat={}{0}%}" />
+                </StackPanel>
+              </controls:OptionControl>
             </StackPanel>
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Controller_TriggerVibration}" Description="{resources:Loc Ui_Controller_TriggerVibrationDescription}">
-            <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseVibration, Mode=TwoWay}">
-              <ComboBoxItem Content="{resources:Loc Ui_Sound_Equalizer_Off}" />
-              <ComboBoxItem Content="{resources:Loc Ui_Controller_Light}" />
-              <ComboBoxItem Content="{resources:Loc Ui_Controller_Strong}" />
-              <ComboBoxItem Content="{resources:Loc Ui_Controller_Fps}" />
-            </ComboBox>
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Controller_VibrationStrength}">
-            <StackPanel Orientation="Horizontal">
-              <Slider Width="130" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
-                      AutomationProperties.Name="{resources:Loc Ui_Controller_VibrationStrength}" Value="{Binding DualSenseVibrationStrength, Mode=TwoWay}" />
-              <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSenseVibrationStrength, StringFormat={}{0}%}" />
-            </StackPanel>
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Controller_Hold}" Description="{resources:Loc Ui_Controller_HoldDescription}">
-            <ui:ToggleSwitch IsChecked="{Binding DualSenseVibrateWhileHeld, Mode=TwoWay}" />
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Controller_PulseLength}" IsEnabled="{Binding DualSenseUsesPulse}">
-            <StackPanel Orientation="Horizontal">
-              <Slider Width="130" Minimum="50" Maximum="200" TickFrequency="5" IsSnapToTickEnabled="True"
-                      AutomationProperties.Name="{resources:Loc Ui_Controller_PulseLength}" Value="{Binding DualSensePulseLength, Mode=TwoWay}" />
-              <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSensePulseLength, StringFormat={}{0}%}" />
-            </StackPanel>
-          </controls:OptionControl>
+          </Expander>
           <ui:Button x:Name="ControllerPreviewButton" HorizontalAlignment="Left" Margin="0,8,0,0" Icon="Games24"
                      Content="{resources:Loc Ui_Controller_Preview}" Click="ControllerPreview_Click" />
           <TextBlock x:Name="ControllerPreviewStatus" Margin="0,6,0,0" TextWrapping="Wrap"

@@ -10300,8 +10300,17 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Stjórnandi</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Tengdu DualSense með USB og haltu Voidstrap í gangi eftir ræsingu. Kveikjuáhrif eiga við á meðan Roblox er með fókus.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Aðlagandi kveikjur</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Titringur</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Haltu titringskveikjum</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Hætta forskoðun</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Vinstri aðlögunarkveikja</value>
@@ -10331,7 +10340,7 @@ Settu upp SteamVR núna?</value>
     <value>Prófaðu kveikjurnar núna.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Forskoðun ábendinga lokið.</value>
+    <value>Forskoðun ábendinga stöðvuð.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Veldu forstillingu fyrir endurgjöf til að forskoða.</value>

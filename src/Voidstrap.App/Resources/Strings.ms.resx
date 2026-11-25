@@ -10610,8 +10610,17 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Pengawal</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Sambungkan DualSense melalui USB dan pastikan Voidstrap berjalan selepas pelancaran. Kesan pencetus dikenakan semasa Roblox difokuskan.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Pencetus adaptif</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Getaran</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Tahan pencetus getaran</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Hentikan pratonton</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Pencetus adaptif kiri</value>
@@ -10641,7 +10650,7 @@ Pasang SteamVR sekarang?</value>
     <value>Cuba pencetus sekarang.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Pratonton maklum balas selesai.</value>
+    <value>Pratonton maklum balas dihentikan.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Pilih pratetap maklum balas untuk pratonton.</value>

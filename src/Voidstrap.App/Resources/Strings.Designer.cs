@@ -1608,7 +1608,10 @@ namespace Voidstrap.Resources {
         public static string Ui_Gbs_AdjustJoystickSensitivity => ResourceManager.GetString("Ui.Gbs.AdjustJoystickSensitivity", resourceCulture);
 
         public static string Ui_Controller_Tab => ResourceManager.GetString("Ui.Controller.Tab", resourceCulture);
-        public static string Ui_Controller_Support => ResourceManager.GetString("Ui.Controller.Support", resourceCulture);
+        public static string Ui_Controller_AdaptiveTriggers => ResourceManager.GetString("Ui.Controller.AdaptiveTriggers", resourceCulture);
+        public static string Ui_Controller_Vibration => ResourceManager.GetString("Ui.Controller.Vibration", resourceCulture);
+        public static string Ui_Controller_HoldTriggers => ResourceManager.GetString("Ui.Controller.HoldTriggers", resourceCulture);
+        public static string Ui_Controller_StopPreview => ResourceManager.GetString("Ui.Controller.StopPreview", resourceCulture);
         public static string Ui_Controller_LeftTrigger => ResourceManager.GetString("Ui.Controller.LeftTrigger", resourceCulture);
         public static string Ui_Controller_RightTrigger => ResourceManager.GetString("Ui.Controller.RightTrigger", resourceCulture);
         public static string Ui_Controller_TriggerVibration => ResourceManager.GetString("Ui.Controller.TriggerVibration", resourceCulture);

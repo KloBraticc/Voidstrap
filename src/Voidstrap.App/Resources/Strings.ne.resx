@@ -10300,8 +10300,17 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>नियन्त्रक</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>USB द्वारा DualSense जडान गर्नुहोस् र सुरुवात पछि Voidstrap चलिरहेको राख्नुहोस्। Roblox केन्द्रित हुँदा ट्रिगर प्रभावहरू लागू हुन्छन्।</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>अनुकूलन ट्रिगरहरू</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>कम्पन</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>कम्पन ट्रिगरहरू होल्ड गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>पूर्वावलोकन रोक्नुहोस्</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>बायाँ अनुकूली ट्रिगर</value>
@@ -10331,7 +10340,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
     <value>अहिले ट्रिगरहरू प्रयास गर्नुहोस्।</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>प्रतिक्रिया पूर्वावलोकन पूरा भयो।</value>
+    <value>प्रतिक्रिया पूर्वावलोकन रोकियो।</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>पूर्वावलोकन गर्न प्रतिक्रिया प्रिसेट चयन गर्नुहोस्।</value>

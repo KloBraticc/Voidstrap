@@ -10300,8 +10300,17 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Controller</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Ampifandraiso amin&#x27;ny USB ny DualSense ary tohizo hatrany ny Voidstrap aorian&#x27;ny fandefasana. Mihatra ny fiantraikan&#x27;ny trigger raha mifantoka amin&#x27;ny Roblox.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptive triggers</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibration</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Tazony ny vibration trigger</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Atsaharo ny fijerena</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Havia adaptive trigger</value>
@@ -10331,7 +10340,7 @@ Hametraka SteamVR izao?</value>
     <value>Andramo izao ny trigger.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Vita ny fijerena tamberina.</value>
+    <value>Niato ny fijerena tamberina.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Mifidiana preset fanehoan-kevitra hojerena.</value>

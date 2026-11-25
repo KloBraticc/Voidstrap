@@ -10299,8 +10299,17 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kidhibiti</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Unganisha DualSense kwa USB na uendelee kutumia Voidstrap baada ya uzinduzi. Athari za vichochezi hutumika wakati Roblox imelenga.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Vichochezi vinavyobadilika</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Mtetemo</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Shikilia vichochezi vya mtetemo</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Acha onyesho la kukagua</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Kichochezi cha kurekebisha cha kushoto</value>
@@ -10330,7 +10339,7 @@ Sakinisha SteamVR sasa?</value>
     <value>Jaribu vichochezi sasa.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Onyesho la kukagua maoni limekamilika.</value>
+    <value>Onyesho la kukagua maoni limesimamishwa.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Chagua uwekaji awali wa maoni ili kuhakiki.</value>

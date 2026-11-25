@@ -10300,8 +10300,17 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>नियंत्रक</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>यूएसबी द्वारा डुअलसेंस कनेक्ट करें और लॉन्च के बाद वॉयडस्ट्रैप को चालू रखें। जब Roblox केंद्रित होता है तो ट्रिगर प्रभाव लागू होते हैं।</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>अनुकूली ट्रिगर</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>कंपन</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>कंपन ट्रिगर दबाए रखें</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>पूर्वावलोकन बंद करो</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>वाम अनुकूली ट्रिगर</value>
@@ -10331,7 +10340,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
     <value>अभी ट्रिगर्स आज़माएं.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>फीडबैक पूर्वावलोकन पूरा हुआ.</value>
+    <value>फीडबैक पूर्वावलोकन बंद कर दिया गया.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>पूर्वावलोकन करने के लिए फीडबैक प्रीसेट का चयन करें।</value>

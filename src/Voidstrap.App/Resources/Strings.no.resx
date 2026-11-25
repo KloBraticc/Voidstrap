@@ -10300,8 +10300,17 @@ Installer SteamVR nå?</value>
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>Kontroller</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>Koble til en DualSense via USB og hold Voidstrap i gang etter lansering. Triggereffekter gjelder mens Roblox er fokusert.</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>Adaptive triggere</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>Vibrasjon</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>Hold vibrasjonsutløsere</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>Stopp forhåndsvisningen</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>Venstre adaptiv utløser</value>
@@ -10331,7 +10340,7 @@ Installer SteamVR nå?</value>
     <value>Prøv utløserne nå.</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>Forhåndsvisning av tilbakemelding fullført.</value>
+    <value>Forhåndsvisning av tilbakemelding stoppet.</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>Velg en forhåndsinnstilling for tilbakemelding for forhåndsvisning.</value>

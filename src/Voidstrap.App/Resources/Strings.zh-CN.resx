@@ -10609,8 +10609,17 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Controller.Tab" xml:space="preserve">
     <value>控制器</value>
   </data>
-  <data name="Ui.Controller.Support" xml:space="preserve">
-    <value>通过 USB 连接 DualSense 并在启动后保持 Voidstrap 运行。当 Roblox 专注时，触发效果生效。</value>
+  <data name="Ui.Controller.AdaptiveTriggers" xml:space="preserve">
+    <value>自适应触发器</value>
+  </data>
+  <data name="Ui.Controller.Vibration" xml:space="preserve">
+    <value>振动</value>
+  </data>
+  <data name="Ui.Controller.HoldTriggers" xml:space="preserve">
+    <value>按住振动触发器</value>
+  </data>
+  <data name="Ui.Controller.StopPreview" xml:space="preserve">
+    <value>停止预览</value>
   </data>
   <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
     <value>左自适应触发器</value>
@@ -10640,7 +10649,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
     <value>立即尝试触发器。</value>
   </data>
   <data name="Ui.Controller.Previewed" xml:space="preserve">
-    <value>反馈预览完成。</value>
+    <value>反馈预览已停止。</value>
   </data>
   <data name="Ui.Controller.SelectPreset" xml:space="preserve">
     <value>选择要预览的反馈预设。</value>
