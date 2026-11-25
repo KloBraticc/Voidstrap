@@ -176,16 +176,17 @@ public partial class SessionServerBrowser : Window
         }
     }
 
+    private ServerCard? FindClosestJoinableServer() =>
+        _all.FirstOrDefault(card =>
+            card.CanJoin && card.Server != null && string.Equals(card.JobId, _bestJobId, StringComparison.OrdinalIgnoreCase)
+        )
+        ?? _all.Where(card => card.CanJoin && card.Server != null && !card.IsBlocked)
+            .OrderBy(card => card.Server!.EstimatedPingMs)
+            .FirstOrDefault();
+
     private void ClosestButton_Click(object sender, RoutedEventArgs e)
     {
-        ServerCard? best =
-            _all.FirstOrDefault(card =>
-                card.CanJoin && card.Server != null && string.Equals(card.JobId, _bestJobId, StringComparison.OrdinalIgnoreCase)
-            )
-            ?? _all.Where(card => card.CanJoin && card.Server != null && !card.IsBlocked)
-                .OrderBy(card => card.Server!.EstimatedPingMs)
-                .FirstOrDefault();
-        if (best != null)
+        if (FindClosestJoinableServer() is { } best)
         {
             _ = PortableOverlay.RunAsync(this, () => JoinAsync(best));
             return;
@@ -352,7 +353,8 @@ public partial class SessionServerBrowser : Window
             if (_joinBestWhenReady)
             {
                 _joinBestWhenReady = false;
-                ClosestButton_Click(this, new RoutedEventArgs());
+                if (FindClosestJoinableServer() is { } best)
+                    _ = PortableOverlay.RunAsync(this, () => JoinAsync(best));
             }
         }
         catch (OperationCanceledException) when (request.IsCancellationRequested)
@@ -454,6 +456,7 @@ public partial class SessionServerBrowser : Window
             MatchmakerScanStatus.NoLocation => Strings.ContextMenu_ServerBrowser_NoLocation,
             MatchmakerScanStatus.NoServers => Strings.ContextMenu_ServerBrowser_NoServers,
             MatchmakerScanStatus.Unresolved => Strings.ContextMenu_ServerBrowser_Unresolved,
+            MatchmakerScanStatus.RateLimited => Strings.ContextMenu_ServerBrowser_RateLimited,
             MatchmakerScanStatus.AllBlocked => Strings.ContextMenu_ServerBrowser_AllBlocked,
             MatchmakerScanStatus.AllFar => Strings.ContextMenu_ServerBrowser_AllFar,
             _ => string.Empty,

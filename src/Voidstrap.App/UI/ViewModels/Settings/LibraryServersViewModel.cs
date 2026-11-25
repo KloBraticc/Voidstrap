@@ -689,6 +689,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         MatchmakerScanStatus.NoLocation => Strings.ContextMenu_ServerBrowser_NoLocation,
         MatchmakerScanStatus.NoServers => Strings.ContextMenu_ServerBrowser_NoServers,
         MatchmakerScanStatus.Unresolved => Strings.ContextMenu_ServerBrowser_Unresolved,
+        MatchmakerScanStatus.RateLimited => Strings.ContextMenu_ServerBrowser_RateLimited,
         MatchmakerScanStatus.AllBlocked => Strings.ContextMenu_ServerBrowser_AllBlocked,
         MatchmakerScanStatus.AllFar => Strings.ContextMenu_ServerBrowser_AllFar,
         _ => ""

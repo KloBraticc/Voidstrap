@@ -29,6 +29,8 @@ public static class VoidstrapMatchmaker
     private const int ProbeConcurrency = 8;
 
     private const int JoinTimeoutMs = 2500;
+    private const int JoinRequestSpacingMs = 300;
+    private const int JoinBackoffResetMs = 30000;
 
     private const int MaxJoinResponseBytes = 1048576;
 
@@ -119,11 +121,9 @@ public static class VoidstrapMatchmaker
 
     private static readonly object _joinBackoffGate = new();
     private static long _joinBackoffUntilMs;
-    private static long _nextPacedJoinMs;
+    private static long _nextJoinRequestMs;
+    private static int _joinRateLimitVersion;
     private static int _joinRateLimitStreak;
-    private static long _joinPacedUntilMs;
-    private static readonly TimeSpan JoinPacedWindow = TimeSpan.FromSeconds(20);
-    private static readonly TimeSpan JoinPacedSpacing = TimeSpan.FromMilliseconds(300);
 
     private static string? _csrfToken;
 
@@ -240,14 +240,14 @@ public static class VoidstrapMatchmaker
 
     private static async Task WaitForLatencyAsync(Task latencyTask, CancellationToken token)
     {
-        try
+        const string LOG_IDENT = "VoidstrapMatchmaker::WaitForLatencyAsync";
+        if (latencyTask.IsCompleted || await Task.WhenAny(latencyTask, Task.Delay(LatencyWait, token)).ConfigureAwait(false) == latencyTask)
         {
-            await latencyTask.WaitAsync(LatencyWait, token).ConfigureAwait(false);
+            await latencyTask.ConfigureAwait(false);
+            return;
         }
-        catch (TimeoutException)
-        {
-            App.Logger.WriteLine(LOG_IDENT, "Datacenter latency is still being measured, using what is ready");
-        }
+        token.ThrowIfCancellationRequested();
+        App.Logger.WriteLine(LOG_IDENT, "Datacenter latency is still being measured, using what is ready");
     }
 
     private static double ResolveFloorMs(UserGeo geo)
@@ -785,10 +785,11 @@ public static class VoidstrapMatchmaker
             probeBudget = Math.Min(FilteredCandidateCeiling, probeBudget * 2);
         probeBudget = Math.Max(probeBudget, MaxCandidateCount);
 
+        int rateLimitVersion = Volatile.Read(ref _joinRateLimitVersion);
         Task latencyTask = DatacenterLatency.MeasureAllAsync(DatacenterLatency.KnownCidrs(), scanToken);
         Task<UserGeo?> geoTask = GetUserGeoAsync(scanToken);
         Task<List<ServerListItem>> poolTask = ListPublicServersAsync(placeId, cookie, MaxServerListPages, preferEmpty, scanToken);
-        Task csrfTask = PrimeCsrfAsync(placeId, cookie, scanToken);
+        Task csrfTask = PrimeCsrfAsync(placeId, cookie, rateLimitVersion, scanToken);
         await Task.WhenAll(geoTask, poolTask, csrfTask).ConfigureAwait(false);
 
         UserGeo? geo = await geoTask.ConfigureAwait(false);
@@ -824,17 +825,27 @@ public static class VoidstrapMatchmaker
                 blocked,
                 preferEmpty,
                 floorMs,
+                rateLimitVersion,
                 scanToken,
                 allowEarlyExit: false,
                 onResult: onResult
             )
             .ConfigureAwait(false);
+        bool rateLimited = JoinProbesPaused(rateLimitVersion);
         if (probed.Count == 0)
-            return new MatchmakerServerScan { Status = MatchmakerScanStatus.Unresolved, Listed = pool.Count };
+            return new MatchmakerServerScan
+            {
+                Status = rateLimited ? MatchmakerScanStatus.RateLimited : MatchmakerScanStatus.Unresolved,
+                Listed = pool.Count,
+            };
 
         MatchmakerCandidate? best = SelectWinner(probed, preferred, blocked, preferEmpty);
         MatchmakerScanStatus status = MatchmakerScanStatus.Ok;
-        if (best == null)
+        if (rateLimited)
+        {
+            status = MatchmakerScanStatus.RateLimited;
+        }
+        else if (best == null)
         {
             status = MatchmakerScanStatus.AllBlocked;
         }
@@ -887,10 +898,11 @@ public static class VoidstrapMatchmaker
                 : new HashSet<string>(exclude, StringComparer.OrdinalIgnoreCase);
 
         bool preferEmpty = App.Settings.Prop.VoidstrapMatchmakerPreferEmpty;
+        int rateLimitVersion = Volatile.Read(ref _joinRateLimitVersion);
         Task latencyTask = DatacenterLatency.MeasureAllAsync(DatacenterLatency.KnownCidrs(), token);
         Task<UserGeo?> geoTask = GetUserGeoAsync(token);
         Task<List<ServerListItem>> poolTask = ListPublicServersAsync(placeId, cookie, MaxServerListPages, preferEmpty, token);
-        Task csrfTask = PrimeCsrfAsync(placeId, cookie, token);
+        Task csrfTask = PrimeCsrfAsync(placeId, cookie, rateLimitVersion, token);
         try
         {
             await Task.WhenAll(geoTask, poolTask, csrfTask).ConfigureAwait(false);
@@ -941,7 +953,7 @@ public static class VoidstrapMatchmaker
             App.Logger.WriteLine(LOG_IDENT, $"Closest datacenter floor is {floorMs:F0}ms");
             Interlocked.Exchange(ref _claimedTimeSeen, 0);
             Interlocked.Exchange(ref _claimedTimeSet, 0);
-            probed = await ProbeAsync(placeId, probeList, cookie, geo, preferred, blocked, preferEmpty, floorMs, token)
+            probed = await ProbeAsync(placeId, probeList, cookie, geo, preferred, blocked, preferEmpty, floorMs, rateLimitVersion, token)
                 .ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (!outerToken.IsCancellationRequested)
@@ -1154,6 +1166,7 @@ public static class VoidstrapMatchmaker
         HashSet<string> blocked,
         bool preferEmpty,
         double floorMs,
+        int rateLimitVersion,
         CancellationToken token,
         bool allowEarlyExit = true,
         Action<MatchmakerCandidate>? onResult = null
@@ -1174,7 +1187,7 @@ public static class VoidstrapMatchmaker
                 (string Ip, int Port)? resolved;
                 try
                 {
-                    resolved = await ResolveServerAsync(placeId, sv.JobId, cookie, localToken).ConfigureAwait(false);
+                    resolved = await ResolveServerAsync(placeId, sv.JobId, cookie, rateLimitVersion, localToken).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
@@ -1289,7 +1302,7 @@ public static class VoidstrapMatchmaker
         return App.Settings.Prop.VoidstrapMatchmakerGamejoinApiVersion >= 2;
     }
 
-    private static async Task PrimeCsrfAsync(long placeId, string cookie, CancellationToken token)
+    private static async Task PrimeCsrfAsync(long placeId, string cookie, int rateLimitVersion, CancellationToken token)
     {
         if (!string.IsNullOrEmpty(_csrfToken))
             return;
@@ -1298,16 +1311,14 @@ public static class VoidstrapMatchmaker
         {
             if (!string.IsNullOrEmpty(_csrfToken))
                 return;
-            await WaitForJoinBackoffAsync(token).ConfigureAwait(false);
-            using HttpRequestMessage req = BuildJoinRequest(UseV2(), placeId, Guid.Empty.ToString(), cookie, null);
+            using HttpRequestMessage req = BuildJoinRequest(UseV2(), placeId, Guid.Empty.ToString(), cookie);
             using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
-            timeoutCts.CancelAfter(JoinTimeoutMs);
-            using HttpResponseMessage res = await _joinClient
-                .SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token)
+            using HttpResponseMessage? res = await SendJoinRequestAsync(req, rateLimitVersion, timeoutCts, includeCsrf: false)
                 .ConfigureAwait(false);
-            if (res.StatusCode == HttpStatusCode.TooManyRequests)
-                NoteJoinRateLimited(res.Headers.RetryAfter);
-            else if (res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
+            if (
+                res != null && res.StatusCode != HttpStatusCode.TooManyRequests
+                && res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values)
+            )
                 _csrfToken = values.FirstOrDefault();
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -1324,7 +1335,7 @@ public static class VoidstrapMatchmaker
         }
     }
 
-    private static HttpRequestMessage BuildJoinRequest(bool useV2, long placeId, string jobId, string cookie, string? csrf)
+    private static HttpRequestMessage BuildJoinRequest(bool useV2, long placeId, string jobId, string cookie)
     {
         string url = useV2 ? "https://gamejoin.roblox.com/v2/join-game-instance" : "https://gamejoin.roblox.com/v1/join-game-instance";
         string body = useV2
@@ -1348,57 +1359,67 @@ public static class VoidstrapMatchmaker
         HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, url);
         req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
         req.Headers.Referrer = new Uri("https://www.roblox.com/");
-        if (!string.IsNullOrEmpty(csrf))
-            req.Headers.TryAddWithoutValidation("X-CSRF-TOKEN", csrf);
         req.Content = new StringContent(body, Encoding.UTF8, "application/json");
         return req;
     }
 
-    private static async Task WaitForJoinBackoffAsync(CancellationToken token)
+    private static bool JoinProbesPaused(int rateLimitVersion) =>
+        Volatile.Read(ref _joinRateLimitVersion) != rateLimitVersion ||
+        Environment.TickCount64 < Volatile.Read(ref _joinBackoffUntilMs);
+
+    private static async Task<HttpResponseMessage?> SendJoinRequestAsync(
+        HttpRequestMessage request, int rateLimitVersion, CancellationTokenSource timeoutCts, bool includeCsrf = true
+    )
     {
+        CancellationToken token = timeoutCts.Token;
+        Task<HttpResponseMessage> responseTask;
         while (true)
         {
-            token.ThrowIfCancellationRequested();
             long waitMs;
             lock (_joinBackoffGate)
             {
-                long now = Environment.TickCount64;
-                waitMs = Math.Max(_joinBackoffUntilMs, _nextPacedJoinMs) - now;
+                token.ThrowIfCancellationRequested();
+                if (JoinProbesPaused(rateLimitVersion))
+                    return null;
+                waitMs = _nextJoinRequestMs - Environment.TickCount64;
                 if (waitMs <= 0)
                 {
-                    _nextPacedJoinMs = now < _joinPacedUntilMs ? now + (long)JoinPacedSpacing.TotalMilliseconds : 0;
-                    return;
+                    string? csrfToken = includeCsrf ? Volatile.Read(ref _csrfToken) : null;
+                    if (!string.IsNullOrEmpty(csrfToken))
+                        request.Headers.TryAddWithoutValidation("X-CSRF-TOKEN", csrfToken);
+                    timeoutCts.CancelAfter(JoinTimeoutMs);
+                    responseTask = _joinClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
+                    _nextJoinRequestMs = Environment.TickCount64 + JoinRequestSpacingMs;
+                    break;
                 }
             }
-            await Task.Delay((int)Math.Min(waitMs + Random.Shared.Next(25, 201), int.MaxValue), token).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromMilliseconds(waitMs), token).ConfigureAwait(false);
         }
+
+        HttpResponseMessage response = await responseTask.ConfigureAwait(false);
+        if (response.StatusCode == HttpStatusCode.TooManyRequests)
+            NoteJoinRateLimited(response.Headers.RetryAfter);
+        return response;
     }
 
     private static void NoteJoinRateLimited(RetryConditionHeaderValue? retryAfter)
     {
         lock (_joinBackoffGate)
         {
-            _joinRateLimitStreak = Math.Min(_joinRateLimitStreak + 1, 4);
-            TimeSpan delay = retryAfter?.Delta
-                ?? (retryAfter?.Date is DateTimeOffset retryDate
-                    ? retryDate - DateTimeOffset.UtcNow
-                    : TimeSpan.FromSeconds(1.5 * (1 << (_joinRateLimitStreak - 1))));
             long now = Environment.TickCount64;
-            _joinBackoffUntilMs = Math.Max(_joinBackoffUntilMs, now + Math.Max(0, (long)Math.Ceiling(delay.TotalMilliseconds)));
-            _joinPacedUntilMs = _joinBackoffUntilMs + (long)JoinPacedWindow.TotalMilliseconds;
+            if (now >= _joinBackoffUntilMs)
+                _joinRateLimitStreak = now - _joinBackoffUntilMs < JoinBackoffResetMs ? Math.Min(_joinRateLimitStreak + 1, 4) : 1;
+            TimeSpan retryDelay = retryAfter?.Delta
+                ?? (retryAfter?.Date is DateTimeOffset retryDate ? retryDate - DateTimeOffset.UtcNow : TimeSpan.Zero);
+            long delayMs = Math.Max(1500L << (_joinRateLimitStreak - 1), (long)Math.Ceiling(retryDelay.TotalMilliseconds));
+            Volatile.Write(ref _joinBackoffUntilMs, Math.Max(_joinBackoffUntilMs, now + delayMs));
+            Interlocked.Increment(ref _joinRateLimitVersion);
         }
     }
 
-    private static void NoteJoinAccepted()
-    {
-        lock (_joinBackoffGate)
-        {
-            if (Environment.TickCount64 >= _joinBackoffUntilMs)
-                _joinRateLimitStreak = 0;
-        }
-    }
-
-    private static async Task<(string Ip, int Port)?> ResolveServerAsync(long placeId, string jobId, string cookie, CancellationToken token)
+    private static async Task<(string Ip, int Port)?> ResolveServerAsync(
+        long placeId, string jobId, string cookie, int rateLimitVersion, CancellationToken token
+    )
     {
         string cacheKey = placeId.ToString(CultureInfo.InvariantCulture) + ":" + jobId;
         if (_resolvedServerCache.TryGetValue(cacheKey, out ResolvedServerCacheEntry cached))
@@ -1408,7 +1429,7 @@ public static class VoidstrapMatchmaker
             _resolvedServerCache.TryRemove(cacheKey, out _);
         }
         bool primaryV2 = UseV2();
-        ResolveAttempt result = await AttemptResolveAsync(primaryV2, placeId, jobId, cookie, token).ConfigureAwait(false);
+        ResolveAttempt result = await AttemptResolveAsync(primaryV2, placeId, jobId, cookie, rateLimitVersion, token).ConfigureAwait(false);
         if (result.HasValue)
         {
             StoreResolvedServer(cacheKey, result.Ip, result.Port);
@@ -1416,7 +1437,7 @@ public static class VoidstrapMatchmaker
         }
         if (!result.AllowAlternate || token.IsCancellationRequested)
             return null;
-        ResolveAttempt alternate = await AttemptResolveAsync(!primaryV2, placeId, jobId, cookie, token).ConfigureAwait(false);
+        ResolveAttempt alternate = await AttemptResolveAsync(!primaryV2, placeId, jobId, cookie, rateLimitVersion, token).ConfigureAwait(false);
         if (!alternate.HasValue)
             return null;
         StoreResolvedServer(cacheKey, alternate.Ip, alternate.Port);
@@ -1432,8 +1453,9 @@ public static class VoidstrapMatchmaker
             return null;
         try
         {
-            await PrimeCsrfAsync(placeId, cookie, token).ConfigureAwait(false);
-            return await ResolveServerAsync(placeId, jobId, cookie, token).ConfigureAwait(false);
+            int rateLimitVersion = Volatile.Read(ref _joinRateLimitVersion);
+            await PrimeCsrfAsync(placeId, cookie, rateLimitVersion, token).ConfigureAwait(false);
+            return await ResolveServerAsync(placeId, jobId, cookie, rateLimitVersion, token).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
@@ -1509,13 +1531,14 @@ public static class VoidstrapMatchmaker
             return new ServerStartLookup(ServerStartStatus.NotSignedIn, default);
         try
         {
-            await PrimeCsrfAsync(placeId, cookie, token).ConfigureAwait(false);
+            int rateLimitVersion = Volatile.Read(ref _joinRateLimitVersion);
+            await PrimeCsrfAsync(placeId, cookie, rateLimitVersion, token).ConfigureAwait(false);
             ServerStartLookup first = Volatile.Read(ref _uptimeV2Missing)
                 ? new ServerStartLookup(ServerStartStatus.Unavailable, default)
-                : await AttemptServerStartAsync(true, placeId, jobId, cookie, token).ConfigureAwait(false);
+                : await AttemptServerStartAsync(true, placeId, jobId, cookie, rateLimitVersion, token).ConfigureAwait(false);
             if (first.Status is ServerStartStatus.Found or ServerStartStatus.Full)
                 return first;
-            ServerStartLookup second = await AttemptServerStartAsync(false, placeId, jobId, cookie, token).ConfigureAwait(false);
+            ServerStartLookup second = await AttemptServerStartAsync(false, placeId, jobId, cookie, rateLimitVersion, token).ConfigureAwait(false);
             if (second.Status == ServerStartStatus.Found)
                 return second;
             return first.Status == ServerStartStatus.Unavailable ? second : first;
@@ -1538,6 +1561,7 @@ public static class VoidstrapMatchmaker
         long placeId,
         string jobId,
         string cookie,
+        int rateLimitVersion,
         CancellationToken token
     )
     {
@@ -1546,22 +1570,15 @@ public static class VoidstrapMatchmaker
         {
             try
             {
-                await WaitForJoinBackoffAsync(token).ConfigureAwait(false);
-                using HttpRequestMessage req = BuildJoinRequest(useV2, placeId, jobId, cookie, _csrfToken);
+                using HttpRequestMessage req = BuildJoinRequest(useV2, placeId, jobId, cookie);
                 using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
-                timeoutCts.CancelAfter(JoinTimeoutMs);
-                using HttpResponseMessage res = await _joinClient
-                    .SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token)
-                    .ConfigureAwait(false);
+                using HttpResponseMessage? res = await SendJoinRequestAsync(req, rateLimitVersion, timeoutCts).ConfigureAwait(false);
+                if (res == null || res.StatusCode == HttpStatusCode.TooManyRequests)
+                    return new ServerStartLookup(ServerStartStatus.Unavailable, default);
                 if (res.StatusCode == HttpStatusCode.Forbidden && res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
                 {
                     _csrfToken = values.FirstOrDefault();
                     continue;
-                }
-                if (res.StatusCode == HttpStatusCode.TooManyRequests)
-                {
-                    NoteJoinRateLimited(res.Headers.RetryAfter);
-                    return new ServerStartLookup(ServerStartStatus.Unavailable, default);
                 }
                 if (res.StatusCode == HttpStatusCode.Unauthorized)
                     return new ServerStartLookup(ServerStartStatus.NotSignedIn, default);
@@ -1572,7 +1589,6 @@ public static class VoidstrapMatchmaker
                     App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} answered {(int)res.StatusCode}");
                     return new ServerStartLookup(ServerStartStatus.Unavailable, default);
                 }
-                NoteJoinAccepted();
                 DateTimeOffset? serverDate = res.Headers.Date;
                 using JsonDocument? doc = await ReadJoinResponseAsync(res, timeoutCts.Token).ConfigureAwait(false);
                 if (doc == null)
@@ -1803,6 +1819,7 @@ public static class VoidstrapMatchmaker
         long placeId,
         string jobId,
         string cookie,
+        int rateLimitVersion,
         CancellationToken token
     )
     {
@@ -1810,13 +1827,11 @@ public static class VoidstrapMatchmaker
         {
             try
             {
-                await WaitForJoinBackoffAsync(token).ConfigureAwait(false);
-                using HttpRequestMessage req = BuildJoinRequest(useV2, placeId, jobId, cookie, _csrfToken);
+                using HttpRequestMessage req = BuildJoinRequest(useV2, placeId, jobId, cookie);
                 using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
-                timeoutCts.CancelAfter(JoinTimeoutMs);
-                using HttpResponseMessage res = await _joinClient
-                    .SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token)
-                    .ConfigureAwait(false);
+                using HttpResponseMessage? res = await SendJoinRequestAsync(req, rateLimitVersion, timeoutCts).ConfigureAwait(false);
+                if (res == null)
+                    return new ResolveAttempt("", 0, false, false);
 
                 if (res.StatusCode == HttpStatusCode.Forbidden && res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
                 {
@@ -1826,7 +1841,6 @@ public static class VoidstrapMatchmaker
                 if (res.StatusCode == HttpStatusCode.TooManyRequests)
                 {
                     LogProbeFailure(res.StatusCode);
-                    NoteJoinRateLimited(res.Headers.RetryAfter);
                     return new ResolveAttempt("", 0, false, false);
                 }
                 if (!res.IsSuccessStatusCode)
@@ -1845,7 +1859,6 @@ public static class VoidstrapMatchmaker
                     return new ResolveAttempt("", 0, false, alternate);
                 }
 
-                NoteJoinAccepted();
                 DateTimeOffset? probeDate = res.Headers.Date;
                 using JsonDocument? doc = await ReadJoinResponseAsync(res, timeoutCts.Token).ConfigureAwait(false);
                 if (doc == null || !HasJoinScript(doc.RootElement))
@@ -2265,6 +2278,7 @@ public enum MatchmakerScanStatus
     Unresolved,
     AllBlocked,
     AllFar,
+    RateLimited,
 }
 
 public sealed class MatchmakerServerScan
