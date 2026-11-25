@@ -10296,4 +10296,79 @@ SteamVR instalatu orain?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Kontrolatzailea</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Konektatu DualSense USB bidez eta mantendu Voidstrap martxan abiarazi ondoren. Abiarazleen efektuak Roblox bideratua dagoen bitartean aplikatzen dira.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Ezkerreko abiarazle egokitzailea</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Eskuineko abiarazle egokitzailea</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Bibrazioa trigger-prentsetan</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Burrunba gehitzen du prentsak abiarazteko. Utzi itzalita jokoak burrunba ematen duenean.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Feedback argia</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Iritzi sendoa</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Aurreikusi iritzia</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Saiatu abiarazleak orain.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Iritzien aurrebista osatu da.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Hautatu aurreikuspenen aurreikuspen bat.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Ez dago USB DualSense erabilgarririk. Konektatu eta itxi beste kontrolagailu tresnak okupatuta badago.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Kontrolatzaileak erantzuteari utzi zion. Konektatu berriro eta saiatu berriro.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Kontrolagailua</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatikoa</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Hautatutako kontrolagailua ez dago erabilgarri</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Freskatu kontrolagailuak</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Ezkerreko trigger erresistentzia</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Eskuineko trigger erresistentzia</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Bibrazio-intentsitatea</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Bibrazio-pultsuaren luzera</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Bibratu trigger bat eutsita</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Mantendu bibrazioa martxan jarri abiarazlea askatu arte.</value>
+  </data>
 </root>

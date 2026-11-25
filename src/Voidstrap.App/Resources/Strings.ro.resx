@@ -10607,4 +10607,79 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Controler</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Conectați un DualSense prin USB și mențineți Voidstrap să funcționeze după lansare. Efectele de declanșare se aplică în timp ce Roblox este concentrat.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Declanșator adaptiv stânga</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Declanșatorul adaptiv drept</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibrații la apăsările de declanșare</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Adaugă zgomot pentru a declanșa apăsările. Oprește-l când jocul oferă deja zgomot.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Feedback ușor</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Feedback puternic</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Previzualizează feedback-ul</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Încercați declanșatoarele acum.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Previzualizarea feedbackului s-a încheiat.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Selectați o presetare de feedback pentru a previzualiza.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Nu este disponibil USB DualSense. Conectați-l și închideți celelalte instrumente ale controlerului dacă este ocupat.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Controlerul nu mai răspunde. Reconectați-l și încercați din nou.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Dispozitiv de control</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>automată</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Controlerul selectat nu este disponibil</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Actualizează controlerele</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Rezistența de declanșare stânga</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Rezistența la declanșare dreapta</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intensitatea vibrațiilor</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Durata impulsului de vibrație</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibrați în timp ce apăsați un declanșator</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Mențineți vibrația în funcțiune până când eliberați declanșatorul.</value>
+  </data>
 </root>

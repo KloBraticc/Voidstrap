@@ -10297,4 +10297,79 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Stjórnandi</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Tengdu DualSense með USB og haltu Voidstrap í gangi eftir ræsingu. Kveikjuáhrif eiga við á meðan Roblox er með fókus.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Vinstri aðlögunarkveikja</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Hægri aðlögunarkveikja</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Titringur á kveikjupressum</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Bætir gnýr til að kveikja á pressum. Slepptu því þegar leikurinn veitir þegar gnýr.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Létt endurgjöf</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Sterk viðbrögð</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Forskoða álit</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Prófaðu kveikjurnar núna.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Forskoðun ábendinga lokið.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Veldu forstillingu fyrir endurgjöf til að forskoða.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Enginn USB DualSense í boði. Tengdu það og lokaðu öðrum stjórnunarverkfærum ef það er upptekið.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Stjórnandinn hætti að svara. Tengdu það aftur og reyndu aftur.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Stýritæki</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Sjálfvirk</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Valinn stjórnandi er ekki tiltækur</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Endurnýjaðu stýringar</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Viðnám vinstri kveikju</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Hægri kveikjuviðnám</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Titringsstyrkur</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Lengd titringspúls</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Titraðu á meðan þú heldur inn kveikju</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Haltu titringnum gangandi þar til þú sleppir gikknum.</value>
+  </data>
 </root>

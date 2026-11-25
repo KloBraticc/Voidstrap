@@ -10297,4 +10297,79 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>കൺട്രോളർ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB മുഖേന DualSense കണക്റ്റുചെയ്‌ത് ലോഞ്ച് ചെയ്‌തതിന് ശേഷം Voidstrap പ്രവർത്തിപ്പിക്കുന്നത് നിലനിർത്തുക. Roblox ഫോക്കസ് ചെയ്യുമ്പോൾ ട്രിഗർ ഇഫക്റ്റുകൾ ബാധകമാണ്.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>ഇടത് അഡാപ്റ്റീവ് ട്രിഗർ</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>ശരിയായ അഡാപ്റ്റീവ് ട്രിഗർ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ട്രിഗർ പ്രസ്സുകളിലെ വൈബ്രേഷൻ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>പ്രസ്സുകൾ ട്രിഗർ ചെയ്യാൻ റംബിൾ ചേർക്കുന്നു. ഗെയിം ഇതിനകം റംബിൾ നൽകുമ്പോൾ അത് ഉപേക്ഷിക്കുക.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>നേരിയ പ്രതികരണം</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ശക്തമായ പ്രതികരണം</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>ഫീഡ്‌ബാക്ക് പ്രിവ്യൂ ചെയ്യുക</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>ഇപ്പോൾ ട്രിഗറുകൾ പരീക്ഷിക്കുക.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>ഫീഡ്‌ബാക്ക് പ്രിവ്യൂ പൂർത്തിയായി.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>പ്രിവ്യൂ ചെയ്യാൻ ഒരു ഫീഡ്ബാക്ക് പ്രീസെറ്റ് തിരഞ്ഞെടുക്കുക.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense ലഭ്യമല്ല. ഇത് ബന്ധിപ്പിച്ച് തിരക്കിലാണെങ്കിൽ മറ്റ് കൺട്രോളർ ടൂളുകൾ അടയ്ക്കുക.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>കൺട്രോളർ പ്രതികരിക്കുന്നത് നിർത്തി. അത് വീണ്ടും ബന്ധിപ്പിച്ച് വീണ്ടും ശ്രമിക്കുക.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>കൺട്രോളർ ഉപകരണം</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>ഓട്ടോമാറ്റിക്</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>തിരഞ്ഞെടുത്ത കൺട്രോളർ ലഭ്യമല്ല</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>കൺട്രോളറുകൾ പുതുക്കുക</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>ഇടത് ട്രിഗർ പ്രതിരോധം</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>വലത് ട്രിഗർ പ്രതിരോധം</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>വൈബ്രേഷൻ തീവ്രത</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>വൈബ്രേഷൻ പൾസ് ദൈർഘ്യം</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ഒരു ട്രിഗർ പിടിക്കുമ്പോൾ വൈബ്രേറ്റ് ചെയ്യുക</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>നിങ്ങൾ ട്രിഗർ വിടുന്നത് വരെ വൈബ്രേഷൻ പ്രവർത്തിപ്പിക്കുക.</value>
+  </data>
 </root>

@@ -10297,4 +10297,79 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Ampifandraiso amin&#x27;ny USB ny DualSense ary tohizo hatrany ny Voidstrap aorian&#x27;ny fandefasana. Mihatra ny fiantraikan&#x27;ny trigger raha mifantoka amin&#x27;ny Roblox.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Havia adaptive trigger</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Right adaptive trigger</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibration amin&#x27;ny fanerena trigger</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Manampy tabataba hanitrika fanerena. Avelao izany rehefa efa manome rumble ny lalao.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Hevitra maivana</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Hevitra matanjaka</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Zahao ny tamberina</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Andramo izao ny trigger.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Vita ny fijerena tamberina.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Mifidiana preset fanehoan-kevitra hojerena.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Tsy misy USB DualSense. Ampifandraiso izany ary afeno ny fitaovana fanaraha-maso hafa raha sahirana.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Nitsahatra tsy namaly intsony ny mpanara-maso. Ampifandraiso indray ary andramo indray.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Fitaovana fanaraha-maso</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Tsy misy ny mpanara-maso voafantina</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Refresh controllers</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Ankavia trigger fanoherana</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Right trigger resistance</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Ny hamafin&#x27;ny vibration</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibration pulse halavan&#x27;ny</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Hovitrovitra eo am-pihazonana trigger</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Tohizo ny fihovitrovitra mandra-pamoaka ny trigger.</value>
+  </data>
 </root>

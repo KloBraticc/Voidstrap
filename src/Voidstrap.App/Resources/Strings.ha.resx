@@ -10297,4 +10297,79 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Mai sarrafawa</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Haɗa DualSense ta USB kuma kiyaye Voidstrap yana gudana bayan ƙaddamarwa. Ana amfani da tasirin tayar da hankali yayin da Roblox ke mai da hankali.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Hagu mai daidaitawa</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Dama mai jan hankali</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Jijjiga a kan latsawa</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Yana ƙara rumble zuwa kunna latsawa. Bar shi lokacin da wasan ya riga ya ba da rumble.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Ra&#x27;ayin haske</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Ra&#x27;ayi mai ƙarfi</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Ra&#x27;ayin samfoti</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Gwada abubuwan jan hankali yanzu.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>An kammala samfotin samfoti.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Zaɓi saitattun martani don samfoti.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Babu DualSense na USB da ke akwai. Haɗa shi kuma rufe sauran kayan aikin sarrafawa idan yana aiki.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Mai kula ya daina amsawa. Sake haɗa shi kuma a sake gwadawa.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Na&#x27;urar sarrafawa</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Na atomatik</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Babu mai sarrafawa da aka zaɓa</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Sabunta masu sarrafawa</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Hagu yana jawo juriya</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Juriya mai fararwa dama</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Ƙarfin girgiza</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Tsawon bugun bugun jini</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Jijjiga yayin riƙe da fararwa</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Ci gaba da rawar jiki har sai kun saki fararwa.</value>
+  </data>
 </root>

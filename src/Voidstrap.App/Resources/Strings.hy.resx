@@ -10297,4 +10297,79 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Վերահսկիչ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Միացրեք DualSense-ը USB-ով և գործարկելուց հետո աշխատեք Voidstrap-ը: Գործարկման էֆեկտները կիրառվում են, երբ Roblox-ը կենտրոնացած է:</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Ձախ հարմարվողական ձգան</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Աջ հարմարվողական ձգան</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Թրթռում ձգան սեղմիչների վրա</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Ավելացնում է դղրդյուն մամլիչները գործարկելու համար: Անջատեք այն, երբ խաղն արդեն դղրդյուն է տալիս:</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Թեթև արձագանք</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Ուժեղ արձագանք</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Նախադիտեք արձագանքները</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Փորձեք ձգանները հիմա:</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Հետադարձ կապի նախադիտումն ավարտված է:</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Նախադիտելու համար ընտրեք հետադարձ կապի նախադրյալը:</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Հասանելի USB DualSense չկա: Միացրեք այն և փակեք կարգավորիչի մյուս գործիքները, եթե այն զբաղված է:</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Կարգավարը դադարեց պատասխանել: Կրկին միացրեք այն և նորից փորձեք:</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Վերահսկիչ սարք</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Ավտոմատ</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Ընտրված կարգավորիչն անհասանելի է</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Թարմացրեք կարգավորիչները</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Ձախ ձգանման դիմադրություն</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Աջ ձգան դիմադրություն</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Թրթռումների ինտենսիվությունը</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Վիբրացիայի իմպուլսի երկարությունը</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Թրթռալ՝ ձգան պահելիս</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Պահպանեք թրթռումը մինչև չարձակեք ձգանը:</value>
+  </data>
 </root>

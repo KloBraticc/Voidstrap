@@ -10297,4 +10297,79 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Контроллер</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB арқылы DualSense қосыңыз және іске қосылғаннан кейін Voidstrap жұмысын жалғастырыңыз. Триггер әсерлері Roblox фокусталған кезде қолданылады.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Сол жақ адаптивті триггер</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Оң жақ адаптивті триггер</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Триггерді басқанда діріл</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Триггерді басуға дыбыс қосады. Ойын шуылдаған кезде оны өшіріңіз.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Жеңіл кері байланыс</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Күшті кері байланыс</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Пікірді алдын ала қарау</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Триггерлерді қазір қолданып көріңіз.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Кері пікірді алдын ала қарау аяқталды.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Алдын ала қарау үшін кері байланыс алдын ала орнатуды таңдаңыз.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Қолжетімді USB DualSense жоқ. Оны қосыңыз және бос емес болса, басқа контроллер құралдарын жабыңыз.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Контроллер жауап беруді тоқтатты. Оны қайта қосып, әрекетті қайталаңыз.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Контроллер құрылғысы</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Автоматты</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Таңдалған контроллер қолжетімсіз</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Контроллерлерді жаңарту</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Сол жақ триггердің кедергісі</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Оң триггердің кедергісі</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Діріл қарқындылығы</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Діріл импульсінің ұзындығы</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Триггерді ұстап тұрғанда дірілдеу</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Триггерді босатқанша дірілді жалғастырыңыз.</value>
+  </data>
 </root>

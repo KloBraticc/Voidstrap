@@ -10297,4 +10297,79 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Krmilnik</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Povežite DualSense prek USB-ja in Voidstrap naj deluje po zagonu. Učinki sprožilca veljajo, ko je Roblox osredotočen.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Levi prilagodljivi sprožilec</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Desni prilagodljivi sprožilec</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibracije ob pritisku na sprožilec</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Doda ropot pri pritisku na sprožilec. Pustite ga izklopljenega, ko igra že ponuja ropot.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Lahka povratna informacija</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Močne povratne informacije</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Predogled povratnih informacij</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Preizkusite sprožilce zdaj.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Predogled povratnih informacij je končan.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Izberite prednastavitev povratnih informacij za predogled.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense ni na voljo. Povežite ga in zaprite druga orodja krmilnika, če je zaseden.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Krmilnik se je prenehal odzivati. Ponovno ga povežite in poskusite znova.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Krmilna naprava</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Samodejno</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Izbrani krmilnik ni na voljo</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Osveži krmilnike</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Odpornost na levi sprožilec</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Desni upor sprožilca</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intenzivnost vibracij</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Dolžina vibracijskega impulza</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibrirajte, medtem ko držite sprožilec</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Vibriranje naj deluje, dokler ne sprostite sprožilca.</value>
+  </data>
 </root>

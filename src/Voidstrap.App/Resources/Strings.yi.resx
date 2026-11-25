@@ -10296,4 +10296,79 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>קאָנטראָללער</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>פאַרבינדן אַ DualSense דורך וסב און האַלטן Voidstrap פליסנדיק נאָך קאַטער. צינגל יפעקץ אַפּלייז בשעת ראָבלאָקס איז פאָוקיסט.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>לינקס אַדאַפּטיוו צינגל</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>רעכט אַדאַפּטיוו צינגל</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ווייבריישאַן אויף צינגל דריקט</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>מוסיף אַרומבלאָנקען צו צינגל פּרעסעס. לאָזן עס אַוועק ווען די שפּיל שוין גיט אַרומבלאָנקען.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ליכט באַמערקונגען</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>שטאַרק באַמערקונגען</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>פאָרויסיקע ווייַזונג באַמערקונגען</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>פּרוּווט די טריגערז איצט.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>באַמערקונגען פאָרויסיקע ווייַזונג גאַנץ.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>אויסקלייַבן אַ באַמערקונגען פּריסעט צו פאָרויסיקע ווייַזונג.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>קיין בנימצא USB DualSense. פאַרבינדן עס און פאַרמאַכן אנדערע קאָנטראָללער מכשירים אויב עס איז פאַרנומען.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>דער קאנטראל האט אויפגעהערט רעאגירן. פאַרבינדן עס ווידער און פּרובירן ווידער.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>קאָנטראָללער מיטל</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>אָטאַמאַטיק</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>אויסגעקליבן קאָנטראָללער אַנאַוויילאַבאַל</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>דערפרישן קאַנטראָולערז</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>לינקס צינגל קעגנשטעל</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>רעכט צינגל קעגנשטעל</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>ווייבריישאַן ינטענסיטי</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>ווייבריישאַן דויפעק לענג</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>וויברירן בשעת האַלטן אַ צינגל</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>האַלטן די ווייבריישאַן פליסנדיק ביז איר מעלדונג די צינגל.</value>
+  </data>
 </root>

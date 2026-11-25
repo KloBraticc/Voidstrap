@@ -10606,4 +10606,79 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Ovladač</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Připojte DualSense přes USB a po spuštění nechte Voidstrap spuštěný. Spouštěcí efekty se použijí, když je Roblox zaostřený.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Levá adaptivní spoušť</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Pravá adaptivní spoušť</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibrace při stisknutí spouště</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Přidává dunění ke stiskům spouště. Nechte to vypnout, když hra již poskytuje rachot.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Lehká zpětná vazba</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Silná zpětná vazba</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Náhled zpětné vazby</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Vyzkoušejte spouštěče nyní.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Náhled zpětné vazby dokončen.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Vyberte předvolbu zpětné vazby, kterou chcete zobrazit.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Není k dispozici USB DualSense. Připojte jej a zavřete ostatní nástroje ovladače, pokud je zaneprázdněn.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Ovladač přestal reagovat. Znovu jej připojte a zkuste to znovu.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Ovládací zařízení</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Vybraný ovladač není k dispozici</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Obnovit ovladače</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Odpor levé spouště</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Odpor pravé spouště</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intenzita vibrací</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Délka vibračního pulsu</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Při držení spouště vibrujte</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Nechejte vibrace běžet, dokud neuvolníte spoušť.</value>
+  </data>
 </root>

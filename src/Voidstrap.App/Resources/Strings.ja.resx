@@ -10607,4 +10607,79 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>コントローラー</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB で DualSense を接続し、起動後も Voidstrap を実行し続けます。 Roblox が集中している間、トリガー効果が適用されます。</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>左アダプティブトリガー</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>適切なアダプティブトリガー</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>トリガーを押すと振動します</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>トリガーを押すとランブルが追加されます。ゲームがすでにランブルを提供している場合はオフのままにしてください。</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>光のフィードバック</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>強力なフィードバック</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>フィードバックのプレビュー</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>今すぐトリガーを試してください。</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>フィードバックのプレビューが完了しました。</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>プレビューするフィードバック プリセットを選択します。</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>利用可能な USB DualSense がありません。接続し、ビジー状態の場合は他のコントローラー ツールを閉じます。</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>コントローラーが応答を停止しました。再接続してもう一度お試しください。</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>コントローラーデバイス</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>自動</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>選択したコントローラーは使用できません</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>コントローラを更新する</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>左トリガー抵抗</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>右トリガー抵抗</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>振動強度</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>振動パルス長</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>トリガーを押している間振動する</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>トリガーを放すまで振動を続けます。</value>
+  </data>
 </root>

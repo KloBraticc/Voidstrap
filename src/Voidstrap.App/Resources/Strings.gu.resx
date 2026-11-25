@@ -10297,4 +10297,79 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>નિયંત્રક</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>યુએસબી દ્વારા ડ્યુઅલસેન્સ કનેક્ટ કરો અને લોંચ થયા પછી વોઈડસ્ટ્રેપ ચાલુ રાખો. જ્યારે Roblox કેન્દ્રિત હોય ત્યારે ટ્રિગર અસરો લાગુ થાય છે.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>ડાબું અનુકૂલનશીલ ટ્રિગર</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>જમણું અનુકૂલનશીલ ટ્રિગર</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ટ્રિગર પ્રેસ પર કંપન</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ટ્રિગર પ્રેસમાં રમ્બલ ઉમેરે છે. જ્યારે રમત પહેલેથી જ ગડગડાટ પૂરી પાડે છે ત્યારે તેને છોડી દો.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>હળવો પ્રતિસાદ</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>મજબૂત પ્રતિસાદ</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>પ્રતિસાદનું પૂર્વાવલોકન કરો</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>હવે ટ્રિગર્સ અજમાવી જુઓ.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>પ્રતિસાદ પૂર્વાવલોકન પૂર્ણ.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>પૂર્વાવલોકન કરવા માટે પ્રતિસાદ પ્રીસેટ પસંદ કરો.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>કોઈ USB DualSense ઉપલબ્ધ નથી. તેને કનેક્ટ કરો અને જો તે વ્યસ્ત હોય તો અન્ય નિયંત્રક સાધનો બંધ કરો.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>નિયંત્રકે જવાબ આપવાનું બંધ કર્યું. તેને ફરીથી કનેક્ટ કરો અને ફરી પ્રયાસ કરો.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>નિયંત્રક ઉપકરણ</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>આપોઆપ</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>પસંદ કરેલ નિયંત્રક અનુપલબ્ધ</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>નિયંત્રકોને તાજું કરો</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>ડાબે ટ્રિગર પ્રતિકાર</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>જમણો ટ્રિગર પ્રતિકાર</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>કંપનની તીવ્રતા</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>કંપન પલ્સ લંબાઈ</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ટ્રિગર હોલ્ડ કરતી વખતે વાઇબ્રેટ કરો</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>જ્યાં સુધી તમે ટ્રિગર છોડો નહીં ત્યાં સુધી કંપન ચાલુ રાખો.</value>
+  </data>
 </root>

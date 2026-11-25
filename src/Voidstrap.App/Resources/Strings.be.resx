@@ -10296,4 +10296,79 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Кантралёр</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Падключыце DualSense праз USB і працягвайце працаваць Voidstrap пасля запуску. Эфекты запуску прымяняюцца, пакуль Roblox знаходзіцца ў цэнтры ўвагі.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Левы адаптыўны курок</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Правы адаптыўны курок</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Вібрацыя пры націску на курок</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Дадае грукат пры націсканні курка. Пакіньце яго выключаным, калі гульня ўжо забяспечвае гул.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Лёгкая зваротная сувязь</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Моцная зваротная сувязь</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Папярэдні прагляд водгуку</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Паспрабуйце трыгеры зараз.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Папярэдні прагляд водгуку завершаны.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Выберыце перадустаноўку зваротнай сувязі для папярэдняга прагляду.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Няма даступных USB DualSense. Падключыце яго і зачыніце іншыя інструменты кантролера, калі ён заняты.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Кантралёр перастаў адказваць. Зноў падключыце яго і паўтарыце спробу.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Прылада кантролера</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Аўтаматычны</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Выбраны кантролер недаступны</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Абнавіць кантролеры</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Супраціў левага спускавога кручка</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Правы супраціў трыгера</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Інтэнсіўнасць вібрацыі</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Даўжыня вібрацыйнага імпульсу</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Вібраваць, утрымліваючы курок</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Працягвайце вібрацыю, пакуль не адпусціце курок.</value>
+  </data>
 </root>

@@ -10297,4 +10297,79 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Контролор</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Повежите ДуалСенсе преко УСБ-а и оставите Воидстрап да ради након покретања. Ефекти окидача се примењују док је Роблок фокусиран.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Леви адаптивни окидач</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Прави адаптивни окидач</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Вибрације при притискању окидача</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Додаје тутњаву за притискање окидача. Оставите то када игра већ пружа тутњаву.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Лагане повратне информације</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Јака повратна информација</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Прегледајте повратне информације</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Пробајте окидаче сада.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Преглед повратних информација је завршен.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Изаберите унапред подешену повратну информацију за преглед.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Нема доступног УСБ ДуалСенсе-а. Повежите га и затворите друге алате контролера ако је заузет.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Контролор је престао да реагује. Поново га повежите и покушајте поново.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Контролни уређај</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Аутоматски</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Изабрани контролер није доступан</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Рефресх цонтроллерс</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Отпор левог окидача</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Отпор десног окидача</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Интензитет вибрације</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Дужина импулса вибрације</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Вибрирајте док држите окидач</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Држите вибрацију док не отпустите окидач.</value>
+  </data>
 </root>

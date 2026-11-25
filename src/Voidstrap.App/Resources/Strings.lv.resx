@@ -10297,4 +10297,79 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Kontrolieris</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Pievienojiet DualSense, izmantojot USB, un pēc palaišanas palaidiet Voidstrap. Sprūda efekti tiek piemēroti, kamēr Roblox ir fokusēts.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Kreisais adaptīvais trigeris</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Labais adaptīvais trigeris</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibrācija nospiežot sprūda</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Pievieno dārdoņu, lai nospiestu. Atstājiet to izslēgtu, kad spēle jau nodrošina dārdoņu.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Viegla atgriezeniskā saite</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Spēcīgas atsauksmes</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Priekšskatiet atsauksmes</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Izmēģiniet trigerus tūlīt.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Atsauksmju priekšskatījums ir pabeigts.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Lai priekšskatītu, atlasiet atsauksmju sākotnējo iestatījumu.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Nav pieejams USB DualSense. Pievienojiet to un aizveriet citus kontrollera rīkus, ja tas ir aizņemts.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Kontrolieris pārtrauca reaģēt. Atkārtoti pievienojiet to un mēģiniet vēlreiz.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Kontroliera ierīce</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automātiski</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Atlasītais kontrolieris nav pieejams</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Atsvaidziniet kontrolierus</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Kreisā sprūda pretestība</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Labā sprūda pretestība</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibrācijas intensitāte</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibrācijas impulsa garums</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibrējiet, turot nospiestu mēlīti</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Turiet vibrāciju darboties, līdz atlaižat sprūdu.</value>
+  </data>
 </root>

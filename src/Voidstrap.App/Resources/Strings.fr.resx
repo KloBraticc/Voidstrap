@@ -10605,4 +10605,79 @@ Installer SteamVR maintenant ?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Contrôleur</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Connectez un DualSense par USB et laissez Voidstrap fonctionner après le lancement. Les effets de déclenchement s&#x27;appliquent pendant que Roblox est concentré.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Gâchette adaptative gauche</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Déclencheur adaptatif droit</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibrations lors des pressions sur la gâchette</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Ajoute du grondement aux pressions sur la gâchette. Laissez-le désactivé lorsque le jeu propose déjà du grondement.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Rétroaction lumineuse</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Commentaires forts</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Aperçu des commentaires</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Essayez les déclencheurs maintenant.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Aperçu des commentaires terminé.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Sélectionnez un préréglage de commentaires à prévisualiser.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Pas de DualSense USB disponible. Connectez-le et fermez les autres outils du contrôleur s&#x27;il est occupé.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Le contrôleur a cessé de répondre. Reconnectez-le et réessayez.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Dispositif de contrôleur</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatique</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Contrôleur sélectionné indisponible</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Actualiser les contrôleurs</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Résistance de déclenchement gauche</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Résistance de déclenchement droite</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intensité des vibrations</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Longueur d&#x27;impulsion de vibration</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibrer tout en maintenant une gâchette enfoncée</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Maintenez la vibration jusqu&#x27;à ce que vous relâchiez la gâchette.</value>
+  </data>
 </root>

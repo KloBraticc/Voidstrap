@@ -10297,4 +10297,79 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Kontrolluesi</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Lidhni një DualSense me USB dhe mbajeni Voidstrap të funksionojë pas nisjes. Efektet e aktivizimit zbatohen ndërsa Roblox është i fokusuar.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Shkaku i majtë adaptiv</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Shkaku i duhur adaptiv</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Dridhje në shtypjet e këmbëzës</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Shton gjëmim për të aktivizuar shtypjet. Lëreni atë kur loja tashmë ofron gjëmim.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Reagime të lehta</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Reagime të forta</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Shiko paraprakisht komentet</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Provoni nxitësit tani.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Pamja paraprake e komenteve përfundoi.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Zgjidhni një paracaktim të komenteve për ta parë.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Nuk disponohet USB DualSense. Lidheni atë dhe mbyllni mjetet e tjera të kontrolluesit nëse është i zënë.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Kontrolluesi ndaloi së përgjigjuri. Lidheni përsëri dhe provoni përsëri.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Pajisja e kontrolluesit</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatik</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Kontrolluesi i zgjedhur nuk disponohet</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Rifresko kontrollorët</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Rezistenca e këmbëzës së majtë</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Rezistenca e këmbëzës së djathtë</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intensiteti i dridhjeve</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Gjatësia e pulsit të dridhjes</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Dridhja ndërsa mbani një këmbëzë</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Mbajeni dridhjen të funksionojë derisa të lëshoni këmbëzën.</value>
+  </data>
 </root>

@@ -10606,4 +10606,79 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>控制器</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>通过 USB 连接 DualSense 并在启动后保持 Voidstrap 运行。当 Roblox 专注时，触发效果生效。</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>左自适应触发器</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>右自适应触发器</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>扳机按压时的振动</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>为扳机按下添加隆隆声。当游戏已经提供隆隆声时，请将其关闭。</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>光反馈</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>强烈反馈</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>预览反馈</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>立即尝试触发器。</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>反馈预览完成。</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>选择要预览的反馈预设。</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>没有可用的 USB DualSense。连接它并在繁忙时关闭其他控制器工具。</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>控制器停止响应。重新连接并重试。</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>控制器装置</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>所选控制器不可用</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>刷新控制器</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>左触发电阻</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>右触发电阻</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>振动强度</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>振动脉冲长度</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>按住扳机时振动</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>保持振动运行，直到松开扳机。</value>
+  </data>
 </root>

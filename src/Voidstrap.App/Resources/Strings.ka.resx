@@ -10297,4 +10297,79 @@ Uptime: {1}
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>კონტროლერი</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>შეაერთეთ DualSense USB-ით და გააგრძელეთ Voidstrap გაშვების შემდეგ. ტრიგერის ეფექტები მოქმედებს, როდესაც Roblox ფოკუსირებულია.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>მარცხენა ადაპტური ტრიგერი</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>მარჯვენა ადაპტაციური ტრიგერი</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ვიბრაცია ტრიგერის პრესებზე</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ამატებს ხმაურს დაჭერის გასააქტიურებლად. დატოვეთ ეს გამორთვა, როდესაც თამაში უკვე მოგცემთ ხმაურს.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>მსუბუქი გამოხმაურება</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ძლიერი გამოხმაურება</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>უკუკავშირის გადახედვა</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>სცადეთ ტრიგერები ახლავე.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>გამოხმაურების გადახედვა დასრულდა.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>აირჩიეთ უკუკავშირის წინასწარ დაყენება წინასწარ გადასახედად.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>არ არის ხელმისაწვდომი USB DualSense. შეაერთეთ იგი და დახურეთ სხვა კონტროლერის ხელსაწყოები, თუ ის დაკავებულია.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>კონტროლერმა შეწყვიტა პასუხი. ხელახლა დააკავშირეთ და სცადეთ ხელახლა.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>კონტროლერი მოწყობილობა</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>ავტომატური</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>არჩეული კონტროლერი მიუწვდომელია</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>განაახლეთ კონტროლერები</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>მარცხენა ტრიგერის წინააღმდეგობა</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>მარჯვენა ტრიგერის წინააღმდეგობა</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>ვიბრაციის ინტენსივობა</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>ვიბრაციის პულსის სიგრძე</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ვიბრაცია ტრიგერის დაჭერისას</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>გააგრძელეთ ვიბრაცია მანამ, სანამ არ გაათავისუფლებთ ტრიგერს.</value>
+  </data>
 </root>

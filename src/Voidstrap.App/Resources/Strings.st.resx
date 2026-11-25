@@ -10296,4 +10296,79 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Molaoli</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Hokela DualSense ka USB &#x27;me u boloke Voidstrap e ntse e sebetsa kamora ho qala. Litlamorao li sebetsa ha Roblox e tsepamisitse maikutlo.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Sehlahisoa se feto-fetohang ka ho le letšehali</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Sehlahisoa se nepahetseng sa adapta</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Ho thothomela mecheng ea li-trigger</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>E eketsa rumble ho li-trigger press. E tlohele ha papali e se e fana ka rumble.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Maikutlo a bobebe</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Maikutlo a matla</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Sheba maikutlo a pele</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Leka lisebelisoa hona joale.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Ponahalo ea maikutlo e felile.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Kgetha tlhophiso ya maikutlo hore o shebe esale pele.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Ha ho na USB DualSense e fumanehang. E kopanye &#x27;me u koale lisebelisoa tse ling tsa taolo haeba e phathahane.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Molaoli o ile a khaotsa ho araba. E kopanye hape &#x27;me u leke hape.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Sesebelisoa sa taolo</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Ka ho iketsa</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Selaoli se khethiloeng ha se fumanehe</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Hlakola balaoli</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Ho hanyetsa ka ho le letšehali</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Right trigger resistance</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Matla a ho sisinyeha</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Bolelele ba ho sisinyeha ha sekhahla</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>thothomela ha u ntse u tšoere seqhutsu</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Boloka ho thothomela ho ntse ho sebetsa ho fihlela o lokolla seqhutsu.</value>
+  </data>
 </root>

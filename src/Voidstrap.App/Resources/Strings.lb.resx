@@ -10297,4 +10297,79 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Connect en DualSense iwwer USB an haalt Voidstrap laafen nom Start. Trigger Effekter gëllen wärend Roblox fokusséiert ass.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Lénks adaptiven Ausléiser</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Richteg adaptiven Ausléiser</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibratioun op Ausléiserpressen</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Füügt Rumble fir Ausléiserpressen. Loosst et aus wann d&#x27;Spill scho Rumble ubitt.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Liicht Feedback</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Staark Feedback</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Preview Feedback</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Probéiert elo d&#x27;Ausléiser.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Feedback Virschau komplett.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Wielt e Feedback Preset fir Virschau.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Keng verfügbar USB DualSense. Connect et an zoumaachen aner Controller Tools wann et beschäftegt ass.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>De Controller huet opgehalen ze reagéieren. Connect et erëm a probéiert nach eng Kéier.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Controller Apparat</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatesch</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Ausgewielten Controller net verfügbar</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Refresh Controller</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Lénks Ausléiser Resistenz</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Richteg Ausléiser Resistenz</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibratiounsintensitéit</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibratiounsimpulslängt</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibréiert wärend Dir en Ausléiser hält</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Halt d&#x27;Vibratioun laafen bis Dir den Ausléiser läscht.</value>
+  </data>
 </root>

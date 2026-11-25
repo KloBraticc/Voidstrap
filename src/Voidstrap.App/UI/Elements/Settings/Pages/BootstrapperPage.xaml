@@ -1,7 +1,7 @@
 ﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.BehaviourPage" xmlns:uianim="clr-namespace:Wpf.Ui.Animations;assembly=Wpf.Ui" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" Title="BehaviourPage" Scrollable="True">
   <StackPanel>
     <TextBlock uianim:Transitions.HoldStill="True" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Behaviour_Description}" />
-    <TabControl Margin="0,16,14,14">
+    <TabControl x:Name="DeploymentTabs" Margin="0,16,14,14" SelectionChanged="DeploymentTabs_SelectionChanged">
       <TabItem>
         <HeaderedContentControl.Header>
           <StackPanel Orientation="Horizontal">
@@ -356,6 +356,87 @@
             </TextBlock>
           </Grid>
           </StackPanel>
+        </StackPanel>
+      </TabItem>
+      <TabItem x:Name="ControllerTab" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+        <HeaderedContentControl.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Games24" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Controller_Tab}" />
+          </StackPanel>
+        </HeaderedContentControl.Header>
+        <StackPanel Margin="10">
+          <ui:InfoBar Margin="0,0,0,8" IsOpen="True" IsClosable="False" Message="{resources:Loc Ui_Controller_Support}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Controller_Device}">
+            <StackPanel Orientation="Horizontal">
+              <ComboBox MinWidth="170" ItemsSource="{Binding ControllerDevices}" DisplayMemberPath="Display" SelectedValuePath="Id"
+                        SelectedValue="{Binding SelectedControllerId, Mode=TwoWay}" />
+              <ui:Button Margin="8,0,0,0" Icon="ArrowSync24" ToolTip="{resources:Loc Ui_Controller_Refresh}"
+                         AutomationProperties.Name="{resources:Loc Ui_Controller_Refresh}" Click="ControllerRefresh_Click" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Gbs_EnableControllerVibration}" Description="{resources:Loc Ui_Gbs_ToggleHapticFeedbackOnControllers}">
+            <ui:ToggleSwitch IsChecked="{Binding ControllerGlobalSettings.ControllerVibration, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Controller_LeftTrigger}">
+            <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseLeftTrigger, Mode=TwoWay}">
+              <ComboBoxItem Content="{resources:Loc Ui_Sound_Equalizer_Off}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Controller_Light}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Controller_Strong}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Controller_Fps}" />
+            </ComboBox>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Controller_LeftStrength}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="130" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
+                      AutomationProperties.Name="{resources:Loc Ui_Controller_LeftStrength}" Value="{Binding DualSenseLeftStrength, Mode=TwoWay}" />
+              <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSenseLeftStrength, StringFormat={}{0}%}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Controller_RightTrigger}">
+            <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseRightTrigger, Mode=TwoWay}">
+              <ComboBoxItem Content="{resources:Loc Ui_Sound_Equalizer_Off}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Controller_Light}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Controller_Strong}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Controller_Fps}" />
+            </ComboBox>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Controller_RightStrength}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="130" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
+                      AutomationProperties.Name="{resources:Loc Ui_Controller_RightStrength}" Value="{Binding DualSenseRightStrength, Mode=TwoWay}" />
+              <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSenseRightStrength, StringFormat={}{0}%}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Controller_TriggerVibration}" Description="{resources:Loc Ui_Controller_TriggerVibrationDescription}">
+            <ComboBox MinWidth="170" SelectedIndex="{Binding DualSenseVibration, Mode=TwoWay}">
+              <ComboBoxItem Content="{resources:Loc Ui_Sound_Equalizer_Off}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Controller_Light}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Controller_Strong}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Controller_Fps}" />
+            </ComboBox>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Controller_VibrationStrength}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="130" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
+                      AutomationProperties.Name="{resources:Loc Ui_Controller_VibrationStrength}" Value="{Binding DualSenseVibrationStrength, Mode=TwoWay}" />
+              <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSenseVibrationStrength, StringFormat={}{0}%}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Controller_Hold}" Description="{resources:Loc Ui_Controller_HoldDescription}">
+            <ui:ToggleSwitch IsChecked="{Binding DualSenseVibrateWhileHeld, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Controller_PulseLength}" IsEnabled="{Binding DualSenseUsesPulse}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="130" Minimum="50" Maximum="200" TickFrequency="5" IsSnapToTickEnabled="True"
+                      AutomationProperties.Name="{resources:Loc Ui_Controller_PulseLength}" Value="{Binding DualSensePulseLength, Mode=TwoWay}" />
+              <TextBlock Width="48" TextAlignment="Right" Text="{Binding DualSensePulseLength, StringFormat={}{0}%}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <ui:Button x:Name="ControllerPreviewButton" HorizontalAlignment="Left" Margin="0,8,0,0" Icon="Games24"
+                     Content="{resources:Loc Ui_Controller_Preview}" Click="ControllerPreview_Click" />
+          <TextBlock x:Name="ControllerPreviewStatus" Margin="0,6,0,0" TextWrapping="Wrap"
+                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" AutomationProperties.LiveSetting="Polite" />
         </StackPanel>
       </TabItem>
     </TabControl>

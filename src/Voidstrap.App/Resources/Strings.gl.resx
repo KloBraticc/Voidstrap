@@ -10297,4 +10297,79 @@ Instalar SteamVR agora?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Controlador</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Conecta un DualSense por USB e mantén Voidstrap funcionando despois do lanzamento. Os efectos de activación aplícanse mentres Roblox está enfocado.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Gatillo adaptativo esquerdo</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Gatillo adaptativo dereito</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibración nas prensas de gatillo</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Engade ruido para activar as pulsacións. Déixao apagado cando o xogo xa ofreza ruido.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Retroalimentación lixeira</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Feedback forte</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Vista previa de comentarios</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Proba agora os disparadores.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Completouse a vista previa de comentarios.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Seleccione un valor predefinido de comentarios para previsualizar.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Non hai USB DualSense dispoñible. Conéctao e pecha outras ferramentas do controlador se está ocupado.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>O controlador deixou de responder. Conéctao de novo e téntao de novo.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Dispositivo controlador</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automático</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>O controlador seleccionado non está dispoñible</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Actualizar controladores</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Resistencia de gatillo esquerdo</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Resistencia de gatillo dereito</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intensidade da vibración</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Duración do pulso de vibración</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibra mentres manteña o gatillo</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Manteña a vibración ata que solte o gatillo.</value>
+  </data>
 </root>

@@ -10297,4 +10297,79 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Onye njikwa</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Jikọọ DualSense site na USB ma mee ka Voidstrap na-agba ọsọ ka emechara ya. Mmetụta mkpali na-emetụta mgbe Roblox lekwasịrị anya.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Ihe mkpalite ngbanwe aka ekpe</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Mkpalite mmegharị aka nri</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibration na ịpị mkpalite</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Na-agbakwụnye rumble ka ọpịpị na-akpalite. Hapụ ya mgbe egwuregwu ahụ na-enyerịrị rumble.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Nzaghachi dị mfe</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Nzaghachi siri ike</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Nzaghachi nhụchalụ</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Gbalịa ihe ndị na-akpalite ugbu a.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Nlele nzaghachi ezuola.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Họrọ ntọala nzaghachi ka ịhụchalụ.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Enweghị USB DualSense dị. Jikọọ ya ma mechie ngwa njikwa ndị ọzọ ma ọ bụrụ na ọ nọ n&#x27;ọrụ.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Onye njikwa kwụsịrị ịzaghachi. Jikọọ ya wee nwaa ọzọ.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Ngwaọrụ njikwa</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Akpaaka</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Onye njikwa ahọpụtara adịghị</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Weghachite ndị njikwa</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Mgbochi aka ekpe</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Mgbochi akpalite aka nri</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Ike ịma jijiji</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Ogologo usu nke ịma jijiji</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Ma jijiji mgbe ị na-ejide ihe mkpali</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Debe ịma jijiji na-agba ọsọ ruo mgbe ị hapụrụ ihe mkpali ahụ.</value>
+  </data>
 </root>

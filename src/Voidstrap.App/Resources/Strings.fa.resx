@@ -10606,4 +10606,79 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>کنترل کننده</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>DualSense را با USB وصل کنید و Voidstrap را پس از راه‌اندازی در حال اجرا نگه دارید. هنگامی که Roblox متمرکز است، جلوه های ماشه اعمال می شود.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>ماشه تطبیقی سمت چپ</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>ماشه تطبیقی سمت راست</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>لرزش در پرس های ماشه</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>صدا را به ماشه پرس اضافه می کند. زمانی که بازی از قبل rumble را ارائه می دهد، آن را کنار بگذارید.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>بازخورد سبک</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>بازخورد قوی</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>پیش نمایش بازخورد</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>اکنون محرک ها را امتحان کنید.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>پیش نمایش بازخورد کامل شد.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>یک پیش تنظیم بازخورد را برای پیش نمایش انتخاب کنید.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense موجود نیست. آن را وصل کنید و در صورت شلوغ بودن سایر ابزارهای کنترلر را ببندید.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>کنترل کننده دیگر پاسخ نمی دهد. دوباره آن را وصل کنید و دوباره امتحان کنید.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>دستگاه کنترل کننده</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>خودکار</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>کنترلر انتخابی در دسترس نیست</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>تازه کردن کنترلرها</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>مقاومت ماشه سمت چپ</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>مقاومت ماشه سمت راست</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>شدت ارتعاش</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>طول پالس ارتعاش</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>در حالی که یک ماشه را نگه داشته اید، ویبره کنید</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>ارتعاش را تا زمانی که ماشه را رها کنید به کار خود ادامه دهید.</value>
+  </data>
 </root>

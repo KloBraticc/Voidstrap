@@ -10296,4 +10296,79 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>کنٹرولر</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>ڈوئل سینس کو USB کے ذریعے جوڑیں اور لانچ کے بعد Voidstrap کو چلاتے رہیں۔ جب روبلوکس فوکس ہوتا ہے تو ٹرگر اثرات لاگو ہوتے ہیں۔</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>بایاں انکولی ٹرگر</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>دائیں انکولی ٹرگر</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ٹرگر پریس پر وائبریشن</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ٹرگر پریس میں رمبل شامل کرتا ہے۔ اسے چھوڑ دیں جب گیم پہلے ہی رمبل فراہم کرے۔</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ہلکی رائے</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>مضبوط رائے</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>تاثرات کا پیش نظارہ کریں۔</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>ابھی محرکات آزمائیں۔</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>تاثرات کا پیش نظارہ مکمل۔</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>پیش نظارہ کرنے کے لیے فیڈ بیک پیش سیٹ منتخب کریں۔</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>کوئی USB DualSense دستیاب نہیں۔ اسے جوڑیں اور دوسرے کنٹرولر ٹولز کو بند کریں اگر یہ مصروف ہے۔</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>کنٹرولر نے جواب دینا بند کر دیا۔ اسے دوبارہ جوڑیں اور دوبارہ کوشش کریں۔</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>کنٹرولر آلہ</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>خودکار</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>منتخب کنٹرولر دستیاب نہیں ہے۔</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>ریفریش کنٹرولرز</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>بائیں ٹرگر مزاحمت</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>دائیں ٹرگر مزاحمت</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>کمپن کی شدت</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>کمپن نبض کی لمبائی</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ٹرگر کو پکڑتے ہوئے وائبریٹ کریں۔</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>وائبریشن کو اس وقت تک جاری رکھیں جب تک کہ آپ ٹرگر جاری نہ کریں۔</value>
+  </data>
 </root>

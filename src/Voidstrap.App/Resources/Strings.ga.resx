@@ -10297,4 +10297,79 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Rialaitheoir</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Ceangail DualSense le USB agus coinnigh Voidstrap ag rith tar éis é a sheoladh. Tá éifeachtaí truicear i bhfeidhm agus Roblox dírithe.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Truicear oiriúnaitheach chlé</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Truicear ceart oiriúnaitheach</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Creathadh ar bhrúnna truicear</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Cuireann sé tormáin le cófraí a spreagadh. Fág é nuair a sholáthraíonn an cluiche tormáin cheana féin.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Aiseolas éadrom</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Aiseolas láidir</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Aiseolas réamhamhairc</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Bain triail as na triggers anois.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Réamhamharc aiseolais críochnaithe.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Roghnaigh réamhshocrú aiseolais chun réamhamharc a dhéanamh.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Níl USB DualSense ar fáil. Ceangail é agus dún uirlisí rialtóra eile má tá sé gnóthach.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Stop an rialtóir ag freagairt. Déan é a athcheangal agus bain triail eile as.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Gléas rialtóir</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Uathoibríoch</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Níl an rialtóir roghnaithe ar fáil</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Athnuaigh rialaitheoirí</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Friotaíocht truicear chlé</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Friotaíocht truicear ceart</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Déine creathadh</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Fad cuisle creathadh</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Creathadh agus truicear á shealbhú</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Coinnigh an tonnchrith ag rith go dtí go scaoilfidh tú an truicear.</value>
+  </data>
 </root>

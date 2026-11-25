@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,12 +21,136 @@ using Voidstrap.Enums;
 using Voidstrap.Extensions;
 using Voidstrap.Integrations;
 using Voidstrap.Models.Persistable;
+using Voidstrap.Resources;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
 public class BehaviourViewModel : NotifyPropertyChangedViewModel
 {
     public NetworkMtuViewModel Mtu { get; } = new();
+
+    private GBSEditorViewModel? _controllerGlobalSettings;
+
+    public GBSEditorViewModel ControllerGlobalSettings => _controllerGlobalSettings ??= new();
+
+    public sealed record ControllerOption(string Id, string Display);
+
+    public IReadOnlyList<ControllerOption> ControllerDevices { get; private set; } = [];
+
+    public string? SelectedControllerId
+    {
+        get => App.Settings.Prop.DualSenseDeviceId ?? "";
+        set
+        {
+            if (value == null || string.Equals(value, SelectedControllerId, StringComparison.OrdinalIgnoreCase))
+                return;
+            App.Settings.Prop.DualSenseDeviceId = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(SelectedControllerId));
+        }
+    }
+
+    public async Task RefreshControllerDevicesAsync()
+    {
+        IReadOnlyList<DualSenseFeedback.Controller> discovered = await Task.Run(DualSenseFeedback.FindControllers);
+        string selected = SelectedControllerId ?? "";
+        List<ControllerOption> choices = [new("", Strings.Ui_Controller_Automatic)];
+        choices.AddRange(discovered.Select(device => new ControllerOption(device.Id, device.Name)));
+        if (selected.Length != 0 && !choices.Any(choice => string.Equals(choice.Id, selected, StringComparison.OrdinalIgnoreCase)))
+            choices.Add(new(selected, Strings.Ui_Controller_Disconnected));
+        ControllerDevices = choices;
+        OnPropertyChanged(nameof(ControllerDevices));
+        OnPropertyChanged(nameof(SelectedControllerId));
+    }
+
+    public int DualSenseLeftTrigger
+    {
+        get => DualSenseFeedback.ReadPresets(App.Settings.Prop).Left.Preset;
+        set
+        {
+            if (value is < 0 or > 3 || App.Settings.Prop.DualSenseLeftTrigger == value)
+                return;
+            App.Settings.Prop.DualSenseLeftTrigger = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DualSenseLeftTrigger));
+        }
+    }
+
+    public int DualSenseRightTrigger
+    {
+        get => DualSenseFeedback.ReadPresets(App.Settings.Prop).Right.Preset;
+        set
+        {
+            if (value is < 0 or > 3 || App.Settings.Prop.DualSenseRightTrigger == value)
+                return;
+            App.Settings.Prop.DualSenseRightTrigger = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DualSenseRightTrigger));
+        }
+    }
+
+    public int DualSenseVibration
+    {
+        get => DualSenseFeedback.ReadPresets(App.Settings.Prop).Vibration;
+        set
+        {
+            if (value is < 0 or > 3 || App.Settings.Prop.DualSenseVibration == value)
+                return;
+            App.Settings.Prop.DualSenseVibration = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DualSenseVibration));
+        }
+    }
+
+    public int DualSenseLeftStrength
+    {
+        get => DualSenseFeedback.ReadPresets(App.Settings.Prop).Left.Strength;
+        set => SetControllerSlider(value, DualSenseLeftStrength, 0, 100, static (settings, strength) => settings.DualSenseLeftStrength = strength);
+    }
+
+    public int DualSenseRightStrength
+    {
+        get => DualSenseFeedback.ReadPresets(App.Settings.Prop).Right.Strength;
+        set => SetControllerSlider(value, DualSenseRightStrength, 0, 100, static (settings, strength) => settings.DualSenseRightStrength = strength);
+    }
+
+    public int DualSenseVibrationStrength
+    {
+        get => DualSenseFeedback.ReadPresets(App.Settings.Prop).VibrationStrength;
+        set => SetControllerSlider(value, DualSenseVibrationStrength, 0, 100, static (settings, strength) => settings.DualSenseVibrationStrength = strength);
+    }
+
+    public int DualSensePulseLength
+    {
+        get => DualSenseFeedback.ReadPresets(App.Settings.Prop).PulseLength;
+        set => SetControllerSlider(value, DualSensePulseLength, 50, 200, static (settings, length) => settings.DualSensePulseLength = length);
+    }
+
+    public bool DualSenseVibrateWhileHeld
+    {
+        get => App.Settings.Prop.DualSenseVibrateWhileHeld;
+        set
+        {
+            if (App.Settings.Prop.DualSenseVibrateWhileHeld == value)
+                return;
+            App.Settings.Prop.DualSenseVibrateWhileHeld = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DualSenseVibrateWhileHeld));
+            OnPropertyChanged(nameof(DualSenseUsesPulse));
+        }
+    }
+
+    public bool DualSenseUsesPulse => !DualSenseVibrateWhileHeld;
+
+    private void SetControllerSlider(int value, int current, int minimum, int maximum, Action<AppSettings, int> apply, [CallerMemberName] string property = "")
+    {
+        int bounded = Math.Clamp(value, minimum, maximum);
+        if (bounded == current)
+            return;
+        apply(App.Settings.Prop, bounded);
+        App.Settings.SaveDeferred();
+        OnPropertyChanged(property);
+    }
 
     public sealed class ExcludedGameItem : NotifyPropertyChangedViewModel
     {

@@ -10606,4 +10606,79 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Denetleyici</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>DualSense&#x27;i USB ile bağlayın ve Voidstrap&#x27;in başlatıldıktan sonra çalışmaya devam etmesini sağlayın. Roblox odaklanmışken tetikleme efektleri uygulanır.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Sol uyarlanabilir tetik</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Sağ uyarlanabilir tetik</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Tetiğe basıldığında titreşim</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Basışları tetiklemek için gürültü ekler. Oyun zaten gürültü sağladığında bunu bırakın.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Işık geribildirimi</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Güçlü geribildirim</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Geri bildirimi önizleyin</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Şimdi tetikleyicileri deneyin.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Geri bildirim önizlemesi tamamlandı.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Önizlemek için bir geri bildirim ön ayarı seçin.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Kullanılabilir USB DualSense yok. Bağlayın ve meşgulse diğer denetleyici araçlarını kapatın.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Denetleyici yanıt vermeyi durdurdu. Tekrar bağlayın ve tekrar deneyin.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Denetleyici cihazı</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Otomatik</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Seçilen denetleyici kullanılamıyor</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Denetleyicileri yenile</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Sol tetik direnci</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Sağ tetik direnci</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Titreşim yoğunluğu</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Titreşim darbe uzunluğu</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Tetiği basılı tutarken titret</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Tetiği bırakana kadar titreşimi çalışır durumda tutun.</value>
+  </data>
 </root>

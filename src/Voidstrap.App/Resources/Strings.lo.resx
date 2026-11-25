@@ -10297,4 +10297,79 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>ຜູ້ຄວບຄຸມ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>ເຊື່ອມຕໍ່ DualSense ດ້ວຍ USB ແລະສືບຕໍ່ແລ່ນ Voidstrap ຫຼັງຈາກເປີດຕົວ. ເອັບເຟັກ Trigger ນຳໃຊ້ໃນຂະນະທີ່ Roblox ຖືກສຸມໃສ່.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>ຕົວກະຕຸ້ນການປັບຕົວຊ້າຍ</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>ຕົວກະຕຸ້ນການປັບຕົວທີ່ຖືກຕ້ອງ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ການສັ່ນສະເທືອນເມື່ອກົດດັນ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ເພີ່ມ rumble ກັບການກົດດັນ. ປ່ອຍໃຫ້ມັນໄປໃນເວລາທີ່ເກມໄດ້ໃຫ້ rumble ແລ້ວ.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ຄຳຕິຊົມເບົາໆ</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ຄວາມຄິດເຫັນທີ່ເຂັ້ມແຂງ</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>ເບິ່ງຕົວຢ່າງຄຳຕິຊົມ</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>ລອງໃຊ້ຕົວກະຕຸ້ນດຽວນີ້.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>ສຳເລັດການສະແດງຕົວຢ່າງຄຳຕິຊົມ.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>ເລືອກ​ຄໍາ​ຄິດ​ເຫັນ​ທີ່​ຕັ້ງ​ໄວ້​ລ່ວງ​ຫນ້າ​ເພື່ອ​ເບິ່ງ​ຕົວ​ຢ່າງ​.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>ບໍ່ມີ USB DualSense ທີ່ສາມາດໃຊ້ໄດ້. ເຊື່ອມຕໍ່ມັນແລະປິດເຄື່ອງມືຄວບຄຸມອື່ນໆຖ້າມັນບໍ່ຫວ່າງ.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>ຕົວຄວບຄຸມຢຸດຕອບສະໜອງ. ເຊື່ອມຕໍ່ມັນຄືນໃໝ່ແລ້ວລອງອີກຄັ້ງ.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>ອຸປະກອນຄວບຄຸມ</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>ອັດຕະໂນມັດ</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>ບໍ່ສາມາດໃຊ້ຕົວຄວບຄຸມທີ່ເລືອກໄດ້</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>ໂຫຼດຕົວຄວບຄຸມຄືນໃໝ່</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>ຄວາມຕ້ານທານຂອງຜົນກະທົບຕໍ່ຊ້າຍ</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>ການຕໍ່ຕ້ານການກະຕຸ້ນທີ່ຖືກຕ້ອງ</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>ຄວາມເຂັ້ມຂອງການສັ່ນສະເທືອນ</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>ຄວາມຍາວຂອງກໍາມະຈອນສັ່ນ</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ສັ່ນສະເທືອນໃນຂະນະທີ່ຖືທຣິກເກີ</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>ຮັກສາການສັ່ນສະເທືອນເຮັດວຽກຈົນກວ່າທ່ານຈະປ່ອຍຕົວກະຕຸ້ນ.</value>
+  </data>
 </root>

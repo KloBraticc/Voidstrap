@@ -10607,4 +10607,79 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>컨트롤러</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB로 DualSense를 연결하고 실행 후에도 Voidtrap을 계속 실행하세요. Roblox가 집중하는 동안 트리거 효과가 적용됩니다.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>왼쪽 적응형 트리거</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>오른쪽 적응형 트리거</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>방아쇠를 누를 때의 진동</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>트리거 프레스에 럼블을 추가합니다. 게임이 이미 럼블을 제공하는 경우에는 끄십시오.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>가벼운 피드백</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>강력한 피드백</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>피드백 미리보기</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>지금 트리거를 사용해 보세요.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>피드백 미리보기가 완료되었습니다.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>미리 볼 피드백 사전 설정을 선택하세요.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>사용 가능한 USB DualSense가 없습니다. 사용 중인 경우 연결하고 다른 컨트롤러 도구를 닫습니다.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>컨트롤러가 응답을 멈췄습니다. 다시 연결하고 다시 시도해 보세요.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>컨트롤러 장치</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>자동</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>선택한 컨트롤러를 사용할 수 없습니다.</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>컨트롤러 새로 고침</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>왼쪽 트리거 저항</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>오른쪽 트리거 저항</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>진동강도</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>진동 펄스 길이</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>방아쇠를 당기는 동안 진동</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>방아쇠를 놓을 때까지 진동을 계속 실행하십시오.</value>
+  </data>
 </root>

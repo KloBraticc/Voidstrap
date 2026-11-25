@@ -10297,4 +10297,79 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>ਕੰਟਰੋਲਰ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB ਦੁਆਰਾ ਇੱਕ DualSense ਨੂੰ ਕਨੈਕਟ ਕਰੋ ਅਤੇ ਲਾਂਚ ਤੋਂ ਬਾਅਦ ਵੋਇਡਸਟ੍ਰੈਪ ਨੂੰ ਚੱਲਦਾ ਰੱਖੋ। ਜਦੋਂ ਰੋਬਲੋਕਸ ਫੋਕਸ ਹੁੰਦਾ ਹੈ ਤਾਂ ਟਰਿੱਗਰ ਪ੍ਰਭਾਵ ਲਾਗੂ ਹੁੰਦੇ ਹਨ।</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>ਖੱਬਾ ਅਨੁਕੂਲਨ ਟਰਿੱਗਰ</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>ਸੱਜਾ ਅਨੁਕੂਲਨ ਟਰਿੱਗਰ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ਟਰਿੱਗਰ ਦਬਾਉਣ &#x27;ਤੇ ਵਾਈਬ੍ਰੇਸ਼ਨ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ਟ੍ਰਿਗਰ ਪ੍ਰੈਸਾਂ ਲਈ ਰੰਬਲ ਜੋੜਦਾ ਹੈ। ਜਦੋਂ ਗੇਮ ਪਹਿਲਾਂ ਹੀ ਰੰਬਲ ਪ੍ਰਦਾਨ ਕਰਦੀ ਹੈ ਤਾਂ ਇਸਨੂੰ ਛੱਡ ਦਿਓ।</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ਹਲਕਾ ਫੀਡਬੈਕ</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ਮਜ਼ਬੂਤ ਫੀਡਬੈਕ</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>ਫੀਡਬੈਕ ਦੀ ਝਲਕ</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>ਹੁਣੇ ਟਰਿਗਰਾਂ ਨੂੰ ਅਜ਼ਮਾਓ।</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>ਫੀਡਬੈਕ ਪੂਰਵਦਰਸ਼ਨ ਪੂਰਾ ਹੋਇਆ।</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>ਪ੍ਰੀਵਿਊ ਕਰਨ ਲਈ ਫੀਡਬੈਕ ਪ੍ਰੀਸੈੱਟ ਚੁਣੋ।</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>ਕੋਈ USB DualSense ਉਪਲਬਧ ਨਹੀਂ ਹੈ। ਇਸਨੂੰ ਕਨੈਕਟ ਕਰੋ ਅਤੇ ਹੋਰ ਕੰਟਰੋਲਰ ਟੂਲ ਬੰਦ ਕਰੋ ਜੇਕਰ ਇਹ ਵਿਅਸਤ ਹੈ।</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>ਕੰਟਰੋਲਰ ਨੇ ਜਵਾਬ ਦੇਣਾ ਬੰਦ ਕਰ ਦਿੱਤਾ। ਇਸਨੂੰ ਦੁਬਾਰਾ ਕਨੈਕਟ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>ਕੰਟਰੋਲਰ ਜੰਤਰ</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>ਆਟੋਮੈਟਿਕ</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>ਚੁਣਿਆ ਕੰਟਰੋਲਰ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>ਕੰਟਰੋਲਰਾਂ ਨੂੰ ਤਾਜ਼ਾ ਕਰੋ</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>ਖੱਬਾ ਟਰਿੱਗਰ ਵਿਰੋਧ</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>ਸੱਜਾ ਟਰਿੱਗਰ ਪ੍ਰਤੀਰੋਧ</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>ਵਾਈਬ੍ਰੇਸ਼ਨ ਤੀਬਰਤਾ</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>ਵਾਈਬ੍ਰੇਸ਼ਨ ਪਲਸ ਦੀ ਲੰਬਾਈ</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ਇੱਕ ਟਰਿੱਗਰ ਨੂੰ ਫੜ ਕੇ ਵਾਈਬ੍ਰੇਟ ਕਰੋ</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>ਵਾਈਬ੍ਰੇਸ਼ਨ ਨੂੰ ਉਦੋਂ ਤੱਕ ਜਾਰੀ ਰੱਖੋ ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਟਰਿੱਗਰ ਜਾਰੀ ਨਹੀਂ ਕਰਦੇ।</value>
+  </data>
 </root>

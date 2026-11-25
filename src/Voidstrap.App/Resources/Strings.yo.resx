@@ -10296,4 +10296,79 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Adarí</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>So DualSense kan pọ nipasẹ USB ki o jẹ ki Voidstrap ṣiṣẹ lẹhin ifilọlẹ. Awọn ipa okunfa waye lakoko ti Roblox wa ni idojukọ.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Osi okunfa aṣamubadọgba</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Ọtun okunfa aṣamubadọgba</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Gbigbọn lori awọn titẹ okunfa</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Ṣe afikun rumble lati ma nfa awọn titẹ. Fi silẹ nigbati ere ba pese rumble tẹlẹ.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Imọlẹ esi</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Awọn esi to lagbara</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Awotẹlẹ esi</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Gbiyanju awọn okunfa bayi.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Awotẹlẹ esi ti pari.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Yan tito esi esi lati ṣe awotẹlẹ.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Ko si USB DualSense to wa. Sopọ mọ ki o pa awọn irinṣẹ oludari miiran ti o ba n ṣiṣẹ lọwọ.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Adarí duro idahun. Tun pada ki o si gbiyanju lẹẹkansi.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Ẹrọ oludari</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Laifọwọyi</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Alakoso ti o yan ko si</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Sọ awọn oludari</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Osi okunfa resistance</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Ọtun okunfa resistance</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Agbara gbigbọn</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Gbigbọn polusi ipari</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Gbigbọn lakoko ti o di okunfa kan</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Jeki gbigbọn ṣiṣẹ titi ti o fi tu okunfa naa silẹ.</value>
+  </data>
 </root>

@@ -10296,4 +10296,79 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>ထိန်းချုပ်ကိရိယာ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>DualSense ကို USB ဖြင့်ချိတ်ဆက်ပြီး လွှင့်တင်ပြီးနောက် Voidstrap လည်ပတ်နေပါစေ။ Roblox ကို အာရုံစိုက်နေချိန်တွင် Trigger Effect သက်ရောက်သည်။</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>လက်ဝဲသပ္ပါယ်</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>သမ္မာသပ္ပါယ ဖြစ်ပေါ်မှု</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ခလုတ်နှိပ်မှုများတွင် တုန်ခါမှု</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ခလုတ်နှိပ်ခြင်းသို့ rumble ကိုထည့်သည်။ ဂိမ်းက အသံမြည်လာသောအခါ ၎င်းကို ချန်ထားပါ။</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ပေါ့ပါးသောတုံ့ပြန်ချက်</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ခိုင်မာသောတုံ့ပြန်ချက်</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>အကြံပြုချက်ကို အစမ်းကြည့်ရှုပါ။</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>အစပျိုးမှုများကို ယခုစမ်းကြည့်ပါ။</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>အကြံပြုချက် အစမ်းကြည့်ရှုမှု ပြီးပါပြီ။</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>အစမ်းကြည့်ရှုရန် အကြံပြုချက် ကြိုတင်သတ်မှတ်မှုတစ်ခုကို ရွေးပါ။</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense မရနိုင်ပါ။ အလုပ်များနေပါက ၎င်းကိုချိတ်ဆက်ပြီး အခြားထိန်းချုပ်ကိရိယာကိရိယာများကို ပိတ်ပါ။</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>ထိန်းချုပ်ကိရိယာက တုံ့ပြန်မှု ရပ်သွားသည်။ ၎င်းကို ပြန်လည်ချိတ်ဆက်ပြီး ထပ်စမ်းကြည့်ပါ။</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>ထိန်းချုပ်ကိရိယာ</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>အလိုအလျောက်</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>ရွေးချယ်ထားသော ထိန်းချုပ်ကိရိယာကို မရရှိနိုင်ပါ။</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>ထိန်းချုပ်ကိရိယာများကို ပြန်လည်စတင်ပါ။</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>ဘယ်ဘက်အစပျိုးခုခံမှု</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>ညာဘက်လက်မောင်းကို ခံနိုင်ရည်ရှိသည်။</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>တုန်ခါမှုပြင်းထန်မှု</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>တုန်ခါမှုသွေးခုန်နှုန်းအရှည်</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ခလုတ်ကိုကိုင်ထားစဉ် တုန်ခါပါ။</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>ခလုတ်မလွှတ်မချင်း တုန်ခါမှုကို ထိန်းထားပါ။</value>
+  </data>
 </root>

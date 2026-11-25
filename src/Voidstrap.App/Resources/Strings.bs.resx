@@ -10296,4 +10296,79 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Kontroler</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Povežite DualSense putem USB-a i ostavite Voidstrap da radi nakon pokretanja. Efekti okidača se primjenjuju dok je Roblox fokusiran.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Lijevi adaptivni okidač</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Desni adaptivni okidač</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibracije pri pritiskanju okidača</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Dodaje tutnjavu pritiskanju okidača. Ostavite ga kada igra već pruža tutnjavu.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Lagana povratna informacija</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Jaka povratna informacija</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Pregledajte povratne informacije</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Isprobajte okidače sada.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Pregled povratnih informacija je završen.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Odaberite unaprijed postavljenu povratnu informaciju za pregled.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Nema dostupnog USB DualSense-a. Povežite ga i zatvorite druge alate kontrolera ako je zauzet.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Kontrolor je prestao da reaguje. Ponovo ga povežite i pokušajte ponovo.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Kontrolni uređaj</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatski</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Odabrani kontroler nije dostupan</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Osvježavanje kontrolera</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Otpor lijevog okidača</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Otpor desnog okidača</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intenzitet vibracije</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Dužina impulsa vibracije</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibrirajte dok držite okidač</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Ostavite vibraciju dok ne otpustite okidač.</value>
+  </data>
 </root>

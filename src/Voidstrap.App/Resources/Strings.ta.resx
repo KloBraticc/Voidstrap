@@ -10296,4 +10296,79 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>கட்டுப்படுத்தி</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>யூ.எஸ்.பி மூலம் டூயல்சென்ஸை இணைத்து, வொய்ட்ஸ்ட்ராப்பை அறிமுகப்படுத்திய பின் தொடர்ந்து இயக்கவும். Roblox கவனம் செலுத்தும் போது தூண்டுதல் விளைவுகள் பொருந்தும்.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>இடது தழுவல் தூண்டுதல்</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>வலது தழுவல் தூண்டுதல்</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>தூண்டுதல் அழுத்தங்களில் அதிர்வு</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>அழுத்தங்களைத் தூண்டுவதற்கு ரம்பிள் சேர்க்கிறது. விளையாட்டு ஏற்கனவே ரம்பிள் வழங்கும் போது அதை விட்டு விடுங்கள்.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>லேசான பின்னூட்டம்</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>வலுவான கருத்து</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>முன்னோட்ட பின்னூட்டம்</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>இப்போது தூண்டுதல்களை முயற்சிக்கவும்.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>பின்னூட்ட முன்னோட்டம் முடிந்தது.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>முன்னோட்டத்தைப் பார்க்க பின்னூட்ட முன்னமைவைத் தேர்ந்தெடுக்கவும்.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense இல்லை. பிஸியாக இருந்தால், அதை இணைக்கவும் மற்றும் பிற கட்டுப்படுத்தி கருவிகளை மூடவும்.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>கட்டுப்படுத்தி பதிலளிப்பதை நிறுத்தியது. அதை மீண்டும் இணைத்து மீண்டும் முயற்சிக்கவும்.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>கட்டுப்படுத்தி சாதனம்</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>தானியங்கி</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>தேர்ந்தெடுக்கப்பட்ட கட்டுப்படுத்தி கிடைக்கவில்லை</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>கட்டுப்படுத்திகளைப் புதுப்பிக்கவும்</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>இடது தூண்டுதல் எதிர்ப்பு</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>வலது தூண்டுதல் எதிர்ப்பு</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>அதிர்வு தீவிரம்</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>அதிர்வு துடிப்பு நீளம்</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ஒரு தூண்டுதலை வைத்திருக்கும் போது அதிர்வு</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>நீங்கள் தூண்டுதலை வெளியிடும் வரை அதிர்வுகளை இயக்கவும்.</value>
+  </data>
 </root>

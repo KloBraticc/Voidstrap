@@ -10297,4 +10297,79 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>ନିୟନ୍ତ୍ରକ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB ଦ୍ୱାରା ଏକ DualSense କୁ ସଂଯୋଗ କରନ୍ତୁ ଏବଂ ଲ launch ୍ଚ ହେବା ପରେ Voidstrap ଚାଲୁ ରଖନ୍ତୁ | ରୋବ୍ଲକ୍ସ ଫୋକସ୍ ହୋଇଥିବାବେଳେ ଟ୍ରିଗର ପ୍ରଭାବ ପ୍ରୟୋଗ ହୁଏ |</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>ବାମ ଆଡାପ୍ଟିଭ୍ ଟ୍ରିଗର |</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>ଡାହାଣ ଆଡାପ୍ଟିଭ୍ ଟ୍ରିଗର |</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ଟ୍ରିଗର ପ୍ରେସ୍ ଉପରେ କମ୍ପନ |</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ପ୍ରେସ୍ ଟ୍ରିଗର କରିବାକୁ ଗର୍ଜନ ଯୋଗ କରେ | ଯେତେବେଳେ ଖେଳଟି ଗର୍ଜନ କରେ ସେତେବେଳେ ଏହାକୁ ଛାଡିଦିଅ |</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ହାଲୁକା ମତାମତ |</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ଦୃ feedback ମତାମତ |</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>ମତାମତ ପୂର୍ବାବଲୋକନ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>ବର୍ତ୍ତମାନ ଟ୍ରିଗରଗୁଡିକ ଚେଷ୍ଟା କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>ମତାମତ ପୂର୍ବାବଲୋକନ ସମ୍ପୂର୍ଣ୍ଣ |</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>ପୂର୍ବାବଲୋକନ ପାଇଁ ଏକ ମତାମତ ପ୍ରିସେଟ୍ ଚୟନ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense ଉପଲବ୍ଧ ନାହିଁ | ଯଦି ଏହା ବ୍ୟସ୍ତ ଅଛି ତେବେ ଏହାକୁ ସଂଯୋଗ କରନ୍ତୁ ଏବଂ ଅନ୍ୟ ନିୟନ୍ତ୍ରକ ଉପକରଣଗୁଡ଼ିକୁ ବନ୍ଦ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>ନିୟନ୍ତ୍ରକ ପ୍ରତିକ୍ରିୟା ବନ୍ଦ କରିଦେଲେ | ଏହାକୁ ପୁନ on ସଂଯୋଗ କରନ୍ତୁ ଏବଂ ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>ନିୟନ୍ତ୍ରକ ଉପକରଣ</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>ସ୍ୱୟଂଚାଳିତ |</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>ମନୋନୀତ ନିୟନ୍ତ୍ରକ ଉପଲବ୍ଧ ନାହିଁ |</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>ନିୟନ୍ତ୍ରକମାନଙ୍କୁ ସତେଜ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>ବାମ ଟ୍ରିଗର ପ୍ରତିରୋଧ |</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>ଡାହାଣ ଟ୍ରିଗର ପ୍ରତିରୋଧ |</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>କମ୍ପନ ତୀବ୍ରତା |</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>କମ୍ପନ ନାଡିର ଲମ୍ବ |</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ଏକ ଟ୍ରିଗର ଧରିଥିବାବେଳେ କମ୍ପନ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>ତୁମେ ଟ୍ରିଗରକୁ ମୁକ୍ତ ନକରିବା ପର୍ଯ୍ୟନ୍ତ କମ୍ପନକୁ ଚାଲୁ ରଖ |</value>
+  </data>
 </root>

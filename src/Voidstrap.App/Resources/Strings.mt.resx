@@ -10297,4 +10297,79 @@ Installa SteamVR issa?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Kontrollur</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Qabbad DualSense permezz tal-USB u żomm Voidstrap jaħdem wara t-tnedija. Effetti trigger japplikaw waqt Roblox huwa ffukat.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Grillu adattiv tax-xellug</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Grillu adattiv dritt</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibrazzjoni fuq presses tal-grillu</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Iżżid ħsejjes biex tqajjem presses. Ħallih meta l-logħba diġà tipprovdi ħsejjes.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Feedback ħafif</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Feedback qawwi</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Preview feedback</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Ipprova t-tqanqal issa.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Preview ta&#x27; feedback komplut.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Agħżel feedback issettjat minn qabel biex tipprevedi.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>L-ebda USB DualSense disponibbli. Qabbadha u agħlaq għodod oħra tal-kontrollur jekk tkun okkupata.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Il-kontrollur waqaf jirrispondi. Erġa&#x27; qabbadha u erġa&#x27; pprova.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Apparat kontrollur</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Awtomatiku</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Kontrollur magħżul mhux disponibbli</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Aġġorna l-kontrolluri</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Reżistenza tal-grillu tax-xellug</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Reżistenza tal-grillu dritt</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intensità tal-vibrazzjoni</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Tul tal-polz tal-vibrazzjoni</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Ivvibra waqt li żżomm grillu</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Żomm il-vibrazzjoni taħdem sakemm tirrilaxxa l-grillu.</value>
+  </data>
 </root>

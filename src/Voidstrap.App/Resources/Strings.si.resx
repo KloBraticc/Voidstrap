@@ -10297,4 +10297,79 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>පාලකය</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB මගින් DualSense සම්බන්ධ කර දියත් කිරීමෙන් පසුව Voidstrap ක්‍රියාත්මකව තබා ගන්න. Roblox නාභිගත කර ඇති අතරතුර ප්‍රේරක බලපෑම් යෙදේ.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>වම් අනුවර්තන ප්‍රේරකය</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>නිවැරදි අනුවර්තන ප්‍රේරකය</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ප්‍රේරක පීඩනවල කම්පනය</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>මුද්‍රණ යන්ත්‍ර අවුලුවාලීමට රම්බල් එකතු කරයි. ක්රීඩාව දැනටමත් ඝෝෂාකාරී වන විට එය අත්හැර දමන්න.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>සැහැල්ලු ප්රතිචාර</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ශක්තිමත් ප්රතිචාර</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>ප්‍රතිපෝෂණ පෙරදසුන් කරන්න</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>දැන් ප්‍රේරක උත්සාහ කරන්න.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>ප්‍රතිපෝෂණ පෙරදසුන සම්පූර්ණයි.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>පෙරදසුන් කිරීමට ප්‍රතිපෝෂණ පෙරසිටුවක් තෝරන්න.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense නොමැත. එය කාර්යබහුල නම් එය සම්බන්ධ කර වෙනත් පාලක මෙවලම් වසා දමන්න.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>පාලකය ප්‍රතිචාර දැක්වීම නැවැත්වීය. එය නැවත සම්බන්ධ කර නැවත උත්සාහ කරන්න.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>පාලක උපාංගය</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>ස්වයංක්රීය</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>තෝරාගත් පාලකය නොමැත</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>පාලකයන් නැවුම් කරන්න</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>වම් ප්‍රේරක ප්‍රතිරෝධය</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>දකුණු ප්‍රේරක ප්‍රතිරෝධය</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>කම්පන තීව්රතාව</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>කම්පන ස්පන්දන දිග</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ප්‍රේරකයක් අල්ලාගෙන සිටියදී කම්පනය කරන්න</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>ඔබ ප්‍රේරකය මුදා හරින තෙක් කම්පනය ක්‍රියාත්මකව තබා ගන්න.</value>
+  </data>
 </root>

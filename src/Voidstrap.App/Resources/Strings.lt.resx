@@ -10607,4 +10607,79 @@ Veikimo laikas: {1}
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Valdiklis</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Prijunkite „DualSense“ per USB ir paleidę „Voidstrap“ leiskite veikti. Trigeriniai efektai taikomi, kai Roblox yra sutelktas.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Kairysis prisitaikantis gaidukas</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Dešinysis adaptyvus gaidukas</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibracija paspaudus gaiduką</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Prideda triukšmą, kad paspaustų gaiduką. Palikite jį, kai žaidimas jau suteikia triukšmo.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Lengvas grįžtamasis ryšys</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Stiprūs atsiliepimai</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Peržiūrėti atsiliepimą</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Išbandykite paleidiklius dabar.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Atsiliepimų peržiūra baigta.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Norėdami peržiūrėti, pasirinkite išankstinį atsiliepimų nustatymą.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Nėra USB DualSense. Prijunkite jį ir uždarykite kitus valdiklio įrankius, jei jis užimtas.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Valdiklis nustojo reaguoti. Prijunkite jį iš naujo ir bandykite dar kartą.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Valdiklio įrenginys</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatinis</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Pasirinktas valdiklis nepasiekiamas</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Atnaujinkite valdiklius</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Kairiojo gaiduko pasipriešinimas</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Dešiniojo gaiduko pasipriešinimas</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibracijos intensyvumas</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibracijos impulso ilgis</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibruokite laikydami nuspaustą gaiduką</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Palaikykite vibraciją, kol atleisite gaiduką.</value>
+  </data>
 </root>

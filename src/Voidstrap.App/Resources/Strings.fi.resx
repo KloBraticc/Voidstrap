@@ -10606,4 +10606,79 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Ohjain</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Liitä DualSense USB:llä ja pidä Voidstrap käynnissä käynnistyksen jälkeen. Laukaisutehosteet ovat voimassa, kun Roblox on keskittynyt.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Vasen adaptiivinen liipaisin</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Oikea mukautuva liipaisin</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Tärinä liipaisinpainalluksissa</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Lisää kolinaa liipaisimen painalluksiin. Jätä se pois, kun peli tarjoaa jo jyrinää.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Kevyt palaute</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Vahvaa palautetta</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Esikatsele palautetta</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Kokeile laukaisimia nyt.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Palautteen esikatselu on valmis.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Valitse esikatsella palauteesiasetus.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSensea ei ole saatavilla. Liitä se ja sulje muut ohjaintyökalut, jos se on varattu.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Ohjain lakkasi vastaamasta. Yhdistä se uudelleen ja yritä uudelleen.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Ohjainlaite</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automaattinen</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Valittu ohjain ei ole käytettävissä</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Päivitä ohjaimet</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Vasemman liipaisimen vastus</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Oikean liipaisimen vastus</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Tärinän voimakkuus</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Tärinäpulssin pituus</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Värinä pitämällä liipaisinta painettuna</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Pidä tärinä käynnissä, kunnes vapautat liipaisimen.</value>
+  </data>
 </root>

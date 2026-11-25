@@ -10296,4 +10296,79 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Назоратчӣ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>DualSense-ро тавассути USB пайваст кунед ва Voidstrap-ро пас аз оғози кор нигоҳ доред. Таъсири триггер ҳангоми тамаркузи Roblox татбиқ мешавад.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Триггери мутобиқгардонии чап</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Триггери дурусти мутобиқшавӣ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Вибрация дар пахшкунии триггер</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Ба прессҳои триггер гулдурро илова мекунад. Вақте ки бозӣ аллакай гулӯларо таъмин мекунад, онро хомӯш кунед.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Бозгашти сабук</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Бозгашти қавӣ</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Пешнамоиши фикру мулоҳиза</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Ҳоло триггерҳоро санҷед.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Пешнамоиши ҷавоб ба анҷом расид.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Барои пешнамоиш пешакии фикрро интихоб кунед.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense дастрас нест. Онро пайваст кунед ва дигар асбобҳои контроллерро пӯшед, агар он банд бошад.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Назоратчй чавоб доданро бас кард. Онро аз нав пайваст кунед ва бори дигар кӯшиш кунед.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Дастгоҳи назораткунанда</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Автоматӣ</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Назоратчии интихобшуда дастрас нест</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Навсозии контроллерҳо</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Муқовимати триггери чап</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Муқовимати рости триггер</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Шиддати ларзиш</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Дарозии импульси ларзиш</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Ҳангоми нигоҳ доштани триггер ларзиш кунед</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>То он даме, ки триггерро озод кунед, ларзишро нигоҳ доред.</value>
+  </data>
 </root>

@@ -10296,4 +10296,79 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>ተቆጣጣሪ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>DualSense በUSB ያገናኙ እና ከተነሳ በኋላ Voidstrap እንዲሰራ ያድርጉት። Roblox በሚያተኩርበት ጊዜ ቀስቅሴዎች ይተገበራሉ።</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>ግራ የሚለምደዉ ቀስቅሴ</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>ትክክለኛ አስማሚ ቀስቅሴ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ቀስቅሴዎች ላይ ንዝረት</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ወደ ቀስቅሴ ማተሚያዎች ጩኸት ይጨምራል። ጨዋታው አስቀድሞ ራምብል ሲያቀርብ ይተውት።</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ቀላል አስተያየት</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ጠንካራ አስተያየት</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>አስተያየትን አስቀድመው ይመልከቱ</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>ቀስቅሴዎችን አሁን ይሞክሩ።</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>የግብረመልስ ቅድመ እይታ ተጠናቅቋል።</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>ለቅድመ-እይታ የግብረመልስ ቅድመ ዝግጅትን ይምረጡ።</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>ምንም የዩኤስቢ DualSense የለም። ያገናኙት እና ስራ የሚበዛ ከሆነ ሌሎች የመቆጣጠሪያ መሳሪያዎችን ይዝጉ.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>ተቆጣጣሪው ምላሽ መስጠት አቆመ። እንደገና ያገናኙት እና እንደገና ይሞክሩ።</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>መቆጣጠሪያ መሳሪያ</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>አውቶማቲክ</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>የተመረጠ መቆጣጠሪያ የለም።</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>ተቆጣጣሪዎችን ያድሱ</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>የግራ ቀስቅሴ መቋቋም</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>የቀኝ ቀስቅሴ መቋቋም</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>የንዝረት ጥንካሬ</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>የንዝረት ምት ርዝመት</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ቀስቅሴን ሲይዙ ይንቀጠቀጡ</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>ቀስቅሴውን እስኪለቁ ድረስ ንዝረቱ እንዲሰራ ያድርጉት።</value>
+  </data>
 </root>

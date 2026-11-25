@@ -969,6 +969,10 @@ public partial class Watcher : IDisposable
         DateTime sessionStartedUtc = ModCrashGuard.BeginSession();
         Task crashMonitor = MonitorModCrashAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
         _ = DisableCrashHandlerWhenSettledAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
+        using CancellationTokenSource controllerCancellation = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCancellation.SafeToken());
+        Task controllerFeedback = _watcherData.ControllerFeedbackSupported
+            ? Task.Run(() => DualSenseFeedback.RunAsync(_watcherData.ProcessId, controllerCancellation.Token))
+            : Task.CompletedTask;
         try
         {
             await WaitForProcessExitAsync(_watcherData.ProcessId, _lifetimeCancellation.SafeToken()).ConfigureAwait(false);
@@ -976,6 +980,11 @@ public partial class Watcher : IDisposable
         catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
         {
             return;
+        }
+        finally
+        {
+            await controllerCancellation.CancelAsync().ConfigureAwait(false);
+            await controllerFeedback.ConfigureAwait(false);
         }
         Voidstrap.Integrations.Fullscreen.RobloxTitleBarGuard.Shutdown();
         if (AnotherRobloxRunning(_watcherData.ProcessId))

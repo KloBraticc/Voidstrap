@@ -10297,4 +10297,79 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Контролор</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Поврзете DualSense преку USB и продолжете да работи Voidstrap по стартувањето. Ефектите на активирањето се применуваат додека Roblox е фокусиран.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Лево адаптивно активирање</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Десен адаптивен тригер</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Вибрации при притискање на чкрапалото</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Додава татнеж за да активира притискање. Оставете го кога играта веќе обезбедува татнеж.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Лесни повратни информации</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Силен фидбек</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Прегледајте ги повратните информации</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Обидете се со предизвикувачите сега.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Прегледот на повратните информации е завршен.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Изберете претходно поставено повратни информации за преглед.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Нема достапен USB DualSense. Поврзете го и затворете ги другите алатки на контролорот ако е зафатен.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Контролорот престана да реагира. Поврзете го повторно и обидете се повторно.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Уред за контролер</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Автоматски</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Избраниот контролер е недостапен</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Освежете ги контролорите</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Отпорност на левиот активирач</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Отпорност на десниот активирач</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Јачина на вибрации</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Должина на пулсот на вибрации</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Вибрирајте додека држите чкрапало</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Чувајте ги вибрациите да работат додека не го ослободите чкрапалото.</value>
+  </data>
 </root>

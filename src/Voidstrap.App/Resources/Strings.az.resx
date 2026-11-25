@@ -10296,4 +10296,79 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Nəzarətçi</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>DualSense-i USB ilə qoşun və işə salındıqdan sonra Voidstrap-ı işə salın. Roblox fokuslanarkən tetik effektləri tətbiq olunur.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Sol adaptiv tətik</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Doğru adaptiv tətik</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Tətik preslərində vibrasiya</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Tətik preslərinə gurultu əlavə edir. Oyun artıq gurultu təmin etdikdə onu buraxın.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Yüngül rəy</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Güclü rəy</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Rəyi nəzərdən keçirin</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>İndi tetikleyicileri sınayın.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Rəy önizləməsi tamamlandı.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Öncədən baxmaq üçün rəy əvvəlcədən təyinini seçin.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Əlçatan USB DualSense yoxdur. Onu qoşun və məşğuldursa, digər nəzarətçi alətlərini bağlayın.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Nəzarətçi cavab verməyi dayandırdı. Yenidən qoşun və yenidən cəhd edin.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Nəzarət cihazı</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Avtomatik</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Seçilmiş nəzarətçi əlçatan deyil</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Nəzarətçiləri yeniləyin</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Sol tətik müqaviməti</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Sağ tətik müqaviməti</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibrasiya intensivliyi</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibrasiya impulsunun uzunluğu</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Tətiyi tutarkən titrəyin</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Tətiyi buraxana qədər vibrasiyanı davam etdirin.</value>
+  </data>
 </root>

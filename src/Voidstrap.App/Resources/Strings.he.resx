@@ -10297,4 +10297,79 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>בקר</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>חבר DualSense באמצעות USB והשאר את Voidstrap פועל לאחר ההשקה. אפקטי טריגר חלים כאשר רובלוקס ממוקד.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>טריגר אדפטיבי שמאלי</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>טריגר אדפטיבי ימני</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>רטט בלחיצות הדק</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>מוסיף רעם ללחיצות טריגר. השאר את זה כשהמשחק כבר מספק רעם.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>משוב קליל</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>משוב חזק</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>תצוגה מקדימה של משוב</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>נסה את הטריגרים עכשיו.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>התצוגה המקדימה של המשוב הושלמה.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>בחר הגדרת משוב מראש לתצוגה מקדימה.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>אין USB DualSense זמין. חבר אותו וסגור כלי בקר אחרים אם הוא תפוס.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>הבקר הפסיק להגיב. חבר אותו מחדש ונסה שוב.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>מכשיר בקר</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>אוטומטי</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>הבקר שנבחר אינו זמין</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>רענון בקרים</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>התנגדות ההדק השמאלי</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>התנגדות טריגר ימינה</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>עוצמת רטט</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>אורך דופק רטט</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>רטט תוך כדי החזקת הדק</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>השאר את הרטט פועל עד שתשחרר את ההדק.</value>
+  </data>
 </root>

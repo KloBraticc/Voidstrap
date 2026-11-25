@@ -10297,4 +10297,79 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>ನಿಯಂತ್ರಕ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB ಮೂಲಕ DualSense ಅನ್ನು ಸಂಪರ್ಕಿಸಿ ಮತ್ತು ಪ್ರಾರಂಭಿಸಿದ ನಂತರ Voidstrap ರನ್ ಆಗುತ್ತಿರಿ. Roblox ಕೇಂದ್ರೀಕೃತವಾಗಿರುವಾಗ ಪ್ರಚೋದಕ ಪರಿಣಾಮಗಳು ಅನ್ವಯಿಸುತ್ತವೆ.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>ಎಡ ಹೊಂದಾಣಿಕೆಯ ಪ್ರಚೋದಕ</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>ಬಲ ಹೊಂದಾಣಿಕೆಯ ಪ್ರಚೋದಕ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ಪ್ರಚೋದಕ ಪ್ರೆಸ್‌ಗಳಲ್ಲಿ ಕಂಪನ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ಟ್ರಿಗರ್ ಪ್ರೆಸ್‌ಗಳಿಗೆ ರಂಬಲ್ ಅನ್ನು ಸೇರಿಸುತ್ತದೆ. ಆಟವು ಈಗಾಗಲೇ ರಂಬಲ್ ಅನ್ನು ಒದಗಿಸಿದಾಗ ಅದನ್ನು ಬಿಟ್ಟುಬಿಡಿ.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ಲಘು ಪ್ರತಿಕ್ರಿಯೆ</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ಬಲವಾದ ಪ್ರತಿಕ್ರಿಯೆ</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಪೂರ್ವವೀಕ್ಷಣೆ ಮಾಡಿ</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>ಈಗ ಪ್ರಚೋದಕಗಳನ್ನು ಪ್ರಯತ್ನಿಸಿ.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>ಪ್ರತಿಕ್ರಿಯೆ ಪೂರ್ವವೀಕ್ಷಣೆ ಪೂರ್ಣಗೊಂಡಿದೆ.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>ಪೂರ್ವವೀಕ್ಷಣೆಗಾಗಿ ಪ್ರತಿಕ್ರಿಯೆ ಪೂರ್ವನಿಗದಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense ಲಭ್ಯವಿಲ್ಲ. ಅದನ್ನು ಸಂಪರ್ಕಿಸಿ ಮತ್ತು ಅದು ಕಾರ್ಯನಿರತವಾಗಿದ್ದರೆ ಇತರ ನಿಯಂತ್ರಕ ಪರಿಕರಗಳನ್ನು ಮುಚ್ಚಿ.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>ನಿಯಂತ್ರಕ ಪ್ರತಿಕ್ರಿಯಿಸುವುದನ್ನು ನಿಲ್ಲಿಸಿದೆ. ಅದನ್ನು ಮರುಸಂಪರ್ಕಿಸಿ ಮತ್ತು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>ನಿಯಂತ್ರಕ ಸಾಧನ</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>ಸ್ವಯಂಚಾಲಿತ</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>ಆಯ್ಕೆಮಾಡಿದ ನಿಯಂತ್ರಕ ಲಭ್ಯವಿಲ್ಲ</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>ನಿಯಂತ್ರಕಗಳನ್ನು ರಿಫ್ರೆಶ್ ಮಾಡಿ</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>ಎಡ ಪ್ರಚೋದಕ ಪ್ರತಿರೋಧ</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>ಬಲ ಪ್ರಚೋದಕ ಪ್ರತಿರೋಧ</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>ಕಂಪನ ತೀವ್ರತೆ</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>ಕಂಪನ ನಾಡಿ ಉದ್ದ</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ಪ್ರಚೋದಕವನ್ನು ಹಿಡಿದಿಟ್ಟುಕೊಳ್ಳುವಾಗ ವೈಬ್ರೇಟ್ ಮಾಡಿ</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>ನೀವು ಪ್ರಚೋದಕವನ್ನು ಬಿಡುಗಡೆ ಮಾಡುವವರೆಗೆ ಕಂಪನವನ್ನು ಚಾಲನೆಯಲ್ಲಿಡಿ.</value>
+  </data>
 </root>

@@ -10297,4 +10297,79 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Kaiwhakahaere</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Honoa te DualSense ma te USB ka pupuri tonu i te Voidstrap i muri i te whakarewatanga. Ka pa nga hua keu i te wa e arotahi ana a Roblox.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Mauī keu urutau</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Keu urutau matau</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Te wiri i runga i nga perehi keu</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Ka taapirihia te haruru ki te whakaoho i nga perehi. Waiho i te wa e whakarato ana te keemu i te haruru.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>He urupare marama</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>He urupare kaha</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Arokite urupare</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Whakamātauria ngā keu ināianei.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Kua oti te arokite urupare.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Tīpakohia he tatūkē urupare hei arokite.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Kaore he USB DualSense e waatea ana. Honoa ka kati i etahi atu taputapu kaiwhakahaere mena kei te pukumahi.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Ka mutu te whakautu a te kaiwhakahaere. Honoa ano ka ngana ano.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Pūrere kaiwhakahaere</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Aunoa</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Karekau i te waatea te kaiwhakahaere kua tohua</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Tāmata ngā pūmana</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Mauī keu ātete</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Te ātete keu matau</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Te kaha o te wiri</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Te roa o te pupuhi wiri</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Wiri i te wa e pupuri ana i te keu</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Kia mau tonu te wiri kia tukuna ra ano te keu.</value>
+  </data>
 </root>

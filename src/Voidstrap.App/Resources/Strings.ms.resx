@@ -10607,4 +10607,79 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Pengawal</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Sambungkan DualSense melalui USB dan pastikan Voidstrap berjalan selepas pelancaran. Kesan pencetus dikenakan semasa Roblox difokuskan.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Pencetus adaptif kiri</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Pencetus adaptif kanan</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Getaran pada tekanan pencetus</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Menambah gemuruh untuk mencetuskan tekanan. Biarkan ia dimatikan apabila permainan sudah memberikan gemuruh.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Maklum balas ringan</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Maklum balas yang kukuh</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Pratonton maklum balas</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Cuba pencetus sekarang.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Pratonton maklum balas selesai.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Pilih pratetap maklum balas untuk pratonton.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Tiada USB DualSense tersedia. Sambungkannya dan tutup alat pengawal lain jika ia sibuk.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Pengawal berhenti bertindak balas. Sambung semula dan cuba lagi.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Peranti pengawal</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatik</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Pengawal yang dipilih tidak tersedia</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Muat semula pengawal</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Rintangan pencetus kiri</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Rintangan pencetus kanan</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Keamatan getaran</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Panjang nadi getaran</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Bergetar sambil memegang picu</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Pastikan getaran berjalan sehingga anda melepaskan picu.</value>
+  </data>
 </root>

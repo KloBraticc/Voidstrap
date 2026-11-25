@@ -10605,4 +10605,79 @@ SteamVR jetzt installieren?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Schließen Sie einen DualSense über USB an und lassen Sie Voidstrap nach dem Start laufen. Auslöseeffekte werden angewendet, während Roblox fokussiert ist.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Linker adaptiver Trigger</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Rechter adaptiver Trigger</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibration beim Drücken des Abzugs</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Fügt Rumpeln hinzu, um das Drücken auszulösen. Lassen Sie es weg, wenn das Spiel bereits für Aufregung sorgt.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Leichtes Feedback</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Starkes Feedback</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Vorschau des Feedbacks</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Probieren Sie die Trigger jetzt aus.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Feedback-Vorschau abgeschlossen.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Wählen Sie eine Feedback-Voreinstellung für die Vorschau aus.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Kein USB DualSense verfügbar. Schließen Sie es an und schließen Sie andere Controller-Tools, wenn es beschäftigt ist.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Der Controller reagierte nicht mehr. Schließen Sie es erneut an und versuchen Sie es erneut.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Controller-Gerät</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatisch</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Ausgewählter Controller nicht verfügbar</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Controller aktualisieren</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Widerstand des linken Abzugs</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Rechter Abzugswiderstand</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibrationsintensität</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibrationsimpulslänge</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibrieren Sie, während Sie einen Auslöser gedrückt halten</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Lassen Sie die Vibration laufen, bis Sie den Auslöser loslassen.</value>
+  </data>
 </root>

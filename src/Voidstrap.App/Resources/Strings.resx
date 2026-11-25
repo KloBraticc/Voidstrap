@@ -10308,4 +10308,79 @@ Install SteamVR now?</value>
   <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
     <value>Windows could not load this classic client. Install or repair the Microsoft Visual C++ 2005 Redistributable (x86) from Microsoft, then try again.</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Connect a DualSense by USB and keep Voidstrap running after launch. Trigger effects apply while Roblox is focused.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Left adaptive trigger</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Right adaptive trigger</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibration on trigger presses</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Adds rumble to trigger presses. Leave it off when the game already provides rumble.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Light feedback</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Strong feedback</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Preview feedback</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Try the triggers now.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Feedback preview complete.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Select a feedback preset to preview.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>No available USB DualSense. Connect it and close other controller tools if it is busy.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>The controller stopped responding. Reconnect it and try again.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Controller device</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Selected controller unavailable</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Refresh controllers</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Left trigger resistance</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Right trigger resistance</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibration intensity</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibration pulse length</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibrate while holding a trigger</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Keep the vibration running until you release the trigger.</value>
+  </data>
 </root>

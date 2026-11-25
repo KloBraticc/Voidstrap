@@ -10607,4 +10607,79 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Контроллер</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Подключите DualSense через USB и продолжайте работу Voidstrap после запуска. Триггерные эффекты применяются, пока Роблокс сосредоточен.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Левый адаптивный триггер</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Правый адаптивный триггер</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Вибрация при нажатии на спусковой крючок</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Добавляет грохот при нажатии триггера. Оставьте его, когда игра уже обеспечивает грохот.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Легкая обратная связь</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Сильная обратная связь</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Предварительный просмотр отзыва</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Попробуйте триггеры прямо сейчас.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Предварительный просмотр отзыва завершен.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Выберите набор настроек обратной связи для предварительного просмотра.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Нет доступного USB DualSense. Подключите его и закройте другие инструменты контроллера, если он занят.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Контроллер перестал отвечать. Подключите его и повторите попытку.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Устройство контроллера</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Автоматический</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Выбранный контроллер недоступен</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Обновить контроллеры</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Сопротивление левого триггера</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Сопротивление правого триггера</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Интенсивность вибрации</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Длина импульса вибрации</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Вибрация, удерживая триггер</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Продолжайте вибрацию, пока не отпустите спусковой крючок.</value>
+  </data>
 </root>

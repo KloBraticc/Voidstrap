@@ -10606,4 +10606,79 @@
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>المراقب المالي</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>قم بتوصيل DualSense عبر USB واستمر في تشغيل Voidstrap بعد الإطلاق. تنطبق تأثيرات الزناد أثناء تركيز Roblox.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>الزناد التكيفي الأيسر</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>الزناد التكيفي الصحيح</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>الاهتزاز عند الضغط على الزناد</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>يضيف الدمدمة لتحريك المطابع. اتركه متوقفًا عندما توفر اللعبة الدمدمة بالفعل.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ردود فعل خفيفة</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ردود فعل قوية</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>معاينة التعليقات</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>جرب المشغلات الآن.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>اكتملت معاينة التعليقات.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>حدد إعدادًا مسبقًا للتعليقات لمعاينتها.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>لا يتوفر USB DualSense. قم بتوصيله وأغلق أدوات التحكم الأخرى إذا كان مشغولاً.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>توقفت وحدة التحكم عن الاستجابة. أعد توصيله وحاول مرة أخرى.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>جهاز تحكم</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>تلقائي</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>وحدة التحكم المحددة غير متوفرة</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>تحديث وحدات التحكم</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>مقاومة الزناد الأيسر</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>مقاومة الزناد الأيمن</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>شدة الاهتزاز</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>طول نبض الاهتزاز</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>يهتز أثناء الضغط على الزناد</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>استمر في تشغيل الاهتزاز حتى تحرر الزناد.</value>
+  </data>
 </root>

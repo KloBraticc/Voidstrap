@@ -1607,6 +1607,32 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Gbs_AdjustJoystickSensitivity => ResourceManager.GetString("Ui.Gbs.AdjustJoystickSensitivity", resourceCulture);
 
+        public static string Ui_Controller_Tab => ResourceManager.GetString("Ui.Controller.Tab", resourceCulture);
+        public static string Ui_Controller_Support => ResourceManager.GetString("Ui.Controller.Support", resourceCulture);
+        public static string Ui_Controller_LeftTrigger => ResourceManager.GetString("Ui.Controller.LeftTrigger", resourceCulture);
+        public static string Ui_Controller_RightTrigger => ResourceManager.GetString("Ui.Controller.RightTrigger", resourceCulture);
+        public static string Ui_Controller_TriggerVibration => ResourceManager.GetString("Ui.Controller.TriggerVibration", resourceCulture);
+        public static string Ui_Controller_TriggerVibrationDescription => ResourceManager.GetString("Ui.Controller.TriggerVibrationDescription", resourceCulture);
+        public static string Ui_Controller_Light => ResourceManager.GetString("Ui.Controller.Light", resourceCulture);
+        public static string Ui_Controller_Strong => ResourceManager.GetString("Ui.Controller.Strong", resourceCulture);
+        public static string Ui_Controller_Fps => ResourceManager.GetString("Ui.Controller.Fps", resourceCulture);
+        public static string Ui_Controller_Preview => ResourceManager.GetString("Ui.Controller.Preview", resourceCulture);
+        public static string Ui_Controller_Previewing => ResourceManager.GetString("Ui.Controller.Previewing", resourceCulture);
+        public static string Ui_Controller_Previewed => ResourceManager.GetString("Ui.Controller.Previewed", resourceCulture);
+        public static string Ui_Controller_SelectPreset => ResourceManager.GetString("Ui.Controller.SelectPreset", resourceCulture);
+        public static string Ui_Controller_NoController => ResourceManager.GetString("Ui.Controller.NoController", resourceCulture);
+        public static string Ui_Controller_Device => ResourceManager.GetString("Ui.Controller.Device", resourceCulture);
+        public static string Ui_Controller_Automatic => ResourceManager.GetString("Ui.Controller.Automatic", resourceCulture);
+        public static string Ui_Controller_Disconnected => ResourceManager.GetString("Ui.Controller.Disconnected", resourceCulture);
+        public static string Ui_Controller_Refresh => ResourceManager.GetString("Ui.Controller.Refresh", resourceCulture);
+        public static string Ui_Controller_LeftStrength => ResourceManager.GetString("Ui.Controller.LeftStrength", resourceCulture);
+        public static string Ui_Controller_RightStrength => ResourceManager.GetString("Ui.Controller.RightStrength", resourceCulture);
+        public static string Ui_Controller_VibrationStrength => ResourceManager.GetString("Ui.Controller.VibrationStrength", resourceCulture);
+        public static string Ui_Controller_PulseLength => ResourceManager.GetString("Ui.Controller.PulseLength", resourceCulture);
+        public static string Ui_Controller_Hold => ResourceManager.GetString("Ui.Controller.Hold", resourceCulture);
+        public static string Ui_Controller_HoldDescription => ResourceManager.GetString("Ui.Controller.HoldDescription", resourceCulture);
+        public static string Ui_Controller_PreviewFailed => ResourceManager.GetString("Ui.Controller.PreviewFailed", resourceCulture);
+
         public static string Ui_Gbs_EnableControllerVibration => ResourceManager.GetString("Ui.Gbs.EnableControllerVibration", resourceCulture);
 
         public static string Ui_Gbs_ToggleHapticFeedbackOnControllers => ResourceManager.GetString("Ui.Gbs.ToggleHapticFeedbackOnControllers", resourceCulture);

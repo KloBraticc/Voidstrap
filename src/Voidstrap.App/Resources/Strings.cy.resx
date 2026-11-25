@@ -10296,4 +10296,79 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Rheolydd</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Cysylltwch DualSense gan USB a chadw Voidstrap i redeg ar ôl ei lansio. Mae effeithiau sbardun yn berthnasol tra bod Roblox yn canolbwyntio.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Sbardun addasol chwith</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Sbardun addasol iawn</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Dirgryniad ar weisg sbardun</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Yn ychwanegu rumble i weisg sbarduno. Gadewch i ffwrdd pan fydd y gêm eisoes yn darparu rumble.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Adborth ysgafn</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Adborth cryf</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Rhagolwg adborth</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Rhowch gynnig ar y sbardunau nawr.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Rhagolwg adborth wedi&#x27;i gwblhau.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Dewiswch ragosodiad adborth i gael rhagolwg.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Dim USB DualSense ar gael. Cysylltwch ef a chau offer rheoli eraill os yw&#x27;n brysur.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Peidiodd y rheolydd ag ymateb. Ailgysylltu ef a cheisio eto.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Dyfais rheolydd</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Awtomatig</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Nid yw&#x27;r rheolydd a ddewiswyd ar gael</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Adnewyddu rheolwyr</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Ymwrthedd sbardun chwith</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Gwrthiant sbardun cywir</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Dwysedd dirgryniad</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Dirgryniad pwls hyd</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Dirgrynu wrth ddal sbardun</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Cadwch y dirgryniad yn rhedeg nes i chi ryddhau&#x27;r sbardun.</value>
+  </data>
 </root>

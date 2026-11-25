@@ -10297,4 +10297,79 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Umugenzuzi</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Huza DualSense na USB hanyuma ukomeze Voidstrap ikore nyuma yo gutangira. Ingaruka zitera zikurikizwa mugihe Roblox yibanze.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Ibumoso bwo guhuza n&#x27;imiterere</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Imbarutso iboneye</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Kunyeganyega kuri imashini zikurura</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Ongeraho gutontoma kugirango utere imashini. Kureka iyo umukino umaze gutanga urusaku.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Igitekerezo cyoroshye</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Igitekerezo gikomeye</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Reba ibitekerezo</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Gerageza imbarutso ubungubu.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Ibitekerezo byatanzwe byuzuye.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Hitamo ibitekerezo byateganijwe mbere yo kureba.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Nta USB DualSense iboneka. Huza kandi ufunge ibindi bikoresho bigenzura niba bihuze.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Umugenzuzi yaretse gusubiza. Ongera uhuze hanyuma ugerageze.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Igikoresho</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Umugenzuzi watoranijwe ntaboneka</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Kuvugurura abagenzuzi</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Ibumoso butera kurwanya</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Kurwanya iburyo</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Ubukangurambaga</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Uburebure bwa Vibration</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Kunyeganyega mugihe ufashe imbarutso</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Komeza kunyeganyega kugeza igihe urekuye imbarutso.</value>
+  </data>
 </root>

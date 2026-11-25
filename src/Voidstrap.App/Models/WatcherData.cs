@@ -11,4 +11,6 @@ internal sealed class WatcherData
     public List<int>? AutoclosePids { get; set; }
 
     public bool JoiningFriend { get; set; }
+
+    public bool ControllerFeedbackSupported { get; set; }
 }

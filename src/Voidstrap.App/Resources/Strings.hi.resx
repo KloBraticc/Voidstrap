@@ -10297,4 +10297,79 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>नियंत्रक</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>यूएसबी द्वारा डुअलसेंस कनेक्ट करें और लॉन्च के बाद वॉयडस्ट्रैप को चालू रखें। जब Roblox केंद्रित होता है तो ट्रिगर प्रभाव लागू होते हैं।</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>वाम अनुकूली ट्रिगर</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>सही अनुकूली ट्रिगर</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ट्रिगर दबाने पर कंपन</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ट्रिगर प्रेस में गड़गड़ाहट जोड़ता है। जब खेल पहले से ही गड़गड़ाहट प्रदान करता है तो इसे छोड़ दें।</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>हल्की प्रतिक्रिया</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>सशक्त प्रतिक्रिया</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>प्रतिक्रिया का पूर्वावलोकन करें</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>अभी ट्रिगर्स आज़माएं.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>फीडबैक पूर्वावलोकन पूरा हुआ.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>पूर्वावलोकन करने के लिए फीडबैक प्रीसेट का चयन करें।</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>कोई USB DualSense उपलब्ध नहीं है. यदि यह व्यस्त है तो इसे कनेक्ट करें और अन्य नियंत्रक उपकरण बंद कर दें।</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>नियंत्रक ने प्रत्युत्तर देना बंद कर दिया. इसे पुनः कनेक्ट करें और पुनः प्रयास करें।</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>नियंत्रक उपकरण</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>स्वचालित</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>चयनित नियंत्रक अनुपलब्ध है</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>नियंत्रकों को ताज़ा करें</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>वाम ट्रिगर प्रतिरोध</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>सही ट्रिगर प्रतिरोध</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>कंपन की तीव्रता</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>कंपन नाड़ी की लंबाई</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ट्रिगर पकड़ते समय कंपन करें</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>जब तक आप ट्रिगर न छोड़ें, कंपन चालू रखें।</value>
+  </data>
 </root>

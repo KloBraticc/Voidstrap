@@ -10296,4 +10296,79 @@ Ludantoj: {2}</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Regilo</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Konektu DualSense per USB kaj tenu Voidstrap funkcianta post lanĉo. Ekzilaj efikoj validas dum Roblox estas fokusita.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Maldekstra adapta ellasilo</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Ĝusta adapta ellasilo</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibro sur ellasilon premas</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Aldonas bruadon por ekigi gazetarojn. Lasu ĝin for kiam la ludo jam donas bruadon.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Malpeza retrosciigo</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Fortaj reagoj</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Antaŭrigardu retrosciigon</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Provu la ellasilon nun.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Reago antaŭrigardo kompleta.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Elektu sugeston antaŭdifinitan por antaŭrigardi.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Neniu disponebla USB DualSense. Konektu ĝin kaj fermu aliajn regilojn se ĝi estas okupata.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>La regilo ĉesis respondi. Rekonektu ĝin kaj provu denove.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Regila aparato</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Aŭtomata</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Elektita regilo nedisponebla</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Refreŝigi regilojn</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Maldekstra ellasilrezisto</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Dekstra ellasilrezisto</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibra intenseco</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibra pulso longo</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibru tenante ellasilon</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Daŭrigu la vibradon ĝis vi liberigas la ellasilon.</value>
+  </data>
 </root>

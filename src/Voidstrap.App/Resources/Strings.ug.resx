@@ -10296,4 +10296,79 @@ Uptime: {1}
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>كونتروللىغۇچ</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB ئارقىلىق DualSense نى ئۇلاڭ ۋە قويۇپ بېرىلگەندىن كېيىن Voidstrap نى ئىجرا قىلىڭ. Roblox فوكۇسلانغان ۋاقىتتا قوزغىتىش ئۈنۈمى قوللىنىلىدۇ.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>سول ماسلىشىشچان قوزغىتىش</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>توغرا ماسلىشىشچان قوزغىتىش</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>قوزغاتقۇچ بېسىشتا تەۋرىنىش</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>مەتبۇئاتلارنى قوزغىتىش ئۈچۈن غۇڭۇلداش قوشىدۇ. ئويۇن ئاللىقاچان گاڭگىراپ قالغاندا ئۇنى قويۇپ قويۇڭ.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>يېنىك ئىنكاس</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>كۈچلۈك ئىنكاس</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>قايتما ئىنكاس</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>قوزغىتىشنى سىناپ بېقىڭ.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>تەكلىپلەرنى ئالدىن كۆرۈش تاماملاندى.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>ئالدىن كۆرۈش ئۈچۈن قايتما ئىنكاسنى تاللاڭ.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense نى ئىشلەتكىلى بولمايدۇ. ئەگەر ئۇ ئالدىراش بولسا ئۇنى ئۇلاڭ ۋە باشقا كونتروللىغۇچ قوراللىرىنى تاقاڭ.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>كونتروللىغۇچ جاۋاب قايتۇرۇشنى توختاتتى. ئۇنى قايتا ئۇلاپ قايتا سىناڭ.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>كونتروللىغۇچ ئۈسكۈنىسى</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>ئاپتوماتىك</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>تاللانغان كونتروللىغۇچنى ئىشلەتكىلى بولمايدۇ</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>كونتروللىغۇچنى يېڭىلاڭ</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>سول قوزغاتقۇچ قارشىلىق</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>ئوڭ قوزغاتقۇچ قارشىلىق</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>تەۋرىنىش كۈچلۈكلىكى</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>تەۋرىنىش تومۇرنىڭ ئۇزۇنلۇقى</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>قوزغاتقۇچ تۇتقاندا تەۋرىنىش</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>قوزغاتقۇچنى چىقارغۇچە تەۋرىنىشنى ساقلاڭ.</value>
+  </data>
 </root>

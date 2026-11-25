@@ -10607,4 +10607,79 @@ Installare SteamVR adesso?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Controllore</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Collega un DualSense tramite USB e mantieni Voidstrap in funzione dopo il lancio. Gli effetti trigger si applicano mentre Roblox è concentrato.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Trigger adattivo sinistro</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Trigger adattivo destro</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibrazione alla pressione del grilletto</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Aggiunge un rombo alle pressioni del grilletto. Lascialo spento quando il gioco fornisce già un rombo.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Feedback leggero</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Forte feedback</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Anteprima del feedback</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Prova subito i trigger.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Anteprima del feedback completata.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Seleziona una preimpostazione di feedback per visualizzarne l&#x27;anteprima.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Nessun DualSense USB disponibile. Collegalo e chiudi gli altri strumenti del controller se è occupato.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Il controller ha smesso di rispondere. Ricollegalo e riprova.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Dispositivo di controllo</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatico</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Controller selezionato non disponibile</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Aggiorna i controller</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Resistenza del grilletto sinistro</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Resistenza al grilletto destro</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intensità delle vibrazioni</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Durata dell&#x27;impulso di vibrazione</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibra tenendo premuto il grilletto</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Mantieni la vibrazione attiva finché non rilasci il grilletto.</value>
+  </data>
 </root>

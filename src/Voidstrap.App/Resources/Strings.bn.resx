@@ -10296,4 +10296,79 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>নিয়ন্ত্রক</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>USB দ্বারা একটি DualSense কানেক্ট করুন এবং লঞ্চের পর Voidstrap চালু রাখুন। Roblox ফোকাস করার সময় ট্রিগার প্রভাব প্রযোজ্য।</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>বাম অভিযোজিত ট্রিগার</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>ডান অভিযোজিত ট্রিগার</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>ট্রিগার প্রেসে কম্পন</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>ট্রিগার প্রেসে রাম্বল যোগ করে। গেমটি ইতিমধ্যেই রম্বল প্রদান করলে এটি বন্ধ করুন।</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>হালকা প্রতিক্রিয়া</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>দৃঢ় প্রতিক্রিয়া</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>পূর্বরূপ প্রতিক্রিয়া</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>এখন ট্রিগার চেষ্টা করুন.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>প্রতিক্রিয়া পূর্বরূপ সম্পূর্ণ.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>প্রিভিউ করার জন্য একটি ফিডব্যাক প্রিসেট নির্বাচন করুন।</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>কোনো USB DualSense উপলব্ধ নেই৷ এটিকে সংযুক্ত করুন এবং যদি এটি ব্যস্ত থাকে তবে অন্যান্য নিয়ামক সরঞ্জামগুলি বন্ধ করুন৷</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>কন্ট্রোলার সাড়া দেওয়া বন্ধ করে দিল। এটি পুনরায় সংযোগ করুন এবং আবার চেষ্টা করুন.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>কন্ট্রোলার ডিভাইস</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>স্বয়ংক্রিয়</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>নির্বাচিত কন্ট্রোলার অনুপলব্ধ৷</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>কন্ট্রোলার রিফ্রেশ করুন</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>বাম ট্রিগার প্রতিরোধ</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>ডান ট্রিগার প্রতিরোধ</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>কম্পনের তীব্রতা</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>কম্পন নাড়ি দৈর্ঘ্য</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ট্রিগার ধরে রাখার সময় ভাইব্রেট করুন</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>আপনি ট্রিগার ছেড়ে না দেওয়া পর্যন্ত কম্পন চলমান রাখুন।</value>
+  </data>
 </root>

@@ -10296,4 +10296,79 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Isilawuli</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Xhuma i-DualSense nge-USB futhi ugcine i-Voidstrap isebenza ngemva kokwethulwa. Imiphumela yokuqalisa iyasebenza ngenkathi i-Roblox igxilile.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Inhlamvu eguquguqukayo kwesokunxele</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Inhlamvu eguquguqukayo yesokudla</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Ukudlidliza ekucindezelweni kwe-trigger</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Ingeza i-rumble ukuze icuphe ukucindezela. Kuyeke uma igeyimu isivele ihlinzeka nge-rumble.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Impendulo elula</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Impendulo enamandla</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Buka kuqala impendulo</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Zama izibangeli manje.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Ukuhlola kuqala impendulo kuqediwe.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Khetha ukusetha ngaphambilini ukuze uhlole kuqala.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Ayikho i-USB DualSense etholakalayo. Ixhume futhi uvale amanye amathuluzi esilawuli uma imatasa.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Isilawuli siyekile ukuphendula. Yixhume kabusha bese uyazama futhi.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Idivayisi yesilawuli</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Okuzenzakalelayo</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Isilawuli esikhethiwe asitholakali</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Vuselela izilawuli</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Ukumelana ne-trigger yesokunxele</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Ukumelana ne-trigger yesokudla</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Amandla okudlidliza</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Ubude be-Vibration pulse</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Dlidliza ngenkathi ubambe i-trigger</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Gcina ukudlidliza kusebenza kuze kube yilapho ukhulula i-trigger.</value>
+  </data>
 </root>

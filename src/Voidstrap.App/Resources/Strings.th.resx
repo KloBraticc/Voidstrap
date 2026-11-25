@@ -10606,4 +10606,79 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>คอนโทรลเลอร์</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>เชื่อมต่อ DualSense ด้วย USB และให้ Voidstrap ทำงานต่อไปหลังจากเปิดตัว เอฟเฟกต์ทริกเกอร์จะมีผลในขณะที่ Roblox โฟกัสอยู่</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>ทริกเกอร์แบบปรับตัวด้านซ้าย</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>ทริกเกอร์การปรับตัวที่ถูกต้อง</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>การสั่นสะเทือนเมื่อกดไกปืน</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>เพิ่มเสียงก้องเพื่อกระตุ้นการกด ปล่อยไว้เมื่อเกมมีเสียงก้องอยู่แล้ว</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>ข้อเสนอแนะเล็กน้อย</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>ผลตอบรับที่แข็งแกร่ง</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>แสดงตัวอย่างความคิดเห็น</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>ลองใช้ทริกเกอร์ตอนนี้</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>การแสดงตัวอย่างคำติชมเสร็จสมบูรณ์</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>เลือกคำติชมที่ตั้งไว้ล่วงหน้าเพื่อดูตัวอย่าง</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>ไม่มี USB DualSense ที่ใช้งานได้ เชื่อมต่อและปิดเครื่องมือควบคุมอื่นๆ หากเครื่องมือไม่ว่าง</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>ตัวควบคุมหยุดการตอบสนอง เชื่อมต่อใหม่แล้วลองอีกครั้ง</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>อุปกรณ์ควบคุม</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>อัตโนมัติ</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>คอนโทรลเลอร์ที่เลือกไม่พร้อมใช้งาน</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>รีเฟรชคอนโทรลเลอร์</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>ต้านทานทริกเกอร์ซ้าย</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>ความต้านทานทริกเกอร์ที่ถูกต้อง</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>ความเข้มของการสั่นสะเทือน</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>ความยาวพัลส์การสั่นสะเทือน</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>สั่นขณะกดไกปืน</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>ให้การสั่นสะเทือนดำเนินต่อไปจนกว่าคุณจะปล่อยไกปืน</value>
+  </data>
 </root>

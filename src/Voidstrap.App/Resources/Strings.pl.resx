@@ -10607,4 +10607,79 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Kontroler</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Podłącz DualSense przez USB i nie wyłączaj Voidstrap po uruchomieniu. Efekty wyzwalania obowiązują, gdy Roblox jest skupiony.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Lewy spust adaptacyjny</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Prawy spust adaptacyjny</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Wibracje przy naciśnięciach spustu</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Dodaje dudnienie do naciśnięć spustu. Zostaw to, gdy gra już zapewnia dudnienie.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Lekka informacja zwrotna</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Silne sprzężenie zwrotne</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Podgląd opinii</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Wypróbuj wyzwalacze teraz.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Podgląd opinii został ukończony.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Wybierz ustawienie wstępne opinii, aby wyświetlić podgląd.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Brak dostępnego USB DualSense. Podłącz go i zamknij inne narzędzia kontrolera, jeśli jest zajęty.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Kontroler przestał odpowiadać. Podłącz go ponownie i spróbuj ponownie.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Urządzenie sterujące</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatyczny</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Wybrany kontroler jest niedostępny</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Odśwież kontrolery</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Opór lewego spustu</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Prawy opór spustu</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intensywność wibracji</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Długość impulsu wibracyjnego</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Wibracje, przytrzymując spust</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Utrzymuj wibracje włączone, aż zwolnisz spust.</value>
+  </data>
 </root>

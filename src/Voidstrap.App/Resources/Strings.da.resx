@@ -10296,4 +10296,79 @@ Installer SteamVR nu?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Tilslut en DualSense via USB, og hold Voidstrap kørende efter lancering. Triggereffekter gælder, mens Roblox er fokuseret.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Venstre adaptiv udløser</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Højre adaptiv trigger</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibration på aftrækkerpresser</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Tilføjer rumble til at udløse tryk. Lad være, når spillet allerede giver rumble.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Let feedback</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Stærk feedback</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Forhåndsvisning af feedback</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Prøv triggerne nu.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Forhåndsvisning af feedback er fuldført.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Vælg en forudindstillet feedback til forhåndsvisning.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Ingen tilgængelig USB DualSense. Tilslut den, og luk andre controllerværktøjer, hvis den er optaget.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Controlleren holdt op med at reagere. Tilslut den igen, og prøv igen.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Controller enhed</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatisk</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Den valgte controller er ikke tilgængelig</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Opdater controllere</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Venstre aftrækkermodstand</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Højre aftrækkermodstand</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibrationsintensitet</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibrationspulslængde</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibrer, mens du holder en aftrækker nede</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Hold vibrationen kørende, indtil du slipper aftrækkeren.</value>
+  </data>
 </root>

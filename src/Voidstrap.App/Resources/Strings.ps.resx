@@ -10297,4 +10297,79 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>کنټرولر</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>د USB لخوا DualSense وصل کړئ او د لانچ وروسته Voidstrap روان وساتئ. د محرک اغیزې پلي کیږي پداسې حال کې چې روبلوکس تمرکز کوي.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>کیڼ انډول محرک</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>د حق انډول محرک</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>په محرک فشارونو کې وایبریشن</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>د محرک فشارونو لپاره رمبل اضافه کوي. دا پریږدئ کله چې لوبه دمخه رمبل چمتو کوي.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>روښانه غبرګون</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>قوي غبرګون</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>بیاکتنه</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>همدا اوس محرکات هڅه وکړئ.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>د فیډبیک مخکتنه بشپړه شوه.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>د مخکتنې لپاره د فیډبیک پری سیٹ غوره کړئ.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>د USB DualSense شتون نلري. دا وصل کړئ او نور کنټرولر وسیلې وتړئ که چیرې دا بوخت وي.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>کنټرولر ځواب ورکړ. بیا یې وصل کړئ او بیا هڅه وکړئ.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>د کنټرول وسیله</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>اتوماتیک</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>ټاکل شوی کنټرولر شتون نلري</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>کنټرولر تازه کړئ</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>کیڼ محرک مقاومت</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>د حق محرک مقاومت</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>د وایبریشن شدت</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>د وایبریشن نبض اوږدوالی</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>د محرک په نیولو سره وایبریټ کړئ</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>کمپن روان وساتئ تر هغه چې تاسو محرک خوشې نه کړئ.</value>
+  </data>
 </root>

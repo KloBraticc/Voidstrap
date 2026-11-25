@@ -10297,4 +10297,79 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Xakamaynta</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Ku xidh DualSense USB oo ku hay Voidstrap inuu socdo ka dib marka la bilaabo. Saamaynta kicinta ayaa lagu dabaqaa marka Roblox diiradda la saaro.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Kiciyaha la qabsiga bidix</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>kicinta la qabsiga saxda ah</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Gariirka cadaadiska kiciya</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Wuxuu ku daraa rumble si uu u kiciyo cadaadisyada. Iska daa marka ciyaartu mar hore bixiso rumble.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Jawaab celin fudud</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Jawaab celin adag</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Fiiri faallo celin</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Isku day kiciya hadda.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Aragtida jawaab celintu waa dhammaatay</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Dooro horudhac faallo celin ah si aad u aragto.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense lama heli karo Ku xidh oo xidh qalabka kale ee xakamaynta haddii ay mashquul tahay.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Koontaroolaha ayaa joojiyay jawaab celinta. Dib ugu xidh oo isku day markale</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Qalabka xakamaynta</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Toos ah</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Koontaroolaha la doortay lama heli karo</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Dib u cusbooneysii kontaroolayaasha</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Bidix kiciya iska caabin</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Iska caabin kicinta midig</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Xoogga gariirka</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Dhererka garaaca garaaca</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Gariir adigoo haya kiciye</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Gariirku ha socdo ilaa aad sii dayso kiciyaha.</value>
+  </data>
 </root>

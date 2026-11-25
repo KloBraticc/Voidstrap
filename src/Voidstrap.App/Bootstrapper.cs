@@ -1932,6 +1932,8 @@ public partial class Bootstrapper
             && (App.Settings?.Prop.SnapTapEnabled ?? false);
         bool shouldCompressAfterExit = RobloxInstallCompression.Supported && (App.Settings?.Prop.CompressRobloxInstalls ?? false);
         bool shouldManageFullscreen = _launchMode == LaunchMode.Player && Watcher.FullscreenModeActive;
+        bool controllerFeedbackSupported = _launchMode == LaunchMode.Player && Voidstrap.Utility.Platform.IsWindows;
+        bool shouldManageController = controllerFeedbackSupported && DualSenseFeedback.ReadPresets(App.Settings?.Prop).Enabled;
         if (
             !(
                 (App.Settings?.Prop.EnableActivityTracking ?? false)
@@ -1941,6 +1943,7 @@ public partial class Bootstrapper
                 || shouldKeepSnapTap
                 || shouldCompressAfterExit
                 || shouldManageFullscreen
+                || shouldManageController
                 || CursorManager.OverrideActive
             ) && !(App.LaunchSettings.TestModeFlag?.Active ?? false)
         )
@@ -1953,6 +1956,7 @@ public partial class Bootstrapper
             LogFile = logFileName,
             AutoclosePids = [.. _integrationAutoclosePids],
             JoiningFriend = ServerMatchmaker.StaysWithFriend(App.LaunchSettings.RobloxLaunchArgs),
+            ControllerFeedbackSupported = controllerFeedbackSupported,
         };
         string text = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(watcherData)));
         try

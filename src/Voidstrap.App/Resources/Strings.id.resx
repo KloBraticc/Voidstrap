@@ -10607,4 +10607,79 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Pengendali</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Hubungkan DualSense melalui USB dan biarkan Voidstrap tetap berjalan setelah peluncuran. Efek pemicu berlaku saat Roblox fokus.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Pemicu adaptif kiri</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Pemicu adaptif yang tepat</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Getaran saat pemicu ditekan</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Menambahkan gemuruh untuk memicu penekanan. Biarkan saja ketika game sudah memberikan gemuruh.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Umpan balik ringan</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Umpan balik yang kuat</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Pratinjau masukan</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Coba pemicunya sekarang.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Pratinjau masukan selesai.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Pilih preset umpan balik untuk dipratinjau.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Tidak tersedia USB DualSense. Hubungkan dan tutup alat pengontrol lainnya jika sedang sibuk.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Pengontrol berhenti merespons. Hubungkan kembali dan coba lagi.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Perangkat pengontrol</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Otomatis</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Pengontrol yang dipilih tidak tersedia</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Segarkan pengontrol</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Resistensi pemicu kiri</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Resistensi pemicu kanan</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Intensitas getaran</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Panjang pulsa getaran</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Bergetar sambil menahan pelatuk</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Biarkan getaran tetap berjalan sampai Anda melepaskan pelatuknya.</value>
+  </data>
 </root>

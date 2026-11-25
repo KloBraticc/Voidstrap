@@ -10607,4 +10607,79 @@ SteamVR nu installeren?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Controleur</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Sluit een DualSense aan via USB en zorg ervoor dat Voidstrap blijft werken na het opstarten. Triggereffecten zijn van toepassing terwijl Roblox gefocust is.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Linker adaptieve trigger</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Rechter adaptieve trigger</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Trillingen bij het indrukken van de trekker</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Voegt gerommel toe om drukken te activeren. Laat het uit als het spel al gerommel biedt.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Lichte feedback</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Sterke feedback</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Voorbeeld van feedback</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Probeer nu de triggers.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Feedbackvoorbeeld voltooid.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Selecteer een feedbackvoorinstelling waarvan u een voorbeeld wilt bekijken.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Geen beschikbare USB DualSense. Sluit hem aan en sluit andere controllertools als deze bezet is.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>De controller reageerde niet meer. Sluit hem opnieuw aan en probeer het opnieuw.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Controller-apparaat</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatisch</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Geselecteerde controller niet beschikbaar</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Vernieuw controllers</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Linker trekkerweerstand</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Rechter triggerweerstand</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Trillingsintensiteit</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Trillingspulslengte</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Trillen terwijl u een trekker ingedrukt houdt</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Laat de vibratie lopen totdat je de trekker loslaat.</value>
+  </data>
 </root>

@@ -10297,4 +10297,79 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>ឧបករណ៍បញ្ជា</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>ភ្ជាប់ DualSense ដោយ USB និងបន្តដំណើរការ Voidstrap បន្ទាប់ពីបើកដំណើរការ។ ផលប៉ះពាល់កេះត្រូវបានអនុវត្តខណៈពេលដែល Roblox ត្រូវបានផ្តោត។</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>គន្លឹះបន្ស៊ាំឆ្វេង</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>គន្លឹះសម្របខ្លួនត្រឹមត្រូវ។</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>រំញ័រនៅលើការចុចកេះ</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>បន្ថែម rumble ទៅការចុចកេះ។ ទុកវាចោល នៅពេលដែលហ្គេមផ្តល់ភាពរំជើបរំជួលរួចហើយ។</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>មតិកែលម្អស្រាល</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>មតិរិះគន់ខ្លាំង</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>មើលមតិកែលម្អជាមុន</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>សាកល្បងគន្លឹះឥឡូវនេះ។</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>ការមើលមតិកែលម្អត្រូវបានបញ្ចប់។</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>ជ្រើសរើសការកំណត់ជាមុនដើម្បីមើលជាមុន។</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>មិនមាន USB DualSense ដែលអាចប្រើបានទេ។ ភ្ជាប់វា ហើយបិទឧបករណ៍បញ្ជាផ្សេងទៀតប្រសិនបើវារវល់។</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>ឧបករណ៍បញ្ជាឈប់ឆ្លើយតប។ ភ្ជាប់វាឡើងវិញ ហើយព្យាយាមម្តងទៀត។</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>ឧបករណ៍បញ្ជា</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>ស្វ័យប្រវត្តិ</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>ឧបករណ៍បញ្ជាដែលបានជ្រើសរើសមិនអាចប្រើបានទេ។</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>ផ្ទុកឧបករណ៍បញ្ជាឡើងវិញ</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>ភាពធន់នឹងគន្លឹះខាងឆ្វេង</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>ភាពធន់នឹងកេះត្រឹមត្រូវ។</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>អាំងតង់ស៊ីតេរំញ័រ</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>ប្រវែងជីពចររំញ័រ</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>ញ័រពេលកាន់កេះ</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>រក្សារំញ័រដំណើរការរហូតដល់អ្នកបញ្ចេញគន្លឹះ។</value>
+  </data>
 </root>

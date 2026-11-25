@@ -513,6 +513,15 @@ namespace Voidstrap.Models.Persistable
         public string DMScrollDown { get; set; } = "DPadDown";
         public string DMScrollUp { get; set; } = "DPadUp";
         public string DoubleMovementControllerType { get; set; } = "Xbox360";
+        public int DualSenseLeftTrigger { get; set; }
+        public int DualSenseRightTrigger { get; set; }
+        public int DualSenseVibration { get; set; }
+        public int DualSenseLeftStrength { get; set; } = 100;
+        public int DualSenseRightStrength { get; set; } = 100;
+        public int DualSenseVibrationStrength { get; set; } = 100;
+        public int DualSensePulseLength { get; set; } = 100;
+        public bool DualSenseVibrateWhileHeld { get; set; }
+        public string DualSenseDeviceId { get; set; } = "";
         public string DoubleMovementCurve { get; set; } = "Linear";
         public bool DoubleMovementEnabled { get; set; } = false;
         public double DoubleMovementForwardAngle { get; set; } = 55.0;

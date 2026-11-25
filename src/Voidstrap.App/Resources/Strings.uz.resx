@@ -10296,4 +10296,79 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Nazoratchi</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>DualSense-ni USB orqali ulang va ishga tushirilgandan so&#x27;ng Voidstrap-ni ishga tushiring. Roblox fokuslanganda tetik effektlari qo&#x27;llaniladi.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Chapga moslashtiruvchi tetik</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>To&#x27;g&#x27;ri moslashuvchan tetik</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Trigger presslarida tebranish</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Tetik bosish uchun shovqin qo&#x27;shadi. O&#x27;yin allaqachon shovqin-suronni taqdim etganda uni o&#x27;chirib qo&#x27;ying.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Yengil fikr-mulohaza</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Kuchli fikr-mulohaza</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Fikr-mulohazalarni oldindan ko‘rish</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Triggerlarni hozir sinab ko&#x27;ring.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Fikr-mulohazalarni ko‘rib chiqish tugallandi.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Oldindan ko&#x27;rish uchun oldindan fikr-mulohazalarni tanlang.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense mavjud emas. Uni ulang va agar u band bo&#x27;lsa, boshqa kontroller vositalarini yoping.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Tekshirish moslamasi javob berishni to&#x27;xtatdi. Uni qayta ulang va qaytadan urinib ko&#x27;ring.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Tekshirish moslamasi</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Avtomatik</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Tanlangan kontroller mavjud emas</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Tekshirish moslamalarini yangilang</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Chap tetik qarshiligi</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>To&#x27;g&#x27;ri tetik qarshiligi</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibratsiya intensivligi</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibratsiyali impuls uzunligi</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Triggerni ushlab turganda tebranish</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Tetikni qo&#x27;yib yubormaguningizcha tebranishni davom eting.</value>
+  </data>
 </root>

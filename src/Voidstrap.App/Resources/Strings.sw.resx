@@ -10296,4 +10296,79 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Kidhibiti</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Unganisha DualSense kwa USB na uendelee kutumia Voidstrap baada ya uzinduzi. Athari za vichochezi hutumika wakati Roblox imelenga.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Kichochezi cha kurekebisha cha kushoto</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Kichochezi cha kurekebisha cha kulia</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Mtetemo kwenye mibofyo ya vichochezi</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Huongeza rumble kwa mibofyo ya kuchochea. Iache wakati mchezo tayari unatoa rumble.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Maoni mepesi</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Maoni yenye nguvu</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Hakiki maoni</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Jaribu vichochezi sasa.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Onyesho la kukagua maoni limekamilika.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Chagua uwekaji awali wa maoni ili kuhakiki.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Hakuna USB DualSense inayopatikana. Iunganishe na ufunge zana zingine za kidhibiti ikiwa ina shughuli nyingi.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Kidhibiti kiliacha kujibu. Iunganishe tena na ujaribu tena.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Kifaa cha kudhibiti</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Otomatiki</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Kidhibiti kilichochaguliwa hakipatikani</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Onyesha upya vidhibiti</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Upinzani wa kichochezi cha kushoto</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Upinzani wa kichocheo cha kulia</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Nguvu ya mtetemo</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Urefu wa mapigo ya mtetemo</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Tetema huku ukishikilia kifyatulio</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Weka mtetemo uendelee hadi uachilie kichochezi.</value>
+  </data>
 </root>

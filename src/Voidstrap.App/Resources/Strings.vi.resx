@@ -10606,4 +10606,79 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Bộ điều khiển</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Kết nối DualSense bằng USB và giữ cho Voidtrap hoạt động sau khi khởi chạy. Hiệu ứng kích hoạt được áp dụng trong khi Roblox được tập trung.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Trình kích hoạt thích ứng bên trái</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Trình kích hoạt thích ứng bên phải</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Rung khi nhấn cò</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Thêm tiếng ầm ầm để kích hoạt máy ép. Hãy tắt nó đi khi trò chơi đã cung cấp tiếng ầm ầm.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Phản hồi nhẹ</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Phản hồi mạnh mẽ</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Xem trước phản hồi</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Hãy thử kích hoạt ngay bây giờ.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Bản xem trước phản hồi đã hoàn tất.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Chọn cài đặt trước phản hồi để xem trước.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Không có sẵn USB DualSense. Kết nối nó và đóng các công cụ điều khiển khác nếu nó bận.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Bộ điều khiển đã ngừng phản hồi. Hãy kết nối lại và thử lại.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Thiết bị điều khiển</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>tự động</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Bộ điều khiển đã chọn không có sẵn</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Làm mới bộ điều khiển</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Kháng kích hoạt bên trái</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Kháng kích hoạt bên phải</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Cường độ rung</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Độ dài xung rung</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Rung trong khi giữ cò</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Giữ rung cho đến khi bạn nhả cò.</value>
+  </data>
 </root>

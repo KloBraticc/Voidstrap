@@ -10296,4 +10296,79 @@ Installeer SteamVR nou?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Beheerder</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Koppel &#x27;n DualSense per USB en hou Voidstrap aan die gang na bekendstelling. Sneller-effekte is van toepassing terwyl Roblox gefokus is.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Linker aanpasbare sneller</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Regs aanpasbare sneller</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibrasie op snellerperse</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Voeg dreuning by om drukpers te aktiveer. Los dit af wanneer die speletjie reeds gedreun verskaf.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Ligte terugvoer</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Sterk terugvoer</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Voorskou terugvoer</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Probeer nou die snellers.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Terugvoervoorskou voltooi.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Kies &#x27;n terugvoervoorinstelling om voor te bekyk.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Geen beskikbare USB DualSense nie. Koppel dit en maak ander kontroleerder gereedskap toe as dit besig is.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Die beheerder het opgehou om te reageer. Herkoppel dit en probeer weer.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Beheer toestel</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Outomatiese</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Geselekteerde beheerder nie beskikbaar nie</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Verfris beheerders</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Linker sneller weerstand</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Regs sneller weerstand</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibrasie intensiteit</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibrasie pols lengte</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibreer terwyl jy &#x27;n sneller hou</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Hou die vibrasie aan die gang totdat jy die sneller los.</value>
+  </data>
 </root>

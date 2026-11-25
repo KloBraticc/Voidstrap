@@ -10607,4 +10607,79 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Vezérlő</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Csatlakoztasson DualSense-t USB-n keresztül, és tartsa a Voidstrap-et az indítás után. Kiváltó effektusok érvényesek, amíg a Roblox fókuszban van.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Bal oldali adaptív trigger</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Jobb adaptív trigger</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Rezgés a ravaszt megnyomásakor</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Dübörgést ad a kioldónyomásokhoz. Hagyd ki, amikor a játék már dübörgést biztosít.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Fény visszajelzés</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Erős visszajelzés</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Visszajelzés előnézete</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Próbálja ki a triggereket most.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>A visszajelzés előnézete befejeződött.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Az előnézethez válassza ki a visszajelzési készletet.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>Nem áll rendelkezésre USB DualSense. Csatlakoztassa és zárja be a többi vezérlőeszközt, ha foglalt.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>A vezérlő nem válaszolt. Csatlakoztassa újra, és próbálja újra.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Vezérlő eszköz</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automatikus</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>A kiválasztott vezérlő nem elérhető</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>A vezérlők frissítése</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Bal oldali kioldó ellenállás</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Jobb oldali kioldó ellenállás</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Rezgés intenzitása</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>A vibrációs impulzus hossza</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Rezgés, miközben lenyomva tartja a ravaszt</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Tartsa a vibrációt, amíg el nem engedi a ravaszt.</value>
+  </data>
 </root>

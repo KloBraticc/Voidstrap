@@ -10296,4 +10296,79 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.Session.Robux.Amount" xml:space="preserve">
     <value>R$ {0}</value>
   </data>
+  <data name="Ui.Controller.Tab" xml:space="preserve">
+    <value>Kontroller</value>
+  </data>
+  <data name="Ui.Controller.Support" xml:space="preserve">
+    <value>Ühendage DualSense USB kaudu ja hoidke Voidstrap pärast käivitamist töös. Kui Roblox on keskendunud, rakenduvad käivitusefektid.</value>
+  </data>
+  <data name="Ui.Controller.LeftTrigger" xml:space="preserve">
+    <value>Vasakpoolne adaptiivne päästik</value>
+  </data>
+  <data name="Ui.Controller.RightTrigger" xml:space="preserve">
+    <value>Parempoolne adaptiivne päästik</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibration" xml:space="preserve">
+    <value>Vibratsioon päästiku vajutamisel</value>
+  </data>
+  <data name="Ui.Controller.TriggerVibrationDescription" xml:space="preserve">
+    <value>Lisab mürinat päästiku vajutamiseks. Jätke see välja, kui mäng juba pakub mürinat.</value>
+  </data>
+  <data name="Ui.Controller.Light" xml:space="preserve">
+    <value>Kerge tagasiside</value>
+  </data>
+  <data name="Ui.Controller.Strong" xml:space="preserve">
+    <value>Tugev tagasiside</value>
+  </data>
+  <data name="Ui.Controller.Fps" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="Ui.Controller.Preview" xml:space="preserve">
+    <value>Vaadake tagasisidet</value>
+  </data>
+  <data name="Ui.Controller.Previewing" xml:space="preserve">
+    <value>Proovige käivitajaid kohe.</value>
+  </data>
+  <data name="Ui.Controller.Previewed" xml:space="preserve">
+    <value>Tagasiside eelvaade on lõpetatud.</value>
+  </data>
+  <data name="Ui.Controller.SelectPreset" xml:space="preserve">
+    <value>Valige eelvaateks tagasiside eelseadistus.</value>
+  </data>
+  <data name="Ui.Controller.NoController" xml:space="preserve">
+    <value>USB DualSense pole saadaval. Ühendage see ja sulgege muud kontrolleri tööriistad, kui see on hõivatud.</value>
+  </data>
+  <data name="Ui.Controller.PreviewFailed" xml:space="preserve">
+    <value>Kontroller lakkas reageerimast. Ühendage see uuesti ja proovige uuesti.</value>
+  </data>
+  <data name="Ui.Controller.Device" xml:space="preserve">
+    <value>Kontrolleri seade</value>
+  </data>
+  <data name="Ui.Controller.Automatic" xml:space="preserve">
+    <value>Automaatne</value>
+  </data>
+  <data name="Ui.Controller.Disconnected" xml:space="preserve">
+    <value>Valitud kontroller pole saadaval</value>
+  </data>
+  <data name="Ui.Controller.Refresh" xml:space="preserve">
+    <value>Värskenda kontrollereid</value>
+  </data>
+  <data name="Ui.Controller.LeftStrength" xml:space="preserve">
+    <value>Vasakpoolse päästiku takistus</value>
+  </data>
+  <data name="Ui.Controller.RightStrength" xml:space="preserve">
+    <value>Parempoolse päästiku takistus</value>
+  </data>
+  <data name="Ui.Controller.VibrationStrength" xml:space="preserve">
+    <value>Vibratsiooni intensiivsus</value>
+  </data>
+  <data name="Ui.Controller.PulseLength" xml:space="preserve">
+    <value>Vibratsiooniimpulsi pikkus</value>
+  </data>
+  <data name="Ui.Controller.Hold" xml:space="preserve">
+    <value>Vibreerige päästikut all hoides</value>
+  </data>
+  <data name="Ui.Controller.HoldDescription" xml:space="preserve">
+    <value>Hoidke vibratsiooni töös, kuni päästiku vabastate.</value>
+  </data>
 </root>
