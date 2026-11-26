@@ -18,6 +18,9 @@ public static class WindowScaling
     static WindowScaling()
     {
         _scaleFactor = 1.0;
+        if (!OperatingSystem.IsWindows())
+            return;
+
         RecalculateScaleFactor();
         SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
         _displaySubscribed = true;

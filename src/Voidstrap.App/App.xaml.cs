@@ -2166,18 +2166,20 @@ public partial class App : Application
 
     private static void LogRenderMode()
     {
-        int renderTier = RenderCapability.Tier >> 16;
-        bool environmentSoftware = Environment.GetEnvironmentVariable("LIBGL_ALWAYS_SOFTWARE") == "1";
-        string renderMode =
-            System.Windows.Media.RenderOptions.ProcessRenderMode == System.Windows.Interop.RenderMode.SoftwareOnly
-            || Settings.Prop.WPFSoftwareRender
-            || LaunchSettings.NoGPUFlag.Active
-            || environmentSoftware
-                ? "software"
-            : renderTier == 0 ? "software, GPU tier 0"
-            : "hardware";
-        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
+        if (Voidstrap.Utility.Platform.IsWindows)
+        {
+            int renderTier = RenderCapability.Tier >> 16;
+            bool environmentSoftware = Environment.GetEnvironmentVariable("LIBGL_ALWAYS_SOFTWARE") == "1";
+            string renderMode =
+                System.Windows.Media.RenderOptions.ProcessRenderMode == System.Windows.Interop.RenderMode.SoftwareOnly
+                || Settings.Prop.WPFSoftwareRender
+                || LaunchSettings.NoGPUFlag.Active
+                || environmentSoftware
+                    ? "software"
+                    : renderTier == 0 ? "software, GPU tier 0"
+                    : "hardware";
             Logger.WriteLine("App::OnStartup", $"WPF render tier {renderTier}, rendering mode: {renderMode}");
+        }
         if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
             Logger.WriteLine(

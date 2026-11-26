@@ -1280,7 +1280,7 @@ public partial class SessionDock : Window
         if (_closed || !_opened)
             return;
         ApplyLinuxDockShape();
-        if (Voidstrap.Utility.Platform.UsesLinuxHost)
+        if (PortableOverlay.Active)
         {
             InvalidateVisual();
             LinuxOverlaySurface.WakePresentation(this);
@@ -2149,7 +2149,7 @@ public partial class SessionDock : Window
 
     private void StartHeartbeat()
     {
-        if (_closed || (!Voidstrap.Utility.Platform.UsesLinuxHost && !SystemParameters.ClientAreaAnimation))
+        if (_closed || DockReducedMotion)
             return;
         if (_heartbeat == null)
         {
