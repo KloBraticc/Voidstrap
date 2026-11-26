@@ -143,7 +143,7 @@
     </Style>
   </Window.Resources>
   <Grid x:Name="DockSurface" ClipToBounds="True">
-  <Border x:Name="DockBackdrop" MouseLeftButtonDown="DockBackdrop_MouseLeftButtonDown">
+  <Border x:Name="DockBackdrop" Opacity="0" MouseLeftButtonDown="DockBackdrop_MouseLeftButtonDown">
     <Border.Background>
       <LinearGradientBrush x:Name="DockEdgeFade" StartPoint="0,1" EndPoint="0,0">
         <GradientStop Color="#FF030406" Offset="0" />
@@ -154,7 +154,7 @@
     </Border.Background>
   </Border>
   <Grid x:Name="DockRoot">
-    <Grid x:Name="DeckHost" Margin="0,0,0,8">
+    <Grid x:Name="DeckHost" Margin="0,0,0,8" SizeChanged="DeckHost_SizeChanged">
       <ScrollViewer x:Name="DeckScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
                     Focusable="False" IsEnabled="False" IsHitTestVisible="False" PanningMode="HorizontalOnly"
                     Visibility="Collapsed" MouseEnter="DeckScroll_MouseMove" MouseMove="DeckScroll_MouseMove"
@@ -374,7 +374,10 @@
         </ScrollViewer>
       </Grid>
     </Border>
-    <Grid x:Name="DockCommands" Grid.Row="1" HorizontalAlignment="Center">
+    <Grid x:Name="DockCommands" Grid.Row="1" HorizontalAlignment="Center" Opacity="0">
+    <Grid.RenderTransform>
+      <TranslateTransform x:Name="DockCommandMotion" />
+    </Grid.RenderTransform>
     <Border x:Name="Pill" Padding="14,0,12,0" TextElement.Foreground="White" SnapsToDevicePixels="True">
       <Border.Resources>
         <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="#FFF6F7FA" />
@@ -382,6 +385,7 @@
         <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="#30FFFFFF" />
         <SolidColorBrush x:Key="DividerStrokeColorDefaultBrush" Color="#38FFFFFF" />
       </Border.Resources>
+      <AdornerDecorator>
       <Grid x:Name="PillLayout" VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
@@ -538,10 +542,11 @@
           </ui:Button>
         </StackPanel>
       </Grid>
+      </AdornerDecorator>
     </Border>
     </Grid>
     <Popup x:Name="NowPlayingPopup" PlacementTarget="{Binding ElementName=DeckHost}" Placement="Custom" AllowsTransparency="True" Focusable="False" StaysOpen="True">
-      <Grid x:Name="IslandStage" Width="480" Height="260">
+      <Grid x:Name="IslandStage" Width="480" Height="260" MouseLeave="IslandStage_MouseLeave">
         <Grid.Resources>
           <Style TargetType="ToolTip" BasedOn="{StaticResource {x:Type ToolTip}}">
             <Setter Property="CustomPopupPlacementCallback" Value="{x:Static platform:OverlayToolTipPlacement.Above}" />
@@ -574,12 +579,14 @@
             </Style.Triggers>
           </Style>
         </Grid.Resources>
+        <Border x:Name="IslandHoverArea" Background="#01000000" Visibility="Collapsed" />
         <Grid x:Name="NowPlayingIsland" Width="200" Height="37" HorizontalAlignment="Center" VerticalAlignment="Bottom" ClipToBounds="True"
-              RenderTransformOrigin="0.5,1" Margin="0,0,0,28" MouseEnter="NowPlayingIsland_MouseEnter" MouseLeave="NowPlayingIsland_MouseLeave" PreviewMouseLeftButtonDown="NowPlayingIsland_PreviewMouseLeftButtonDown" PreviewMouseMove="NowPlayingIsland_PreviewMouseMove" PreviewMouseLeftButtonUp="NowPlayingIsland_PreviewMouseLeftButtonUp" LostMouseCapture="NowPlayingIsland_LostMouseCapture">
+              RenderTransformOrigin="0.5,1" Margin="0,0,0,28" MouseEnter="NowPlayingIsland_MouseEnter" PreviewMouseLeftButtonDown="NowPlayingIsland_PreviewMouseLeftButtonDown" PreviewMouseMove="NowPlayingIsland_PreviewMouseMove" PreviewMouseLeftButtonUp="NowPlayingIsland_PreviewMouseLeftButtonUp" LostMouseCapture="NowPlayingIsland_LostMouseCapture">
           <Grid.RenderTransform>
             <TransformGroup>
               <ScaleTransform x:Name="IslandScale" />
               <TranslateTransform x:Name="IslandPull" />
+              <TranslateTransform x:Name="IslandDockOffset" />
             </TransformGroup>
           </Grid.RenderTransform>
           <Rectangle x:Name="IslandShape" Fill="{DynamicResource SolidBackgroundFillColorBaseBrush}" Stroke="{DynamicResource SurfaceStrokeColorDefaultBrush}" StrokeThickness="1" RadiusX="18.5" RadiusY="18.5" />

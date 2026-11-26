@@ -376,24 +376,11 @@ public partial class SessionDock
         card.Button.VerticalAlignment = _appliedTopEdge ? VerticalAlignment.Top : VerticalAlignment.Bottom;
     }
 
-    private void IntroduceGameCards(bool fadeBackdrop)
+    private void IntroduceGameCards()
     {
         GameLaunchStatus.Visibility = Visibility.Collapsed;
         DeckScroll.ScrollToHome();
-        Wpf.Ui.Animations.RenderReady.Run(this, () =>
-        {
-            if (_closed || !_opened)
-                return;
-            if (fadeBackdrop)
-            {
-                DockBackdrop.BeginAnimation(OpacityProperty, DockReducedMotion
-                    ? null
-                    : DeckAnimation(0, 1, EntranceLength, EasingMode.EaseOut));
-                if (!DockReducedMotion)
-                    Wpf.Ui.Animations.RenderReady.Hold(this, EntranceLength);
-            }
-            RefreshDeckVisibility();
-        });
+        RefreshDeckVisibility();
     }
 
     private bool HasOpeningPanel()

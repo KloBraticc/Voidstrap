@@ -87,16 +87,8 @@ public partial class SessionDock : Window
     private OverlayDockSide? _appliedSide;
     private bool _appliedTopEdge;
     private const double SidePopoutWidth = 900;
-    private readonly NativeSlide _slide;
-    private readonly TranslateTransform _linuxDockMotion = new();
-    private int _linuxMotionGeneration;
-    private bool _linuxMotionActive;
-    private Point _linuxMotionOrigin;
-    private RobloxWindowRect _linuxMotionBounds;
-    private int _linuxMotionTop = int.MinValue;
-    private DispatcherTimer? _linuxMotionDeadline;
-    private Action? _linuxMotionFinished;
-    private bool _exiting;
+    private DoubleAnimation? _dockTransition;
+    private AnimationClock? _dockTransitionClock;
     private static readonly TimeSpan FocusLossGrace = TimeSpan.FromMilliseconds(160);
     private DispatcherTimer? _focusLoss;
     private bool _activateOnSettle;
@@ -160,8 +152,6 @@ public partial class SessionDock : Window
         ["web"] = "web",
         ["clips"] = "clips",
     };
-    internal bool IsAnimating => _slide.IsRunning || _linuxMotionActive;
-
     private bool _resumeOnFocus;
     private bool _resumePopout;
     private bool _resumeQueued;
@@ -186,7 +176,6 @@ public partial class SessionDock : Window
         InitializeComponent();
         PortableOverlay.Prepare(this);
         PreviewKeyDown += OnDockKey;
-        _slide = new NativeSlide(this);
         // The browser is built on Edge WebView2, which only exists on Windows
         if (!Voidstrap.Utility.Platform.IsWindows)
             WebButton.Visibility = Visibility.Collapsed;
@@ -376,6 +365,11 @@ public partial class SessionDock : Window
 
     private const double IslandExpandedRadius = 38;
 
+    private const double IslandStageWidth = 480;
+    private const double IslandStageHeight = 260;
+    private const double IslandGap = 8;
+    private Vector _islandDockTravel;
+
     private static readonly Duration IslandMorph = new(TimeSpan.FromMilliseconds(560));
 
     public void RefreshNowPlaying()
@@ -470,6 +464,10 @@ public partial class SessionDock : Window
             return;
         _islandExpanded = expand;
         RefreshDeckVisibility();
+        if (expand)
+            SizeIslandHoverArea();
+        IslandHoverArea.Visibility = expand ? Visibility.Visible : Visibility.Collapsed;
+        MoveIslandToDeck(animate: !DockReducedMotion);
         double width = expand ? IslandExpandedWidth : CompactIslandWidth();
         double height = expand ? IslandExpandedHeight : IslandCompactHeight;
         double radius = expand ? IslandExpandedRadius : IslandCompactHeight / 2;
@@ -504,6 +502,8 @@ public partial class SessionDock : Window
     {
         _islandExpanded = false;
         RefreshDeckVisibility();
+        IslandHoverArea.Visibility = Visibility.Collapsed;
+        MoveIslandToDeck(animate: false);
         _islandClock.Stop();
         _islandClock.Tick -= OnIslandClockTick;
         if (_robuxTimer != null)
@@ -587,7 +587,7 @@ public partial class SessionDock : Window
             MorphIsland(true);
     }
 
-    private void NowPlayingIsland_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+    private void IslandStage_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
     {
         if (_islandExpanded && !_islandDragging)
             MorphIsland(false);
@@ -623,10 +623,16 @@ public partial class SessionDock : Window
 
     private void OnDockDpiChanged(object? sender, DpiChangedEventArgs e) => QueueFitWidth();
 
+    private void DeckHost_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (NowPlayingPopup is { IsOpen: true })
+            UpdateNowPlayingVisibility(reposition: true);
+    }
+
     private void UpdateNowPlayingVisibility(bool reposition = false)
     {
         bool busy = _deckJoinDialog != null || PopoutOpen || _panels.Values.Any(static panel => panel.IsRequested);
-        bool show = _opened && !_closed && !_slide.IsRunning && _nowPlaying != null && !busy && App.Settings.Prop.SessionDockSpotify;
+        bool show = _opened && !_closed && !_deckOpening && _nowPlaying != null && !busy && App.Settings.Prop.SessionDockSpotify;
         if (show)
         {
             NowPlayingPopup.CustomPopupPlacementCallback ??= PlaceNowPlaying;
@@ -650,36 +656,75 @@ public partial class SessionDock : Window
         }
     }
 
-    private static bool IslandBelowDock => (App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings()).DockTopEdge;
-
     private void AlignIslandToDock()
     {
         OverlayDockSide side = VisualSide;
-        if (side != OverlayDockSide.None)
+        bool sideways = side != OverlayDockSide.None;
+        double depth = sideways ? DeckHost.ActualWidth : DeckHost.ActualHeight;
+        Vector travel = DockEdgeDirection * depth;
+        HorizontalAlignment horizontal = side switch
         {
-            bool left = side == OverlayDockSide.Left;
-            NowPlayingIsland.VerticalAlignment = VerticalAlignment.Center;
-            NowPlayingIsland.HorizontalAlignment = left ? HorizontalAlignment.Left : HorizontalAlignment.Right;
-            NowPlayingIsland.Margin = left ? new Thickness(IslandDragRoom, 0, 0, 0) : new Thickness(0, 0, IslandDragRoom, 0);
-            NowPlayingIsland.RenderTransformOrigin = left ? new Point(0, 0.5) : new Point(1, 0.5);
+            OverlayDockSide.Left => HorizontalAlignment.Left,
+            OverlayDockSide.Right => HorizontalAlignment.Right,
+            _ => HorizontalAlignment.Center
+        };
+        VerticalAlignment vertical = sideways ? VerticalAlignment.Center : _appliedTopEdge ? VerticalAlignment.Top : VerticalAlignment.Bottom;
+        IslandStage.Width = IslandStageWidth + (sideways ? depth : 0);
+        IslandStage.Height = IslandStageHeight + (sideways ? 0 : depth);
+        NowPlayingIsland.HorizontalAlignment = IslandHoverArea.HorizontalAlignment = horizontal;
+        NowPlayingIsland.VerticalAlignment = IslandHoverArea.VerticalAlignment = vertical;
+        NowPlayingIsland.Margin = IslandEdgeMargin(IslandDragRoom + depth);
+        NowPlayingIsland.RenderTransformOrigin = new Point(0.5 + DockEdgeDirection.X / 2, 0.5 + DockEdgeDirection.Y / 2);
+        IslandHoverArea.Margin = IslandEdgeMargin(IslandDragRoom);
+        if (_islandDockTravel == travel)
             return;
-        }
-        NowPlayingIsland.HorizontalAlignment = HorizontalAlignment.Center;
-        bool below = IslandBelowDock;
-        NowPlayingIsland.VerticalAlignment = below ? VerticalAlignment.Top : VerticalAlignment.Bottom;
-        NowPlayingIsland.Margin = below ? new Thickness(0, IslandDragRoom, 0, 0) : new Thickness(0, 0, 0, IslandDragRoom);
-        NowPlayingIsland.RenderTransformOrigin = below ? new Point(0.5, 0) : new Point(0.5, 1);
+        _islandDockTravel = travel;
+        MoveIslandToDeck(animate: false);
+        if (_islandExpanded)
+            SizeIslandHoverArea();
     }
 
-    private static CustomPopupPlacement[] PlaceNowPlaying(Size popupSize, Size targetSize, Point offset)
+    private Thickness IslandEdgeMargin(double margin) => VisualSide switch
     {
-        OverlayDockSide side = ActiveInstance?.VisualSide ?? CurrentSide;
-        if (side != OverlayDockSide.None)
+        OverlayDockSide.Left => new Thickness(margin, 0, 0, 0),
+        OverlayDockSide.Right => new Thickness(0, 0, margin, 0),
+        _ => _appliedTopEdge ? new Thickness(0, margin, 0, 0) : new Thickness(0, 0, 0, margin)
+    };
+
+    private void SizeIslandHoverArea()
+    {
+        IslandHoverArea.Width = Math.Max(IslandExpandedWidth, CompactIslandWidth() + Math.Abs(_islandDockTravel.X));
+        IslandHoverArea.Height = Math.Max(IslandExpandedHeight, IslandCompactHeight + Math.Abs(_islandDockTravel.Y));
+    }
+
+    private void MoveIslandToDeck(bool animate)
+    {
+        Vector target = _islandExpanded ? _islandDockTravel : default;
+        if (animate)
         {
-            double x = side == OverlayDockSide.Left ? targetSize.Width - IslandDragRoom + 8 : -popupSize.Width + IslandDragRoom - 8;
+            IslandDockOffset.BeginAnimation(TranslateTransform.XProperty, DeckAnimation(IslandDockOffset.X, target.X, IslandMorph.TimeSpan, EasingMode.EaseInOut));
+            IslandDockOffset.BeginAnimation(TranslateTransform.YProperty, DeckAnimation(IslandDockOffset.Y, target.Y, IslandMorph.TimeSpan, EasingMode.EaseInOut));
+            Wpf.Ui.Animations.RenderReady.Hold(this, IslandMorph.TimeSpan);
+            return;
+        }
+        IslandDockOffset.BeginAnimation(TranslateTransform.XProperty, null);
+        IslandDockOffset.BeginAnimation(TranslateTransform.YProperty, null);
+        IslandDockOffset.X = target.X;
+        IslandDockOffset.Y = target.Y;
+    }
+
+    private CustomPopupPlacement[] PlaceNowPlaying(Size popupSize, Size targetSize, Point offset)
+    {
+        if (VisualSide != OverlayDockSide.None)
+        {
+            double x = VisualSide == OverlayDockSide.Left
+                ? IslandGap - IslandDragRoom
+                : targetSize.Width - popupSize.Width + IslandDragRoom - IslandGap;
             return [new CustomPopupPlacement(new Point(x, (targetSize.Height - popupSize.Height) / 2), PopupPrimaryAxis.None)];
         }
-        double y = IslandBelowDock ? targetSize.Height - IslandDragRoom + 8 : -popupSize.Height + IslandDragRoom - 8;
+        double y = _appliedTopEdge
+            ? IslandGap - IslandDragRoom
+            : targetSize.Height - popupSize.Height + IslandDragRoom - IslandGap;
         return [new CustomPopupPlacement(new Point((targetSize.Width - popupSize.Width) / 2, y), PopupPrimaryAxis.None)];
     }
 
@@ -753,7 +798,7 @@ public partial class SessionDock : Window
         AnimateIsland(IslandPull, TranslateTransform.YProperty, 0);
         AnimateIsland(IslandScale, ScaleTransform.ScaleXProperty, 1);
         AnimateIsland(IslandScale, ScaleTransform.ScaleYProperty, 1);
-        if (dragging && !NowPlayingIsland.IsMouseOver && _islandExpanded)
+        if (dragging && !IslandStage.IsMouseOver && _islandExpanded)
             MorphIsland(false);
     }
 
@@ -936,24 +981,11 @@ public partial class SessionDock : Window
         RefreshNowPlaying();
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
-        bool linuxSlide = animate && Voidstrap.Utility.Platform.UsesLinuxHost && IsVisible;
-        bool slide =
-            animate && NativeSlide.Supported && !Voidstrap.Utility.Platform.UsesLinuxHost && IsVisible && RobloxWindowTracker.Current.Valid;
-        CancelEntrance();
+        _popoutOnSettle = false;
         _clock.Stop();
         StopHeartbeat();
         CancelRefresh();
-        _anchor?.Dispose();
-        _anchor = null;
         HidePopout();
-        if (linuxSlide)
-            StartLinuxExit();
-        else if (!slide || !StartExit())
-        {
-            if (IsVisible)
-                Hide();
-            StartPrewarm();
-        }
         // Pinned panels belong to the dock: they hide with it and come back when it opens. The rest close.
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
         {
@@ -965,8 +997,7 @@ public partial class SessionDock : Window
                 panel.Close();
         }
         FadeDimmer(0);
-        if (Voidstrap.Utility.Platform.UsesLinuxHost && !linuxSlide)
-            Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
+        StartDockTransition(false, animate);
         IntPtr game = RobloxWindowTracker.Current.Hwnd;
         if (returnFocus && PortableOverlay.Active)
             PortableOverlay.ReturnFocus();
@@ -1048,8 +1079,7 @@ public partial class SessionDock : Window
         CloseButton.ToolTip = shortcut.Length > 0 ? "Close, " + shortcut : "Close";
         RobloxWindowTracker.Refresh();
         bool fresh = !IsVisible;
-        Point? resumeFrom = _exiting ? _slide.CurrentPosition() : null;
-        CancelEntrance();
+        DetachDockTransition();
         _popoutOnSettle = restorePopout;
         if (fresh)
             SetDeckVisibility(false, false);
@@ -1064,10 +1094,9 @@ public partial class SessionDock : Window
             this,
             hideWhenUnfocused: false,
             placement: RobloxOverlayPlacement.BottomCenter,
+            keepZOrder: true,
             customPosition: ComputeDockPosition
         );
-        if (!DockReducedMotion && resumeFrom == null && fresh && NativeSlide.Supported && RobloxWindowTracker.Current.Valid)
-            _slide.Conceal();
         try
         {
             Show();
@@ -1078,7 +1107,8 @@ public partial class SessionDock : Window
             _opened = false;
             _deckOpening = false;
             SetDeckVisibility(false, false);
-            CancelEntrance();
+            _popoutOnSettle = false;
+            FinishDockTransition();
             FadeDimmer(0);
             return;
         }
@@ -1107,8 +1137,7 @@ public partial class SessionDock : Window
         RaiseAboveDimmer();
         _clock.Start();
         _activateOnSettle = activatePanels;
-        IntroduceGameCards(fresh);
-        StartEntrance(resumeFrom);
+        StartDockTransition(true, true);
     }
 
     internal static (int Left, int Top) ComputeDockPosition(RobloxWindowRect rect, double scaleX, double scaleY, int width, int height)
@@ -1158,7 +1187,7 @@ public partial class SessionDock : Window
         if (_closed)
             return;
         FitWidth();
-        if (_opened && !_slide.IsRunning && !_linuxMotionActive)
+        if (_opened)
         {
             _anchor?.Refresh();
             ApplyLinuxDockShape();
@@ -1245,44 +1274,6 @@ public partial class SessionDock : Window
         }
     }
 
-    private void StartEntrance(Point? resumeFrom)
-    {
-        if (Voidstrap.Utility.Platform.UsesLinuxHost)
-        {
-            StartLinuxEntrance();
-            return;
-        }
-        RobloxWindowRect game = RobloxWindowTracker.Current;
-        if (DockReducedMotion || !NativeSlide.Supported || !game.Valid || _slide.CurrentPosition() is not Point target)
-        {
-            _slide.RemoveClip();
-            Settle();
-            return;
-        }
-        Vector entry = DockEdgeDirection;
-        Point from = resumeFrom ?? new Point(
-            target.X + entry.X * 28 * VisualTreeHelper.GetDpi(this).DpiScaleX,
-            target.Y + entry.Y * 28 * VisualTreeHelper.GetDpi(this).DpiScaleY
-        );
-        Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
-        if (!_slide.Start(from, target, clip, EntranceLength, true, OnEntranceFinished))
-        {
-            _slide.RemoveClip();
-            Settle();
-        }
-    }
-
-    private void OnEntranceFinished()
-    {
-        if (_closed || !_opened)
-            return;
-        _slide.RemoveClip();
-        _anchor?.Refresh();
-        Settle();
-        QueueFitWidth();
-        UpdateNowPlayingVisibility();
-    }
-
     private void Settle()
     {
         if (_closed || !_opened)
@@ -1311,6 +1302,7 @@ public partial class SessionDock : Window
         _deckOpening = false;
         RefreshDeckVisibility();
         RaiseAboveDimmer();
+        UpdateNowPlayingVisibility();
     }
 
     public void Preload()
@@ -1350,7 +1342,7 @@ public partial class SessionDock : Window
             _prewarmTimer?.Stop();
             return;
         }
-        if (_slide.IsRunning || NotificationWindow.AnyPresenting)
+        if (NotificationWindow.AnyPresenting)
             return;
         while (_prewarmIndex < PrewarmActions.Length)
         {
@@ -1432,165 +1424,82 @@ public partial class SessionDock : Window
         App.Logger.WriteLine("SessionDock", $"Restored {pinned.Length} pinned panel(s)");
     }
 
-    private void CancelEntrance()
+    private void StartDockTransition(bool opening, bool animate)
     {
-        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
-            _slide.Stop(true);
-        CancelLinuxDockAnimation();
-        _exiting = false;
-        _popoutOnSettle = false;
-    }
-
-    private void StartLinuxEntrance()
-    {
-        _exiting = false;
-        StartLinuxDockAnimation(true, EntranceLength, EasingMode.EaseOut, Settle);
-    }
-
-    private void StartLinuxExit()
-    {
-        _exiting = true;
-        StartLinuxDockAnimation(false, ExitLength, EasingMode.EaseIn, OnExitFinished);
-    }
-
-    private void StartLinuxDockAnimation(bool entering, TimeSpan duration, EasingMode easingMode, Action completed)
-    {
-        CancelLinuxDockAnimation();
-        RobloxWindowRect bounds = RobloxWindowTracker.Current;
-        if (!bounds.Valid || !IsVisible || DockReducedMotion || CurrentSide != OverlayDockSide.None)
+        DetachDockTransition();
+        DockSurface.IsHitTestVisible = opening;
+        if (!animate || DockReducedMotion || !IsVisible || (!opening && DockBackdrop.Opacity <= 0.001))
         {
-            completed();
+            if (opening)
+                IntroduceGameCards();
+            FinishDockTransition();
             return;
         }
-        int generation = _linuxMotionGeneration;
-        _linuxMotionOrigin = new Point(Left, Top);
-        _linuxMotionBounds = bounds;
-        bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
-        double distance = topEdge
-            ? -Math.Max(DockHeight, Top + Height - bounds.Top)
-            : Math.Max(DockHeight, bounds.Top + bounds.Height - Top);
-        double from = entering ? DockEdgeDirection.Y * 28 : 0;
-        double to = entering ? 0 : distance;
-        _linuxDockMotion.Y = to;
-        _linuxMotionActive = true;
-        _linuxMotionFinished = completed;
-        _linuxMotionDeadline = new DispatcherTimer(DispatcherPriority.Background, Dispatcher)
+
+        double opacity = DockBackdrop.Opacity;
+        Vector edge = DockEdgeDirection * 28;
+        Vector from = opening && opacity <= 0.001 ? edge : new Vector(DockCommandMotion.X, DockCommandMotion.Y);
+        Vector to = opening ? default : edge;
+        TimeSpan duration = opening ? EntranceLength : ExitLength;
+        EasingMode easing = opening ? EasingMode.EaseOut : EasingMode.EaseInOut;
+        DoubleAnimation fade = DeckAnimation(opacity, opening ? 1 : 0, duration, easing);
+        _dockTransition = fade;
+
+        Wpf.Ui.Animations.RenderReady.Run(this, () =>
         {
-            Interval = duration + TimeSpan.FromMilliseconds(1500),
-        };
-        _linuxMotionDeadline.Tick += OnLinuxMotionDeadline;
-        PlaceLinuxDockFrame(from);
-        Wpf.Ui.Animations.RenderReady.Run(
-            this,
-            () =>
-            {
-                if (_closed || generation != _linuxMotionGeneration)
-                    return;
-                _linuxMotionDeadline?.Start();
-                DoubleAnimation motion = new(from, to, duration)
-                {
-                    EasingFunction = new CubicEase { EasingMode = easingMode },
-                    FillBehavior = FillBehavior.Stop,
-                };
-                motion.Completed += (_, _) => FinishLinuxDockAnimation(generation);
-                CompositionTarget.Rendering += OnLinuxDockFrame;
-                Wpf.Ui.Animations.RenderReady.Hold(this, duration);
-                _linuxDockMotion.BeginAnimation(TranslateTransform.YProperty, motion, HandoffBehavior.SnapshotAndReplace);
-            }
-        );
+            if (_closed || !ReferenceEquals(_dockTransition, fade))
+                return;
+            _dockTransitionClock = fade.CreateClock();
+            _dockTransitionClock.Completed += OnDockTransitionCompleted;
+            DockBackdrop.ApplyAnimationClock(OpacityProperty, _dockTransitionClock);
+            DockCommands.ApplyAnimationClock(OpacityProperty, _dockTransitionClock);
+            DockCommandMotion.BeginAnimation(TranslateTransform.XProperty, DeckAnimation(from.X, to.X, duration, easing));
+            DockCommandMotion.BeginAnimation(TranslateTransform.YProperty, DeckAnimation(from.Y, to.Y, duration, easing));
+            if (opening)
+                IntroduceGameCards();
+            Wpf.Ui.Animations.RenderReady.Hold(this, duration);
+        });
     }
 
-    private void OnLinuxDockFrame(object? sender, EventArgs e)
+    private void OnDockTransitionCompleted(object? sender, EventArgs e)
     {
-        if (_closed || !_linuxMotionActive)
-            return;
-        PlaceLinuxDockFrame(_linuxDockMotion.Y);
+        if (ReferenceEquals(_dockTransitionClock, sender))
+            FinishDockTransition();
     }
 
-    private void PlaceLinuxDockFrame(double offset)
+    private void DetachDockTransition()
     {
-        int top = (int)Math.Round(_linuxMotionOrigin.Y + offset);
-        if (top == _linuxMotionTop)
-            return;
-        _linuxMotionTop = top;
-        nint handle = PortableOverlay.Handle(this);
-        int width = Math.Max(1, (int)Math.Ceiling(Width));
-        int height = Math.Max(1, (int)Math.Ceiling(Height));
-        int clipTop = Math.Max(0, _linuxMotionBounds.Top - top);
-        int clipBottom = Math.Clamp(_linuxMotionBounds.Top + _linuxMotionBounds.Height - top, 0, height);
-        Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(handle, width, height, 0, clipTop, clipBottom);
-        Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(handle, (int)Math.Round(_linuxMotionOrigin.X), top, width, height);
+        _dockTransition = null;
+        if (_dockTransitionClock != null)
+        {
+            _dockTransitionClock.Completed -= OnDockTransitionCompleted;
+            _dockTransitionClock = null;
+        }
     }
 
-    private void OnLinuxMotionDeadline(object? sender, EventArgs e) => FinishLinuxDockAnimation(_linuxMotionGeneration);
-
-    private void FinishLinuxDockAnimation(int generation)
+    private void FinishDockTransition()
     {
-        if (generation != _linuxMotionGeneration || !_linuxMotionActive)
-            return;
-        Action? completed = _linuxMotionFinished;
-        if (_opened && !_closed)
-            PlaceLinuxDockFrame(0);
-        CancelLinuxDockAnimation();
+        DetachDockTransition();
+        double opacity = _opened ? 1 : 0;
+        DockBackdrop.Opacity = opacity;
+        DockCommands.Opacity = opacity;
+        DockBackdrop.BeginAnimation(OpacityProperty, null);
+        DockCommands.BeginAnimation(OpacityProperty, null);
+        DockCommandMotion.BeginAnimation(TranslateTransform.XProperty, null);
+        DockCommandMotion.BeginAnimation(TranslateTransform.YProperty, null);
         if (_closed)
             return;
         if (_opened)
         {
-            _fitAnchorPending = false;
-            _anchor?.Refresh();
-            ApplyLinuxDockShape();
-            QueueFitWidth();
-        }
-        completed?.Invoke();
-    }
-
-    private void CancelLinuxDockAnimation()
-    {
-        _linuxMotionGeneration++;
-        _linuxMotionActive = false;
-        _linuxMotionFinished = null;
-        _linuxMotionTop = int.MinValue;
-        CompositionTarget.Rendering -= OnLinuxDockFrame;
-        if (_linuxMotionDeadline != null)
-        {
-            _linuxMotionDeadline.Stop();
-            _linuxMotionDeadline.Tick -= OnLinuxMotionDeadline;
-            _linuxMotionDeadline = null;
-        }
-        _linuxDockMotion.BeginAnimation(TranslateTransform.YProperty, null);
-        _linuxDockMotion.Y = 0;
-    }
-
-    private bool StartExit()
-    {
-        if (Voidstrap.Utility.Platform.UsesLinuxHost || DockReducedMotion)
-            return false;
-        RobloxWindowRect game = RobloxWindowTracker.Current;
-        if (_slide.CurrentPosition() is not Point from)
-            return false;
-        Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
-        _exiting = _slide.Start(
-            from,
-            OffscreenPoint(from, game),
-            clip,
-            ExitLength,
-            false,
-            OnExitFinished
-        );
-        return _exiting;
-    }
-
-    private void OnExitFinished()
-    {
-        _exiting = false;
-        if (Voidstrap.Utility.Platform.UsesLinuxHost && !_opened)
-            Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
-        if (_closed || _opened)
+            Settle();
             return;
+        }
+        _anchor?.Dispose();
+        _anchor = null;
+        if (Voidstrap.Utility.Platform.UsesLinuxHost)
+            Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
         if (IsVisible)
             Hide();
-        if (!Voidstrap.Utility.Platform.UsesLinuxHost)
-            _slide.RemoveClip();
         StartPrewarm();
     }
 
@@ -1598,14 +1507,6 @@ public partial class SessionDock : Window
         App.Settings.Prop.OverlayLayout is { DockSideways: true } layout ? layout.DockSide : OverlayDockSide.None;
 
     private OverlayDockSide VisualSide => _appliedSide ?? OverlayDockSide.None;
-
-    private Point OffscreenPoint(Point target, RobloxWindowRect game) =>
-        VisualSide switch
-        {
-            OverlayDockSide.Left => new Point(game.Left - Width, target.Y),
-            OverlayDockSide.Right => new Point(game.Left + game.Width, target.Y),
-            _ => new Point(target.X, App.Settings.Prop.OverlayLayout?.DockTopEdge == true ? game.Top - Height : game.Top + game.Height),
-        };
 
     private static int DockExtent(RobloxWindowRect bounds) => CurrentSide == OverlayDockSide.None ? bounds.Width : bounds.Height;
 
@@ -1728,7 +1629,7 @@ public partial class SessionDock : Window
         bool changed = FitDeckAndCommands(sideways, orientationChanged);
         if (!changed && !_fitAnchorPending)
             return;
-        if (_opened && !_slide.IsRunning && !_linuxMotionActive)
+        if (_anchor != null)
         {
             _fitAnchorPending = false;
             _anchor?.Refresh();
@@ -1762,8 +1663,6 @@ public partial class SessionDock : Window
             SuspendDock();
             return;
         }
-        if (_linuxMotionActive && !bounds.Matches(_linuxMotionBounds))
-            FinishLinuxDockAnimation(_linuxMotionGeneration);
         if (bounds.Valid && (DockExtent(bounds) != _availableWidth || DockDepth(bounds) != _availableDepth))
             FitWidth();
         if (_opened && !bounds.Foreground)
@@ -1807,32 +1706,29 @@ public partial class SessionDock : Window
 
     private void RaiseAboveDimmer(Window? active = null)
     {
-        if (PortableOverlay.Active)
-        {
-            foreach (SessionPanelWindow panel in _panels.Values)
-                if (panel.IsVisible)
-                    PortableOverlay.Raise(panel);
-            if (_popout is { IsVisible: true })
-                PortableOverlay.Raise(_popout);
-            if (active is { IsVisible: true })
-                PortableOverlay.Raise(active);
-            PortableOverlay.Raise(this);
-            return;
-        }
-        if (!Voidstrap.Utility.Platform.IsWindows)
-            return;
-        // The dimmer is shown last, so lift the dock and its panels back over it without moving them
-        const uint flags = 0x0001 | 0x0002 | 0x0010;
+        if (!NowPlayingPopup.IsOpen)
+            RaiseDockWindow(this);
         foreach (SessionPanelWindow panel in _panels.Values)
+            if (!ReferenceEquals(panel, active))
+                RaiseDockWindow(panel);
+        if (!ReferenceEquals(_popout, active))
+            RaiseDockWindow(_popout);
+        RaiseDockWindow(active);
+        RaiseDockWindow(_deckJoinDialog);
+    }
+
+    private static void RaiseDockWindow(Window? window)
+    {
+        if (window is not { IsVisible: true })
+            return;
+        if (PortableOverlay.Active)
+            PortableOverlay.Raise(window);
+        else if (Voidstrap.Utility.Platform.IsWindows)
         {
-            if (panel.IsVisible)
-                SetWindowPos(new WindowInteropHelper(panel).Handle, HwndTopmost, 0, 0, 0, 0, flags);
+            IntPtr handle = new WindowInteropHelper(window).Handle;
+            if (handle != IntPtr.Zero)
+                SetWindowPos(handle, HwndTopmost, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010);
         }
-        if (PopoutOpen && _popoutHandle != IntPtr.Zero)
-            SetWindowPos(_popoutHandle, HwndTopmost, 0, 0, 0, 0, flags);
-        IntPtr dock = new WindowInteropHelper(this).Handle;
-        if (dock != IntPtr.Zero && IsVisible)
-            SetWindowPos(dock, HwndTopmost, 0, 0, 0, 0, flags);
     }
 
     private void FadeDimmer(double target)
@@ -2389,7 +2285,7 @@ public partial class SessionDock : Window
             StartPopoutSlide();
         PlacePopout();
         UpdateNowPlayingVisibility();
-        RaiseAboveDimmer();
+        RaiseAboveDimmer(_popout);
         if (_popoutView == PopoutView.Profile)
         {
             _ = PortableOverlay.RunAsync(this, LoadProfileDetailsAsync);
@@ -2843,8 +2739,8 @@ public partial class SessionDock : Window
             _ => GameCard,
         };
         if (!card.IsVisible || !card.IsDescendantOf(this))
-            return Pill.TransformToAncestor(this).Transform(new Point(0, 0)).Y;
-        return card.TransformToAncestor(this).Transform(new Point(0, 0)).Y;
+            return Pill.TransformToAncestor(this).Transform(new Point(0, 0)).Y - DockCommandMotion.Y;
+        return card.TransformToAncestor(this).Transform(new Point(0, 0)).Y - DockCommandMotion.Y;
     }
 
     private void MarkOpenCard(Border? open)
@@ -2904,9 +2800,8 @@ public partial class SessionDock : Window
         OverlayDockSide side = VisualSide;
         if (PortableOverlay.Active && _popout != null)
         {
-            if (_linuxMotionActive)
-                return;
             Rect position = Pill.TransformToAncestor(this).TransformBounds(new Rect(0, 0, Pill.ActualWidth, Pill.ActualHeight));
+            position.Offset(-DockCommandMotion.X, -DockCommandMotion.Y);
             RobloxWindowRect game = RobloxWindowTracker.Current;
             double portableWidth = Math.Min(position.Width, game.Width);
             double portableLeft = Math.Clamp(Left + position.Left, game.Left, game.Left + Math.Max(0, game.Width - portableWidth));
@@ -2953,6 +2848,7 @@ public partial class SessionDock : Window
             return;
         DpiScale dpi = VisualTreeHelper.GetDpi(this);
         Rect pill = Pill.TransformToAncestor(this).TransformBounds(new Rect(0, 0, Pill.ActualWidth, Pill.ActualHeight));
+        pill.Offset(-DockCommandMotion.X, -DockCommandMotion.Y);
         int left = rect.Left + (int)Math.Round(pill.Left * dpi.DpiScaleX);
         int top = rect.Top + (int)Math.Round(pill.Top * dpi.DpiScaleY);
         int bottom = rect.Top + (int)Math.Round(pill.Bottom * dpi.DpiScaleY);
@@ -3248,8 +3144,7 @@ public partial class SessionDock : Window
         _panels.Clear();
         _clock.Stop();
         _clock.Tick -= OnClock;
-        _slide.Stop(false);
-        CancelLinuxDockAnimation();
+        DetachDockTransition();
         StopHeartbeat();
         if (Voidstrap.Utility.Platform.UsesLinuxHost)
             Voidstrap.Platform.Linux.LinuxWindowShadow.Forget(PortableOverlay.Handle(this));
@@ -3274,6 +3169,7 @@ public partial class SessionDock : Window
         PreviewKeyDown -= OnDockKey;
         PortableOverlay.Release(this);
         SourceInitialized -= OnSourceInitialized;
+        Loaded -= OnDockLoaded;
         Closed -= OnClosed;
         Pill.SizeChanged -= OnPillSizeChanged;
         ProfileCard.SizeChanged -= OnPillSizeChanged;
@@ -3362,7 +3258,7 @@ public partial class SessionDock : Window
 
     private void ApplyLinuxDockShape()
     {
-        if (_closed || !Voidstrap.Utility.Platform.UsesLinuxHost || !IsVisible || _linuxMotionActive)
+        if (_closed || !Voidstrap.Utility.Platform.UsesLinuxHost || !IsVisible)
             return;
         nint handle = PortableOverlay.Handle(this);
         if (handle != 0)

@@ -1036,10 +1036,8 @@ namespace Voidstrap.Integrations.Overlays
 
             if (Voidstrap.Utility.Platform.IsMacOS)
             {
-                if (_window is Voidstrap.UI.Elements.Overlay.SessionDock dock)
+                if (_window is Voidstrap.UI.Elements.Overlay.SessionDock)
                 {
-                    if (dock.IsAnimating)
-                        return;
                     if (rect.Valid && rect.Foreground)
                     {
                         int dockWidth = Math.Max(
@@ -1068,7 +1066,7 @@ namespace Voidstrap.Integrations.Overlays
                                     rect.Left + Math.Max(0, (rect.Width - dockWidth) / 2),
                                     rect.Top + Math.Max(0, rect.Height - dockHeight - 10)
                                 );
-                        Voidstrap.UI.PortableOverlay.Place(_window, macLeft, macTop, _window.Width, _window.Height);
+                        Voidstrap.UI.PortableOverlay.Place(_window, macLeft, macTop, _window.Width, _window.Height, raise: !_keepZOrder);
                     }
                     else if (_window.IsVisible)
                         _window.Hide();
@@ -1482,7 +1480,8 @@ namespace Voidstrap.Integrations.Overlays
                 return;
             }
             _lastLinuxGeometry = (handle, left, top, width, height);
-            Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetAlwaysOnTop(handle);
+            if (!_keepZOrder)
+                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetAlwaysOnTop(handle);
             SyncLinuxWindowBounds(left, top, width, height, _placement is RobloxOverlayPlacement.Fill or RobloxOverlayPlacement.TopStrip);
             ReportLinuxGeometry(handle, left, top, width, height);
             _linuxParked = false;
