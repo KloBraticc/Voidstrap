@@ -639,6 +639,8 @@ namespace Voidstrap.Resources {
 
         public static string Menu_DotNetRuntime_Version => ResourceManager.GetString("Menu.DotNetRuntime.Version", resourceCulture);
 
+        public static string SwiftTunnel_NotInstalled => ResourceManager.GetString("SwiftTunnel.NotInstalled", resourceCulture);
+
         public static string Ui_Mods_SessionDockSpotify_Description => ResourceManager.GetString("Ui.Mods.SessionDockSpotify.Description", resourceCulture);
         public static string Ui_Mods_SessionDockShortcut_Description => ResourceManager.GetString("Ui.Mods.SessionDockShortcut.Description", resourceCulture);
 
