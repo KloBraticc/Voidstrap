@@ -117,13 +117,14 @@ public static class RobloxGameFriends
             .Take(MaxFriendsChecked)
             .OrderByDescending(id => state.Playing.Contains(id))
             .ToList();
+        int skipped = checkedIds.Count;
         if (state.Badges.Count > 0)
         {
             List<RobloxBadges.Badge> probe = state.Badges.OrderByDescending(badge => badge.AwardedCount).Take(ProbeBadges).ToList();
             bool probeComplete = probe.Count == state.Badges.Count;
             ConcurrentDictionary<long, IReadOnlyDictionary<long, DateTime>> found = new();
-            await CheckFriendsAsync(universeId, state, checkedIds, probe, probeComplete, found, token).ConfigureAwait(false);
-            if (!probeComplete && !found.IsEmpty)
+            skipped = await CheckFriendsAsync(universeId, state, checkedIds, probe, probeComplete, found, token).ConfigureAwait(false);
+            if (skipped == 0 && !probeComplete && !found.IsEmpty)
             {
                 HashSet<long> probed = probe.Select(badge => badge.Id).ToHashSet();
                 List<RobloxBadges.Badge> rest = state.Badges.Where(badge => !probed.Contains(badge.Id)).ToList();
@@ -136,12 +137,12 @@ public static class RobloxGameFriends
         GameFriendsReport report = Compose(state, true);
         App.Logger.WriteLine(
             LOG_IDENT,
-            $"Checked {checkedIds.Count} of {friendIds.Count} friends for universe {universeId}: {report.Recent.Count} recent, {report.Previous.Count} previous, {report.Activity.Count} activity entries"
+            $"Checked {checkedIds.Count - skipped} of {friendIds.Count} friends for universe {universeId}: {report.Recent.Count} recent, {report.Previous.Count} previous, {report.Activity.Count} activity entries"
         );
         return report;
     }
 
-    private static async Task CheckFriendsAsync(
+    private static async Task<int> CheckFriendsAsync(
         long universeId,
         Snapshot state,
         IReadOnlyList<long> friendIds,
@@ -211,6 +212,7 @@ public static class RobloxGameFriends
             await work.ConfigureAwait(false);
             if (skipped > 0)
                 App.Logger.WriteLine(LOG_IDENT, $"Roblox kept rate limiting badge requests, {skipped} of {friendIds.Count} friends were not checked for universe {universeId}");
+            return skipped;
         }
         finally
         {

@@ -193,6 +193,9 @@ internal static class GameVideoStore
 
     private static VideoFormat ReadFormat(string path)
     {
+        if (!File.Exists(path))
+            return VideoFormat.Unknown;
+
         try
         {
             using FileStream file = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);

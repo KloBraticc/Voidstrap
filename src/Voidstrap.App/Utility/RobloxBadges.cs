@@ -34,6 +34,8 @@ public static class RobloxBadges
 
     private static readonly TimeSpan MaxCooldown = TimeSpan.FromSeconds(30);
 
+    private static readonly object CooldownLock = new();
+
     private static readonly SemaphoreSlim RequestSlots = new(3, 3);
 
     private static readonly TimeSpan BadgeListLifetime = TimeSpan.FromMinutes(30);
@@ -425,66 +427,82 @@ public static class RobloxBadges
 
     private static async Task<string> GetWithRetryAsync(string url, CancellationToken token, bool signedIn = false)
     {
-        const string LOG_IDENT = "RobloxBadges::GetWithRetryAsync";
         int rateLimited = 0;
         for (int attempt = 0; ; attempt++)
         {
-            long waitTicks = Interlocked.Read(ref _cooldownUntilTicks) - Environment.TickCount64;
-            if (waitTicks > 0)
-                await Task.Delay(TimeSpan.FromMilliseconds(waitTicks + Random.Shared.Next(0, 1500)), token).ConfigureAwait(false);
-            HttpResponseMessage response;
-            await RequestSlots.WaitAsync(token).ConfigureAwait(false);
+            await WaitForRequestSlotAsync(token).ConfigureAwait(false);
+            TimeSpan retryDelay;
+            bool receivedResponse = false;
             try
             {
                 using HttpRequestMessage request = new(HttpMethod.Get, url);
                 if (signedIn && RobloxCookie.Get() is { Length: > 0 } cookie)
                     request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-                response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-            }
-            catch (HttpRequestException) when (attempt < 2)
-            {
-                RequestSlots.Release();
-                await Task.Delay(TimeSpan.FromSeconds(1.5 * (attempt + 1)), token).ConfigureAwait(false);
-                continue;
-            }
-            catch
-            {
-                RequestSlots.Release();
-                throw;
-            }
-            RequestSlots.Release();
-            using (response)
-            {
+                using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
+                    .ConfigureAwait(false);
+                receivedResponse = true;
+
                 int status = (int)response.StatusCode;
                 if (signedIn && status is 401 or 403)
                     throw new AwardedRefusedException();
                 if (status == 429)
                 {
+                    RecordCooldown(response);
                     if (++rateLimited >= MaxRateLimitedAttempts)
                         throw new RateLimitedException();
-                    long now = Environment.TickCount64;
-                    long current = Interlocked.Read(ref _cooldownUntilTicks);
-                    if (current > now)
-                        continue;
-                    int level = Math.Min(Interlocked.Increment(ref _throttleLevel), MaxThrottleLevel);
-                    TimeSpan wait = TimeSpan.FromSeconds(4 << (level - 1));
-                    if (response.Headers.RetryAfter?.Delta is { } asked && asked > wait)
-                        wait = asked;
-                    if (wait > MaxCooldown)
-                        wait = MaxCooldown;
-                    if (Interlocked.CompareExchange(ref _cooldownUntilTicks, now + (long)wait.TotalMilliseconds, current) == current)
-                        App.Logger.WriteLine(LOG_IDENT, "Roblox asked to slow down, waiting " + (int)wait.TotalSeconds + " seconds before asking again");
                     continue;
                 }
-                if (status >= 500 && attempt < 3)
+                if (status < 500 || attempt >= 3)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(3 * (attempt + 1)), token).ConfigureAwait(false);
-                    continue;
+                    response.EnsureSuccessStatusCode();
+                    EaseThrottle();
+                    return await Http.ReadStringBoundedAsync(response.Content, 4 * 1024 * 1024, token).ConfigureAwait(false);
                 }
-                response.EnsureSuccessStatusCode();
-                EaseThrottle();
-                return await Http.ReadStringBoundedAsync(response.Content, 4 * 1024 * 1024, token).ConfigureAwait(false);
+                retryDelay = TimeSpan.FromSeconds(3 * (attempt + 1));
             }
+            catch (HttpRequestException) when (!receivedResponse && attempt < 2)
+            {
+                retryDelay = TimeSpan.FromSeconds(1.5 * (attempt + 1));
+            }
+            finally
+            {
+                RequestSlots.Release();
+            }
+            await Task.Delay(retryDelay, token).ConfigureAwait(false);
+        }
+    }
+
+    private static async Task WaitForRequestSlotAsync(CancellationToken token)
+    {
+        while (true)
+        {
+            await RequestSlots.WaitAsync(token).ConfigureAwait(false);
+            long waitTicks = Interlocked.Read(ref _cooldownUntilTicks) - Environment.TickCount64;
+            if (waitTicks <= 0)
+                return;
+
+            RequestSlots.Release();
+            await Task.Delay(TimeSpan.FromMilliseconds(waitTicks + Random.Shared.Next(0, 1500)), token).ConfigureAwait(false);
+        }
+    }
+
+    private static void RecordCooldown(HttpResponseMessage response)
+    {
+        const string LOG_IDENT = "RobloxBadges::RecordCooldown";
+        lock (CooldownLock)
+        {
+            long now = Environment.TickCount64;
+            if (Interlocked.Read(ref _cooldownUntilTicks) > now)
+                return;
+
+            int level = Math.Min(Interlocked.Increment(ref _throttleLevel), MaxThrottleLevel);
+            TimeSpan wait = TimeSpan.FromSeconds(4 << (level - 1));
+            if (response.Headers.RetryAfter?.Delta is { } asked && asked > wait)
+                wait = asked;
+            if (wait > MaxCooldown)
+                wait = MaxCooldown;
+            Interlocked.Exchange(ref _cooldownUntilTicks, now + (long)wait.TotalMilliseconds);
+            App.Logger.WriteLine(LOG_IDENT, "Roblox asked to slow down, waiting " + (int)wait.TotalSeconds + " seconds before asking again");
         }
     }
 
