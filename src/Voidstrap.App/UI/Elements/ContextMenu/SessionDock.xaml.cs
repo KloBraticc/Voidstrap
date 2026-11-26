@@ -16,6 +16,7 @@ using System.Windows.Threading;
 using Voidstrap.Enums;
 using Voidstrap.Extensions;
 using Voidstrap.Integrations;
+using Voidstrap.Integrations.Keystrokes;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models.Entities;
 using Voidstrap.Models.Persistable;
@@ -946,19 +947,19 @@ public partial class SessionDock : Window
     public void CloseDock()
     {
         if (PortableOverlay.Active)
-            Dispatcher.BeginInvoke(new Action(() => HideDock(true)));
+            Dispatcher.BeginInvoke(new Action(() => HideDock(true, playSound: true)));
         else
-            HideDock(true);
+            HideDock(true, playSound: true);
     }
 
     public void HideDock() => HideDock(false);
 
     // keepPanels is for a hide that only lasts until the game is focused again, every panel comes back with the dock
-    private void HideDock(bool animate, bool keepPanels = false)
+    private void HideDock(bool animate, bool keepPanels = false, bool playSound = false)
     {
         if (!Dispatcher.CheckAccess())
         {
-            Dispatcher.BeginInvoke(new Action(() => HideDock(animate, keepPanels)));
+            Dispatcher.BeginInvoke(new Action(() => HideDock(animate, keepPanels, playSound)));
             return;
         }
         _resumeOnFocus = false;
@@ -997,7 +998,7 @@ public partial class SessionDock : Window
                 panel.Close();
         }
         FadeDimmer(0);
-        StartDockTransition(false, animate);
+        StartDockTransition(false, animate, playSound);
         IntPtr game = RobloxWindowTracker.Current.Hwnd;
         if (returnFocus && PortableOverlay.Active)
             PortableOverlay.ReturnFocus();
@@ -1062,7 +1063,7 @@ public partial class SessionDock : Window
             return;
         if (_opened)
         {
-            HideDock(true);
+            HideDock(true, playSound: true);
             return;
         }
         if (!_activity.InGame)
@@ -1137,7 +1138,7 @@ public partial class SessionDock : Window
         RaiseAboveDimmer();
         _clock.Start();
         _activateOnSettle = activatePanels;
-        StartDockTransition(true, true);
+        StartDockTransition(true, true, playSound: activatePanels);
     }
 
     internal static (int Left, int Top) ComputeDockPosition(RobloxWindowRect rect, double scaleX, double scaleY, int width, int height)
@@ -1309,6 +1310,7 @@ public partial class SessionDock : Window
     {
         if (_closed)
             return;
+        KeystrokeAudioService.PrepareDockSounds();
         if (Voidstrap.Utility.Platform.IsWindows)
         {
             try
@@ -1424,14 +1426,13 @@ public partial class SessionDock : Window
         App.Logger.WriteLine("SessionDock", $"Restored {pinned.Length} pinned panel(s)");
     }
 
-    private void StartDockTransition(bool opening, bool animate)
+    private void StartDockTransition(bool opening, bool animate, bool playSound)
     {
         DetachDockTransition();
         DockSurface.IsHitTestVisible = opening;
         if (!animate || DockReducedMotion || !IsVisible || (!opening && DockBackdrop.Opacity <= 0.001))
         {
-            if (opening)
-                IntroduceGameCards();
+            StartDockFeedback(opening, playSound);
             FinishDockTransition();
             return;
         }
@@ -1455,10 +1456,17 @@ public partial class SessionDock : Window
             DockCommands.ApplyAnimationClock(OpacityProperty, _dockTransitionClock);
             DockCommandMotion.BeginAnimation(TranslateTransform.XProperty, DeckAnimation(from.X, to.X, duration, easing));
             DockCommandMotion.BeginAnimation(TranslateTransform.YProperty, DeckAnimation(from.Y, to.Y, duration, easing));
-            if (opening)
-                IntroduceGameCards();
+            StartDockFeedback(opening, playSound);
             Wpf.Ui.Animations.RenderReady.Hold(this, duration);
         });
+    }
+
+    private void StartDockFeedback(bool opening, bool playSound)
+    {
+        if (playSound)
+            _ = KeystrokeAudioService.PlayDockTransitionAsync(opening);
+        if (opening)
+            IntroduceGameCards();
     }
 
     private void OnDockTransitionCompleted(object? sender, EventArgs e)

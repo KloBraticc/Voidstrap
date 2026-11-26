@@ -14,15 +14,19 @@ public static class KeystrokeAudioService
 {
     private static readonly object Gate = new();
     private static readonly Dictionary<string, float[]> CachedSamples = new(StringComparer.OrdinalIgnoreCase);
-    private static readonly Dictionary<string, string> LinuxWavCache = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<string, string> PortableWavCache = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly Lazy<Task> DockAudioReady = new(() => Task.Run(Initialize));
+    private const string DockOpenCue = "DockOpen";
+    private const string DockCloseCue = "DockClose";
 
     private static IWavePlayer? _wavePlayer;
     private static MixingSampleProvider? _mixer;
     private static volatile bool _initialized;
-    private static int _linuxPlayers;
-    private const int MaxLinuxPlayers = 4;
+    private static int _portablePlayers;
+    private const int MaxPortablePlayers = 4;
     private static readonly WaveFormat MixFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);
-    private static string? _linuxPlayerExecutable;
+    private static string? _portablePlayerExecutable;
+    private static int _dockCueRequest;
 
     public static void Initialize()
     {
@@ -52,10 +56,10 @@ public static class KeystrokeAudioService
                     App.Logger?.WriteLine("KeystrokeAudioService", "Audio player initialization failed: " + ex.Message);
                 }
             }
-            else if (Voidstrap.Utility.Platform.UsesLinuxHost)
+            else if (Voidstrap.Utility.Platform.UsesLinuxHost || Voidstrap.Utility.Platform.IsMacOS)
             {
-                _linuxPlayerExecutable = ResolveLinuxPlayer();
-                CacheLinuxWavFiles();
+                _portablePlayerExecutable = ResolvePortablePlayer();
+                CachePortableWavFiles();
             }
 
             _initialized = true;
@@ -65,6 +69,29 @@ public static class KeystrokeAudioService
     public static void PlayKeySound() => PlayKeyboardPress(false);
 
     public static void PlayMouseSound() => PlayMousePress(false);
+
+    internal static void PrepareDockSounds() => _ = DockAudioReady.Value;
+
+    internal static async Task PlayDockTransitionAsync(bool opening)
+    {
+        const string LOG_IDENT = "KeystrokeAudioService::PlayDockTransitionAsync";
+        int request = Interlocked.Increment(ref _dockCueRequest);
+        try
+        {
+            await DockAudioReady.Value.ConfigureAwait(false);
+            if (request != Volatile.Read(ref _dockCueRequest))
+                return;
+            string cue = opening ? DockOpenCue : DockCloseCue;
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                PlayPortable(cue, null);
+            else
+                Play(cue, null, 1);
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "Dock audio could not be played: " + ex.Message);
+        }
+    }
 
     public static void PlayKeyboardPress(bool force = false)
     {
@@ -122,7 +149,7 @@ public static class KeystrokeAudioService
         }
         else if (Voidstrap.Utility.Platform.UsesLinuxHost)
         {
-            PlayLinux(packName, customPath);
+            PlayPortable(packName, customPath);
         }
     }
 
@@ -149,9 +176,9 @@ public static class KeystrokeAudioService
         }
     }
 
-    private static void PlayLinux(string packName, string? customPath)
+    private static void PlayPortable(string packName, string? customPath)
     {
-        string? exe = _linuxPlayerExecutable ??= ResolveLinuxPlayer();
+        string? exe = _portablePlayerExecutable ??= ResolvePortablePlayer();
         if (string.IsNullOrEmpty(exe))
             return;
 
@@ -160,16 +187,16 @@ public static class KeystrokeAudioService
         {
             if (string.Equals(packName, "Custom", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(customPath) && File.Exists(customPath))
                 filePath = customPath;
-            else if (LinuxWavCache.TryGetValue(packName, out var cached))
+            else if (PortableWavCache.TryGetValue(packName, out var cached))
                 filePath = cached;
         }
 
         if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
             return;
 
-        if (Interlocked.Increment(ref _linuxPlayers) > MaxLinuxPlayers)
+        if (Interlocked.Increment(ref _portablePlayers) > MaxPortablePlayers)
         {
-            Interlocked.Decrement(ref _linuxPlayers);
+            Interlocked.Decrement(ref _portablePlayers);
             return;
         }
 
@@ -192,20 +219,24 @@ public static class KeystrokeAudioService
             }
             finally
             {
-                Interlocked.Decrement(ref _linuxPlayers);
+                Interlocked.Decrement(ref _portablePlayers);
             }
         });
     }
 
-    private static string? ResolveLinuxPlayer()
+    private static string? ResolvePortablePlayer()
     {
+        if (Voidstrap.Utility.Platform.IsMacOS)
+            return File.Exists("/usr/bin/afplay") ? "/usr/bin/afplay" : null;
+
+        Core.SystemProcessService processes = new();
         string[] candidates = ["pw-play", "paplay", "aplay"];
         foreach (string candidate in candidates)
         {
             try
             {
-                string path = "/usr/bin/" + candidate;
-                if (File.Exists(path))
+                string? path = processes.FindExecutable(candidate);
+                if (path != null)
                     return path;
             }
             catch
@@ -215,7 +246,7 @@ public static class KeystrokeAudioService
         return null;
     }
 
-    private static void CacheLinuxWavFiles()
+    private static void CachePortableWavFiles()
     {
         try
         {
@@ -231,12 +262,12 @@ public static class KeystrokeAudioService
                     byte[] bytes = CreateWavBytes(kvp.Value, 44100);
                     File.WriteAllBytes(filePath, bytes);
                 }
-                LinuxWavCache[kvp.Key] = filePath;
+                PortableWavCache[kvp.Key] = filePath;
             }
         }
         catch (Exception ex)
         {
-            App.Logger?.WriteLine("KeystrokeAudioService", "Linux wav cache failed: " + ex.Message);
+            App.Logger?.WriteLine("KeystrokeAudioService", "Portable wav cache failed: " + ex.Message);
         }
     }
 
@@ -249,6 +280,34 @@ public static class KeystrokeAudioService
         CachedSamples["Crisp"] = SynthesizeCrisp();
         CachedSamples["Muted"] = SynthesizeMuted();
         CachedSamples["Thocky"] = SynthesizeThocky();
+        CachedSamples[DockOpenCue] = SynthesizeDockCue(true);
+        CachedSamples[DockCloseCue] = SynthesizeDockCue(false);
+    }
+
+    private static float[] SynthesizeDockCue(bool opening)
+    {
+        double duration = opening ? 0.23 : 0.18;
+        float[] samples = new float[(int)(duration * MixFormat.SampleRate)];
+        for (int i = 0; i < samples.Length; i++)
+        {
+            double time = (double)i / MixFormat.SampleRate;
+            double tap = DockTone(time, opening ? 196 : 165, 0.019);
+            double lead = DockTone(time, opening ? 466.16 : 587.33, 0.064);
+            double answer = DockTone(time - 0.036, opening ? 698.46 : 392, 0.048);
+            double tail = Math.Clamp((duration - time) / 0.04, 0, 1);
+            samples[i] = (float)((tap * 0.24 + lead * 0.45 + answer * 0.53) * tail);
+        }
+        Normalize(samples, 0.24f);
+        return samples;
+    }
+
+    private static double DockTone(double time, double frequency, double decay)
+    {
+        if (time < 0)
+            return 0;
+        double phase = Math.Tau * frequency * time;
+        double envelope = Math.Min(1, time / 0.009) * Math.Exp(-time / decay);
+        return envelope * (Math.Sin(phase) + 0.15 * Math.Sin(phase * 2.01));
     }
 
     private static float[] SynthesizeMechanical()
