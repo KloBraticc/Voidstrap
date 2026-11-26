@@ -51,7 +51,7 @@ pkgdesc='Customize and launch Roblox through Sober on Linux'
 arch=('x86_64' 'aarch64')
 url='$PROJECT_URL'
 license=('GPL-3.0-only' 'MIT' 'OFL-1.1' 'CC-BY-4.0' 'Apache-2.0' 'BSD-2-Clause' 'BSD-3-Clause' 'Zlib' 'Unicode-DFS-2016')
-depends=('glibc' 'gcc-libs' 'zlib' 'vulkan-icd-loader' 'vulkan-driver' 'libx11' 'libxext' 'libxrender' 'libxrandr' 'libxi' 'libxcursor' 'libxfixes' 'libice' 'libsm' 'fontconfig' 'freetype2' 'ttf-font' 'libxkbcommon' 'libxkbcommon-x11' 'wayland' 'dbus' 'libglvnd' 'openssl' 'ca-certificates' 'flatpak' 'hicolor-icon-theme' 'xdg-utils' 'desktop-file-utils' 'glib2' 'libnotify' 'libsecret' 'gstreamer' 'gst-plugins-base' 'gst-plugins-good' 'gst-plugins-bad' 'gst-libav' 'webkit2gtk-4.1')
+depends=('glibc' 'gcc-libs' 'zlib' 'vulkan-icd-loader' 'vulkan-driver' 'libx11' 'libxext' 'libxrender' 'libxrandr' 'libxi' 'libxcursor' 'libxfixes' 'libice' 'libsm' 'fontconfig' 'freetype2' 'ttf-font' 'libxkbcommon' 'libxkbcommon-x11' 'wayland' 'dbus' 'libpulse' 'libglvnd' 'openssl' 'ca-certificates' 'flatpak' 'hicolor-icon-theme' 'xdg-utils' 'desktop-file-utils' 'glib2' 'libnotify' 'libsecret' 'gstreamer' 'gst-plugins-base' 'gst-plugins-good' 'gst-plugins-bad' 'gst-libav' 'webkit2gtk-4.1')
 optdepends=('vulkan-swrast: software rendering when no GPU Vulkan driver works'
             'polkit: administrator authorization for system updates and host integrations'
             'pipewire: Roblox audio session controls'
@@ -115,6 +115,7 @@ pkgbase = voidstrap-bin
 	depends = libxkbcommon-x11
 	depends = wayland
 	depends = dbus
+	depends = libpulse
 	depends = libglvnd
 	depends = openssl
 	depends = ca-certificates

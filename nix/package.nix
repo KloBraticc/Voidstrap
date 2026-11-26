@@ -28,6 +28,7 @@
   libXrender,
   libxkbcommon,
   libdrm,
+  libpulseaudio,
   mesa,
   openssl,
   vulkan-loader,
@@ -59,6 +60,7 @@ let
     libXrender
     libxkbcommon
     libdrm
+    libpulseaudio
     mesa
     openssl
     vulkan-loader

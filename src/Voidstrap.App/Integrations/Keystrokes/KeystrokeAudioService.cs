@@ -40,6 +40,8 @@ public static class KeystrokeAudioService
 
             if (Voidstrap.Utility.Platform.IsWindows)
             {
+                CacheDockSamples(DockOpenCue);
+                CacheDockSamples(DockCloseCue);
                 try
                 {
                     _mixer = new MixingSampleProvider(MixFormat) { ReadFully = true };
@@ -83,14 +85,41 @@ public static class KeystrokeAudioService
             if (request != Volatile.Read(ref _dockCueRequest))
                 return;
             string cue = opening ? DockOpenCue : DockCloseCue;
-            if (Voidstrap.Utility.Platform.IsMacOS)
-                PlayPortable(cue, null);
-            else
+            if (Voidstrap.Utility.Platform.IsWindows)
+            {
                 Play(cue, null, 1);
+                return;
+            }
+            if (Voidstrap.Utility.Platform.UsesLinuxHost
+                && await Task.Run(() => request == Volatile.Read(ref _dockCueRequest) && TryPlayLinuxDockCue(cue)).ConfigureAwait(false))
+                return;
+            if (request == Volatile.Read(ref _dockCueRequest))
+                PlayPortable(cue, null);
         }
         catch (Exception ex)
         {
             App.Logger?.WriteLine(LOG_IDENT, "Dock audio could not be played: " + ex.Message);
+        }
+    }
+
+    private static bool TryPlayLinuxDockCue(string name)
+    {
+        if (Interlocked.Increment(ref _portablePlayers) > MaxPortablePlayers)
+        {
+            Interlocked.Decrement(ref _portablePlayers);
+            return false;
+        }
+        try
+        {
+            using WaveFileReader wave = new(new MemoryStream(ReadDockWave(name), writable: false));
+            byte[] pcm = new byte[checked((int)wave.Length)];
+            return wave.Read(pcm, 0, pcm.Length) == pcm.Length
+                && Voidstrap.Platform.Linux.LinuxPcmPlayback.TryPlay(
+                    Strings.Ui_Mods_SessionDock, pcm, (uint)wave.WaveFormat.SampleRate, (byte)wave.WaveFormat.Channels);
+        }
+        finally
+        {
+            Interlocked.Decrement(ref _portablePlayers);
         }
     }
 
@@ -141,7 +170,9 @@ public static class KeystrokeAudioService
             {
                 try
                 {
-                    mixer.AddMixerInput(new StereoCachedSampleProvider(samples, (float)volume));
+                    bool stereo = string.Equals(packName, DockOpenCue, StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(packName, DockCloseCue, StringComparison.OrdinalIgnoreCase);
+                    mixer.AddMixerInput(new StereoCachedSampleProvider(samples, (float)volume, stereo ? 2 : 1));
                 }
                 catch
                 {
@@ -257,28 +288,64 @@ public static class KeystrokeAudioService
             {
                 if (kvp.Key.StartsWith("custom:", StringComparison.Ordinal))
                     continue;
-                byte[] bytes = CreateWavBytes(kvp.Value, MixFormat.SampleRate);
-                string hash = Convert.ToHexString(SHA256.HashData(bytes));
-                string filePath = Path.Combine(dir, $"{kvp.Key}-{hash}.wav");
-                if (!File.Exists(filePath))
-                {
-                    string temporaryPath = filePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-                    try
-                    {
-                        File.WriteAllBytes(temporaryPath, bytes);
-                        File.Move(temporaryPath, filePath, overwrite: true);
-                    }
-                    finally
-                    {
-                        File.Delete(temporaryPath);
-                    }
-                }
-                PortableWavCache[kvp.Key] = filePath;
+                CachePortableWavFile(dir, kvp.Key, CreateWavBytes(kvp.Value, MixFormat.SampleRate));
             }
+            CachePortableWavFile(dir, DockOpenCue, ReadDockWave(DockOpenCue));
+            CachePortableWavFile(dir, DockCloseCue, ReadDockWave(DockCloseCue));
         }
         catch (Exception ex)
         {
             App.Logger?.WriteLine("KeystrokeAudioService", "Portable wav cache failed: " + ex.Message);
+        }
+    }
+
+    private static void CachePortableWavFile(string directory, string name, byte[] bytes)
+    {
+        string hash = Convert.ToHexString(SHA256.HashData(bytes));
+        string filePath = Path.Combine(directory, $"{name}-{hash}.wav");
+        if (!File.Exists(filePath))
+        {
+            string temporaryPath = filePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+            try
+            {
+                File.WriteAllBytes(temporaryPath, bytes);
+                File.Move(temporaryPath, filePath, overwrite: true);
+            }
+            finally
+            {
+                File.Delete(temporaryPath);
+            }
+        }
+        PortableWavCache[name] = filePath;
+    }
+
+    private static byte[] ReadDockWave(string name)
+    {
+        using Stream stream = typeof(KeystrokeAudioService).Assembly.GetManifestResourceStream($"Voidstrap.Resources.SessionDock.{name}.wav")
+            ?? throw new FileNotFoundException($"Missing embedded dock cue {name}");
+        using MemoryStream buffer = new();
+        stream.CopyTo(buffer);
+        return buffer.ToArray();
+    }
+
+    private static void CacheDockSamples(string name)
+    {
+        const string LOG_IDENT = "KeystrokeAudioService::CacheDockSamples";
+        try
+        {
+            using WaveFileReader wave = new(new MemoryStream(ReadDockWave(name), writable: false));
+            WaveFormat format = wave.WaveFormat;
+            if (format.Encoding != WaveFormatEncoding.Pcm || format.Channels != MixFormat.Channels
+                || format.SampleRate != MixFormat.SampleRate || format.BitsPerSample != 16)
+                throw new InvalidDataException($"Unsupported format for dock cue {name}");
+            float[] samples = new float[checked((int)(wave.Length / sizeof(short)))];
+            if (wave.ToSampleProvider().Read(samples.AsSpan()) != samples.Length)
+                throw new EndOfStreamException($"Incomplete dock cue {name}");
+            CachedSamples[name] = samples;
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine(LOG_IDENT, "Dock audio could not be loaded: " + ex.Message);
         }
     }
 
@@ -291,26 +358,6 @@ public static class KeystrokeAudioService
         CachedSamples["Crisp"] = SynthesizeCrisp();
         CachedSamples["Muted"] = SynthesizeMuted();
         CachedSamples["Thocky"] = SynthesizeThocky();
-        CachedSamples[DockOpenCue] = SynthesizeDockCue(true);
-        CachedSamples[DockCloseCue] = SynthesizeDockCue(false);
-    }
-
-    private static float[] SynthesizeDockCue(bool opening)
-    {
-        double duration = opening ? 0.36 : 0.31;
-        double startFrequency = opening ? 260 : 330;
-        double endFrequency = opening ? 330 : 220;
-        float[] samples = new float[(int)(duration * MixFormat.SampleRate)];
-        for (int i = 0; i < samples.Length; i++)
-        {
-            double time = (double)i / MixFormat.SampleRate;
-            double phase = Math.Tau * time * (startFrequency + (endFrequency - startFrequency) * time / (2 * duration));
-            double attack = Math.Sin(Math.PI / 2 * Math.Min(1, time / 0.055));
-            double release = 1 - time / duration;
-            samples[i] = (float)(Math.Sin(phase) * attack * attack * release * release);
-        }
-        Normalize(samples, 0.075f);
-        return samples;
     }
 
     private static float[] SynthesizeMechanical()
@@ -537,25 +584,27 @@ public static class KeystrokeAudioService
     {
         private readonly float[] _samples;
         private readonly float _volume;
+        private readonly int _channels;
         private int _position;
 
-        public StereoCachedSampleProvider(float[] samples, float volume)
+        public StereoCachedSampleProvider(float[] samples, float volume, int channels)
         {
             _samples = samples;
             _volume = Math.Clamp(volume, 0f, 1f);
+            _channels = channels;
         }
 
         public WaveFormat WaveFormat => MixFormat;
 
         public int Read(Span<float> buffer)
         {
-            int available = _samples.Length - _position;
+            int available = (_samples.Length - _position) / _channels;
             int frames = Math.Min(available, buffer.Length / 2);
             for (int i = 0; i < frames; i++)
             {
-                float val = _samples[_position++] * _volume;
-                buffer[i * 2] = val;
-                buffer[i * 2 + 1] = val;
+                buffer[i * 2] = _samples[_position] * _volume;
+                buffer[i * 2 + 1] = _samples[_position + _channels - 1] * _volume;
+                _position += _channels;
             }
             return frames * 2;
         }
