@@ -16,7 +16,7 @@ namespace Voidstrap.UI.Elements.Overlay;
 public partial class SessionDock
 {
     private const int DeckCardLimit = 8;
-    private const double DockSizeMultiplier = 1.16;
+    private const double DockSizeMultiplier = 1.32;
     private const int CardStaggerMilliseconds = 36;
     private readonly List<ExperienceCard> _experienceCards = new();
     private readonly ServerMatchmaker? _gameMatchmaker;
@@ -114,7 +114,7 @@ public partial class SessionDock
             ? _availableDepth / (PortableOverlay.Active ? 1 : sideways ? dpi.DpiScaleX : dpi.DpiScaleY)
             : 600;
         double inset = Math.Min(layout.SafeDockEdgeSpacing, across * 0.12);
-        double limit = Math.Min(across, Math.Max(118, across * 0.56));
+        double limit = Math.Min(across, Math.Max(118, across * 0.60));
         double cardDepth = sideways ? 202 : 222;
         const double cardClearance = 18;
         double scale = Math.Min(layout.SafeDockScale * DockSizeMultiplier, Math.Max(0.04, (limit - inset - cardClearance) / (DockHeight + cardDepth)));
