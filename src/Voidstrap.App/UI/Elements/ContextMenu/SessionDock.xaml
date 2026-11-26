@@ -44,6 +44,12 @@
           </ControlTemplate>
         </Setter.Value>
       </Setter>
+      <Style.Triggers>
+        <Trigger Property="Opacity" Value="0">
+          <Setter Property="IsHitTestVisible" Value="False" />
+          <Setter Property="IsTabStop" Value="False" />
+        </Trigger>
+      </Style.Triggers>
     </Style>
     <Style TargetType="ToolTip">
       <Setter Property="Placement" Value="Custom" />
