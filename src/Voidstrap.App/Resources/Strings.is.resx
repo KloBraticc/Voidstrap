@@ -9907,6 +9907,9 @@ Leikmenn: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Fleiri valkostir fyrir ræsingu, hreinsun og afköst.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Hljóð þegar stikunni er opnað og lokað</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Sýna Spotify fyrir ofan stikuna</value>
   </data>

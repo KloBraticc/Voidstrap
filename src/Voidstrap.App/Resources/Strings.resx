@@ -9909,6 +9909,9 @@ Players: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>More launch, cleanup and performance options.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Dock opening and closing sounds</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Show Spotify above the dock</value>
   </data>

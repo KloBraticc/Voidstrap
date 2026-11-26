@@ -10216,6 +10216,9 @@ Người chơi: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Thêm tùy chọn khởi chạy, dọn dẹp và hiệu suất.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Âm thanh khi mở và đóng thanh phiên</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Hiện Spotify phía trên thanh</value>
   </data>

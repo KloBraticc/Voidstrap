@@ -9907,6 +9907,9 @@ Spiller: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Méi Optiounen fir Start, Botzen a Leeschtung.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Téin beim Opmaachen an Zoumaache vum Dock</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Spotify iwwer dem Dock weisen</value>
   </data>

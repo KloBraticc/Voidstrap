@@ -2,6 +2,7 @@
         x:Class="Voidstrap.UI.Elements.Overlay.SessionOverlayLayoutEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:editor="clr-namespace:Voidstrap.UI.Elements.Editor"
+        xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         Title="{resources:Loc Ui_OverlayStudio_Title}" Width="680" Height="740" MinWidth="560" MinHeight="480"
@@ -426,6 +427,17 @@
       <StackPanel x:Name="DockInspector" Margin="0,12,0,0" Visibility="Collapsed">
         <Border Style="{StaticResource Card}">
           <StackPanel>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_Mods_SessionDockSounds}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource Label}" />
+                <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="{resources:Loc Ui_Mods_SessionDockSounds}"
+                                 IsChecked="{Binding SoundsEnabled, Source={x:Static settings:SessionDockSettingsViewModel.Instance}, Mode=TwoWay}" />
+              </Grid>
+            </Border>
             <Border Style="{StaticResource Row}">
               <Grid>
                 <Grid.ColumnDefinitions>

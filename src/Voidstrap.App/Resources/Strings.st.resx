@@ -9906,6 +9906,9 @@ Libapali: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Dikgetho tse ding tsa ho qala, ho hloekisa le tshebetso.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Melumo ha ho buloa le ha ho koaloa sebaka sa kopano</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Bontsha Spotify ka hodimo ho dock</value>
   </data>

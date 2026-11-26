@@ -9906,6 +9906,9 @@ Jugadors: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Més opcions d'inici, neteja i rendiment.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Sons en obrir i tancar la barra de sessió</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Mostra Spotify sobre la barra</value>
   </data>

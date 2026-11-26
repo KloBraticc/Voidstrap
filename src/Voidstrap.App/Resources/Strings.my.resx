@@ -9906,6 +9906,9 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>စတင်ခြင်း၊ ရှင်းလင်းခြင်းနှင့် စွမ်းဆောင်ရည်အတွက် နောက်ထပ်ရွေးချယ်စရာများ။</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Dock ကို ဖွင့်ချိန်နှင့် ပိတ်ချိန်တွင် မြည်သည့် အသံများ</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Dock အပေါ်တွင် Spotify ကိုပြပါ</value>
   </data>

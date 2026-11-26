@@ -9906,6 +9906,9 @@ Oyunçular: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Başlatma, təmizləmə və performans üçün əlavə seçimlər.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Dokun açılma və bağlanma səsləri</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Spotify-ı panelin üstündə göstər</value>
   </data>

@@ -10216,6 +10216,9 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Більше параметрів запуску, очищення та продуктивності.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Звуки відкриття й закриття панелі сеансу</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Показувати Spotify над панеллю</value>
   </data>

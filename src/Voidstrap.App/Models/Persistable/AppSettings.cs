@@ -336,6 +336,8 @@ namespace Voidstrap.Models.Persistable
 
         public bool SessionDockEnabled { get; set; } = true;
 
+        public bool SessionDockSounds { get; set; } = true;
+
         public bool SessionDockSpotify { get; set; } = true;
 
         public bool DockToggleServerLocation { get; set; }

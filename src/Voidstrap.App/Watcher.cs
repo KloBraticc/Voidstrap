@@ -272,7 +272,10 @@ public partial class Watcher : IDisposable
                 }
                 if (settings != null)
                 {
+                    bool dockSoundsChanged = App.Settings.Prop.SessionDockSounds != settings.SessionDockSounds;
                     App.Settings.Prop = settings;
+                    if (dockSoundsChanged)
+                        RunOnApplicationDispatcher(SessionDockSettingsViewModel.Instance.Refresh);
                 }
                 ApplyLiveSettings();
             }

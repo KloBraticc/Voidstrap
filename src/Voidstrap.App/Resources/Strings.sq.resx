@@ -9907,6 +9907,9 @@ Lojtarët: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Më shumë opsione për nisjen, pastrimin dhe performancën.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Tingujt kur hapet dhe mbyllet doku i seancës</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Shfaq Spotify mbi shiritin</value>
   </data>

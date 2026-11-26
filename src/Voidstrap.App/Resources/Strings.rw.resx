@@ -9907,6 +9907,9 @@ Abakinnyi: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Andi mahitamo yo gutangiza, gusukura n'imikorere.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Amajwi yo gufungura no gufunga umurongo w’ikiganiro</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Erekana Spotify hejuru ya dock</value>
   </data>

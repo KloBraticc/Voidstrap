@@ -9907,6 +9907,9 @@ Hráči: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Ďalšie možnosti spúšťania, čistenia a výkonu.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Zvuky pri otvorení a zatvorení panela relácie</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Zobraziť Spotify nad panelom</value>
   </data>

@@ -9907,6 +9907,9 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Գործարկման, մաքրման և արտադրողականության լրացուցիչ ընտրանքներ։</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Վահանակը բացելու և փակելու ձայները</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Ցույց տալ Spotify-ը վահանակի վերևում</value>
   </data>

@@ -10217,6 +10217,9 @@ Játékosok: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>További indítási, tisztítási és teljesítménybeállítások.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Hangok a munkamenetsáv megnyitásakor és bezárásakor</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Spotify megjelenítése a dokk felett</value>
   </data>

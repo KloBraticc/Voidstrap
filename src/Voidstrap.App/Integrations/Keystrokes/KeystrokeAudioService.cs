@@ -73,16 +73,23 @@ public static class KeystrokeAudioService
 
     public static void PlayMouseSound() => PlayMousePress(false);
 
-    internal static void PrepareDockSounds() => _ = DockAudioReady.Value;
+    internal static void PrepareDockSounds()
+    {
+        if (App.Settings.Prop.SessionDockSounds)
+            _ = DockAudioReady.Value;
+    }
 
     internal static async Task PlayDockTransitionAsync(bool opening)
     {
         const string LOG_IDENT = "KeystrokeAudioService::PlayDockTransitionAsync";
         int request = Interlocked.Increment(ref _dockCueRequest);
+        if (!App.Settings.Prop.SessionDockSounds)
+            return;
+
         try
         {
             await DockAudioReady.Value.ConfigureAwait(false);
-            if (request != Volatile.Read(ref _dockCueRequest))
+            if (!CanPlayDockCue(request))
                 return;
             string cue = opening ? DockOpenCue : DockCloseCue;
             if (Voidstrap.Utility.Platform.IsWindows)
@@ -91,16 +98,19 @@ public static class KeystrokeAudioService
                 return;
             }
             if (Voidstrap.Utility.Platform.UsesLinuxHost
-                && await Task.Run(() => request == Volatile.Read(ref _dockCueRequest) && TryPlayLinuxDockCue(cue)).ConfigureAwait(false))
+                && await Task.Run(() => CanPlayDockCue(request) && TryPlayLinuxDockCue(cue)).ConfigureAwait(false))
                 return;
-            if (request == Volatile.Read(ref _dockCueRequest))
-                PlayPortable(cue, null);
+            if (CanPlayDockCue(request))
+                PlayPortable(cue, null, request);
         }
         catch (Exception ex)
         {
             App.Logger?.WriteLine(LOG_IDENT, "Dock audio could not be played: " + ex.Message);
         }
     }
+
+    private static bool CanPlayDockCue(int request) =>
+        App.Settings.Prop.SessionDockSounds && request == Volatile.Read(ref _dockCueRequest);
 
     private static bool TryPlayLinuxDockCue(string name)
     {
@@ -208,7 +218,7 @@ public static class KeystrokeAudioService
         }
     }
 
-    private static void PlayPortable(string packName, string? customPath)
+    private static void PlayPortable(string packName, string? customPath, int? dockCueRequest = null)
     {
         string? exe = _portablePlayerExecutable ??= ResolvePortablePlayer();
         if (string.IsNullOrEmpty(exe))
@@ -236,6 +246,9 @@ public static class KeystrokeAudioService
         {
             try
             {
+                if (dockCueRequest is int request && !CanPlayDockCue(request))
+                    return;
+
                 ProcessStartInfo start = new()
                 {
                     FileName = exe,

@@ -10216,6 +10216,9 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>گزینه‌های بیشتر برای اجرا، پاک‌سازی و کارایی.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>صداهای باز و بسته شدن نوار جلسه</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>نمایش Spotify بالای نوار</value>
   </data>

@@ -10215,6 +10215,9 @@ Mga player: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Higit pang opsyon sa paglunsad, paglilinis at performance.</value>
   </data>
+  <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
+    <value>Mga tunog kapag binubuksan at isinasara ang dock</value>
+  </data>
   <data name="Ui.Mods.SessionDockSpotify.Title" xml:space="preserve">
     <value>Ipakita ang Spotify sa itaas ng dock</value>
   </data>
