@@ -107,6 +107,7 @@
 		<Resource Include="Resources\Erik.png" />
 		<Resource Include="Resources\ImportSourceBloxstrap.png" />
 		<Resource Include="Resources\ImportSourceFishstrap.png" />
+		<Resource Include="Resources\DotNetLogo.png" />
 		<Resource Include="Resources\RobloxFace.png" />
 		<Resource Include="Resources\RobloxPlayerIcon.png" />
 		<Resource Include="Resources\SteamVRIcon.png" />
