@@ -188,7 +188,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 return;
             foreach (DiscoverCacheGame game in _discoverCache.Recommended)
                 Recommended.Add(FromCache(game));
-            if (_discoverCache.Featured != null && !string.IsNullOrEmpty(_discoverCache.FeaturedVideoPath) && File.Exists(_discoverCache.FeaturedVideoPath))
+            if (_discoverCache.Featured != null && GameVideoStore.IsPlayableVideo(_discoverCache.FeaturedVideoPath))
             {
                 _featuredGame = FromCache(_discoverCache.Featured);
                 _featuredVideoPath = _discoverCache.FeaturedVideoPath;
@@ -307,7 +307,16 @@ namespace Voidstrap.UI.ViewModels.Pages
                     return;
                 }
                 App.Logger.WriteLine(LOG_IDENT, "None of the top games has a trailer video");
-                SaveDiscover(new DiscoverCache(_discoverCache?.FeaturedVideoPath != null ? _discoverCache.Featured : null, _discoverCache?.FeaturedVideoPath, picks.Select(ToCache).ToList()));
+                bool keepFeatured = GameVideoStore.IsPlayableVideo(_discoverCache?.FeaturedVideoPath);
+                if (!keepFeatured)
+                {
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        FeaturedGame = null;
+                        FeaturedVideoPath = null;
+                    });
+                }
+                SaveDiscover(new DiscoverCache(keepFeatured ? _discoverCache?.Featured : null, keepFeatured ? _discoverCache?.FeaturedVideoPath : null, picks.Select(ToCache).ToList()));
             }
             finally
             {

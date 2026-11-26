@@ -191,7 +191,7 @@ public sealed class GameVideoView : ContentControl
                 folder,
                 new CoreWebView2EnvironmentOptions("--autoplay-policy=no-user-gesture-required")
             );
-            view = new WebView2CompositionControl { DefaultBackgroundColor = System.Drawing.Color.Black };
+            view = new WebView2CompositionControl { DefaultBackgroundColor = System.Drawing.Color.Transparent };
             Content = view;
             _pendingView = view;
             try
@@ -216,13 +216,14 @@ public sealed class GameVideoView : ContentControl
             core.Settings.AreDefaultContextMenusEnabled = false;
             core.Settings.AreDevToolsEnabled = false;
             core.Settings.IsStatusBarEnabled = false;
+            core.WebMessageReceived += VideoWebMessageReceived;
             core.SetVirtualHostNameToFolderMapping(VirtualHost, Path.GetDirectoryName(path)!, CoreWebView2HostResourceAccessKind.DenyCors);
             string page = Path.GetFileNameWithoutExtension(path) + ".html";
             string source = Uri.EscapeDataString(Path.GetFileName(path));
             await File.WriteAllTextAsync(
                 Path.Combine(Path.GetDirectoryName(path)!, page),
-                "<!doctype html><html><body style=\"margin:0;background:#000;overflow:hidden\">"
-                    + $"<video src=\"{source}\" autoplay muted loop playsinline style=\"width:100vw;height:100vh;object-fit:cover;pointer-events:none\"></video>"
+                "<!doctype html><html><body style=\"margin:0;background:transparent;overflow:hidden\">"
+                    + $"<video src=\"{source}\" autoplay muted loop playsinline style=\"width:100vw;height:100vh;object-fit:cover;pointer-events:none;visibility:hidden\" onloadeddata=\"this.style.visibility='visible'\" onerror=\"chrome.webview.postMessage('video-error')\"></video>"
                     + "</body></html>"
             );
             if (!ReferenceEquals(Content, view) || !IsVisible || VideoPath != path)
@@ -256,6 +257,8 @@ public sealed class GameVideoView : ContentControl
             _webViewUnavailable = true;
             Content = null;
             view?.Dispose();
+            if (IsLoaded && IsVisible && VideoPath == path && _hostWindow?.WindowState != System.Windows.WindowState.Minimized)
+                StartPortable(path);
         }
         finally
         {
@@ -263,6 +266,19 @@ public sealed class GameVideoView : ContentControl
         }
         if (VideoPath != path || (_view != null && !IsVisible))
             Refresh();
+    }
+
+    private void VideoWebMessageReceived(object? sender, CoreWebView2WebMessageReceivedEventArgs e)
+    {
+        if (!ReferenceEquals(_view?.CoreWebView2, sender) || e.TryGetWebMessageAsString() != "video-error"
+            || VideoPath is not { } path || !IsLoaded || !IsVisible)
+            return;
+
+        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            if (ReferenceEquals(_view?.CoreWebView2, sender) && VideoPath == path && IsLoaded && IsVisible)
+                StartPortable(path);
+        }));
     }
 
     private void Teardown()
@@ -282,6 +298,10 @@ public sealed class GameVideoView : ContentControl
         _view = null;
         Content = null;
         if (!ReferenceEquals(view, _pendingView))
+        {
+            if (view?.CoreWebView2 is { } core)
+                core.WebMessageReceived -= VideoWebMessageReceived;
             view?.Dispose();
+        }
     }
 }
