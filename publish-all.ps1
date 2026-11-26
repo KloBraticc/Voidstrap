@@ -17,7 +17,8 @@ param(
     [switch]$SkipAppImage,
     [switch]$LinuxPackages,
     [switch]$NoPause,
-    [switch]$NoSign
+    [switch]$NoSign,
+    [switch]$WindowsNet10Only
 )
 
 Set-StrictMode -Version Latest
@@ -1142,6 +1143,30 @@ function Start-DotNetProcess {
     }
 }
 
+function Resolve-WindowsNet11Sdk {
+    $candidates = if ($env:VOIDSTRAP_NET11_DOTNET) {
+        @($env:VOIDSTRAP_NET11_DOTNET)
+    } else {
+        @($script:DotNetPath)
+        foreach ($root in @($initialDotNetRoot, $env:DOTNET_ROOT_X64, (Join-Path $env:USERPROFILE '.dotnet'),
+                (Join-Path $env:LOCALAPPDATA 'Voidstrap/BuildTools/dotnet11'), (Join-Path $env:ProgramFiles 'dotnet'))) {
+            if ($root) { Join-Path $root 'dotnet.exe' }
+        }
+    }
+
+    foreach ($candidate in ($candidates | Select-Object -Unique)) {
+        if (-not (Test-Path -LiteralPath $candidate -PathType Leaf)) { continue }
+        $path = (Resolve-Path -LiteralPath $candidate).Path
+        $sdk = & $path --list-sdks | ForEach-Object { if ($_ -match '^(11\.\d+\.\d+)\s') { $Matches[1] } } |
+            Sort-Object { [version]$_ } -Descending | Select-Object -First 1
+        if ($LASTEXITCODE -eq 0 -and $sdk) {
+            return [pscustomobject]@{ Executable = $path; Version = $sdk }
+        }
+    }
+
+    throw 'The Windows launcher requires the .NET 11 SDK for the runtime picker. Install it, set VOIDSTRAP_NET11_DOTNET to its dotnet.exe, or pass -WindowsNet10Only to explicitly publish without the picker.'
+}
+
 function Invoke-WindowsLauncherBuild {
     param([Parameter(Mandatory)] $Job)
 
@@ -1154,15 +1179,11 @@ function Invoke-WindowsLauncherBuild {
     $payload = Join-Path $payloadDir 'Voidstrap.exe'
     Copy-Item -LiteralPath $Job.Expected -Destination $payload -Force
 
-    $net11DotNet = if ($env:VOIDSTRAP_NET11_DOTNET) { $env:VOIDSTRAP_NET11_DOTNET } else { $script:DotNetPath }
-    $net11Sdk = @(& $net11DotNet --list-sdks | ForEach-Object { if ($_ -match '^(11\.\d+\.\d+)\s') { $Matches[1] } } |
-        Sort-Object { [version]$_ } -Descending | Select-Object -First 1)
-    if ($LASTEXITCODE -ne 0) { throw 'Could not check the installed .NET SDKs.' }
     $net11Payload = $null
-    if ($net11Sdk.Count -gt 0) {
+    if ($windowsNet11Sdk) {
         $net11Root = Join-Path $launcherRoot 'net11'
         [System.IO.Directory]::CreateDirectory($net11Root) | Out-Null
-        @{ sdk = @{ version = $net11Sdk[0]; allowPrerelease = $false } } | ConvertTo-Json |
+        @{ sdk = @{ version = $windowsNet11Sdk.Version; allowPrerelease = $false } } | ConvertTo-Json |
             Set-Content -LiteralPath (Join-Path $net11Root 'global.json') -Encoding utf8
         $net11Out = Join-Path $net11Root 'publish'
         $wpfProps = Join-Path $Root 'build/Packaging/WpfTemporaryProject.props'
@@ -1173,17 +1194,15 @@ function Invoke-WindowsLauncherBuild {
         Write-Host '  Windows-x64: publishing .NET 11 companion' -ForegroundColor Cyan
         Push-Location -LiteralPath $net11Root
         try {
-            & $net11DotNet @net11Args
+            & $windowsNet11Sdk.Executable @net11Args
             if ($LASTEXITCODE -ne 0) { throw 'The .NET 11 companion publish failed.' }
         } finally {
             Pop-Location
         }
         $net11Payload = Join-Path $net11Out 'Voidstrap.exe'
         Assert-FileExists $net11Payload '.NET 11 companion'
-    } elseif ($env:VOIDSTRAP_NET11_DOTNET) {
-        throw 'VOIDSTRAP_NET11_DOTNET does not contain a stable .NET 11 SDK.'
     } else {
-        Write-Host '  Windows-x64: .NET 11 SDK unavailable. This build includes .NET 10 only.' -ForegroundColor DarkYellow
+        Write-Host '  Windows-x64: publishing .NET 10 only' -ForegroundColor DarkYellow
     }
 
     $previousNet11Payload = $env:VOIDSTRAP_LAUNCHER_PAYLOAD_NET11
@@ -1892,6 +1911,7 @@ if (-not $dotnetPath) {
 }
 
 $dotnetDirectory = Split-Path -Parent $dotnetPath
+$initialDotNetRoot = $env:DOTNET_ROOT
 $env:DOTNET_ROOT = $dotnetDirectory
 $fastCliNames = @('DOTNET_CLI_TELEMETRY_OPTOUT', 'DOTNET_NOLOGO', 'DOTNET_SKIP_FIRST_TIME_EXPERIENCE', 'DOTNET_GENERATE_ASPNET_CERTIFICATE', 'DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE')
 foreach ($name in $fastCliNames) {
@@ -1953,7 +1973,9 @@ if ($RequestedAll) {
 }
 
 $SignPathContext = $null
-if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -gt 0)) {
+$windowsNet11Sdk = $null
+$buildingWindows = $IsWindowsHost -and @($Targets | Where-Object { $_.Key -eq 'windows' }).Count -gt 0
+if ($buildingWindows -and $Configuration -eq 'Release') {
     $useSignPath = -not $NoSign -and -not [Console]::IsInputRedirected
     if ($useSignPath -and -not $env:CI) {
         while ($true) {
@@ -1967,8 +1989,12 @@ if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Ob
         }
     }
     if ($useSignPath) {
+        if ($WindowsNet10Only) { throw '-WindowsNet10Only is available for local builds. Use -NoSign to publish only .NET 10.' }
         $SignPathContext = Resolve-SignPathSource -Version (Get-VoidstrapVersion)
     }
+}
+if ($buildingWindows -and -not $WindowsNet10Only -and -not $SignPathContext) {
+    $windowsNet11Sdk = Resolve-WindowsNet11Sdk
 }
 
 $AndroidExplicit = $Only -contains 'android'
