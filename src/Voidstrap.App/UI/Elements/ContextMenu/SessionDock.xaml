@@ -155,8 +155,13 @@
   <Grid x:Name="DockRoot">
     <Grid x:Name="DeckHost" Margin="0,0,0,8">
       <ScrollViewer x:Name="DeckScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
-                    Focusable="False" PanningMode="HorizontalOnly" PreviewMouseWheel="DeckScroll_PreviewMouseWheel">
-        <StackPanel x:Name="DeckCards" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                    Focusable="False" IsEnabled="False" IsHitTestVisible="False" PanningMode="HorizontalOnly"
+                    PreviewMouseWheel="DeckScroll_PreviewMouseWheel">
+        <StackPanel x:Name="DeckCards" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Opacity="0">
+          <StackPanel.RenderTransform>
+            <TranslateTransform x:Name="DeckMotion" />
+          </StackPanel.RenderTransform>
+        </StackPanel>
       </ScrollViewer>
       <TextBlock x:Name="GameLaunchStatus" Margin="10" Padding="10,6" HorizontalAlignment="Center" VerticalAlignment="Bottom"
                  TextWrapping="Wrap" Background="#ED101218" Foreground="White" Visibility="Collapsed" IsHitTestVisible="False"

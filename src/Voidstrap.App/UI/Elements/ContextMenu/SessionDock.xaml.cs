@@ -298,6 +298,7 @@ public partial class SessionDock : Window
             panel = new SessionPanelWindow(key, title, create());
             panel.Closed += OnPanelClosed;
             panel.DismissRequested += OnPanelDismissed;
+            panel.IsVisibleChanged += OnDeckWindowVisibilityChanged;
             _panels[key] = panel;
         }
         if (_prewarming)
@@ -346,6 +347,7 @@ public partial class SessionDock : Window
             return;
         panel.Closed -= OnPanelClosed;
         panel.DismissRequested -= OnPanelDismissed;
+        panel.IsVisibleChanged -= OnDeckWindowVisibilityChanged;
         string? key = _panels.FirstOrDefault(pair => ReferenceEquals(pair.Value, panel)).Key;
         if (key != null)
             _panels.Remove(key);
@@ -354,6 +356,7 @@ public partial class SessionDock : Window
         UpdateActiveButtons();
         if (key != HubKey)
             UpdateHub();
+        RefreshDeckVisibility();
     }
 
     private void OnPanelDismissed(object? sender, EventArgs e) => CloseDock();
@@ -479,6 +482,7 @@ public partial class SessionDock : Window
         if (_closed)
             return;
         _islandExpanded = expand;
+        RefreshDeckVisibility();
         double width = expand ? IslandExpandedWidth : CompactIslandWidth();
         double height = expand ? IslandExpandedHeight : IslandCompactHeight;
         double radius = expand ? IslandExpandedRadius : IslandCompactHeight / 2;
@@ -512,6 +516,7 @@ public partial class SessionDock : Window
     private void ResetIsland()
     {
         _islandExpanded = false;
+        RefreshDeckVisibility();
         _islandClock.Stop();
         _islandClock.Tick -= OnIslandClockTick;
         if (_robuxTimer != null)
@@ -933,6 +938,8 @@ public partial class SessionDock : Window
             App.Logger.WriteLine("SessionDock", "Hiding the dock, called from " + string.Join(" < ", callers));
         }
         _opened = false;
+        _deckOpening = false;
+        SetDeckVisibility(false, animate && IsVisible);
         RefreshNowPlaying();
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
@@ -1020,13 +1027,7 @@ public partial class SessionDock : Window
         if (!App.Settings.Prop.SessionDockEnabled || !_activity.InGame)
             return;
         // The player just clicked back into the game, so nothing takes the keyboard away from it
-        Open(activatePanels: false);
-        if (!popout || !_opened)
-            return;
-        if (_slide.IsRunning)
-            _popoutOnSettle = true;
-        else
-            ShowPopout();
+        Open(activatePanels: false, restorePopout: popout);
     }
 
     private void Toggle()
@@ -1043,7 +1044,7 @@ public partial class SessionDock : Window
         Open();
     }
 
-    private void Open(bool activatePanels = true)
+    private void Open(bool activatePanels = true, bool restorePopout = false)
     {
         _resumeOnFocus = false;
         _resumePopout = false;
@@ -1051,6 +1052,13 @@ public partial class SessionDock : Window
         string shortcut = Voidstrap.UI.Elements.ContextMenu.MenuContainer.ShortcutText;
         CloseButton.ToolTip = shortcut.Length > 0 ? "Close, " + shortcut : "Close";
         RobloxWindowTracker.Refresh();
+        bool fresh = !IsVisible;
+        Point? resumeFrom = _exiting ? _slide.CurrentPosition() : null;
+        CancelEntrance();
+        _popoutOnSettle = restorePopout;
+        if (fresh)
+            SetDeckVisibility(false, false);
+        _deckOpening = true;
         _opened = true;
         UpdateClipperVisibility();
         RefreshNowPlaying();
@@ -1062,9 +1070,7 @@ public partial class SessionDock : Window
             placement: RobloxOverlayPlacement.BottomCenter,
             customPosition: ComputeDockPosition
         );
-        Point? resumeFrom = _exiting ? _slide.CurrentPosition() : null;
-        CancelEntrance();
-        if (!DockReducedMotion && resumeFrom == null && !IsVisible && NativeSlide.Supported && RobloxWindowTracker.Current.Valid)
+        if (!DockReducedMotion && resumeFrom == null && fresh && NativeSlide.Supported && RobloxWindowTracker.Current.Valid)
             _slide.Conceal();
         try
         {
@@ -1074,6 +1080,8 @@ public partial class SessionDock : Window
         {
             App.Logger.WriteLine("SessionDock", "The dock could not be shown: " + ex.Message);
             _opened = false;
+            _deckOpening = false;
+            SetDeckVisibility(false, false);
             CancelEntrance();
             FadeDimmer(0);
             return;
@@ -1103,7 +1111,7 @@ public partial class SessionDock : Window
         RaiseAboveDimmer();
         _clock.Start();
         _activateOnSettle = activatePanels;
-        IntroduceGameCards();
+        IntroduceGameCards(fresh);
         StartEntrance(resumeFrom);
     }
 
@@ -1125,6 +1133,7 @@ public partial class SessionDock : Window
     {
         _screenDragDimOverride = active;
         DockSurface.Visibility = active ? Visibility.Hidden : Visibility.Visible;
+        RefreshDeckVisibility();
         if (_opened && _dimmer != null)
             FadeDimmer(active ? Math.Min(0.10, ResolveConfiguredDimmerOpacity()) : ResolveConfiguredDimmerOpacity());
     }
@@ -1306,6 +1315,8 @@ public partial class SessionDock : Window
             _popoutOnSettle = false;
             ShowPopout();
         }
+        _deckOpening = false;
+        RefreshDeckVisibility();
         RaiseAboveDimmer();
     }
 
@@ -1485,7 +1496,7 @@ public partial class SessionDock : Window
                 _linuxMotionDeadline?.Start();
                 DoubleAnimation motion = new(from, to, duration)
                 {
-                    EasingFunction = new QuadraticEase { EasingMode = easingMode },
+                    EasingFunction = new CubicEase { EasingMode = easingMode },
                     FillBehavior = FillBehavior.Stop,
                 };
                 motion.Completed += (_, _) => FinishLinuxDockAnimation(generation);
@@ -2343,6 +2354,7 @@ public partial class SessionDock : Window
             PortableOverlay.Prepare(_popout);
             _popout.SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
             _popout.SourceInitialized += OnPopoutSourceInitialized;
+            _popout.IsVisibleChanged += OnDeckWindowVisibilityChanged;
             if (PortableOverlay.Active)
             {
                 _popout.PreviewKeyDown += OnDockKey;
@@ -3235,6 +3247,7 @@ public partial class SessionDock : Window
         {
             panel.Closed -= OnPanelClosed;
             panel.DismissRequested -= OnPanelDismissed;
+            panel.IsVisibleChanged -= OnDeckWindowVisibilityChanged;
             panel.Close();
         }
         _panels.Clear();
@@ -3277,6 +3290,7 @@ public partial class SessionDock : Window
         {
             PortableOverlay.Release(_popout);
             _popout.SourceInitialized -= OnPopoutSourceInitialized;
+            _popout.IsVisibleChanged -= OnDeckWindowVisibilityChanged;
             _popout.PreviewKeyDown -= OnDockKey;
             _popout.PreviewMouseDown -= OnPopoutPointerDown;
             OverlayDiagnostics.UnregisterOverlayHandle(_popoutHandle);
