@@ -24,7 +24,9 @@
         <Setter.Value>
           <ControlTemplate TargetType="Button">
             <Grid>
-              <ContentPresenter />
+              <AdornerDecorator>
+                <ContentPresenter />
+              </AdornerDecorator>
               <Border x:Name="Frame" CornerRadius="14" BorderThickness="1" BorderBrush="#45FFFFFF" IsHitTestVisible="False" />
             </Grid>
             <ControlTemplate.Triggers>
