@@ -10699,4 +10699,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>กำหนดค่าการสั่นของคอนโทรลเลอร์และทริกเกอร์แบบปรับได้</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>คุณแน่ใจหรือไม่ว่าต้องการเข้าร่วมเกมนี้?</value>
+  </data>
 </root>

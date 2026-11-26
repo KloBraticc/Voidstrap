@@ -309,20 +309,6 @@ public partial class SessionDock : Window
         // Panels brought back because they were pinned must not take the keyboard from the game
         panel.Present(true, !_restoringPinned);
         UpdateActiveButtons();
-        if (key != HubKey)
-            UpdateHub();
-    }
-
-    private void UpdateHub()
-    {
-        if (_closed || !_opened || _prewarming)
-            return;
-        bool otherOpen = _panels.Any(pair => pair.Key != HubKey && pair.Value.IsRequested);
-        bool hubOpen = _panels.TryGetValue(HubKey, out SessionPanelWindow? hub) && hub.IsRequested;
-        if (otherOpen && hubOpen)
-            CloseTool(HubKey);
-        else if (!otherOpen && !hubOpen && App.Settings.Prop.ShowDockNews)
-            _action(HubKey);
     }
 
     public void CloseTool(string key)
@@ -354,8 +340,6 @@ public partial class SessionDock : Window
         if (key == "web" && panel.IsPinned)
             _pinnedRestored = false;
         UpdateActiveButtons();
-        if (key != HubKey)
-            UpdateHub();
         RefreshDeckVisibility();
     }
 
@@ -638,7 +622,7 @@ public partial class SessionDock : Window
 
     private void UpdateNowPlayingVisibility()
     {
-        bool busy = PopoutOpen || _panels.Any(static entry => entry.Key != HubKey && entry.Value.IsRequested);
+        bool busy = _deckJoinDialog != null || PopoutOpen || _panels.Values.Any(static panel => panel.IsRequested);
         bool show = _opened && !_closed && !_slide.IsRunning && _nowPlaying != null && !busy && App.Settings.Prop.SessionDockSpotify;
         if (show)
         {
@@ -813,12 +797,12 @@ public partial class SessionDock : Window
                     glyph.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
             }
         }
-        _dimmer?.SetCatchesPointer(_panels.Any(static entry => entry.Key != HubKey && entry.Value.IsRequested && !entry.Value.IsPinned));
+        _dimmer?.SetCatchesPointer(_panels.Values.Any(static panel => panel.IsRequested && !panel.IsPinned));
     }
 
     private void OnDimmerClicked()
     {
-        foreach (SessionPanelWindow panel in _panels.Where(static entry => entry.Key != HubKey && entry.Value.IsRequested && !entry.Value.IsPinned).Select(static entry => entry.Value).ToList())
+        foreach (SessionPanelWindow panel in _panels.Values.Where(static panel => panel.IsRequested && !panel.IsPinned).ToList())
             panel.HideForSession();
         UpdateActiveButtons();
         PortableOverlay.ReturnFocus();
@@ -940,6 +924,7 @@ public partial class SessionDock : Window
         _opened = false;
         _deckOpening = false;
         SetDeckVisibility(false, animate && IsVisible);
+        _deckJoinDialog?.Close();
         RefreshNowPlaying();
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
@@ -963,7 +948,9 @@ public partial class SessionDock : Window
         // Pinned panels belong to the dock: they hide with it and come back when it opens. The rest close.
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
         {
-            if (panel.IsPinned || keepPanels || !panel.IsRequested || panel.KeepsRunning)
+            if (panel.PanelKey == HubKey)
+                panel.Close();
+            else if (panel.IsPinned || keepPanels || !panel.IsRequested || panel.KeepsRunning)
                 panel.SetInteractive(false);
             else
                 panel.Close();
@@ -1307,7 +1294,6 @@ public partial class SessionDock : Window
                 panel.Present(true, _activateOnSettle);
         }
         RestorePinnedPanels();
-        UpdateHub();
         SpotifyEngine.Prewarm();
         StartPrewarm();
         if (_popoutOnSettle)
@@ -3306,6 +3292,7 @@ public partial class SessionDock : Window
         _anchor = null;
         CancelRefresh();
         _lifetime.Cancel();
+        ClearExperienceCards();
         _lifetime.Dispose();
         _trackerLease.Dispose();
         GamePicture.Source = null;

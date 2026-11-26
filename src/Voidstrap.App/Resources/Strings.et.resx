@@ -10389,4 +10389,7 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Seadistage kontrolleri vibratsioon ja adaptiivsed päästikud.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Kas soovid kindlasti selle mänguga liituda?</value>
+  </data>
 </root>

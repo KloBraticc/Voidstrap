@@ -10390,4 +10390,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ନିୟନ୍ତ୍ରକ କମ୍ପନ ଏବଂ ଆଡାପ୍ଟିଭ୍ ଟ୍ରିଗରଗୁଡ଼ିକୁ ବିନ୍ୟାସ କରନ୍ତୁ |</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>ଆପଣ ନିଶ୍ଚିତ କି ଯେ ଏହି ଖେଳରେ ଯୋଗ ଦେବାକୁ ଚାହୁଁଛନ୍ତି?</value>
+  </data>
 </root>

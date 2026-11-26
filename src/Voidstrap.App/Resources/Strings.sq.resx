@@ -10390,4 +10390,7 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfiguro dridhjet e kontrolluesit dhe shkasat adaptues.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>A je i sigurt që dëshiron t’i bashkohesh kësaj loje?</value>
+  </data>
 </root>

@@ -10700,4 +10700,7 @@ SteamVR nu installeren?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configureer controllertrilling en adaptieve triggers.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Weet je zeker dat je aan dit spel wilt meedoen?</value>
+  </data>
 </root>

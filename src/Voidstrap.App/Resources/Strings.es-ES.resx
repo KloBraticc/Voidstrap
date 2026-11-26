@@ -10699,4 +10699,7 @@ Jugadores: {2}</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configure la vibración del controlador y los disparadores adaptativos.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>¿Seguro que quieres unirte a esta partida?</value>
+  </data>
 </root>

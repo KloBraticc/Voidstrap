@@ -10390,4 +10390,7 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Kugena ibiyobora bigenzura no guhuza n&#x27;imiterere.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Urizeye neza ko ushaka kwinjira muri uyu mukino?</value>
+  </data>
 </root>

@@ -10389,4 +10389,7 @@ Installeer SteamVR nou?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Stel beheerdervibrasie en aanpasbare snellers op.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Is jy seker jy wil by hierdie speletjie aansluit?</value>
+  </data>
 </root>

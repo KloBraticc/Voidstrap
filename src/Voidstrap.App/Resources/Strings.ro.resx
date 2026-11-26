@@ -10700,4 +10700,7 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configurați vibrația controlerului și declanșatoarele adaptive.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Sigur vrei să intri în acest joc?</value>
+  </data>
 </root>

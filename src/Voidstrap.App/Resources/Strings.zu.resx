@@ -10389,4 +10389,7 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Lungiselela ukudlidliza kwesilawuli nezibangeli eziguqukayo.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Uqinisekile ukuthi ufuna ukujoyina lo mdlalo?</value>
+  </data>
 </root>

@@ -10390,4 +10390,7 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Конфигурациялоочу дирилдөө жана адаптациялоочу триггерлер.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Бул оюнга кошулгуңуз келеби?</value>
+  </data>
 </root>

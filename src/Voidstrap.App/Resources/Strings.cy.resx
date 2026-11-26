@@ -10389,4 +10389,7 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Ffurfweddu dirgryniad rheolydd a sbardunau addasol.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ydych chi'n siŵr eich bod chi am ymuno â'r gêm hon?</value>
+  </data>
 </root>

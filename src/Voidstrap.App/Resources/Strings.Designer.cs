@@ -4435,6 +4435,12 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("ContextMenu.GameBrowser.Join", resourceCulture);
             }
         }
+
+        public static string ContextMenu_GameBrowser_ConfirmJoin {
+            get {
+                return ResourceManager.GetString("ContextMenu.GameBrowser.ConfirmJoin", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Copy Instance ID.

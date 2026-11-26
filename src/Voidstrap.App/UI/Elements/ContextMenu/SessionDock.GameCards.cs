@@ -1,21 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using Voidstrap.Enums;
+using System.Windows.Threading;
 using Voidstrap.Integrations;
 using Voidstrap.Integrations.Overlays;
-using Voidstrap.Models.Entities;
-using Voidstrap.Models.Persistable;
-using Voidstrap.Utility;
+using Voidstrap.UI.Elements.Dialogs;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
@@ -30,11 +25,13 @@ public partial class SessionDock
     private bool _launchingDeckGame;
     private bool _deckOpening;
     private bool _deckShown;
+    private Button? _deckHighlight;
+    private FluentMessageBox? _deckJoinDialog;
     private static readonly TimeSpan DeckRetreatLength = TimeSpan.FromMilliseconds(190);
     private static readonly TimeSpan CardHoverLength = TimeSpan.FromMilliseconds(150);
     private const double DeckSlideDistance = 26;
 
-    private sealed record ExperienceCard(Button Button, Border Artwork, Image Icon, TextBlock Title, bool Featured)
+    private sealed record ExperienceCard(Button Button, Border Artwork, Image Icon, TextBlock Title, bool IsCurrent)
     {
         public bool HasCover { get; set; }
     }
@@ -160,8 +157,7 @@ public partial class SessionDock
 
         _deckRequest?.Cancel();
         _deckPlaceId = game.PlaceId;
-        DeckCards.Children.Clear();
-        _experienceCards.Clear();
+        ClearExperienceCards();
         DeckScroll.ScrollToHome();
         GameLaunchStatus.Visibility = Visibility.Collapsed;
         ExperienceCard featured = AddExperienceCard(name, 0, true);
@@ -170,6 +166,20 @@ public partial class SessionDock
         CancellationTokenSource request = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
         _deckRequest = request;
         _ = PortableOverlay.RunAsync(this, () => LoadDeckAsync(game, featured, request));
+    }
+
+    private void ClearExperienceCards()
+    {
+        _deckHighlight = null;
+        foreach (ExperienceCard card in _experienceCards)
+        {
+            card.Button.Click -= ExperienceCard_Click;
+            card.Button.MouseEnter -= ExperienceCardMouseEnter;
+            card.Button.MouseLeave -= ExperienceCardMouseLeave;
+            card.Button.IsKeyboardFocusWithinChanged -= ExperienceCardFocusChanged;
+        }
+        DeckCards.Children.Clear();
+        _experienceCards.Clear();
     }
 
     private async Task LoadDeckAsync(ActivityData current, ExperienceCard featured, CancellationTokenSource request)
@@ -257,13 +267,15 @@ public partial class SessionDock
         content.Children.Add(icon);
 
         StackPanel labels = new() { Margin = new Thickness(12, 0, 12, 12), VerticalAlignment = VerticalAlignment.Bottom };
-        labels.Children.Add(new TextBlock
+        TextBlock caption = new()
         {
-            Text = featured ? Strings.Ui_Misc2_NowPlaying : Strings.ContextMenu_GameBrowser_Continue,
             Foreground = new SolidColorBrush(Color.FromRgb(218, 226, 244)),
             FontSize = 12,
             TextTrimming = TextTrimming.CharacterEllipsis
-        });
+        };
+        BindDeckText(caption, TextBlock.TextProperty,
+            featured ? nameof(Strings.Ui_Misc2_NowPlaying) : nameof(Strings.ContextMenu_GameBrowser_Continue));
+        labels.Children.Add(caption);
         TextBlock title = new()
         {
             Text = name,
@@ -282,9 +294,10 @@ public partial class SessionDock
             Style = (Style)FindResource("ExperienceCardButton"),
             Content = content,
             Tag = placeId,
-            ToolTip = featured ? Strings.Ui_Session_GameAndServer : name,
-            RenderTransform = new ScaleTransform(1, 1)
+            ToolTip = name
         };
+        if (featured)
+            BindDeckText(button, ToolTipProperty, nameof(Strings.Ui_Nav_News));
         AutomationProperties.SetName(button, name);
         button.Click += ExperienceCard_Click;
         button.MouseEnter += ExperienceCardMouseEnter;
@@ -292,8 +305,8 @@ public partial class SessionDock
         button.IsKeyboardFocusWithinChanged += ExperienceCardFocusChanged;
         ExperienceCard card = new(button, artwork, icon, title, featured);
         _experienceCards.Add(card);
-        DeckCards.Children.Add(button);
         SizeExperienceCard(card, VisualSide != OverlayDockSide.None);
+        DeckCards.Children.Add(button);
         if (_deckShown && !DockReducedMotion)
         {
             button.BeginAnimation(OpacityProperty, DeckAnimation(0.55, 1, CardHoverLength, EasingMode.EaseOut));
@@ -301,6 +314,9 @@ public partial class SessionDock
         }
         return card;
     }
+
+    private static void BindDeckText(FrameworkElement element, DependencyProperty property, string key) =>
+        element.SetBinding(property, new Binding($"[{key}]") { Source = LocalizedStrings.Instance, Mode = BindingMode.OneWay });
 
     private async Task LoadExperienceCardImagesAsync(
         ActivityData game, ExperienceCard card, Dictionary<long, string> artwork, CancellationToken token
@@ -338,15 +354,29 @@ public partial class SessionDock
         }
     }
 
-    private void SizeExperienceCard(ExperienceCard card, bool sideways)
+    private void SizeExperienceCard(ExperienceCard card, bool sideways, bool animate = false)
     {
-        card.Button.Width = _deckScale * (sideways ? card.Featured ? 202 : 166 : card.Featured ? 220 : 158);
-        card.Button.Height = _deckScale * (sideways ? card.Featured ? 158 : 120 : card.Featured ? 222 : 178);
+        bool expanded = _deckHighlight == null ? card.IsCurrent : ReferenceEquals(card.Button, _deckHighlight);
+        double width = _deckScale * (sideways ? expanded ? 202 : 166 : expanded ? 220 : 158);
+        double height = _deckScale * (sideways ? expanded ? 158 : 120 : expanded ? 222 : 178);
+        double fontSize = Math.Max(9, _deckScale * (expanded ? 22 : 16));
+        card.Title.MaxHeight = fontSize * 2.6;
+        if (animate)
+        {
+            card.Button.BeginAnimation(WidthProperty, DeckAnimation(card.Button.Width, width, CardHoverLength, EasingMode.EaseOut));
+            card.Button.BeginAnimation(HeightProperty, DeckAnimation(card.Button.Height, height, CardHoverLength, EasingMode.EaseOut));
+            card.Title.BeginAnimation(TextBlock.FontSizeProperty, DeckAnimation(card.Title.FontSize, fontSize, CardHoverLength, EasingMode.EaseOut));
+            return;
+        }
+        card.Button.BeginAnimation(WidthProperty, null);
+        card.Button.BeginAnimation(HeightProperty, null);
+        card.Title.BeginAnimation(TextBlock.FontSizeProperty, null);
+        card.Button.Width = width;
+        card.Button.Height = height;
+        card.Title.FontSize = fontSize;
         card.Button.Margin = sideways ? new Thickness(3, 5, 3, 5) : new Thickness(6, 0, 6, 0);
         card.Button.HorizontalAlignment = VisualSide == OverlayDockSide.Right ? HorizontalAlignment.Right : HorizontalAlignment.Left;
         card.Button.VerticalAlignment = _appliedTopEdge ? VerticalAlignment.Top : VerticalAlignment.Bottom;
-        card.Title.FontSize = Math.Max(9, _deckScale * (card.Featured ? 22 : 16));
-        card.Title.MaxHeight = card.Title.FontSize * 2.6;
     }
 
     private void IntroduceGameCards(bool fadeBackdrop)
@@ -371,7 +401,7 @@ public partial class SessionDock
 
     private bool HasOpeningPanel()
     {
-        if (_popoutOnSettle || _panels.Any(entry => entry.Key != HubKey && entry.Value.IsRequested))
+        if (_popoutOnSettle || _panels.Values.Any(panel => panel.IsRequested))
             return true;
         return !_pinnedRestored && App.State.Prop.SessionPanels?.Any(entry =>
             entry.Value is { Pinned: true }
@@ -384,8 +414,8 @@ public partial class SessionDock
     {
         if (_closed)
             return;
-        bool covered = _screenDragDimOverride || _islandExpanded || PopoutOpen
-            || _panels.Any(entry => entry.Key != HubKey && entry.Value.IsVisible)
+        bool covered = _screenDragDimOverride || _islandExpanded || _launchingDeckGame || PopoutOpen
+            || _panels.Values.Any(panel => panel.IsVisible)
             || (_deckOpening && HasOpeningPanel());
         SetDeckVisibility(_opened && IsVisible && !covered, true);
     }
@@ -395,10 +425,12 @@ public partial class SessionDock
         if (_deckShown == visible && animate)
             return;
         _deckShown = visible;
-        DeckScroll.IsHitTestVisible = visible;
-        DeckScroll.IsEnabled = visible;
         if (!visible)
             GameLaunchStatus.Visibility = Visibility.Collapsed;
+        else if (DeckCards.Opacity <= 0.001)
+            SelectDeckHighlight(null, false);
+        DeckScroll.IsHitTestVisible = visible;
+        DeckScroll.IsEnabled = visible;
 
         Vector edge = DockEdgeDirection * DeckSlideDistance;
         Vector target = visible ? default : edge;
@@ -445,30 +477,50 @@ public partial class SessionDock
     private static DoubleAnimation DeckAnimation(double from, double to, TimeSpan duration, EasingMode easing) =>
         new(from, to, duration) { EasingFunction = new CubicEase { EasingMode = easing } };
 
-    private void ExperienceCardMouseEnter(object sender, MouseEventArgs e) => UpdateExperienceCardHover((Button)sender, true);
+    private void ExperienceCardMouseEnter(object sender, MouseEventArgs e)
+    {
+        if (_deckShown)
+            SelectDeckHighlight((Button)sender);
+    }
 
     private void ExperienceCardMouseLeave(object sender, MouseEventArgs e)
     {
-        Button button = (Button)sender;
-        UpdateExperienceCardHover(button, button.IsKeyboardFocusWithin);
+        if (_deckShown)
+            Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(ResetDeckHighlightIfUnhovered));
+    }
+
+    private void DeckScroll_MouseLeave(object sender, MouseEventArgs e) => ResetDeckHighlightIfUnhovered();
+
+    private void ResetDeckHighlightIfUnhovered()
+    {
+        if (_deckShown && !_experienceCards.Any(card => card.Button.IsMouseOver))
+            SelectDeckHighlight(_experienceCards.FirstOrDefault(card => card.Button.IsKeyboardFocusWithin)?.Button);
     }
 
     private void ExperienceCardFocusChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        Button button = (Button)sender;
-        UpdateExperienceCardHover(button, button.IsMouseOver || (bool)e.NewValue);
+        if (!_deckShown)
+            return;
+        if ((bool)e.NewValue)
+            SelectDeckHighlight((Button)sender);
+        else if (!DeckScroll.IsMouseOver && !DeckScroll.IsKeyboardFocusWithin)
+            SelectDeckHighlight(null);
     }
 
-    private void UpdateExperienceCardHover(Button button, bool highlighted)
+    private void SelectDeckHighlight(Button? highlight, bool animate = true)
     {
-        bool raised = _deckShown && highlighted;
-        Panel.SetZIndex(button, raised ? 1 : 0);
-        ScaleTransform scale = (ScaleTransform)button.RenderTransform;
-        bool animate = _deckShown && !DockReducedMotion;
-        DoubleAnimation? motion = animate ? DeckAnimation(scale.ScaleX, raised ? 1.03 : 1, CardHoverLength, EasingMode.EaseOut) : null;
-        scale.BeginAnimation(ScaleTransform.ScaleXProperty, motion);
-        scale.BeginAnimation(ScaleTransform.ScaleYProperty, motion);
-        if (animate)
+        Button? current = _experienceCards.FirstOrDefault(card => card.IsCurrent)?.Button;
+        Button? previous = _deckHighlight ?? current;
+        Button? next = highlight ?? current;
+        _deckHighlight = highlight;
+        if (ReferenceEquals(previous, next))
+            return;
+
+        bool play = animate && !DockReducedMotion;
+        foreach (ExperienceCard card in _experienceCards)
+            if (ReferenceEquals(card.Button, previous) || ReferenceEquals(card.Button, next))
+                SizeExperienceCard(card, VisualSide != OverlayDockSide.None, play);
+        if (play)
             Wpf.Ui.Animations.RenderReady.Hold(this, CardHoverLength);
     }
 
@@ -491,7 +543,7 @@ public partial class SessionDock
         if (!_opened || !_deckShown || _closed || sender is not Button { Tag: long placeId })
             return;
         if (placeId == 0)
-            ToggleServerPanel();
+            OpenAction(HubKey);
         else if (!_launchingDeckGame)
             _ = PortableOverlay.RunAsync(this, () => LaunchDeckGameAsync(placeId));
     }
@@ -500,26 +552,77 @@ public partial class SessionDock
     {
         const string LOG_IDENT = "SessionDock::LaunchDeckGameAsync";
         _launchingDeckGame = true;
+        long currentPlace = _deckPlaceId;
         GameLaunchStatus.Visibility = Visibility.Collapsed;
-        bool launched = false;
+        RefreshDeckVisibility();
+        bool? launched = null;
         try
         {
+            if (!ConfirmDeckGameJoin() || !_opened || _closed || currentPlace != _deckPlaceId)
+                return;
             launched = await SessionGameBrowser.LaunchExperienceAsync(_activity, _gameMatchmaker, placeId);
         }
         catch (Exception ex)
         {
             App.Logger.WriteLine(LOG_IDENT, "The selected game could not be opened: " + ex.Message);
+            launched = false;
         }
         finally
         {
             _launchingDeckGame = false;
-        }
-        if (_opened && !_closed)
-        {
-            if (launched)
+            if (launched == true && _opened && !_closed)
                 CloseDock();
-            else if (_deckShown)
-                GameLaunchStatus.Visibility = Visibility.Visible;
+            else
+            {
+                RefreshDeckVisibility();
+                if (launched == false && _deckShown)
+                    GameLaunchStatus.Visibility = Visibility.Visible;
+            }
+        }
+    }
+
+    private bool ConfirmDeckGameJoin()
+    {
+        FluentMessageBox dialog = new(Strings.ContextMenu_GameBrowser_ConfirmJoin, MessageBoxImage.Question, MessageBoxButton.YesNo)
+        {
+            Owner = this,
+            Topmost = true,
+            ShowInTaskbar = false,
+            Result = MessageBoxResult.No
+        };
+        dialog.ButtonTwo.IsCancel = true;
+        _deckJoinDialog = dialog;
+        UpdateNowPlayingVisibility();
+        IntPtr handle = IntPtr.Zero;
+
+        void RegisterDialog(object? sender, EventArgs e)
+        {
+            if (PortableOverlay.Active)
+                PortableOverlay.Handle(dialog);
+            else
+            {
+                handle = new WindowInteropHelper(dialog).Handle;
+                OverlayDiagnostics.RegisterOverlayHandle(handle);
+            }
+        }
+
+        dialog.SourceInitialized += RegisterDialog;
+        dialog.Activated += RegisterDialog;
+        try
+        {
+            dialog.ShowOwnedDialog();
+            return dialog.Result == MessageBoxResult.Yes;
+        }
+        finally
+        {
+            dialog.SourceInitialized -= RegisterDialog;
+            dialog.Activated -= RegisterDialog;
+            if (PortableOverlay.Active)
+                PortableOverlay.Release(dialog);
+            else
+                OverlayDiagnostics.UnregisterOverlayHandle(handle);
+            _deckJoinDialog = null;
+            UpdateNowPlayingVisibility();
         }
     }
 }

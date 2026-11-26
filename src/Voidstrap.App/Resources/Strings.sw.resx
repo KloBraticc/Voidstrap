@@ -10389,4 +10389,7 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Sanidi mtetemo wa kidhibiti na vichochezi vinavyobadilika.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Una uhakika unataka kujiunga na mchezo huu?</value>
+  </data>
 </root>

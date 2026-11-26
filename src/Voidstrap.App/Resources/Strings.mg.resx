@@ -10390,4 +10390,7 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Ampifanaraho ny vibration controller sy ny trigger adaptive.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Azonao antoka ve fa te hiditra amin'ity lalao ity ianao?</value>
+  </data>
 </root>

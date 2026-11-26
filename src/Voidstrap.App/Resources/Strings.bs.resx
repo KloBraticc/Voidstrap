@@ -10389,4 +10389,7 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurirajte vibraciju kontrolera i prilagodljive okidače.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Jesi li siguran da se želiš pridružiti ovoj igri?</value>
+  </data>
 </root>

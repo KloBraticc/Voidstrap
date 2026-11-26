@@ -10389,4 +10389,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>কন্ট্রোলার ভাইব্রেশন এবং অভিযোজিত ট্রিগার কনফিগার করুন।</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>আপনি কি নিশ্চিত যে এই গেমে যোগ দিতে চান?</value>
+  </data>
 </root>

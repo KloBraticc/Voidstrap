@@ -10389,4 +10389,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Διαμορφώστε τη δόνηση του ελεγκτή και τις προσαρμοστικές σκανδάλες.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Είσαι σίγουρος ότι θέλεις να μπεις σε αυτό το παιχνίδι;</value>
+  </data>
 </root>

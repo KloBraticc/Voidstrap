@@ -10389,4 +10389,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>የመቆጣጠሪያ ንዝረትን እና ተለዋዋጭ ቀስቅሴዎችን ያዋቅሩ።</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>ይህን ጨዋታ መቀላቀል እንደሚፈልጉ እርግጠኛ ነዎት?</value>
+  </data>
 </root>

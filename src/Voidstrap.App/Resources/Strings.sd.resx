@@ -10390,4 +10390,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ڪنٽرولر وائبريشن ۽ موافقت واري ٽارگيٽ کي ترتيب ڏيو.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>ڇا توهان کي پڪ آهي ته توهان هن راند ۾ شامل ٿيڻ چاهيو ٿا؟</value>
+  </data>
 </root>

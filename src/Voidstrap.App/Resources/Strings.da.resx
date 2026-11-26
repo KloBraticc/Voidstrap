@@ -10389,4 +10389,7 @@ Installer SteamVR nu?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurer controllervibration og adaptive triggere.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Er du sikker på, at du vil deltage i dette spil?</value>
+  </data>
 </root>

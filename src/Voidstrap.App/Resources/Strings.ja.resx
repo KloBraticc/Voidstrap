@@ -10700,4 +10700,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>コントローラーの振動とアダプティブトリガーを設定します。</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>このゲームに参加してもよろしいですか？</value>
+  </data>
 </root>

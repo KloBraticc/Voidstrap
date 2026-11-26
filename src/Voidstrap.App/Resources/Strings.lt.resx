@@ -10700,4 +10700,7 @@ Veikimo laikas: {1}
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigūruokite valdiklio vibraciją ir prisitaikančius paleidiklius.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ar tikrai norite prisijungti prie šio žaidimo?</value>
+  </data>
 </root>

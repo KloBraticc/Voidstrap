@@ -629,6 +629,9 @@ Click for more information</value>
   <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
     <value>Join</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Are you sure you want to join this game?</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Add Fast Flag</value>
   </data>

@@ -153,6 +153,7 @@ public sealed partial class SessionPanelWindow : Window
             VerticalAlignment = VerticalAlignment.Top,
         };
         _pin = new CaptionButton(PinGlyph, 13, false, "Pin panel");
+        _pin.Visibility = key == SessionDock.HubKey ? Visibility.Collapsed : Visibility.Visible;
         _close = new CaptionButton("\uE8BB", 10, true, "Close panel");
         _pin.Click += OnPin;
         _close.Click += OnClosePanel;
@@ -895,7 +896,7 @@ public sealed partial class SessionPanelWindow : Window
     {
         if (_closed)
             return;
-        IsPinned = pinned;
+        IsPinned = pinned && _key != SessionDock.HubKey;
         UpdatePinVisual();
         SaveLayout();
     }
@@ -929,7 +930,7 @@ public sealed partial class SessionPanelWindow : Window
             Width = Math.Min(saved.Width, MaxWidth);
         if (double.IsFinite(saved.Height) && saved.Height >= MinHeight)
             Height = Math.Min(saved.Height, MaxHeight);
-        IsPinned = saved.Pinned;
+        IsPinned = saved.Pinned && _key != SessionDock.HubKey;
         UpdatePinVisual();
     }
 

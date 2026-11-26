@@ -10390,4 +10390,7 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configuréieren Controller Vibration an adaptiven Ausléiser.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Bass du sécher, datt s du bei dësem Spill matmaache wëlls?</value>
+  </data>
 </root>

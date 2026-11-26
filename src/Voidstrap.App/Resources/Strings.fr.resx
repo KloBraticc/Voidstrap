@@ -10698,4 +10698,7 @@ Installer SteamVR maintenant ?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configurez les vibrations du contrôleur et les déclencheurs adaptatifs.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Voulez-vous vraiment rejoindre cette partie ?</value>
+  </data>
 </root>

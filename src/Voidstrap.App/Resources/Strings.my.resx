@@ -10389,4 +10389,7 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ထိန်းချုပ်ကိရိယာတုန်ခါမှုနှင့် လိုက်လျောညီထွေဖြစ်စေသော အစပျိုးမှုများကို စီစဉ်သတ်မှတ်ပါ။</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>ဒီဂိမ်းမှာ ပါဝင်ဖို့ သေချာပါသလား။</value>
+  </data>
 </root>

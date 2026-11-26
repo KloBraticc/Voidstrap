@@ -10390,4 +10390,7 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Hazie ịma jijiji njikwa na ihe mkpalite.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ị ji n'aka na ị chọrọ isonye n'egwuregwu a?</value>
+  </data>
 </root>

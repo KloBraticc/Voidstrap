@@ -10390,4 +10390,7 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurējiet kontroliera vibrāciju un adaptīvos trigerus.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Vai tiešām vēlaties pievienoties šai spēlei?</value>
+  </data>
 </root>

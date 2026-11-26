@@ -10389,4 +10389,7 @@ Indi SteamVR guruň?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Dolandyryjy titremäni we uýgunlaşdyrylan triggerleri sazlaň.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Bu oýna goşulmak isleýändigiňize ynamyňyz barmy?</value>
+  </data>
 </root>

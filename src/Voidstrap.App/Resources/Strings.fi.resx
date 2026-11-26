@@ -10699,4 +10699,7 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Määritä ohjaimen tärinä ja mukautuvat liipaisimet.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Haluatko varmasti liittyä tähän peliin?</value>
+  </data>
 </root>

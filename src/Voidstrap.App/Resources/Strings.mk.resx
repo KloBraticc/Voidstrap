@@ -10390,4 +10390,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Конфигурирајте ги вибрациите на контролорот и адаптивните активирања.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Дали навистина сакате да се придружите на оваа игра?</value>
+  </data>
 </root>

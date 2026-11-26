@@ -10703,4 +10703,7 @@ Install SteamVR now?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configure controller vibration and adaptive triggers.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Are you sure you want to join this game?</value>
+  </data>
 </root>

@@ -42,9 +42,6 @@
           <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_Title}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
             <ui:ToggleSwitch IsChecked="{Binding DockToggleKeystrokes, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_SessionNotify_DockNews_Title}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
-            <ui:ToggleSwitch IsChecked="{Binding DockToggleNews, Mode=TwoWay}" />
-          </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_MusicIsland_Title}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
             <ui:ToggleSwitch IsChecked="{Binding DockToggleMusicIsland, Mode=TwoWay}" />
           </controls:OptionControl>

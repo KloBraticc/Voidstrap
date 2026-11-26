@@ -346,8 +346,6 @@ namespace Voidstrap.Models.Persistable
 
         public bool DockToggleKeystrokes { get; set; }
 
-        public bool DockToggleNews { get; set; }
-
         public bool DockToggleMusicIsland { get; set; }
 
         public bool ScreenshotNotifications { get; set; } = true;
@@ -436,8 +434,6 @@ namespace Voidstrap.Models.Persistable
 
         // On reminds about the dock shortcut every time a game starts, off only the very first time
         public bool NotifyShortcutEveryGame { get; set; } = false;
-
-        public bool ShowDockNews { get; set; } = true;
 
         public bool MusicIslandOverlay { get; set; } = false;
 

@@ -10700,4 +10700,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>컨트롤러 진동 및 적응형 트리거를 구성합니다.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>이 게임에 참가하시겠습니까?</value>
+  </data>
 </root>

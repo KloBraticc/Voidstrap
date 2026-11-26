@@ -10390,4 +10390,7 @@ Namestite SteamVR zdaj?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurirajte vibriranje krmilnika in prilagodljive sprožilce.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ali se res želiš pridružiti tej igri?</value>
+  </data>
 </root>

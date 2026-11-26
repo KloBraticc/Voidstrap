@@ -10389,4 +10389,7 @@ SteamVR indi quraşdırılsın?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Nəzarətçinin vibrasiyasını və adaptiv tetikleyicileri konfiqurasiya edin.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Bu oyuna qoşulmaq istədiyinizə əminsiniz?</value>
+  </data>
 </root>

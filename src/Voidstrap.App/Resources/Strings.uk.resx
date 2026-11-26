@@ -10699,4 +10699,7 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Налаштуйте вібрацію контролера та адаптивні тригери.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ви впевнені, що хочете приєднатися до цієї гри?</value>
+  </data>
 </root>

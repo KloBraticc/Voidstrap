@@ -10390,4 +10390,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>કંટ્રોલર વાઇબ્રેશન અને અનુકૂલનશીલ ટ્રિગર્સ ગોઠવો.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>શું તમે ખરેખર આ રમતમાં જોડાવા માંગો છો?</value>
+  </data>
 </root>

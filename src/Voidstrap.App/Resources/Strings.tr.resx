@@ -10699,4 +10699,7 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Denetleyici titreşimini ve uyarlanabilir tetikleyicileri yapılandırın.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Bu oyuna katılmak istediğinizden emin misiniz?</value>
+  </data>
 </root>

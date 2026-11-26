@@ -10698,4 +10698,7 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>I-configure ang controller vibration at adaptive trigger.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Sigurado ka bang gusto mong sumali sa larong ito?</value>
+  </data>
 </root>

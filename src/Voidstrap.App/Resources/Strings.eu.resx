@@ -10389,4 +10389,7 @@ SteamVR instalatu orain?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfiguratu kontroladorearen bibrazioa eta abiarazle moldagarriak.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ziur zaude joko honetan sartu nahi duzula?</value>
+  </data>
 </root>

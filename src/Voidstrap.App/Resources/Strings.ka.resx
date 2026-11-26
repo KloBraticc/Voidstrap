@@ -10390,4 +10390,7 @@ Uptime: {1}
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>კონტროლერის ვიბრაციის და ადაპტური ტრიგერების კონფიგურაცია.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>დარწმუნებული ხართ, რომ გსურთ ამ თამაშში ჩართვა?</value>
+  </data>
 </root>

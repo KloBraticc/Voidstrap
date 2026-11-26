@@ -1232,20 +1232,6 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    public bool DockToggleNews
-    {
-        get => App.Settings.Prop.DockToggleNews;
-        set
-        {
-            if (App.Settings.Prop.DockToggleNews == value)
-                return;
-            App.Settings.Prop.DockToggleNews = value;
-            App.Settings.SaveDeferred();
-            OnPropertyChanged(nameof(DockToggleNews));
-            Voidstrap.UI.Elements.Overlay.SessionDock.ActiveInstance?.RefreshQuickToggles();
-        }
-    }
-
     public bool DockToggleMusicIsland
     {
         get => App.Settings.Prop.DockToggleMusicIsland;

@@ -10390,4 +10390,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>नियन्त्रक कम्पन र अनुकूली ट्रिगरहरू कन्फिगर गर्नुहोस्।</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>के तपाईं साँच्चै यो खेलमा सामेल हुन चाहनुहुन्छ?</value>
+  </data>
 </root>

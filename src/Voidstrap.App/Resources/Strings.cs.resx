@@ -10699,4 +10699,7 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Nakonfigurujte vibrace ovladače a adaptivní spouštěče.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Opravdu se chcete připojit k této hře?</value>
+  </data>
 </root>

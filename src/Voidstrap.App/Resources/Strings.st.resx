@@ -10389,4 +10389,7 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Lokisa ho thothomela ha selaolo le lithapo tse feto-fetohang.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Na u tiisitse hore u batla ho kenela papali ee?</value>
+  </data>
 </root>

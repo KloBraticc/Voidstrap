@@ -10389,4 +10389,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Наладзьце вібрацыю кантролера і адаптыўныя трыгеры.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Вы ўпэўнены, што хочаце далучыцца да гэтай гульні?</value>
+  </data>
 </root>

@@ -156,7 +156,6 @@ public partial class SessionNotificationSettings : Window
         BadgesToggle.IsChecked = App.Settings.Prop.NotifyBadges;
         ShortcutToggle.IsChecked = App.Settings.Prop.NotifyShortcutEveryGame;
         ClipperInlineToggle.IsChecked = App.Settings.Prop.ClipperEnabled;
-        DockNewsToggle.IsChecked = App.Settings.Prop.ShowDockNews;
         UpdateSpots();
         _loading = false;
         UpdateValueTexts();
@@ -305,7 +304,6 @@ public partial class SessionNotificationSettings : Window
         App.Settings.Prop.NotifyFriends = FriendsToggle.IsChecked == true;
         App.Settings.Prop.NotifyBadges = BadgesToggle.IsChecked == true;
         App.Settings.Prop.NotifyShortcutEveryGame = ShortcutToggle.IsChecked == true;
-        App.Settings.Prop.ShowDockNews = DockNewsToggle.IsChecked == true;
         Commit();
     }
 

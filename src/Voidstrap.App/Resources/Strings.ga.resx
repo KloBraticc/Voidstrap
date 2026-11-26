@@ -10390,4 +10390,7 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Cumraigh creathadh rialaitheoir agus truicear oiriúnaitheach.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>An bhfuil tú cinnte gur mhaith leat páirt a ghlacadh sa chluiche seo?</value>
+  </data>
 </root>

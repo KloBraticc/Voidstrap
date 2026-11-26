@@ -10700,4 +10700,7 @@ Installare SteamVR adesso?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configura la vibrazione del controller e i trigger adattivi.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Vuoi davvero unirti a questa partita?</value>
+  </data>
 </root>

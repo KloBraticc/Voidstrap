@@ -10390,4 +10390,7 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>नियंत्रक कंपन और अनुकूली ट्रिगर कॉन्फ़िगर करें।</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>क्या आप वाकई इस गेम में शामिल होना चाहते हैं?</value>
+  </data>
 </root>

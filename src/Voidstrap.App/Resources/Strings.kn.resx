@@ -10390,4 +10390,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ನಿಯಂತ್ರಕ ಕಂಪನ ಮತ್ತು ಅಡಾಪ್ಟಿವ್ ಟ್ರಿಗ್ಗರ್‌ಗಳನ್ನು ಕಾನ್ಫಿಗರ್ ಮಾಡಿ.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>ಈ ಆಟಕ್ಕೆ ಸೇರಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ?</value>
+  </data>
 </root>

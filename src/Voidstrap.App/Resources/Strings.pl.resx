@@ -10700,4 +10700,7 @@ Zainstalować SteamVR teraz?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Skonfiguruj wibracje kontrolera i wyzwalacze adaptacyjne.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Czy na pewno chcesz dołączyć do tej gry?</value>
+  </data>
 </root>

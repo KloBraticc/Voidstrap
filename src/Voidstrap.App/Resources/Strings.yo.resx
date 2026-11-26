@@ -10389,4 +10389,7 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Ṣe atunto gbigbọn oludari ati awọn okunfa adaṣe.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ṣé ó dá ọ lójú pé o fẹ́ darapọ̀ mọ́ eré yìí?</value>
+  </data>
 </root>

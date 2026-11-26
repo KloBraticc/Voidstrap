@@ -10390,4 +10390,7 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Saita jijjiga mai sarrafawa da abubuwan jan hankali.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Kun tabbata kuna son shiga wannan wasan?</value>
+  </data>
 </root>

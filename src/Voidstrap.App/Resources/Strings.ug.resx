@@ -10389,4 +10389,7 @@ Uptime: {1}
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>كونتروللىغۇچنىڭ تەۋرىنىشى ۋە ماسلىشىشچان قوزغاتقۇچنى سەپلەڭ.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>بۇ ئويۇنغا قاتنىشىشنى خالايدىغانلىقىڭىزغا ئىشىنەمسىز؟</value>
+  </data>
 </root>

@@ -10390,4 +10390,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ຕັ້ງຄ່າການສັ່ນສະເທືອນຂອງຕົວຄວບຄຸມ ແລະກະຕຸ້ນການປັບຕົວ.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>ທ່ານແນ່ໃຈບໍວ່າຕ້ອງການເຂົ້າຮ່ວມເກມນີ້?</value>
+  </data>
 </root>

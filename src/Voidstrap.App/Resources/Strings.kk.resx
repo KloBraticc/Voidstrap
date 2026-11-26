@@ -10390,4 +10390,7 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Контроллердің дірілі мен бейімделу триггерлерін конфигурациялаңыз.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Осы ойынға қосылғыңыз келетініне сенімдісіз бе?</value>
+  </data>
 </root>

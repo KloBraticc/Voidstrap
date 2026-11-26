@@ -10389,4 +10389,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>கட்டுப்படுத்தி அதிர்வு மற்றும் தகவமைப்பு தூண்டுதல்களை உள்ளமைக்கவும்.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>இந்த விளையாட்டில் சேர விரும்புகிறீர்கள் என்பதில் உறுதியாக இருக்கிறீர்களா?</value>
+  </data>
 </root>

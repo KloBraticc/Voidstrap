@@ -10390,4 +10390,7 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Whirihorahia te wiri kaiwhakahaere me nga keu urutau.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>E tino hiahia ana koe ki te uru atu ki tēnei kēmu?</value>
+  </data>
 </root>

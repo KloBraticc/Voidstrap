@@ -10699,4 +10699,7 @@
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>تكوين اهتزاز وحدة التحكم والمشغلات التكيفية.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد الانضمام إلى هذه اللعبة؟</value>
+  </data>
 </root>

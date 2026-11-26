@@ -10389,4 +10389,7 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configureu la vibració del controlador i els disparadors adaptatius.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Segur que et vols unir a aquesta partida?</value>
+  </data>
 </root>

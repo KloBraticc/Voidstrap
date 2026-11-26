@@ -10390,4 +10390,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>පාලක කම්පනය සහ අනුවර්තන ප්‍රේරක වින්‍යාස කරන්න.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>ඔබට මෙම ක්රීඩාවට එක් වීමට අවශ්ය බව විශ්වාසද?</value>
+  </data>
 </root>

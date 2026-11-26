@@ -10699,4 +10699,7 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Định cấu hình độ rung của bộ điều khiển và kích hoạt thích ứng.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Bạn có chắc muốn tham gia trò chơi này không?</value>
+  </data>
 </root>

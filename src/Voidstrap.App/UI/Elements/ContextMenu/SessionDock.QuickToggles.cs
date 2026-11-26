@@ -21,7 +21,6 @@ public partial class SessionDock
             "clock" => prop.DockToggleClock,
             "crosshair" => prop.DockToggleCrosshair,
             "keystrokes" => prop.DockToggleKeystrokes,
-            "news" => prop.DockToggleNews,
             "music" => prop.DockToggleMusicIsland,
             _ => false,
         };
@@ -36,7 +35,6 @@ public partial class SessionDock
             "clock" => prop.CurrentTimeDisplay,
             "crosshair" => prop.Crosshair,
             "keystrokes" => prop.KeystrokesOverlayEnabled,
-            "news" => prop.ShowDockNews,
             "music" => prop.MusicIslandOverlay,
             _ => false,
         };
@@ -63,9 +61,6 @@ public partial class SessionDock
             case "keystrokes":
                 prop.KeystrokesOverlayEnabled = !prop.KeystrokesOverlayEnabled;
                 KeystrokeOverlayWindow.Reconcile();
-                break;
-            case "news":
-                prop.ShowDockNews = !prop.ShowDockNews;
                 break;
             case "music":
                 prop.MusicIslandOverlay = !prop.MusicIslandOverlay;

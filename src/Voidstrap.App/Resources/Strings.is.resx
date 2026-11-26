@@ -10390,4 +10390,7 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Stilltu titring stjórnanda og aðlögunarbúnað.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ertu viss um að þú viljir taka þátt í þessum leik?</value>
+  </data>
 </root>

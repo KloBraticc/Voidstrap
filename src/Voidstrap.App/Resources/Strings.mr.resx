@@ -10390,4 +10390,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>कंट्रोलर कंपन आणि अनुकूली ट्रिगर कॉन्फिगर करा.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>तुम्हाला नक्की या गेममध्ये सामील व्हायचे आहे का?</value>
+  </data>
 </root>

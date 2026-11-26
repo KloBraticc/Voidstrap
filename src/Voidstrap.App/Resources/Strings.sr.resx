@@ -10390,4 +10390,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Конфигуришите вибрације контролера и прилагодљиве окидаче.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Да ли заиста желиш да се придружиш овој игри?</value>
+  </data>
 </root>

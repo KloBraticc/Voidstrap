@@ -10390,4 +10390,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>កំណត់រចនាសម្ព័ន្ធរំញ័ររបស់ឧបករណ៍បញ្ជា និងកេះអាដាប់ធ័រ។</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>តើអ្នកប្រាកដថាចង់ចូលរួមក្នុងហ្គេមនេះឬ?</value>
+  </data>
 </root>

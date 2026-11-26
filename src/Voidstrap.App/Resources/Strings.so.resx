@@ -10390,4 +10390,7 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Habee gariirada xakamaynta iyo kiciya la qabsiga.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ma hubtaa inaad rabto inaad ku biirto ciyaartan?</value>
+  </data>
 </root>

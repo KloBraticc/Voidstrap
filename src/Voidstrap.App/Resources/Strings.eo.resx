@@ -10389,4 +10389,7 @@ Ludantoj: {2}</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Agordi regilon-vibradon kaj adaptajn ellasilon.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Ĉu vi certas, ke vi volas aliĝi al ĉi tiu ludo?</value>
+  </data>
 </root>

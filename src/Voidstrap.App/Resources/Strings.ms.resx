@@ -10700,4 +10700,7 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurasikan getaran pengawal dan pencetus penyesuaian.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Adakah anda pasti mahu menyertai permainan ini?</value>
+  </data>
 </root>

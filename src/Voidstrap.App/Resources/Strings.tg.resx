@@ -10389,4 +10389,7 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Вибрацияи контроллер ва триггерҳои мутобиқшавандаро танзим кунед.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Мутмаин ҳастед, ки мехоҳед ба ин бозӣ ҳамроҳ шавед?</value>
+  </data>
 </root>

@@ -10700,4 +10700,7 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurálja a vezérlő rezgését és az adaptív triggereket.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Biztosan csatlakozni szeretnél ehhez a játékhoz?</value>
+  </data>
 </root>

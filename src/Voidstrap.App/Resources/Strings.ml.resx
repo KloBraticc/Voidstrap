@@ -10390,4 +10390,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>കൺട്രോളർ വൈബ്രേഷനും അഡാപ്റ്റീവ് ട്രിഗറുകളും കോൺഫിഗർ ചെയ്യുക.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>ഈ ഗെയിമിൽ ചേരണമെന്ന് നിങ്ങൾക്ക് ഉറപ്പാണോ?</value>
+  </data>
 </root>

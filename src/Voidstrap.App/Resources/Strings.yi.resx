@@ -10389,4 +10389,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>קאַנפיגיער קאָנטראָללער ווייבריישאַן און אַדאַפּטיוו טריגערז.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>זענט איר זיכער אַז איר ווילט זיך באַטייליקן אין דעם שפּיל?</value>
+  </data>
 </root>

@@ -10390,4 +10390,7 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ਕੰਟਰੋਲਰ ਵਾਈਬ੍ਰੇਸ਼ਨ ਅਤੇ ਅਡੈਪਟਿਵ ਟਰਿਗਰਸ ਨੂੰ ਕੌਂਫਿਗਰ ਕਰੋ।</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ 'ਤੇ ਇਸ ਗੇਮ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣਾ ਚਾਹੁੰਦੇ ਹੋ?</value>
+  </data>
 </root>

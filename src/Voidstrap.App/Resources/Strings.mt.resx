@@ -10390,4 +10390,7 @@ Installa SteamVR issa?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Ikkonfigura l-vibrazzjoni tal-kontrollur u l-attivaturi adattivi.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>Żgur li trid tingħaqad ma’ din il-logħba?</value>
+  </data>
 </root>

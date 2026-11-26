@@ -10390,4 +10390,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>קבע את התצורה של רטט בקר וטריגרים אדפטיביים.</value>
   </data>
+  <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
+    <value>האם ברצונך להצטרף למשחק הזה?</value>
+  </data>
 </root>
