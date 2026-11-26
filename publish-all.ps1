@@ -1152,15 +1152,50 @@ function Invoke-WindowsLauncherBuild {
     $targetDir = Join-Path $launcherRoot 'target'
     [System.IO.Directory]::CreateDirectory($payloadDir) | Out-Null
     $payload = Join-Path $payloadDir 'Voidstrap.exe'
-    Move-Item -LiteralPath $Job.Expected -Destination $payload -Force
+    Copy-Item -LiteralPath $Job.Expected -Destination $payload -Force
 
+    $net11DotNet = if ($env:VOIDSTRAP_NET11_DOTNET) { $env:VOIDSTRAP_NET11_DOTNET } else { $script:DotNetPath }
+    $net11Sdk = @(& $net11DotNet --list-sdks | ForEach-Object { if ($_ -match '^(11\.\d+\.\d+)\s') { $Matches[1] } } |
+        Sort-Object { [version]$_ } -Descending | Select-Object -First 1)
+    if ($LASTEXITCODE -ne 0) { throw 'Could not check the installed .NET SDKs.' }
+    $net11Payload = $null
+    if ($net11Sdk.Count -gt 0) {
+        $net11Root = Join-Path $launcherRoot 'net11'
+        [System.IO.Directory]::CreateDirectory($net11Root) | Out-Null
+        @{ sdk = @{ version = $net11Sdk[0]; allowPrerelease = $false } } | ConvertTo-Json |
+            Set-Content -LiteralPath (Join-Path $net11Root 'global.json') -Encoding utf8
+        $net11Out = Join-Path $net11Root 'publish'
+        $wpfProps = Join-Path $Root 'build/Packaging/WpfTemporaryProject.props'
+        $net11Args = @('publish', $WinProj, '-c', $Configuration, '-r', $Job.Target.Rid, '--self-contained', 'false',
+            '-o', $net11Out, '-p:VoidstrapDotNet11=true', "-p:VoidstrapLinuxPackagingRoot=$net11Root/",
+            "-p:CustomAfterDirectoryBuildProps=$wpfProps", '-p:PublishProfile=FolderProfile', '-p:PublishReadyToRun=false',
+            '-p:EnableWindowsTargeting=true') + $PubOpts
+        Write-Host '  Windows-x64: publishing .NET 11 companion' -ForegroundColor Cyan
+        Push-Location -LiteralPath $net11Root
+        try {
+            & $net11DotNet @net11Args
+            if ($LASTEXITCODE -ne 0) { throw 'The .NET 11 companion publish failed.' }
+        } finally {
+            Pop-Location
+        }
+        $net11Payload = Join-Path $net11Out 'Voidstrap.exe'
+        Assert-FileExists $net11Payload '.NET 11 companion'
+    } elseif ($env:VOIDSTRAP_NET11_DOTNET) {
+        throw 'VOIDSTRAP_NET11_DOTNET does not contain a stable .NET 11 SDK.'
+    } else {
+        Write-Host '  Windows-x64: .NET 11 SDK unavailable. This build includes .NET 10 only.' -ForegroundColor DarkYellow
+    }
+
+    $previousNet11Payload = $env:VOIDSTRAP_LAUNCHER_PAYLOAD_NET11
     $env:VOIDSTRAP_LAUNCHER_PAYLOAD = $payload
+    $env:VOIDSTRAP_LAUNCHER_PAYLOAD_NET11 = $net11Payload
     $env:VOIDSTRAP_VERSION = Get-VoidstrapVersion
     try {
         & $cargo build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path (Join-Path $Root 'native/voidlauncher/Cargo.toml') --target-dir $targetDir
         if ($LASTEXITCODE -ne 0) { throw "cargo exited with code $LASTEXITCODE" }
     } finally {
         Remove-Item Env:VOIDSTRAP_LAUNCHER_PAYLOAD -ErrorAction SilentlyContinue
+        $env:VOIDSTRAP_LAUNCHER_PAYLOAD_NET11 = $previousNet11Payload
         Remove-Item Env:VOIDSTRAP_VERSION -ErrorAction SilentlyContinue
     }
 

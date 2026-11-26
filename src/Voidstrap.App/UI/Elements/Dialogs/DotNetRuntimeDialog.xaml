@@ -19,7 +19,7 @@
           <StackPanel HorizontalAlignment="Center">
             <ui:SymbolIcon Symbol="Desktop24" Width="56" Height="56" FontSize="38" Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
             <TextBlock x:Name="Net11Title" Margin="0,14,0,0" HorizontalAlignment="Center" FontSize="14" FontWeight="SemiBold" />
-            <TextBlock x:Name="Net11Unavailable" Margin="0,6,0,0" HorizontalAlignment="Center" FontSize="12" Text="{resources:Loc Menu_Rosemary_NotInstalled}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" />
+            <TextBlock x:Name="Net11Unavailable" Margin="0,6,0,0" HorizontalAlignment="Center" FontSize="12" Text="{resources:Loc SwiftTunnel_NotInstalled}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" />
           </StackPanel>
         </ui:CardAction>
       </UniformGrid>
