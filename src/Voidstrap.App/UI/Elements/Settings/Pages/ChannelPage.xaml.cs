@@ -32,6 +32,11 @@ public partial class ChannelPage : UiPage
     {
         base.DataContext = new ChannelViewModel();
         InitializeComponent();
+        if (DotNetRuntimeSelection.IsAvailable)
+        {
+            DotNetRuntimeOption.Visibility = Visibility.Visible;
+            UpdateDotNetRuntimeButton();
+        }
         if (GameSettingsTab.Visibility == Visibility.Visible)
         {
             SettingsTabs.Items.Remove(GameSettingsTab);
@@ -41,6 +46,18 @@ public partial class ChannelPage : UiPage
     }
 
     internal static bool PendingNotificationsTab;
+
+    private void UpdateDotNetRuntimeButton()
+    {
+        if (DotNetRuntimeOption.InnerContent is System.Windows.Controls.Button button)
+            button.Content = string.Format(Strings.Menu_DotNetRuntime_Version, DotNetRuntimeSelection.CanUseNet11 ? DotNetRuntimeSelection.Preferred : 10);
+    }
+
+    private void ChooseDotNetRuntime_Click(object sender, RoutedEventArgs e)
+    {
+        if (Window.GetWindow(this) is MainWindow main)
+            main.ShowDotNetRuntimePicker(UpdateDotNetRuntimeButton);
+    }
 
     internal void ShowNotificationsTab()
     {

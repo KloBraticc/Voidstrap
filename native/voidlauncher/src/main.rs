@@ -20,10 +20,13 @@ use windows_sys::Win32::UI::Shell::ShellExecuteW;
 use windows_sys::Win32::UI::WindowsAndMessaging::{MessageBoxW, IDYES, MB_ICONERROR, MB_ICONINFORMATION, MB_ICONQUESTION, MB_YESNO, SW_SHOWNORMAL};
 
 const PAYLOAD_ID: u16 = 101;
+const NET11_PAYLOAD_ID: u16 = 102;
 const RT_RCDATA: u16 = 10;
 const PAYLOAD_DIR: &str = env!("VOIDSTRAP_PAYLOAD_DIR");
 const DOTNET_MAJOR: &str = env!("VOIDSTRAP_DOTNET_MAJOR");
 const PAYLOAD_LEN: &str = env!("VOIDSTRAP_PAYLOAD_LEN");
+const NET11_PAYLOAD_DIR: Option<&str> = option_env!("VOIDSTRAP_PAYLOAD_DIR_NET11");
+const NET11_PAYLOAD_LEN: Option<&str> = option_env!("VOIDSTRAP_PAYLOAD_LEN_NET11");
 const STD_INPUT_HANDLE: u32 = -10i32 as u32;
 const STD_OUTPUT_HANDLE: u32 = -11i32 as u32;
 const STD_ERROR_HANDLE: u32 = -12i32 as u32;
@@ -45,12 +48,20 @@ fn main() -> ExitCode {
     };
     let quiet = has_flag("quiet");
     let nolaunch = has_flag("nolaunch");
-    if !runtime_installed() && !install_runtime(quiet) {
-        return ExitCode::from(1);
-    }
-    let app = match unpack() {
-        Some(path) => path,
-        None => return fail(strings::unpack_failed()),
+    let net11_root = NET11_PAYLOAD_DIR.and_then(|_| runtime_root("11"));
+    let preferred = net11_root.as_ref().and_then(|root| preferred_payload().map(|path| (path, root.clone())));
+    let (app, root) = match preferred {
+        Some(choice) => choice,
+        None => {
+            let root = match runtime_root(DOTNET_MAJOR).or_else(|| install_runtime(quiet)) {
+                Some(root) => root,
+                None => return ExitCode::from(1),
+            };
+            match unpack(PAYLOAD_ID, PAYLOAD_DIR, PAYLOAD_LEN) {
+                Some(path) => (path, root),
+                None => return fail(strings::unpack_failed()),
+            }
+        }
     };
     let console_mode = is_console_command();
     if console_mode
@@ -68,6 +79,14 @@ fn main() -> ExitCode {
         command.raw_arg(arguments);
     }
     command.env("VOIDSTRAP_LAUNCHER", &launcher);
+    command.env("DOTNET_ROOT_X64", root);
+    if NET11_PAYLOAD_DIR.is_some() {
+        command.env("VOIDSTRAP_RUNTIME_CHOOSER", "1");
+        command.env("VOIDSTRAP_NET11_AVAILABLE", if net11_root.is_some() { "1" } else { "0" });
+    } else {
+        command.env_remove("VOIDSTRAP_RUNTIME_CHOOSER");
+        command.env_remove("VOIDSTRAP_NET11_AVAILABLE");
+    }
     if console_mode || quiet {
         return match command.status() {
             Ok(status) => ExitCode::from(status.code().unwrap_or(1) as u8),
@@ -154,19 +173,22 @@ fn raw_arguments() -> OsString {
     OsString::from_wide(&line[index.min(line.len())..])
 }
 
-fn runtime_installed() -> bool {
-    dotnet_roots().iter().any(|root| {
+fn runtime_root(major: &str) -> Option<PathBuf> {
+    dotnet_roots().into_iter().find(|root| {
         let shared = root.join("shared");
-        has_major(&shared.join("Microsoft.WindowsDesktop.App")) && has_major(&shared.join("Microsoft.NETCore.App"))
+        has_major(&shared.join("Microsoft.WindowsDesktop.App"), major)
+            && has_major(&shared.join("Microsoft.NETCore.App"), major)
     })
 }
 
-fn has_major(directory: &Path) -> bool {
-    let prefix = format!("{}.", DOTNET_MAJOR);
+fn has_major(directory: &Path, major: &str) -> bool {
+    let prefix = format!("{}.", major);
     fs::read_dir(directory)
         .map(|entries| {
             entries.filter_map(Result::ok).any(|entry| {
-                entry.file_name().to_string_lossy().starts_with(&prefix) && entry.path().is_dir()
+                let name = entry.file_name();
+                let name = name.to_string_lossy();
+                name.starts_with(&prefix) && !name.contains('-') && entry.path().is_dir()
             })
         })
         .unwrap_or(false)
@@ -211,20 +233,22 @@ fn registered_location() -> Option<PathBuf> {
     (length > 0).then(|| PathBuf::from(OsString::from_wide(&buffer[..length])))
 }
 
-fn install_runtime(quiet: bool) -> bool {
+fn install_runtime(quiet: bool) -> Option<PathBuf> {
     if !quiet && show(&strings::ask(), MB_YESNO | MB_ICONQUESTION) != IDYES {
-        return false;
+        return None;
     }
     let package = format!("Microsoft.DotNet.DesktopRuntime.{}", DOTNET_MAJOR);
     let installed = Command::new("winget")
         .args(["install", "--id", &package, "--exact", "--silent", "--accept-package-agreements", "--accept-source-agreements"])
         .status()
         .is_ok();
-    if installed && runtime_installed() {
-        return true;
+    if installed {
+        if let Some(root) = runtime_root(DOTNET_MAJOR) {
+            return Some(root);
+        }
     }
     if quiet {
-        return false;
+        return None;
     }
     show(&strings::failed(), MB_ICONINFORMATION);
     let verb = wide(OsStr::new("open"));
@@ -232,13 +256,13 @@ fn install_runtime(quiet: bool) -> bool {
     unsafe {
         ShellExecuteW(null_mut(), verb.as_ptr(), page.as_ptr(), std::ptr::null(), std::ptr::null(), SW_SHOWNORMAL);
     }
-    false
+    None
 }
 
-fn payload() -> Option<&'static [u8]> {
+fn payload(id: u16) -> Option<&'static [u8]> {
     unsafe {
         let module = GetModuleHandleW(std::ptr::null());
-        let resource = FindResourceW(module, PAYLOAD_ID as usize as *const u16, RT_RCDATA as usize as *const u16);
+        let resource = FindResourceW(module, id as usize as *const u16, RT_RCDATA as usize as *const u16);
         if resource.is_null() {
             return None;
         }
@@ -252,12 +276,24 @@ fn payload() -> Option<&'static [u8]> {
     }
 }
 
-fn unpack() -> Option<PathBuf> {
-    let bytes = payload()?;
+fn preferred_payload() -> Option<PathBuf> {
+    let directory = NET11_PAYLOAD_DIR?;
+    let length = NET11_PAYLOAD_LEN?;
+    let preference = Path::new(&env::var_os("LOCALAPPDATA")?).join("Voidstrap").join("DotNetRuntime");
+    let mut bytes = Vec::with_capacity(3);
+    fs::File::open(preference).ok()?.take(3).read_to_end(&mut bytes).ok()?;
+    if bytes != b"11" {
+        return None;
+    }
+    unpack(NET11_PAYLOAD_ID, directory, length)
+}
+
+fn unpack(id: u16, name: &str, length: &str) -> Option<PathBuf> {
+    let bytes = payload(id)?;
     let base = Path::new(&env::var_os("LOCALAPPDATA")?).join("Voidstrap").join("Bin");
-    let directory = base.join(PAYLOAD_DIR);
+    let directory = base.join(name);
     let app = directory.join("Voidstrap.exe");
-    let expected_len: u64 = PAYLOAD_LEN.parse().unwrap_or(0);
+    let expected_len: u64 = length.parse().unwrap_or(0);
     let check_len = if expected_len > 0 { expected_len } else { bytes.len() as u64 };
     if !fs::metadata(&app).map(|meta| meta.len() == check_len).unwrap_or(false) {
         fs::create_dir_all(&directory).ok()?;
@@ -281,7 +317,11 @@ fn unpack() -> Option<PathBuf> {
 fn remove_old_versions(base: &Path) {
     if let Ok(entries) = fs::read_dir(base) {
         for entry in entries.filter_map(Result::ok) {
-            if entry.file_name() != OsStr::new(PAYLOAD_DIR) && entry.path().is_dir() {
+            let name = entry.file_name();
+            if name != OsStr::new(PAYLOAD_DIR)
+                && !NET11_PAYLOAD_DIR.is_some_and(|directory| name == OsStr::new(directory))
+                && entry.path().is_dir()
+            {
                 let _ = fs::remove_dir_all(entry.path());
             }
         }

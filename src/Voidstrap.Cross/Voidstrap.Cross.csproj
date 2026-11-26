@@ -1,7 +1,10 @@
 ﻿<Project Sdk="LibreWPF.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net10.0-windows</TargetFramework>
+		<TargetFramework Condition="'$(VoidstrapDotNet11)' == 'true'">net11.0-windows</TargetFramework>
+		<TargetFramework Condition="'$(VoidstrapDotNet11)' != 'true'">net10.0-windows</TargetFramework>
+		<_ProGpuWpfManagedTransportRuntimeTfm Condition="'$(VoidstrapDotNet11)' == 'true'">net10.0</_ProGpuWpfManagedTransportRuntimeTfm>
+		<_ProGpuWpfPortableWinFormsCompatRuntimeTfm Condition="'$(VoidstrapDotNet11)' == 'true'">net10.0</_ProGpuWpfPortableWinFormsCompatRuntimeTfm>
 		<OutputType>WinExe</OutputType>
 		<StartupObject>Voidstrap.Program</StartupObject>
 		<Nullable>enable</Nullable>

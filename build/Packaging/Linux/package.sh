@@ -266,6 +266,10 @@ if [ "$(find "$PUBLISH" -mindepth 1 ! -path "$PUBLISH/licenses" ! -path "$PUBLIS
   exit 1
 fi
 chmod 755 "$PUBLISH/Voidstrap"
+if [ "${VOIDSTRAP_PACKAGE_NET11:-0}" = "1" ]; then
+  source "$ROOT/build/Packaging/publish-net11.sh"
+  publish_net11 "$ROOT" "$RID" "$VERSION" "$STAGE" "$PUBLISH/Voidstrap.net11"
+fi
 mkdir -p "$PUBLISH/licenses"
 cp "$ROOT/THIRD-PARTY-NOTICES.txt" "$ROOT/legal/sources/Bibata-Cursor-v2.0.7.tar.gz" "$PUBLISH/licenses/"
 chmod 755 "$PUBLISH/licenses"
@@ -386,6 +390,9 @@ APPRUN
     BUNDLE="$STAGE/Voidstrap"
     mkdir -p "$BUNDLE/share/applications" "$BUNDLE/share/icons/hicolor/256x256/apps" "$BUNDLE/share/metainfo" "$BUNDLE/share/licenses/voidstrap"
     cp "$PUBLISH/Voidstrap" "$BUNDLE/Voidstrap"
+    if [ -f "$PUBLISH/Voidstrap.net11" ]; then
+      cp "$PUBLISH/Voidstrap.net11" "$BUNDLE/Voidstrap.net11"
+    fi
     chmod 755 "$BUNDLE/Voidstrap"
     cp "$DESKTOP_FILE" "$BUNDLE/share/applications/$APPLICATION_ID.desktop"
     cp "$ICON_FILE" "$BUNDLE/share/icons/hicolor/256x256/apps/$APPLICATION_ID.png"

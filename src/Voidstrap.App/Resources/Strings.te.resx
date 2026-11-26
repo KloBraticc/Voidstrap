@@ -9658,6 +9658,12 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>దొరకలేదు, ఫైల్‌ను మీరే ఎంచుకోవచ్చు</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET రన్‌టైమ్</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>యాప్‌ను ఎంచుకోండి</value>
   </data>

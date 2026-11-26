@@ -9968,6 +9968,12 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>پیدا نشد، می‌توانید خودتان فایل را انتخاب کنید</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>محیط اجرای .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>انتخاب برنامه</value>
   </data>

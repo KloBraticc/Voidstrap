@@ -9658,6 +9658,12 @@ Rugsat beriň?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Tapylmady, faýly özüňiz saýlap bilersiňiz</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET ýerine ýetiriş gurşawy</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Programma saýla</value>
   </data>

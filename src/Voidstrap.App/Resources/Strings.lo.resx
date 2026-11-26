@@ -9659,6 +9659,12 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>ບໍ່ພົບ ທ່ານສາມາດເລືອກໄຟລ໌ເອງໄດ້</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>ສະພາບແວດລ້ອມການແລ່ນ .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ເລືອກແອັບ</value>
   </data>

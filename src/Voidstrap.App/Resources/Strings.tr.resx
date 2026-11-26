@@ -9968,6 +9968,12 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Bulunamadı, dosyayı kendiniz seçebilirsiniz</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET çalışma zamanı</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Uygulama seç</value>
   </data>

@@ -9969,6 +9969,12 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Не найдено, Вы можете выбрать файл сами</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Среда выполнения .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Выбрать приложение</value>
   </data>

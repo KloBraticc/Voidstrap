@@ -9659,6 +9659,12 @@ kwe ya?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Achọtaghị ya, ị nwere ike ịhọrọ faịlụ ahụ n onwe gị</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Gburugburụ mmemme nke .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Họrọ ngwa</value>
   </data>

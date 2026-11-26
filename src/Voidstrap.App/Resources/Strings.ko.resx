@@ -9969,6 +9969,12 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>찾지 못했습니다. 파일을 직접 선택할 수 있습니다</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET 런타임</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>앱 선택</value>
   </data>

@@ -9658,6 +9658,12 @@ Dozvoliti?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Nije pronađeno, fajl možeš odabrati sam</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET izvršno okruženje</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Odaberi aplikaciju</value>
   </data>

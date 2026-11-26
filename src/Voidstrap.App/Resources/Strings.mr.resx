@@ -9659,6 +9659,12 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>सापडल्या नाहीत, तुम्ही फाइल स्वतः निवडू शकता</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET रनटाइम</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>अॅप निवडा</value>
   </data>

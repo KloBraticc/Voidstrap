@@ -9659,6 +9659,12 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>મળ્યું નથી, તમે ફાઇલ જાતે પસંદ કરી શકો છો</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET રનટાઇમ</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>એપ પસંદ કરો</value>
   </data>

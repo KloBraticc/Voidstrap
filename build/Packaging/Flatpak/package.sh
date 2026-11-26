@@ -99,13 +99,20 @@ FINISH_ARGS=(
 
 printf 'id: %s\nruntime: org.gnome.Platform\nruntime-version: "50"\nsdk: org.gnome.Sdk\ncommand: voidstrap\nseparate-locales: false\nfinish-args:\n' "$APPLICATION_ID" > "$MANIFEST"
 printf '  - %s\n' "${FINISH_ARGS[@]}" >> "$MANIFEST"
-printf 'modules:\n  - name: voidstrap\n    buildsystem: simple\n    build-commands:\n      - install -Dm755 Voidstrap /app/bin/voidstrap\n      - cp -a share/. /app/share/\n    sources:\n      - type: dir\n        path: payload\n' >> "$MANIFEST"
+printf 'modules:\n  - name: voidstrap\n    buildsystem: simple\n    build-commands:\n      - install -Dm755 Voidstrap /app/bin/voidstrap\n' >> "$MANIFEST"
+if [ -f "$STAGE/payload/Voidstrap.net11" ]; then
+  printf '      - install -Dm755 Voidstrap.net11 /app/bin/Voidstrap.net11\n' >> "$MANIFEST"
+fi
+printf '      - cp -a share/. /app/share/\n    sources:\n      - type: dir\n        path: payload\n' >> "$MANIFEST"
 
 BUILD_DIRECTORY="$STAGE/build"
 REPOSITORY="$STAGE/repository"
 if [ "$ARCH" != "$(uname -m)" ]; then
   mkdir -p "$BUILD_DIRECTORY/files/bin" "$BUILD_DIRECTORY/files/share"
   install -Dm755 "$STAGE/payload/Voidstrap" "$BUILD_DIRECTORY/files/bin/voidstrap"
+  if [ -f "$STAGE/payload/Voidstrap.net11" ]; then
+    install -Dm755 "$STAGE/payload/Voidstrap.net11" "$BUILD_DIRECTORY/files/bin/Voidstrap.net11"
+  fi
   cp -a "$STAGE/payload/share/." "$BUILD_DIRECTORY/files/share/"
   command -v appstreamcli >/dev/null 2>&1 || { echo "AppStream is unavailable"; exit 1; }
   appstreamcli compose --no-net --prefix=/ --origin="$APPLICATION_ID" --components="$APPLICATION_ID,$APPLICATION_ID.desktop" --result-root="$BUILD_DIRECTORY/files" --data-dir="$BUILD_DIRECTORY/files/share/app-info/xmls" --icons-dir="$BUILD_DIRECTORY/files/share/app-info/icons/flatpak" "$BUILD_DIRECTORY/files"

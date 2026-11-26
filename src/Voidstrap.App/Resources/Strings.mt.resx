@@ -9659,6 +9659,12 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Ma nstabx, tista’ tagħżel il-fajl int stess</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Ambjent ta’ eżekuzzjoni ta’ .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Agħżel app</value>
   </data>

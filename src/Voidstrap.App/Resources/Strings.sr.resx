@@ -9659,6 +9659,12 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Није пронађено, датотеку можеш сам да изабереш</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Извршно окружење за .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Изабери апликацију</value>
   </data>

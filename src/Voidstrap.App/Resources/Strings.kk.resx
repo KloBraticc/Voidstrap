@@ -9659,6 +9659,12 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Табылмады, файлды өзіңіз таңдай аласыз</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET орындау ортасы</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Қолданбаны таңдау</value>
   </data>

@@ -9659,6 +9659,12 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>കണ്ടെത്തിയില്ല, ഫയൽ നിങ്ങൾക്ക് തന്നെ തിരഞ്ഞെടുക്കാം</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET പ്രവർത്തന പരിസരം</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ആപ്പ് തിരഞ്ഞെടുക്കുക</value>
   </data>

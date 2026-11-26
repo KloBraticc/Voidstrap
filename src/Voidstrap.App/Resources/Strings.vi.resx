@@ -9968,6 +9968,12 @@ Cho phép?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Không tìm thấy, bạn có thể tự chọn tệp</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Môi trường thực thi .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Chọn ứng dụng</value>
   </data>

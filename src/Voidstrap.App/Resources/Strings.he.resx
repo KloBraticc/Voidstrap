@@ -9659,6 +9659,12 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>לא נמצא, אפשר לבחור את הקובץ בעצמך</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>סביבת זמן הריצה של .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>בחר אפליקציה</value>
   </data>

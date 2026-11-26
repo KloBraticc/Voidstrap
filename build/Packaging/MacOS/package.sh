@@ -82,6 +82,10 @@ if [ -n "$PUBLISHED_EXECUTABLE" ]; then
 else
   dotnet publish "$ROOT/src/Voidstrap.Cross/Voidstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:VoidstrapLinuxPackagingRoot="$STAGE/" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
 fi
+if [ "${VOIDSTRAP_PACKAGE_NET11:-0}" = "1" ]; then
+  source "$ROOT/build/Packaging/publish-net11.sh"
+  publish_net11 "$ROOT" "$RID" "$VERSION" "$STAGE" "$PUBLISH/Voidstrap.net11"
+fi
 mkdir -p "$APPLICATION/Contents/MacOS" "$APPLICATION/Contents/Resources"
 cp -R "$PUBLISH/." "$APPLICATION/Contents/MacOS/"
 case "$RID" in
@@ -186,8 +190,16 @@ if [ "$(uname -s)" != "Darwin" ]; then
     commit_artifact "$DMG" "$DMG_TARGET"
   fi
   TARBALL="$STAGE/Voidstrap-$RID.tar"
-  tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Voidstrap.app/Contents/MacOS/Voidstrap" --exclude="Voidstrap.app/Contents/MacOS/voidstrap-virtualdisplay" -C "$STAGE" -cf "$TARBALL" Voidstrap.app
-  tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$TARBALL" Voidstrap.app/Contents/MacOS/Voidstrap Voidstrap.app/Contents/MacOS/voidstrap-virtualdisplay
+  EXECUTABLES=(Voidstrap.app/Contents/MacOS/Voidstrap Voidstrap.app/Contents/MacOS/voidstrap-virtualdisplay)
+  if [ -f "$APPLICATION/Contents/MacOS/Voidstrap.net11" ]; then
+    EXECUTABLES+=(Voidstrap.app/Contents/MacOS/Voidstrap.net11)
+  fi
+  EXCLUDES=()
+  for executable in "${EXECUTABLES[@]}"; do
+    EXCLUDES+=("--exclude=$executable")
+  done
+  tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner "${EXCLUDES[@]}" -C "$STAGE" -cf "$TARBALL" Voidstrap.app
+  tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$TARBALL" "${EXECUTABLES[@]}"
   gzip -n -f "$TARBALL"
   commit_artifact "$TARBALL.gz" "$TARBALL_TARGET"
   exit 0

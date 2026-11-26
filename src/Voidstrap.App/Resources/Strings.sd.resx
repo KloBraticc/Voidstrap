@@ -9659,6 +9659,12 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>نه مليو، توهان پاڻ فائل چونڊي سگهو ٿا</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET هلائڻ جو ماحول</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ايپ چونڊيو</value>
   </data>

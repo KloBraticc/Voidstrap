@@ -37,6 +37,9 @@
             <ui:ToggleSwitch IsChecked="{Binding ReopenAfterRobloxCloses, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
+          <controls:OptionControl x:Name="DotNetRuntimeOption" Header="{resources:Loc Menu_DotNetRuntime_Title}" Visibility="Collapsed">
+            <Button Click="ChooseDotNetRuntime_Click" AutomationProperties.Name="{resources:Loc Menu_DotNetRuntime_Title}" />
+          </controls:OptionControl>
           <Expander Header="{resources:Loc Ui_Channel_AppSettings}" IsExpanded="False" Margin="0,8,0,0">
             <StackPanel>
                             <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Channel_HardwareAcceleration}" Description="{resources:Loc Ui_Channel_UsesTheGPUToRenderVoidstrap}">

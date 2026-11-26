@@ -9659,6 +9659,12 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Չգտնվեց, կարող եք ինքներդ ընտրել ֆայլը</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET-ի կատարման միջավայր</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Ընտրել հավելված</value>
   </data>

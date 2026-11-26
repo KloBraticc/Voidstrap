@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup Condition="'$(VoidstrapLinuxPackagingRoot)' != '' And $(MSBuildProjectName.EndsWith('_wpftmp'))">
+    <VoidstrapParentProject>$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectName)', '_[^_]+_wpftmp$', ''))</VoidstrapParentProject>
+    <BaseOutputPath>$(VoidstrapLinuxPackagingRoot)bin/$(VoidstrapParentProject)/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(VoidstrapLinuxPackagingRoot)obj/$(VoidstrapParentProject)/</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+  </PropertyGroup>
+</Project>

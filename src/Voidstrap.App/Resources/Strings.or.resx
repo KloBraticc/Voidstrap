@@ -9659,6 +9659,12 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>ମିଳିଲା ନାହିଁ, ଆପଣ ନିଜେ ଫାଇଲ ବାଛିପାରିବେ</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET ରନଟାଇମ୍</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ଆପ୍ ବାଛନ୍ତୁ</value>
   </data>

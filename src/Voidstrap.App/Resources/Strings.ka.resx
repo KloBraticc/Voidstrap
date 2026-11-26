@@ -9659,6 +9659,12 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>ვერ მოიძებნა, ფაილის არჩევა თავად შეგიძლიათ</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET-ის შესრულების გარემო</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>აპის არჩევა</value>
   </data>

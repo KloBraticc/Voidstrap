@@ -9969,6 +9969,12 @@ Toestaan?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Niet gevonden, je kunt het bestand zelf kiezen</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET-runtime</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>App kiezen</value>
   </data>

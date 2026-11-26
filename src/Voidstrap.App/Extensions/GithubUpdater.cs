@@ -324,7 +324,7 @@ public static class GithubUpdater
             string extracted = Path.Combine(tempDirectory, "extracted");
             await RunMacToolAsync("/usr/bin/ditto", ["-x", "-k", archive, extracted], cancellationToken).ConfigureAwait(false);
             string? fresh = Directory.GetDirectories(extracted, "*.app").FirstOrDefault();
-            if (fresh == null || !File.Exists(Path.Combine(fresh, "Contents", "MacOS", Path.GetFileName(Environment.ProcessPath!))))
+            if (fresh == null || !File.Exists(Path.Combine(fresh, "Contents", "MacOS", Path.GetFileName(Paths.Process))))
             {
                 App.Logger.WriteLine("GitHubUpdater", "The downloaded macOS build did not contain Voidstrap");
                 return false;
@@ -390,7 +390,7 @@ public static class GithubUpdater
 
     private static Task<LinuxInstallationInfo> DetectLinuxInstallationAsync(CancellationToken cancellationToken)
     {
-        return LinuxInstallationUpdates.DetectAsync(new Voidstrap.Core.SystemProcessService(), Environment.ProcessPath, cancellationToken);
+        return LinuxInstallationUpdates.DetectAsync(new Voidstrap.Core.SystemProcessService(), Paths.Process, cancellationToken);
     }
 
     private static async Task<string?> GetLatestLinuxVersionTagAsync(CancellationToken cancellationToken)

@@ -9659,6 +9659,12 @@ Bada shi?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Ba a samu ba, za ka iya zaɓar fayil ɗin da kanka</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Muhallin gudanar da .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Zaɓi manhaja</value>
   </data>

@@ -10,7 +10,7 @@ internal static class LinuxGithubPlatformUpdater
 
     public static IPlatformUpdater Create()
     {
-        string? executable = Environment.ProcessPath;
+        string? executable = Paths.Process;
         if (LinuxAppImageHost.TryGetCurrentPath(out string appImagePath))
         {
             executable = appImagePath;

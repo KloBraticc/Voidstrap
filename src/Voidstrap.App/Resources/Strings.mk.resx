@@ -9659,6 +9659,12 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Не е пронајдено, датотеката можеш сам да ја избереш</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Околина за извршување на .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Избери апликација</value>
   </data>

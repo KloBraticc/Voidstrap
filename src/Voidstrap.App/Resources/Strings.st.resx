@@ -9658,6 +9658,12 @@ E lumella?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Ha di a fumanwa, o ka kgetha faele ka bowena</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Tikoloho ea ho tsamaisa .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Kgetha app</value>
   </data>

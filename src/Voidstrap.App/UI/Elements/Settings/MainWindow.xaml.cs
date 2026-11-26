@@ -8786,6 +8786,49 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     }
 
     private Action<string>? _bootstrapperImportChosen;
+    private Action? _dotNetRuntimeChanged;
+
+    internal void ShowDotNetRuntimePicker(Action changed)
+    {
+        ReleaseBootstrapperImport();
+        _dotNetRuntimeChanged = changed;
+        Dialogs.DotNetRuntimeDialog view = new();
+        view.CloseRequested += BootstrapperImport_CloseRequested;
+        view.RuntimeChosen += DotNetRuntime_Chosen;
+        BootstrapperImportHost.Content = view;
+        OpenSimpleModal(BootstrapperImportPanel, BootstrapperImportPanelScale);
+    }
+
+    private void DotNetRuntime_Chosen(object? sender, int major)
+    {
+        const string LOG_IDENT = "MainWindow::DotNetRuntime_Chosen";
+        const string restartKey = "DotNetRuntime";
+        if (major == 11 && !DotNetRuntimeSelection.CanUseNet11)
+        {
+            Utilities.OpenWebLink("https://dotnet.microsoft.com/download/dotnet/11.0");
+            return;
+        }
+        Action? changed = _dotNetRuntimeChanged;
+        CloseSimpleModal();
+        if (DotNetRuntimeSelection.Preferred != major)
+        {
+            try
+            {
+                DotNetRuntimeSelection.Save(major);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteException(LOG_IDENT, ex);
+                Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, Strings.Menu_DotNetRuntime_Title, ex.Message), MessageBoxImage.Warning);
+                return;
+            }
+            changed?.Invoke();
+        }
+        if (major == Environment.Version.Major)
+            RestartNotificationService.Clear(restartKey);
+        else
+            RestartNotificationService.Require(restartKey, Strings.Menu_DotNetRuntime_Title, Strings.Ui_Main_RestartToApply, Strings.Ui_Main_RestartVoidstrap, RestartTarget.Application);
+    }
 
     public void ShowBootstrapperImport(Action<string> chosen)
     {
@@ -8814,6 +8857,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void ReleaseBootstrapperImport()
     {
         _bootstrapperImportChosen = null;
+        _dotNetRuntimeChanged = null;
+        if (BootstrapperImportHost.Content is Dialogs.DotNetRuntimeDialog runtime)
+        {
+            runtime.CloseRequested -= BootstrapperImport_CloseRequested;
+            runtime.RuntimeChosen -= DotNetRuntime_Chosen;
+            BootstrapperImportHost.Content = null;
+            return;
+        }
         if (BootstrapperImportHost.Content is not Voidstrap.UI.Elements.Dialogs.BootstrapperImportDialog view)
             return;
         view.CloseRequested -= BootstrapperImport_CloseRequested;

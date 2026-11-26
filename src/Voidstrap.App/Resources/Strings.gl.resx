@@ -9659,6 +9659,12 @@ Permíteo?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Non se atopou, podes escoller o ficheiro ti mesmo</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Contorno de execución de .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Escoller aplicación</value>
   </data>

@@ -9968,6 +9968,12 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Не са намерени, можете сами да изберете файла</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Среда за изпълнение на .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Изберете приложение</value>
   </data>

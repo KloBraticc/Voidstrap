@@ -9659,6 +9659,12 @@ Vai atļaut?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Nav atrasts, failu vari izvēlēties pats</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET izpildlaika vide</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Izvēlēties lietotni</value>
   </data>

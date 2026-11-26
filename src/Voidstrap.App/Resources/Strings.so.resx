@@ -9659,6 +9659,12 @@ Oggolow?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Lama helin, adigu waad dooran kartaa faylka</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Deegaanka fulinta .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Dooro barnaamij</value>
   </data>

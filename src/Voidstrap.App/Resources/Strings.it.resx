@@ -9969,6 +9969,12 @@ Consentire?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Non trovate, puoi scegliere il file tu stesso</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Runtime di .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Scegli app</value>
   </data>

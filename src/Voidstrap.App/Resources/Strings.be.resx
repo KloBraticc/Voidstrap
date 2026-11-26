@@ -9658,6 +9658,12 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Не знойдзена, можна выбраць файл самастойна</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Асяроддзе выканання .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Выбраць праграму</value>
   </data>

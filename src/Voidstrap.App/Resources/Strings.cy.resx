@@ -9658,6 +9658,12 @@ Caniatáu iddo?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Heb ei ganfod, gallwch ddewis y ffeil eich hun</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Amgylchedd rhedeg .NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Dewis ap</value>
   </data>

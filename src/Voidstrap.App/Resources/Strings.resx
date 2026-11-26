@@ -9661,6 +9661,12 @@ Allow it?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Not found, you can pick the file yourself</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET runtime</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Choose app</value>
   </data>

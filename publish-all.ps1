@@ -2135,7 +2135,7 @@ foreach ($sourcePath in @('publish-all.ps1', 'Directory.Build.props', 'LICENSE',
 }
 if ($appImageTool) { $packageSources += (Get-FileHash -LiteralPath $appImageTool -Algorithm SHA256).Hash }
 $shellName = if ($packagingShell) { $packagingShell.Name } else { '' }
-$packageSources += "$wantLinuxPackages,$wantAppImageOnly,$shellName,$IsWindowsHost,$($env:VOIDSTRAP_APPIMAGE_GLIBC_CEILING),$($env:SOURCE_DATE_EPOCH),$($env:MACOS_DEPLOYMENT_TARGET)"
+$packageSources += "$wantLinuxPackages,$wantAppImageOnly,$shellName,$IsWindowsHost,$($env:VOIDSTRAP_APPIMAGE_GLIBC_CEILING),$($env:SOURCE_DATE_EPOCH),$($env:MACOS_DEPLOYMENT_TARGET),$($env:VOIDSTRAP_PACKAGE_NET11)"
 $script:PackageContext = [pscustomobject]@{
     Shell         = $packagingShell
     Version       = if ($packagingShell) { Get-VoidstrapVersion } else { $null }

@@ -31,7 +31,7 @@ internal static class Paths
 
     private static readonly string? Launcher = ResolveLauncher();
 
-    public static string Process => Launcher ?? Environment.ProcessPath!;
+    public static string Process => Launcher ?? Utility.DotNetRuntimeSelection.UnixPrimaryExecutable ?? Environment.ProcessPath!;
 
     public static bool StartedByLauncher => Launcher != null;
 

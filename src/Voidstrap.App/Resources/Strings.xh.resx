@@ -9658,6 +9658,12 @@ uyayivumela?</value>
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>Azifunyenwanga, ungayikhetha ifayile ngokwakho</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>Imeko yokusebenza ye-.NET</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Khetha i app</value>
   </data>

@@ -23,7 +23,9 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73
         with:
-          dotnet-version: 10.0.403
+          dotnet-version: |
+            10.0.403
+            11.0.100
       - run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu appstream desktop-file-utils flatpak flatpak-builder rpm
       - run: flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       - run: curl --fail --location --retry 5 --output "$RUNNER_TEMP/appimagetool" https://github.com/AppImage/appimagetool/releases/download/1.9.1/appimagetool-x86_64.AppImage && echo 'ed4ce84f0d9caff66f50bcca6ff6f35aae54ce8135408b3fa33abfc3cb384eb0  '"$RUNNER_TEMP/appimagetool" | sha256sum --check && chmod 755 "$RUNNER_TEMP/appimagetool"
@@ -44,6 +46,8 @@ jobs:
           APPIMAGETOOL: ${{ runner.temp }}/appimagetool
           APPIMAGE_EXTRACT_AND_RUN: "1"
           VOIDSTRAP_APPIMAGE_SYSROOT_DIR: ${{ runner.temp }}/appimage-sysroots
+          VOIDSTRAP_NATIVE_TARGET_ROOT: ${{ runner.temp }}/voidstrap-native-target
+          VOIDSTRAP_PACKAGE_NET11: "1"
         run: ./publish-all.ps1 -Only linux-x64,linux-arm64,linux-musl-x64,linux-musl-arm64 -LinuxPackages -SkipSolutionBuild -Parallel
       - name: Upload release packages
         env:

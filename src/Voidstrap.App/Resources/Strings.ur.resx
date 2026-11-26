@@ -9658,6 +9658,12 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>نہیں ملیں، آپ فائل خود منتخب کر سکتے ہیں</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>.NET رن ٹائم</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ایپ منتخب کریں</value>
   </data>

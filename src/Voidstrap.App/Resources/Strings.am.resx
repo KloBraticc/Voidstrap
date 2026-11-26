@@ -9658,6 +9658,12 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Menu.Import.NotFound" xml:space="preserve">
     <value>አልተገኘም፣ ፋይሉን ራስዎ መምረጥ ይችላሉ</value>
   </data>
+  <data name="Menu.DotNetRuntime.Title" xml:space="preserve">
+    <value>የ.NET ማስኬጃ አካባቢ</value>
+  </data>
+  <data name="Menu.DotNetRuntime.Version" xml:space="preserve">
+    <value>.NET {0}</value>
+  </data>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>መተግበሪያ ይምረጡ</value>
   </data>
