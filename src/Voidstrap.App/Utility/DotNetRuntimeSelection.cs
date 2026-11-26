@@ -14,6 +14,42 @@ internal static partial class DotNetRuntimeSelection
 
     public static bool CanUseNet11 => !OperatingSystem.IsWindows() || Environment.GetEnvironmentVariable("VOIDSTRAP_NET11_AVAILABLE") == "1";
 
+    private static string? Net11Path => Environment.GetEnvironmentVariable("VOIDSTRAP_NET11_PATH");
+
+    public static bool IsNet11Downloaded => !OperatingSystem.IsWindows() || (Net11Path is { } path && File.Exists(path));
+
+    public static async Task DownloadNet11Async(CancellationToken token)
+    {
+        const string LOG_IDENT = "DotNetRuntimeSelection::DownloadNet11Async";
+        string target = Net11Path ?? throw new InvalidOperationException("VOIDSTRAP_NET11_PATH is not set");
+        string url = $"{App.ProjectDownloadLink}/download/v{App.Version}/{Net11AssetName}";
+        string directory = Path.GetDirectoryName(target)!;
+        Directory.CreateDirectory(directory);
+        string pending = Path.Combine(directory, "Voidstrap." + Guid.NewGuid().ToString("N") + ".tmp");
+        App.Logger.WriteLine(LOG_IDENT, "Downloading " + url);
+        try
+        {
+            using (HttpResponseMessage response = await App.HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token))
+            {
+                response.EnsureSuccessStatusCode();
+                await using Stream source = await response.Content.ReadAsStreamAsync(token);
+                await using FileStream destination = new(pending, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
+                await source.CopyToAsync(destination, token);
+            }
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(pending);
+            if (info.ProductName != App.ProjectName || info.ProductVersion != App.Version)
+                throw new InvalidDataException($"Unexpected download metadata: {info.ProductName} {info.ProductVersion}");
+            File.Move(pending, target, overwrite: true);
+            App.Logger.WriteLine(LOG_IDENT, "Saved " + target);
+        }
+        finally
+        {
+            File.Delete(pending);
+        }
+    }
+
+    private const string Net11AssetName = "Voidstrap-net11.exe";
+
     private static string PreferencePath => Path.Combine(
         OperatingSystem.IsWindows() ? Environment.GetEnvironmentVariable("LOCALAPPDATA") ?? Paths.LocalAppData : Paths.LocalAppData,
         "Voidstrap",

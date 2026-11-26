@@ -6,7 +6,6 @@ use std::process::Command;
 
 fn main() {
     println!("cargo:rerun-if-env-changed=VOIDSTRAP_LAUNCHER_PAYLOAD");
-    println!("cargo:rerun-if-env-changed=VOIDSTRAP_LAUNCHER_PAYLOAD_NET11");
     println!("cargo:rerun-if-env-changed=VOIDSTRAP_VERSION");
     println!("cargo:rerun-if-env-changed=VOIDSTRAP_DOTNET_MAJOR");
     println!("cargo:rerun-if-env-changed=VOIDSTRAP_RC");
@@ -19,11 +18,8 @@ fn main() {
     let major = env::var("VOIDSTRAP_DOTNET_MAJOR").unwrap_or_else(|_| "10".into());
 
     println!("cargo:rustc-env=VOIDSTRAP_DOTNET_MAJOR={}", major);
-    let primary = compress(&payload, &out_dir, &version, 101, "");
-    let optional = env::var_os("VOIDSTRAP_LAUNCHER_PAYLOAD_NET11")
-        .map(|path| compress(Path::new(&path), &out_dir, &version, 102, "_NET11"))
-        .unwrap_or_default();
-    let resources = format!("{primary}{optional}");
+    println!("cargo:rustc-env=VOIDSTRAP_APP_VERSION={}", version);
+    let resources = compress(&payload, &out_dir, &version, 101, "");
 
     let icon = manifest_dir.join("..").join("..").join("src").join("Voidstrap.App").join("favicon (1).ico");
     let manifest = manifest_dir.join("voidstrap.manifest");

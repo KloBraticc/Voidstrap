@@ -17,8 +17,7 @@ param(
     [switch]$SkipAppImage,
     [switch]$LinuxPackages,
     [switch]$NoPause,
-    [switch]$NoSign,
-    [switch]$WindowsNet10Only
+    [switch]$NoSign
 )
 
 Set-StrictMode -Version Latest
@@ -1143,30 +1142,6 @@ function Start-DotNetProcess {
     }
 }
 
-function Resolve-WindowsNet11Sdk {
-    $candidates = if ($env:VOIDSTRAP_NET11_DOTNET) {
-        @($env:VOIDSTRAP_NET11_DOTNET)
-    } else {
-        @($script:DotNetPath)
-        foreach ($root in @($initialDotNetRoot, $env:DOTNET_ROOT_X64, (Join-Path $env:USERPROFILE '.dotnet'),
-                (Join-Path $env:LOCALAPPDATA 'Voidstrap/BuildTools/dotnet11'), (Join-Path $env:ProgramFiles 'dotnet'))) {
-            if ($root) { Join-Path $root 'dotnet.exe' }
-        }
-    }
-
-    foreach ($candidate in ($candidates | Select-Object -Unique)) {
-        if (-not (Test-Path -LiteralPath $candidate -PathType Leaf)) { continue }
-        $path = (Resolve-Path -LiteralPath $candidate).Path
-        $sdk = & $path --list-sdks | ForEach-Object { if ($_ -match '^(11\.\d+\.\d+)\s') { $Matches[1] } } |
-            Sort-Object { [version]$_ } -Descending | Select-Object -First 1
-        if ($LASTEXITCODE -eq 0 -and $sdk) {
-            return [pscustomobject]@{ Executable = $path; Version = $sdk }
-        }
-    }
-
-    throw 'The Windows launcher requires the .NET 11 SDK for the runtime picker. Install it, set VOIDSTRAP_NET11_DOTNET to its dotnet.exe, or pass -WindowsNet10Only to explicitly publish without the picker.'
-}
-
 function Invoke-WindowsLauncherBuild {
     param([Parameter(Mandatory)] $Job)
 
@@ -1177,44 +1152,15 @@ function Invoke-WindowsLauncherBuild {
     $targetDir = Join-Path $launcherRoot 'target'
     [System.IO.Directory]::CreateDirectory($payloadDir) | Out-Null
     $payload = Join-Path $payloadDir 'Voidstrap.exe'
-    Copy-Item -LiteralPath $Job.Expected -Destination $payload -Force
+    Move-Item -LiteralPath $Job.Expected -Destination $payload -Force
 
-    $net11Payload = $null
-    if ($windowsNet11Sdk) {
-        $net11Root = Join-Path $launcherRoot 'net11'
-        [System.IO.Directory]::CreateDirectory($net11Root) | Out-Null
-        @{ sdk = @{ version = $windowsNet11Sdk.Version; allowPrerelease = $false } } | ConvertTo-Json |
-            Set-Content -LiteralPath (Join-Path $net11Root 'global.json') -Encoding utf8
-        $net11Out = Join-Path $net11Root 'publish'
-        $wpfProps = Join-Path $Root 'build/Packaging/WpfTemporaryProject.props'
-        $net11Args = @('publish', $WinProj, '-c', $Configuration, '-r', $Job.Target.Rid, '--self-contained', 'false',
-            '-o', $net11Out, '-p:VoidstrapDotNet11=true', "-p:VoidstrapLinuxPackagingRoot=$net11Root/",
-            "-p:CustomAfterDirectoryBuildProps=$wpfProps", '-p:PublishProfile=FolderProfile', '-p:PublishReadyToRun=false',
-            '-p:EnableWindowsTargeting=true') + $PubOpts
-        Write-Host '  Windows-x64: publishing .NET 11 companion' -ForegroundColor Cyan
-        Push-Location -LiteralPath $net11Root
-        try {
-            & $windowsNet11Sdk.Executable @net11Args
-            if ($LASTEXITCODE -ne 0) { throw 'The .NET 11 companion publish failed.' }
-        } finally {
-            Pop-Location
-        }
-        $net11Payload = Join-Path $net11Out 'Voidstrap.exe'
-        Assert-FileExists $net11Payload '.NET 11 companion'
-    } else {
-        Write-Host '  Windows-x64: publishing .NET 10 only' -ForegroundColor DarkYellow
-    }
-
-    $previousNet11Payload = $env:VOIDSTRAP_LAUNCHER_PAYLOAD_NET11
     $env:VOIDSTRAP_LAUNCHER_PAYLOAD = $payload
-    $env:VOIDSTRAP_LAUNCHER_PAYLOAD_NET11 = $net11Payload
     $env:VOIDSTRAP_VERSION = Get-VoidstrapVersion
     try {
         & $cargo build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path (Join-Path $Root 'native/voidlauncher/Cargo.toml') --target-dir $targetDir
         if ($LASTEXITCODE -ne 0) { throw "cargo exited with code $LASTEXITCODE" }
     } finally {
         Remove-Item Env:VOIDSTRAP_LAUNCHER_PAYLOAD -ErrorAction SilentlyContinue
-        $env:VOIDSTRAP_LAUNCHER_PAYLOAD_NET11 = $previousNet11Payload
         Remove-Item Env:VOIDSTRAP_VERSION -ErrorAction SilentlyContinue
     }
 
@@ -1911,7 +1857,6 @@ if (-not $dotnetPath) {
 }
 
 $dotnetDirectory = Split-Path -Parent $dotnetPath
-$initialDotNetRoot = $env:DOTNET_ROOT
 $env:DOTNET_ROOT = $dotnetDirectory
 $fastCliNames = @('DOTNET_CLI_TELEMETRY_OPTOUT', 'DOTNET_NOLOGO', 'DOTNET_SKIP_FIRST_TIME_EXPERIENCE', 'DOTNET_GENERATE_ASPNET_CERTIFICATE', 'DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE')
 foreach ($name in $fastCliNames) {
@@ -1973,9 +1918,7 @@ if ($RequestedAll) {
 }
 
 $SignPathContext = $null
-$windowsNet11Sdk = $null
-$buildingWindows = $IsWindowsHost -and @($Targets | Where-Object { $_.Key -eq 'windows' }).Count -gt 0
-if ($buildingWindows -and $Configuration -eq 'Release') {
+if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -gt 0)) {
     $useSignPath = -not $NoSign -and -not [Console]::IsInputRedirected
     if ($useSignPath -and -not $env:CI) {
         while ($true) {
@@ -1989,12 +1932,8 @@ if ($buildingWindows -and $Configuration -eq 'Release') {
         }
     }
     if ($useSignPath) {
-        if ($WindowsNet10Only) { throw '-WindowsNet10Only is available for local builds. Use -NoSign to publish only .NET 10.' }
         $SignPathContext = Resolve-SignPathSource -Version (Get-VoidstrapVersion)
     }
-}
-if ($buildingWindows -and -not $WindowsNet10Only -and -not $SignPathContext) {
-    $windowsNet11Sdk = Resolve-WindowsNet11Sdk
 }
 
 $AndroidExplicit = $Only -contains 'android'

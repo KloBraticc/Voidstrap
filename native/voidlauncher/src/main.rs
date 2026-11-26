@@ -20,13 +20,11 @@ use windows_sys::Win32::UI::Shell::ShellExecuteW;
 use windows_sys::Win32::UI::WindowsAndMessaging::{MessageBoxW, IDYES, MB_ICONERROR, MB_ICONINFORMATION, MB_ICONQUESTION, MB_YESNO, SW_SHOWNORMAL};
 
 const PAYLOAD_ID: u16 = 101;
-const NET11_PAYLOAD_ID: u16 = 102;
 const RT_RCDATA: u16 = 10;
 const PAYLOAD_DIR: &str = env!("VOIDSTRAP_PAYLOAD_DIR");
 const DOTNET_MAJOR: &str = env!("VOIDSTRAP_DOTNET_MAJOR");
 const PAYLOAD_LEN: &str = env!("VOIDSTRAP_PAYLOAD_LEN");
-const NET11_PAYLOAD_DIR: Option<&str> = option_env!("VOIDSTRAP_PAYLOAD_DIR_NET11");
-const NET11_PAYLOAD_LEN: Option<&str> = option_env!("VOIDSTRAP_PAYLOAD_LEN_NET11");
+const APP_VERSION: &str = env!("VOIDSTRAP_APP_VERSION");
 const STD_INPUT_HANDLE: u32 = -10i32 as u32;
 const STD_OUTPUT_HANDLE: u32 = -11i32 as u32;
 const STD_ERROR_HANDLE: u32 = -12i32 as u32;
@@ -48,8 +46,9 @@ fn main() -> ExitCode {
     };
     let quiet = has_flag("quiet");
     let nolaunch = has_flag("nolaunch");
-    let net11_root = NET11_PAYLOAD_DIR.and_then(|_| runtime_root("11"));
-    let preferred = net11_root.as_ref().and_then(|root| preferred_payload().map(|path| (path, root.clone())));
+    let net11_root = runtime_root("11");
+    let net11_app = net11_path();
+    let preferred = net11_root.as_ref().and_then(|root| preferred_payload(net11_app.as_deref()).map(|path| (path, root.clone())));
     let (app, root) = match preferred {
         Some(choice) => choice,
         None => {
@@ -80,13 +79,12 @@ fn main() -> ExitCode {
     }
     command.env("VOIDSTRAP_LAUNCHER", &launcher);
     command.env("DOTNET_ROOT_X64", root);
-    if NET11_PAYLOAD_DIR.is_some() {
-        command.env("VOIDSTRAP_RUNTIME_CHOOSER", "1");
-        command.env("VOIDSTRAP_NET11_AVAILABLE", if net11_root.is_some() { "1" } else { "0" });
-    } else {
-        command.env_remove("VOIDSTRAP_RUNTIME_CHOOSER");
-        command.env_remove("VOIDSTRAP_NET11_AVAILABLE");
-    }
+    command.env("VOIDSTRAP_RUNTIME_CHOOSER", "1");
+    command.env("VOIDSTRAP_NET11_AVAILABLE", if net11_root.is_some() { "1" } else { "0" });
+    match &net11_app {
+        Some(path) => command.env("VOIDSTRAP_NET11_PATH", path),
+        None => command.env_remove("VOIDSTRAP_NET11_PATH"),
+    };
     if console_mode || quiet {
         return match command.status() {
             Ok(status) => ExitCode::from(status.code().unwrap_or(1) as u8),
@@ -276,16 +274,23 @@ fn payload(id: u16) -> Option<&'static [u8]> {
     }
 }
 
-fn preferred_payload() -> Option<PathBuf> {
-    let directory = NET11_PAYLOAD_DIR?;
-    let length = NET11_PAYLOAD_LEN?;
+fn net11_directory_name() -> String {
+    format!("net11-{}", APP_VERSION)
+}
+
+fn net11_path() -> Option<PathBuf> {
+    Some(Path::new(&env::var_os("LOCALAPPDATA")?).join("Voidstrap").join("Bin").join(net11_directory_name()).join("Voidstrap.exe"))
+}
+
+fn preferred_payload(app: Option<&Path>) -> Option<PathBuf> {
+    let app = app?;
     let preference = Path::new(&env::var_os("LOCALAPPDATA")?).join("Voidstrap").join("DotNetRuntime");
     let mut bytes = Vec::with_capacity(3);
     fs::File::open(preference).ok()?.take(3).read_to_end(&mut bytes).ok()?;
-    if bytes != b"11" {
+    if bytes != b"11" || !app.is_file() {
         return None;
     }
-    unpack(NET11_PAYLOAD_ID, directory, length)
+    Some(app.to_path_buf())
 }
 
 fn unpack(id: u16, name: &str, length: &str) -> Option<PathBuf> {
@@ -315,11 +320,12 @@ fn unpack(id: u16, name: &str, length: &str) -> Option<PathBuf> {
 }
 
 fn remove_old_versions(base: &Path) {
+    let net11 = net11_directory_name();
     if let Ok(entries) = fs::read_dir(base) {
         for entry in entries.filter_map(Result::ok) {
             let name = entry.file_name();
             if name != OsStr::new(PAYLOAD_DIR)
-                && !NET11_PAYLOAD_DIR.is_some_and(|directory| name == OsStr::new(directory))
+                && name != OsStr::new(&net11)
                 && entry.path().is_dir()
             {
                 let _ = fs::remove_dir_all(entry.path());
