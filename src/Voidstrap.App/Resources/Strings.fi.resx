@@ -6557,6 +6557,9 @@ Mitä haluat tehdä?</value>
 
 Yritetäänkö poistoa uudelleen?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Pelatut istunnot</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>MERKIT</value>
   </data>

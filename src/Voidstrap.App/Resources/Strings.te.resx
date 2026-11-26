@@ -6400,6 +6400,9 @@ Roblox డౌన్లోడ్ చేయబడుతుంది. మీరు 
 
 తీసివేతను మళ్లీ ప్రయత్నించాలా?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>ఆడిన సెషన్లు</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>బ్యాడ్జ్లు</value>
   </data>

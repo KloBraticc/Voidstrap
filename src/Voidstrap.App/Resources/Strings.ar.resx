@@ -6596,6 +6596,9 @@
 
 هل تريد إعادة محاولة الإزالة؟</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>جلسات اللعب</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>الشارات</value>
   </data>

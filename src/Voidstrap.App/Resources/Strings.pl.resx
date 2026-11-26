@@ -6560,6 +6560,9 @@ Co chcesz zrobić?</value>
 
 Spróbować ponownie usunąć?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Rozegrane sesje</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ODZNAKI</value>
   </data>

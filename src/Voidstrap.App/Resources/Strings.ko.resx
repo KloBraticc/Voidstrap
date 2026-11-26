@@ -6578,6 +6578,9 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
 
 제거를 다시 시도하시겠습니까?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>플레이한 세션 수</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>배지</value>
   </data>

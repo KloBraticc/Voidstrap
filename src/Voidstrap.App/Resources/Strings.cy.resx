@@ -6400,6 +6400,9 @@ Beth hoffech chi ei wneud?</value>
 
 Ceisiwch dynnu eto?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Sesiynau a chwaraewyd</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BATHAU</value>
   </data>

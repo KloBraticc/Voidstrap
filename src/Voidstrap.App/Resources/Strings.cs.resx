@@ -6545,6 +6545,9 @@ Co chcete udělat?</value>
 
 Zkusit odebrání znovu?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Odehrané relace</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ODZNAKY</value>
   </data>

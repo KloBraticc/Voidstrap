@@ -6400,6 +6400,9 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
 
 Կրկին փորձե՞լ հեռացնելը:</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Խաղացած աշխատաշրջաններ</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ԲԵՋԵՐ</value>
   </data>

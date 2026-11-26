@@ -6602,6 +6602,9 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
 
 دوباره برای حذف تلاش شود؟</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>تعداد نوبت‌های بازی</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>نشان‌ها</value>
   </data>

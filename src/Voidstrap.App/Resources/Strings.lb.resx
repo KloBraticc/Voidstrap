@@ -6400,6 +6400,9 @@ Wat géift Dir gären maachen?</value>
 
 Probéiert d'Entfernung nach eng Kéier?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Gespillte Sessiounen</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGES</value>
   </data>

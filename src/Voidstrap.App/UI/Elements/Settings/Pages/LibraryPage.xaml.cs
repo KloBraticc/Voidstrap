@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Voidstrap.Integrations;
 using Voidstrap.UI.ViewModels.Settings;
+using Voidstrap.Utility;
 using Wpf.Ui.Controls;
 using MenuItem = System.Windows.Controls.MenuItem;
 
@@ -120,12 +121,15 @@ public partial class LibraryPage : UiPage
     {
         Voidstrap.UI.Elements.Controls.LibraryGamesControl.Prefetch();
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+        SavedAccounts.Changed += LibraryAccountChanged;
         try
         {
             _viewModel.SetSubplaceViewActive(true);
             _viewModel.Servers.SetViewActive(true);
             if (!_viewModel.HasLoaded)
                 await _viewModel.LoadAsync();
+            else
+                await _viewModel.RefreshSessionCountsAsync();
         }
         catch (OperationCanceledException)
         {
@@ -134,6 +138,20 @@ public partial class LibraryPage : UiPage
         {
             App.Logger.WriteException("LibraryPage::Page_Loaded", ex);
         }
+    }
+
+    private void LibraryAccountChanged()
+    {
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(LibraryAccountChanged);
+            return;
+        }
+        if (!IsLoaded)
+            return;
+
+        _viewModel.InvalidateSessionCounts();
+        _ = _viewModel.RefreshSessionCountsAsync();
     }
 
     private void AllGames_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -230,6 +248,8 @@ public partial class LibraryPage : UiPage
         GamesView.SetActive(false);
         CommunityView.SetActive(false);
         _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
+        SavedAccounts.Changed -= LibraryAccountChanged;
+        _viewModel.InvalidateSessionCounts();
         _viewModel.SetSubplaceViewActive(false);
         _viewModel.Servers.SetViewActive(false);
     }

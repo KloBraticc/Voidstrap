@@ -6400,6 +6400,9 @@ Hva vil du gjøre?</value>
 
 Prøv å fjerne på nytt?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Spilte økter</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>MERK</value>
   </data>

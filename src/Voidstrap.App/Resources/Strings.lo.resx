@@ -6400,6 +6400,9 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
 
 ລອງການລຶບອີກຄັ້ງບໍ?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>ຈຳນວນຮອບທີ່ຫຼິ້ນ</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ປ້າຍ</value>
   </data>

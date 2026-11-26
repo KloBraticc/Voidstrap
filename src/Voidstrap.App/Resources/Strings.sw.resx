@@ -6400,6 +6400,9 @@ Je, ungependa kufanya nini?</value>
 
 Ungependa kujaribu kuondoa tena?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Vipindi vilivyochezwa</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BEJI</value>
   </data>

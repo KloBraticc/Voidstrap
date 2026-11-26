@@ -6400,6 +6400,9 @@ Roblox သည် ၎င်းကိုVoidstrap မှတစ်ဆင့် ပ�
 
 ဖယ်ရှားမှုကို ထပ်စမ်းကြည့်ပါ။</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>ကစားခဲ့သော အကြိမ်ရေ</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>တံဆိပ်များ</value>
   </data>

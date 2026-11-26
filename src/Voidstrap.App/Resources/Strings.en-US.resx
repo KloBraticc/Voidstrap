@@ -6711,6 +6711,9 @@ What would you like to do?</value>
 
 Try the removal again?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Sessions played</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGES</value>
   </data>

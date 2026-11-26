@@ -6400,6 +6400,9 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
 
 Арилгаж үзнэ үү?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Тоглосон сесс</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ТЭМДЭГ</value>
   </data>

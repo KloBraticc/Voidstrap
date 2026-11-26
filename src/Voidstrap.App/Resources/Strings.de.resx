@@ -6493,6 +6493,9 @@ Was möchtest du tun?</value>
 
 Entfernen erneut versuchen?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Gespielte Sitzungen</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ABZEICHEN</value>
   </data>

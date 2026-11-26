@@ -6400,6 +6400,9 @@ Roblox оныVoidstrap арқылы алғаш рет іске қосқан ке
 
 Жоюды қайталап көру керек пе?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Ойналған сеанстар</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>БЕЛГІЛЕР</value>
   </data>

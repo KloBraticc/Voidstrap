@@ -6400,6 +6400,9 @@ Roblox நீங்கள் முதல்முறையாகVoidstrap ம�
 
 மீண்டும் அகற்ற முயற்சிக்கவா?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>விளையாடிய அமர்வுகள்</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>பேட்ஜ்கள்</value>
   </data>

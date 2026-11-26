@@ -6400,6 +6400,9 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
 
 Кайра алып салыңызбы?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Ойнолгон сеанстар</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>БЕЛГИЛЕР</value>
   </data>

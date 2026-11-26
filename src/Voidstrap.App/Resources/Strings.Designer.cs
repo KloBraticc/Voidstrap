@@ -2944,6 +2944,8 @@ namespace Voidstrap.Resources {
 
         public static string SwiftTunnel_RetryPrompt => ResourceManager.GetString("SwiftTunnel.RetryPrompt", resourceCulture);
 
+        public static string Library_SessionsPlayed => ResourceManager.GetString("Library.SessionsPlayed", resourceCulture);
+
         public static string Library_Badges_Stat => ResourceManager.GetString("Library.Badges.Stat", resourceCulture);
 
         public static string Library_Friends_Title => ResourceManager.GetString("Library.Friends.Title", resourceCulture);

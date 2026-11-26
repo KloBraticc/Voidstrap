@@ -6400,6 +6400,9 @@ Hvað myndir þú vilja gera?</value>
 
 Reyndu að fjarlægja aftur?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Spilaðar lotur</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>MERKI</value>
   </data>

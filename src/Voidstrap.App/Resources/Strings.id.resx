@@ -6518,6 +6518,9 @@ Apa yang ingin Anda lakukan?</value>
 
 Coba hapus lagi?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Sesi yang dimainkan</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>LENCANA</value>
   </data>

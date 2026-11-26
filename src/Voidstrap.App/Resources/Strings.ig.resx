@@ -6400,6 +6400,9 @@ Kedu ihe ị ga-achọ ime?</value>
 
 Gbalịa iwepụ ọzọ?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Oge egwuregwu ndị a gụrụ</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BAJA</value>
   </data>

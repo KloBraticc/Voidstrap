@@ -6400,6 +6400,9 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
 
 Хориҷ карданро дубора санҷед?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Шумораи ҷаласаҳои бозӣ</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>НИШОНХО</value>
   </data>

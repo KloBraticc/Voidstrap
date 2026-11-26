@@ -6400,6 +6400,9 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
 
 Provoni përsëri heqjen?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Seanca të luajtura</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>DISTELAT</value>
   </data>

@@ -6400,6 +6400,9 @@ Näme etmek isleýärsiňiz?</value>
 
 Aýyrmagy täzeden synap görüň?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Oýnalan sessiýalar</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGES</value>
   </data>

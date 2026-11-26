@@ -6400,6 +6400,9 @@ Ko jūs vēlētos darīt?</value>
 
 Vai mēģināt noņemt vēlreiz?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Spēlētās sesijas</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>nozīmītes</value>
   </data>

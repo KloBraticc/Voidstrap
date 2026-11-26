@@ -6563,6 +6563,9 @@
 
 要重试移除吗？</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>游玩场次</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>徽章</value>
   </data>

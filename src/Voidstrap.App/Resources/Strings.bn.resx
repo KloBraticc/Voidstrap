@@ -6400,6 +6400,9 @@ Roblox ডাউনলোড করা হবে যখন আপনি এট�
 
 আবার অপসারণের চেষ্টা করবেন?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>খেলা সেশনের সংখ্যা</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ব্যাজ</value>
   </data>

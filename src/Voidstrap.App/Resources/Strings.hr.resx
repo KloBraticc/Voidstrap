@@ -6566,6 +6566,9 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
 
 Pokušati uklanjanje ponovno?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Odigrane sesije</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ZNAČKE</value>
   </data>

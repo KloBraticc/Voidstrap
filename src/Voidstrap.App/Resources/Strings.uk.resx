@@ -6578,6 +6578,9 @@ Roblox буде завантажено під час першого запуск
 
 Повторити видалення?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Зіграні сеанси</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ЗНАЧКИ</value>
   </data>

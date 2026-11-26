@@ -6563,6 +6563,9 @@ Mit szeretnél tenni?</value>
 
 Újra megpróbálod az eltávolítást?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Lejátszott játékmenetek</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>JELVÉNYEK</value>
   </data>

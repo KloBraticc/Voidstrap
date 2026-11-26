@@ -79,6 +79,22 @@ public class LibraryGameEntry : INotifyPropertyChanged
 
     public double PlayTimeMinutes { get; set; }
 
+    private int? _sessionsPlayed;
+
+    public string SessionsPlayedDisplay => _sessionsPlayed?.ToString("N0", Locale.CurrentCulture) ?? Strings.OverlayDiagnostics_Unavailable;
+
+    public Visibility SessionsPlayedVisibility => _sessionsPlayed > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+    internal void SetSessionsPlayed(int? count)
+    {
+        if (_sessionsPlayed == count)
+            return;
+
+        _sessionsPlayed = count;
+        OnPropertyChanged(nameof(SessionsPlayedDisplay));
+        OnPropertyChanged(nameof(SessionsPlayedVisibility));
+    }
+
     public virtual Visibility RemoveVisibility => Visibility.Visible;
 
     public bool HasIcon => !string.IsNullOrEmpty(IconUrl);
@@ -448,6 +464,9 @@ public class LibraryViewModel : INotifyPropertyChanged
     private readonly Dictionary<long, List<GamePassEntry>> _gamePassCache = new();
 
     private readonly List<LibraryGameEntry> _masterGames = new();
+
+    private Dictionary<long, int>? _sessionCounts;
+    private int _sessionRefreshVersion;
 
     private LibraryGameEntry? _selectedGame;
 
@@ -1262,6 +1281,7 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     public async Task LoadAsync(bool forceRefresh = false)
     {
+        _ = RefreshSessionCountsAsync();
         if (_loadInFlight)
         {
             _reloadRequested = true;
@@ -1354,6 +1374,51 @@ public class LibraryViewModel : INotifyPropertyChanged
             }
         }
     }
+
+    internal void InvalidateSessionCounts()
+    {
+        _sessionRefreshVersion++;
+        ApplySessionCounts(null);
+    }
+
+    internal async Task RefreshSessionCountsAsync()
+    {
+        const string LOG_IDENT = "LibraryViewModel::RefreshSessionCountsAsync";
+        int version = ++_sessionRefreshVersion;
+        long currentUser = SavedAccounts.Current?.UserId ?? 0;
+        long playingUser = Watcher.Current?.ActivityWatcher is { InGame: true } activity ? activity.Data.UserId : 0;
+        Dictionary<long, int>? counts = null;
+        try
+        {
+            counts = await Task.Run(() =>
+            {
+                long userId = currentUser > 0 ? currentUser : SavedAccounts.ReadCachedLaunchAccount().Account?.UserId ?? playingUser;
+                return userId > 0 ? Integrations.LibrarySessionCounts.Read(userId, ReadHistoryFile()) : null;
+            }).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteException(LOG_IDENT, ex);
+        }
+        if (Application.Current is { Dispatcher.HasShutdownStarted: false })
+            await UpdateUiAsync(() =>
+            {
+                if (version == _sessionRefreshVersion)
+                    ApplySessionCounts(counts);
+            }).ConfigureAwait(false);
+    }
+
+    private void ApplySessionCounts(Dictionary<long, int>? counts)
+    {
+        _sessionCounts = counts;
+        foreach (LibraryGameEntry game in _masterGames)
+            ApplySessionCount(game);
+        if (SelectedGame != null)
+            ApplySessionCount(SelectedGame);
+    }
+
+    private void ApplySessionCount(LibraryGameEntry game) =>
+        game.SetSessionsPlayed(_sessionCounts?.GetValueOrDefault(game.UniverseId));
 
     private (List<LibraryGameEntry> Games, bool Fresh) BuildLocalGames(List<AppSettings.LibraryPin> pins)
     {
@@ -1726,6 +1791,8 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private void PublishGamesCore(List<LibraryGameEntry> games)
     {
+        foreach (LibraryGameEntry game in games)
+            ApplySessionCount(game);
         _masterGames.Clear();
         _masterGames.AddRange(games.OrderBy(static game => game.Name, StringComparer.OrdinalIgnoreCase));
 

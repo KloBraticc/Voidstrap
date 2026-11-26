@@ -6563,6 +6563,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
 
 ลองลบอีกครั้งหรือไม่</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>จำนวนเซสชันที่เล่น</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ตรา</value>
   </data>

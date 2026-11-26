@@ -6400,6 +6400,9 @@ Kini iwọ yoo fẹ lati ṣe?</value>
 
 Gbiyanju yiyọ kuro lẹẹkansi bi?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Àwọn ìgbà tí a ṣeré</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>AWON BAAJI</value>
   </data>

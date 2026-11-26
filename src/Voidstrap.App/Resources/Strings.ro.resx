@@ -6545,6 +6545,9 @@ Ce vrei să faci?</value>
 
 Încerci din nou eliminarea?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Sesiuni jucate</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>INSIGNE</value>
   </data>

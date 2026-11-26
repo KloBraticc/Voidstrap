@@ -6400,6 +6400,9 @@ Cad ba mhaith leat a dhéanamh?</value>
 
 An bhfuil fonn ort é a bhaint arís?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Seisiúin imeartha</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>suaitheantais</value>
   </data>

@@ -6400,6 +6400,9 @@ Roblox पहिलो पटकVoidstrap मार्फत लन्च गर
 
 फेरि हटाउने प्रयास गर्ने?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>खेलिएका सत्रहरू</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ब्याजहरू</value>
   </data>

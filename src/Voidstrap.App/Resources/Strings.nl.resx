@@ -6521,6 +6521,9 @@ Wat wil je doen?</value>
 
 Het verwijderen opnieuw proberen?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Gespeelde sessies</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGES</value>
   </data>

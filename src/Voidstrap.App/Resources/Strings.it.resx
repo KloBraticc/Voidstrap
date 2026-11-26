@@ -6533,6 +6533,9 @@ Cosa vuoi fare?</value>
 
 Riprovare la rimozione?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Sessioni giocate</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGE</value>
   </data>

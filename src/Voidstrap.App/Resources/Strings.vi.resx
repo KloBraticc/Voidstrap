@@ -6569,6 +6569,9 @@ Bạn muốn làm gì?</value>
 
 Thử gỡ bỏ lại?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Số phiên đã chơi</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>HUY HIỆU</value>
   </data>

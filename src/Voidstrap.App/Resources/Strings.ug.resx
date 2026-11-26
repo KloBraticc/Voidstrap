@@ -6400,6 +6400,9 @@ Roblox تۇنجى قېتىمVoidstrap ئارقىلىق چىقارغاندا چۈ
 
 ئېلىۋېتىشنى قايتا سىناپ بېقىڭ؟</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>ئوينىغان قېتىم سانى</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGES</value>
   </data>

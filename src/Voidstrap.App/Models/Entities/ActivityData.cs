@@ -136,6 +136,9 @@ public class ActivityData : INotifyPropertyChanged
 
     public DateTime TimeJoined { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? LocalPlaySessionKey { get; set; }
+
     public DateTime? TimeLeft { get; set; }
 
     public string RPCLaunchData { get; set; } = string.Empty;

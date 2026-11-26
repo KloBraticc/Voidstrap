@@ -378,6 +378,7 @@ public sealed class HistoryPersister : IDisposable
         JsonFile.SerializeAtomic(_historyFilePath, value, JsonOptions.Indented);
         if (current.Count != 0)
         {
+            LibrarySessionCounts.Record(value, current);
             await Task.Run(() => PlayTimeStore.Accumulate(value, liveKey), token).ConfigureAwait(continueOnCapturedContext: false);
         }
     }
@@ -430,6 +431,7 @@ public sealed class HistoryPersister : IDisposable
                     item.UniverseId = previous.UniverseId;
                 if (string.IsNullOrWhiteSpace(item.AccessCode))
                     item.AccessCode = previous.AccessCode;
+                item.LocalPlaySessionKey ??= previous.LocalPlaySessionKey;
             }
             sessions[key] = item;
         }

@@ -6400,6 +6400,9 @@ Roblox ჩამოიტვირთება, როდესაც მას 
 
 ხელახლა სცადოთ წაშლა?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>ნათამაშები სესიები</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>სამკერდე ნიშნები</value>
   </data>

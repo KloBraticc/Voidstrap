@@ -6400,6 +6400,9 @@
 
 Δοκιμάστε ξανά την αφαίρεση;</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Συνεδρίες παιχνιδιού</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ΚΟΝΤΡΑ</value>
   </data>

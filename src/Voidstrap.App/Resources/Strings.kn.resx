@@ -6400,6 +6400,9 @@ Roblox ಅನ್ನು ನೀವು ಮೊದಲ ಬಾರಿಗೆVoidstrap ಮ
 
 ಮತ್ತೆ ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸುವುದೇ?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>ಆಡಿದ ಸೆಷನ್ಗಳು</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ಬ್ಯಾಡ್ಜ್ಗಳು</value>
   </data>

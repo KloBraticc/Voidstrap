@@ -6400,6 +6400,9 @@ Mida sa teha tahaksid?</value>
 
 Proovige uuesti eemaldada?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Mängitud seansid</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>MÄRGID</value>
   </data>

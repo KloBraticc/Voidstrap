@@ -6400,6 +6400,9 @@ Roblox នឹងត្រូវបានទាញយក នៅពេលអ្ន
 
 សាកល្បងលុបម្តងទៀត?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>ចំនួនវគ្គដែលបានលេង</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ផ្លាកសញ្ញា</value>
   </data>

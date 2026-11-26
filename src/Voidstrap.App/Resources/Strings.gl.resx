@@ -6400,6 +6400,9 @@ Que che gustaría facer?</value>
 
 Tentar a eliminación de novo?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Sesións xogadas</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>INSIGNIAS</value>
   </data>

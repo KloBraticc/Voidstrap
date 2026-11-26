@@ -6557,6 +6557,9 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
 
 ¿Volver a intentar la eliminación?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Sesiones jugadas</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>INSIGNIAS</value>
   </data>

@@ -6400,6 +6400,9 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
 
 Ponovo pokušati ukloniti?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Odigrane sesije</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ZNAČKE</value>
   </data>

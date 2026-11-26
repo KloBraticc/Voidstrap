@@ -6400,6 +6400,9 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
 
 ማስወገድ እንደገና ይሞክሩ?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>የተጫወቱባቸው ክፍለ ጊዜዎች</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ባጆች</value>
   </data>

@@ -6400,6 +6400,9 @@ Yintoni ongathanda ukuyenza?</value>
 
 Zama ukususa kwakhona?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Iiseshoni ezidlaliweyo</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>IBHEJI</value>
   </data>

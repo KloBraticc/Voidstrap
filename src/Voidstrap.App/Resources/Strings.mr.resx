@@ -6400,6 +6400,9 @@ Roblox तुम्ही प्रथमचVoidstrap द्वारे लॉ�
 
 काढून टाकण्याचा पुन्हा प्रयत्न करायचा?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>खेळलेली सत्रे</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>बॅज</value>
   </data>

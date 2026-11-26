@@ -6400,6 +6400,9 @@ Roblox നിങ്ങൾ ആദ്യമായിVoidstrap വഴി ലോഞ�
 
 വീണ്ടും നീക്കം ചെയ്യാൻ ശ്രമിക്കണോ?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>കളിച്ച സെഷനുകൾ</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ബാഡ്ജുകൾ</value>
   </data>

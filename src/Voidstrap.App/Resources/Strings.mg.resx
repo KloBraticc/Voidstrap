@@ -6400,6 +6400,9 @@ Inona no tianao hatao?</value>
 
 Andramo indray ny fanesorana?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Isan’ny fivoriana nilalaovana</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGES</value>
   </data>

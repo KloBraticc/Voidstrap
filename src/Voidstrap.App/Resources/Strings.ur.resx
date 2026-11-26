@@ -6400,6 +6400,9 @@ Roblox ڈاؤن لوڈ ہو جائے گا۔ آپ لانچ کرنے سے پہلے
 
 ہٹانے کی دوبارہ کوشش کریں؟</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>کھیلے گئے سیشن</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>بیجز</value>
   </data>

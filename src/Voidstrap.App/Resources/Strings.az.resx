@@ -6400,6 +6400,9 @@ Nə etmək istərdiniz?</value>
 
 Silməyə yenidən cəhd edin?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Oyun sessiyalarının sayı</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>NİŞANLAR</value>
   </data>

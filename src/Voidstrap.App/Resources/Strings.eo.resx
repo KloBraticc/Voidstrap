@@ -6400,6 +6400,9 @@ Kion vi ŝatus fari?</value>
 
 Ĉu provi la forigon denove?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Luditaj sesioj</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>INSIGNOJ</value>
   </data>

@@ -6400,6 +6400,9 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
 
 Skúsiť odstránenie znova?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Odohrané relácie</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ODZNAKY</value>
   </data>

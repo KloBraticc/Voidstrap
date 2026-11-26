@@ -6400,6 +6400,9 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
 
 ٻيهر هٽائڻ جي ڪوشش ڪريو؟</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>کيڏيل سيشن</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>بيجز</value>
   </data>

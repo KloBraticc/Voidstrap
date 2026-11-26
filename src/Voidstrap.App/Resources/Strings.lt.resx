@@ -6599,6 +6599,9 @@ Ką norėtumėte daryti?</value>
 
 Bandyti pašalinti dar kartą?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Žaisti seansai</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ŽENKLELIAI</value>
   </data>

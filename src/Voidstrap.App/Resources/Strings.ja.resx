@@ -6575,6 +6575,9 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
 
 削除をもう一度試しますか？</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>プレイセッション数</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>バッジ</value>
   </data>

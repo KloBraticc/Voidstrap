@@ -6400,6 +6400,9 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
 
 לנסות את ההסרה שוב?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>מספר סשנים ששוחקו</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>תגים</value>
   </data>

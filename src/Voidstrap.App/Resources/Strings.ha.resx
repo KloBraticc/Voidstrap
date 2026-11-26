@@ -6400,6 +6400,9 @@ Me kuke so ku yi?</value>
 
 sake gwada cirewa?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Zaman wasan da aka buga</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGES</value>
   </data>

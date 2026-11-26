@@ -6400,6 +6400,9 @@ Roblox ଡାଉନଲୋଡ୍ ହେବ | ଲଞ୍ଚ କରିବା ପୂ�
 
 ପୁନର୍ବାର ଅପସାରଣକୁ ଚେଷ୍ଟା କରନ୍ତୁ?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>ଖେଳାଯାଇଥିବା ଅଧିବେଶନ</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGES</value>
   </data>

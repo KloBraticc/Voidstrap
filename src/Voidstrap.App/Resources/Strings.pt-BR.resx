@@ -6545,6 +6545,9 @@ O que você gostaria de fazer?</value>
 
 Tentar a remoção de novo?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Sessões jogadas</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>EMBLEMAS</value>
   </data>

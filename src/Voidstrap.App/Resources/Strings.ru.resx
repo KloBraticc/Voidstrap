@@ -6569,6 +6569,9 @@ Roblox будет скачан при первом запуске через Voi
 
 Повторить удаление?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Сыгранные сеансы</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ЗНАЧКИ</value>
   </data>

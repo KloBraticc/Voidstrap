@@ -6400,6 +6400,9 @@ Nima qilishni xohlaysiz?</value>
 
 O'chirishni qaytadan sinab ko'ringmi?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>O‘ynalgan seanslar</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>NIZLAR</value>
   </data>

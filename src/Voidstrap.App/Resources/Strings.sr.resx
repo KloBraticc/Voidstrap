@@ -6400,6 +6400,9 @@ Roblox биће преузето када га покренете Voidstrap пр
 
 Покушајте поново да уклоните?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Одигране сесије</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>БАЏЕ</value>
   </data>

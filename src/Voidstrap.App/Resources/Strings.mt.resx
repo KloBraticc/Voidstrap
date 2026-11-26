@@ -6400,6 +6400,9 @@ X'tixtieq tagħmel?</value>
 
 Erġa' pprova t-tneħħija?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Sessjonijiet milgħuba</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>BADGES</value>
   </data>

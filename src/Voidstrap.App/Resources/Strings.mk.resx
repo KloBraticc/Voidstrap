@@ -6400,6 +6400,9 @@ Roblox ќе се преземе кога ќе го стартувате прек
 
 Обидете се повторно да го отстраните?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Одиграни сесии</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ЗНАЧКИ</value>
   </data>

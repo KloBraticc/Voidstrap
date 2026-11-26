@@ -6566,6 +6566,9 @@ Roblox ще бъде изтеглен, когато го стартирате з
 
 Да се опита ли премахването отново?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Изиграни сесии</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ЗНАЧКИ</value>
   </data>

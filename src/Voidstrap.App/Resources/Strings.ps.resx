@@ -6400,6 +6400,9 @@ Roblox به ډاونلوډ شي کله چې تاسو د لومړي ځل لپار
 
 بیا د لرې کولو هڅه وکړئ؟</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>د لوبې شوې ناستې</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>بیجز</value>
   </data>

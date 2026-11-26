@@ -6400,6 +6400,9 @@ Maxaad jeclaan lahayd inaad samayso?</value>
 
 Isku day saarista mar kale?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Jeer ee la ciyaaray</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>SHARAMAHA</value>
   </data>

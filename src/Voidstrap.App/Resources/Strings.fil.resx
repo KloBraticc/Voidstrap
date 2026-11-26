@@ -6340,6 +6340,9 @@ Ano ang gusto mong gawin?</value>
 
 Subukan ulit ang pag alis?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Mga sesyong nilaro</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>MGA BADGE</value>
   </data>

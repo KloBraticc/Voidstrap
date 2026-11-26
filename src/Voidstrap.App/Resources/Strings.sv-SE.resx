@@ -6523,6 +6523,9 @@ Vad vill du göra?</value>
 
 Försöka ta bort igen?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Spelade sessioner</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>MÄRKEN</value>
   </data>

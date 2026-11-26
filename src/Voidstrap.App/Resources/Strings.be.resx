@@ -6400,6 +6400,9 @@ Roblox будзе спампаваны пры першым запуску пра
 
 Паўтарыць спробу выдалення?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Згуляныя сеансы</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ЗНАЧКІ</value>
   </data>

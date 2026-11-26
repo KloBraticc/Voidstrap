@@ -6400,6 +6400,9 @@ U ka rata ho etsa eng?</value>
 
 Leka ho e tlosa hape?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Linako tse bapalitsoeng</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>LIBECHE</value>
   </data>

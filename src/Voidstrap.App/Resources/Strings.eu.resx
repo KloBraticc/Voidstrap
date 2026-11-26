@@ -6400,6 +6400,9 @@ Zer egin nahiko zenuke?</value>
 
 Berriro kentzen saiatu?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Jokatutako saioak</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>TXAPAK</value>
   </data>

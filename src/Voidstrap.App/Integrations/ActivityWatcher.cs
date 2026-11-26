@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -1369,6 +1371,8 @@ public partial class ActivityWatcher : IDisposable
                 InGame = false;
                 Data.PlaceId = placeId;
                 Data.JobId = match.Groups[1].Value;
+                Data.LocalPlaySessionKey = Convert.ToHexString(
+                    SHA256.HashData(Encoding.UTF8.GetBytes(Path.GetFileName(LogLocation) + "\n" + entry)));
                 string joinAddress = match.Groups[3].Value;
                 Data.MachineAddress = VoidstrapMatchmaker.IsPrivateIp(joinAddress) ? string.Empty : joinAddress;
                 if (_teleportMarker)
@@ -1460,6 +1464,8 @@ public partial class ActivityWatcher : IDisposable
                 PublishLaunchStatus(message2);
                 InGame = true;
                 Data.TimeJoined = DateTime.Now;
+                if (Data.RootActivity is { UserId: > 0 } root && root.UserId == Data.UserId)
+                    Data.LocalPlaySessionKey = root.LocalPlaySessionKey ?? PlayTimeStore.GetSessionKey(root);
                 ApplyInGameResolutionIfNeeded();
                 FrameGeneration.FrameGenManager.OnGameJoinConfirmed();
                 RecordPlayerEvent("added", Data.UserId, null);

@@ -6400,6 +6400,9 @@ Roblox ડાઉનલોડ થશે જ્યારે તમે તેને
 
 ફરીથી દૂર કરવાનો પ્રયાસ કરીએ?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>રમેલા સત્રો</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>બેજ</value>
   </data>

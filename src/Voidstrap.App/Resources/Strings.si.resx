@@ -6400,6 +6400,9 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
 
 ඉවත් කිරීම නැවත උත්සාහ කරන්නද?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>සෙල්ලම් කළ වාර</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ලාංඡන</value>
   </data>

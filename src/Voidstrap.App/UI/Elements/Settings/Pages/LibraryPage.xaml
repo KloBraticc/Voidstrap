@@ -566,6 +566,10 @@
                         <StackPanel Margin="10,8,10,10">
                           <TextBlock FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
                           <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding LastPlayedDisplay}" />
+                          <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                     Visibility="{Binding SessionsPlayedVisibility}" TextTrimming="CharacterEllipsis">
+                            <Run Text="{resources:Loc Library_SessionsPlayed}" /><Run Text=" · " /><Run Text="{Binding SessionsPlayedDisplay, Mode=OneWay}" />
+                          </TextBlock>
                         </StackPanel>
                       </StackPanel>
                     </Button>
@@ -721,6 +725,10 @@
                     <StackPanel Margin="0,0,0,8" ToolTip="{Binding SelectedGame.BadgeTooltip}">
                       <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_Badges_Stat}" />
                       <TextBlock FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.BadgeStatDisplay}" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,8">
+                      <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_SessionsPlayed}" TextWrapping="Wrap" />
+                      <TextBlock FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.SessionsPlayedDisplay}" />
                     </StackPanel>
                   </UniformGrid>
                 </StackPanel>

@@ -6560,6 +6560,9 @@ Ne yapmak istersiniz?</value>
 
 Kaldırma yeniden denensin mi?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Oynanan oturumlar</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>ROZETLER</value>
   </data>

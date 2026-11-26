@@ -6400,6 +6400,9 @@ Yini ongathanda ukuyenza?</value>
 
 Zama ukususa futhi?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Amaseshini adlaliwe</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>AMABHEKI</value>
   </data>

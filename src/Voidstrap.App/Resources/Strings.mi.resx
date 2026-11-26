@@ -6400,6 +6400,9 @@ Me aha koe?</value>
 
 Ngana ano ki te tango?</value>
   </data>
+  <data name="Library.SessionsPlayed" xml:space="preserve">
+    <value>Ngā wātū tākaro</value>
+  </data>
   <data name="Library.Badges.Stat" xml:space="preserve">
     <value>TIKA</value>
   </data>
