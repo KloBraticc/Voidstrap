@@ -35,7 +35,7 @@ public partial class SessionDock
     private static readonly TimeSpan CardHoverLength = TimeSpan.FromMilliseconds(150);
     private const double DeckSlideDistance = 26;
 
-    private sealed record ExperienceCard(Button Button, Border Artwork, Image Icon, TextBlock Title, bool IsCurrent)
+    private sealed record ExperienceCard(Button Button, Border Artwork, Image Icon, StackPanel Labels, TextBlock Caption, TextBlock Title, bool IsCurrent)
     {
         public ScaleTransform Scale { get; } = new();
         public TranslateTransform Offset { get; } = new();
@@ -118,8 +118,9 @@ public partial class SessionDock
         double cardDepth = sideways ? 202 : 222;
         const double cardClearance = 18;
         double scale = Math.Min(layout.SafeDockScale * DockSizeMultiplier, Math.Max(0.04, (limit - inset - cardClearance) / (DockHeight + cardDepth)));
-        bool resizeCards = orientationChanged || _deckScale != scale;
-        _deckScale = scale;
+        double deckScale = scale * AppSettings.ClampSessionDockGameCardSize(App.Settings.Prop.SessionDockGameCardSize) / 100;
+        bool resizeCards = orientationChanged || _deckScale != deckScale;
+        _deckScale = deckScale;
         SetPillScale(scale);
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double sideMargin = Math.Min(12, along * 0.08);
@@ -146,7 +147,8 @@ public partial class SessionDock
                 SizeExperienceCard(card, sideways);
             }
         }
-        double depth = Math.Min(across, Math.Ceiling((DockHeight + cardDepth) * scale + inset + cardClearance));
+        double deckDepth = App.Settings.Prop.SessionDockGameCards ? cardDepth * deckScale + cardClearance : 0;
+        double depth = Math.Min(across, Math.Ceiling(DockHeight * scale + inset + deckDepth));
         double width = sideways ? depth : along;
         double height = sideways ? along : depth;
         bool changed = Math.Abs(Width - width) > 0.1 || Math.Abs(Height - height) > 0.1;
@@ -157,7 +159,7 @@ public partial class SessionDock
 
     private void SetDeckGame(ActivityData game, string name, ImageSource? icon)
     {
-        if (game.PlaceId <= 0)
+        if (!App.Settings.Prop.SessionDockGameCards || game.PlaceId <= 0)
             return;
         if (_deckPlaceId == game.PlaceId && _experienceCards.Count > 0)
         {
@@ -180,6 +182,25 @@ public partial class SessionDock
         CancellationTokenSource request = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
         _deckRequest = request;
         _ = PortableOverlay.RunAsync(this, () => LoadDeckAsync(game, featured, request));
+    }
+
+    internal void RefreshGameCardSettings()
+    {
+        if (_closed)
+            return;
+
+        if (!App.Settings.Prop.SessionDockGameCards)
+        {
+            SetDeckVisibility(false, false);
+            _deckRequest?.Cancel();
+            _deckPlaceId = 0;
+            ClearExperienceCards();
+        }
+
+        RefreshLayoutLive();
+        if (App.Settings.Prop.SessionDockGameCards && _experienceCards.Count == 0 && _data is { } game)
+            SetDeckGame(game, GameTitle.Text, GamePicture.Source);
+        RefreshDeckVisibility();
     }
 
     private void ClearExperienceCards()
@@ -315,7 +336,7 @@ public partial class SessionDock
         AutomationProperties.SetName(button, name);
         button.Click += ExperienceCard_Click;
         button.IsKeyboardFocusWithinChanged += ExperienceCardFocusChanged;
-        ExperienceCard card = new(button, artwork, icon, title, featured);
+        ExperienceCard card = new(button, artwork, icon, labels, caption, title, featured);
         button.RenderTransform = new TransformGroup { Children = { card.Scale, card.Offset, card.Entrance } };
         _experienceCards.Add(card);
         SizeExperienceCard(card, VisualSide != OverlayDockSide.None);
@@ -374,7 +395,16 @@ public partial class SessionDock
         card.Button.Width = width;
         card.Button.Height = height;
         card.Title.FontSize = fontSize;
-        card.Button.Margin = sideways ? new Thickness(3, 5, 3, 5) : new Thickness(6, 0, 6, 0);
+        double contentScale = Math.Min(1, _deckScale);
+        double padding = 12 * contentScale;
+        card.Caption.FontSize = Math.Max(8, padding);
+        card.Labels.Margin = new Thickness(padding, 0, padding, padding);
+        card.Icon.Margin = new Thickness(padding, padding, 0, 0);
+        if (card.Icon.LayoutTransform is not ScaleTransform iconScale || iconScale.ScaleX != contentScale)
+            card.Icon.LayoutTransform = new ScaleTransform(contentScale, contentScale);
+        card.Button.Margin = sideways
+            ? new Thickness(3, 5 * contentScale, 3, 5 * contentScale)
+            : new Thickness(6 * contentScale, 0, 6 * contentScale, 0);
         card.Button.HorizontalAlignment = VisualSide == OverlayDockSide.Right ? HorizontalAlignment.Right : HorizontalAlignment.Left;
         card.Button.VerticalAlignment = _appliedTopEdge ? VerticalAlignment.Top : VerticalAlignment.Bottom;
     }
@@ -404,7 +434,7 @@ public partial class SessionDock
         bool covered = _screenDragDimOverride || _islandExpanded || _launchingDeckGame || PopoutOpen
             || _panels.Values.Any(panel => panel.IsVisible)
             || (_deckOpening && HasOpeningPanel());
-        SetDeckVisibility(_opened && IsVisible && !covered, true);
+        SetDeckVisibility(App.Settings.Prop.SessionDockGameCards && _opened && IsVisible && !covered, true);
     }
 
     private void SetDeckVisibility(bool visible, bool animate)

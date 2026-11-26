@@ -10220,6 +10220,12 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>실행, 정리 및 성능 관련 추가 옵션입니다.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>게임 카드 표시</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>게임 카드 크기</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>도크를 열고 닫을 때 나는 소리</value>
   </data>

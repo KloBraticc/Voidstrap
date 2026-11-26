@@ -9910,6 +9910,12 @@ Abakinnyi: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Andi mahitamo yo gutangiza, gusukura n'imikorere.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Erekana amakarita y’imikino</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Ingano y’amakarita y’imikino</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Amajwi yo gufungura no gufunga umurongo w’ikiganiro</value>
   </data>

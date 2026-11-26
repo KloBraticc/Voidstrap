@@ -9909,6 +9909,12 @@ Libapali: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Dikgetho tse ding tsa ho qala, ho hloekisa le tshebetso.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Bontša likarete tsa lipapali</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Boholo ba likarete tsa lipapali</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Melumo ha ho buloa le ha ho koaloa sebaka sa kopano</value>
   </data>

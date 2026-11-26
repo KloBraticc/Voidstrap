@@ -10220,6 +10220,12 @@ Veikimo laikas: {1}
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Daugiau paleidimo, valymo ir našumo parinkčių.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Rodyti žaidimų korteles</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Žaidimų kortelių dydis</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Garsai atidarant ir uždarant seanso juostą</value>
   </data>

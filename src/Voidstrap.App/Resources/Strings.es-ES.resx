@@ -10219,6 +10219,12 @@ Jugadores: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Más opciones de inicio, limpieza y rendimiento.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Mostrar tarjetas de juegos</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Tamaño de las tarjetas de juegos</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Sonidos al abrir y cerrar la barra de sesión</value>
   </data>

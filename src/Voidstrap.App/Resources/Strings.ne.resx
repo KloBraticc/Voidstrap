@@ -9910,6 +9910,12 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>सुरु, सफाइ र कार्यसम्पादनका थप विकल्पहरू।</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>खेलका कार्डहरू देखाउनुहोस्</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>खेलका कार्डहरूको आकार</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>डक खोल्दा र बन्द गर्दा बज्ने आवाजहरू</value>
   </data>

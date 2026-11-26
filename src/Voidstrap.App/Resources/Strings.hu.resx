@@ -10220,6 +10220,12 @@ Játékosok: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>További indítási, tisztítási és teljesítménybeállítások.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Játékkártyák megjelenítése</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Játékkártyák mérete</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Hangok a munkamenetsáv megnyitásakor és bezárásakor</value>
   </data>

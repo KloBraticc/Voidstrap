@@ -9910,6 +9910,12 @@ Spillere: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Flere innstillinger for oppstart, opprydding og ytelse.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Vis spillkort</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Størrelse på spillkort</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Lyder når øktdokken åpnes og lukkes</value>
   </data>

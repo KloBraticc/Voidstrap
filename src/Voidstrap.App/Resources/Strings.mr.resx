@@ -9910,6 +9910,12 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>लाँच, साफसफाई आणि कामगिरीचे अधिक पर्याय.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>गेम कार्ड दाखवा</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>गेम कार्डचा आकार</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>डॉक उघडताना आणि बंद करताना होणारे आवाज</value>
   </data>

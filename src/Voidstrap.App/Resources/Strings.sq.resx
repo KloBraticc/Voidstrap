@@ -9910,6 +9910,12 @@ Lojtarët: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Më shumë opsione për nisjen, pastrimin dhe performancën.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Shfaq kartat e lojërave</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Madhësia e kartave të lojërave</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Tingujt kur hapet dhe mbyllet doku i seancës</value>
   </data>

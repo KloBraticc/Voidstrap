@@ -9909,6 +9909,12 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Περισσότερες επιλογές εκκίνησης, καθαρισμού και απόδοσης.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Εμφάνιση καρτών παιχνιδιών</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Μέγεθος καρτών παιχνιδιών</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Ήχοι κατά το άνοιγμα και το κλείσιμο της γραμμής συνεδρίας</value>
   </data>

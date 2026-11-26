@@ -9910,6 +9910,12 @@ Parteċipanti: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Aktar għażliet għat tnedija, tindif u prestazzjoni.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Uri l-karti tal-logħob</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Daqs tal-karti tal-logħob</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Ħsejjes meta jinfetaħ u jingħalaq id-dock</value>
   </data>

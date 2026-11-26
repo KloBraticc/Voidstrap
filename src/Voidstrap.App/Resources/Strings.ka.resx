@@ -9910,6 +9910,12 @@ Uptime: {1}
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>გაშვების, გასუფთავების და წარმადობის დამატებითი პარამეტრები.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>თამაშების ბარათების ჩვენება</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>თამაშების ბარათების ზომა</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>სესიის დოკის გახსნისა და დახურვის ხმები</value>
   </data>

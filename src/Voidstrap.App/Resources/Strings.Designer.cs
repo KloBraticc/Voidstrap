@@ -631,6 +631,10 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Mods_SessionDockSounds => ResourceManager.GetString("Ui.Mods.SessionDockSounds", resourceCulture);
 
+        public static string Ui_Mods_SessionDockGameCards => ResourceManager.GetString("Ui.Mods.SessionDockGameCards", resourceCulture);
+
+        public static string Ui_Mods_SessionDockGameCardSize => ResourceManager.GetString("Ui.Mods.SessionDockGameCardSize", resourceCulture);
+
         public static string Ui_Mods_SessionDockSpotify_Description => ResourceManager.GetString("Ui.Mods.SessionDockSpotify.Description", resourceCulture);
         public static string Ui_Mods_SessionDockShortcut_Description => ResourceManager.GetString("Ui.Mods.SessionDockShortcut.Description", resourceCulture);
 

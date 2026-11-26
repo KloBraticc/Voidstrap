@@ -10219,6 +10219,12 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>گزینه‌های بیشتر برای اجرا، پاک‌سازی و کارایی.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>نمایش کارت‌های بازی</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>اندازه کارت‌های بازی</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>صداهای باز و بسته شدن نوار جلسه</value>
   </data>

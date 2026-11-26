@@ -9910,6 +9910,12 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ಪ್ರಾರಂಭ, ಸ್ವಚ್ಛಗೊಳಿಸುವಿಕೆ ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆಯ ಹೆಚ್ಚಿನ ಆಯ್ಕೆಗಳು.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>ಆಟದ ಕಾರ್ಡ್‌ಗಳನ್ನು ತೋರಿಸಿ</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>ಆಟದ ಕಾರ್ಡ್‌ಗಳ ಗಾತ್ರ</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>ಡಾಕ್ ತೆರೆಯುವ ಮತ್ತು ಮುಚ್ಚುವ ಧ್ವನಿಗಳು</value>
   </data>

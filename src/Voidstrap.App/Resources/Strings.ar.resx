@@ -10219,6 +10219,12 @@
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>المزيد من خيارات التشغيل والتنظيف والأداء.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>إظهار بطاقات الألعاب</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>حجم بطاقات الألعاب</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>أصوات فتح شريط الجلسة وإغلاقه</value>
   </data>

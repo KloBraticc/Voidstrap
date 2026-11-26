@@ -9910,6 +9910,12 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>දියත් කිරීම, පිරිසිදු කිරීම සහ කාර්ය සාධනය සඳහා තවත් විකල්ප.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>ක්‍රීඩා කාඩ්පත් පෙන්වන්න</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>ක්‍රීඩා කාඩ්පත්වල ප්‍රමාණය</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>ඩොක් එක විවෘත කරන විට සහ වසන විට ඇසෙන ශබ්ද</value>
   </data>

@@ -10218,6 +10218,12 @@ Mga player: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Higit pang opsyon sa paglunsad, paglilinis at performance.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Ipakita ang mga card ng laro</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Laki ng mga card ng laro</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Mga tunog kapag binubuksan at isinasara ang dock</value>
   </data>

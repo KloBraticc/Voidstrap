@@ -9910,6 +9910,12 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ଆରମ୍ଭ, ସଫେଇ ଏବଂ କାର୍ଯ୍ୟଦକ୍ଷତାର ଅଧିକ ବିକଳ୍ପ।</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>ଗେମ୍ କାର୍ଡ ଦେଖାନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>ଗେମ୍ କାର୍ଡର ଆକାର</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>ଡକ୍ ଖୋଲିବା ଓ ବନ୍ଦ କରିବାର ଶବ୍ଦ</value>
   </data>

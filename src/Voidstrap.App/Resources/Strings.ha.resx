@@ -9910,6 +9910,12 @@ Uptime: {1}
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Ƙarin zaɓuɓɓukan farawa, tsaftacewa da aiki.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Nuna katunan wasanni</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Girman katunan wasanni</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Sautukan buɗe da rufe doki</value>
   </data>

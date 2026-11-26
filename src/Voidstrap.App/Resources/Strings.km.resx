@@ -9910,6 +9910,12 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ជម្រើសបន្ថែមសម្រាប់ការបើក ការសម្អាត និងដំណើរការ។</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>បង្ហាញកាតហ្គេម</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>ទំហំកាតហ្គេម</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>សំឡេងពេលបើក និងបិទរបារសម័យ</value>
   </data>

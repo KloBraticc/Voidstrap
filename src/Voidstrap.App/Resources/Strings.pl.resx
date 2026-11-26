@@ -10220,6 +10220,12 @@ Gracze: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Więcej opcji uruchamiania, czyszczenia i wydajności.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Pokaż kafelki gier</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Rozmiar kafelków gier</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Dźwięki otwierania i zamykania paska sesji</value>
   </data>

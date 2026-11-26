@@ -9910,6 +9910,12 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>אפשרויות נוספות להפעלה, ניקוי וביצועים.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>הצגת כרטיסי משחקים</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>גודל כרטיסי המשחקים</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>צלילים בפתיחה ובסגירה של סרגל הסשן</value>
   </data>

@@ -9909,6 +9909,12 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>מער אָפּציעס פֿאַר אָנהייבן, רייניקן און פֿאָרשטעלונג.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>ווײַז שפּיל־קאַרטן</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>גרייס פֿון שפּיל־קאַרטן</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>קלאַנגען בײַם עפֿענען און פֿאַרמאַכן דעם סעסיע דאָק</value>
   </data>

@@ -33,6 +33,19 @@
           <controls:OptionControl Header="{resources:Loc Ui_Mods_SessionDockSounds}" IsEnabled="{Binding SessionDockEnabled}">
             <ui:ToggleSwitch AutomationProperties.Name="{resources:Loc Ui_Mods_SessionDockSounds}" IsChecked="{Binding SoundsEnabled, Source={x:Static settings:SessionDockSettingsViewModel.Instance}, Mode=TwoWay}" />
           </controls:OptionControl>
+          <StackPanel IsEnabled="{Binding DataContext.SessionDockEnabled, RelativeSource={RelativeSource AncestorType={x:Type pages:OverlaysPage}}}"
+                      DataContext="{x:Static settings:SessionDockSettingsViewModel.Instance}">
+            <controls:OptionControl Header="{resources:Loc Ui_Mods_SessionDockGameCards}">
+              <ui:ToggleSwitch AutomationProperties.Name="{resources:Loc Ui_Mods_SessionDockGameCards}" IsChecked="{Binding GameCardsEnabled, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Mods_SessionDockGameCardSize}" IsEnabled="{Binding GameCardsEnabled}">
+              <StackPanel Orientation="Horizontal">
+                <Slider Width="160" Minimum="40" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
+                        AutomationProperties.Name="{resources:Loc Ui_Mods_SessionDockGameCardSize}" Value="{Binding GameCardSize, Mode=TwoWay}" />
+                <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding GameCardSize, StringFormat={}{0}%}" />
+              </StackPanel>
+            </controls:OptionControl>
+          </StackPanel>
           <controls:OptionControl Header="{resources:Loc Ui_OverlayStudio_ShowServerLocation}" Description="{resources:Loc Ui_Mods_SessionDockShortcut_Description}" IsEnabled="{Binding SessionDockEnabled}">
             <ui:ToggleSwitch IsChecked="{Binding DockToggleServerLocation, Mode=TwoWay}" />
           </controls:OptionControl>

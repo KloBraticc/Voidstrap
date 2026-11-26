@@ -10219,6 +10219,12 @@ Pelaajat: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Lisää käynnistys, siivous ja suorituskykyasetuksia.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Näytä pelikortit</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Pelikorttien koko</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Äänet istuntopalkin avaamisen ja sulkemisen yhteydessä</value>
   </data>

@@ -9910,6 +9910,12 @@ Hráči: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Ďalšie možnosti spúšťania, čistenia a výkonu.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Zobrazovať karty hier</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Veľkosť kariet hier</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Zvuky pri otvorení a zatvorení panela relácie</value>
   </data>

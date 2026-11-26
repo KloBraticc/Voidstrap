@@ -9910,6 +9910,12 @@ Xogadores: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Máis opcións de inicio, limpeza e rendemento.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Amosar as tarxetas dos xogos</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Tamaño das tarxetas dos xogos</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Sons ao abrir e pechar a barra da sesión</value>
   </data>

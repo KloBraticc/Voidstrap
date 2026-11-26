@@ -10220,6 +10220,12 @@ Pemain: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Lebih banyak pilihan pelancaran, pembersihan dan prestasi.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Paparkan kad permainan</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Saiz kad permainan</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Bunyi semasa membuka dan menutup bar sesi</value>
   </data>

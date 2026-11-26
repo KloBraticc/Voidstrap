@@ -9909,6 +9909,12 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ప్రారంభం, శుభ్రపరచడం మరియు పనితీరు కోసం మరిన్ని ఎంపికలు.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>గేమ్ కార్డ్‌లను చూపించు</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>గేమ్ కార్డ్‌ల పరిమాణం</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>డాక్‌ను తెరిచేటప్పుడు, మూసేటప్పుడు వచ్చే శబ్దాలు</value>
   </data>

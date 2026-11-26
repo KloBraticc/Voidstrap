@@ -9910,6 +9910,12 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>لانچ، صفائي ۽ ڪارڪردگي جا وڌيڪ اختيار.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>راندين جا ڪارڊ ڏيکاريو</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>راندين جي ڪارڊن جي ماپ</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>ڊاڪ کولڻ ۽ بند ڪرڻ جا آواز</value>
   </data>

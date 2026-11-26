@@ -9910,6 +9910,12 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Эхлүүлэх, цэвэрлэх болон гүйцэтгэлийн нэмэлт тохиргоо.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Тоглоомын картуудыг харуулах</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Тоглоомын картын хэмжээ</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Док нээх, хаах чимээ</value>
   </data>

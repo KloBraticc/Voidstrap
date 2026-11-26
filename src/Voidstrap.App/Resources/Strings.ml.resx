@@ -9910,6 +9910,12 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ലോഞ്ച്, ക്ലീനപ്പ്, പ്രകടനം എന്നിവയ്ക്കുള്ള കൂടുതൽ ഓപ്ഷനുകൾ.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>ഗെയിം കാർഡുകൾ കാണിക്കുക</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>ഗെയിം കാർഡുകളുടെ വലുപ്പം</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>ഡോക്ക് തുറക്കുമ്പോഴും അടയ്ക്കുമ്പോഴുമുള്ള ശബ്ദങ്ങൾ</value>
   </data>

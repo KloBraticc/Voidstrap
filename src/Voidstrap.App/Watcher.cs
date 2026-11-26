@@ -273,9 +273,13 @@ public partial class Watcher : IDisposable
                 if (settings != null)
                 {
                     bool dockSoundsChanged = App.Settings.Prop.SessionDockSounds != settings.SessionDockSounds;
+                    bool dockGameCardsChanged = App.Settings.Prop.SessionDockGameCards != settings.SessionDockGameCards
+                        || App.Settings.Prop.SessionDockGameCardSize != settings.SessionDockGameCardSize;
                     App.Settings.Prop = settings;
                     if (dockSoundsChanged)
                         RunOnApplicationDispatcher(SessionDockSettingsViewModel.Instance.Refresh);
+                    if (dockGameCardsChanged)
+                        RunOnApplicationDispatcher(SessionDockSettingsViewModel.Instance.RefreshGameCards);
                 }
                 ApplyLiveSettings();
             }

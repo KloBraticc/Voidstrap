@@ -493,6 +493,30 @@
                 <TextBlock x:Name="DockScaleText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
             </Border>
+            <Border Style="{StaticResource Row}" DataContext="{x:Static settings:SessionDockSettingsViewModel.Instance}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_Mods_SessionDockGameCards}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource Label}" />
+                <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="{resources:Loc Ui_Mods_SessionDockGameCards}"
+                                 IsChecked="{Binding GameCardsEnabled, Mode=TwoWay}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}" DataContext="{x:Static settings:SessionDockSettingsViewModel.Instance}">
+              <Grid IsEnabled="{Binding GameCardsEnabled}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_Mods_SessionDockGameCardSize}" TextWrapping="Wrap" Style="{StaticResource Label}" />
+                <Slider Grid.Column="1" Minimum="40" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Style="{StaticResource RowSlider}"
+                        AutomationProperties.Name="{resources:Loc Ui_Mods_SessionDockGameCardSize}" Value="{Binding GameCardSize, Mode=TwoWay}" />
+                <TextBlock Grid.Column="2" Style="{StaticResource Value}" Text="{Binding GameCardSize, StringFormat={}{0}%}" />
+              </Grid>
+            </Border>
             <Border Style="{StaticResource LastRow}">
               <Grid>
                 <Grid.ColumnDefinitions>

@@ -9910,6 +9910,12 @@ Leikmenn: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Fleiri valkostir fyrir ræsingu, hreinsun og afköst.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Sýna leikjaspjöld</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Stærð leikjaspjalda</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Hljóð þegar stikunni er opnað og lokað</value>
   </data>

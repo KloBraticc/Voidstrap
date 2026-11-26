@@ -10219,6 +10219,12 @@ Người chơi: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Thêm tùy chọn khởi chạy, dọn dẹp và hiệu suất.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Hiển thị thẻ trò chơi</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Kích thước thẻ trò chơi</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Âm thanh khi mở và đóng thanh phiên</value>
   </data>

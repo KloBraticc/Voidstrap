@@ -10220,6 +10220,12 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Дополнительные параметры запуска, очистки и производительности.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Показывать карточки игр</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Размер карточек игр</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Звуки открытия и закрытия панели сеанса</value>
   </data>

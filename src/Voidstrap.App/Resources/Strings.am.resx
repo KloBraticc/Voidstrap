@@ -9909,6 +9909,12 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ተጨማሪ የማስጀመሪያ፣ የማጽዳት እና የአፈጻጸም አማራጮች።</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>የጨዋታ ካርዶችን አሳይ</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>የጨዋታ ካርዶች መጠን</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>መትከያው ሲከፈትና ሲዘጋ የሚሰሙ ድምፆች</value>
   </data>

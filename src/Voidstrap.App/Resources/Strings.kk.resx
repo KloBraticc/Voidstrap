@@ -9910,6 +9910,12 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Іске қосу, тазалау және өнімділік бойынша қосымша параметрлер.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Ойын карточкаларын көрсету</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Ойын карточкаларының өлшемі</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Докты ашу және жабу дыбыстары</value>
   </data>

@@ -10220,6 +10220,12 @@ Spelers: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Meer opties voor starten, opschonen en prestaties.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Gamekaarten weergeven</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Grootte van gamekaarten</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Geluiden bij het openen en sluiten van de sessiebalk</value>
   </data>

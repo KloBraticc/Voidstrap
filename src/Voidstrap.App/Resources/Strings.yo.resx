@@ -9909,6 +9909,12 @@ Awọn oṣere: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Àwọn àṣàyàn míì fún ìbẹ̀rẹ̀, ìfọ̀mọ́ àti iṣẹ́.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Fi káàdì eré hàn</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Ìwọ̀n káàdì eré</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Àwọn ohùn nígbà ṣíṣí àti títì pa ọ̀pá ìṣàkóso ìpàdé</value>
   </data>

@@ -9910,6 +9910,12 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>د پیل، پاکولو او فعالیت نور انتخابونه.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>د لوبو کارتونه وښایئ</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>د لوبو د کارتونو اندازه</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>د ډاک د پرانیستلو او تړلو غږونه</value>
   </data>

@@ -9910,6 +9910,12 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>लॉन्च, सफाई और प्रदर्शन के और विकल्प।</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>गेम कार्ड दिखाएँ</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>गेम कार्ड का आकार</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>डॉक खोलने और बंद करने की ध्वनियाँ</value>
   </data>

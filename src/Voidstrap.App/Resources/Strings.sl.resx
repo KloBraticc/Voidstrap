@@ -9910,6 +9910,12 @@ Igralci: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Več možnosti za zagon, čiščenje in zmogljivost.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Prikaži kartice iger</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Velikost kartic iger</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Zvoki ob odpiranju in zapiranju sejne vrstice</value>
   </data>

@@ -10219,6 +10219,12 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>ตัวเลือกเพิ่มเติมสำหรับการเปิด การล้างข้อมูล และประสิทธิภาพ</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>แสดงการ์ดเกม</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>ขนาดการ์ดเกม</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>เสียงเมื่อเปิดและปิดแถบเซสชัน</value>
   </data>

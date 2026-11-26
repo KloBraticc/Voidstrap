@@ -10218,6 +10218,12 @@ Spieler: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Weitere Optionen für Start, Bereinigung und Leistung.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Spielkarten anzeigen</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Größe der Spielkarten</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Töne beim Öffnen und Schließen der Sitzungsleiste</value>
   </data>

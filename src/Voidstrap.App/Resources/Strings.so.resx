@@ -9910,6 +9910,12 @@ Ciyaartoyda: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Doorashooyin dheeraad ah oo bilaabid, nadiifin iyo waxqabad.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Muuji kaararka ciyaaraha</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Cabbirka kaararka ciyaaraha</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Dhawaaqyada furitaanka iyo xiritaanka barta fadhiga</value>
   </data>

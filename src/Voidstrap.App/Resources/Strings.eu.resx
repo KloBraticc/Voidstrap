@@ -9909,6 +9909,12 @@ Jokalariak: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Abiarazte, garbiketa eta errendimendu aukera gehiago.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Erakutsi joko-txartelak</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Joko-txartelen tamaina</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Soinuak saioaren barra irekitzean eta ixtean</value>
   </data>

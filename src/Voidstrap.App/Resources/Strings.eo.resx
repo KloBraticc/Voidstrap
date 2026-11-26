@@ -9909,6 +9909,12 @@ Ludantoj: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Pliaj opcioj pri lanĉo, purigado kaj rendimento.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Montri ludkartojn</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Grandeco de ludkartoj</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Sonoj dum malfermo kaj fermo de la doko</value>
   </data>

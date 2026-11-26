@@ -9910,6 +9910,12 @@ Kaitākaro: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Ētahi atu kōwhiringa whakarewa, horoi me te mahinga.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Whakaatu kāri kēmu</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Rahi o ngā kāri kēmu</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Ngā oro whakatuwhera me te kati i te pae wātū</value>
   </data>

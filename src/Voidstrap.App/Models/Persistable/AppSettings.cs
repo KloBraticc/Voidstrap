@@ -337,6 +337,9 @@ namespace Voidstrap.Models.Persistable
         public bool SessionDockEnabled { get; set; } = true;
 
         public bool SessionDockSounds { get; set; } = true;
+        public bool SessionDockGameCards { get; set; } = true;
+        public int SessionDockGameCardSize { get; set; } = 100;
+        public static int ClampSessionDockGameCardSize(int value) => Math.Clamp(value, 40, 100);
 
         public bool SessionDockSpotify { get; set; } = true;
 

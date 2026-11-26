@@ -9910,6 +9910,12 @@ Mpilalao: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Safidy fanampiny momba ny fanombohana, fanadiovana ary fahombiazana.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Asehoy ny karatry ny lalao</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Haben’ny karatry ny lalao</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Feo rehefa manokatra sy manidy ny dock</value>
   </data>

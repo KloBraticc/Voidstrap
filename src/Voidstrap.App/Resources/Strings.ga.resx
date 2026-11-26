@@ -9910,6 +9910,12 @@ Rannpháirtithe: {2}</value>
   <data name="Ui.Bootstrapper.AdvancedGeneralCard" xml:space="preserve">
     <value>Tuilleadh roghanna seolta, glantacháin agus feidhmíochta.</value>
   </data>
+  <data name="Ui.Mods.SessionDockGameCards" xml:space="preserve">
+    <value>Taispeáin cártaí na gcluichí</value>
+  </data>
+  <data name="Ui.Mods.SessionDockGameCardSize" xml:space="preserve">
+    <value>Méid chártaí na gcluichí</value>
+  </data>
   <data name="Ui.Mods.SessionDockSounds" xml:space="preserve">
     <value>Fuaimeanna agus an duga á oscailt agus á dhúnadh</value>
   </data>
