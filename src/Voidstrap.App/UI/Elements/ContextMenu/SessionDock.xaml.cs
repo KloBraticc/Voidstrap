@@ -409,19 +409,21 @@ public partial class SessionDock : Window
         if (_closed || !_nowPlayingTimer.IsEnabled)
             return;
         _nowPlaying = track != null && (track.Playing || _islandExpanded) ? track : null;
+        bool trackChanged = false;
         if (_nowPlaying != null)
         {
+            trackChanged = _nowPlaying.Title != _nowPlayingTitle || _nowPlaying.Artist != NowPlayingArtist.Text;
             if (_nowPlaying.Title != _nowPlayingTitle)
             {
                 NowPlayingCover.Source = null;
                 NowPlayingCoverLarge.Source = null;
             }
             _nowPlayingTitle = _nowPlaying.Title;
-            NowPlayingTitle.Text = _nowPlaying.Title;
-            NowPlayingArtist.Text = _nowPlaying.Artist;
+            SetText(NowPlayingTitle, _nowPlaying.Title);
+            SetText(NowPlayingArtist, _nowPlaying.Artist);
             NowPlayingArtist.Visibility = _nowPlaying.Artist.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
-            IslandTitle.Text = _nowPlaying.Title;
-            IslandArtist.Text = _nowPlaying.Artist;
+            SetText(IslandTitle, _nowPlaying.Title);
+            SetText(IslandArtist, _nowPlaying.Artist);
             if (_nowPlaying.Cover != null)
             {
                 System.Windows.Media.Imaging.BitmapImage? cover = LoadNowPlayingCover(_nowPlaying.Cover);
@@ -429,11 +431,12 @@ public partial class SessionDock : Window
                 NowPlayingCoverLarge.Source = cover;
             }
         }
+        bool wasOpen = NowPlayingPopup.IsOpen;
         UpdateNowPlayingVisibility();
         if (_nowPlaying != null && NowPlayingPopup.IsOpen)
         {
             ApplyIslandPlayState();
-            if (!_islandExpanded)
+            if (trackChanged && wasOpen && !_islandExpanded)
                 AnimateIsland(NowPlayingIsland, WidthProperty, CompactIslandWidth());
             UpdateIslandClock();
         }
@@ -615,24 +618,29 @@ public partial class SessionDock : Window
     private void OnDockMoved(object? sender, EventArgs e)
     {
         if (NowPlayingPopup.IsOpen)
-            UpdateNowPlayingVisibility();
+            UpdateNowPlayingVisibility(reposition: true);
     }
 
     private void OnDockDpiChanged(object? sender, DpiChangedEventArgs e) => QueueFitWidth();
 
-    private void UpdateNowPlayingVisibility()
+    private void UpdateNowPlayingVisibility(bool reposition = false)
     {
         bool busy = _deckJoinDialog != null || PopoutOpen || _panels.Values.Any(static panel => panel.IsRequested);
         bool show = _opened && !_closed && !_slide.IsRunning && _nowPlaying != null && !busy && App.Settings.Prop.SessionDockSpotify;
         if (show)
         {
             NowPlayingPopup.CustomPopupPlacementCallback ??= PlaceNowPlaying;
-            AlignIslandToDock();
-            bool appearing = !NowPlayingPopup.IsOpen;
-            NowPlayingPopup.IsOpen = true;
-            if (appearing)
+            if (!NowPlayingPopup.IsOpen)
+            {
+                AlignIslandToDock();
+                NowPlayingPopup.IsOpen = true;
                 IslandAppear();
-            NowPlayingPopup.HorizontalOffset = NowPlayingPopup.HorizontalOffset == 0 ? 0.01 : 0;
+            }
+            else if (reposition)
+            {
+                AlignIslandToDock();
+                NowPlayingPopup.HorizontalOffset = NowPlayingPopup.HorizontalOffset == 0 ? 0.01 : 0;
+            }
         }
         else
         {
@@ -944,6 +952,7 @@ public partial class SessionDock : Window
         {
             if (IsVisible)
                 Hide();
+            StartPrewarm();
         }
         // Pinned panels belong to the dock: they hide with it and come back when it opens. The rest close.
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
@@ -955,7 +964,6 @@ public partial class SessionDock : Window
             else
                 panel.Close();
         }
-        _prewarmTimer?.Stop();
         FadeDimmer(0);
         if (Voidstrap.Utility.Platform.UsesLinuxHost && !linuxSlide)
             Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
@@ -1045,6 +1053,7 @@ public partial class SessionDock : Window
         _popoutOnSettle = restorePopout;
         if (fresh)
             SetDeckVisibility(false, false);
+        _prewarmTimer?.Stop();
         _deckOpening = true;
         _opened = true;
         UpdateClipperVisibility();
@@ -1153,6 +1162,7 @@ public partial class SessionDock : Window
         {
             _anchor?.Refresh();
             ApplyLinuxDockShape();
+            UpdateNowPlayingVisibility(reposition: true);
             if (PopoutOpen)
                 PlacePopout();
             if (_dimmer != null)
@@ -1286,7 +1296,6 @@ public partial class SessionDock : Window
         StartHeartbeat();
         if (_refreshTask is not { IsCompleted: false } && DateTime.UtcNow - _lastRefreshUtc >= RefreshInterval)
             StartRefresh();
-        _ = PortableOverlay.RunAsync(this, LoadPopoutAsync);
         _ = PortableOverlay.RunAsync(this, LoadProfileAsync);
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
         {
@@ -1294,8 +1303,6 @@ public partial class SessionDock : Window
                 panel.Present(true, _activateOnSettle);
         }
         RestorePinnedPanels();
-        SpotifyEngine.Prewarm();
-        StartPrewarm();
         if (_popoutOnSettle)
         {
             _popoutOnSettle = false;
@@ -1326,7 +1333,7 @@ public partial class SessionDock : Window
 
     private void StartPrewarm()
     {
-        if (_closed || _prewarmIndex >= PrewarmActions.Length)
+        if (_closed || _opened || IsVisible || _prewarmIndex >= PrewarmActions.Length)
             return;
         if (_prewarmTimer == null)
         {
@@ -1338,7 +1345,7 @@ public partial class SessionDock : Window
 
     private void OnPrewarmTick(object? sender, EventArgs e)
     {
-        if (_closed)
+        if (_closed || _opened || IsVisible)
         {
             _prewarmTimer?.Stop();
             return;
@@ -1584,6 +1591,7 @@ public partial class SessionDock : Window
             Hide();
         if (!Voidstrap.Utility.Platform.UsesLinuxHost)
             _slide.RemoveClip();
+        StartPrewarm();
     }
 
     private static OverlayDockSide CurrentSide =>
@@ -1601,12 +1609,12 @@ public partial class SessionDock : Window
 
     private static int DockExtent(RobloxWindowRect bounds) => CurrentSide == OverlayDockSide.None ? bounds.Width : bounds.Height;
 
-    private void ApplyOrientation()
+    private bool ApplyOrientation()
     {
         OverlayDockSide side = CurrentSide;
         bool top = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
         if (_appliedSide == side && _appliedTopEdge == top)
-            return;
+            return false;
         bool axisChanged = _appliedSide != side;
         _appliedSide = side;
         _appliedTopEdge = top;
@@ -1615,6 +1623,7 @@ public partial class SessionDock : Window
             ArrangeDockAxis(sideways);
         ArrangeDeck(side, top);
         _availableWidth = 0;
+        return true;
     }
 
     private void ArrangeDockAxis(bool vertical)
@@ -1714,9 +1723,9 @@ public partial class SessionDock : Window
 
     private void FitWidth()
     {
-        ApplyOrientation();
+        bool orientationChanged = ApplyOrientation();
         bool sideways = _appliedSide is OverlayDockSide.Left or OverlayDockSide.Right;
-        bool changed = FitDeckAndCommands(sideways);
+        bool changed = FitDeckAndCommands(sideways, orientationChanged);
         if (!changed && !_fitAnchorPending)
             return;
         if (_opened && !_slide.IsRunning && !_linuxMotionActive)
@@ -2076,13 +2085,13 @@ public partial class SessionDock : Window
         if (data == null || _closed)
             return;
         _serverStarted ??= data.ServerStartedUtc;
-        string uptime = _serverStarted.HasValue
-            ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - _serverStarted.Value)
-            : Strings.OverlayDiagnostics_Unavailable;
         SetRun(SessionClock, data.TimeJoined == default ? "0:00" : FormatClock(DateTime.Now - data.TimeJoined));
         SetRun(ServerClock, _serverStarted.HasValue ? FormatClock(DateTimeOffset.UtcNow - _serverStarted.Value) : "--");
         if (!PopoutOpen)
             return;
+        string uptime = _serverStarted.HasValue
+            ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - _serverStarted.Value)
+            : Strings.OverlayDiagnostics_Unavailable;
         if (_serverType.Length == 0)
             _serverType = data.ServerType.ToConnectedString();
         SetText(BannerTitle, GameTitle.Text);

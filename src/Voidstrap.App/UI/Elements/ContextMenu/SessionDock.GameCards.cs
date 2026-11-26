@@ -7,7 +7,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Voidstrap.Integrations;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.UI.Elements.Dialogs;
@@ -26,6 +25,7 @@ public partial class SessionDock
     private bool _deckOpening;
     private bool _deckShown;
     private Button? _deckHighlight;
+    private Point? _deckPointer;
     private FluentMessageBox? _deckJoinDialog;
     private static readonly TimeSpan DeckRetreatLength = TimeSpan.FromMilliseconds(190);
     private static readonly TimeSpan CardHoverLength = TimeSpan.FromMilliseconds(150);
@@ -33,6 +33,8 @@ public partial class SessionDock
 
     private sealed record ExperienceCard(Button Button, Border Artwork, Image Icon, TextBlock Title, bool IsCurrent)
     {
+        public ScaleTransform Scale { get; } = new();
+        public TranslateTransform Offset { get; } = new();
         public bool HasCover { get; set; }
     }
 
@@ -93,7 +95,7 @@ public partial class SessionDock
         DeckScroll.ScrollToHome();
     }
 
-    private bool FitDeckAndCommands(bool sideways)
+    private bool FitDeckAndCommands(bool sideways, bool orientationChanged)
     {
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
         RobloxWindowRect bounds = RobloxWindowTracker.Current;
@@ -111,6 +113,7 @@ public partial class SessionDock
         double cardDepth = sideways ? 202 : 222;
         const double cardClearance = 18;
         double scale = Math.Min(layout.SafeDockScale, Math.Max(0.04, (limit - inset - cardClearance) / (DockHeight + cardDepth)));
+        bool resizeCards = orientationChanged || _deckScale != scale;
         _deckScale = scale;
         SetPillScale(scale);
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
@@ -130,8 +133,14 @@ public partial class SessionDock
             OverlayDockSide.Right => new Thickness(0, 0, inset, 0),
             _ => _appliedTopEdge ? new Thickness(0, inset, 0, 0) : new Thickness(0, 0, 0, inset)
         };
-        foreach (ExperienceCard card in _experienceCards)
-            SizeExperienceCard(card, sideways);
+        if (resizeCards)
+        {
+            foreach (ExperienceCard card in _experienceCards)
+            {
+                ClearCardMotion(card);
+                SizeExperienceCard(card, sideways);
+            }
+        }
         double depth = Math.Min(across, Math.Ceiling((DockHeight + cardDepth) * scale + inset + cardClearance));
         double width = sideways ? depth : along;
         double height = sideways ? along : depth;
@@ -171,11 +180,10 @@ public partial class SessionDock
     private void ClearExperienceCards()
     {
         _deckHighlight = null;
+        _deckPointer = null;
         foreach (ExperienceCard card in _experienceCards)
         {
             card.Button.Click -= ExperienceCard_Click;
-            card.Button.MouseEnter -= ExperienceCardMouseEnter;
-            card.Button.MouseLeave -= ExperienceCardMouseLeave;
             card.Button.IsKeyboardFocusWithinChanged -= ExperienceCardFocusChanged;
         }
         DeckCards.Children.Clear();
@@ -300,10 +308,9 @@ public partial class SessionDock
             BindDeckText(button, ToolTipProperty, nameof(Strings.Ui_Nav_News));
         AutomationProperties.SetName(button, name);
         button.Click += ExperienceCard_Click;
-        button.MouseEnter += ExperienceCardMouseEnter;
-        button.MouseLeave += ExperienceCardMouseLeave;
         button.IsKeyboardFocusWithinChanged += ExperienceCardFocusChanged;
         ExperienceCard card = new(button, artwork, icon, title, featured);
+        button.RenderTransform = new TransformGroup { Children = { card.Scale, card.Offset } };
         _experienceCards.Add(card);
         SizeExperienceCard(card, VisualSide != OverlayDockSide.None);
         DeckCards.Children.Add(button);
@@ -354,23 +361,13 @@ public partial class SessionDock
         }
     }
 
-    private void SizeExperienceCard(ExperienceCard card, bool sideways, bool animate = false)
+    private void SizeExperienceCard(ExperienceCard card, bool sideways)
     {
         bool expanded = _deckHighlight == null ? card.IsCurrent : ReferenceEquals(card.Button, _deckHighlight);
         double width = _deckScale * (sideways ? expanded ? 202 : 166 : expanded ? 220 : 158);
         double height = _deckScale * (sideways ? expanded ? 158 : 120 : expanded ? 222 : 178);
         double fontSize = Math.Max(9, _deckScale * (expanded ? 22 : 16));
         card.Title.MaxHeight = fontSize * 2.6;
-        if (animate)
-        {
-            card.Button.BeginAnimation(WidthProperty, DeckAnimation(card.Button.Width, width, CardHoverLength, EasingMode.EaseOut));
-            card.Button.BeginAnimation(HeightProperty, DeckAnimation(card.Button.Height, height, CardHoverLength, EasingMode.EaseOut));
-            card.Title.BeginAnimation(TextBlock.FontSizeProperty, DeckAnimation(card.Title.FontSize, fontSize, CardHoverLength, EasingMode.EaseOut));
-            return;
-        }
-        card.Button.BeginAnimation(WidthProperty, null);
-        card.Button.BeginAnimation(HeightProperty, null);
-        card.Title.BeginAnimation(TextBlock.FontSizeProperty, null);
         card.Button.Width = width;
         card.Button.Height = height;
         card.Title.FontSize = fontSize;
@@ -426,9 +423,14 @@ public partial class SessionDock
             return;
         _deckShown = visible;
         if (!visible)
+        {
             GameLaunchStatus.Visibility = Visibility.Collapsed;
+            _deckPointer = null;
+        }
         else if (DeckCards.Opacity <= 0.001)
             SelectDeckHighlight(null, false);
+        if (visible)
+            DeckScroll.Visibility = Visibility.Visible;
         DeckScroll.IsHitTestVisible = visible;
         DeckScroll.IsEnabled = visible;
 
@@ -443,6 +445,8 @@ public partial class SessionDock
             DeckCards.Opacity = targetOpacity;
             DeckMotion.X = target.X;
             DeckMotion.Y = target.Y;
+            if (!visible)
+                DeckScroll.Visibility = Visibility.Collapsed;
             return;
         }
 
@@ -450,7 +454,10 @@ public partial class SessionDock
         Vector start = opacity <= 0.001 ? edge : new Vector(DeckMotion.X, DeckMotion.Y);
         TimeSpan duration = visible ? EntranceLength : DeckRetreatLength;
         EasingMode easing = visible ? EasingMode.EaseOut : EasingMode.EaseInOut;
-        DeckCards.BeginAnimation(OpacityProperty, DeckAnimation(opacity, targetOpacity, duration, easing));
+        DoubleAnimation fade = DeckAnimation(opacity, targetOpacity, duration, easing);
+        if (!visible)
+            fade.Completed += OnDeckRetreatFinished;
+        DeckCards.BeginAnimation(OpacityProperty, fade);
         DeckMotion.BeginAnimation(TranslateTransform.XProperty, DeckAnimation(start.X, target.X, duration, easing));
         DeckMotion.BeginAnimation(TranslateTransform.YProperty, DeckAnimation(start.Y, target.Y, duration, easing));
         if (visible && opacity <= 0.001)
@@ -459,6 +466,14 @@ public partial class SessionDock
                 RevealExperienceCard(_experienceCards[index].Button, index);
         }
         Wpf.Ui.Animations.RenderReady.Hold(this, duration);
+    }
+
+    private void OnDeckRetreatFinished(object? sender, EventArgs e)
+    {
+        if (sender is Clock clock)
+            clock.Completed -= OnDeckRetreatFinished;
+        if (!_deckShown && DeckCards.Opacity <= 0.001)
+            DeckScroll.Visibility = Visibility.Collapsed;
     }
 
     private static void RevealExperienceCard(Button button, int index)
@@ -477,25 +492,27 @@ public partial class SessionDock
     private static DoubleAnimation DeckAnimation(double from, double to, TimeSpan duration, EasingMode easing) =>
         new(from, to, duration) { EasingFunction = new CubicEase { EasingMode = easing } };
 
-    private void ExperienceCardMouseEnter(object sender, MouseEventArgs e)
+    private void DeckScroll_MouseMove(object sender, MouseEventArgs e)
     {
+        if (!_deckShown)
+            return;
+        Point position = e.GetPosition(DeckScroll);
+        if (_deckPointer == position)
+            return;
+        _deckPointer = position;
+        Button? hovered = _experienceCards.FirstOrDefault(card => card.Button.IsMouseOver)?.Button;
+        SelectDeckHighlight(hovered ?? FocusedDeckCard());
+    }
+
+    private void DeckScroll_MouseLeave(object sender, MouseEventArgs e)
+    {
+        _deckPointer = null;
         if (_deckShown)
-            SelectDeckHighlight((Button)sender);
+            SelectDeckHighlight(FocusedDeckCard());
     }
 
-    private void ExperienceCardMouseLeave(object sender, MouseEventArgs e)
-    {
-        if (_deckShown)
-            Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(ResetDeckHighlightIfUnhovered));
-    }
-
-    private void DeckScroll_MouseLeave(object sender, MouseEventArgs e) => ResetDeckHighlightIfUnhovered();
-
-    private void ResetDeckHighlightIfUnhovered()
-    {
-        if (_deckShown && !_experienceCards.Any(card => card.Button.IsMouseOver))
-            SelectDeckHighlight(_experienceCards.FirstOrDefault(card => card.Button.IsKeyboardFocusWithin)?.Button);
-    }
+    private Button? FocusedDeckCard() =>
+        _experienceCards.FirstOrDefault(card => card.Button.IsKeyboardFocusWithin)?.Button;
 
     private void ExperienceCardFocusChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -516,12 +533,52 @@ public partial class SessionDock
         if (ReferenceEquals(previous, next))
             return;
 
-        bool play = animate && !DockReducedMotion;
+        Rect[]? oldBounds = animate && !DockReducedMotion && DeckScroll.IsVisible
+            ? _experienceCards.Select(DeckCardBounds).ToArray()
+            : null;
         foreach (ExperienceCard card in _experienceCards)
+        {
+            ClearCardMotion(card);
             if (ReferenceEquals(card.Button, previous) || ReferenceEquals(card.Button, next))
-                SizeExperienceCard(card, VisualSide != OverlayDockSide.None, play);
-        if (play)
-            Wpf.Ui.Animations.RenderReady.Hold(this, CardHoverLength);
+                SizeExperienceCard(card, VisualSide != OverlayDockSide.None);
+        }
+        if (oldBounds == null)
+            return;
+
+        DeckCards.UpdateLayout();
+        for (int index = 0; index < _experienceCards.Count; index++)
+            AnimateCardMotion(_experienceCards[index], oldBounds[index], DeckCardBounds(_experienceCards[index]));
+        Wpf.Ui.Animations.RenderReady.Hold(this, CardHoverLength);
+    }
+
+    private Rect DeckCardBounds(ExperienceCard card) =>
+        card.Button.TransformToAncestor(DeckCards).TransformBounds(new Rect(card.Button.RenderSize));
+
+    private static void ClearCardMotion(ExperienceCard card)
+    {
+        card.Scale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+        card.Scale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+        card.Offset.BeginAnimation(TranslateTransform.XProperty, null);
+        card.Offset.BeginAnimation(TranslateTransform.YProperty, null);
+    }
+
+    private static void AnimateCardMotion(ExperienceCard card, Rect from, Rect to)
+    {
+        if (from.IsEmpty || to.IsEmpty || from.Width <= 0 || from.Height <= 0 || to.Width <= 0 || to.Height <= 0)
+            return;
+        AnimateCardTransform(card.Scale, ScaleTransform.ScaleXProperty, from.Width / to.Width, 1);
+        AnimateCardTransform(card.Scale, ScaleTransform.ScaleYProperty, from.Height / to.Height, 1);
+        AnimateCardTransform(card.Offset, TranslateTransform.XProperty, from.X - to.X, 0);
+        AnimateCardTransform(card.Offset, TranslateTransform.YProperty, from.Y - to.Y, 0);
+    }
+
+    private static void AnimateCardTransform(Animatable transform, DependencyProperty property, double from, double to)
+    {
+        if (Math.Abs(from - to) < 0.001)
+            return;
+        DoubleAnimation animation = DeckAnimation(from, to, CardHoverLength, EasingMode.EaseOut);
+        animation.FillBehavior = FillBehavior.Stop;
+        transform.BeginAnimation(property, animation);
     }
 
     private void DeckScroll_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

@@ -19,7 +19,6 @@
     <Style x:Key="ExperienceCardButton" TargetType="Button">
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-      <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
@@ -158,7 +157,9 @@
     <Grid x:Name="DeckHost" Margin="0,0,0,8">
       <ScrollViewer x:Name="DeckScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
                     Focusable="False" IsEnabled="False" IsHitTestVisible="False" PanningMode="HorizontalOnly"
-                    MouseLeave="DeckScroll_MouseLeave" PreviewMouseWheel="DeckScroll_PreviewMouseWheel">
+                    Visibility="Collapsed" MouseEnter="DeckScroll_MouseMove" MouseMove="DeckScroll_MouseMove"
+                    MouseLeave="DeckScroll_MouseLeave"
+                    PreviewMouseWheel="DeckScroll_PreviewMouseWheel">
         <StackPanel x:Name="DeckCards" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Opacity="0">
           <StackPanel.RenderTransform>
             <TranslateTransform x:Name="DeckMotion" />
@@ -539,7 +540,7 @@
       </Grid>
     </Border>
     </Grid>
-    <Popup x:Name="NowPlayingPopup" PlacementTarget="{Binding ElementName=DeckScroll}" Placement="Custom" AllowsTransparency="True" Focusable="False" StaysOpen="True">
+    <Popup x:Name="NowPlayingPopup" PlacementTarget="{Binding ElementName=DeckHost}" Placement="Custom" AllowsTransparency="True" Focusable="False" StaysOpen="True">
       <Grid x:Name="IslandStage" Width="480" Height="260">
         <Grid.Resources>
           <Style TargetType="ToolTip" BasedOn="{StaticResource {x:Type ToolTip}}">
