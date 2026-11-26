@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using NAudio.Wave;
@@ -256,11 +257,21 @@ public static class KeystrokeAudioService
             {
                 if (kvp.Key.StartsWith("custom:", StringComparison.Ordinal))
                     continue;
-                string filePath = Path.Combine(dir, kvp.Key + ".wav");
+                byte[] bytes = CreateWavBytes(kvp.Value, MixFormat.SampleRate);
+                string hash = Convert.ToHexString(SHA256.HashData(bytes));
+                string filePath = Path.Combine(dir, $"{kvp.Key}-{hash}.wav");
                 if (!File.Exists(filePath))
                 {
-                    byte[] bytes = CreateWavBytes(kvp.Value, 44100);
-                    File.WriteAllBytes(filePath, bytes);
+                    string temporaryPath = filePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+                    try
+                    {
+                        File.WriteAllBytes(temporaryPath, bytes);
+                        File.Move(temporaryPath, filePath, overwrite: true);
+                    }
+                    finally
+                    {
+                        File.Delete(temporaryPath);
+                    }
                 }
                 PortableWavCache[kvp.Key] = filePath;
             }
@@ -286,28 +297,20 @@ public static class KeystrokeAudioService
 
     private static float[] SynthesizeDockCue(bool opening)
     {
-        double duration = opening ? 0.23 : 0.18;
+        double duration = opening ? 0.36 : 0.31;
+        double startFrequency = opening ? 260 : 330;
+        double endFrequency = opening ? 330 : 220;
         float[] samples = new float[(int)(duration * MixFormat.SampleRate)];
         for (int i = 0; i < samples.Length; i++)
         {
             double time = (double)i / MixFormat.SampleRate;
-            double tap = DockTone(time, opening ? 196 : 165, 0.019);
-            double lead = DockTone(time, opening ? 466.16 : 587.33, 0.064);
-            double answer = DockTone(time - 0.036, opening ? 698.46 : 392, 0.048);
-            double tail = Math.Clamp((duration - time) / 0.04, 0, 1);
-            samples[i] = (float)((tap * 0.24 + lead * 0.45 + answer * 0.53) * tail);
+            double phase = Math.Tau * time * (startFrequency + (endFrequency - startFrequency) * time / (2 * duration));
+            double attack = Math.Sin(Math.PI / 2 * Math.Min(1, time / 0.055));
+            double release = 1 - time / duration;
+            samples[i] = (float)(Math.Sin(phase) * attack * attack * release * release);
         }
-        Normalize(samples, 0.24f);
+        Normalize(samples, 0.075f);
         return samples;
-    }
-
-    private static double DockTone(double time, double frequency, double decay)
-    {
-        if (time < 0)
-            return 0;
-        double phase = Math.Tau * frequency * time;
-        double envelope = Math.Min(1, time / 0.009) * Math.Exp(-time / decay);
-        return envelope * (Math.Sin(phase) + 0.15 * Math.Sin(phase * 2.01));
     }
 
     private static float[] SynthesizeMechanical()
