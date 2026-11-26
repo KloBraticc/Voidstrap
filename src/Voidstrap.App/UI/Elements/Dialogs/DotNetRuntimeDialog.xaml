@@ -8,14 +8,14 @@
       <TextBlock FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Menu_DotNetRuntime_Title}" />
       <TextBlock Margin="0,4,0,18" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Text="{resources:Loc Ui_Main_RestartToApply}" />
       <UniformGrid Columns="2">
-        <ui:CardAction x:Name="Net10Card" Margin="0,0,6,0" Padding="16,22" IsChevronVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Click="Runtime_Click">
+        <ui:CardAction x:Name="Net10Card" Margin="0,0,6,0" Padding="16,22" IsChevronVisible="False" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Click="Runtime_Click">
           <StackPanel HorizontalAlignment="Center">
             <Image Width="56" Height="56" HorizontalAlignment="Center" Source="pack://application:,,,/Resources/DotNetLogo.png" RenderOptions.BitmapScalingMode="HighQuality" />
             <TextBlock x:Name="Net10Title" Margin="0,14,0,0" HorizontalAlignment="Center" FontSize="14" FontWeight="SemiBold" />
             <TextBlock Margin="0,6,0,0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="12" Text="{resources:Loc Common_Default}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           </StackPanel>
         </ui:CardAction>
-        <ui:CardAction x:Name="Net11Card" Margin="6,0,0,0" Padding="16,22" IsChevronVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Click="Runtime_Click">
+        <ui:CardAction x:Name="Net11Card" Margin="6,0,0,0" Padding="16,22" IsChevronVisible="False" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Click="Runtime_Click">
           <StackPanel HorizontalAlignment="Center">
             <Image Width="56" Height="56" HorizontalAlignment="Center" Source="pack://application:,,,/Resources/DotNetLogo.png" RenderOptions.BitmapScalingMode="HighQuality" />
             <TextBlock x:Name="Net11Title" Margin="0,14,0,0" HorizontalAlignment="Center" FontSize="14" FontWeight="SemiBold" />
