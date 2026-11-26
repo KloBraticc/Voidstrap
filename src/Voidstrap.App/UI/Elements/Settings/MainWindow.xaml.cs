@@ -8799,9 +8799,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         OpenSimpleModal(BootstrapperImportPanel, BootstrapperImportPanelScale);
     }
 
-    private bool _net11Downloading;
-
-    private async void DotNetRuntime_Chosen(object? sender, int major)
+    private void DotNetRuntime_Chosen(object? sender, int major)
     {
         const string LOG_IDENT = "MainWindow::DotNetRuntime_Chosen";
         const string restartKey = "DotNetRuntime";
@@ -8810,28 +8808,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Utilities.OpenWebLink("https://dotnet.microsoft.com/download/dotnet/11.0");
             return;
         }
-        if (_net11Downloading)
-            return;
         Action? changed = _dotNetRuntimeChanged;
         CloseSimpleModal();
-        if (major == 11 && !DotNetRuntimeSelection.IsNet11Downloaded)
-        {
-            _net11Downloading = true;
-            string? error;
-            try
-            {
-                error = await DotNetRuntimeSelection.DownloadNet11Async(CancellationToken.None);
-            }
-            finally
-            {
-                _net11Downloading = false;
-            }
-            if (error != null)
-            {
-                Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, Strings.Menu_DotNetRuntime_Title, error), MessageBoxImage.Warning);
-                return;
-            }
-        }
         if (DotNetRuntimeSelection.Preferred != major)
         {
             try

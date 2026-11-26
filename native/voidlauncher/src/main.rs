@@ -24,7 +24,6 @@ const RT_RCDATA: u16 = 10;
 const PAYLOAD_DIR: &str = env!("VOIDSTRAP_PAYLOAD_DIR");
 const DOTNET_MAJOR: &str = env!("VOIDSTRAP_DOTNET_MAJOR");
 const PAYLOAD_LEN: &str = env!("VOIDSTRAP_PAYLOAD_LEN");
-const APP_VERSION: &str = env!("VOIDSTRAP_APP_VERSION");
 const STD_INPUT_HANDLE: u32 = -10i32 as u32;
 const STD_OUTPUT_HANDLE: u32 = -11i32 as u32;
 const STD_ERROR_HANDLE: u32 = -12i32 as u32;
@@ -47,20 +46,18 @@ fn main() -> ExitCode {
     let quiet = has_flag("quiet");
     let nolaunch = has_flag("nolaunch");
     let net11_root = runtime_root("11");
-    let net11_app = net11_path();
-    let preferred = net11_root.as_ref().and_then(|root| preferred_payload(net11_app.as_deref()).map(|path| (path, root.clone())));
-    let (app, root) = match preferred {
-        Some(choice) => choice,
-        None => {
-            let root = match runtime_root(DOTNET_MAJOR).or_else(|| install_runtime(quiet)) {
-                Some(root) => root,
-                None => return ExitCode::from(1),
-            };
-            match unpack(PAYLOAD_ID, PAYLOAD_DIR, PAYLOAD_LEN) {
-                Some(path) => (path, root),
-                None => return fail(strings::unpack_failed()),
-            }
+    let use_net11 = prefers_net11() && net11_root.is_some();
+    let root = if use_net11 {
+        net11_root.clone().unwrap()
+    } else {
+        match runtime_root(DOTNET_MAJOR).or_else(|| install_runtime(quiet)) {
+            Some(root) => root,
+            None => return ExitCode::from(1),
         }
+    };
+    let app = match unpack(PAYLOAD_ID, PAYLOAD_DIR, PAYLOAD_LEN) {
+        Some(path) => path,
+        None => return fail(strings::unpack_failed()),
     };
     let console_mode = is_console_command();
     if console_mode
@@ -79,12 +76,9 @@ fn main() -> ExitCode {
     }
     command.env("VOIDSTRAP_LAUNCHER", &launcher);
     command.env("DOTNET_ROOT_X64", root);
+    command.env("DOTNET_ROLL_FORWARD", if use_net11 { "LatestMajor" } else { "Minor" });
     command.env("VOIDSTRAP_RUNTIME_CHOOSER", "1");
     command.env("VOIDSTRAP_NET11_AVAILABLE", if net11_root.is_some() { "1" } else { "0" });
-    match &net11_app {
-        Some(path) => command.env("VOIDSTRAP_NET11_PATH", path),
-        None => command.env_remove("VOIDSTRAP_NET11_PATH"),
-    };
     if console_mode || quiet {
         return match command.status() {
             Ok(status) => ExitCode::from(status.code().unwrap_or(1) as u8),
@@ -274,23 +268,16 @@ fn payload(id: u16) -> Option<&'static [u8]> {
     }
 }
 
-fn net11_directory_name() -> String {
-    format!("net11-{}", APP_VERSION)
-}
-
-fn net11_path() -> Option<PathBuf> {
-    Some(Path::new(&env::var_os("LOCALAPPDATA")?).join("Voidstrap").join("Bin").join(net11_directory_name()).join("Voidstrap.exe"))
-}
-
-fn preferred_payload(app: Option<&Path>) -> Option<PathBuf> {
-    let app = app?;
-    let preference = Path::new(&env::var_os("LOCALAPPDATA")?).join("Voidstrap").join("DotNetRuntime");
+fn prefers_net11() -> bool {
+    let Some(local_app_data) = env::var_os("LOCALAPPDATA") else {
+        return false;
+    };
+    let preference = Path::new(&local_app_data).join("Voidstrap").join("DotNetRuntime");
+    let Ok(file) = fs::File::open(preference) else {
+        return false;
+    };
     let mut bytes = Vec::with_capacity(3);
-    fs::File::open(preference).ok()?.take(3).read_to_end(&mut bytes).ok()?;
-    if bytes != b"11" || !app.is_file() {
-        return None;
-    }
-    Some(app.to_path_buf())
+    file.take(3).read_to_end(&mut bytes).is_ok() && bytes == b"11"
 }
 
 fn unpack(id: u16, name: &str, length: &str) -> Option<PathBuf> {
@@ -320,14 +307,9 @@ fn unpack(id: u16, name: &str, length: &str) -> Option<PathBuf> {
 }
 
 fn remove_old_versions(base: &Path) {
-    let net11 = net11_directory_name();
     if let Ok(entries) = fs::read_dir(base) {
         for entry in entries.filter_map(Result::ok) {
-            let name = entry.file_name();
-            if name != OsStr::new(PAYLOAD_DIR)
-                && name != OsStr::new(&net11)
-                && entry.path().is_dir()
-            {
+            if entry.file_name() != OsStr::new(PAYLOAD_DIR) && entry.path().is_dir() {
                 let _ = fs::remove_dir_all(entry.path());
             }
         }

@@ -18,7 +18,6 @@ fn main() {
     let major = env::var("VOIDSTRAP_DOTNET_MAJOR").unwrap_or_else(|_| "10".into());
 
     println!("cargo:rustc-env=VOIDSTRAP_DOTNET_MAJOR={}", major);
-    println!("cargo:rustc-env=VOIDSTRAP_APP_VERSION={}", version);
     let resources = compress(&payload, &out_dir, &version, 101, "");
 
     let icon = manifest_dir.join("..").join("..").join("src").join("Voidstrap.App").join("favicon (1).ico");

@@ -29,8 +29,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      artifact-id-10: ${{ steps.upload.outputs.artifact-id }}
-      artifact-id-11: ${{ steps.upload-net11.outputs.artifact-id }}
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
       version: ${{ steps.validate.outputs.version }}
     env:
       RELEASE_COMMIT: ${{ inputs.commit }}
@@ -65,9 +64,7 @@ jobs:
 
       - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73
         with:
-          dotnet-version: |
-            10.0.403
-            11.0.100
+          dotnet-version: 10.0.403
 
       - name: Validate project version
         shell: pwsh
@@ -80,38 +77,26 @@ jobs:
             throw "Release tag version does not match Directory.Build.props."
           }
 
-      - name: Build and validate both application runtimes
+      - name: Build and validate unsigned executable
         shell: pwsh
         env:
           RELEASE_VERSION: ${{ steps.validate.outputs.version }}
         run: |
-          $project = (Resolve-Path 'src/Voidstrap.App/Voidstrap.csproj').Path
-          $wpfProps = (Resolve-Path 'build/Packaging/WpfTemporaryProject.props').Path
-          $builds = @(
-            @{ Major = 10; Sdk = '10.0.403'; Target11 = 'false'; Suffix = '' }
-            @{ Major = 11; Sdk = '11.0.100'; Target11 = 'true'; Suffix = '-net11' }
-          )
-          foreach ($build in $builds) {
-            $work = Join-Path $env:RUNNER_TEMP "voidstrap-sdk-$($build.Major)"
-            $publishDir = Join-Path $work 'publish'
-            $artifactDir = Join-Path $env:RUNNER_TEMP "voidstrap-unsigned$($build.Suffix)"
-            New-Item -ItemType Directory -Path $work, $artifactDir -Force | Out-Null
-            @{ sdk = @{ version = $build.Sdk; allowPrerelease = $false } } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $work 'global.json') -Encoding utf8
-            Push-Location $work
-            try {
-              dotnet publish $project -c Release -r win-x64 --self-contained false "-p:VoidstrapDotNet11=$($build.Target11)" "-p:Version=$env:RELEASE_VERSION" "-p:VoidstrapLinuxPackagingRoot=$work/" "-p:CustomAfterDirectoryBuildProps=$wpfProps" -p:PublishProfile=FolderProfile -p:PublishReadyToRun=false -p:PublishSingleFile=true -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false -p:ContinuousIntegrationBuild=true -p:IncludeSourceRevisionInInformationalVersion=false -p:RestoreUseStaticGraphEvaluation=true -p:TreatWarningsAsErrors=true -p:EnableWindowsTargeting=true -o $publishDir
-              if ($LASTEXITCODE -ne 0) { throw "Voidstrap .NET $($build.Major) publish failed." }
-            } finally {
-              Pop-Location
-            }
-            $exe = Join-Path $publishDir 'Voidstrap.exe'
-            if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'Voidstrap.exe was not produced.' }
-            $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
-            if ($info.ProductName -ne 'Voidstrap' -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.ProductVersion -ne $env:RELEASE_VERSION -or $info.FileVersion -ne $env:RELEASE_VERSION) {
-              throw "Unexpected Voidstrap metadata for .NET $($build.Major)."
-            }
-            Copy-Item -LiteralPath $exe -Destination (Join-Path $artifactDir 'Voidstrap.exe')
+          $publishDir = Join-Path $env:RUNNER_TEMP 'voidstrap-publish'
+          $buildRoot = Join-Path $env:RUNNER_TEMP 'voidstrap-build'
+          $artifactDir = Join-Path $env:RUNNER_TEMP 'voidstrap-unsigned'
+          dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false "-p:Version=$env:RELEASE_VERSION" "-p:VoidstrapLinuxPackagingRoot=$buildRoot/" -p:PublishProfile=FolderProfile -p:PublishReadyToRun=false -p:IncludeAllContentForSelfExtract=false -p:PublishSingleFile=true -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false -p:ContinuousIntegrationBuild=true -p:IncludeSourceRevisionInInformationalVersion=false -p:RestoreUseStaticGraphEvaluation=true -p:TreatWarningsAsErrors=true -p:EnableWindowsTargeting=true -o $publishDir
+          if ($LASTEXITCODE -ne 0) { throw 'Voidstrap publish failed.' }
+
+          $exe = Join-Path $publishDir 'Voidstrap.exe'
+          if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'Voidstrap.exe was not produced.' }
+          $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
+          if ($info.ProductName -ne 'Voidstrap' -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.ProductVersion -ne $env:RELEASE_VERSION -or $info.FileVersion -ne $env:RELEASE_VERSION) {
+            throw "Unexpected Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
           }
+
+          New-Item -ItemType Directory -Path $artifactDir -Force | Out-Null
+          Copy-Item -LiteralPath $exe -Destination (Join-Path $artifactDir 'Voidstrap.exe')
 
       - name: Upload unsigned executable
         id: upload
@@ -119,15 +104,6 @@ jobs:
         with:
           name: voidstrap-windows-unsigned-${{ steps.validate.outputs.version }}
           path: ${{ runner.temp }}/voidstrap-unsigned/Voidstrap.exe
-          if-no-files-found: error
-          retention-days: 1
-
-      - name: Upload unsigned .NET 11 executable
-        id: upload-net11
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
-        with:
-          name: voidstrap-windows-app-net11-unsigned-${{ env.RELEASE_VERSION }}
-          path: ${{ runner.temp }}/voidstrap-unsigned-net11/Voidstrap.exe
           if-no-files-found: error
           retention-days: 1
 
@@ -139,10 +115,6 @@ jobs:
     permissions:
       actions: read
       contents: none
-    strategy:
-      fail-fast: false
-      matrix:
-        runtime: [10, 11]
     env:
       RELEASE_VERSION: ${{ needs.build.outputs.version }}
     steps:
@@ -154,7 +126,7 @@ jobs:
           project-slug: Voidstrap
           signing-policy-slug: test-signing
           artifact-configuration-slug: windows-release
-          github-artifact-id: ${{ needs.build.outputs[format('artifact-id-{0}', matrix.runtime)] }}
+          github-artifact-id: ${{ needs.build.outputs.artifact-id }}
           parameters: |
             version: ${{ toJSON(needs.build.outputs.version) }}
           wait-for-completion: true
@@ -184,7 +156,7 @@ jobs:
       - name: Upload signed application
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
-          name: voidstrap-windows-app-net${{ matrix.runtime }}-signed-${{ env.RELEASE_VERSION }}
+          name: voidstrap-windows-app-signed-${{ env.RELEASE_VERSION }}
           path: ${{ runner.temp }}/voidstrap-signed/Voidstrap.exe
           if-no-files-found: error
           retention-days: 1
@@ -209,13 +181,8 @@ jobs:
 
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
         with:
-          name: voidstrap-windows-app-net10-signed-${{ env.RELEASE_VERSION }}
+          name: voidstrap-windows-app-signed-${{ env.RELEASE_VERSION }}
           path: ${{ runner.temp }}/voidstrap-app
-
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
-        with:
-          name: voidstrap-windows-app-net11-signed-${{ env.RELEASE_VERSION }}
-          path: ${{ runner.temp }}/voidstrap-app-net11
 
       - name: Build launcher around the signed application
         shell: pwsh
@@ -223,11 +190,6 @@ jobs:
           $payload = Join-Path $env:RUNNER_TEMP 'voidstrap-app/Voidstrap.exe'
           if (-not (Test-Path -LiteralPath $payload -PathType Leaf)) { throw 'The signed application was not downloaded.' }
           rustup target add x86_64-pc-windows-msvc
-          $net11 = Join-Path $env:RUNNER_TEMP 'voidstrap-app-net11/Voidstrap.exe'
-          if (-not (Test-Path -LiteralPath $net11 -PathType Leaf)) { throw 'The signed .NET 11 application was not downloaded.' }
-          $net11Dir = Join-Path $env:RUNNER_TEMP 'voidstrap-net11-asset'
-          New-Item -ItemType Directory -Path $net11Dir -Force | Out-Null
-          Copy-Item -LiteralPath $net11 -Destination (Join-Path $net11Dir 'Voidstrap-net11.exe')
           $env:VOIDSTRAP_LAUNCHER_PAYLOAD = $payload
           $env:VOIDSTRAP_VERSION = $env:RELEASE_VERSION
           $targetDir = Join-Path $env:RUNNER_TEMP 'voidlauncher-target'
@@ -242,14 +204,6 @@ jobs:
           $outputDir = Join-Path $env:RUNNER_TEMP 'voidstrap-launcher-unsigned'
           New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
           Copy-Item -LiteralPath $exe -Destination (Join-Path $outputDir 'Voidstrap.exe')
-
-      - name: Upload .NET 11 application for manual publishing
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
-        with:
-          name: voidstrap-windows-net11-signed-${{ env.RELEASE_VERSION }}
-          path: ${{ runner.temp }}/voidstrap-net11-asset/Voidstrap-net11.exe
-          if-no-files-found: error
-          retention-days: 1
 
       - name: Upload unsigned launcher
         id: upload
