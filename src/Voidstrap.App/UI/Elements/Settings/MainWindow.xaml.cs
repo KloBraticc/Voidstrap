@@ -8817,19 +8817,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (major == 11 && !DotNetRuntimeSelection.IsNet11Downloaded)
         {
             _net11Downloading = true;
+            string? error;
             try
             {
-                await DotNetRuntimeSelection.DownloadNet11Async(CancellationToken.None);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException(LOG_IDENT, ex);
-                Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, Strings.Menu_DotNetRuntime_Title, ex.Message), MessageBoxImage.Warning);
-                return;
+                error = await DotNetRuntimeSelection.DownloadNet11Async(CancellationToken.None);
             }
             finally
             {
                 _net11Downloading = false;
+            }
+            if (error != null)
+            {
+                Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, Strings.Menu_DotNetRuntime_Title, error), MessageBoxImage.Warning);
+                return;
             }
         }
         if (DotNetRuntimeSelection.Preferred != major)

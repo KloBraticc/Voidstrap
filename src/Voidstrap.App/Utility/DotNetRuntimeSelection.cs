@@ -18,34 +18,68 @@ internal static partial class DotNetRuntimeSelection
 
     public static bool IsNet11Downloaded => !OperatingSystem.IsWindows() || (Net11Path is { } path && File.Exists(path));
 
-    public static async Task DownloadNet11Async(CancellationToken token)
+    public static async Task<string?> DownloadNet11Async(CancellationToken token)
     {
         const string LOG_IDENT = "DotNetRuntimeSelection::DownloadNet11Async";
-        string target = Net11Path ?? throw new InvalidOperationException("VOIDSTRAP_NET11_PATH is not set");
-        string url = $"{App.ProjectDownloadLink}/download/v{App.Version}/{Net11AssetName}";
+        if (string.IsNullOrWhiteSpace(Net11Path))
+            return "VOIDSTRAP_NET11_PATH is not set";
+
+        string target = Net11Path;
         string directory = Path.GetDirectoryName(target)!;
         Directory.CreateDirectory(directory);
         string pending = Path.Combine(directory, "Voidstrap." + Guid.NewGuid().ToString("N") + ".tmp");
-        App.Logger.WriteLine(LOG_IDENT, "Downloading " + url);
+
         try
         {
-            using (HttpResponseMessage response = await App.HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token))
+            string? launcherDirectory = Paths.StartedByLauncher ? Path.GetDirectoryName(Paths.Process) : null;
+            string? localAsset = launcherDirectory == null ? null : Path.Combine(launcherDirectory, Net11AssetName);
+            if (localAsset != null && File.Exists(localAsset) && HasExpectedVersion(localAsset))
             {
-                response.EnsureSuccessStatusCode();
-                await using Stream source = await response.Content.ReadAsStreamAsync(token);
-                await using FileStream destination = new(pending, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
-                await source.CopyToAsync(destination, token);
+                File.Copy(localAsset, pending, overwrite: true);
+                File.Move(pending, target, overwrite: true);
+                App.Logger.WriteLine(LOG_IDENT, "Copied local " + localAsset);
+                return null;
             }
-            FileVersionInfo info = FileVersionInfo.GetVersionInfo(pending);
-            if (info.ProductName != App.ProjectName || info.ProductVersion != App.Version)
-                throw new InvalidDataException($"Unexpected download metadata: {info.ProductName} {info.ProductVersion}");
+
+            string url = $"{App.ProjectDownloadLink}/download/v{App.Version}/{Net11AssetName}";
+            App.Logger.WriteLine(LOG_IDENT, "Downloading " + url);
+            using (HttpResponseMessage response = await App.HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    string status = $"{(int)response.StatusCode} {response.ReasonPhrase}".Trim();
+                    App.Logger.WriteLine(LOG_IDENT, "Download returned " + status);
+                    return status;
+                }
+
+                await using Stream source = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+                await using FileStream destination = new(pending, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
+                await source.CopyToAsync(destination, token).ConfigureAwait(false);
+            }
+
+            if (!HasExpectedVersion(pending))
+                return "Downloaded file version mismatch";
+
             File.Move(pending, target, overwrite: true);
             App.Logger.WriteLine(LOG_IDENT, "Saved " + target);
+            return null;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+            return ex.Message;
         }
         finally
         {
-            File.Delete(pending);
+            if (File.Exists(pending))
+                File.Delete(pending);
         }
+    }
+
+    private static bool HasExpectedVersion(string path)
+    {
+        FileVersionInfo info = FileVersionInfo.GetVersionInfo(path);
+        return info.ProductName == App.ProjectName && info.ProductVersion == App.Version;
     }
 
     private const string Net11AssetName = "Voidstrap-net11.exe";
