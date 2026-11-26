@@ -10389,6 +10389,18 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Tekshirish moslamasining tebranishini va moslashuvchi triggerlarni sozlang.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Bu klassik Roblox mijozga Microsoft Visual C++ 2005 Redistributable (x86) kerak. Davom etish uchun uni Microsoft dan oʻrnatasizmi?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) yuklab olinmoqda</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) o'rnatilmoqda</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows bu klassik mijozni yuklay olmadi. Microsoft-dan Microsoft Visual C++ 2005 Redistributable (x86)-ni o'rnating yoki ta'mirlang, keyin qayta urinib ko'ring.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bu o‘yinga qo‘shilishni xohlayotganingizga ishonchingiz komilmi?</value>
   </data>

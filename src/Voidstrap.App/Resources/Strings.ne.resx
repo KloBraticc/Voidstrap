@@ -10390,6 +10390,18 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>नियन्त्रक कम्पन र अनुकूली ट्रिगरहरू कन्फिगर गर्नुहोस्।</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>यो क्लासिक Roblox ग्राहकलाई Microsoft Visual C++ 2005 Redistributable (x86) चाहिन्छ। जारी राख्न Microsoft बाट स्थापना गर्ने हो?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) डाउनलोड गर्दै</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) स्थापना गर्दै</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ले यो क्लासिक क्लाइन्ट लोड गर्न सकेन। Microsoft बाट Microsoft Visual C++ 2005 Redistributable (x86) स्थापना वा मर्मत गर्नुहोस्, त्यसपछि फेरि प्रयास गर्नुहोस्।</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>के तपाईं साँच्चै यो खेलमा सामेल हुन चाहनुहुन्छ?</value>
   </data>

@@ -10699,6 +10699,18 @@
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>تكوين اهتزاز وحدة التحكم والمشغلات التكيفية.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>يحتاج هذا العميل الكلاسيكي Roblox إلى Microsoft Visual C++ 2005 Redistributable (x86). هل تريد تثبيته من Microsoft للمتابعة؟</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>تحميل Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>تركيب Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>تعذر على Windows تحميل هذا العميل الكلاسيكي. قم بتثبيت أو إصلاح Microsoft Visual C++ 2005 Redistributable (x86) من Microsoft، ثم حاول مرة أخرى.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>هل أنت متأكد من أنك تريد الانضمام إلى هذه اللعبة؟</value>
   </data>

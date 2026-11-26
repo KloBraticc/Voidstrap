@@ -10390,6 +10390,18 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>පාලක කම්පනය සහ අනුවර්තන ප්‍රේරක වින්‍යාස කරන්න.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>මෙම සම්භාව්ය Roblox සේවාදායකයාට Microsoft Visual C++ 2005 Redistributable (x86) අවශ්යයි. ඉදිරියට යාමට එය Microsoft වෙතින් ස්ථාපනය කරන්නද?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) බාගත කිරීම</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ස්ථාපනය කිරීම</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ට මෙම සම්භාව්ය සේවාලාභියා පූරණය කළ නොහැකි විය. Microsoft වෙතින් Microsoft Visual C++ 2005 Redistributable (x86) ස්ථාපනය කරන්න හෝ අලුත්වැඩියා කරන්න, ඉන්පසු නැවත උත්සාහ කරන්න.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ඔබට මෙම ක්රීඩාවට එක් වීමට අවශ්ය බව විශ්වාසද?</value>
   </data>

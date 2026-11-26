@@ -10390,6 +10390,18 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurējiet kontroliera vibrāciju un adaptīvos trigerus.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Šim klasiskajam Roblox klientam ir vajadzīga pakotne Microsoft Visual C++ 2005 Redistributable (x86). Vai vēlaties to instalēt no Microsoft vietnes, lai turpinātu?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Tiek lejupielādēta pakotne Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Tiek instalēta pakotne Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows nevarēja ielādēt šo klasisko klientu. Instalējiet vai salabojiet pakotni Microsoft Visual C++ 2005 Redistributable (x86) no Microsoft vietnes un mēģiniet vēlreiz.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Vai tiešām vēlaties pievienoties šai spēlei?</value>
   </data>

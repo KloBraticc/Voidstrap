@@ -10700,6 +10700,18 @@ Pasang SteamVR sekarang?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurasikan getaran pengawal dan pencetus penyesuaian.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Klien klasik Roblox ini memerlukan Microsoft Visual C++ 2005 Redistributable (x86). Adakah anda mahu memasangnya daripada laman web Microsoft untuk meneruskan?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Sedang memuat turun Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Sedang memasang Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows tidak dapat memuatkan klien klasik ini. Pasang atau baiki Microsoft Visual C++ 2005 Redistributable (x86) daripada laman web Microsoft, kemudian cuba lagi.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Adakah anda pasti mahu menyertai permainan ini?</value>
   </data>

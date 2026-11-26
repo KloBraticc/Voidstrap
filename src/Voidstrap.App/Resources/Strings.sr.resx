@@ -10390,6 +10390,18 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Конфигуришите вибрације контролера и прилагодљиве окидаче.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Овом класичном Roblox клијенту је потребан Microsoft Visual C++ 2005 Redistributable (x86). Инсталирајте га са Microsoft да бисте наставили?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Преузимање Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Инсталирање Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows није могао да учита овај класични клијент. Инсталирајте или поправите Microsoft Visual C++ 2005 Redistributable (x86) са Microsoft, а затим покушајте поново.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Да ли заиста желиш да се придружиш овој игри?</value>
   </data>

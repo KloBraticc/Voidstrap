@@ -10699,6 +10699,18 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>配置控制器振動和自適應觸發器。</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>這個經典版 Roblox 用戶端需要 Microsoft Visual C++ 2005 Redistributable (x86)。要從 Microsoft 網站安裝後繼續嗎？</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>正在下載 Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>正在安裝 Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows 無法載入這個經典版用戶端。請從 Microsoft 網站安裝或修復 Microsoft Visual C++ 2005 Redistributable (x86)，再試一次。</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>你確定要加入這個遊戲嗎？</value>
   </data>

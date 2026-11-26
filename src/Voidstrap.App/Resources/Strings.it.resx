@@ -10700,6 +10700,18 @@ Installare SteamVR adesso?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configura la vibrazione del controller e i trigger adattivi.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Questo classico client Roblox necessita dell'Microsoft Visual C++ 2005 Redistributable (x86). Installarlo da Microsoft per continuare?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Scaricamento dell'Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Installazione dell'Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows non è riuscito a caricare questo client classico. Installa o ripara Microsoft Visual C++ 2005 Redistributable (x86) da Microsoft, quindi riprova.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Vuoi davvero unirti a questa partita?</value>
   </data>

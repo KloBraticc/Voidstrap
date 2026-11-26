@@ -10390,6 +10390,18 @@ Hametraka SteamVR izao?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Ampifanaraho ny vibration controller sy ny trigger adaptive.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Mila ny Microsoft Visual C++ 2005 Redistributable (x86) ity kinova tranainin'ny rindranasa Roblox ity. Hametraka azy avy amin'i Microsoft ve ianao mba hanohizana?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Misintona ny Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Mametraka ny Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Tsy afaka nampiditra ity kinova tranainin'ny rindranasa ity i Windows. Apetraho na amboary ny Microsoft Visual C++ 2005 Redistributable (x86) avy amin'i Microsoft, dia andramo indray.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Azonao antoka ve fa te hiditra amin'ity lalao ity ianao?</value>
   </data>

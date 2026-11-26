@@ -10390,6 +10390,18 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>קבע את התצורה של רטט בקר וטריגרים אדפטיביים.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>לקוח Roblox הקלאסי הזה צריך את Microsoft Visual C++ 2005 Redistributable (x86). האם להתקין אותו מ-Microsoft כדי להמשיך?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>מוריד את Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>התקנת Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows לא הצליח לטעון את הלקוח הקלאסי הזה. התקן או תקן את Microsoft Visual C++ 2005 Redistributable (x86) מ-Microsoft, ולאחר מכן נסה שוב.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>האם ברצונך להצטרף למשחק הזה?</value>
   </data>

@@ -10389,6 +10389,18 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>কন্ট্রোলার ভাইব্রেশন এবং অভিযোজিত ট্রিগার কনফিগার করুন।</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>এই ক্লাসিক Roblox ক্লায়েন্টটির প্রয়োজন Microsoft Visual C++ 2005 Redistributable (x86)। চালিয়ে যেতে Microsoft থেকে এটি ইনস্টল করবেন?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ডাউনলোড করা হচ্ছে</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ইনস্টল করা হচ্ছে</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows এই ক্লাসিক ক্লায়েন্ট লোড করতে পারেনি৷ Microsoft থেকে Microsoft Visual C++ 2005 Redistributable (x86) ইনস্টল বা মেরামত করুন, তারপর আবার চেষ্টা করুন।</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>আপনি কি নিশ্চিত যে এই গেমে যোগ দিতে চান?</value>
   </data>

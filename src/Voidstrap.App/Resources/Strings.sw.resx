@@ -10389,6 +10389,18 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Sanidi mtetemo wa kidhibiti na vichochezi vinavyobadilika.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Kiteja hiki cha kawaida cha Roblox kinahitaji Microsoft Visual C++ 2005 Redistributable (x86). Isakinishe kutoka Microsoft ili kuendelea?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Inapakua Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Inasakinisha Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows haikuweza kupakia kiteja hiki cha kawaida. Sakinisha au urekebishe Microsoft Visual C++ 2005 Redistributable (x86) kutoka Microsoft, kisha ujaribu tena.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Una uhakika unataka kujiunga na mchezo huu?</value>
   </data>

@@ -10390,6 +10390,18 @@ Hadda rakib SteamVR?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Habee gariirada xakamaynta iyo kiciya la qabsiga.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Macmiilkan caadiga ah ee Roblox wuxuu u baahan yahay Microsoft Visual C++ 2005 Redistributable (x86). Ku rakib Microsoft si aad u sii wadato?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Waxaa la soo dejinayaa Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Waxaa la rakibayaa Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows wuu rari waayay macmiilkan caadiga ah. Ku rakib ama dayactir Microsoft Visual C++ 2005 Redistributable (x86) ka Microsoft, ka dibna isku day mar kale.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ma hubtaa inaad rabto inaad ku biirto ciyaartan?</value>
   </data>

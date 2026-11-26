@@ -10389,6 +10389,18 @@ SteamVR instalatu orain?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfiguratu kontroladorearen bibrazioa eta abiarazle moldagarriak.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Roblox bezero klasiko honek Microsoft Visual C++ 2005 Redistributable (x86) behar du. Microsofttik instalatu nahi duzu jarraitzeko?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) deskargatzen</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) instalatzen</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows-k ezin izan du bezero klasiko hau kargatu. Instalatu edo konpondu Microsoft Visual C++ 2005 Redistributable (x86) Microsoft-tik, eta saiatu berriro.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ziur zaude joko honetan sartu nahi duzula?</value>
   </data>

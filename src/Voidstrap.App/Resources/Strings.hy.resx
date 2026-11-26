@@ -10390,6 +10390,18 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Կարգավորեք կարգավորիչի թրթռումը և հարմարվողական ձգանները:</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Այս դասական Roblox հաճախորդին անհրաժեշտ է Microsoft Visual C++ 2005 Redistributable (x86): Տեղադրե՞լ այն Microsoft-ից՝ շարունակելու համար:</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Ներբեռնում է Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86)-ի տեղադրում</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows-ը չկարողացավ բեռնել այս դասական հաճախորդը: Տեղադրեք կամ վերանորոգեք Microsoft Visual C++ 2005 Redistributable (x86)-ը Microsoft-ից, ապա նորից փորձեք:</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Վստա՞հ եք, որ ցանկանում եք միանալ այս խաղին։</value>
   </data>

@@ -10389,6 +10389,18 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Lungiselela ukudlidliza kwesilawuli nezibangeli eziguqukayo.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Leli klayenti le-Roblox lakudala lidinga i-Microsoft Visual C++ 2005 Redistributable (x86). Lifake ukusuka ku-Microsoft ukuze uqhubeke?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Ilanda i-Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Ukufaka i-Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>I-Windows ayikwazanga ukulayisha leli klayenti lakudala. Faka noma lungisa i-Microsoft Visual C++ 2005 Redistributable (x86) esuka ku-Microsoft, bese uyazama futhi.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Uqinisekile ukuthi ufuna ukujoyina lo mdlalo?</value>
   </data>

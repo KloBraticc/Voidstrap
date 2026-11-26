@@ -10390,6 +10390,18 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ನಿಯಂತ್ರಕ ಕಂಪನ ಮತ್ತು ಅಡಾಪ್ಟಿವ್ ಟ್ರಿಗ್ಗರ್‌ಗಳನ್ನು ಕಾನ್ಫಿಗರ್ ಮಾಡಿ.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>ಈ ಕ್ಲಾಸಿಕ್ Roblox ಕ್ಲೈಂಟ್ಗೆ Microsoft Visual C++ 2005 Redistributable (x86) ಅಗತ್ಯವಿದೆ. ಮುಂದುವರೆಯಲು ಇದನ್ನು Microsoft ರಿಂದ ಸ್ಥಾಪಿಸುವುದೇ?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ಅನ್ನು ಡೌನ್ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ಅನ್ನು ಸ್ಥಾಪಿಸಲಾಗುತ್ತಿದೆ</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ಈ ಕ್ಲಾಸಿಕ್ ಕ್ಲೈಂಟ್ ಅನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. Microsoft ರಿಂದ Microsoft Visual C++ 2005 Redistributable (x86) ಅನ್ನು ಸ್ಥಾಪಿಸಿ ಅಥವಾ ಸರಿಪಡಿಸಿ, ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ಈ ಆಟಕ್ಕೆ ಸೇರಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ?</value>
   </data>

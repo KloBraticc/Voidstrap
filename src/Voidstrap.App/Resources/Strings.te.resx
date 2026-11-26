@@ -10389,6 +10389,18 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>కంట్రోలర్ వైబ్రేషన్ మరియు అడాప్టివ్ ట్రిగ్గర్‌లను కాన్ఫిగర్ చేయండి.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>ఈ క్లాసిక్ Roblox క్లయింట్కి Microsoft Visual C++ 2005 Redistributable (x86) అవసరం. కొనసాగించడానికి దీన్ని Microsoft నుండి ఇన్స్టాల్ చేయాలా?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86)ని డౌన్లోడ్ చేస్తోంది</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86)ని ఇన్స్టాల్ చేస్తోంది</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ఈ క్లాసిక్ క్లయింట్ని లోడ్ చేయలేకపోయింది. Microsoft నుండి Microsoft Visual C++ 2005 Redistributable (x86)ని ఇన్స్టాల్ చేయండి లేదా రిపేర్ చేయండి, ఆపై మళ్లీ ప్రయత్నించండి.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>మీరు ఖచ్చితంగా ఈ ఆటలో చేరాలనుకుంటున్నారా?</value>
   </data>

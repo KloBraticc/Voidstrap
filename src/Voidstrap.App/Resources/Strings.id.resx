@@ -10700,6 +10700,18 @@ Instal SteamVR sekarang?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurasikan getaran pengontrol dan pemicu adaptif.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Klien klasik Roblox ini memerlukan Microsoft Visual C++ 2005 Redistributable (x86). Instal dari Microsoft untuk melanjutkan?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Mengunduh Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Menginstal Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows tidak dapat memuat klien klasik ini. Instal atau perbaiki Microsoft Visual C++ 2005 Redistributable (x86) dari Microsoft, lalu coba lagi.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Apakah Anda yakin ingin bergabung dengan gim ini?</value>
   </data>

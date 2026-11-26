@@ -10389,6 +10389,18 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>קאַנפיגיער קאָנטראָללער ווייבריישאַן און אַדאַפּטיוו טריגערז.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>דער קלאַסיש Roblox קליענט דאַרף די Microsoft Visual C++ 2005 Redistributable (x86). ינסטאַלירן עס פֿון Microsoft צו פאָרזעצן?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>דאַונלאָודינג די Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>ינסטאָלינג די Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows קען נישט לאָדן דעם קלאַסיש קליענט. ינסטאַלירן אָדער פאַרריכטן די Microsoft Visual C++ 2005 Redistributable (x86) פֿון Microsoft, און פּרובירן ווידער.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>זענט איר זיכער אַז איר ווילט זיך באַטייליקן אין דעם שפּיל?</value>
   </data>

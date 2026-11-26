@@ -10389,6 +10389,18 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>کنٹرولر وائبریشن اور انکولی محرکات کو ترتیب دیں۔</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>اس کلاسک Roblox کلائنٹ کو Microsoft Visual C++ 2005 Redistributable (x86) کی ضرورت ہے۔ جاری رکھنے کے لیے اسے Microsoft سے انسٹال کریں؟</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ڈاؤن لوڈ ہو رہا ہے۔</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) انسٹال کرنا</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows اس کلاسک کلائنٹ کو لوڈ نہیں کر سکا۔ Microsoft سے Microsoft Visual C++ 2005 Redistributable (x86) انسٹال یا مرمت کریں، پھر دوبارہ کوشش کریں۔</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>کیا آپ کو یقین ہے کہ آپ اس گیم میں شامل ہونا چاہتے ہیں؟</value>
   </data>

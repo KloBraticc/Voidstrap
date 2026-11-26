@@ -10700,6 +10700,18 @@ Instalați SteamVR acum?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configurați vibrația controlerului și declanșatoarele adaptive.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Acest client clasic Roblox are nevoie de Microsoft Visual C++ 2005 Redistributable (x86). Instalați-l de la Microsoft pentru a continua?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Descărcarea Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Instalarea Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows nu a putut încărca acest client clasic. Instalați sau reparați Microsoft Visual C++ 2005 Redistributable (x86) de la Microsoft, apoi încercați din nou.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Sigur vrei să intri în acest joc?</value>
   </data>

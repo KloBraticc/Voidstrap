@@ -10389,6 +10389,18 @@ Uptime: {1}
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>كونتروللىغۇچنىڭ تەۋرىنىشى ۋە ماسلىشىشچان قوزغاتقۇچنى سەپلەڭ.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>بۇ كىلاسسىك Roblox خېرىدار Microsoft Visual C++ 2005 Redistributable (x86) غا ئېھتىياجلىق. ئۇنى داۋاملاشتۇرۇش ئۈچۈن Microsoft دىن قاچىلاڭ؟</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) نى چۈشۈرۈش</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) نى ئورنىتىش</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows بۇ كلاسسىك خېرىدارنى يۈكلىيەلمىدى. Microsoft Visual C++ 2005 Redistributable (x86) نى Microsoft دىن قاچىلاڭ ياكى رېمونت قىلىڭ ، ئاندىن قايتا سىناڭ.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>بۇ ئويۇنغا قاتنىشىشنى خالايدىغانلىقىڭىزغا ئىشىنەمسىز؟</value>
   </data>

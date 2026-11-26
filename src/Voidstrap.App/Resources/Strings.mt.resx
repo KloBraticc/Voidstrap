@@ -10390,6 +10390,18 @@ Installa SteamVR issa?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Ikkonfigura l-vibrazzjoni tal-kontrollur u l-attivaturi adattivi.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Dan il-klijent klassiku Roblox għandu bżonn it-Microsoft Visual C++ 2005 Redistributable (x86). Tinstallah minn Microsoft biex tkompli?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Niżżel l-Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Installazzjoni tal-Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ma setax jgħabbi dan il-klijent klassiku. Installa jew issewwi t-Microsoft Visual C++ 2005 Redistributable (x86) minn Microsoft, imbagħad erġa' pprova.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Żgur li trid tingħaqad ma’ din il-logħba?</value>
   </data>

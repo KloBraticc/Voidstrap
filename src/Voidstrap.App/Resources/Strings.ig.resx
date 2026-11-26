@@ -10390,6 +10390,18 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Hazie ịma jijiji njikwa na ihe mkpalite.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Nke a kpochapụwo Roblox ahịa chọrọ Microsoft Visual C++ 2005 Redistributable (x86). Wụnye ya site na Microsoft ka ọ gaa n'ihu?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Budata Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Wụnye Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows enweghị ike ibu onye ahịa a kpochapụrụ. Wụnye ma ọ bụ rụzie Microsoft Visual C++ 2005 Redistributable (x86) site na Microsoft, wee nwaa ọzọ.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ị ji n'aka na ị chọrọ isonye n'egwuregwu a?</value>
   </data>

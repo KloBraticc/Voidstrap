@@ -10390,6 +10390,18 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ନିୟନ୍ତ୍ରକ କମ୍ପନ ଏବଂ ଆଡାପ୍ଟିଭ୍ ଟ୍ରିଗରଗୁଡ଼ିକୁ ବିନ୍ୟାସ କରନ୍ତୁ |</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>ଏହି କ୍ଲାସିକ୍ Roblox କ୍ଲାଏଣ୍ଟ ପାଇଁ Microsoft Visual C++ 2005 Redistributable (x86) ଆବଶ୍ୟକ। ଆଗକୁ ବଢ଼ିବା ପାଇଁ ଏହାକୁ Microsoft ୱେବସାଇଟ୍ରୁ ସଂସ୍ଥାପନ କରିବେ କି?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ଡାଉନଲୋଡ୍ ହେଉଛି</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ସଂସ୍ଥାପିତ ହେଉଛି</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ଏହି କ୍ଲାସିକ୍ କ୍ଲାଏଣ୍ଟ ଲୋଡ୍ କରିପାରିଲା ନାହିଁ। Microsoft ୱେବସାଇଟ୍ରୁ Microsoft Visual C++ 2005 Redistributable (x86) ସଂସ୍ଥାପନ କିମ୍ବା ମରାମତି କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ଆପଣ ନିଶ୍ଚିତ କି ଯେ ଏହି ଖେଳରେ ଯୋଗ ଦେବାକୁ ଚାହୁଁଛନ୍ତି?</value>
   </data>

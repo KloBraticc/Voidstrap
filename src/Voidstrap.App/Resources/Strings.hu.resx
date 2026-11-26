@@ -10700,6 +10700,18 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurálja a vezérlő rezgését és az adaptív triggereket.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Ehhez a klasszikus Roblox-klienshez a Microsoft Visual C++ 2005 Redistributable (x86) csomag szükséges. Szeretnéd telepíteni a Microsoft webhelyéről a folytatáshoz?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>A Microsoft Visual C++ 2005 Redistributable (x86) letöltése</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>A Microsoft Visual C++ 2005 Redistributable (x86) telepítése</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>A Windows nem tudta betölteni ezt a klasszikus klienst. Telepítsd vagy javítsd a Microsoft Visual C++ 2005 Redistributable (x86) csomagot a Microsoft webhelyéről, majd próbáld újra.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Biztosan csatlakozni szeretnél ehhez a játékhoz?</value>
   </data>

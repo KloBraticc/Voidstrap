@@ -10390,6 +10390,18 @@ Nainštalovať SteamVR teraz?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Nakonfigurujte vibrácie ovládača a adaptívne spúšťače.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Tento klasický klient Roblox potrebuje Microsoft Visual C++ 2005 Redistributable (x86). Nainštalovať ho z Microsoft, aby ste mohli pokračovať?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Sťahovanie Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Inštalácia Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows nedokázal načítať tohto klasického klienta. Nainštalujte alebo opravte Microsoft Visual C++ 2005 Redistributable (x86) z Microsoft a skúste to znova.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Naozaj sa chcete pripojiť k tejto hre?</value>
   </data>

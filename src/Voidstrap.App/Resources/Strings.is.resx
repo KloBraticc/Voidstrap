@@ -10390,6 +10390,18 @@ Settu upp SteamVR núna?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Stilltu titring stjórnanda og aðlögunarbúnað.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Þessi klassíski Roblox viðskiptavinur þarf Microsoft Visual C++ 2005 Redistributable (x86). Settu hann upp frá Microsoft til að halda áfram?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Að sækja Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Að setja upp Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows gat ekki hlaðið þennan klassíska biðlara. Settu upp eða gerðu við Microsoft Visual C++ 2005 Redistributable (x86) frá Microsoft, reyndu svo aftur.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ertu viss um að þú viljir taka þátt í þessum leik?</value>
   </data>

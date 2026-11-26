@@ -10389,6 +10389,18 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Ṣe atunto gbigbọn oludari ati awọn okunfa adaṣe.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Onibara Roblox Ayebaye yii nilo Microsoft Visual C++ 2005 Redistributable (x86). Fi sii lati Microsoft lati tẹsiwaju?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Gbigba lati ayelujara Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>fifi sori ẹrọ Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ko le fifuye yi Ayebaye ni ose. Fi sori ẹrọ tabi tunṣe Microsoft Visual C++ 2005 Redistributable (x86) lati Microsoft, lẹhinna gbiyanju lẹẹkansi.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ṣé ó dá ọ lójú pé o fẹ́ darapọ̀ mọ́ eré yìí?</value>
   </data>

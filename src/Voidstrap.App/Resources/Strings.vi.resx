@@ -10699,6 +10699,18 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Định cấu hình độ rung của bộ điều khiển và kích hoạt thích ứng.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Máy khách Roblox cổ điển này cần Microsoft Visual C++ 2005 Redistributable (x86). Cài đặt nó từ Microsoft để tiếp tục?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Đang tải xuống Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Cài đặt Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows không thể tải ứng dụng khách cổ điển này. Hãy cài đặt hoặc sửa chữa Microsoft Visual C++ 2005 Redistributable (x86) từ Microsoft, sau đó thử lại.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bạn có chắc muốn tham gia trò chơi này không?</value>
   </data>

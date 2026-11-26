@@ -10698,6 +10698,18 @@ I-install ang SteamVR ngayon?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>I-configure ang controller vibration at adaptive trigger.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Ang classic na Roblox client na ito ay nangangailangan ng Microsoft Visual C++ 2005 Redistributable (x86). I-install ito mula sa Microsoft upang magpatuloy?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Dina-download ang Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Pag-install ng Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Hindi ma-load ng Windows ang classic na client na ito. I-install o ayusin ang Microsoft Visual C++ 2005 Redistributable (x86) mula sa Microsoft, pagkatapos ay subukang muli.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Sigurado ka bang gusto mong sumali sa larong ito?</value>
   </data>

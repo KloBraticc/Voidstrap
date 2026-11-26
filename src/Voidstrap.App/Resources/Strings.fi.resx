@@ -10699,6 +10699,18 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Määritä ohjaimen tärinä ja mukautuvat liipaisimet.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Tämä klassinen Roblox-asiakasohjelma tarvitsee paketin Microsoft Visual C++ 2005 Redistributable (x86). Haluatko asentaa sen Microsoftin sivustolta ja jatkaa?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Ladataan pakettia Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Asennetaan pakettia Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ei voinut ladata tätä klassista asiakasohjelmaa. Asenna tai korjaa paketti Microsoft Visual C++ 2005 Redistributable (x86) Microsoftin sivustolta ja yritä uudelleen.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Haluatko varmasti liittyä tähän peliin?</value>
   </data>

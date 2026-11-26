@@ -10700,6 +10700,18 @@ Veikimo laikas: {1}
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigūruokite valdiklio vibraciją ir prisitaikančius paleidiklius.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Šiam klasikiniam Roblox klientui reikalingas Microsoft Visual C++ 2005 Redistributable (x86). Norėdami tęsti, įdiegti jį iš Microsoft?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Atsisiunčiamas Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) įdiegimas</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows nepavyko įkelti šio klasikinio kliento. Įdiekite arba pataisykite Microsoft Visual C++ 2005 Redistributable (x86) iš Microsoft, tada bandykite dar kartą.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ar tikrai norite prisijungti prie šio žaidimo?</value>
   </data>

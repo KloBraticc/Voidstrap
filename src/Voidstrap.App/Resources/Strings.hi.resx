@@ -10390,6 +10390,18 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>नियंत्रक कंपन और अनुकूली ट्रिगर कॉन्फ़िगर करें।</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>इस क्लासिक Roblox क्लाइंट को Microsoft Visual C++ 2005 Redistributable (x86) की आवश्यकता है। जारी रखने के लिए इसे Microsoft से इंस्टॉल करें?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) डाउनलोड हो रहा है</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) इंस्टॉल हो रहा है</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows इस क्लासिक क्लाइंट को लोड नहीं कर सका। Microsoft से Microsoft Visual C++ 2005 Redistributable (x86) स्थापित करें या मरम्मत करें, फिर पुनः प्रयास करें।</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>क्या आप वाकई इस गेम में शामिल होना चाहते हैं?</value>
   </data>

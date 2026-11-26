@@ -10389,6 +10389,18 @@ Instal·leu SteamVR ara?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configureu la vibració del controlador i els disparadors adaptatius.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Aquest client clàssic Roblox necessita el Microsoft Visual C++ 2005 Redistributable (x86). Instal·lar-lo des del Microsoft per continuar?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Descarregant el Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Instal·lació del Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows no ha pogut carregar aquest client clàssic. Instal·leu o repareu el Microsoft Visual C++ 2005 Redistributable (x86) del Microsoft i torneu-ho a provar.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Segur que et vols unir a aquesta partida?</value>
   </data>

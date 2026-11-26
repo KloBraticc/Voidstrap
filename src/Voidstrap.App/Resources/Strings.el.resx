@@ -10389,6 +10389,18 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Διαμορφώστε τη δόνηση του ελεγκτή και τις προσαρμοστικές σκανδάλες.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Αυτός ο κλασικός πελάτης Roblox χρειάζεται το Microsoft Visual C++ 2005 Redistributable (x86). Να το εγκαταστήσετε από το Microsoft για να συνεχίσετε;</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Λήψη του Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Εγκατάσταση του Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Το Windows δεν μπόρεσε να φορτώσει αυτόν τον κλασικό πελάτη. Εγκαταστήστε ή επιδιορθώστε το Microsoft Visual C++ 2005 Redistributable (x86) από το Microsoft και δοκιμάστε ξανά.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Είσαι σίγουρος ότι θέλεις να μπεις σε αυτό το παιχνίδι;</value>
   </data>

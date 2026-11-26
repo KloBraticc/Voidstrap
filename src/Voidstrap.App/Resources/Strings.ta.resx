@@ -10389,6 +10389,18 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>கட்டுப்படுத்தி அதிர்வு மற்றும் தகவமைப்பு தூண்டுதல்களை உள்ளமைக்கவும்.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>இந்த கிளாசிக் Roblox கிளையண்டிற்கு Microsoft Visual C++ 2005 Redistributable (x86) தேவை. தொடர Microsoft இலிருந்து இதை நிறுவவா?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ஐப் பதிவிறக்குகிறது</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ஐ நிறுவுகிறது</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows இந்த கிளாசிக் கிளையண்டை ஏற்ற முடியவில்லை. Microsoft இலிருந்து Microsoft Visual C++ 2005 Redistributable (x86) ஐ நிறுவவும் அல்லது சரிசெய்யவும், பிறகு மீண்டும் முயற்சிக்கவும்.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>இந்த விளையாட்டில் சேர விரும்புகிறீர்கள் என்பதில் உறுதியாக இருக்கிறீர்களா?</value>
   </data>

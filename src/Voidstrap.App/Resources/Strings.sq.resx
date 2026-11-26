@@ -10390,6 +10390,18 @@ Të instalohet SteamVR tani?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfiguro dridhjet e kontrolluesit dhe shkasat adaptues.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Ky klient klasik Roblox ka nevojë për Microsoft Visual C++ 2005 Redistributable (x86). Të instalohet nga Microsoft për të vazhduar?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Duke shkarkuar Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Instalimi i Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows nuk mund ta ngarkonte këtë klient klasik. Instaloni ose riparoni Microsoft Visual C++ 2005 Redistributable (x86) nga Microsoft, më pas provoni përsëri.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>A je i sigurt që dëshiron t’i bashkohesh kësaj loje?</value>
   </data>

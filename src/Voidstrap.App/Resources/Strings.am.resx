@@ -10389,6 +10389,18 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>የመቆጣጠሪያ ንዝረትን እና ተለዋዋጭ ቀስቅሴዎችን ያዋቅሩ።</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>ይህ ክላሲክ Roblox ደንበኛ ያስፈልገዋል Microsoft Visual C++ 2005 Redistributable (x86). ለመቀጠል ከ Microsoft ይጫኑት?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) በማውረድ ላይ</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) በመጫን ላይ</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ይህን ክላሲክ ደንበኛ መጫን አልቻለም። Microsoft Visual C++ 2005 Redistributable (x86) ከ Microsoft ይጫኑ ወይም ይጠግኑ፣ ከዚያ እንደገና ይሞክሩ።</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ይህን ጨዋታ መቀላቀል እንደሚፈልጉ እርግጠኛ ነዎት?</value>
   </data>

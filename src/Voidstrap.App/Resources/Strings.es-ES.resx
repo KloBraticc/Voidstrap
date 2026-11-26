@@ -10699,6 +10699,18 @@ Jugadores: {2}</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configure la vibración del controlador y los disparadores adaptativos.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Este cliente clásico de Roblox necesita el Microsoft Visual C++ 2005 Redistributable (x86). ¿Quieres instalarlo desde el sitio web de Microsoft para continuar?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Descargando el Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Instalando el Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows no ha podido cargar este cliente clásico. Instala o repara el Microsoft Visual C++ 2005 Redistributable (x86) desde el sitio web de Microsoft y vuelve a intentarlo.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>¿Seguro que quieres unirte a esta partida?</value>
   </data>

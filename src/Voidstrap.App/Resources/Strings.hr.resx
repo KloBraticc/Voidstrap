@@ -10700,6 +10700,18 @@ Instalirati SteamVR sada?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurirajte vibraciju upravljača i prilagodljive okidače.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Ovaj klasični Roblox klijent treba Microsoft Visual C++ 2005 Redistributable (x86). Želite li ga instalirati s Microsoft za nastavak?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Preuzimanje Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Instalacija Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows nije mogao učitati ovog klasičnog klijenta. Instalirajte ili popravite Microsoft Visual C++ 2005 Redistributable (x86) iz Microsoft, a zatim pokušajte ponovno.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Jesi li siguran da se želiš pridružiti ovoj igri?</value>
   </data>

@@ -10699,6 +10699,18 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Denetleyici titreşimini ve uyarlanabilir tetikleyicileri yapılandırın.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Bu klasik Roblox istemcisinin Microsoft Visual C++ 2005 Redistributable (x86)'a ihtiyacı var. Devam etmek için Microsoft'dan yüklensin mi?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86)'u indirme</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86)'u yükleme</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows bu klasik istemciyi yükleyemedi. Microsoft'dan Microsoft Visual C++ 2005 Redistributable (x86)'u kurun veya onarın, ardından tekrar deneyin.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bu oyuna katılmak istediğinizden emin misiniz?</value>
   </data>

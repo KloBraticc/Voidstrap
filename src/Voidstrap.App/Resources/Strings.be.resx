@@ -10389,6 +10389,18 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Наладзьце вібрацыю кантролера і адаптыўныя трыгеры.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Гэтаму класічнаму кліенту Roblox патрэбны Microsoft Visual C++ 2005 Redistributable (x86). Усталяваць яго з Microsoft, каб працягнуць?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Спампоўваецца Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Усталёўваецца Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows не можа загрузіць гэты класічны кліент. Усталюйце або адрамантуйце Microsoft Visual C++ 2005 Redistributable (x86) з Microsoft, затым паўтарыце спробу.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Вы ўпэўнены, што хочаце далучыцца да гэтай гульні?</value>
   </data>

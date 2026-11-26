@@ -10390,6 +10390,18 @@ Uptime: {1}
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>კონტროლერის ვიბრაციის და ადაპტური ტრიგერების კონფიგურაცია.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>ამ კლასიკურ Roblox კლიენტს სჭირდება Microsoft Visual C++ 2005 Redistributable (x86). დააინსტალიროთ Microsoft-დან გასაგრძელებლად?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86)-ის ჩამოტვირთვა</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86)-ის ინსტალაცია</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ვერ ჩაიტვირთა ეს კლასიკური კლიენტი. დააინსტალირეთ ან შეაკეთეთ Microsoft Visual C++ 2005 Redistributable (x86) Microsoft-დან, შემდეგ სცადეთ ხელახლა.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>დარწმუნებული ხართ, რომ გსურთ ამ თამაშში ჩართვა?</value>
   </data>

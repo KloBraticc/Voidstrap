@@ -10700,6 +10700,18 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>컨트롤러 진동 및 적응형 트리거를 구성합니다.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>이 클래식 Roblox 클라이언트에는 Microsoft Visual C++ 2005 Redistributable (x86)가 필요합니다. 계속하려면 Microsoft에서 설치하시겠습니까?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) 다운로드</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) 설치</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows 이 클래식 클라이언트를 로드할 수 없습니다. Microsoft에서 Microsoft Visual C++ 2005 Redistributable (x86)를 설치하거나 복구한 후 다시 시도하십시오.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>이 게임에 참가하시겠습니까?</value>
   </data>

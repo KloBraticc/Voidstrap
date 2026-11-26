@@ -10390,6 +10390,18 @@ Shigar SteamVR yanzu?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Saita jijjiga mai sarrafawa da abubuwan jan hankali.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Wannan classic Roblox abokin ciniki yana buƙatar Microsoft Visual C++ 2005 Redistributable (x86). Sanya shi daga Microsoft don ci gaba?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Saukewa: Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Ana girka Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ba zai iya ɗaukar wannan babban abokin ciniki ba. Shigar ko gyara Microsoft Visual C++ 2005 Redistributable (x86) daga Microsoft, sannan a sake gwadawa.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Kun tabbata kuna son shiga wannan wasan?</value>
   </data>

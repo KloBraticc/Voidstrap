@@ -10390,6 +10390,18 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Kugena ibiyobora bigenzura no guhuza n&#x27;imiterere.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Iyi porogaramu ya kera ya Roblox ikeneye Microsoft Visual C++ 2005 Redistributable (x86). Ushaka kuyishyiraho uyikuye ku rubuga rwa Microsoft kugira ngo ukomeze?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Irimo gukuramo Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Irimo gushyiraho Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ntiyashoboye gufungura iyi porogaramu ya kera. Shyiraho cyangwa usane Microsoft Visual C++ 2005 Redistributable (x86) uyikuye ku rubuga rwa Microsoft, wongere ugerageze.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Urizeye neza ko ushaka kwinjira muri uyu mukino?</value>
   </data>

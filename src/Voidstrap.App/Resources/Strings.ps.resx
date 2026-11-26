@@ -10390,6 +10390,18 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>د کنټرولر کمپن او تطابق محرکونه تنظیم کړئ.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>دا کلاسیک Roblox پیرودونکي Microsoft Visual C++ 2005 Redistributable (x86) ته اړتیا لري. د دوام لپاره یې له Microsoft څخه نصب کړئ؟</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ډاونلوډ کړئ</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>د Microsoft Visual C++ 2005 Redistributable (x86) نصب کول</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows نشي کولی دا کلاسیک پیرودونکي پورته کړي. له Microsoft څخه Microsoft Visual C++ 2005 Redistributable (x86) نصب یا ترمیم کړئ، بیا بیا هڅه وکړئ.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ایا ډاډه یاست چې غواړئ په دې لوبه کې ګډون وکړئ؟</value>
   </data>

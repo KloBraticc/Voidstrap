@@ -10389,6 +10389,18 @@ Kas installida SteamVR kohe?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Seadistage kontrolleri vibratsioon ja adaptiivsed päästikud.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>See Roblox’i klassikaline klient vajab paketti Microsoft Visual C++ 2005 Redistributable (x86). Kas soovid selle jätkamiseks Microsofti veebisaidilt installida?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) laaditakse alla</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) installimine</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ei saanud seda klassikalist klienti laadida. Installi või paranda pakett Microsoft Visual C++ 2005 Redistributable (x86) Microsofti veebisaidilt ja proovi uuesti.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Kas soovid kindlasti selle mänguga liituda?</value>
   </data>

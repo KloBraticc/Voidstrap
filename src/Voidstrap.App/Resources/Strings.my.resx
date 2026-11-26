@@ -10389,6 +10389,18 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ထိန်းချုပ်ကိရိယာတုန်ခါမှုနှင့် လိုက်လျောညီထွေဖြစ်စေသော အစပျိုးမှုများကို စီစဉ်သတ်မှတ်ပါ။</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>ဤဂန္ထဝင် Roblox အသုံးပြုသူသည် Microsoft Visual C++ 2005 Redistributable (x86) လိုအပ်ပါသည်။ ဆက်လုပ်ရန် ၎င်းကို Microsoft မှ ထည့်သွင်းမလား။</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ကို ဒေါင်းလုပ်ဆွဲနေသည်။</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ကို တပ်ဆင်ခြင်း။</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows သည် ဤဂန္ထဝင် ကလိုင်းယင့်ကို ဖွင့်၍မရပါ။ Microsoft မှ Microsoft Visual C++ 2005 Redistributable (x86) ကို ထည့်သွင်း သို့မဟုတ် ပြုပြင်ပါ၊ ထို့နောက် ထပ်စမ်းကြည့်ပါ။</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ဒီဂိမ်းမှာ ပါဝင်ဖို့ သေချာပါသလား။</value>
   </data>

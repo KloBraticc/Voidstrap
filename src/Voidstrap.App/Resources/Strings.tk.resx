@@ -10389,6 +10389,18 @@ Indi SteamVR guruň?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Dolandyryjy titremäni we uýgunlaşdyrylan triggerleri sazlaň.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Bu klassik Roblox müşderä Microsoft Visual C++ 2005 Redistributable (x86) gerek. Dowam etmek üçin Microsoft-dan guruň?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ýüklemek</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) gurmak</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows bu klassiki müşderini ýükläp bilmedi. Microsoft-dan Microsoft Visual C++ 2005 Redistributable (x86) guruň ýa-da bejeriň, soňra gaýtadan synanyşyň.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bu oýna goşulmak isleýändigiňize ynamyňyz barmy?</value>
   </data>

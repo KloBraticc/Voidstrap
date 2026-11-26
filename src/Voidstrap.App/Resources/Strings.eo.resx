@@ -10389,6 +10389,18 @@ Ludantoj: {2}</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Agordi regilon-vibradon kaj adaptajn ellasilon.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Ĉi tiu klasika Roblox-kliento bezonas la Microsoft Visual C++ 2005 Redistributable (x86). Ĉu instali ĝin de Microsoft por daŭrigi?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Elŝutante la Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Instalante la Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ne povis ŝargi ĉi tiun klasikan klienton. Instalu aŭ riparu la Microsoft Visual C++ 2005 Redistributable (x86) de Microsoft, tiam provu denove.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ĉu vi certas, ke vi volas aliĝi al ĉi tiu ludo?</value>
   </data>

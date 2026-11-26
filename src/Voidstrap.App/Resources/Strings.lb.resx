@@ -10390,6 +10390,18 @@ SteamVR elo installéieren?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configuréieren Controller Vibration an adaptiven Ausléiser.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Dëse klassesche Roblox Client brauch den Microsoft Visual C++ 2005 Redistributable (x86). Installéiert et aus Microsoft fir weiderzemaachen?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Luet den Microsoft Visual C++ 2005 Redistributable (x86) erof</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Installatioun vum Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows konnt dëse klassesche Client net lueden. Installéiert oder reparéiert den Microsoft Visual C++ 2005 Redistributable (x86) vum Microsoft, probéiert dann nach eng Kéier.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bass du sécher, datt s du bei dësem Spill matmaache wëlls?</value>
   </data>

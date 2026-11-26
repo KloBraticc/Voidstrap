@@ -10389,6 +10389,18 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Ffurfweddu dirgryniad rheolydd a sbardunau addasol.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Mae angen yr Microsoft Visual C++ 2005 Redistributable (x86) ar y cleient clasurol Roblox hwn. Ei osod o Microsoft i barhau?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Wrthi'n lawrlwytho'r Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Gosod yr Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Ni allai Windows lwytho'r cleient clasurol hwn. Gosod neu atgyweirio'r Microsoft Visual C++ 2005 Redistributable (x86) o Microsoft, yna ceisiwch eto.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ydych chi'n siŵr eich bod chi am ymuno â'r gêm hon?</value>
   </data>

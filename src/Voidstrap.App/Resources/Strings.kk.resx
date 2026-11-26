@@ -10390,6 +10390,18 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Контроллердің дірілі мен бейімделу триггерлерін конфигурациялаңыз.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Бұл классикалық Roblox клиентіне Microsoft Visual C++ 2005 Redistributable (x86) пакеті қажет. Жалғастыру үшін оны Microsoft веб-сайтынан орнатқыңыз келе ме?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) жүктеп алынуда</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) орнату</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows осы классикалық клиентті жүктей алмады. Microsoft веб-сайтынан Microsoft Visual C++ 2005 Redistributable (x86) пакетін орнатыңыз немесе қалпына келтіріңіз, содан кейін қайталап көріңіз.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Осы ойынға қосылғыңыз келетініне сенімдісіз бе?</value>
   </data>

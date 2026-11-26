@@ -10390,6 +10390,18 @@ Suiteáil SteamVR anois?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Cumraigh creathadh rialaitheoir agus truicear oiriúnaitheach.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Tá an Microsoft Visual C++ 2005 Redistributable (x86) ag teastáil ón gcliant clasaiceach seo Roblox. Suiteáil é ó Microsoft chun leanúint ar aghaidh?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>An Microsoft Visual C++ 2005 Redistributable (x86) á íoslódáil</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>An Microsoft Visual C++ 2005 Redistributable (x86) á shuiteáil</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Níorbh fhéidir le Windows an cliant clasaiceach seo a luchtú. Suiteáil nó deisigh an Microsoft Visual C++ 2005 Redistributable (x86) ó Microsoft, ansin bain triail eile as.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>An bhfuil tú cinnte gur mhaith leat páirt a ghlacadh sa chluiche seo?</value>
   </data>

@@ -10390,6 +10390,18 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Whirihorahia te wiri kaiwhakahaere me nga keu urutau.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Kei te hiahia tenei kiritaki Roblox matarohia te Microsoft Visual C++ 2005 Redistributable (x86). Tāutahia mai i te Microsoft kia haere tonu?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Tikiake ana i te Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Te whakauru i te Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Kāore i taea e Windows te uta i tēnei kiritaki matarohia. Tāutahia, whakatikahia rānei te Microsoft Visual C++ 2005 Redistributable (x86) mai i te Microsoft, ka ngana anō.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>E tino hiahia ana koe ki te uru atu ki tēnei kēmu?</value>
   </data>

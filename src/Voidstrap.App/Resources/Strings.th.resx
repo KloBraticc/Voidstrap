@@ -10699,6 +10699,18 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>กำหนดค่าการสั่นของคอนโทรลเลอร์และทริกเกอร์แบบปรับได้</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>ไคลเอ็นต์ Roblox แบบคลาสสิกนี้ต้องการ Microsoft Visual C++ 2005 Redistributable (x86) ติดตั้งจาก Microsoft เพื่อดำเนินการต่อหรือไม่</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>กำลังดาวน์โหลด Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>การติดตั้ง Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ไม่สามารถโหลดไคลเอ็นต์แบบคลาสสิกนี้ได้ ติดตั้งหรือซ่อมแซม Microsoft Visual C++ 2005 Redistributable (x86) จาก Microsoft แล้วลองอีกครั้ง</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>คุณแน่ใจหรือไม่ว่าต้องการเข้าร่วมเกมนี้?</value>
   </data>

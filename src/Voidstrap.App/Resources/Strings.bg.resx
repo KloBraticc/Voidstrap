@@ -10699,6 +10699,18 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Конфигурирайте вибрациите на контролера и адаптивните тригери.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Този класически клиент Roblox се нуждае от Microsoft Visual C++ 2005 Redistributable (x86). Инсталирайте го от Microsoft, за да продължите?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Изтегляне на Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Инсталиране на Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows не можа да зареди този класически клиент. Инсталирайте или поправете Microsoft Visual C++ 2005 Redistributable (x86) от Microsoft, след което опитайте отново.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Сигурни ли сте, че искате да се присъедините към тази игра?</value>
   </data>

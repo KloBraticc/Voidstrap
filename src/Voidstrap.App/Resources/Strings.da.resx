@@ -10389,6 +10389,18 @@ Installer SteamVR nu?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Konfigurer controllervibration og adaptive triggere.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Denne klassiske Roblox-klient har brug for Microsoft Visual C++ 2005 Redistributable (x86). Installer den fra Microsoft for at fortsætte?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Downloader Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Installation af Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows kunne ikke indlæse denne klassiske klient. Installer eller reparer Microsoft Visual C++ 2005 Redistributable (x86) fra Microsoft, og prøv derefter igen.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Er du sikker på, at du vil deltage i dette spil?</value>
   </data>

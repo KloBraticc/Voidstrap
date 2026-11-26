@@ -10390,6 +10390,18 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Хянагчийн чичиргээ болон дасан зохицох гохыг тохируулах.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Энэхүү сонгодог Roblox үйлчлүүлэгчид Microsoft Visual C++ 2005 Redistributable (x86) хэрэгтэй байна. Үргэлжлүүлэхийн тулд үүнийг Microsoft-с суулгана уу?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) татаж авч байна</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86)-ийг суулгаж байна</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows энэ сонгодог үйлчлүүлэгчийг ачаалж чадсангүй. Microsoft-ээс Microsoft Visual C++ 2005 Redistributable (x86)-г суулгаж, засаад дахин оролдоно уу.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Та энэ тоглоомд нэгдэхийг үнэхээр хүсэж байна уу?</value>
   </data>

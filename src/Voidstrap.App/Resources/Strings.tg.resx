@@ -10389,6 +10389,18 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Вибрацияи контроллер ва триггерҳои мутобиқшавандаро танзим кунед.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>Ин муштарии классикии Roblox ба Microsoft Visual C++ 2005 Redistributable (x86) ниёз дорад. Барои идома додани он аз Microsoft насб кунед?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Зеркашӣ кардани Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Насб кардани Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ин муштарии классикиро бор карда натавонист. Microsoft Visual C++ 2005 Redistributable (x86)-ро аз Microsoft насб кунед ё таъмир кунед, пас аз нав кӯшиш кунед.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Мутмаин ҳастед, ки мехоҳед ба ин бозӣ ҳамроҳ шавед?</value>
   </data>

@@ -10390,6 +10390,18 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ڪنٽرولر وائبريشن ۽ موافقت واري ٽارگيٽ کي ترتيب ڏيو.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>هن کلاسک Roblox ڪلائنٽ کي Microsoft Visual C++ 2005 Redistributable (x86) جي ضرورت آهي. جاري رکڻ لاءِ Microsoft کان انسٽال ڪريو؟</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) ڊائون لوڊ ڪريو</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>Microsoft Visual C++ 2005 Redistributable (x86) انسٽال ڪريو</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows هن کلاسک ڪلائنٽ کي لوڊ نه ڪري سگهيو. انسٽال ڪريو يا مرمت ڪريو Microsoft Visual C++ 2005 Redistributable (x86) مان Microsoft، وري ڪوشش ڪريو.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ڇا توهان کي پڪ آهي ته توهان هن راند ۾ شامل ٿيڻ چاهيو ٿا؟</value>
   </data>

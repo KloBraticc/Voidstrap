@@ -10390,6 +10390,18 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>កំណត់រចនាសម្ព័ន្ធរំញ័ររបស់ឧបករណ៍បញ្ជា និងកេះអាដាប់ធ័រ។</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>កម្មវិធី Roblox ជំនាន់ចាស់នេះត្រូវការ Microsoft Visual C++ 2005 Redistributable (x86)។ តើអ្នកចង់ដំឡើងវាពីគេហទំព័រ Microsoft ដើម្បីបន្តឬ?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>កំពុងទាញយក Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>កំពុងដំឡើង Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows មិនអាចផ្ទុកម៉ាស៊ីនភ្ញៀវបុរាណនេះបានទេ។ ដំឡើង ឬជួសជុល Microsoft Visual C++ 2005 Redistributable (x86) ពី Microsoft បន្ទាប់មកព្យាយាមម្តងទៀត។</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>តើអ្នកប្រាកដថាចង់ចូលរួមក្នុងហ្គេមនេះឬ?</value>
   </data>

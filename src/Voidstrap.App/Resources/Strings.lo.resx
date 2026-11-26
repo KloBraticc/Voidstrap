@@ -10390,6 +10390,18 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>ຕັ້ງຄ່າການສັ່ນສະເທືອນຂອງຕົວຄວບຄຸມ ແລະກະຕຸ້ນການປັບຕົວ.</value>
   </data>
+  <data name="ClassicClients.VisualCpp.InstallPrompt" xml:space="preserve">
+    <value>ລູກຄ້າ Roblox ຄລາສສິກນີ້ຕ້ອງການ Microsoft Visual C++ 2005 Redistributable (x86). ຕິດຕັ້ງມັນຈາກ Microsoft ເພື່ອສືບຕໍ່?</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Downloading" xml:space="preserve">
+    <value>ດາວໂຫຼດ Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.Installing" xml:space="preserve">
+    <value>ຕິດຕັ້ງ Microsoft Visual C++ 2005 Redistributable (x86)</value>
+  </data>
+  <data name="ClassicClients.VisualCpp.InstallFailed" xml:space="preserve">
+    <value>Windows ບໍ່ສາມາດໂຫຼດລູກຄ້າຄລາສສິກນີ້ໄດ້. ຕິດຕັ້ງ ຫຼືສ້ອມແປງ Microsoft Visual C++ 2005 Redistributable (x86) ຈາກ Microsoft, ຈາກນັ້ນລອງອີກຄັ້ງ.</value>
+  </data>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ທ່ານແນ່ໃຈບໍວ່າຕ້ອງການເຂົ້າຮ່ວມເກມນີ້?</value>
   </data>
