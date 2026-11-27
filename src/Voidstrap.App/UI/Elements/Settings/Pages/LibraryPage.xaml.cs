@@ -294,7 +294,12 @@ public partial class LibraryPage : UiPage
 
     private void DashboardScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
     {
-        if (e.ExtentHeight <= 0)
+        if (!ReferenceEquals(e.OriginalSource, DashboardScroll))
+            return;
+
+        bool needsContentToScroll = (e.ExtentHeightChange > 0 || e.ViewportHeightChange > 0)
+            && e.ExtentHeight > 0 && e.ExtentHeight <= e.ViewportHeight;
+        if (e.VerticalChange <= 0 && !needsContentToScroll)
             return;
         if (e.VerticalOffset + e.ViewportHeight >= e.ExtentHeight - 480)
             _viewModel.LoadMoreGames();

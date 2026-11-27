@@ -5,6 +5,27 @@
         <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Controls/ServerCardResources.xaml" />
       </ResourceDictionary.MergedDictionaries>
       <BooleanToVisibilityConverter x:Key="BoolToVis" />
+      <Style x:Key="LibraryShelfStyle" TargetType="{x:Type ItemsControl}">
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
+        <Setter Property="ItemsPanel">
+          <Setter.Value>
+            <ItemsPanelTemplate>
+              <VirtualizingStackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type ItemsControl}">
+              <ui:DynamicScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
+                <ItemsPresenter />
+              </ui:DynamicScrollViewer>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
       <ContextMenu x:Key="GameContextMenu" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}" Opened="GameContextMenu_Opened">
         <MenuItem Header="{resources:Loc Ui_Pages_Play}" Command="{Binding Tag.LaunchCommand}" CommandParameter="{Binding DataContext}">
           <MenuItem.Icon>
@@ -244,7 +265,7 @@
           <ui:Button Width="34" Height="34" Padding="0" VerticalAlignment="Center" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc Ui_Pages_RefreshLibrary}" AutomationProperties.Name="{resources:Loc Ui_Pages_RefreshLibrary}" Command="{Binding RefreshCommand}" />
         </Grid>
       </Grid>
-      <ListBox x:Name="SidebarList" Grid.Row="3" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Source={StaticResource SidebarGamesView}}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+      <ListBox x:Name="SidebarList" Grid.Row="3" ScrollViewer.CanContentScroll="True" VirtualizingPanel.CacheLength="0" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Source={StaticResource SidebarGamesView}}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
         <ListBox.GroupStyle>
           <GroupStyle>
             <GroupStyle.ContainerStyle>
@@ -307,50 +328,14 @@
                             </ControlTemplate>
                           </ToggleButton.Template>
                         </ToggleButton>
-                        <Border x:Name="GroupItemsHost" Opacity="1">
-                          <Border.LayoutTransform>
-                            <ScaleTransform ScaleY="1" />
-                          </Border.LayoutTransform>
-                          <ItemsPresenter Margin="0,4,0,4" />
-                        </Border>
+                        <ItemsPresenter x:Name="GroupItemsHost" Margin="0,4,0,4" />
                       </StackPanel>
                       <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
                           <Setter TargetName="GroupRoot" Property="Margin" Value="0" />
                         </DataTrigger>
                         <Trigger SourceName="GroupToggle" Property="IsChecked" Value="False">
-                          <Trigger.EnterActions>
-                            <BeginStoryboard>
-                              <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(UIElement.Opacity)" To="0" Duration="0:0:0.14">
-                                  <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                  </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" To="0" Duration="0:0:0.22">
-                                  <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseInOut" />
-                                  </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                              </Storyboard>
-                            </BeginStoryboard>
-                          </Trigger.EnterActions>
-                          <Trigger.ExitActions>
-                            <BeginStoryboard>
-                              <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.22">
-                                  <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseInOut" />
-                                  </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(UIElement.Opacity)" To="1" BeginTime="0:0:0.08" Duration="0:0:0.16">
-                                  <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                  </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                              </Storyboard>
-                            </BeginStoryboard>
-                          </Trigger.ExitActions>
+                          <Setter TargetName="GroupItemsHost" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                       </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -466,117 +451,96 @@
 
           <StackPanel Visibility="{Binding EventsVisibility}" Margin="0,4,0,24">
             <TextBlock Margin="2,0,0,10" FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_Pages_Events}" />
-            <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
-              <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding Events}">
-                <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                  </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                    <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,12,8" ToolTip="{resources:Loc Ui_Pages_ViewEvent}"
-                            Command="{Binding DataContext.OpenEventCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                            CommandParameter="{Binding}">
-                      <StackPanel>
-                        <Grid Height="138" ClipToBounds="True">
-                          <Image util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
-                          <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8"
-                                  CornerRadius="10" Padding="8,3"
-                                  Background="#CC101010">
-                            <TextBlock Text="{Binding StartDisplay}" FontSize="11" FontWeight="SemiBold" Foreground="White" />
-                          </Border>
-                        </Grid>
-                        <StackPanel Margin="10,8,10,10">
-                          <TextBlock FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
-                                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" ToolTip="{Binding Title}" />
-                          <TextBlock Margin="0,2,0,0" FontSize="11" TextTrimming="CharacterEllipsis"
-                                     Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding SubtitleDisplay}" />
-                        </StackPanel>
+            <ItemsControl Style="{StaticResource LibraryShelfStyle}" ItemsSource="{Binding Events}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,12,8" ToolTip="{resources:Loc Ui_Pages_ViewEvent}"
+                          Command="{Binding DataContext.OpenEventCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                          CommandParameter="{Binding}">
+                    <StackPanel>
+                      <Grid Height="138" ClipToBounds="True">
+                        <Image util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+                        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8"
+                                CornerRadius="10" Padding="8,3"
+                                Background="#CC101010">
+                          <TextBlock Text="{Binding StartDisplay}" FontSize="11" FontWeight="SemiBold" Foreground="White" />
+                        </Border>
+                      </Grid>
+                      <StackPanel Margin="10,8,10,10">
+                        <TextBlock FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
+                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Title}" ToolTip="{Binding Title}" />
+                        <TextBlock Margin="0,2,0,0" FontSize="11" TextTrimming="CharacterEllipsis"
+                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding SubtitleDisplay}" />
                       </StackPanel>
-                    </Button>
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
-            </ui:DynamicScrollViewer>
+                    </StackPanel>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
           </StackPanel>
 
           <StackPanel Visibility="{Binding WhatsNewVisibility}" Margin="0,0,0,24">
             <TextBlock Margin="2,0,0,10" FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_Pages_WhatSNew}" />
-            <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
-              <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding WhatsNew}">
-                <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                  </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                    <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,12,8" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
-                      <StackPanel>
-                        <Border Height="138" ClipToBounds="True">
-                          <Grid>
-                            <Image util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
-                            <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6" CornerRadius="6" Padding="8,3" Background="#CC101010" ToolTip="{Binding PriceTooltip}" Visibility="{Binding PriceVisibility}">
-                              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Path Width="11" Height="12" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding RobuxIconVisibility}" />
-                                <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="12" Foreground="White" VerticalAlignment="Center" Visibility="{Binding PurchasedIconVisibility}" />
-                                <TextBlock Margin="4,0,0,0" FontSize="11" FontWeight="SemiBold" Foreground="White" Text="{Binding PriceBadgeText}" VerticalAlignment="Center" />
-                              </StackPanel>
-                            </Border>
-                          </Grid>
-                        </Border>
-                        <StackPanel Margin="10,8,10,10">
-                          <TextBlock FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
-                          <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding UpdatedAgoDisplay}" />
-                        </StackPanel>
+            <ItemsControl Style="{StaticResource LibraryShelfStyle}" ItemsSource="{Binding WhatsNew}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,12,8" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                    <StackPanel>
+                      <Border Height="138" ClipToBounds="True">
+                        <Grid>
+                          <Image util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+                          <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6" CornerRadius="6" Padding="8,3" Background="#CC101010" ToolTip="{Binding PriceTooltip}" Visibility="{Binding PriceVisibility}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                              <Path Width="11" Height="12" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding RobuxIconVisibility}" />
+                              <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="12" Foreground="White" VerticalAlignment="Center" Visibility="{Binding PurchasedIconVisibility}" />
+                              <TextBlock Margin="4,0,0,0" FontSize="11" FontWeight="SemiBold" Foreground="White" Text="{Binding PriceBadgeText}" VerticalAlignment="Center" />
+                            </StackPanel>
+                          </Border>
+                        </Grid>
+                      </Border>
+                      <StackPanel Margin="10,8,10,10">
+                        <TextBlock FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
+                        <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding UpdatedAgoDisplay}" />
                       </StackPanel>
-                    </Button>
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
-            </ui:DynamicScrollViewer>
+                    </StackPanel>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
           </StackPanel>
 
           <StackPanel Margin="0,0,0,24" Visibility="{Binding RecentVisibility}">
             <TextBlock Margin="2,0,0,10" FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_Pages_RecentGames}" />
-            <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
-              <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding RecentGames}">
-                <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                  </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                    <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,12,8" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
-                      <StackPanel>
-                        <Border Height="138" ClipToBounds="True">
-                          <Grid>
-                            <Image util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
-                            <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6" CornerRadius="6" Padding="8,3" Background="#CC101010" ToolTip="{Binding PriceTooltip}" Visibility="{Binding PriceVisibility}">
-                              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Path Width="11" Height="12" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding RobuxIconVisibility}" />
-                                <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="12" Foreground="White" VerticalAlignment="Center" Visibility="{Binding PurchasedIconVisibility}" />
-                                <TextBlock Margin="4,0,0,0" FontSize="11" FontWeight="SemiBold" Foreground="White" Text="{Binding PriceBadgeText}" VerticalAlignment="Center" />
-                              </StackPanel>
-                            </Border>
-                          </Grid>
-                        </Border>
-                        <StackPanel Margin="10,8,10,10">
-                          <TextBlock FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
-                          <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding LastPlayedDisplay}" />
-                          <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                                     Visibility="{Binding SessionsPlayedVisibility}" TextTrimming="CharacterEllipsis">
-                            <Run Text="{resources:Loc Library_SessionsPlayed}" /><Run Text=" · " /><Run Text="{Binding SessionsPlayedDisplay, Mode=OneWay}" />
-                          </TextBlock>
-                        </StackPanel>
+            <ItemsControl Style="{StaticResource LibraryShelfStyle}" ItemsSource="{Binding RecentGames}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Button Style="{StaticResource ShelfCardButton}" Width="246" Margin="0,0,12,8" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                    <StackPanel>
+                      <Border Height="138" ClipToBounds="True">
+                        <Grid>
+                          <Image util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+                          <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6" CornerRadius="6" Padding="8,3" Background="#CC101010" ToolTip="{Binding PriceTooltip}" Visibility="{Binding PriceVisibility}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                              <Path Width="11" Height="12" Stretch="Uniform" VerticalAlignment="Center" Fill="{StaticResource RobuxGoldBrush}" Data="{StaticResource RobuxGoldGeometry}" Visibility="{Binding RobuxIconVisibility}" />
+                              <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="12" Foreground="White" VerticalAlignment="Center" Visibility="{Binding PurchasedIconVisibility}" />
+                              <TextBlock Margin="4,0,0,0" FontSize="11" FontWeight="SemiBold" Foreground="White" Text="{Binding PriceBadgeText}" VerticalAlignment="Center" />
+                            </StackPanel>
+                          </Border>
+                        </Grid>
+                      </Border>
+                      <StackPanel Margin="10,8,10,10">
+                        <TextBlock FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
+                        <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding LastPlayedDisplay}" />
+                        <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                   Visibility="{Binding SessionsPlayedVisibility}" TextTrimming="CharacterEllipsis">
+                          <Run Text="{resources:Loc Library_SessionsPlayed}" /><Run Text=" · " /><Run Text="{Binding SessionsPlayedDisplay, Mode=OneWay}" />
+                        </TextBlock>
                       </StackPanel>
-                    </Button>
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
-            </ui:DynamicScrollViewer>
+                    </StackPanel>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
           </StackPanel>
 
           <StackPanel>
