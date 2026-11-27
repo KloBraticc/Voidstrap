@@ -735,27 +735,38 @@ public static class LaunchHandler
             CloseOtherInstances();
         }
         App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Initializing bootstrapper");
-        App.Bootstrapper = new Bootstrapper(launchMode);
+        Bootstrapper bootstrapper = new(launchMode) { CancellationHandledByCaller = true };
+        App.Bootstrapper = bootstrapper;
         IBootstrapperDialog? bootstrapperDialog = null;
         if (!App.LaunchSettings.QuietFlag.Active && !flag2)
         {
             App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Initializing bootstrapper dialog");
             bootstrapperDialog = App.Settings.Prop.BootstrapperStyle.GetNew();
-            App.Bootstrapper.Dialog = bootstrapperDialog;
-            bootstrapperDialog.Bootstrapper = App.Bootstrapper;
+            bootstrapper.Dialog = bootstrapperDialog;
+            bootstrapperDialog.Bootstrapper = bootstrapper;
         }
         if (App.Settings.Prop.ExclusiveFullscreen && Voidstrap.Utility.Platform.IsWindows)
         {
-            _ = RobloxFullscreen.WaitAndTriggerFullscreenAsync(App.Bootstrapper.CancellationToken);
+            _ = RobloxFullscreen.WaitAndTriggerFullscreenAsync(bootstrapper.CancellationToken);
         }
-        Task.Run((Func<Task?>)App.Bootstrapper.Run)
+        Task.Run(bootstrapper.Run)
             .ContinueWith(
                 delegate (Task t)
                 {
                     App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Bootstrapper task has finished");
                     try
                     {
-                        if (t.IsFaulted)
+                        if (bootstrapper.UserRequestedCancellation)
+                        {
+                            bootstrapper.StopCancelledLaunch();
+                            try
+                            {
+                                bootstrapperDialog?.CloseBootstrapper();
+                            }
+                            catch (InvalidOperationException) { }
+                            Watcher.ReopenHomeIfEnabled("Roblox launch cancelled");
+                        }
+                        else if (t.IsFaulted)
                         {
                             App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "An exception occurred when running the bootstrapper");
                             if (t.Exception != null)
@@ -766,7 +777,7 @@ public static class LaunchHandler
                     }
                     finally
                     {
-                        App.SoftTerminate();
+                        App.SoftTerminate(bootstrapper.UserRequestedCancellation ? ErrorCode.ERROR_CANCELLED : ErrorCode.ERROR_SUCCESS);
                     }
                 }
             );

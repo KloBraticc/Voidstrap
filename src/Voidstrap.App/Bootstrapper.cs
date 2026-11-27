@@ -67,6 +67,10 @@ public partial class Bootstrapper
 
     public bool IsCancelled => _cancelTokenSource.IsCancellationRequested;
 
+    private int _userRequestedCancellation;
+
+    internal bool UserRequestedCancellation => Volatile.Read(ref _userRequestedCancellation) != 0;
+
     private bool ReinstallRequested => ForceReinstall || App.Settings.Prop.ForceRobloxReinstall;
 
     private bool UseVng => AppData is RobloxPlayerData { UseVng: true };
@@ -1119,7 +1123,7 @@ public partial class Bootstrapper
     {
         const string LOG_IDENT = "Bootstrapper::Cancel";
 
-        if (_cancelTokenSource.IsCancellationRequested)
+        if (IsCancelled || Interlocked.Exchange(ref _userRequestedCancellation, 1) != 0)
         {
             return;
         }
@@ -1135,16 +1139,24 @@ public partial class Bootstrapper
             _ = FinishInstallCancellationAsync();
             return;
         }
-        if (_appPid != 0)
-        {
-            try
-            {
-                using Process process = Process.GetProcessById(_appPid);
-                process.Kill();
-            }
-            catch { }
-        }
+        StopCancelledLaunch();
         CompleteCancellation();
+    }
+
+    internal void StopCancelledLaunch()
+    {
+        if (_appPid == 0)
+            return;
+
+        try
+        {
+            using Process process = Process.GetProcessById(_appPid);
+            if (IsFromCurrentRobloxLaunch(process))
+                process.Kill();
+        }
+        catch (ArgumentException) { }
+        catch (InvalidOperationException) { }
+        catch (System.ComponentModel.Win32Exception) { }
     }
 
     private async Task FinishInstallCancellationAsync()

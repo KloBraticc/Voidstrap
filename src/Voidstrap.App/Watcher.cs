@@ -1093,12 +1093,16 @@ public partial class Watcher : IDisposable
 
     private void ReopenHomeAfterRobloxCloses()
     {
-        const string LOG_IDENT = "Watcher::ReopenHomeAfterRobloxCloses";
+        if (!_disposed && !_lifetimeCancellation.IsCancellationRequested)
+            ReopenHomeIfEnabled("Roblox closed");
+    }
+
+    internal static void ReopenHomeIfEnabled(string reason)
+    {
+        const string LOG_IDENT = "Watcher::ReopenHomeIfEnabled";
 
         if (
-            _disposed
-            || _lifetimeCancellation.IsCancellationRequested
-            || !Voidstrap.Utility.Platform.IsWindows
+            !Voidstrap.Utility.Platform.IsWindows
             || !App.Settings.Prop.ReopenAfterRobloxCloses
             || App.Settings.Prop.LaunchWithoutVoidstrap
             || App.LaunchSettings.TestModeFlag.Active
@@ -1114,7 +1118,7 @@ public partial class Watcher : IDisposable
             using Process? settingsProcess = Process.Start(startInfo);
             App.Logger.WriteLine(
                 LOG_IDENT,
-                settingsProcess == null ? "Voidstrap could not be reopened after Roblox closed" : "Roblox closed, Voidstrap reopened on the Home page"
+                settingsProcess == null ? "Voidstrap could not reopen: " + reason : reason + ", Voidstrap reopened on the Home page"
             );
         }
         catch (Exception ex)
