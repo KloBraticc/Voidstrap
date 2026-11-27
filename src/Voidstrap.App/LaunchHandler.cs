@@ -554,28 +554,34 @@ public static class LaunchHandler
 
     private static void WaitForElevationPredecessor()
     {
-        string[] args = App.LaunchSettings.Args;
-        for (int i = 0; i < args.Length - 1; i++)
+        const string LOG_IDENT = "LaunchHandler::WaitForElevationPredecessor";
+        if (!int.TryParse(App.LaunchSettings.ElevatedWaitFlag.Data, out int predecessorId)
+            || predecessorId <= 0 || predecessorId == Environment.ProcessId)
+            return;
+
+        Process[] candidates = [];
+        try
         {
-            if (!string.Equals(args[i], "-elevatedwait", StringComparison.OrdinalIgnoreCase))
+            using Process self = Process.GetCurrentProcess();
+            candidates = Process.GetProcessesByName(self.ProcessName);
+            Process? predecessor = Array.Find(candidates, process => process.Id == predecessorId);
+            if (predecessor is { HasExited: false } && predecessor.StartTime <= self.StartTime)
             {
-                continue;
+                App.Logger.WriteLine(LOG_IDENT, $"Waiting for previous instance ({predecessorId}) to exit");
+                predecessor.WaitForExit(10000);
             }
-            if (!int.TryParse(args[i + 1], out var result))
-            {
-                break;
-            }
-            try
-            {
-                using Process process = Process.GetProcessById(result);
-                App.Logger.WriteLine("LaunchHandler::WaitForElevationPredecessor", $"Waiting for previous instance ({result}) to exit");
-                process.WaitForExit(10000);
-                break;
-            }
-            catch
-            {
-                break;
-            }
+        }
+        catch (InvalidOperationException)
+        {
+        }
+        catch (System.ComponentModel.Win32Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+        }
+        finally
+        {
+            foreach (Process candidate in candidates)
+                candidate.Dispose();
         }
     }
 
