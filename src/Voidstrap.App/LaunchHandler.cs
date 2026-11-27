@@ -754,9 +754,11 @@ public static class LaunchHandler
                 delegate (Task t)
                 {
                     App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Bootstrapper task has finished");
+                    bool cancelled = bootstrapper.UserRequestedCancellation;
+                    bool keepSettingsOpen = false;
                     try
                     {
-                        if (bootstrapper.UserRequestedCancellation)
+                        if (cancelled)
                         {
                             bootstrapper.StopCancelledLaunch();
                             try
@@ -764,7 +766,12 @@ public static class LaunchHandler
                                 bootstrapperDialog?.CloseBootstrapper();
                             }
                             catch (InvalidOperationException) { }
-                            Watcher.ReopenHomeIfEnabled("Roblox launch cancelled");
+
+                            if (Application.Current is { Dispatcher.HasShutdownStarted: false } application)
+                                keepSettingsOpen = application.Dispatcher.Invoke(() =>
+                                    application.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().Any(window => window.IsVisible));
+                            if (!keepSettingsOpen)
+                                Watcher.ReopenHomeIfEnabled("Roblox launch cancelled");
                         }
                         else if (t.IsFaulted)
                         {
@@ -777,7 +784,8 @@ public static class LaunchHandler
                     }
                     finally
                     {
-                        App.SoftTerminate(bootstrapper.UserRequestedCancellation ? ErrorCode.ERROR_CANCELLED : ErrorCode.ERROR_SUCCESS);
+                        if (!keepSettingsOpen)
+                            App.SoftTerminate(cancelled ? ErrorCode.ERROR_CANCELLED : ErrorCode.ERROR_SUCCESS);
                     }
                 }
             );
