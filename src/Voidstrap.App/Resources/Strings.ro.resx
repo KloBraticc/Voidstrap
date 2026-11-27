@@ -3123,6 +3123,12 @@ Ce vrei să faci?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vă permite să răsfoiți modurile comunității. Utilizați meniul Pagini din bara de sus pentru a reveni aici.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Deschide acest meniu cu săgeata de lângă Salvare și lansare. Alegeți ce client Roblox să începeți. Bifa arată alegerea dvs. curentă. Folosiți comutatorul din partea de jos pentru a muta săgeata la dreapta.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Finalizează</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Cum mă întorc la pagina anterioară?</value>
   </data>

@@ -3153,6 +3153,12 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods を使用すると、コミュニティ MOD を閲覧できます。ここに戻るには、上部バーの「ページ」メニューを使用してください。</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>「保存して起動」の横にある矢印を使用してこのメニューを開きます。どの Roblox クライアントを開始するかを選択します。チェックマークは現在の選択を示します。下部にあるスイッチを使用して矢印を右に移動します。</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>完了</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>前のページに戻るには？</value>
   </data>

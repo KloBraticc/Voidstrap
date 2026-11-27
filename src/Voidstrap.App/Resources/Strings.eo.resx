@@ -2930,6 +2930,12 @@ Kion vi ŝatus fari?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ebligas al vi foliumi komunumajn modifojn. Uzu la Paĝojn-menuon en la supra trinkejo por reveni ĉi tien.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Malfermu ĉi tiun menuon per la sago apud Konservi kaj Lanĉi. Elektu kiun Roblox-klienton komenci. La marko montras vian nunan elekton. Uzu la ŝaltilon malsupre por movi la sagon dekstren.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Farita</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Kiel mi reiru al la antaŭa paĝo?</value>
   </data>

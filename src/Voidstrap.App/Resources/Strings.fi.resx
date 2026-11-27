@@ -3135,6 +3135,12 @@ Mitä haluat tehdä?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Modsin avulla voit selata yhteisön modeja. Palaa tänne käyttämällä yläpalkin Sivut-valikkoa.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Avaa tämä valikko Tallenna ja käynnistä -kohdan vieressä olevalla nuolella. Valitse aloitettava Roblox-asiakas. Valintamerkki näyttää nykyisen valintasi. Käytä alareunassa olevaa kytkintä siirtääksesi nuolta oikealle.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Viimeistele</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Miten palaan edelliselle sivulle?</value>
   </data>

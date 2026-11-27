@@ -2930,6 +2930,12 @@ Hva vil du gjøre?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods lar deg bla gjennom fellesskapsmods. Bruk Sider-menyen i topplinjen for å komme tilbake hit.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Åpne denne menyen med pilen ved siden av Lagre og start. Velg hvilken Roblox-klient du vil starte. Haken viser ditt nåværende valg. Bruk bryteren nederst for å flytte pilen til høyre.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Fullfør</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Hvordan går jeg tilbake til forrige side?</value>
   </data>

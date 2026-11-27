@@ -2930,6 +2930,12 @@ Nə etmək istərdiniz?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Modları icma modlarını nəzərdən keçirməyə imkan verir. Buraya qayıtmaq üçün yuxarı paneldəki Səhifələr menyusundan istifadə edin.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Saxla və Başla yanındakı ox ilə bu menyunu açın. Başlamaq üçün hansı Roblox müştərisini seçin. Yoxlama işarəsi cari seçiminizi göstərir. Oxu sağa köçürmək üçün aşağıdakı keçiddən istifadə edin.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Bitdi</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Əvvəlki səhifəyə necə qayıtmaq olar?</value>
   </data>

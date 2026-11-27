@@ -3147,6 +3147,12 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods позволяет просматривать моды сообщества. Используйте меню «Страницы» на верхней панели, чтобы вернуться сюда.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Откройте это меню с помощью стрелки рядом с надписью «Сохранить и запустить». Выберите, какой клиент Roblox запустить. Галочка показывает ваш текущий выбор. Используйте переключатель внизу, чтобы переместить стрелку вправо.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Завершить</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Как мне вернуться на предыдущую страницу?</value>
   </data>

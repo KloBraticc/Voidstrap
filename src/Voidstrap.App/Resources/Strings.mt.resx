@@ -2930,6 +2930,12 @@ X'tixtieq tagħmel?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods iħallik tfittex mods tal-komunità. Uża l-menu Paġni fil-bar ta 'fuq biex terġa' lura hawn.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Iftaħ dan il-menu bil-vleġġa ħdejn Save and Launch. Agħżel liema klijent Roblox tibda. Il-marka tal-kontroll turi l-għażla attwali tiegħek. Uża l-iswiċċ fil-qiegħ biex iċċaqlaq il-vleġġa lejn il-lemin.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Magħmul</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Kif immur lura għall-paġna ta' qabel?</value>
   </data>

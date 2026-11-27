@@ -2930,6 +2930,12 @@ Ko jūs vēlētos darīt?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ļauj pārlūkot kopienas modifikācijas. Izmantojiet izvēlni Lapas augšējā joslā, lai atgrieztos šeit.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Atveriet šo izvēlni ar bultiņu blakus Saglabāt un palaist. Izvēlieties, kuru Roblox klientu sākt. Atzīme parāda jūsu pašreizējo izvēli. Izmantojiet apakšā esošo slēdzi, lai pārvietotu bultiņu pa labi.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Pabeigt</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Kā atgriezties iepriekšējā lapā?</value>
   </data>

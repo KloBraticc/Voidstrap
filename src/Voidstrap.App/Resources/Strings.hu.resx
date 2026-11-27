@@ -3141,6 +3141,12 @@ Mit szeretnél tenni?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>A Voidstrap Mods segítségével böngészhet a közösségi modok között. Használja a felső sáv Oldalak menüjét, hogy visszatérjen ide.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Nyissa meg ezt a menüt a Mentés és indítás melletti nyíllal. Válassza ki, hogy melyik Roblox klienst szeretné elindítani. A pipa mutatja az aktuális választást. Az alsó kapcsolóval mozgassa a nyilat jobbra.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Befejezés</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Hogyan tudok visszalépni az előző oldalra?</value>
   </data>

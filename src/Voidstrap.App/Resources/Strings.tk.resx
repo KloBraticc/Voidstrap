@@ -2930,6 +2930,12 @@ Näme etmek isleýärsiňiz?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>“Voidstrap Mods” jemgyýetçilik modalaryna göz aýlamaga mümkinçilik berýär. Bu ýere gaýdyp gelmek üçin ýokarky setirdäki Sahypalar menýusyny ulanyň.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Saklamak we Işletmek gapdalyndaky ok bilen bu menýuny açyň. Haýsy Roblox müşderisini başlamalydygyny saýlaň. Bellik belligi häzirki saýlawyňyzy görkezýär. Oky saga geçirmek üçin aşaky wyklýuçateli ulanyň.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Boldy</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Öňki sahypa nädip dolanmaly?</value>
   </data>

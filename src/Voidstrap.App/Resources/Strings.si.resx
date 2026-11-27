@@ -2930,6 +2930,12 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ඔබට ප්‍රජා මොඩ්ස් බ්‍රවුස් කිරීමට ඉඩ දෙයි. නැවත මෙහි පැමිණීමට ඉහළ තීරුවේ පිටු මෙනුව භාවිතා කරන්න.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>සුරකින්න සහ දියත් කිරීම අසල ඇති ඊතලය සමඟ මෙම මෙනුව විවෘත කරන්න. කුමන Roblox සේවාදායකයා ආරම්භ කළ යුතුද යන්න තෝරන්න. සලකුණු සලකුණ ඔබගේ වත්මන් තේරීම පෙන්වයි. ඊතලය දකුණට ගෙන යාමට පතුලේ ඇති ස්විචය භාවිතා කරන්න.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>කළා</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>පෙර පිටුවට ආපසු යන්නේ කෙසේද?</value>
   </data>

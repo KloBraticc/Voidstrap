@@ -3177,6 +3177,12 @@ Ką norėtumėte daryti?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>„Voidstrap Mods“ leidžia naršyti bendruomenės modifikacijas. Norėdami grįžti čia, naudokite viršutinėje juostoje esantį puslapių meniu.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Atidarykite šį meniu naudodami rodyklę šalia Išsaugoti ir paleisti. Pasirinkite, kurį Roblox klientą pradėti. Varnelė rodo dabartinį jūsų pasirinkimą. Norėdami perkelti rodyklę į dešinę, naudokite apačioje esantį jungiklį.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Baigti</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Kaip grįžti į ankstesnį puslapį?</value>
   </data>

@@ -1067,8 +1067,6 @@
     </Grid>
     <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False" ClipToBounds="True" SizeChanged="TutorialPanel_SizeChanged">
       <Border x:Name="LaunchTargetScrim" Background="#4D000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
-      <Border x:Name="TutorialHighlight" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"
-              BorderBrush="{DynamicResource SystemAccentColorPrimaryBrush}" BorderThickness="2" CornerRadius="8" />
       <Border x:Name="LaunchTargetPanel" Style="{StaticResource RinDialogPanelStyle}" Width="400" Margin="0" Padding="18,16,10,16" HorizontalAlignment="Right" VerticalAlignment="Stretch" CornerRadius="0" BorderThickness="1,0,0,0" BorderBrush="{StaticResource LauncherMenuBorderBrush}" Visibility="Visible">
         <Border.RenderTransform>
           <TransformGroup>
@@ -1088,7 +1086,7 @@
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Style="{StaticResource RinDialogTitleStyle}" Text="{resources:Loc Ui_Main_ChooseRobloxVersion}" />
+            <TextBlock x:Name="LaunchTargetHeading" HorizontalAlignment="Left" Style="{StaticResource RinDialogTitleStyle}" Text="{resources:Loc Ui_Main_ChooseRobloxVersion}" />
             <ui:Button Grid.Column="1" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="LaunchTargetClose_Click" />
           </Grid>
           <TextBlock Grid.Row="1" Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="{resources:Loc Ui_Main_ChooseRobloxVersionHint}" TextWrapping="Wrap" />
@@ -1097,6 +1095,8 @@
                            IsChecked="{Binding LaunchDropdownOnRight, Mode=TwoWay}" />
         </Grid>
       </Border>
+      <Border x:Name="TutorialHighlight" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"
+              BorderBrush="{DynamicResource SystemAccentColorPrimaryBrush}" BorderThickness="2" CornerRadius="8" />
       <Border x:Name="CommandPalettePanel" Style="{StaticResource RinDialogPanelStyle}" Width="600" Padding="24">
         <Border.RenderTransform>
           <ScaleTransform x:Name="CommandPalettePanelScale" ScaleX="1" ScaleY="1" />

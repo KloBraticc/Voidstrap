@@ -2930,6 +2930,12 @@ Roblox به ډاونلوډ شي کله چې تاسو د لومړي ځل لپار
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods تاسو ته اجازه درکوي د ټولنې موډونه وپلټئ. دلته د بیرته راتلو لپاره په پورتنۍ بار کې د مخونو مینو وکاروئ.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>دا مینو د خوندي کولو او لانچ تر څنګ د تیر سره خلاص کړئ. غوره کړئ چې کوم Roblox پیرودونکي پیل کړي. چک مارک ستاسو اوسنی انتخاب ښیې. په ښکته کې سویچ وکاروئ ترڅو تیر ښي خوا ته حرکت وکړي.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>ترسره شو</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>زه څنګه پخوانۍ پاڼې ته لاړ شم؟</value>
   </data>

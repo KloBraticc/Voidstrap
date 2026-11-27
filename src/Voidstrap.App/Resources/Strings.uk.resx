@@ -3156,6 +3156,12 @@ Roblox буде завантажено під час першого запуск
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods дозволяє переглядати моди спільноти. Скористайтеся меню «Сторінки» на верхній панелі, щоб повернутися сюди.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Відкрийте це меню за допомогою стрілки поруч із пунктом «Зберегти та запустити». Виберіть клієнт Roblox для запуску. Позначка показує ваш поточний вибір. Використовуйте перемикач унизу, щоб перемістити стрілку вправо.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Завершити</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Як мені повернутися на попередню сторінку?</value>
   </data>

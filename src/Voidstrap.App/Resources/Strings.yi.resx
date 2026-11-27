@@ -2930,6 +2930,12 @@ Roblox וועט זיין דאַונלאָודיד ווען איר קאַטער �
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap מאָדס אַלאַוז איר צו בלעטער קהל מאָדס. ניצן די בלעטער מעניו אין די שפּיץ באַר צו קומען צוריק דאָ.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>עפֿענען דעם מעניו מיט די פייַל לעבן היט און קאַטער. קלייַבן וואָס Roblox קליענט צו אָנהייבן. די טשעקקמאַרק ווייזט דיין קראַנט ברירה. ניצן די באַשטימען אין די דנאָ צו מאַך די פייַל צו די רעכט.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>געטאן</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>ווי אַזוי טאָן איך צוריקקומען צו די פריערדיקע בלאַט?</value>
   </data>

@@ -3144,6 +3144,12 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ви позволява да преглеждате модове на общността. Използвайте менюто Страници в горната лента, за да се върнете тук.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Отворете това меню със стрелката до Запазване и стартиране. Изберете кой Roblox клиент да стартирате. Отметката показва текущия ви избор. Използвайте превключвателя в долната част, за да преместите стрелката надясно.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Завършване</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Как да се върна на предишната страница?</value>
   </data>

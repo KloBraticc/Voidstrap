@@ -2930,6 +2930,12 @@ Roblox पहिलो पटकVoidstrap मार्फत लन्च गर
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ले तपाईंलाई समुदाय मोडहरू ब्राउज गर्न दिन्छ। यहाँ फिर्ता आउन शीर्ष पट्टीमा पृष्ठहरू मेनु प्रयोग गर्नुहोस्।</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>सेभ र लन्चको छेउमा तीरको साथ यो मेनु खोल्नुहोस्। कुन Roblox ग्राहक सुरु गर्न छनौट गर्नुहोस्। चेकमार्कले तपाईंको हालको छनोट देखाउँछ। बाणलाई दायाँ सार्न तलको स्विच प्रयोग गर्नुहोस्।</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>सकियो</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>म कसरी अघिल्लो पृष्ठमा फर्कन्छु?</value>
   </data>

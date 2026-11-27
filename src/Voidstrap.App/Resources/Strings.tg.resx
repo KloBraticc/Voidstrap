@@ -2930,6 +2930,12 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ба шумо имкон медиҳад, ки модулҳои ҷомеаро паймоиш кунед. Барои баргаштан ба ин ҷо, менюи Саҳифаҳоро дар сатри боло истифода баред.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Ин менюро бо тирчаи канори Захира ва Оғоз кушоед. Интихоб кунед, ки кадом муштарии Roblox оғоз шавад. Нишона интихоби ҷории шуморо нишон медиҳад. Калидро дар поён истифода баред, то тирро ба рост ҳаракат кунед.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Иҷро шуд</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Чӣ тавр ман ба саҳифаи қаблӣ бармегардам?</value>
   </data>

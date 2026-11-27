@@ -2930,6 +2930,12 @@ Roblox သည် ၎င်းကိုVoidstrap မှတစ်ဆင့် ပ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods သည် သင့်အား အသိုင်းအဝိုင်း mods များကို ရှာဖွေနိုင်စေပါသည်။ ဤနေရာသို့ပြန်လာရန် အပေါ်ဘားရှိ စာမျက်နှာများမီနူးကို အသုံးပြုပါ။</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Save and Launch ဘေးရှိ မြှားဖြင့် ဤမီနူးကိုဖွင့်ပါ။ မည်သည့် Roblox ကလိုင်းယင့်ကို စတင်ရန် ရွေးချယ်ပါ။ အမှတ်အသားသည် သင့်လက်ရှိရွေးချယ်မှုကို ပြသသည်။ မြှားကို ညာဘက်သို့ရွှေ့ရန် အောက်ခြေရှိ ခလုတ်ကို အသုံးပြုပါ။</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>ပြီးပြီ။</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>ယခင်စာမျက်နှာသို့ မည်သို့ပြန်သွားမည်နည်း။</value>
   </data>

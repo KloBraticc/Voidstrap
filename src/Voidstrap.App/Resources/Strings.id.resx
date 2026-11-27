@@ -3096,6 +3096,12 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods memungkinkan Anda menelusuri mod komunitas. Gunakan menu Halaman di bilah atas untuk kembali ke sini.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Buka menu ini dengan panah di samping Simpan dan Luncurkan. Pilih klien Roblox mana yang akan dimulai. Tanda centang menunjukkan pilihan Anda saat ini. Gunakan tombol di bagian bawah untuk memindahkan panah ke kanan.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Selesai</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Bagaimana cara kembali ke halaman sebelumnya?</value>
   </data>

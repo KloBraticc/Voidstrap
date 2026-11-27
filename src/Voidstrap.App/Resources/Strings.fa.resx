@@ -3180,6 +3180,12 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods به شما امکان می دهد حالت های انجمن را مرور کنید. برای بازگشت به اینجا از منوی صفحات در نوار بالا استفاده کنید.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>این منو را با فلش کنار Save and Launch باز کنید. انتخاب کنید که کدام کلاینت Roblox را شروع کنید. علامت چک انتخاب فعلی شما را نشان می دهد. برای حرکت دادن فلش به سمت راست از سوئیچ پایین استفاده کنید.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>پایان</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>چگونه به صفحه قبل برگردم؟</value>
   </data>

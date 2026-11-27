@@ -2930,6 +2930,12 @@ Je, ungependa kufanya nini?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Mods za Voidstrap hukuruhusu kuvinjari mods za jamii. Tumia menyu ya Kurasa katika upau wa juu ili kurudi hapa.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Fungua menyu hii kwa mshale kando ya Hifadhi na Uzindue. Chagua ni mteja gani wa Roblox uanzishe. Alama ya kuteua inaonyesha chaguo lako la sasa. Tumia swichi iliyo chini ili kusogeza mshale kulia.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Imekamilika</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Je, ninawezaje kurudi kwenye ukurasa uliopita?</value>
   </data>

@@ -3111,6 +3111,12 @@ Cosa vuoi fare?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ti consente di sfogliare i mod della community. Utilizza il menu Pagine nella barra in alto per tornare qui.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Apri questo menu con la freccia accanto a Salva e avvia. Scegli quale client Roblox avviare. Il segno di spunta mostra la tua scelta attuale. Usa l'interruttore in basso per spostare la freccia a destra.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Termina</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Come faccio a tornare alla pagina precedente?</value>
   </data>

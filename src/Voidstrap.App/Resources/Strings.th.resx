@@ -3141,6 +3141,12 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ให้คุณเรียกดู mod ชุมชนได้ ใช้เมนูหน้าในแถบด้านบนเพื่อกลับมาที่นี่</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>เปิดเมนูนี้โดยมีลูกศรอยู่ข้างๆ บันทึกและเปิดใช้ เลือกไคลเอนต์ Roblox ที่จะเริ่มต้น เครื่องหมายถูกจะแสดงตัวเลือกปัจจุบันของคุณ ใช้สวิตช์ที่ด้านล่างเพื่อเลื่อนลูกศรไปทางขวา</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>เสร็จสิ้น</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>ฉันจะกลับไปยังหน้าก่อนหน้าได้อย่างไร?</value>
   </data>

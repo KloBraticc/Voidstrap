@@ -2930,6 +2930,12 @@ Roblox оныVoidstrap арқылы алғаш рет іске қосқан ке
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods қауымдастық моддерін шолуға мүмкіндік береді. Осы жерге оралу үшін жоғарғы жолақтағы «Беттер» мәзірін пайдаланыңыз.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Бұл мәзірді Сақтау және іске қосу жанындағы көрсеткі арқылы ашыңыз. Қай Roblox клиентін бастау керек екенін таңдаңыз. Құсбелгі сіздің ағымдағы таңдауыңызды көрсетеді. Көрсеткіні оңға жылжыту үшін төменгі жағындағы қосқышты пайдаланыңыз.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Дайын</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Алдыңғы бетке қалай оралуға болады?</value>
   </data>

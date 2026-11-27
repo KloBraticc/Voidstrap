@@ -2930,6 +2930,12 @@ Roblox будзе спампаваны пры першым запуску пра
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods дазваляе праглядаць моды супольнасці. Выкарыстоўвайце меню "Старонкі" ў верхняй панэлі, каб вярнуцца сюды.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Адкрыйце гэтае меню стрэлкай побач з пунктам Захаваць і запусціць. Выберыце, які кліент Roblox запусціць. Сцяжок паказвае ваш бягучы выбар. Выкарыстоўвайце пераключальнік унізе, каб перамясціць стрэлку направа.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Гатова</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Як мне вярнуцца на папярэднюю старонку?</value>
   </data>

@@ -2930,6 +2930,12 @@ Roblox நீங்கள் முதல்முறையாகVoidstrap ம�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ஆனது சமூக மோட்களை உலாவ உங்களை அனுமதிக்கிறது. மீண்டும் இங்கு வர, மேல் பட்டியில் உள்ள பக்கங்கள் மெனுவைப் பயன்படுத்தவும்.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>இந்த மெனுவை சேமி மற்றும் துவக்கத்திற்கு அருகில் உள்ள அம்புக்குறியுடன் திறக்கவும். எந்த Roblox கிளையண்டைத் தொடங்க வேண்டும் என்பதைத் தேர்ந்தெடுக்கவும். செக்மார்க் உங்கள் தற்போதைய தேர்வைக் காட்டுகிறது. அம்புக்குறியை வலது பக்கம் நகர்த்த கீழே உள்ள சுவிட்சைப் பயன்படுத்தவும்.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>முடி</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>முந்தைய பக்கத்திற்கு எப்படி செல்வது?</value>
   </data>

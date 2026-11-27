@@ -2930,6 +2930,12 @@ Kedu ihe ị ga-achọ ime?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods na-enye gị ohere ịchọgharị mods obodo. Jiri menu peeji nke dị n'elu mmanya ka ịlaghachi ebe a.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Mepee menu a na akụ n'akụkụ Chekwa na Mwepụta. Họrọ onye ahịa Roblox ka ịmalite. Akara akara na-egosi nhọrọ gị ugbu a. Jiri mgba ọkụ dị na ala ka ịkwaga akụ ahụ gaa n'aka nri.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Emechaala</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Kedu ka m ga-esi laghachi na ibe gara aga?</value>
   </data>

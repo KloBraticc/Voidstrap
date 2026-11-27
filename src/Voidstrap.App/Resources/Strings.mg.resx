@@ -2930,6 +2930,12 @@ Inona no tianao hatao?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Ny Voidstrap Mods dia ahafahanao mijery ny mods fiaraha-monina. Ampiasao ny menio Pejy ao amin'ny bara ambony hiverenana eto.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Sokafy ity sakafo ity miaraka amin'ny zana-tsipìka eo anilan'ny Save and Launch. Fidio izay mpanjifa Roblox hatomboka. Ny mari-pamantarana dia mampiseho ny safidinao amin'izao fotoana izao. Ampiasao ny switch eo amin'ny farany ambany hamindra ny zana-tsipìka miankavanana.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>hatao</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Ahoana no hiverenako amin'ny pejy teo aloha?</value>
   </data>

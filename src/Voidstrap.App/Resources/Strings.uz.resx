@@ -2930,6 +2930,12 @@ Nima qilishni xohlaysiz?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods sizga hamjamiyat modlarini ko'rib chiqish imkonini beradi. Bu yerga qaytish uchun yuqori paneldagi Sahifalar menyusidan foydalaning.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Saqlash va ishga tushirish yonidagi strelka bilan ushbu menyuni oching. Qaysi Roblox mijozini boshlashni tanlang. Belgisi joriy tanlovingizni ko'rsatadi. O'qni o'ngga siljitish uchun pastdagi kalitdan foydalaning.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Bajarildi</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Oldingi sahifaga qanday qaytishim mumkin?</value>
   </data>

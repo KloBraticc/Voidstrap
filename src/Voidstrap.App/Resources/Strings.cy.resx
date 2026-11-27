@@ -2930,6 +2930,12 @@ Beth hoffech chi ei wneud?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Mae Voidstrap Mods yn gadael ichi bori trwy mods cymunedol. Defnyddiwch y ddewislen Tudalennau yn y bar uchaf i ddod yn ôl yma.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Agorwch y ddewislen hon gyda'r saeth wrth ymyl Cadw a Lansio. Dewiswch pa gleient Roblox i ddechrau. Mae'r marc gwirio yn dangos eich dewis presennol. Defnyddiwch y switsh ar y gwaelod i symud y saeth i'r dde.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Wedi'i wneud</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Sut ydw i'n mynd yn ôl i'r dudalen flaenorol?</value>
   </data>

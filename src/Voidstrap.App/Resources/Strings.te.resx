@@ -2930,6 +2930,12 @@ Roblox డౌన్లోడ్ చేయబడుతుంది. మీరు 
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap మోడ్స్ కమ్యూనిటీ మోడ్‌లను బ్రౌజ్ చేయడానికి మిమ్మల్ని అనుమతిస్తుంది. ఇక్కడకు తిరిగి రావడానికి ఎగువ బార్‌లోని పేజీల మెనుని ఉపయోగించండి.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>సేవ్ మరియు లాంచ్ పక్కన ఉన్న బాణంతో ఈ మెనుని తెరవండి. ఏ Roblox క్లయింట్‌ను ప్రారంభించాలో ఎంచుకోండి. చెక్‌మార్క్ మీ ప్రస్తుత ఎంపికను చూపుతుంది. బాణాన్ని కుడివైపుకి తరలించడానికి దిగువన ఉన్న స్విచ్‌ని ఉపయోగించండి.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>ముగించు</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>నేను మునుపటి పేజీకి ఎలా తిరిగి వెళ్ళగలను?</value>
   </data>

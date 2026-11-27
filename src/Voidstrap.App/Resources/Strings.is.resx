@@ -2930,6 +2930,12 @@ Hvað myndir þú vilja gera?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods gerir þér kleift að skoða samfélagsbreytingar. Notaðu Pages valmyndina í efstu stikunni til að koma aftur hingað.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Opnaðu þessa valmynd með örinni við hlið Save and Launch. Veldu hvaða Roblox viðskiptavin á að byrja. Gátmerkið sýnir núverandi val þitt. Notaðu rofann neðst til að færa örina til hægri.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Búið</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Hvernig fer ég aftur á fyrri síðu?</value>
   </data>

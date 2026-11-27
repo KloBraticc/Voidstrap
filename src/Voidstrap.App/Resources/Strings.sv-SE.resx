@@ -3101,6 +3101,12 @@ Vad vill du göra?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods låter dig bläddra i community-mods. Använd menyn Sidor i fältet överst för att komma tillbaka hit.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Öppna den här menyn med pilen bredvid Spara och starta. Välj vilken Roblox-klient du vill starta. Bocken visar ditt nuvarande val. Använd knappen längst ned för att flytta pilen åt höger.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Slutför</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Hur går jag tillbaka till föregående sida?</value>
   </data>

@@ -2930,6 +2930,12 @@ Hvad vil du gerne lave?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods lader dig gennemse community-mods. Brug menuen Sider i den øverste bjælke for at komme tilbage hertil.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Åbn denne menu med pilen ved siden af Gem og start. Vælg hvilken Roblox-klient du vil starte. Markeringen viser dit nuværende valg. Brug kontakten i bunden til at flytte pilen til højre.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Afslut</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Hvordan går jeg tilbage til forrige side?</value>
   </data>

@@ -2930,6 +2930,12 @@ U ka rata ho etsa eng?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods e u lumella ho sheba li-mods tsa sechaba. Sebelisa lethathamo la Maqephe bareng e kaholimo ho khutlela mona.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Bula lenane lena ka motsu haufi le Boloka le ho Launch. Khetha hore na u batla ho qala moreki ofe oa Roblox. Letšoao le bonts'a khetho ea hau ea hajoale. Sebelisa switjha ka tlase ho isa motsu ho le letona.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>E felile</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Ke khutlela leqepheng le fetileng joang?</value>
   </data>

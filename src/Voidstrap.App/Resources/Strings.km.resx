@@ -2930,6 +2930,12 @@ Roblox នឹងត្រូវបានទាញយក នៅពេលអ្ន
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods អនុញ្ញាតឱ្យអ្នករុករក mods សហគមន៍។ ប្រើម៉ឺនុយទំព័រនៅក្នុងរបារខាងលើដើម្បីត្រលប់មកទីនេះ។</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>បើកម៉ឺនុយនេះដោយប្រើព្រួញក្បែរ រក្សាទុក និងចាប់ផ្ដើម។ ជ្រើសរើសម៉ាស៊ីនភ្ញៀវ Roblox ណាដែលត្រូវចាប់ផ្តើម។ សញ្ញាធីកបង្ហាញជម្រើសបច្ចុប្បន្នរបស់អ្នក។ ប្រើកុងតាក់នៅខាងក្រោមដើម្បីផ្លាស់ទីព្រួញទៅខាងស្តាំ។</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>រួចរាល់</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>តើខ្ញុំត្រលប់ទៅទំព័រមុនដោយរបៀបណា?</value>
   </data>

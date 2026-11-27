@@ -3123,6 +3123,12 @@ O que você gostaria de fazer?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods permite navegar pelos mods da comunidade. Use o menu Páginas na barra superior para voltar aqui.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Abra este menu com a seta ao lado de Salvar e iniciar. Escolha qual cliente Roblox iniciar. A marca de seleção mostra sua escolha atual. Use o botão na parte inferior para mover a seta para a direita.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Concluir</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Como voltar à página anterior?</value>
   </data>

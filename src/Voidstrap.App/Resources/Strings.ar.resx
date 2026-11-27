@@ -3174,6 +3174,12 @@
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>تتيح لك Voidstrap Mods تصفح تعديلات المجتمع. استخدم قائمة الصفحات في الشريط العلوي للرجوع إلى هنا.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>افتح هذه القائمة بالسهم الموجود بجوار Save and Launch. اختر عميل Roblox الذي تريد البدء به. تظهر علامة الاختيار اختيارك الحالي. استخدم المفتاح الموجود بالأسفل لتحريك السهم إلى اليمين.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>إنهاء</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>كيف أعود إلى الصفحة السابقة؟</value>
   </data>

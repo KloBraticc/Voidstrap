@@ -2930,6 +2930,12 @@ Mida sa teha tahaksid?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods võimaldab sirvida kogukonna modifikatsioone. Siia naasmiseks kasutage ülemise riba menüüd Lehed.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Avage see menüü noolega valiku Salvesta ja käivita kõrval. Valige, millist Robloxi klienti alustada. Linnuke näitab teie praegust valikut. Noole paremale liigutamiseks kasutage allosas olevat lülitit.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Lõpeta</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Kuidas eelmisele lehele tagasi minna?</value>
   </data>

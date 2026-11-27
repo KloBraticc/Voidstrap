@@ -2930,6 +2930,12 @@ Kaj bi rad počel?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vam omogoča brskanje po modifikacijah skupnosti. Uporabite meni Strani v zgornji vrstici, da se vrnete sem.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Odprite ta meni s puščico poleg Shrani in zaženi. Izberite, katerega odjemalca Roblox želite zagnati. Kljukica prikazuje vašo trenutno izbiro. Uporabite stikalo na dnu, da premaknete puščico v desno.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Dokončaj</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Kako se vrnem na prejšnjo stran?</value>
   </data>

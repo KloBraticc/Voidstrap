@@ -2930,6 +2930,12 @@ Roblox ડાઉનલોડ થશે જ્યારે તમે તેને
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods તમને સમુદાય મોડ્સ બ્રાઉઝ કરવા દે છે. અહીં પાછા આવવા માટે ટોચના બારમાં પૃષ્ઠો મેનૂનો ઉપયોગ કરો.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>સેવ અને લોંચની બાજુમાં તીર વડે આ મેનુ ખોલો. કયો Roblox ક્લાયંટ શરૂ કરવો તે પસંદ કરો. ચેકમાર્ક તમારી વર્તમાન પસંદગી દર્શાવે છે. તીરને જમણી તરફ ખસેડવા માટે તળિયે સ્વિચનો ઉપયોગ કરો.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>થઈ ગયું</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>હું પાછલા પૃષ્ઠ પર કેવી રીતે જઈ શકું?</value>
   </data>

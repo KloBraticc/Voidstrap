@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
@@ -11,7 +12,7 @@ namespace Voidstrap.UI.Elements.Settings;
 
 public partial class MainWindow
 {
-    private enum TutorialStep { Welcome, Home, Sidebar, SidebarToggle, Library, Mods, Breadcrumb }
+    private enum TutorialStep { Welcome, Home, Sidebar, SidebarToggle, Library, Mods, Breadcrumb, RobloxVersion }
 
     private TutorialStep? _tutorialStep;
 
@@ -37,9 +38,13 @@ public partial class MainWindow
 
     private void ShowTutorialStep(TutorialStep step)
     {
+        bool showLaunchPicker = step == TutorialStep.RobloxVersion;
+        if (showLaunchPicker || _tutorialStep == TutorialStep.RobloxVersion)
+            SetTutorialLaunchPicker(showLaunchPicker);
         _tutorialStep = step;
         bool welcome = step == TutorialStep.Welcome;
-        TutorialPanel.HorizontalAlignment = welcome ? HorizontalAlignment.Center : HorizontalAlignment.Right;
+        TutorialPanel.HorizontalAlignment = welcome ? HorizontalAlignment.Center : showLaunchPicker ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+        TutorialPanel.Width = showLaunchPicker ? 380 : 440;
         TutorialPanel.VerticalAlignment = welcome ? VerticalAlignment.Center : VerticalAlignment.Bottom;
         TutorialPanel.Margin = welcome ? new Thickness(8) : new Thickness(12);
         TutorialBack.Visibility = welcome ? Visibility.Collapsed : Visibility.Visible;
@@ -47,7 +52,7 @@ public partial class MainWindow
         BindTutorialText(TutorialNext, ContentControl.ContentProperty, step switch
         {
             TutorialStep.Welcome => nameof(Strings.ContextMenu_GameBrowser_Continue),
-            TutorialStep.Breadcrumb => nameof(Strings.Ui_Home_DoneEditingLayout),
+            TutorialStep.RobloxVersion => nameof(Strings.Tutorial_Finish),
             _ => nameof(Strings.Common_Navigation_Next),
         });
 
@@ -59,6 +64,7 @@ public partial class MainWindow
             TutorialStep.Library => (nameof(Strings.Ui_Pages_Library), nameof(Strings.Tutorial_Library)),
             TutorialStep.Mods => (nameof(Strings.Ui_Nav_VoidstrapMods), nameof(Strings.Tutorial_Mods)),
             TutorialStep.Breadcrumb => (nameof(Strings.Tutorial_BreadcrumbTitle), nameof(Strings.Tutorial_Breadcrumb)),
+            TutorialStep.RobloxVersion => (nameof(Strings.Ui_Main_ChooseRobloxVersion), nameof(Strings.Tutorial_RobloxVersion)),
             _ => (nameof(Strings.Installer_Welcome_Title), nameof(Strings.Tutorial_Welcome)),
         };
         BindTutorialText(TutorialHeading, TextBlock.TextProperty, heading);
@@ -81,11 +87,31 @@ public partial class MainWindow
             case TutorialStep.Breadcrumb:
                 if (RootFrame.Content is BehaviourPage deployment)
                     deployment.OpenAdvancedGeneral();
-                else
+                else if (RootFrame.Content is not AdvancedGeneralPage)
                     NavigateTopNav(typeof(BehaviourPage));
                 break;
         }
         QueueTutorialHighlight();
+    }
+
+    private void SetTutorialLaunchPicker(bool visible)
+    {
+        if (visible)
+        {
+            PopulateLaunchTargets();
+            SetModalScale(LaunchTargetPanelScale, 1.0);
+            LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
+            LaunchTargetPanelSlide.X = 0;
+            LaunchTargetPanel.IsHitTestVisible = false;
+            KeyboardNavigation.SetTabNavigation(LaunchTargetPanel, KeyboardNavigationMode.None);
+            LaunchTargetPanel.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            LaunchTargetPanel.Visibility = Visibility.Collapsed;
+            LaunchTargetPanel.ClearValue(IsHitTestVisibleProperty);
+            LaunchTargetPanel.ClearValue(KeyboardNavigation.TabNavigationProperty);
+        }
     }
 
     private void TutorialPage_Navigated(object sender, NavigationEventArgs e)
@@ -117,6 +143,7 @@ public partial class MainWindow
             TutorialStep.SidebarToggle => SidebarToggle,
             TutorialStep.Library or TutorialStep.Mods => PagesMenuButton,
             TutorialStep.Home or TutorialStep.Breadcrumb => PageBreadcrumb,
+            TutorialStep.RobloxVersion => LaunchTargetHeading,
             _ => null,
         };
         if (target == null || !target.IsVisible || target.ActualWidth <= 0 || target.ActualHeight <= 0)
@@ -148,8 +175,11 @@ public partial class MainWindow
     {
         if (_tutorialStep is not { } step)
             return;
-        if (step == TutorialStep.Breadcrumb)
+        if (step == TutorialStep.RobloxVersion)
+        {
             CloseSimpleModal();
+            NavigateTopNav(typeof(HomePage));
+        }
         else
             ShowTutorialStep(step + 1);
     }
@@ -170,6 +200,8 @@ public partial class MainWindow
     {
         RootFrame.Navigated -= TutorialPage_Navigated;
         PageBreadcrumb.SizeChanged -= TutorialPanel_SizeChanged;
+        if (_tutorialStep == TutorialStep.RobloxVersion)
+            SetTutorialLaunchPicker(false);
         _tutorialStep = null;
         TutorialHighlight.Visibility = Visibility.Collapsed;
         TutorialHighlight.ClearValue(RenderTransformProperty);

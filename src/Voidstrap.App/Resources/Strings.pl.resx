@@ -3138,6 +3138,12 @@ Co chcesz zrobić?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods umożliwia przeglądanie modów społeczności. Aby tu wrócić, użyj menu Strony na górnym pasku.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Otwórz to menu za pomocą strzałki obok opcji Zapisz i uruchom. Wybierz klienta Roblox, którego chcesz uruchomić. Znacznik wyboru pokazuje bieżący wybór. Użyj przełącznika na dole, aby przesunąć strzałkę w prawo.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Zakończ</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Jak wrócić do poprzedniej strony?</value>
   </data>

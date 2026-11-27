@@ -2930,6 +2930,12 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods מאפשר לך לדפדף במונדי קהילה. השתמש בתפריט דפים בסרגל העליון כדי לחזור לכאן.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>פתח את התפריט הזה עם החץ לצד שמור והפעל. בחר איזה לקוח Roblox להתחיל. סימן הביקורת מציג את הבחירה הנוכחית שלך. השתמש במתג בתחתית כדי להזיז את החץ ימינה.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>סיום</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>איך אני חוזר לעמוד הקודם?</value>
   </data>

@@ -2930,6 +2930,12 @@ Què t'agradaria fer?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods us permet navegar pels mods de la comunitat. Utilitzeu el menú Pàgines de la barra superior per tornar aquí.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Obriu aquest menú amb la fletxa al costat de Desa i inicia. Trieu quin client de Roblox voleu iniciar. La marca de verificació mostra la vostra elecció actual. Utilitzeu l'interruptor de la part inferior per moure la fletxa cap a la dreta.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Fet</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Com torno a la pàgina anterior?</value>
   </data>

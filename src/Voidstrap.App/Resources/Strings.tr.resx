@@ -3138,6 +3138,12 @@ Ne yapmak istersiniz?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods, topluluk modlarına göz atmanızı sağlar. Buraya geri dönmek için üst çubuktaki Sayfalar menüsünü kullanın.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Bu menüyü Kaydet ve Başlat'ın yanındaki okla açın. Hangi Roblox istemcisinin başlatılacağını seçin. Onay işareti mevcut seçiminizi gösterir. Oku sağa hareket ettirmek için alttaki anahtarı kullanın.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Bitir</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Önceki sayfaya nasıl geri dönerim?</value>
   </data>

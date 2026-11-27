@@ -3147,6 +3147,12 @@ Bạn muốn làm gì?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods cho phép bạn duyệt qua các mod cộng đồng. Sử dụng menu Trang ở thanh trên cùng để quay lại đây.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Mở menu này bằng mũi tên bên cạnh Lưu và Khởi chạy. Chọn ứng dụng khách Roblox nào để bắt đầu. Dấu kiểm hiển thị lựa chọn hiện tại của bạn. Sử dụng công tắc ở phía dưới để di chuyển mũi tên sang phải.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Hoàn tất</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Làm cách nào để quay lại trang trước?</value>
   </data>

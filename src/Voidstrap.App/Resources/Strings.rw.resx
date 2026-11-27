@@ -2930,6 +2930,12 @@ Urashaka gukora iki?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Uburyo bwa Voidstrap butuma ureba uburyo bwabaturage. Koresha Urupapuro muri menu yo hejuru kugirango ugaruke hano.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Fungura iyi menu hamwe numwambi kuruhande rwa Kubika no Gutangiza. Hitamo umukiriya wa Roblox gutangira. Ikimenyetso cyerekana amahitamo yawe. Koresha switch hepfo kugirango wimure umwambi iburyo.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Byakozwe</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Nigute nasubira kurupapuro rwabanjirije?</value>
   </data>

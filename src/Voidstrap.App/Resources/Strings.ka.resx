@@ -2930,6 +2930,12 @@ Roblox ჩამოიტვირთება, როდესაც მას 
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods საშუალებას გაძლევთ დაათვალიეროთ საზოგადოების მოდიფიკაციები. აქ დასაბრუნებლად გამოიყენეთ გვერდების მენიუ ზედა ზოლში.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>გახსენით ეს მენიუ ისრით Save and Launch-ის გვერდით. აირჩიეთ რომელი Roblox კლიენტი უნდა დაიწყოს. გამშვები პუნქტი აჩვენებს თქვენს ამჟამინდელ არჩევანს. გამოიყენეთ გადამრთველი ქვედა ნაწილში, რომ გადაიტანოთ ისარი მარჯვნივ.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>შესრულებულია</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>როგორ დავბრუნდე წინა გვერდზე?</value>
   </data>

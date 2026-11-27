@@ -2930,6 +2930,12 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vam omogućava da pretražujete modove zajednice. Koristite meni Stranice na gornjoj traci da se vratite ovdje.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Otvorite ovaj meni sa strelicom pored Save and Launch. Odaberite koji Roblox klijent želite pokrenuti. Kvačica pokazuje vaš trenutni izbor. Koristite prekidač na dnu da pomerite strelicu udesno.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Gotovo</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Kako da se vratim na prethodnu stranicu?</value>
   </data>

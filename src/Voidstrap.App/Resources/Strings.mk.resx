@@ -2930,6 +2930,12 @@ Roblox ќе се преземе кога ќе го стартувате прек
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ви овозможува да прелистувате модови на заедницата. Користете го менито Страници во горната лента за да се вратите овде.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Отворете го ова мени со стрелката покрај Зачувај и стартувај. Изберете кој клиент на Roblox да го започнете. Ознаката за проверка го прикажува вашиот моментален избор. Користете го прекинувачот на дното за да ја поместите стрелката надесно.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Готово</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Како да се вратам на претходната страница?</value>
   </data>

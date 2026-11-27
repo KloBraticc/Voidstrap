@@ -2930,6 +2930,12 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ju lejon të shfletoni modalitetet e komunitetit. Përdorni menunë Faqet në shiritin e sipërm për t'u kthyer këtu.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Hapeni këtë meny me shigjetën pranë Ruaj dhe Nis. Zgjidhni cilin klient Roblox të filloni. Shenja e kontrollit tregon zgjedhjen tuaj aktuale. Përdorni çelësin në fund për të lëvizur shigjetën në të djathtë.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>U krye</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Si mund të kthehem në faqen e mëparshme?</value>
   </data>

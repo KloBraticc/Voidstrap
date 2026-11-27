@@ -3071,6 +3071,12 @@ Was möchtest du tun?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Mit Voidstrap Mods können Sie Community-Mods durchsuchen. Verwenden Sie das Menü „Seiten“ in der oberen Leiste, um hierher zurückzukehren.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Öffnen Sie dieses Menü mit dem Pfeil neben „Speichern und starten“. Wählen Sie aus, welcher Roblox-Client gestartet werden soll. Das Häkchen zeigt Ihre aktuelle Auswahl an. Benutzen Sie den Schalter unten, um den Pfeil nach rechts zu bewegen.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Fertig</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Wie gehe ich zur vorherigen Seite zurück?</value>
   </data>

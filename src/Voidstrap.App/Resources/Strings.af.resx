@@ -2930,6 +2930,12 @@ Wat wil jy graag doen?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Met Voidstrap Mods kan jy deur die gemeenskap mods blaai. Gebruik die Bladsye-kieslys in die boonste balk om hierheen terug te kom.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Maak hierdie spyskaart oop met die pyltjie langs Stoor en begin. Kies watter Roblox-kliënt om te begin. Die regmerkie wys jou huidige keuse. Gebruik die skakelaar aan die onderkant om die pyltjie na regs te skuif.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Klaar</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Hoe gaan ek terug na die vorige bladsy?</value>
   </data>

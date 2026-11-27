@@ -2930,6 +2930,12 @@ Roblox биће преузето када га покренете Voidstrap пр
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Модс вам омогућава да прегледате модове заједнице. Користите мени Странице на горњој траци да бисте се вратили овде.</value>
   </data>
+  <data name="Tutorial.RobloxVersion" xml:space="preserve">
+    <value>Отворите овај мени стрелицом поред Сачувај и покрени. Изаберите који Roblox клијент желите да покренете. Потврдни знак показује ваш тренутни избор. Користите прекидач на дну да померите стрелицу удесно.</value>
+  </data>
+  <data name="Tutorial.Finish" xml:space="preserve">
+    <value>Заврши</value>
+  </data>
   <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
     <value>Како да се вратим на претходну страницу?</value>
   </data>
