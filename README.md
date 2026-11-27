@@ -74,6 +74,7 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 * [Building](#building)
 * [Installation](#installation)
 * [FAQ](#faq)
+* [Platform instructions](#platform-instructions)
 * [MCP](#mcp)
 * [Contributing](#contributing)
 * [Inspiration and credits](#inspiration--credits)
@@ -95,7 +96,33 @@ Existing checkout? Run `git submodule update --init --recursive`.
 
 Run `PublishedBuilds\Windows\Voidstrap.exe` with the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
-### Platform instructions
+## Installation
+
+1. Download the [latest version](https://github.com/KloBraticc/Voidstrap/releases/latest).
+2. Run the `.exe` and complete the setup.
+3. Launch Voidstrap.
+4. Enjoy a simpler Roblox!
+
+See [Platform instructions](#platform-instructions) for Android, Gentoo, and Nix setup.
+
+## FAQ
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-banned-dark.svg"><img src="assets/readme/faq-banned-light.svg" alt="Can Voidstrap get me banned?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
+  Voidstrap does not inject cheats, exploit Roblox, or bypass its security. It manages launching and configuration.
+</details>
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-virus-dark.svg"><img src="assets/readme/faq-virus-light.svg" alt="Is Voidstrap a virus?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
+  Voidstrap is open source, so anyone can review its code.
+  Security software can flag unsigned or newly released applications, but do not assume every warning is a false positive. Download Voidstrap from its official releases and check the file's source before running it.
+
+  You can review the complete source code [here](https://github.com/KloBraticc/Voidstrap).
+</details>
+
+## Platform instructions
 
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-windows-dark.svg"><img src="assets/readme/build-windows-light.svg" alt="Windows code signing" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
@@ -480,32 +507,6 @@ Use the `git+https` URL with `?submodules=1` rather than `github:KloBraticc/Void
 
 Adding the flake as an input is not enough on its own: enable the module or add the package before `voidstrap` works in a terminal or the app launcher. The flake installs the latest release. To update, run `nix flake update voidstrap` in your configuration and rebuild.
 
-</details>
-
-## Installation
-
-1. Download the [latest version](https://github.com/KloBraticc/Voidstrap/releases/latest).
-2. Run the `.exe` and complete the setup.
-3. Launch Voidstrap.
-4. Enjoy a simpler Roblox!
-
-See [Platform instructions](#platform-instructions) for Android, Gentoo, and Nix setup.
-
-## FAQ
-
-<details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-banned-dark.svg"><img src="assets/readme/faq-banned-light.svg" alt="Can Voidstrap get me banned?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
-
-  Voidstrap does not inject cheats, exploit Roblox, or bypass its security. It manages launching and configuration.
-</details>
-
-<details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-virus-dark.svg"><img src="assets/readme/faq-virus-light.svg" alt="Is Voidstrap a virus?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
-
-  Voidstrap is open source, so anyone can review its code.
-  Security software can flag unsigned or newly released applications, but do not assume every warning is a false positive. Download Voidstrap from its official releases and check the file's source before running it.
-
-  You can review the complete source code [here](https://github.com/KloBraticc/Voidstrap).
 </details>
 
 ## MCP
