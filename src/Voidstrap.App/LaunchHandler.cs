@@ -715,37 +715,13 @@ public static class LaunchHandler
             App.Terminate(ErrorCode.ERROR_FILE_NOT_FOUND);
             return;
         }
-        bool flag = false;
-        Mutex? result;
-        try
-        {
-            flag = Mutex.TryOpenExisting("Global\\ROBLOX_singletonMutex", out result);
-        }
-        catch (UnauthorizedAccessException)
-        {
-            flag = false;
-        }
-        catch
-        {
-            flag = false;
-        }
-        if (!flag)
-        {
-            try
-            {
-                flag = Mutex.TryOpenExisting("ROBLOX_singletonMutex", out result);
-            }
-            catch
-            {
-                flag = false;
-            }
-        }
         if (
-            App.Settings.Prop.ConfirmLaunches
-            && flag
+            launchMode == LaunchMode.Player
+            && App.Settings.Prop.ConfirmLaunches
             && !App.LaunchSettings.MatchmakerRejoinFlag.Active
-            && !(launchMode == LaunchMode.Player && App.LaunchSettings.OverlayServerJoinFlag.Active)
+            && !App.LaunchSettings.OverlayServerJoinFlag.Active
             && (!App.Settings.Prop.IsGameEnabled || string.IsNullOrWhiteSpace(App.Settings.Prop.LaunchGameID))
+            && (IsPlayerMutexOpen("Global\\ROBLOX_singletonMutex") || IsPlayerMutexOpen("ROBLOX_singletonMutex"))
             && Frontend.ShowMessageBox(Strings.Bootstrapper_ConfirmLaunch, MessageBoxImage.Exclamation, MessageBoxButton.YesNo)
                 != MessageBoxResult.Yes
         )
@@ -796,6 +772,21 @@ public static class LaunchHandler
             );
         bootstrapperDialog?.ShowBootstrapper();
         App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Exiting");
+    }
+
+    private static bool IsPlayerMutexOpen(string name)
+    {
+        try
+        {
+            if (!Mutex.TryOpenExisting(name, out Mutex? mutex))
+                return false;
+            mutex.Dispose();
+            return true;
+        }
+        catch (Exception ex) when (ex is UnauthorizedAccessException or IOException or WaitHandleCannotBeOpenedException)
+        {
+            return false;
+        }
     }
 
     private static readonly CancellationTokenSource _residentCancellation = new();
