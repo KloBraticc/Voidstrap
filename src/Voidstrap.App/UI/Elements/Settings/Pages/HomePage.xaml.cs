@@ -134,5 +134,16 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             else
                 NavigationService?.Navigate(new GamePage(placeId, universeId));
         }
+
+        private void MoreActionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement el && el.ContextMenu != null)
+            {
+                el.ContextMenu.PlacementTarget = el;
+                el.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                el.ContextMenu.VerticalOffset = 4;
+                el.ContextMenu.IsOpen = true;
+            }
+        }
     }
 }
