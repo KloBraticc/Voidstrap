@@ -74,7 +74,7 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 * [Installation](#installation)
 * [FAQ](#faq)
 * [Building](#building)
-* [MCP](#mcp)
+* [Instructions](#instructions)
 * [Contributing](#contributing)
 * [Inspiration and credits](#inspiration--credits)
 * [License](#license)
@@ -290,7 +290,7 @@ Adding the flake as an input is not enough on its own: enable the module or add 
 
 Desktop builds need [.NET 10 SDK 10.0.403 or a newer stable 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
 
-### Building and running
+### Get the source
 
 ```bash
 git clone --recurse-submodules https://github.com/KloBraticc/Voidstrap.git
@@ -298,17 +298,6 @@ cd Voidstrap
 ```
 
 Already cloned? Run `git submodule update --init --recursive`. On Windows, use a short checkout path like `C:\src\Voidstrap`.
-
-#### Windows
-
-Windows 10 or 11 x64, [Rust with MSVC](https://rustup.rs), Visual Studio C++ Build Tools, and the Windows SDK.
-
-```powershell
-dotnet build Voidstrap.sln -c Release
-.\src\Voidstrap.App\bin\Release\net10.0-windows\win-x64\Voidstrap.exe
-```
-
-For other systems, see [Platform instructions](#platform-instructions).
 
 ### Packaging and releasing
 
@@ -320,10 +309,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only wind
 
 `PublishedBuilds\Windows\Voidstrap.exe` requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
-### Platform instructions
+## Instructions
+
+<a name="platform-instructions"></a>
 
 <details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-windows-dark.svg"><img src="assets/readme/build-windows-light.svg" alt="Windows code signing" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-setup-dark.svg"><img src="assets/readme/build-setup-light.svg" alt="Platform instructions" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
+### Windows packaging and signing
+
+Windows 10 or 11 x64, [Rust with MSVC](https://rustup.rs), Visual Studio C++ Build Tools, and the Windows SDK.
 
 If you have [SignPath](https://signpath.io/) set up for your repository, running `publish-all.ps1` with no arguments builds all release targets and signs the Release `Voidstrap.exe` through the trusted GitHub Actions build. If you do not use SignPath, use the `-Only windows` command above instead.
 
@@ -337,10 +332,7 @@ To build and sign with SignPath:
 .\publish-all.ps1
 ```
 
-</details>
-
-<details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-linux-dark.svg"><img src="assets/readme/build-linux-light.svg" alt="Linux build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+### Linux build
 
 **You need:** the .NET SDK, Bash, a C compiler and [Rust](https://rustup.rs) with Cargo. On Ubuntu or Debian:
 
@@ -414,10 +406,7 @@ nix build .#voidstrap-git
 
 This builds the current checkout, while `.#voidstrap` builds the latest release. Output: `result/bin/voidstrap`. Run `nix develop` for a shell with the .NET SDK, Rust and every library the build needs. The NuGet packages are locked in `nix/deps.json`. After changing package references, update the lock with `nix build .#voidstrap.fetch-deps && ./result nix/deps.json`.
 
-</details>
-
-<details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-macos-dark.svg"><img src="assets/readme/build-macos-light.svg" alt="macOS build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+### macOS build
 
 **You need:** the .NET SDK described above, PowerShell 7 and Bash. On macOS, install Rust with [rustup](https://rustup.rs) and the Xcode Command Line Tools with `xcode-select --install`. Packaging also builds and signs the Rust virtual display helper.
 
@@ -433,10 +422,7 @@ Local packages use ad hoc signing without notarization. For Developer ID signing
 
 Windows can create macOS `.dmg` files through WSL 2. Install `genisoimage` in your WSL distribution, then run the PowerShell command with `-Only osx-arm64,osx-x64`. It produces a `.dmg` and `.tar.gz` for each architecture in `PublishedBuilds/macOS`. Linux can use the same command with `genisoimage` installed. These are uncompressed ISO 9660 disk images. Native macOS builds create compressed UDIF images. Git Bash alone can create the `.tar.gz` app bundles, but not `.dmg` files.
 
-</details>
-
-<details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-freebsd-dark.svg"><img src="assets/readme/build-freebsd-light.svg" alt="FreeBSD build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+### FreeBSD build
 
 **You need:** the .NET SDK described above and Bash (Git Bash or WSL on Windows). The first build also needs the [GitHub CLI](https://cli.github.com) signed in with `gh auth login`.
 
@@ -452,10 +438,7 @@ The FreeBSD native libraries and .NET runtime packs can only be compiled on Free
 
 To build natively on FreeBSD amd64 instead, install the [FreeBSD .NET SDK](https://github.com/sec/dotnet-core-freebsd-source-build) and `pkg install bash rust cmake git llvm pkgconf xorgproto libX11 libXrandr libXinerama libXcursor libXi libxkbcommon vulkan-loader mesa-libs krb5`, then run `bash build/Packaging/FreeBSD/package.sh "" PublishedBuilds/FreeBSD`. An empty version uses the one in `Directory.Build.props`.
 
-</details>
-
-<details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-android-dark.svg"><img src="assets/readme/build-android-light.svg" alt="Android build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+### Android build
 
 **You need:**
 
@@ -524,7 +507,7 @@ On Linux or macOS, use `pwsh -NoProfile -File ./publish-all.ps1 -Only android -N
 
 </details>
 
-## MCP
+<a name="mcp"></a>
 
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/mcp-setup-dark.svg"><img src="assets/readme/mcp-setup-light.svg" alt="MCP setup and reference" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
