@@ -75,6 +75,7 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 * [FAQ](#faq)
 * [Building](#building)
 * [MCP](#mcp)
+* [Contributing](#contributing)
 * [Inspiration and credits](#inspiration--credits)
 * [License](#license)
 
@@ -573,6 +574,10 @@ For detailed instructions, ask the client to call `get_guide` with `{"topic":"wo
 Connected clients can change app settings and files. Review their actions and privacy settings before sharing logs. To disconnect, disable or remove the `voidstrap` server in the client.
 
 </details>
+
+## Contributing
+
+Bug reports, translation updates, documentation fixes, and code contributions are welcome. Before getting started, read the [contributing guidelines](CONTRIBUTING.md).
 
 ## Inspiration & Credits
 
