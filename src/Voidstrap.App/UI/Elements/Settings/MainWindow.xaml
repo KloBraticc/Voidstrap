@@ -326,6 +326,7 @@
       </Grid>
     </Border>
     <vscontrols:DownloadNotificationCard x:Name="DownloadCard" Grid.RowSpan="3" Margin="0,0,24,72" Panel.ZIndex="1190" />
+    <vscontrols:DownloadNotificationCard x:Name="LaunchTargetInstallCard" Grid.RowSpan="3" Margin="0,0,24,72" Panel.ZIndex="1210" />
     <ui:Snackbar Name="AlreadyRunningSnackbar" Title="{resources:Loc Menu_AlreadyRunning_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="10" Icon="Info20" Message="{resources:Loc Menu_AlreadyRunning_Caption}" Timeout="10000">
       <Control.Background>
         <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
@@ -1090,7 +1091,7 @@
             <ui:Button Grid.Column="1" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="LaunchTargetClose_Click" />
           </Grid>
           <TextBlock Grid.Row="1" Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="{resources:Loc Ui_Main_ChooseRobloxVersionHint}" TextWrapping="Wrap" />
-          <vscontrols:RobloxVersionList x:Name="LaunchTargetList" Grid.Row="2" ItemChosen="LaunchTargetList_ItemChosen" ItemPlayed="LaunchTargetList_ItemPlayed" ItemScrolled="LaunchTargetList_ItemScrolled" ItemManagementCompleted="LaunchTargetList_ItemManagementCompleted" />
+          <vscontrols:RobloxVersionList x:Name="LaunchTargetList" Grid.Row="2" ItemChosen="LaunchTargetList_ItemChosen" ItemPlayed="LaunchTargetList_ItemPlayed" ItemScrolled="LaunchTargetList_ItemScrolled" InstallRequested="LaunchTargetList_InstallRequested" ItemManagementCompleted="LaunchTargetList_ItemManagementCompleted" />
           <ui:ToggleSwitch Grid.Row="3" Margin="0,14,0,0" Content="{resources:Loc Menu_LaunchDropdownOnRight}"
                            IsChecked="{Binding LaunchDropdownOnRight, Mode=TwoWay}" />
         </Grid>

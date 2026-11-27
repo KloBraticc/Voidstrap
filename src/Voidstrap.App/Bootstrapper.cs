@@ -731,7 +731,7 @@ public partial class Bootstrapper
             bool upgradeRequired = AppData.State.VersionGuid != _latestVersionGuid || MustUpgrade || ReinstallRequested;
             if (upgradeRequired)
             {
-                Exception? connectivityError = await Deployment.InitializeConnectivity();
+                Exception? connectivityError = await Deployment.InitializeConnectivity(_cancelTokenSource.Token);
                 App.Logger.WriteLine(LOG_IDENT, "Package connectivity completed in " + launchTimer.ElapsedMilliseconds + " ms");
                 if (connectivityError != null)
                     await HandleConnectionError(connectivityError);

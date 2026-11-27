@@ -330,24 +330,26 @@ public static class Deployment
         }
     }
 
-    public static async Task<Exception?> InitializeConnectivity()
+    public static async Task<Exception?> InitializeConnectivity(CancellationToken token)
     {
-        using CancellationTokenSource cancellation = new();
+        const string LOG_IDENT = "Deployment::InitializeConnectivity";
+        using CancellationTokenSource cancellation = CancellationTokenSource.CreateLinkedTokenSource(token);
         string preferred = PreferredBaseUrl;
         if (!string.IsNullOrWhiteSpace(preferred) && BaseUrls.ContainsKey(preferred))
         {
             using CancellationTokenSource preferredTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellation.Token);
             preferredTimeout.CancelAfter(TimeSpan.FromSeconds(3));
             string? chosen = await ProbeAsync(preferred, preferredTimeout.Token);
+            token.ThrowIfCancellationRequested();
             if (chosen != null)
             {
                 BaseUrl = chosen;
-                App.Logger.WriteLine("Deployment::InitializeConnectivity", "Using preferred base URL: " + BaseUrl);
+                App.Logger.WriteLine(LOG_IDENT, "Using preferred base URL: " + BaseUrl);
                 _ = CheckMirrorHealthAsync(BaseUrl);
                 return null;
             }
             App.Logger.WriteLine(
-                "Deployment::InitializeConnectivity",
+                LOG_IDENT,
                 "Preferred mirror did not respond, falling back to automatic: " + preferred
             );
         }
@@ -357,11 +359,12 @@ public static class Deployment
             Task<string> task = await Task.WhenAny(probes);
             probes.Remove(task);
             string text = await task;
+            token.ThrowIfCancellationRequested();
             if (text != null)
             {
                 cancellation.Cancel();
                 BaseUrl = text;
-                App.Logger.WriteLine("Deployment::InitializeConnectivity", "Using base URL: " + BaseUrl);
+                App.Logger.WriteLine(LOG_IDENT, "Using base URL: " + BaseUrl);
                 _ = CheckMirrorHealthAsync(BaseUrl);
                 return null;
             }

@@ -7743,6 +7743,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WpfUiWindow_Closing(object sender, CancelEventArgs e)
     {
+        if (_launchTargetInstallItem is { IsBusy: true })
+        {
+            e.Cancel = true;
+            _closeAfterLaunchTargetInstall = true;
+            LaunchTargetInstallCard.RequestCancellation();
+            return;
+        }
+
         SaveWindowState();
     }
 
@@ -8278,6 +8286,48 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void LaunchTargetList_ItemScrolled(object? sender, object item)
     {
         ApplyLaunchTarget(item);
+    }
+
+    private DownloadsViewModel.DownloadItem? _launchTargetInstallItem;
+    private bool _closeAfterLaunchTargetInstall;
+
+    private async void LaunchTargetList_InstallRequested(object? sender, DownloadsViewModel.DownloadItem item)
+    {
+        if (_isClosed || _launchTargetInstallItem != null || item.IsBusy
+            || item.InstallCommand is not CommunityToolkit.Mvvm.Input.IAsyncRelayCommand command
+            || !command.CanExecute(null))
+            return;
+
+        _launchTargetInstallItem = item;
+        void ShowInstallProgress(object? _, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(item.Progress) && item.Progress > 0)
+                LaunchTargetInstallCard.Update(item.Title, item.Progress / 100);
+            else if (args.PropertyName == nameof(item.IsBusy) && !item.IsBusy)
+                LaunchTargetInstallCard.Hide();
+        }
+
+        item.PropertyChanged += ShowInstallProgress;
+        LaunchTargetInstallCard.Show(item.Title, () => item.CancelCommand.Execute(null), install: true);
+        try
+        {
+            await command.ExecuteAsync(null);
+        }
+        finally
+        {
+            item.PropertyChanged -= ShowInstallProgress;
+            LaunchTargetInstallCard.Hide();
+            _launchTargetInstallItem = null;
+            if (_closeAfterLaunchTargetInstall && !_isClosed)
+            {
+                _closeAfterLaunchTargetInstall = false;
+                Close();
+            }
+            else
+            {
+                LaunchTargetList_ItemManagementCompleted(sender, item);
+            }
+        }
     }
 
     private void LaunchTargetList_ItemManagementCompleted(object? sender, object item)

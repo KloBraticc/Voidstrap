@@ -493,6 +493,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                         InstallOnly = true,
                         ForceReinstall = IsInstalled && !UpdateAvailable,
                         SkipUpdateHold = true,
+                        CancellationHandledByCaller = true,
                     };
                     _activeBootstrapper = bootstrapper;
                     await Task.Run(() => bootstrapper.Run()).ConfigureAwait(true);
@@ -502,6 +503,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                             $"{Title} did not finish installing. Check the latest log for the reason.",
                             MessageBoxImage.Warning
                         );
+                }
+                catch (OperationCanceledException) when (_activeBootstrapper?.IsCancelled == true)
+                {
                 }
                 catch (Exception ex)
                 {
@@ -527,12 +531,16 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             private void OnProgress(DownloadProgressInfo info)
             {
-                if (info == null || !string.Equals(info.BinaryType, _binaryType, StringComparison.OrdinalIgnoreCase))
+                CoreBootstrapper? bootstrapper = _activeBootstrapper;
+                if (bootstrapper == null || info == null || !string.Equals(info.BinaryType, _binaryType, StringComparison.OrdinalIgnoreCase))
                     return;
                 Application.Current?.Dispatcher.BeginInvoke(
                     (Action)
                         delegate
                         {
+                            if (!ReferenceEquals(_activeBootstrapper, bootstrapper) || bootstrapper.IsCancelled)
+                                return;
+
                             Progress = info.Percent;
                             ProgressDetail =
                                 $"{FormatBytes(info.BytesDone)} of {FormatBytes(info.TotalBytes)}, {FormatSpeed(info.SpeedBytesPerSec)}, {info.PackagesDone}/{info.TotalPackages} packages";

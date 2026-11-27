@@ -1,8 +1,10 @@
 using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Wpf.Ui.Common;
+using Voidstrap.Resources;
 
 namespace Voidstrap.UI.Elements.Controls;
 
@@ -18,6 +20,8 @@ public partial class DownloadNotificationCard : UserControl
 
     private bool _completed;
 
+    private bool _install;
+
     public DownloadNotificationCard()
     {
         InitializeComponent();
@@ -27,17 +31,18 @@ public partial class DownloadNotificationCard : UserControl
 
     public bool IsCompleted => _completed;
 
-    public void Show(string title, Action? cancel)
+    public void Show(string title, Action? cancel, bool install = false)
     {
         _cancel = cancel;
+        _install = install;
         CardTitle.Text = title;
-        CardMessage.Text = "Preparing";
+        CardMessage.Text = install ? Strings.Bootstrapper_Status_Connecting : "Preparing";
         CardMessage.Visibility = Visibility.Visible;
         CardProgress.IsIndeterminate = true;
         CardIcon.Symbol = SymbolRegular.ArrowDownload24;
-        CardAction.Content = "Cancel";
+        CardAction.Content = Strings.Common_Cancel;
         CardAction.Visibility = cancel != null ? Visibility.Visible : Visibility.Collapsed;
-        CardDismiss.Visibility = cancel != null ? Visibility.Visible : Visibility.Collapsed;
+        CardDismiss.Visibility = cancel != null && !install ? Visibility.Visible : Visibility.Collapsed;
         _cancelling = false;
         _completed = false;
         SetLocked(false);
@@ -62,7 +67,7 @@ public partial class DownloadNotificationCard : UserControl
 
     public void Update(string title, double fraction)
     {
-        if (_cancelling && fraction < 1.0)
+        if (_cancelling && (_install || fraction < 1.0))
         {
             return;
         }
@@ -77,6 +82,13 @@ public partial class DownloadNotificationCard : UserControl
         int percent = (int)Math.Round(Math.Clamp(fraction, 0.0, 1.0) * 100.0);
         CardProgress.IsIndeterminate = false;
         CardProgress.Value = percent;
+        if (_install)
+        {
+            CardMessage.Text = fraction >= 1.0
+                ? Strings.Bootstrapper_Status_Configuring.Replace("{product}", title)
+                : $"{Strings.Bootstrapper_Status_Downloading} {fraction.ToString("P0", CultureInfo.CurrentCulture)}";
+            return;
+        }
         if (fraction >= 1.0)
         {
             _completed = true;
@@ -142,12 +154,17 @@ public partial class DownloadNotificationCard : UserControl
             Hide();
             return;
         }
-        if (_locked)
+        RequestCancellation();
+    }
+
+    internal void RequestCancellation()
+    {
+        if (_locked || _cancel is not { } cancel)
             return;
-        Action? cancel = _cancel;
+
         _cancelling = true;
         SetLocked(true);
-        CardMessage.Text = "Cancelling";
-        cancel?.Invoke();
+        CardMessage.Text = _install ? Strings.Bootstrapper_Status_CancelUpgrade : "Cancelling";
+        cancel();
     }
 }

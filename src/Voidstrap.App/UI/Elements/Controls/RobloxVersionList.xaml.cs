@@ -31,6 +31,8 @@ public partial class RobloxVersionList : UserControl
 
     public event EventHandler<object>? ItemManagementCompleted;
 
+    public event EventHandler<DownloadsViewModel.DownloadItem>? InstallRequested;
+
     public IEnumerable? ItemsSource
     {
         get => VersionsListBox.ItemsSource;
@@ -124,6 +126,12 @@ public partial class RobloxVersionList : UserControl
             || GetManagementCommand(request.Item1) is not { IsBusy: false } action
             || action.IsUninstall != request.Item2 || !action.Command.CanExecute(null))
             return;
+
+        if (!action.IsUninstall && request.Item1 is DownloadsViewModel.DownloadItem download && InstallRequested is { } install)
+        {
+            install(this, download);
+            return;
+        }
 
         if (action.Command is IAsyncRelayCommand asyncCommand)
             await asyncCommand.ExecuteAsync(null);
