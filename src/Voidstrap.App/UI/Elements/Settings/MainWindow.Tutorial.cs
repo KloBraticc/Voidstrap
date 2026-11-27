@@ -15,6 +15,8 @@ public partial class MainWindow
     private enum TutorialStep { Welcome, Home, Sidebar, SidebarToggle, Library, Mods, Breadcrumb, RobloxVersion }
 
     private TutorialStep? _tutorialStep;
+    private readonly TranslateTransform _tutorialHighlightOffset = new();
+    private TransformGroup? _tutorialBreadcrumbTransform;
 
     private void OfferBasicTutorial()
     {
@@ -30,7 +32,7 @@ public partial class MainWindow
             return;
 
         RootFrame.Navigated += TutorialPage_Navigated;
-        PageBreadcrumb.SizeChanged += TutorialPanel_SizeChanged;
+        LaunchTargetOverlay.LayoutUpdated += TutorialOverlay_LayoutUpdated;
         ShowTutorialStep(TutorialStep.Welcome);
         OpenSimpleModal(TutorialPanel, TutorialPanelScale);
         TutorialNext.Focus();
@@ -38,6 +40,17 @@ public partial class MainWindow
 
     private void ShowTutorialStep(TutorialStep step)
     {
+        TutorialHighlight.Visibility = Visibility.Collapsed;
+        if (step is TutorialStep.Home or TutorialStep.Breadcrumb)
+        {
+            _tutorialBreadcrumbTransform ??= new TransformGroup { Children = { _tutorialHighlightOffset, PageHeaderShift } };
+            TutorialHighlight.RenderTransform = _tutorialBreadcrumbTransform;
+        }
+        else
+        {
+            TutorialHighlight.RenderTransform = _tutorialHighlightOffset;
+        }
+
         bool showLaunchPicker = step == TutorialStep.RobloxVersion;
         if (showLaunchPicker || _tutorialStep == TutorialStep.RobloxVersion)
             SetTutorialLaunchPicker(showLaunchPicker);
@@ -70,6 +83,12 @@ public partial class MainWindow
         BindTutorialText(TutorialHeading, TextBlock.TextProperty, heading);
         BindTutorialText(TutorialDescription, TextBlock.TextProperty, description);
 
+        SyncTutorialPage(step);
+        LaunchTargetOverlay.InvalidateArrange();
+    }
+
+    private void SyncTutorialPage(TutorialStep step)
+    {
         switch (step)
         {
             case TutorialStep.Home:
@@ -86,12 +105,20 @@ public partial class MainWindow
                 break;
             case TutorialStep.Breadcrumb:
                 if (RootFrame.Content is BehaviourPage deployment)
-                    deployment.OpenAdvancedGeneral();
+                    QueueTutorialAdvancedGeneral(deployment);
                 else if (RootFrame.Content is not AdvancedGeneralPage)
                     NavigateTopNav(typeof(BehaviourPage));
                 break;
         }
-        QueueTutorialHighlight();
+    }
+
+    private void QueueTutorialAdvancedGeneral(BehaviourPage deployment)
+    {
+        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+        {
+            if (_tutorialStep == TutorialStep.Breadcrumb && ReferenceEquals(RootFrame.Content, deployment))
+                deployment.OpenAdvancedGeneral();
+        }));
     }
 
     private void SetTutorialLaunchPicker(bool visible)
@@ -116,53 +143,47 @@ public partial class MainWindow
 
     private void TutorialPage_Navigated(object sender, NavigationEventArgs e)
     {
-        if (_tutorialStep == TutorialStep.Breadcrumb && e.Content is BehaviourPage deployment)
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-            {
-                if (_tutorialStep == TutorialStep.Breadcrumb && ReferenceEquals(RootFrame.Content, deployment))
-                    deployment.OpenAdvancedGeneral();
-            }));
-        }
-        QueueTutorialHighlight();
+        if (_tutorialStep is { } step)
+            SyncTutorialPage(step);
     }
 
-    private void QueueTutorialHighlight() => Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(UpdateTutorialHighlight));
-
-    private void TutorialPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void TutorialOverlay_LayoutUpdated(object? sender, EventArgs e)
     {
-        if (_tutorialStep.HasValue)
-            QueueTutorialHighlight();
-    }
-
-    private void UpdateTutorialHighlight()
-    {
-        FrameworkElement? target = _tutorialStep switch
+        FrameworkElement? target = (_tutorialStep, RootFrame.Content) switch
         {
-            TutorialStep.Sidebar => SidebarHost,
-            TutorialStep.SidebarToggle => SidebarToggle,
-            TutorialStep.Library or TutorialStep.Mods => PagesMenuButton,
-            TutorialStep.Home or TutorialStep.Breadcrumb => PageBreadcrumb,
-            TutorialStep.RobloxVersion => LaunchTargetHeading,
+            (TutorialStep.Sidebar, HomePage) => SidebarHost,
+            (TutorialStep.SidebarToggle, HomePage) => SidebarToggle,
+            (TutorialStep.Library, LibraryPage) or (TutorialStep.Mods, VoidstrapModsPage) => PagesMenuButton,
+            (TutorialStep.Home, HomePage) or (TutorialStep.Breadcrumb, AdvancedGeneralPage) => PageBreadcrumb,
+            (TutorialStep.RobloxVersion, _) => LaunchTargetHeading,
             _ => null,
         };
-        if (target == null || !target.IsVisible || target.ActualWidth <= 0 || target.ActualHeight <= 0)
+        if (target == null || !target.IsVisible || target.ActualWidth <= 0 || target.ActualHeight <= 0
+            || LaunchTargetOverlay.ActualWidth <= 0 || LaunchTargetOverlay.ActualHeight <= 0
+            || PresentationSource.FromVisual(target) == null || PresentationSource.FromVisual(LaunchTargetOverlay) == null)
         {
-            TutorialHighlight.Visibility = Visibility.Collapsed;
+            if (TutorialHighlight.Visibility != Visibility.Collapsed)
+                TutorialHighlight.Visibility = Visibility.Collapsed;
             return;
         }
 
-        bool followsHeader = ReferenceEquals(target, PageBreadcrumb);
-        TutorialHighlight.RenderTransform = followsHeader ? PageHeaderShift : Transform.Identity;
         Point origin = target.TranslatePoint(new Point(), LaunchTargetOverlay);
-        if (followsHeader)
+        if (ReferenceEquals(target, PageBreadcrumb))
             origin.X -= PageHeaderShift.X;
         double left = Math.Max(0, origin.X - 4);
         double top = Math.Max(0, origin.Y - 4);
-        TutorialHighlight.Margin = new Thickness(left, top, 0, 0);
-        TutorialHighlight.Width = Math.Max(0, Math.Min(LaunchTargetOverlay.ActualWidth, origin.X + target.ActualWidth + 4) - left);
-        TutorialHighlight.Height = Math.Max(0, Math.Min(LaunchTargetOverlay.ActualHeight, origin.Y + target.ActualHeight + 4) - top);
-        TutorialHighlight.Visibility = Visibility.Visible;
+        double width = Math.Max(0, Math.Min(LaunchTargetOverlay.ActualWidth, origin.X + target.ActualWidth + 4) - left);
+        double height = Math.Max(0, Math.Min(LaunchTargetOverlay.ActualHeight, origin.Y + target.ActualHeight + 4) - top);
+        if (_tutorialHighlightOffset.X != left)
+            _tutorialHighlightOffset.X = left;
+        if (_tutorialHighlightOffset.Y != top)
+            _tutorialHighlightOffset.Y = top;
+        if (TutorialHighlight.Width != width)
+            TutorialHighlight.Width = width;
+        if (TutorialHighlight.Height != height)
+            TutorialHighlight.Height = height;
+        if (TutorialHighlight.Visibility != Visibility.Visible)
+            TutorialHighlight.Visibility = Visibility.Visible;
     }
 
     private void TutorialBack_Click(object sender, RoutedEventArgs e)
@@ -199,7 +220,7 @@ public partial class MainWindow
     private void ResetTutorial()
     {
         RootFrame.Navigated -= TutorialPage_Navigated;
-        PageBreadcrumb.SizeChanged -= TutorialPanel_SizeChanged;
+        LaunchTargetOverlay.LayoutUpdated -= TutorialOverlay_LayoutUpdated;
         if (_tutorialStep == TutorialStep.RobloxVersion)
             SetTutorialLaunchPicker(false);
         _tutorialStep = null;
