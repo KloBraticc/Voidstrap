@@ -2930,6 +2930,9 @@ Roblox డౌన్లోడ్ చేయబడుతుంది. మీరు 
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap మోడ్స్ కమ్యూనిటీ మోడ్‌లను బ్రౌజ్ చేయడానికి మిమ్మల్ని అనుమతిస్తుంది. ఇక్కడకు తిరిగి రావడానికి ఎగువ బార్‌లోని పేజీల మెనుని ఉపయోగించండి.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>నేను మునుపటి పేజీకి ఎలా తిరిగి వెళ్ళగలను?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>టైటిల్ బార్ పేరెంట్ పేజీ మరియు మీరు ఉన్న పేజీని చూపుతుంది. దానికి తిరిగి వెళ్లడానికి పేరెంట్ పేరును ఎంచుకోండి.</value>
   </data>

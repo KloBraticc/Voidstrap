@@ -2930,6 +2930,9 @@ Kedu ihe ị ga-achọ ime?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods na-enye gị ohere ịchọgharị mods obodo. Jiri menu peeji nke dị n'elu mmanya ka ịlaghachi ebe a.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Kedu ka m ga-esi laghachi na ibe gara aga?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Ogwe aha na-egosi ibe nne na nna na ibe ị nọ na ya. Họrọ aha nne na nna ka ịlaghachi na ya.</value>
   </data>

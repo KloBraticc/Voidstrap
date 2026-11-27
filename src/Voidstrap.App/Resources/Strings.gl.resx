@@ -2930,6 +2930,9 @@ Que che gustaría facer?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods permíteche buscar modificacións da comunidade. Usa o menú Páxinas na barra superior para volver aquí.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Como volvo á páxina anterior?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>A barra de título mostra a páxina principal e a páxina na que estás. Seleccione o nome do pai para volver a el.</value>
   </data>

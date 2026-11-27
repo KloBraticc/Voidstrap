@@ -2930,6 +2930,9 @@ Kaj bi rad počel?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vam omogoča brskanje po modifikacijah skupnosti. Uporabite meni Strani v zgornji vrstici, da se vrnete sem.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Kako se vrnem na prejšnjo stran?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Naslovna vrstica prikazuje nadrejeno stran in stran, na kateri ste. Izberite nadrejeno ime, da se vrnete k njemu.</value>
   </data>

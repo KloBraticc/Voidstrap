@@ -646,6 +646,7 @@ namespace Voidstrap.Resources {
         public static string Tutorial_SidebarToggle => ResourceManager.GetString("Tutorial.SidebarToggle", resourceCulture);
         public static string Tutorial_Library => ResourceManager.GetString("Tutorial.Library", resourceCulture);
         public static string Tutorial_Mods => ResourceManager.GetString("Tutorial.Mods", resourceCulture);
+        public static string Tutorial_BreadcrumbTitle => ResourceManager.GetString("Tutorial.BreadcrumbTitle", resourceCulture);
         public static string Tutorial_Breadcrumb => ResourceManager.GetString("Tutorial.Breadcrumb", resourceCulture);
 
         public static string SwiftTunnel_NotInstalled => ResourceManager.GetString("SwiftTunnel.NotInstalled", resourceCulture);

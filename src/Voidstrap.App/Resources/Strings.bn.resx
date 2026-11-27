@@ -2930,6 +2930,9 @@ Roblox ডাউনলোড করা হবে যখন আপনি এট�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods আপনাকে সম্প্রদায়ের মোডগুলি ব্রাউজ করতে দেয়। এখানে ফিরে আসতে উপরের বারে পেজ মেনু ব্যবহার করুন।</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>আমি কিভাবে আগের পৃষ্ঠায় ফিরে যেতে পারি?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>শিরোনাম বার মূল পৃষ্ঠা এবং আপনি যে পৃষ্ঠায় আছেন তা দেখায়। এটিতে ফিরে যেতে পিতামাতার নাম নির্বাচন করুন৷</value>
   </data>

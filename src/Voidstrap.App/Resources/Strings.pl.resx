@@ -3138,6 +3138,9 @@ Co chcesz zrobić?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods umożliwia przeglądanie modów społeczności. Aby tu wrócić, użyj menu Strony na górnym pasku.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Jak wrócić do poprzedniej strony?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Pasek tytułowy pokazuje stronę nadrzędną i stronę, na której się znajdujesz. Wybierz nazwę nadrzędną, aby do niej wrócić.</value>
   </data>

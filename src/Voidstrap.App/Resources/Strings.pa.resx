@@ -2930,6 +2930,9 @@ Roblox ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾਵੇਗਾ ਜਦੋ
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ਤੁਹਾਨੂੰ ਕਮਿਊਨਿਟੀ ਮੋਡਸ ਨੂੰ ਬ੍ਰਾਊਜ਼ ਕਰਨ ਦਿੰਦਾ ਹੈ। ਇੱਥੇ ਵਾਪਸ ਆਉਣ ਲਈ ਸਿਖਰ ਪੱਟੀ ਵਿੱਚ ਪੰਨੇ ਮੀਨੂ ਦੀ ਵਰਤੋਂ ਕਰੋ।</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>ਮੈਂ ਪਿਛਲੇ ਪੰਨੇ 'ਤੇ ਵਾਪਸ ਕਿਵੇਂ ਜਾਵਾਂ?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>ਸਿਰਲੇਖ ਪੱਟੀ ਮੁੱਖ ਪੰਨਾ ਅਤੇ ਉਹ ਪੰਨਾ ਦਿਖਾਉਂਦੀ ਹੈ ਜਿਸ 'ਤੇ ਤੁਸੀਂ ਹੋ। ਇਸ 'ਤੇ ਵਾਪਸ ਜਾਣ ਲਈ ਮਾਤਾ-ਪਿਤਾ ਦਾ ਨਾਮ ਚੁਣੋ।</value>
   </data>

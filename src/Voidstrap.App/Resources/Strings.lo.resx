@@ -2930,6 +2930,9 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ໃຫ້ທ່ານທ່ອງເວັບ mods ຂອງຊຸມຊົນ. ໃຊ້ເມນູ Pages ໃນແຖບດ້ານເທິງເພື່ອກັບມາທີ່ນີ້.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>ຂ້ອຍຈະກັບໄປຫນ້າກ່ອນຫນ້າໄດ້ແນວໃດ?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>ແຖບຫົວຂໍ້ສະແດງຫນ້າຫຼັກແລະຫນ້າທີ່ເຈົ້າຢູ່. ເລືອກຊື່ພໍ່ແມ່ເພື່ອກັບຄືນຫາມັນ.</value>
   </data>

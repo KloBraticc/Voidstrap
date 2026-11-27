@@ -2930,6 +2930,9 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ඔබට ප්‍රජා මොඩ්ස් බ්‍රවුස් කිරීමට ඉඩ දෙයි. නැවත මෙහි පැමිණීමට ඉහළ තීරුවේ පිටු මෙනුව භාවිතා කරන්න.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>පෙර පිටුවට ආපසු යන්නේ කෙසේද?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>මාතෘකා තීරුව මාපිය පිටුව සහ ඔබ සිටින පිටුව පෙන්වයි. එය වෙත ආපසු යාමට මාපිය නම තෝරන්න.</value>
   </data>

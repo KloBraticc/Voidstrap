@@ -2930,6 +2930,9 @@ Kini iwọ yoo fẹ lati ṣe?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Awọn Mods Voidstrap jẹ ki o lọ kiri lori awọn mods agbegbe. Lo akojọ awọn oju-iwe ni igi oke lati pada si ibi.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Bawo ni MO ṣe pada si oju-iwe iṣaaju?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Pẹpẹ akọle fihan oju-iwe obi ati oju-iwe ti o wa lori. Yan orukọ obi lati pada si ọdọ rẹ.</value>
   </data>

@@ -2930,6 +2930,9 @@ Roblox നിങ്ങൾ ആദ്യമായിVoidstrap വഴി ലോഞ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>കമ്മ്യൂണിറ്റി മോഡുകൾ ബ്രൗസ് ചെയ്യാൻ Voidstrap മോഡുകൾ നിങ്ങളെ അനുവദിക്കുന്നു. ഇവിടെ തിരികെ വരാൻ മുകളിലെ ബാറിലെ പേജുകൾ മെനു ഉപയോഗിക്കുക.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>മുമ്പത്തെ പേജിലേക്ക് ഞാൻ എങ്ങനെ മടങ്ങും?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>ടൈറ്റിൽ ബാർ പാരൻ്റ് പേജും നിങ്ങൾ ഉള്ള പേജും കാണിക്കുന്നു. അതിലേക്ക് മടങ്ങാൻ പേരൻ്റ് നെയിം തിരഞ്ഞെടുക്കുക.</value>
   </data>

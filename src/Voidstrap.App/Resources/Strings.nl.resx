@@ -3099,6 +3099,9 @@ Wat wil je doen?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Met Voidstrap Mods kun je door communitymods bladeren. Gebruik het Pagina's-menu in de bovenste balk om hier terug te komen.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Hoe ga ik terug naar de vorige pagina?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>De titelbalk toont de bovenliggende pagina en de pagina waarop u zich bevindt. Selecteer de bovenliggende naam om ernaar terug te gaan.</value>
   </data>

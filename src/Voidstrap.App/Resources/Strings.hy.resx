@@ -2930,6 +2930,9 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods-ը թույլ է տալիս զննել համայնքի ռեժիմները: Օգտագործեք Էջերի ընտրացանկը վերևի տողում՝ այստեղ վերադառնալու համար:</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Ինչպե՞ս կարող եմ վերադառնալ նախորդ էջ:</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Վերնագրի տողում ցուցադրվում է մայր էջը և այն էջը, որում դուք գտնվում եք: Ընտրեք ծնողի անունը՝ դրան վերադառնալու համար:</value>
   </data>

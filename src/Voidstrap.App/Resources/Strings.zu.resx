@@ -2930,6 +2930,9 @@ Yini ongathanda ukuyenza?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>I-Voidstrap Mods ikuvumela ukuthi udlulise amehlo kuma-mods omphakathi. Sebenzisa imenyu Yamakhasi kubha ephezulu ukuze ubuye lapha.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Ngibuyela kanjani ekhasini eledlule?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Ibha yesihloko ibonisa ikhasi elingumzali nekhasi okulo. Khetha igama lomzali ukuze ubuyele kulo.</value>
   </data>

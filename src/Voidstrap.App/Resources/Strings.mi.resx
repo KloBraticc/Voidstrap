@@ -2930,6 +2930,9 @@ Me aha koe?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ka taea e koe te tirotiro i nga mods hapori. Whakamahia te tahua Whārangi kei te pae o runga kia hoki mai ki konei.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Me pehea taku hoki ki te wharangi o mua?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Ko te pae taitara e whakaatu ana i te wharangi matua me te wharangi kei runga koe. Tīpakohia te ingoa matua ki te hoki ki reira.</value>
   </data>

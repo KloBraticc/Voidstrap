@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using Voidstrap.Resources;
@@ -28,6 +29,7 @@ public partial class MainWindow
             return;
 
         RootFrame.Navigated += TutorialPage_Navigated;
+        PageBreadcrumb.SizeChanged += TutorialPanel_SizeChanged;
         ShowTutorialStep(TutorialStep.Welcome);
         OpenSimpleModal(TutorialPanel, TutorialPanelScale);
         TutorialNext.Focus();
@@ -56,7 +58,7 @@ public partial class MainWindow
             TutorialStep.SidebarToggle => (nameof(Strings.Ui_Main_ToggleSidebar), nameof(Strings.Tutorial_SidebarToggle)),
             TutorialStep.Library => (nameof(Strings.Ui_Pages_Library), nameof(Strings.Tutorial_Library)),
             TutorialStep.Mods => (nameof(Strings.Ui_Nav_VoidstrapMods), nameof(Strings.Tutorial_Mods)),
-            TutorialStep.Breadcrumb => (nameof(Strings.Ui_Bootstrapper_AdvancedGeneral), nameof(Strings.Tutorial_Breadcrumb)),
+            TutorialStep.Breadcrumb => (nameof(Strings.Tutorial_BreadcrumbTitle), nameof(Strings.Tutorial_Breadcrumb)),
             _ => (nameof(Strings.Installer_Welcome_Title), nameof(Strings.Tutorial_Welcome)),
         };
         BindTutorialText(TutorialHeading, TextBlock.TextProperty, heading);
@@ -123,7 +125,11 @@ public partial class MainWindow
             return;
         }
 
+        bool followsHeader = ReferenceEquals(target, PageBreadcrumb);
+        TutorialHighlight.RenderTransform = followsHeader ? PageHeaderShift : Transform.Identity;
         Point origin = target.TranslatePoint(new Point(), LaunchTargetOverlay);
+        if (followsHeader)
+            origin.X -= PageHeaderShift.X;
         double left = Math.Max(0, origin.X - 4);
         double top = Math.Max(0, origin.Y - 4);
         TutorialHighlight.Margin = new Thickness(left, top, 0, 0);
@@ -163,8 +169,10 @@ public partial class MainWindow
     private void ResetTutorial()
     {
         RootFrame.Navigated -= TutorialPage_Navigated;
+        PageBreadcrumb.SizeChanged -= TutorialPanel_SizeChanged;
         _tutorialStep = null;
         TutorialHighlight.Visibility = Visibility.Collapsed;
+        TutorialHighlight.ClearValue(RenderTransformProperty);
     }
 
     private static void BindTutorialText(FrameworkElement element, DependencyProperty property, string resource) =>

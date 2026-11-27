@@ -2930,6 +2930,9 @@ Cad ba mhaith leat a dhéanamh?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Ligeann Voidstrap Mods duit mods pobail a bhrabhsáil. Úsáid an roghchlár Leathanaigh sa bharra barr chun teacht ar ais anseo.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Conas a rachaidh mé ar ais go dtí an leathanach roimhe seo?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Taispeánann an barra teidil an leathanach tuismitheora agus an leathanach ar a bhfuil tú. Roghnaigh an t-ainm tuismitheora chun dul ar ais chuige.</value>
   </data>

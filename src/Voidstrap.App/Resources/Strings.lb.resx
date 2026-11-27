@@ -2930,6 +2930,9 @@ Wat géift Dir gären maachen?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods léisst Iech Gemeinschaftsmods duerchsichen. Benotzt de Säitenmenü an der ieweschter Bar fir hei zréck ze kommen.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Wéi ginn ech zréck op déi viregt Säit?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>D'Titelbar weist d'Elteresäit an d'Säit op där Dir sidd. Wielt den Elterennumm fir drop zréck ze goen.</value>
   </data>

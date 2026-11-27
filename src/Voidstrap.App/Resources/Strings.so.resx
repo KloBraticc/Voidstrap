@@ -2930,6 +2930,9 @@ Maxaad jeclaan lahayd inaad samayso?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods wuxuu kuu ogolaanayaa inaad baadho qaababka bulshada. Isticmaal liiska boggaga ku yaal bar sare si aad halkan ugu soo noqoto.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Sideen ugu noqdaa boggii hore?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Ciwaanka ciwaanka ayaa tusinaya bogga waalidka iyo bogga aad ku jirto. Dooro magaca waalidka si aad ugu noqoto.</value>
   </data>

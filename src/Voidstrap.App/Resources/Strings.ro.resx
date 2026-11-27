@@ -3123,6 +3123,9 @@ Ce vrei să faci?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vă permite să răsfoiți modurile comunității. Utilizați meniul Pagini din bara de sus pentru a reveni aici.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Cum mă întorc la pagina anterioară?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Bara de titlu arată pagina părinte și pagina pe care vă aflați. Selectați numele părintelui pentru a reveni la el.</value>
   </data>

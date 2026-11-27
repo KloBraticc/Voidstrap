@@ -3123,6 +3123,9 @@ Co chcete udělat?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vám umožní procházet komunitní mody. Pro návrat sem použijte nabídku Stránky v horní liště.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Jak se vrátím na předchozí stránku?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>V záhlaví se zobrazuje nadřazená stránka a stránka, na které se nacházíte. Chcete-li se k němu vrátit, vyberte jméno rodiče.</value>
   </data>

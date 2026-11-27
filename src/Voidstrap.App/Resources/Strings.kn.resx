@@ -2930,6 +2930,9 @@ Roblox ಅನ್ನು ನೀವು ಮೊದಲ ಬಾರಿಗೆVoidstrap ಮ
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap ಮೋಡ್ಸ್ ಸಮುದಾಯ ಮೋಡ್‌ಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ. ಇಲ್ಲಿಗೆ ಹಿಂತಿರುಗಲು ಮೇಲಿನ ಪಟ್ಟಿಯಲ್ಲಿರುವ ಪುಟಗಳ ಮೆನುವನ್ನು ಬಳಸಿ.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>ಹಿಂದಿನ ಪುಟಕ್ಕೆ ಹಿಂತಿರುಗುವುದು ಹೇಗೆ?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>ಶೀರ್ಷಿಕೆ ಪಟ್ಟಿಯು ಪೋಷಕ ಪುಟ ಮತ್ತು ನೀವು ಇರುವ ಪುಟವನ್ನು ತೋರಿಸುತ್ತದೆ. ಅದಕ್ಕೆ ಹಿಂತಿರುಗಲು ಪೋಷಕ ಹೆಸರನ್ನು ಆಯ್ಕೆಮಾಡಿ.</value>
   </data>

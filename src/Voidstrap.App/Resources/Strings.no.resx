@@ -2930,6 +2930,9 @@ Hva vil du gjøre?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods lar deg bla gjennom fellesskapsmods. Bruk Sider-menyen i topplinjen for å komme tilbake hit.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Hvordan går jeg tilbake til forrige side?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Tittellinjen viser den overordnede siden og siden du er på. Velg foreldrenavnet for å gå tilbake til det.</value>
   </data>

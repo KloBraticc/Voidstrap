@@ -2930,6 +2930,9 @@ Ko jūs vēlētos darīt?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ļauj pārlūkot kopienas modifikācijas. Izmantojiet izvēlni Lapas augšējā joslā, lai atgrieztos šeit.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Kā atgriezties iepriekšējā lapā?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Virsraksta joslā tiek rādīta vecāklapa un lapa, kurā atrodaties. Atlasiet vecāku vārdu, lai atgrieztos pie tā.</value>
   </data>

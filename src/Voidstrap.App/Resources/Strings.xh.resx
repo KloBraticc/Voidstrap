@@ -2930,6 +2930,9 @@ Yintoni ongathanda ukuyenza?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>IiMods zeVoidstrap zikuvumela ukuba ukhangele iimod zabahlali. Sebenzisa imenyu yaMaphepha kwibar ephezulu ukubuyela apha.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Ndibuyela njani kwiphepha elidlulileyo?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Ibha yesihloko ibonisa iphepha lomzali kunye nephepha okulo. Khetha igama lomzali ukuze ubuyele kulo.</value>
   </data>

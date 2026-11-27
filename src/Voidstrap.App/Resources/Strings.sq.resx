@@ -2930,6 +2930,9 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ju lejon të shfletoni modalitetet e komunitetit. Përdorni menunë Faqet në shiritin e sipërm për t'u kthyer këtu.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Si mund të kthehem në faqen e mëparshme?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Shiriti i titullit tregon faqen mëmë dhe faqen në të cilën ndodheni. Zgjidhni emrin e prindit për t'u kthyer tek ai.</value>
   </data>

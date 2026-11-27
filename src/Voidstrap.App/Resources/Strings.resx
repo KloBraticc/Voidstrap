@@ -2933,6 +2933,9 @@ What would you like to do?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods lets you browse community mods. Use the Pages menu in the top bar to come back here.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>How do I go back pages?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>The title bar shows the parent page and the page you are on. Select the parent name to go back to it.</value>
   </data>

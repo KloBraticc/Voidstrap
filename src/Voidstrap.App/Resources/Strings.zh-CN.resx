@@ -3141,6 +3141,9 @@
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods 可让您浏览社区模组。使用顶部栏中的页面菜单返回此处。</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>如何返回上一页？</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>标题栏显示父页面和您所在的页面。选择父名称以返回到它。</value>
   </data>

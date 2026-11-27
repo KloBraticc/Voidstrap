@@ -2930,6 +2930,9 @@ U ka rata ho etsa eng?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods e u lumella ho sheba li-mods tsa sechaba. Sebelisa lethathamo la Maqephe bareng e kaholimo ho khutlela mona.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Ke khutlela leqepheng le fetileng joang?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Sebaka sa sehlooho se bontša leqephe la motsoali le leqephe leo u leng ho lona. Khetha lebitso la motsoali ho khutlela ho lona.</value>
   </data>

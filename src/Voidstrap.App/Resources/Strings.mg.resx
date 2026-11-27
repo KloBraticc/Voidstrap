@@ -2930,6 +2930,9 @@ Inona no tianao hatao?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Ny Voidstrap Mods dia ahafahanao mijery ny mods fiaraha-monina. Ampiasao ny menio Pejy ao amin'ny bara ambony hiverenana eto.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Ahoana no hiverenako amin'ny pejy teo aloha?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Ny lohan-dohateny dia mampiseho ny pejin'ny ray aman-dreny sy ny pejy misy anao. Safidio ny anaran'ny ray aman-dreny hiverenana amin'izany.</value>
   </data>

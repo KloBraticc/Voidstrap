@@ -2930,6 +2930,9 @@ Nə etmək istərdiniz?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Modları icma modlarını nəzərdən keçirməyə imkan verir. Buraya qayıtmaq üçün yuxarı paneldəki Səhifələr menyusundan istifadə edin.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Əvvəlki səhifəyə necə qayıtmaq olar?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Başlıq çubuğu əsas səhifəni və sizin olduğunuz səhifəni göstərir. Ona qayıtmaq üçün valideyn adını seçin.</value>
   </data>

@@ -2930,6 +2930,9 @@ Nima qilishni xohlaysiz?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods sizga hamjamiyat modlarini ko'rib chiqish imkonini beradi. Bu yerga qaytish uchun yuqori paneldagi Sahifalar menyusidan foydalaning.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Oldingi sahifaga qanday qaytishim mumkin?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Sarlavha satri asosiy sahifani va siz joylashgan sahifani ko'rsatadi. Unga qaytish uchun ota-ona ismini tanlang.</value>
   </data>

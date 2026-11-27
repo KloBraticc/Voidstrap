@@ -3144,6 +3144,9 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vam omogućuje pregledavanje modova zajednice. Upotrijebite izbornik Stranice na gornjoj traci da se vratite ovamo.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Kako se mogu vratiti na prethodnu stranicu?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Naslovna traka prikazuje nadređenu stranicu i stranicu na kojoj se nalazite. Odaberite nadređeno ime da biste se vratili na njega.</value>
   </data>

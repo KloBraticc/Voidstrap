@@ -3135,6 +3135,9 @@ Mitä haluat tehdä?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Modsin avulla voit selata yhteisön modeja. Palaa tänne käyttämällä yläpalkin Sivut-valikkoa.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Miten palaan edelliselle sivulle?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Otsikkopalkissa näkyy pääsivu ja sivu, jolla olet. Valitse vanhemman nimi palataksesi siihen.</value>
   </data>

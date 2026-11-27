@@ -2930,6 +2930,9 @@ Urashaka gukora iki?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Uburyo bwa Voidstrap butuma ureba uburyo bwabaturage. Koresha Urupapuro muri menu yo hejuru kugirango ugaruke hano.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Nigute nasubira kurupapuro rwabanjirije?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Umutwe wumurongo werekana urupapuro rwababyeyi nurupapuro urimo. Hitamo izina ryababyeyi kugirango usubireyo.</value>
   </data>

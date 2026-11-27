@@ -2930,6 +2930,9 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vám umožňuje prehliadať komunitné mody. Ak sa chcete vrátiť sem, použite ponuku Stránky v hornej lište.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Ako sa vrátim na predchádzajúcu stránku?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Záhlavie zobrazuje nadradenú stránku a stránku, na ktorej sa nachádzate. Vyberte meno rodiča, aby ste sa k nemu vrátili.</value>
   </data>

@@ -2930,6 +2930,9 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods የማህበረሰብ ሞጁሎችን እንዲያስሱ ያስችልዎታል። ወደዚህ ለመመለስ በላይኛው አሞሌ ላይ ያለውን የገጾች ሜኑ ተጠቀም።</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>ወደ ቀዳሚው ገጽ እንዴት እመለሳለሁ?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>የርዕስ አሞሌው የወላጅ ገጽ እና እርስዎ ያሉበት ገጽ ያሳያል። ወደ እሱ ለመመለስ የወላጅ ስም ይምረጡ።</value>
   </data>

@@ -3071,6 +3071,9 @@ Was möchtest du tun?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Mit Voidstrap Mods können Sie Community-Mods durchsuchen. Verwenden Sie das Menü „Seiten“ in der oberen Leiste, um hierher zurückzukehren.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Wie gehe ich zur vorherigen Seite zurück?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Die Titelleiste zeigt die übergeordnete Seite und die Seite, auf der Sie sich befinden. Wählen Sie den Namen des übergeordneten Elements aus, um dorthin zurückzukehren.</value>
   </data>

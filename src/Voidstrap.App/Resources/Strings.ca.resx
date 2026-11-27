@@ -2930,6 +2930,9 @@ Què t'agradaria fer?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods us permet navegar pels mods de la comunitat. Utilitzeu el menú Pàgines de la barra superior per tornar aquí.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Com torno a la pàgina anterior?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>La barra de títol mostra la pàgina principal i la pàgina on et trobes. Seleccioneu el nom del pare per tornar-hi.</value>
   </data>

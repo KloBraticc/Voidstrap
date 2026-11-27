@@ -2930,6 +2930,9 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods توهان کي ڪميونٽي موڊس کي براؤز ڪرڻ جي اجازت ڏئي ٿي. هتي واپس اچڻ لاءِ مٿين بار ۾ صفحا مينيو استعمال ڪريو.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>پوئين صفحي تي واپس ڪيئن وڃان؟</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>ٽائيٽل بار ڏيکاري ٿو والدين جو صفحو ۽ اهو صفحو جنهن تي توهان آهيو. ان ڏانهن واپس وڃڻ لاءِ والدين جو نالو چونڊيو.</value>
   </data>

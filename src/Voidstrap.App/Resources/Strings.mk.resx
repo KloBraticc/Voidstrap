@@ -2930,6 +2930,9 @@ Roblox ќе се преземе кога ќе го стартувате прек
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ви овозможува да прелистувате модови на заедницата. Користете го менито Страници во горната лента за да се вратите овде.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Како да се вратам на претходната страница?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Насловната лента ја прикажува матичната страница и страницата на која се наоѓате. Изберете го родителското име за да се вратите на него.</value>
   </data>

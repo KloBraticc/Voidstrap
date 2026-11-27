@@ -2930,6 +2930,9 @@ Kion vi ŝatus fari?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ebligas al vi foliumi komunumajn modifojn. Uzu la Paĝojn-menuon en la supra trinkejo por reveni ĉi tien.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Kiel mi reiru al la antaŭa paĝo?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>La titolbreto montras la gepaĝan paĝon kaj la paĝon, sur kiu vi estas. Elektu la gepatran nomon por reiri al ĝi.</value>
   </data>

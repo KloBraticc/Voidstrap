@@ -2930,6 +2930,9 @@ Wat wil jy graag doen?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Met Voidstrap Mods kan jy deur die gemeenskap mods blaai. Gebruik die Bladsye-kieslys in die boonste balk om hierheen terug te kom.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Hoe gaan ek terug na die vorige bladsy?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Die titelbalk wys die ouerbladsy en die bladsy waarop jy is. Kies die ouernaam om daarna terug te gaan.</value>
   </data>

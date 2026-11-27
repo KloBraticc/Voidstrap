@@ -2930,6 +2930,9 @@ Me kuke so ku yi?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods yana ba ku damar bincika abubuwan al'umma. Yi amfani da menu na Shafukan da ke saman mashaya don dawowa nan.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Ta yaya zan koma shafin da ya gabata?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Bar taken yana nuna shafin iyaye da shafin da kuke ciki. Zaɓi sunan iyaye don komawa gare shi.</value>
   </data>

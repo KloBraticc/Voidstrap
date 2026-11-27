@@ -3153,6 +3153,9 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods を使用すると、コミュニティ MOD を閲覧できます。ここに戻るには、上部バーの「ページ」メニューを使用してください。</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>前のページに戻るには？</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>タイトル バーには、親ページと現在のページが表示されます。親名を選択すると、その親名に戻ります。</value>
   </data>

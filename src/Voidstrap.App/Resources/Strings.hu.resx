@@ -3141,6 +3141,9 @@ Mit szeretnél tenni?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>A Voidstrap Mods segítségével böngészhet a közösségi modok között. Használja a felső sáv Oldalak menüjét, hogy visszatérjen ide.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Hogyan tudok visszalépni az előző oldalra?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>A címsor a szülőoldalt és azt az oldalt mutatja, amelyen éppen tartózkodik. Válassza ki a szülő nevét, hogy visszatérjen hozzá.</value>
   </data>

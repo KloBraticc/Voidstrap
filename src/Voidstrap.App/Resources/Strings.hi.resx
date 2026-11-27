@@ -2930,6 +2930,9 @@ Roblox डाउनलोड हो जाएगा। आप लॉन्च �
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap मॉड्स आपको सामुदायिक मॉड ब्राउज़ करने देता है। यहां वापस आने के लिए शीर्ष बार में पेज मेनू का उपयोग करें।</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>मैं पिछले पृष्ठ पर वापस कैसे जाऊं?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>शीर्षक पट्टी मूल पृष्ठ और वह पृष्ठ दिखाती है जिस पर आप हैं। इस पर वापस जाने के लिए मूल नाम का चयन करें।</value>
   </data>

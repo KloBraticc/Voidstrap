@@ -2930,6 +2930,9 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ба шумо имкон медиҳад, ки модулҳои ҷомеаро паймоиш кунед. Барои баргаштан ба ин ҷо, менюи Саҳифаҳоро дар сатри боло истифода баред.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Чӣ тавр ман ба саҳифаи қаблӣ бармегардам?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Сатри унвон саҳифаи волидайн ва саҳифаи дар он бударо нишон медиҳад. Барои баргаштан ба он номи волидайнро интихоб кунед.</value>
   </data>

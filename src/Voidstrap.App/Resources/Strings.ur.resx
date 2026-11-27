@@ -2930,6 +2930,9 @@ Roblox ڈاؤن لوڈ ہو جائے گا۔ آپ لانچ کرنے سے پہلے
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods آپ کو کمیونٹی موڈز کو براؤز کرنے دیتا ہے۔ یہاں واپس آنے کے لیے اوپر والے بار میں صفحات کا مینو استعمال کریں۔</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>میں پچھلے صفحہ پر واپس کیسے جاؤں؟</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>ٹائٹل بار بنیادی صفحہ اور وہ صفحہ دکھاتا ہے جس پر آپ ہیں۔ اس پر واپس جانے کے لیے والدین کا نام منتخب کریں۔</value>
   </data>

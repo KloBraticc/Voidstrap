@@ -3141,6 +3141,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ให้คุณเรียกดู mod ชุมชนได้ ใช้เมนูหน้าในแถบด้านบนเพื่อกลับมาที่นี่</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>ฉันจะกลับไปยังหน้าก่อนหน้าได้อย่างไร?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>แถบหัวเรื่องจะแสดงหน้าหลักและหน้าที่คุณกำลังดูอยู่ เลือกชื่อหลักเพื่อย้อนกลับ</value>
   </data>

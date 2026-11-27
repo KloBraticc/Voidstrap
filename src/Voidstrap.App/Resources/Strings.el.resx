@@ -2930,6 +2930,9 @@
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Το Voidstrap Mods σάς επιτρέπει να περιηγηθείτε στα mods της κοινότητας. Χρησιμοποιήστε το μενού Σελίδες στην επάνω γραμμή για να επιστρέψετε εδώ.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Πώς μπορώ να επιστρέψω στην προηγούμενη σελίδα;</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Η γραμμή τίτλου εμφανίζει τη γονική σελίδα και τη σελίδα στην οποία βρίσκεστε. Επιλέξτε το γονικό όνομα για να επιστρέψετε σε αυτό.</value>
   </data>

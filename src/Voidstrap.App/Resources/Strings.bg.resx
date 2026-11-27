@@ -3144,6 +3144,9 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ви позволява да преглеждате модове на общността. Използвайте менюто Страници в горната лента, за да се върнете тук.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Как да се върна на предишната страница?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Заглавната лента показва родителската страница и страницата, на която се намирате. Изберете името на родителя, за да се върнете към него.</value>
   </data>

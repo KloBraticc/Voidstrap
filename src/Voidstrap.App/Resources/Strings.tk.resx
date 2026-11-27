@@ -2930,6 +2930,9 @@ Näme etmek isleýärsiňiz?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>“Voidstrap Mods” jemgyýetçilik modalaryna göz aýlamaga mümkinçilik berýär. Bu ýere gaýdyp gelmek üçin ýokarky setirdäki Sahypalar menýusyny ulanyň.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Öňki sahypa nädip dolanmaly?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Adyň setirinde baş sahypa we sahypaňyz görkezilýär. Yzyna gaýdyp barmak üçin ene-atanyň adyny saýlaň.</value>
   </data>

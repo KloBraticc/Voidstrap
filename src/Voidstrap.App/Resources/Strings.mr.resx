@@ -2930,6 +2930,9 @@ Roblox तुम्ही प्रथमचVoidstrap द्वारे लॉ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods तुम्हाला समुदाय मोड ब्राउझ करू देते. येथे परत येण्यासाठी शीर्ष बारमधील पृष्ठे मेनू वापरा.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>मी मागील पृष्ठावर परत कसे जाऊ?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>शीर्षक पट्टी मुख्य पृष्ठ आणि आपण ज्या पृष्ठावर आहात ते दर्शविते. त्यावर परत जाण्यासाठी मूळ नाव निवडा.</value>
   </data>

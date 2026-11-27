@@ -2930,6 +2930,9 @@ Zer egin nahiko zenuke?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods-ek komunitateko modak arakatzeko aukera ematen dizu. Erabili goiko barrako Orrialdeak menua hona itzultzeko.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Nola itzuliko naiz aurreko orrialdera?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Izenburu-barrak orrialde nagusia eta zauden orria erakusten ditu. Hautatu gurasoen izena bertara itzultzeko.</value>
   </data>

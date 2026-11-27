@@ -3177,6 +3177,9 @@ Ką norėtumėte daryti?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>„Voidstrap Mods“ leidžia naršyti bendruomenės modifikacijas. Norėdami grįžti čia, naudokite viršutinėje juostoje esantį puslapių meniu.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Kaip grįžti į ankstesnį puslapį?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Pavadinimo juostoje rodomas pagrindinis puslapis ir puslapis, kuriame esate. Norėdami grįžti prie jo, pasirinkite tėvų vardą.</value>
   </data>

@@ -2930,6 +2930,9 @@ Roblox تۇنجى قېتىمVoidstrap ئارقىلىق چىقارغاندا چۈ
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ئارقىلىق مەھەللە ھالىتىنى كۆرەلەيسىز. بۇ يەرگە قايتىش ئۈچۈن ئۈستى بالداقتىكى بەت تىزىملىكى نى ئىشلىتىڭ.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>ئالدىنقى بەتكە قانداق قايتىمەن؟</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>تېما بالدىقى باش بەت ۋە سىز تۇرغان بەتنى كۆرسىتىدۇ. ئۇنىڭغا قايتىش ئۈچۈن ئانا نامىنى تاللاڭ.</value>
   </data>

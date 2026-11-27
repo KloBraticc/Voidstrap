@@ -3147,6 +3147,9 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods позволяет просматривать моды сообщества. Используйте меню «Страницы» на верхней панели, чтобы вернуться сюда.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Как мне вернуться на предыдущую страницу?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>В строке заголовка отображается родительская страница и страница, на которой вы находитесь. Выберите родительское имя, чтобы вернуться к нему.</value>
   </data>

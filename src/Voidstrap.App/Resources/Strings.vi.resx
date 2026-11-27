@@ -3147,6 +3147,9 @@ Bạn muốn làm gì?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods cho phép bạn duyệt qua các mod cộng đồng. Sử dụng menu Trang ở thanh trên cùng để quay lại đây.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Làm cách nào để quay lại trang trước?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Thanh tiêu đề hiển thị trang mẹ và trang bạn đang truy cập. Chọn tên cha mẹ để quay lại tên đó.</value>
   </data>

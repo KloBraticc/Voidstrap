@@ -3138,6 +3138,9 @@ Ne yapmak istersiniz?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods, topluluk modlarına göz atmanızı sağlar. Buraya geri dönmek için üst çubuktaki Sayfalar menüsünü kullanın.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Önceki sayfaya nasıl geri dönerim?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Başlık çubuğu ana sayfayı ve bulunduğunuz sayfayı gösterir. Geri dönmek için ebeveyn adını seçin.</value>
   </data>

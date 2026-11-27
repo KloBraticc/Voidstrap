@@ -2930,6 +2930,9 @@ Je, ungependa kufanya nini?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Mods za Voidstrap hukuruhusu kuvinjari mods za jamii. Tumia menyu ya Kurasa katika upau wa juu ili kurudi hapa.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Je, ninawezaje kurudi kwenye ukurasa uliopita?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Upau wa kichwa unaonyesha ukurasa wa mzazi na ukurasa uliopo. Chagua jina la mzazi ili kurudi kwake.</value>
   </data>

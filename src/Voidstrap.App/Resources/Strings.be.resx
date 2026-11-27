@@ -2930,6 +2930,9 @@ Roblox будзе спампаваны пры першым запуску пра
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods дазваляе праглядаць моды супольнасці. Выкарыстоўвайце меню "Старонкі" ў верхняй панэлі, каб вярнуцца сюды.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Як мне вярнуцца на папярэднюю старонку?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Радок загалоўка паказвае бацькоўскую старонку і старонку, на якой вы знаходзіцеся. Выберыце бацькоўскае імя, каб вярнуцца да яго.</value>
   </data>

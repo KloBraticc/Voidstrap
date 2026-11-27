@@ -2930,6 +2930,9 @@ Roblox ଡାଉନଲୋଡ୍ ହେବ | ଲଞ୍ଚ କରିବା ପୂ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap ମୋଡ୍ ଆପଣଙ୍କୁ କମ୍ୟୁନିଟି ମୋଡ୍ ବ୍ରାଉଜ୍ କରିବାକୁ ଦିଏ | ଏଠାକୁ ଫେରିବା ପାଇଁ ଉପର ଦଣ୍ଡିକାରେ ଥିବା ପୃଷ୍ଠାଗୁଡ଼ିକ ମେନୁ ବ୍ୟବହାର କରନ୍ତୁ |</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>ମୁଁ କିପରି ପୂର୍ବ ପୃଷ୍ଠାକୁ ଫେରିବି?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>ଟାଇଟଲ୍ ବାର୍ ପ୍ୟାରେଣ୍ଟ୍ ପେଜ୍ ଏବଂ ଆପଣ ଥିବା ପେଜ୍ ଦେଖାଏ | ଏହାକୁ ଫେରିବା ପାଇଁ ପିତାମାତା ନାମ ଚୟନ କରନ୍ତୁ |</value>
   </data>

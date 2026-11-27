@@ -3174,6 +3174,9 @@
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>تتيح لك Voidstrap Mods تصفح تعديلات المجتمع. استخدم قائمة الصفحات في الشريط العلوي للرجوع إلى هنا.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>كيف أعود إلى الصفحة السابقة؟</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>يعرض شريط العنوان الصفحة الرئيسية والصفحة التي تتصفحها. حدد اسم الوالدين للعودة إليه.</value>
   </data>

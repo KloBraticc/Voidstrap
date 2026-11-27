@@ -3101,6 +3101,9 @@ Vad vill du göra?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods låter dig bläddra i community-mods. Använd menyn Sidor i fältet överst för att komma tillbaka hit.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Hur går jag tillbaka till föregående sida?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Titelraden visar den överordnade sidan och sidan du är på. Välj föräldranamnet för att gå tillbaka till det.</value>
   </data>

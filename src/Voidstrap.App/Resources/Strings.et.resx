@@ -2930,6 +2930,9 @@ Mida sa teha tahaksid?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods võimaldab sirvida kogukonna modifikatsioone. Siia naasmiseks kasutage ülemise riba menüüd Lehed.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Kuidas eelmisele lehele tagasi minna?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Tiitliriba näitab emalehte ja lehekülge, millel viibite. Selle juurde naasmiseks valige vanema nimi.</value>
   </data>

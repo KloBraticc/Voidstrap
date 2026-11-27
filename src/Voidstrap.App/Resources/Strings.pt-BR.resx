@@ -3123,6 +3123,9 @@ O que você gostaria de fazer?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods permite navegar pelos mods da comunidade. Use o menu Páginas na barra superior para voltar aqui.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Como voltar à página anterior?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>A barra de título mostra a página principal e a página em que você está. Selecione o nome do pai para voltar a ele.</value>
   </data>

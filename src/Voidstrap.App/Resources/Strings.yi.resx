@@ -2930,6 +2930,9 @@ Roblox וועט זיין דאַונלאָודיד ווען איר קאַטער �
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap מאָדס אַלאַוז איר צו בלעטער קהל מאָדס. ניצן די בלעטער מעניו אין די שפּיץ באַר צו קומען צוריק דאָ.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>ווי אַזוי טאָן איך צוריקקומען צו די פריערדיקע בלאַט?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>דער טיטל באַר ווייזט די פאָטער בלאַט און די בלאַט איר זענט אויף. סעלעקטירן דעם פאָטער נאָמען צו גיין צוריק צו אים.</value>
   </data>

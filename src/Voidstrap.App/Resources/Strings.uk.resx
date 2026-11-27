@@ -3156,6 +3156,9 @@ Roblox буде завантажено під час першого запуск
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods дозволяє переглядати моди спільноти. Скористайтеся меню «Сторінки» на верхній панелі, щоб повернутися сюди.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Як мені повернутися на попередню сторінку?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Рядок заголовка показує головну сторінку та сторінку, на якій ви перебуваєте. Виберіть батьківське ім’я, щоб повернутися до нього.</value>
   </data>

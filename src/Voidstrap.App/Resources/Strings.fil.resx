@@ -2918,6 +2918,9 @@ Ano ang gusto mong gawin?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Hinahayaan ka ng Voidstrap Mods na mag-browse ng mga mod ng komunidad. Gamitin ang menu ng Mga Pahina sa tuktok na bar upang bumalik dito.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Paano ako babalik sa nakaraang pahina?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Ipinapakita ng title bar ang parent page at ang page na kinaroroonan mo. Piliin ang pangalan ng magulang upang bumalik dito.</value>
   </data>

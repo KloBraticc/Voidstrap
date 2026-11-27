@@ -2930,6 +2930,9 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods מאפשר לך לדפדף במונדי קהילה. השתמש בתפריט דפים בסרגל העליון כדי לחזור לכאן.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>איך אני חוזר לעמוד הקודם?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>שורת הכותרת מציגה את עמוד האב ואת העמוד שבו אתה נמצא. בחר את שם האב כדי לחזור אליו.</value>
   </data>

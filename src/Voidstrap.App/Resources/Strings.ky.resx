@@ -2930,6 +2930,9 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods сизге жамааттык режимдерди карап чыгууга мүмкүндүк берет. Бул жерге кайтып келүү үчүн жогорку тилкедеги Барактар менюсун колдонуңуз.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>Кантип мурунку бетке кайтсам болот?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>Аталышы тилкеси башкы бетти жана сиз турган баракты көрсөтөт. Кайтуу үчүн ата-эненин атын тандаңыз.</value>
   </data>

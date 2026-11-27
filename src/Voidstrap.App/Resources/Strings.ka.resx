@@ -2930,6 +2930,9 @@ Roblox ჩამოიტვირთება, როდესაც მას 
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods საშუალებას გაძლევთ დაათვალიეროთ საზოგადოების მოდიფიკაციები. აქ დასაბრუნებლად გამოიყენეთ გვერდების მენიუ ზედა ზოლში.</value>
   </data>
+  <data name="Tutorial.BreadcrumbTitle" xml:space="preserve">
+    <value>როგორ დავბრუნდე წინა გვერდზე?</value>
+  </data>
   <data name="Tutorial.Breadcrumb" xml:space="preserve">
     <value>სათაურის ზოლში ნაჩვენებია მშობელი გვერდი და გვერდი, რომელზეც იმყოფებით. აირჩიეთ მშობლის სახელი მასზე დასაბრუნებლად.</value>
   </data>
