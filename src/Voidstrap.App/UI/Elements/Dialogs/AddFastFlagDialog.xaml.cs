@@ -23,7 +23,7 @@ public partial class AddFastFlagDialog : WpfUiWindow
 {
     private const long MaximumImportBytes = 4_000_000;
 
-    private const int MaximumImportedFlags = 20_000;
+    internal const int MaximumImportedFlags = 20_000;
 
     private const int MaximumBase64Characters = 5_500_000;
 
@@ -68,7 +68,7 @@ public partial class AddFastFlagDialog : WpfUiWindow
         }
     }
 
-    private static async Task<string> ReadImportTextAsync(string path)
+    internal static async Task<string> ReadImportTextAsync(string path, CancellationToken token = default)
     {
         await using FileStream stream = new FileStream(
             path,
@@ -84,16 +84,16 @@ public partial class AddFastFlagDialog : WpfUiWindow
         int offset = 0;
         while (offset < data.Length)
         {
-            int read = await stream.ReadAsync(data.AsMemory(offset), CancellationToken.None);
+            int read = await stream.ReadAsync(data.AsMemory(offset), token);
             if (read == 0)
                 throw new EndOfStreamException();
             offset += read;
         }
-        if (await stream.ReadAsync(new byte[1], CancellationToken.None) != 0)
+        if (await stream.ReadAsync(new byte[1], token) != 0)
             throw new InvalidDataException("The flag file changed while it was being read");
         using MemoryStream memory = new MemoryStream(data, writable: false);
         using StreamReader reader = new StreamReader(memory, Encoding.UTF8, true);
-        return await reader.ReadToEndAsync();
+        return await reader.ReadToEndAsync(token);
     }
 
     private void JsonTextBox_TextChanged(object sender, TextChangedEventArgs e)

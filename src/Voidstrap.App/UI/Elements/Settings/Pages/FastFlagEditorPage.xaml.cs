@@ -151,6 +151,7 @@ public partial class FastFlagEditorPage : UiPage
     private const int SearchDebounceMs = 180;
 
     private readonly ObservableCollection<FlagHistoryEntry> _flagHistory = new ObservableCollection<FlagHistoryEntry>();
+    private CancellationTokenSource? _dropImport;
 
     private static readonly HashSet<string> _presetFlagValues = new HashSet<string>(
         FastFlagManager.PresetFlags.Values,
@@ -267,6 +268,7 @@ public partial class FastFlagEditorPage : UiPage
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
+        _dropImport?.Cancel();
         UnregisterMcpEditor();
         _searchDebounce.Stop();
         if (_searchTimerAttached)
@@ -863,15 +865,63 @@ public partial class FastFlagEditorPage : UiPage
         DataGrid.ScrollIntoView(row);
     }
 
-    private bool ImportJSON(string json)
+    private string? GetDropImportPath(DragEventArgs e) =>
+        _dropImport == null && e.Data.GetData(DataFormats.FileDrop, false) is string[] { Length: 1 } files
+            && string.Equals(Path.GetExtension(files[0]), ".json", StringComparison.OrdinalIgnoreCase)
+            ? files[0]
+            : null;
+
+    private void Page_PreviewDragOver(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            return;
+        e.Effects = GetDropImportPath(e) != null ? DragDropEffects.Copy : DragDropEffects.None;
+        e.Handled = true;
+    }
+
+    private async void Page_PreviewDrop(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            return;
+        e.Handled = true;
+        if (GetDropImportPath(e) is not { } path)
+        {
+            e.Effects = DragDropEffects.None;
+            return;
+        }
+        e.Effects = DragDropEffects.Copy;
+
+        using CancellationTokenSource request = new();
+        _dropImport = request;
+        try
+        {
+            string json = await AddFastFlagDialog.ReadImportTextAsync(path, request.Token);
+            if (!request.IsCancellationRequested)
+                ImportJSON(json, allowFragment: false);
+        }
+        catch (OperationCanceledException) when (request.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex) when (ex is IOException or InvalidDataException or UnauthorizedAccessException or NotSupportedException or ArgumentException)
+        {
+            if (!request.IsCancellationRequested)
+                Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_ImportFailed, Path.GetFileName(path), ex.Message), MessageBoxImage.Hand);
+        }
+        finally
+        {
+            _dropImport = null;
+        }
+    }
+
+    private bool ImportJSON(string json, bool allowFragment = true)
     {
         Dictionary<string, object>? list;
         json = json.Trim();
-        if (!json.StartsWith('{'))
+        if (allowFragment && !json.StartsWith('{'))
         {
             json = "{" + json;
         }
-        if (!json.EndsWith('}'))
+        if (allowFragment && !json.EndsWith('}'))
         {
             int num = json.LastIndexOf('}');
             json = ((num != -1) ? json.Substring(0, num + 1) : (json + "}"));
@@ -883,12 +933,16 @@ public partial class FastFlagEditorPage : UiPage
             {
                 throw new Exception("JSON deserialization returned null");
             }
+            if (!allowFragment && (list.Count > AddFastFlagDialog.MaximumImportedFlags
+                || list.Values.OfType<JsonElement>().Any(value => value.ValueKind is JsonValueKind.Object or JsonValueKind.Array)))
+                throw new JsonException();
         }
         catch (Exception ex)
         {
             Frontend.ShowMessageBox(string.Format(Strings.Menu_FastFlagEditor_InvalidJSON, ex.Message), MessageBoxImage.Hand);
             return false;
         }
+        CancelPendingEdit();
         List<string> conflicts = list.Keys.Where(App.FastFlags.Prop.ContainsKey).ToList();
         bool overwrite = false;
         if (conflicts.Count > 0)

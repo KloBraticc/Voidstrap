@@ -9,7 +9,7 @@
            xmlns:platform="clr-namespace:Voidstrap.UI"
            xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
            Title="FastFlagEditorPage"
-           Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+           Loaded="Page_Loaded" Unloaded="Page_Unloaded" AllowDrop="True" PreviewDragOver="Page_PreviewDragOver" PreviewDrop="Page_PreviewDrop">
 
   <FrameworkElement.Resources>
     <ResourceDictionary>
@@ -20,7 +20,7 @@
     </ResourceDictionary>
   </FrameworkElement.Resources>
 
-  <Grid Margin="0,0,14,14">
+  <Grid Margin="0,0,14,14" Background="Transparent">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
