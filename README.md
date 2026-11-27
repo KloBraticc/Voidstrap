@@ -288,61 +288,42 @@ Adding the flake as an input is not enough on its own: enable the module or add 
 
 ### Requirements
 
-Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) for desktop builds. The repository requires **10.0.403 or a newer stable 10.0 SDK**, as set in [global.json](global.json). Run `dotnet --version` from the repository root to check it. The first build downloads NuGet packages and may take a while.
-
-| App | Build hosts | Targets |
-| --- | --- | --- |
-| Windows | Windows | x64 |
-| Linux | Linux, or Windows with WSL | x64 and ARM64, glibc or musl |
-| macOS | macOS, Windows or Linux. Windows disk-image packaging uses WSL 2. | Intel and Apple silicon |
-| FreeBSD | Windows or FreeBSD | x64 |
-| Android | Windows, Linux or macOS with the Android NDK host tools | ARM64, ARMv7 and x64 in each APK |
+Desktop builds need [.NET 10 SDK 10.0.403 or a newer stable 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 ### Building and running
-
-Clone the repository and its submodules with [Git](https://git-scm.com/downloads).
 
 ```bash
 git clone --recurse-submodules https://github.com/KloBraticc/Voidstrap.git
 cd Voidstrap
 ```
 
-> [!TIP]
-> On Windows, use a short path like `C:\src\Voidstrap` to avoid path length errors. One less thing to debug.
-
-If you've already cloned the repository, run `git submodule update --init --recursive`. Desktop builds need `external/wpfui` and the bundled files in `external/LibreWPF`.
-
-Run the build commands from the repository root unless a step says otherwise.
+Already cloned? Run `git submodule update --init --recursive`. On Windows, use a short checkout path like `C:\src\Voidstrap`.
 
 #### Windows
 
-You need Windows 10 or 11 (64 bit), [Rust](https://rustup.rs) with the MSVC toolchain, the Visual Studio C++ build tools, and the Windows SDK. Rust builds the native libraries used by the application, including frame pacing, image handling, and package extraction.
-
-Build the release binary, then run it.
+Windows 10 or 11 x64, [Rust with MSVC](https://rustup.rs), Visual Studio C++ Build Tools, and the Windows SDK.
 
 ```powershell
 dotnet build Voidstrap.sln -c Release
 .\src\Voidstrap.App\bin\Release\net10.0-windows\win-x64\Voidstrap.exe
 ```
 
-The full solution requires Windows. See [Platform instructions](#platform-instructions) for the Linux, macOS, FreeBSD, and Android build steps.
+For other systems, see [Platform instructions](#platform-instructions).
 
 ### Packaging and releasing
 
-The [publish script](publish-all.ps1) writes packages to `PublishedBuilds`. It runs with Windows PowerShell or PowerShell 7 on Windows. Install [PowerShell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) to use it on Linux or macOS.
-
-To publish a single Windows executable:
+Publish the Windows executable from the repository root.
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
 ```
 
-Run `PublishedBuilds\Windows\Voidstrap.exe` with the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
+`PublishedBuilds\Windows\Voidstrap.exe` requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 ### Platform instructions
 
 <details>
-  <summary>Windows code signing</summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-windows-dark.svg"><img src="assets/readme/build-windows-light.svg" alt="Windows code signing" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
 If you have [SignPath](https://signpath.io/) set up for your repository, running `publish-all.ps1` with no arguments builds all release targets and signs the Release `Voidstrap.exe` through the trusted GitHub Actions build. If you do not use SignPath, use the `-Only windows` command above instead.
 
