@@ -41,12 +41,25 @@
           <ItemsControl Grid.Row="1" Margin="0,10,0,0" ItemsSource="{Binding Storefront.FeaturedGame.PreviewShots}">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
-                <UniformGrid Columns="2" Rows="2" />
+                <UniformGrid>
+                  <UniformGrid.Style>
+                    <Style TargetType="{x:Type UniformGrid}">
+                      <Setter Property="Columns" Value="2" />
+                      <Setter Property="Rows" Value="2" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="1">
+                          <Setter Property="Columns" Value="1" />
+                          <Setter Property="Rows" Value="1" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </UniformGrid.Style>
+                </UniformGrid>
               </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
               <DataTemplate>
-                <Image Margin="0,0,6,6" util:RoundedClip.Radius="6" Stretch="UniformToFill" util:DynamicRenderSystem.LazyImageSource="{Binding}" />
+                <Image Margin="0,0,6,6" HorizontalAlignment="Left" VerticalAlignment="Top" util:RoundedClip.Radius="6" Stretch="Uniform" util:DynamicRenderSystem.LazyImageSource="{Binding}" />
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
@@ -191,7 +204,7 @@
         <ItemsControl ItemsSource="{Binding Storefront.PreviewGame.Screenshots}">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <Image Margin="0,0,0,6" Height="130" util:RoundedClip.Radius="6" Stretch="UniformToFill" util:DynamicRenderSystem.LazyImageSource="{Binding}" />
+              <Image Margin="0,0,0,6" MaxHeight="130" HorizontalAlignment="Left" VerticalAlignment="Top" util:RoundedClip.Radius="6" Stretch="Uniform" util:DynamicRenderSystem.LazyImageSource="{Binding}" />
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
