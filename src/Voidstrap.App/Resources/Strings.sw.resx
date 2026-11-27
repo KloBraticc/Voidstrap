@@ -2909,6 +2909,30 @@ Je, ungependa kufanya nini?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Anzisha tena Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Mafunzo ya msingi</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Je, ungependa kuruka mafunzo haya ya msingi?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Vipindi vya nyumbani vilivyoangaziwa na vilivyopendekezwa vya michezo ya Roblox. Chagua Cheza kwenye mchezo ili kuuzindua.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Tumia utepe kubadili kati ya kurasa kuu za mipangilio. Usambazaji hudhibiti jinsi Roblox inazinduliwa, na Mwonekano hubadilisha jinsi Voidstrap inavyoonekana.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Tumia kitufe hiki kukunja utepe kwa aikoni au uipanue ili kuonyesha majina ya kurasa.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Maktaba hupanga michezo uliyohifadhi na iliyocheza hivi majuzi ya Roblox. Ifungue kutoka kwa menyu ya Kurasa kwenye upau wa juu.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Mods za Voidstrap hukuruhusu kuvinjari mods za jamii. Tumia menyu ya Kurasa katika upau wa juu ili kurudi hapa.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Upau wa kichwa unaonyesha ukurasa wa mzazi na ukurasa uliopo. Chagua jina la mzazi ili kurudi kwake.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Kunja au kupanua utepe</value>
   </data>

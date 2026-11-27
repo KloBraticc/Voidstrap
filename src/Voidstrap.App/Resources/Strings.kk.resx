@@ -2909,6 +2909,30 @@ Roblox оныVoidstrap арқылы алғаш рет іске қосқан ке
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapқайта іске қосыңыз</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Негізгі оқу құралы</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Осы негізгі оқулықты өткізіп жібергіңіз келе ме?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Үйде ұсынылған және ұсынылған Roblox ойындары көрсетіледі. Оны іске қосу үшін Ойында ойнату опциясын таңдаңыз.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Негізгі параметрлер беттері арасында ауысу үшін бүйірлік тақтаны пайдаланыңыз. Орналастыру Roblox қалай іске қосылатынын басқарады, ал Сыртқы түрі Voidstrap көрінісін өзгертеді.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Бұл түймені бүйірлік тақтаны белгішелерге жию немесе бет атауларын көрсету үшін кеңейту үшін пайдаланыңыз.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Кітапханада сақталған және жақында ойналған Roblox ойындарын топтастырыңыз. Оны жоғарғы жолақтағы «Беттер» мәзірінен ашыңыз.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods қауымдастық моддерін шолуға мүмкіндік береді. Осы жерге оралу үшін жоғарғы жолақтағы «Беттер» мәзірін пайдаланыңыз.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Тақырып жолы негізгі бетті және сіз тұрған бетті көрсетеді. Оған оралу үшін ата-ана атын таңдаңыз.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Бүйірлік тақтаны жию немесе кеңейту</value>
   </data>

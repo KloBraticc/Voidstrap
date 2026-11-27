@@ -2909,6 +2909,30 @@ Nima qilishni xohlaysiz?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrap-ni qayta ishga tushiring</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Asosiy darslik</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Ushbu asosiy qo'llanmani o'tkazib yubormoqchimisiz?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Uyda ko'rsatiladigan va tavsiya etilgan Roblox o'yinlari. Uni ishga tushirish uchun O'yinda o'ynash-ni tanlang.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Asosiy sozlamalar sahifalari o'rtasida almashish uchun yon paneldan foydalaning. Joylashtirish Roblox qanday ishga tushirilishini nazorat qiladi va Tashqi ko'rinish Voidstrap ko'rinishini o'zgartiradi.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Yon panelni piktogrammalarga yopish yoki sahifa nomlarini ko'rsatish uchun kengaytirish uchun ushbu tugmadan foydalaning.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Kutubxonada saqlangan va yaqinda oʻynagan Roblox oʻyinlaringizni guruhlarga ajrating. Uni yuqori paneldagi Sahifalar menyusidan oching.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods sizga hamjamiyat modlarini ko'rib chiqish imkonini beradi. Bu yerga qaytish uchun yuqori paneldagi Sahifalar menyusidan foydalaning.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Sarlavha satri asosiy sahifani va siz joylashgan sahifani ko'rsatadi. Unga qaytish uchun ota-ona ismini tanlang.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Yon panelni yig'ish yoki kengaytirish</value>
   </data>

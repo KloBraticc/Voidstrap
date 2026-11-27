@@ -3075,6 +3075,30 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Mulai ulang Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Tutorial dasar</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Apakah Anda ingin melewatkan tutorial dasar ini?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Pertunjukan rumah menampilkan dan merekomendasikan game Roblox. Pilih Mainkan game untuk meluncurkannya.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Gunakan sidebar untuk beralih di antara halaman pengaturan utama. Penerapan mengontrol cara Roblox diluncurkan, dan Penampilan mengubah tampilan Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Gunakan tombol ini untuk menutup sidebar menjadi ikon atau memperluasnya untuk menampilkan nama halaman.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Perpustakaan mengelompokkan game Roblox yang Anda simpan dan baru-baru ini mainkan. Buka dari menu Halaman di bilah atas.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods memungkinkan Anda menelusuri mod komunitas. Gunakan menu Halaman di bilah atas untuk kembali ke sini.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Bilah judul menunjukkan halaman induk dan halaman tempat Anda berada. Pilih nama induk untuk kembali ke sana.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Ciutkan atau perluas bilah samping</value>
   </data>

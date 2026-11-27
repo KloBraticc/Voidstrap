@@ -3156,6 +3156,30 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Paleisti Voidstrap iš naujo</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Pagrindinė pamoka</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Ar norėtumėte praleisti šią pagrindinę mokymo programą?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Namuose rodomi ir rekomenduojami Roblox žaidimai. Pasirinkite žaisti žaidime, kad jį paleistumėte.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Norėdami perjungti pagrindinius nustatymų puslapius, naudokite šoninę juostą. Diegimas valdo, kaip Roblox paleidžiamas, o išvaizda keičia Voidstrap išvaizdą.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Naudokite šį mygtuką, norėdami sutraukti šoninę juostą iki piktogramų arba išplėsti, kad būtų rodomi puslapių pavadinimai.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Biblioteka sugrupuoja išsaugotus ir neseniai žaistus „Roblox“ žaidimus. Atidarykite jį iš meniu Puslapiai viršutinėje juostoje.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>„Voidstrap Mods“ leidžia naršyti bendruomenės modifikacijas. Norėdami grįžti čia, naudokite viršutinėje juostoje esantį puslapių meniu.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Pavadinimo juostoje rodomas pagrindinis puslapis ir puslapis, kuriame esate. Norėdami grįžti prie jo, pasirinkite tėvų vardą.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Suskleisti arba išskleisti šoninę juostą</value>
   </data>

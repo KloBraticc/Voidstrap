@@ -2909,6 +2909,30 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>הפעל מחדש את Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>הדרכה בסיסית</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>האם תרצה לדלג על הדרכה בסיסית זו?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>בדף הבית מוצגים משחקי Roblox נבחרים ומומלצים. כדי להפעיל משחק, בחרו באפשרות ״שחק״.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>השתמש בסרגל הצד כדי לעבור בין דפי ההגדרות הראשיים. הפריסה שולטת באופן ההשקה של Roblox, והמראה משנה את האופן שבו Voidstrap נראה.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>השתמש בלחצן זה כדי לכווץ את סרגל הצד לסמלים או להרחיב אותו כדי להציג שמות דפים.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>ספרייה מקבצת את משחקי Roblox ששמרתם וששיחקתם לאחרונה. פתח אותו מתפריט דפים בסרגל העליון.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods מאפשר לך לדפדף במונדי קהילה. השתמש בתפריט דפים בסרגל העליון כדי לחזור לכאן.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>שורת הכותרת מציגה את עמוד האב ואת העמוד שבו אתה נמצא. בחר את שם האב כדי לחזור אליו.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>כווץ או הרחב את סרגל הצד</value>
   </data>

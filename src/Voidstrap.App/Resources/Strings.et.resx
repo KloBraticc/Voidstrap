@@ -2909,6 +2909,30 @@ Mida sa teha tahaksid?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Taaskäivitage Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Põhiõpetus</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Kas soovite selle põhiõpetuse vahele jätta?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Avaleht näitab esiletõstetud ja soovitatud Robloxi mänge. Mängu käivitamiseks valige Mängi mängus.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Põhiseadete lehtede vahel vahetamiseks kasutage külgriba. Juurutamine juhib seda, kuidas Roblox käivitub, ja välimus muudab Voidstrapi välimust.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Kasutage seda nuppu külgriba ahendamiseks ikoonideni või laiendamiseks, et kuvada lehtede nimed.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Teek rühmitab teie salvestatud ja hiljuti mängitud Robloxi mängud. Avage see ülemise riba menüüst Leheküljed.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods võimaldab sirvida kogukonna modifikatsioone. Siia naasmiseks kasutage ülemise riba menüüd Lehed.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Tiitliriba näitab emalehte ja lehekülge, millel viibite. Selle juurde naasmiseks valige vanema nimi.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Ahendage või laiendage külgriba</value>
   </data>

@@ -2909,6 +2909,30 @@ Roblox ჩამოიტვირთება, როდესაც მას 
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>გადატვირთეთ Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>ძირითადი გაკვეთილი</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>გსურთ გამოტოვოთ ეს ძირითადი სახელმძღვანელო?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>მთავარი აჩვენებს გამორჩეულ და რეკომენდებულ Roblox თამაშებს. აირჩიეთ თამაშიზე თამაში მის გასაშვებად.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>გამოიყენეთ გვერდითი ზოლი ძირითადი პარამეტრების გვერდებს შორის გადასართავად. Deployment აკონტროლებს Roblox-ის გაშვებას და Appearance ცვლის Voidstrap-ის გარეგნობას.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>გამოიყენეთ ეს ღილაკი გვერდითი ზოლის ხატებზე დასაკეცად ან მისი გაფართოებისთვის გვერდების სახელების საჩვენებლად.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>ბიბლიოთეკა აჯგუფებს თქვენს შენახულ და ახლახან ნათამაშებს Roblox თამაშებს. გახსენით იგი ზედა ზოლში გვერდის მენიუდან.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods საშუალებას გაძლევთ დაათვალიეროთ საზოგადოების მოდიფიკაციები. აქ დასაბრუნებლად გამოიყენეთ გვერდების მენიუ ზედა ზოლში.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>სათაურის ზოლში ნაჩვენებია მშობელი გვერდი და გვერდი, რომელზეც იმყოფებით. აირჩიეთ მშობლის სახელი მასზე დასაბრუნებლად.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>გვერდითი ზოლის ჩაკეცვა ან გაფართოება</value>
   </data>

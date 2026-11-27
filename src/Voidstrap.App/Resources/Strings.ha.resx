@@ -2909,6 +2909,30 @@ Me kuke so ku yi?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Sake kunna Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Koyarwa ta asali</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Kuna so ku tsallake wannan ainihin koyawa?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Nunin gida da aka nuna da kuma shawarar wasannin Roblox. Zaɓi Kunna akan wasa don ƙaddamar da shi.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Yi amfani da labarun gefe don canzawa tsakanin manyan shafukan saituna. Ƙaddamarwa yana sarrafa yadda Roblox ya ƙaddamar, kuma Bayyanar yana canza yadda Voidstrap ya dubi.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Yi amfani da wannan maballin don ruguje gunkin gefe zuwa gumaka ko fadada shi don nuna sunayen shafi.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Rukunin ɗakin karatu da aka adana da kuma buga wasannin Roblox kwanan nan. Bude shi daga menu na Shafuka a saman mashaya.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods yana ba ku damar bincika abubuwan al'umma. Yi amfani da menu na Shafukan da ke saman mashaya don dawowa nan.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Bar taken yana nuna shafin iyaye da shafin da kuke ciki. Zaɓi sunan iyaye don komawa gare shi.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Rushe ko faɗaɗa labarun gefe</value>
   </data>

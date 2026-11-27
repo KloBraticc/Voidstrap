@@ -2909,6 +2909,30 @@ Roblox ಅನ್ನು ನೀವು ಮೊದಲ ಬಾರಿಗೆVoidstrap ಮ
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapಅನ್ನು ಮರುಪ್ರಾರಂಭಿಸಿ</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>ಮೂಲ ಟ್ಯುಟೋರಿಯಲ್</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>ನೀವು ಈ ಮೂಲಭೂತ ಟ್ಯುಟೋರಿಯಲ್ ಅನ್ನು ಬಿಟ್ಟುಬಿಡಲು ಬಯಸುವಿರಾ?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>ಹೋಮ್ ಶೋಗಳು ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಿದ ಮತ್ತು ಶಿಫಾರಸು ಮಾಡಲಾದ Roblox ಆಟಗಳಾಗಿವೆ. ಆಟವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಅದನ್ನು ಪ್ಲೇ ಮಾಡಿ ಆಯ್ಕೆಮಾಡಿ.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>ಮುಖ್ಯ ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪುಟಗಳ ನಡುವೆ ಬದಲಾಯಿಸಲು ಸೈಡ್‌ಬಾರ್ ಬಳಸಿ. ನಿಯೋಜನೆಯು Roblox ಅನ್ನು ಹೇಗೆ ಪ್ರಾರಂಭಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸುತ್ತದೆ ಮತ್ತು Voidstrap ಹೇಗೆ ಕಾಣುತ್ತದೆ ಎಂಬುದನ್ನು ಗೋಚರತೆಯು ಬದಲಾಯಿಸುತ್ತದೆ.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>ಐಕಾನ್‌ಗಳಿಗೆ ಸೈಡ್‌ಬಾರ್ ಅನ್ನು ಕುಗ್ಗಿಸಲು ಅಥವಾ ಪುಟದ ಹೆಸರುಗಳನ್ನು ತೋರಿಸಲು ಅದನ್ನು ವಿಸ್ತರಿಸಲು ಈ ಬಟನ್ ಅನ್ನು ಬಳಸಿ.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>ನೀವು ಉಳಿಸಿದ ಮತ್ತು ಇತ್ತೀಚೆಗೆ ಆಡಿದ Roblox ಆಟಗಳನ್ನು ಲೈಬ್ರರಿ ಗುಂಪುಗಳು. ಮೇಲಿನ ಪಟ್ಟಿಯಲ್ಲಿರುವ ಪುಟಗಳ ಮೆನುವಿನಿಂದ ಅದನ್ನು ತೆರೆಯಿರಿ.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap ಮೋಡ್ಸ್ ಸಮುದಾಯ ಮೋಡ್‌ಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ. ಇಲ್ಲಿಗೆ ಹಿಂತಿರುಗಲು ಮೇಲಿನ ಪಟ್ಟಿಯಲ್ಲಿರುವ ಪುಟಗಳ ಮೆನುವನ್ನು ಬಳಸಿ.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>ಶೀರ್ಷಿಕೆ ಪಟ್ಟಿಯು ಪೋಷಕ ಪುಟ ಮತ್ತು ನೀವು ಇರುವ ಪುಟವನ್ನು ತೋರಿಸುತ್ತದೆ. ಅದಕ್ಕೆ ಹಿಂತಿರುಗಲು ಪೋಷಕ ಹೆಸರನ್ನು ಆಯ್ಕೆಮಾಡಿ.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>ಸೈಡ್ಬಾರ್ ಅನ್ನು ಕುಗ್ಗಿಸಿ ಅಥವಾ ವಿಸ್ತರಿಸಿ</value>
   </data>

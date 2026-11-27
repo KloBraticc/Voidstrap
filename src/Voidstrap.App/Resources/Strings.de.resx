@@ -3050,6 +3050,30 @@ Was möchtest du tun?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrap neu starten</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Grundlegendes Tutorial</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Möchten Sie dieses grundlegende Tutorial überspringen?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Heimshows mit vorgestellten und empfohlenen Roblox-Spielen. Wählen Sie „Ein Spiel spielen“, um es zu starten.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Verwenden Sie die Seitenleiste, um zwischen den Haupteinstellungsseiten zu wechseln. Die Bereitstellung steuert, wie Roblox gestartet wird, und das Erscheinungsbild ändert das Aussehen von Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Verwenden Sie diese Schaltfläche, um die Seitenleiste auf Symbole zu reduzieren oder sie zu erweitern, um Seitennamen anzuzeigen.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Die Bibliothek gruppiert Ihre gespeicherten und zuletzt gespielten Roblox-Spiele. Öffnen Sie es über das Seitenmenü in der oberen Leiste.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Mit Voidstrap Mods können Sie Community-Mods durchsuchen. Verwenden Sie das Menü „Seiten“ in der oberen Leiste, um hierher zurückzukehren.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Die Titelleiste zeigt die übergeordnete Seite und die Seite, auf der Sie sich befinden. Wählen Sie den Namen des übergeordneten Elements aus, um dorthin zurückzukehren.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Seitenleiste ein- oder ausklappen</value>
   </data>

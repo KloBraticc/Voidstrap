@@ -2909,6 +2909,30 @@ Yini ongathanda ukuyenza?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Qala kabusha i- Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Isifundo esiyisisekelo</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Ungathanda ukweqa lesi sifundo esiyisisekelo?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Imidlalo yasekhaya efakiwe nenconyiwe ye-Roblox. Khetha okuthi Dlala kugeyimu ukuze uyiqalise.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Sebenzisa ibha eseceleni ukuze ushintshe phakathi kwamakhasi ezilungiselelo ezinkulu. Ukuthunyelwa kulawula ukuthi i-Roblox iqalisa kanjani, futhi Ukubukeka kushintsha indlela i-Voidstrap ebukeka ngayo.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Sebenzisa le nkinobho ukuze ugoqe ibha eseceleni kuzithonjana noma uyinwebe ukuze ubonise amagama ekhasi.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Ilabhulali ihlanganisa imidlalo oyilondolozile nesanda kudlala imidlalo ye-Roblox. Ivule kumenyu Yamakhasi kubha ephezulu.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>I-Voidstrap Mods ikuvumela ukuthi udlulise amehlo kuma-mods omphakathi. Sebenzisa imenyu Yamakhasi kubha ephezulu ukuze ubuye lapha.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Ibha yesihloko ibonisa ikhasi elingumzali nekhasi okulo. Khetha igama lomzali ukuze ubuyele kulo.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Goqa noma nweba ibha eseceleni</value>
   </data>

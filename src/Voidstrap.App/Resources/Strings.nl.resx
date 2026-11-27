@@ -3078,6 +3078,30 @@ Wat wil je doen?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrap opnieuw starten</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Basis handleiding</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Wil je deze basistutorial overslaan?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Thuisshows aanbevolen en aanbevolen Roblox-spellen. Selecteer Spelen op een game om deze te starten.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Gebruik de zijbalk om tussen de hoofdinstellingenpagina's te schakelen. Implementatie bepaalt hoe Roblox wordt gestart, en Uiterlijk verandert hoe Voidstrap eruitziet.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Gebruik deze knop om de zijbalk samen te vouwen met pictogrammen of uit te vouwen om paginanamen weer te geven.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Bibliotheek groepeert uw opgeslagen en recent gespeelde Roblox-spellen. Open het via het Pagina's-menu in de bovenste balk.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Met Voidstrap Mods kun je door communitymods bladeren. Gebruik het Pagina's-menu in de bovenste balk om hier terug te komen.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>De titelbalk toont de bovenliggende pagina en de pagina waarop u zich bevindt. Selecteer de bovenliggende naam om ernaar terug te gaan.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Zijbalk in- of uitklappen</value>
   </data>

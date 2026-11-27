@@ -3117,6 +3117,30 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrap'i yeniden başlat</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Temel eğitim</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Bu temel eğitimi atlamak ister misiniz?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Ev şovlarında öne çıkan ve önerilen Roblox oyunları. Başlatmak için Oyunda Oyna'yı seçin.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Ana ayarlar sayfaları arasında geçiş yapmak için kenar çubuğunu kullanın. Dağıtım, Roblox'un nasıl başlatılacağını kontrol eder ve Görünüm, Voidstrap'in görünümünü değiştirir.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Kenar çubuğunu simgelerle daraltmak veya sayfa adlarını gösterecek şekilde genişletmek için bu düğmeyi kullanın.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Kütüphane, kaydettiğiniz ve yakın zamanda oynadığınız Roblox oyunlarını gruplandırır. Üst çubuktaki Sayfalar menüsünden açın.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods, topluluk modlarına göz atmanızı sağlar. Buraya geri dönmek için üst çubuktaki Sayfalar menüsünü kullanın.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Başlık çubuğu ana sayfayı ve bulunduğunuz sayfayı gösterir. Geri dönmek için ebeveyn adını seçin.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Kenar çubuğunu daralt veya genişlet</value>
   </data>

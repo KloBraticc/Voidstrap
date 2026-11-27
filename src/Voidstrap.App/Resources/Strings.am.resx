@@ -2909,6 +2909,30 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapእንደገና ያስጀምሩ</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>መሰረታዊ አጋዥ ስልጠና</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>ይህን መሰረታዊ ትምህርት መዝለል ይፈልጋሉ?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>መነሻ የቀረቡ እና የሚመከሩ የ Roblox ጨዋታዎችን ያሳያል። ጨዋታውን ለማስጀመር ተጫወት የሚለውን ይምረጡ።</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>በዋናው የቅንብሮች ገጾች መካከል ለመቀያየር የጎን አሞሌውን ይጠቀሙ። ማሰማራት Roblox እንዴት እንደሚጀመር ይቆጣጠራል፣ እና መልክ Voidstrap እንዴት እንደሚመስል ይለውጣል።</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>የጎን አሞሌውን ወደ አዶዎች ለመሰብሰብ ወይም የገጽ ስሞችን ለማሳየት ለማስፋት ይህን ቁልፍ ይጠቀሙ።</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>ቤተ መፃህፍት የተቀመጡትን እና በቅርብ ጊዜ የተጫወቷቸውን የ Roblox ጨዋታዎችን ይመድባሉ። በላይኛው አሞሌ ላይ ካለው የገጾች ምናሌ ውስጥ ይክፈቱት።</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods የማህበረሰብ ሞጁሎችን እንዲያስሱ ያስችልዎታል። ወደዚህ ለመመለስ በላይኛው አሞሌ ላይ ያለውን የገጾች ሜኑ ተጠቀም።</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>የርዕስ አሞሌው የወላጅ ገጽ እና እርስዎ ያሉበት ገጽ ያሳያል። ወደ እሱ ለመመለስ የወላጅ ስም ይምረጡ።</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>የጎን አሞሌውን ሰብስብ ወይም ዘርጋ</value>
   </data>

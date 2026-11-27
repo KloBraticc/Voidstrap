@@ -2909,6 +2909,30 @@ Wat wil jy graag doen?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Herbegin Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Basiese tutoriaal</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Wil jy hierdie basiese tutoriaal oorslaan?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Tuisprogramme bevat en aanbevole Roblox-speletjies. Kies Speel op 'n speletjie om dit te begin.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Gebruik die sybalk om tussen die hoofinstellingsbladsye te wissel. Ontplooiing beheer hoe Roblox begin, en Voorkoms verander hoe Voidstrap lyk.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Gebruik hierdie knoppie om die sybalk in te vou tot ikone of om dit uit te brei om bladsyname te wys.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Biblioteek groepeer jou gestoorde en onlangs gespeelde Roblox-speletjies. Maak dit oop vanaf die Bladsye-kieslys in die boonste balk.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Met Voidstrap Mods kan jy deur die gemeenskap mods blaai. Gebruik die Bladsye-kieslys in die boonste balk om hierheen terug te kom.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Die titelbalk wys die ouerbladsy en die bladsy waarop jy is. Kies die ouernaam om daarna terug te gaan.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Vou in of brei die sybalk in</value>
   </data>

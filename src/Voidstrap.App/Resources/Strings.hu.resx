@@ -3120,6 +3120,30 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrap újraindítása</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Alapvető oktatóanyag</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Szeretné kihagyni ezt az alapvető oktatóanyagot?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Otthoni műsorok kiemelt és ajánlott Roblox-játékokat mutatnak be. A játék elindításához válassza a Play on a game lehetőséget.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Az oldalsáv segítségével válthat a fő beállítási oldalak között. A telepítés szabályozza a Roblox elindítását, a megjelenés pedig megváltoztatja a Voidstrap megjelenését.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Ezzel a gombbal összecsukhatja az oldalsávot ikonokká, vagy kibonthatja az oldalnevek megjelenítéséhez.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>A könyvtár csoportosítja a mentett és nemrég játszott Roblox-játékait. Nyissa meg a felső sáv Oldalak menüjéből.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>A Voidstrap Mods segítségével böngészhet a közösségi modok között. Használja a felső sáv Oldalak menüjét, hogy visszatérjen ide.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>A címsor a szülőoldalt és azt az oldalt mutatja, amelyen éppen tartózkodik. Válassza ki a szülő nevét, hogy visszatérjen hozzá.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Oldalsáv össze- vagy kinyitása</value>
   </data>

@@ -2909,6 +2909,30 @@ Roblox तुम्ही प्रथमचVoidstrap द्वारे लॉ�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapरीस्टार्ट करा</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>मूलभूत ट्यूटोरियल</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>तुम्ही हे मूलभूत ट्यूटोरियल वगळू इच्छिता?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>होम शो वैशिष्ट्यीकृत आणि शिफारस केलेले Roblox गेम. गेम लाँच करण्यासाठी प्ले ऑन निवडा.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>मुख्य सेटिंग्ज पृष्ठांमध्ये स्विच करण्यासाठी साइडबार वापरा. उपयोजन Roblox लाँच कसे होते ते नियंत्रित करते आणि Voidstrap कसा दिसतो ते बदलते.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>साइडबार आयकॉनवर कोलॅप्स करण्यासाठी किंवा पृष्ठांची नावे दर्शविण्यासाठी ते विस्तृत करण्यासाठी हे बटण वापरा.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>लायब्ररी तुम्ही जतन केलेले आणि अलीकडे खेळलेले Roblox गेम गटबद्ध करते. शीर्ष बारमधील पृष्ठे मेनूमधून ते उघडा.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods तुम्हाला समुदाय मोड ब्राउझ करू देते. येथे परत येण्यासाठी शीर्ष बारमधील पृष्ठे मेनू वापरा.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>शीर्षक पट्टी मुख्य पृष्ठ आणि आपण ज्या पृष्ठावर आहात ते दर्शविते. त्यावर परत जाण्यासाठी मूळ नाव निवडा.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>साइडबार संकुचित करा किंवा विस्तृत करा</value>
   </data>

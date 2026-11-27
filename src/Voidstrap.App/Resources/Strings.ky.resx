@@ -2909,6 +2909,30 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapти кайра иштетиңиз</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Негизги окуу куралы</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Бул негизги окуу куралын өткөрүп жибергиңиз келеби?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Үйдө өзгөчөлөнгөн жана сунушталган Roblox оюндары көрсөтүлөт. Аны ишке киргизүү үчүн оюнда ойноону тандаңыз.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Негизги жөндөө беттеринин ортосунда которулуу үчүн каптал тилкесин колдонуңуз. Жайгаштыруу Roblox кантип ишке кирерин көзөмөлдөйт, ал эми Сырткы көрүнүш Voidstrap көрүнүшүн өзгөртөт.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Бул баскычты каптал тилкесин сүрөтчөлөргө жыйыштыруу же барактын аталыштарын көрсөтүү үчүн кеңейтүү үчүн колдонуңуз.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Сакталган жана жакында ойногон Roblox оюндарыңызды китепкана топторуна бөлүңүз. Аны жогорку тилкедеги Барактар менюсунан ачыңыз.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods сизге жамааттык режимдерди карап чыгууга мүмкүндүк берет. Бул жерге кайтып келүү үчүн жогорку тилкедеги Барактар менюсун колдонуңуз.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Аталышы тилкеси башкы бетти жана сиз турган баракты көрсөтөт. Кайтуу үчүн ата-эненин атын тандаңыз.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Каптал тилкесин жыйыштыруу же кеңейтүү</value>
   </data>

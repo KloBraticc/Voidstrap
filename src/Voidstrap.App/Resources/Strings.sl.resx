@@ -2909,6 +2909,30 @@ Kaj bi rad počel?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Znova zaženite Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Osnovna vadnica</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Ali želite preskočiti to osnovno vadnico?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Domača stran prikazuje predstavljene in priporočene igre Roblox. Izberite Igraj v igri, da jo zaženete.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Za preklapljanje med glavnimi stranmi z nastavitvami uporabite stransko vrstico. Razmestitev nadzoruje, kako se Roblox zažene, Videz pa spremeni videz Voidstrapa.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>S tem gumbom strnite stransko vrstico v ikone ali jo razširite, da prikažete imena strani.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Knjižnica združuje vaše shranjene in nedavno igrane igre Roblox. Odprite ga v meniju Strani v zgornji vrstici.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods vam omogoča brskanje po modifikacijah skupnosti. Uporabite meni Strani v zgornji vrstici, da se vrnete sem.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Naslovna vrstica prikazuje nadrejeno stran in stran, na kateri ste. Izberite nadrejeno ime, da se vrnete k njemu.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Strni ali razširi stransko vrstico</value>
   </data>

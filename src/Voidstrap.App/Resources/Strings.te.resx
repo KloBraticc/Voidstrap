@@ -2909,6 +2909,30 @@ Roblox డౌన్లోడ్ చేయబడుతుంది. మీరు 
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapని పునఃప్రారంభించండి</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>ప్రాథమిక ట్యుటోరియల్</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>మీరు ఈ ప్రాథమిక ట్యుటోరియల్‌ని దాటవేయాలనుకుంటున్నారా?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>హోమ్ షోలు ఫీచర్ చేయబడిన మరియు సిఫార్సు చేయబడిన Roblox గేమ్‌లు. దీన్ని ప్రారంభించేందుకు గేమ్‌లో ప్లే చేయి ఎంచుకోండి.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>ప్రధాన సెట్టింగ్‌ల పేజీల మధ్య మారడానికి సైడ్‌బార్‌ని ఉపయోగించండి. విస్తరణ Roblox ఎలా ప్రారంభించబడుతుందో నియంత్రిస్తుంది మరియు Voidstrap కనిపించే తీరును స్వరూపం మారుస్తుంది.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>సైడ్‌బార్‌ను చిహ్నాలకు కుదించడానికి లేదా పేజీ పేర్లను చూపడానికి దాన్ని విస్తరించడానికి ఈ బటన్‌ని ఉపయోగించండి.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>మీరు సేవ్ చేసిన మరియు ఇటీవల ఆడిన Roblox గేమ్‌లను లైబ్రరీ గ్రూప్ చేస్తుంది. ఎగువ బార్‌లోని పేజీల మెను నుండి దీన్ని తెరవండి.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap మోడ్స్ కమ్యూనిటీ మోడ్‌లను బ్రౌజ్ చేయడానికి మిమ్మల్ని అనుమతిస్తుంది. ఇక్కడకు తిరిగి రావడానికి ఎగువ బార్‌లోని పేజీల మెనుని ఉపయోగించండి.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>టైటిల్ బార్ పేరెంట్ పేజీ మరియు మీరు ఉన్న పేజీని చూపుతుంది. దానికి తిరిగి వెళ్లడానికి పేరెంట్ పేరును ఎంచుకోండి.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>సైడ్బార్ను కుదించండి లేదా విస్తరించండి</value>
   </data>

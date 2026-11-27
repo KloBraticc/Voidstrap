@@ -2909,6 +2909,30 @@ Kion vi ŝatus fari?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Rekomencu Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Baza lernilo</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Ĉu vi ŝatus preterlasi ĉi tiun bazan lernilon?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Hejmaj spektakloj prezentitaj kaj rekomenditaj Roblox-ludoj. Elektu Ludi en ludo por lanĉi ĝin.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Uzu la flankbreton por ŝanĝi inter la ĉefaj agordaj paĝoj. Deplojo kontrolas kiel Roblox lanĉas, kaj Aspekto ŝanĝas kiel Voidstrap aspektas.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Uzu ĉi tiun butonon por kolapsigi la flankan kolon al ikonoj aŭ pligrandigi ĝin por montri paĝnomojn.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Biblioteko grupigas viajn konservitajn kaj lastatempe luditajn Roblox-ludojn. Malfermu ĝin el la menuo Paĝoj en la supra trinkejo.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ebligas al vi foliumi komunumajn modifojn. Uzu la Paĝojn-menuon en la supra trinkejo por reveni ĉi tien.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>La titolbreto montras la gepaĝan paĝon kaj la paĝon, sur kiu vi estas. Elektu la gepatran nomon por reiri al ĝi.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Kolapu aŭ pligrandigu la flankan kolon</value>
   </data>

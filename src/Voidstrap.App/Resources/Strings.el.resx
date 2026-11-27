@@ -2909,6 +2909,30 @@
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Επανεκκινήστε το Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Βασικό φροντιστήριο</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Θα θέλατε να παραλείψετε αυτό το βασικό σεμινάριο;</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Το Home εμφανίζει επιλεγμένα και προτεινόμενα παιχνίδια Roblox. Επιλέξτε Παίξτε σε ένα παιχνίδι για να το εκκινήσετε.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Χρησιμοποιήστε την πλαϊνή γραμμή για εναλλαγή μεταξύ των κύριων σελίδων ρυθμίσεων. Το Deployment ελέγχει τον τρόπο εκκίνησης του Roblox και το Appearance αλλάζει την εμφάνιση του Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Χρησιμοποιήστε αυτό το κουμπί για να συμπτύξετε την πλαϊνή γραμμή σε εικονίδια ή να την επεκτείνετε για να εμφανιστούν τα ονόματα σελίδων.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Η βιβλιοθήκη ομαδοποιεί τα παιχνίδια Roblox που έχετε αποθηκεύσει και παίξατε πρόσφατα. Ανοίξτε το από το μενού Σελίδες στην επάνω γραμμή.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Το Voidstrap Mods σάς επιτρέπει να περιηγηθείτε στα mods της κοινότητας. Χρησιμοποιήστε το μενού Σελίδες στην επάνω γραμμή για να επιστρέψετε εδώ.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Η γραμμή τίτλου εμφανίζει τη γονική σελίδα και τη σελίδα στην οποία βρίσκεστε. Επιλέξτε το γονικό όνομα για να επιστρέψετε σε αυτό.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Σύμπτυξη ή επέκταση της πλαϊνής γραμμής</value>
   </data>

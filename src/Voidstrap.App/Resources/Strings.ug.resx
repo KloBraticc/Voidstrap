@@ -2909,6 +2909,30 @@ Roblox تۇنجى قېتىمVoidstrap ئارقىلىق چىقارغاندا چۈ
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapنى قايتا قوزغىتىڭ</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>ئاساسىي دەرسلىك</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>بۇ ئاساسىي دەرسلىكتىن ۋاز كېچىشنى خالامسىز؟</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>باش بەتتە تاللانغان ۋە تەۋسىيە قىلىنغان Roblox ئويۇنلىرى كۆرسىتىلىدۇ. ئويۇننى باشلاش ئۈچۈن ئويناشنى تاللاڭ.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>يانبالداقنى ئىشلىتىپ ئاساسىي تەڭشەك بەتلىرىنى ئالماشتۇرۇڭ. ئورۇنلاشتۇرۇش Roblox نىڭ قانداق قوزغىلىدىغانلىقىنى كونترول قىلىدۇ ، تاشقى كۆرۈنۈش Voidstrap نىڭ كۆرۈنۈشىنى ئۆزگەرتىدۇ.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>بۇ كۇنۇپكىنى ئىشلىتىپ يانبالداقنى سىنبەلگە يىمىرىڭ ياكى كېڭەيتىپ بەت نامىنى كۆرسىتىدۇ.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>كۈتۈپخانىلار سىز ساقلىغان ۋە يېقىندا ئوينىغان Roblox ئويۇنلىرىنى توپلايدۇ. ئۇنى ئۈستى بالداقتىكى بەت تىزىملىكىدىن ئېچىڭ.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ئارقىلىق مەھەللە ھالىتىنى كۆرەلەيسىز. بۇ يەرگە قايتىش ئۈچۈن ئۈستى بالداقتىكى بەت تىزىملىكى نى ئىشلىتىڭ.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>تېما بالدىقى باش بەت ۋە سىز تۇرغان بەتنى كۆرسىتىدۇ. ئۇنىڭغا قايتىش ئۈچۈن ئانا نامىنى تاللاڭ.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>يان بالداقنى يىمىرىڭ ياكى كېڭەيتىڭ</value>
   </data>

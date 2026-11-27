@@ -2909,6 +2909,30 @@ Ko jūs vēlētos darīt?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Restartējiet Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Pamata apmācība</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Vai vēlaties izlaist šo pamata apmācību?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Mājas pārraides piedāvāja un ieteica Roblox spēles. Atlasiet Spēlēt spēlē, lai to palaistu.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Izmantojiet sānjoslu, lai pārslēgtos starp galvenajām iestatījumu lapām. Izvietošana kontrolē Roblox palaišanu, un izskats maina Voidstrap izskatu.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Izmantojiet šo pogu, lai sakļautu sānjoslu līdz ikonām vai izvērstu to, lai parādītu lapu nosaukumus.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Bibliotēka sagrupē jūsu saglabātās un nesen spēlētās Roblox spēles. Atveriet to augšējā joslā izvēlnē Lapas.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ļauj pārlūkot kopienas modifikācijas. Izmantojiet izvēlni Lapas augšējā joslā, lai atgrieztos šeit.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Virsraksta joslā tiek rādīta vecāklapa un lapa, kurā atrodaties. Atlasiet vecāku vārdu, lai atgrieztos pie tā.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Sakļaut vai izvērst sānjoslu</value>
   </data>

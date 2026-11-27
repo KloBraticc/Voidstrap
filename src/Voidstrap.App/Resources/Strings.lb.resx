@@ -2909,6 +2909,30 @@ Wat géift Dir gären maachen?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Restart Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Basis Tutorial</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Wëllt Dir dës Basis Tutorial iwwersprangen?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Home Shows Featured a recommandéiert Roblox Spiller. Wielt Spill op engem Spill fir et ze starten.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Benotzt d'Sidebar fir tëscht den Haaptastellungssäiten ze wiesselen. Deployment kontrolléiert wéi Roblox lancéiert, an Ausgesinn ännert wéi Voidstrap ausgesäit.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Benotzt dëse Knäppchen fir d'Sidebar op Ikonen zesummenzebréngen oder se auszebauen fir Säitennimm ze weisen.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Bibliothéik gruppéiert Är gespäichert a kierzlech gespillt Roblox Spiller. Öffnen et aus dem Säitenmenü an der ieweschter Bar.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods léisst Iech Gemeinschaftsmods duerchsichen. Benotzt de Säitenmenü an der ieweschter Bar fir hei zréck ze kommen.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>D'Titelbar weist d'Elteresäit an d'Säit op där Dir sidd. Wielt den Elterennumm fir drop zréck ze goen.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>D'Sidebar zesummeklappen oder ausbauen</value>
   </data>

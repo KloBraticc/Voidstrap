@@ -3120,6 +3120,30 @@ Roblox 尚未安裝，這將在您第一次使用 Voidstrap 啟動時進行。�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>重新啟動 Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>基礎教程</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>您想跳過這個基礎教學嗎？</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>首頁顯示特色和推薦的 Roblox 遊戲。選擇玩遊戲以啟動它。</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>使用側邊欄在主要設定頁面之間切換。部署控制 Roblox 的啟動方式，而外觀則改變 Voidstrap 的外觀。</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>使用此按鈕可將側邊欄折疊為圖示或展開以顯示頁面名稱。</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>庫將您保存的和最近玩過的 Roblox 遊戲分組。從頂部欄中的頁面選單將其打開。</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods 讓您瀏覽社群模組。使用頂部欄中的頁面選單返回此處。</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>標題列顯示父頁面和您所在的頁面。選擇父名稱以返回它。</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>收合或展開側邊欄</value>
   </data>

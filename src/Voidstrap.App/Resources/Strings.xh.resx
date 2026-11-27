@@ -2909,6 +2909,30 @@ Yintoni ongathanda ukuyenza?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Qalisa kwakhona i- Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Isifundo esisisiseko</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Ngaba ungathanda ukutsiba esi sifundo sisisiseko?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Imiboniso yasekhaya ibonisiwe kwaye icetyisiwe imidlalo yeRoblox. Khetha Dlala kumdlalo ukuwusungula.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Sebenzisa ibar esecaleni ukutshintsha phakathi kwamaphepha eesethingi eziphambili. Ukuthunyelwa kulawula indlela iRoblox eqalisa ngayo, kwaye imbonakalo iyatshintsha indlela iVoidstrap ekhangeleka ngayo.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Sebenzisa eli qhosha ukuvala ibar esecaleni kwi icon okanye ukuyandisa ukubonisa amagama ephepha.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Amaqela ethala leencwadi owagcinileyo kwaye wadlala kutshanje imidlalo yeRoblox. Yivule kwimenyu yaMaphepha kwibar ephezulu.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>IiMods zeVoidstrap zikuvumela ukuba ukhangele iimod zabahlali. Sebenzisa imenyu yaMaphepha kwibar ephezulu ukubuyela apha.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Ibha yesihloko ibonisa iphepha lomzali kunye nephepha okulo. Khetha igama lomzali ukuze ubuyele kulo.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Goqa okanye wandise ibar esecaleni</value>
   </data>

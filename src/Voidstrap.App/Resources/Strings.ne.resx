@@ -2909,6 +2909,30 @@ Roblox पहिलो पटकVoidstrap मार्फत लन्च गर
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapपुन: सुरु गर्नुहोस्</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>आधारभूत ट्यूटोरियल</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>के तपाइँ यो आधारभूत ट्यूटोरियल छोड्न चाहनुहुन्छ?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>होम शोहरू विशेष र सिफारिस गरिएका Roblox खेलहरू। यसलाई सुरु गर्न खेलमा प्ले चयन गर्नुहोस्।</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>मुख्य सेटिङ पृष्ठहरू बीच स्विच गर्न साइडबार प्रयोग गर्नुहोस्। डिप्लोयमेन्टले Roblox कसरी लन्च हुन्छ र Voidstrap कस्तो देखिन्छ भन्ने कुरालाई नियन्त्रण गर्छ।</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>साइडबारलाई आइकनहरूमा संक्षिप्त गर्न वा पृष्ठ नामहरू देखाउन यसलाई विस्तार गर्न यो बटन प्रयोग गर्नुहोस्।</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>पुस्तकालयले तपाईंले सुरक्षित र भर्खरै खेलेका Roblox खेलहरूलाई समूह बनाउँछ। यसलाई शीर्ष पट्टीमा रहेको पृष्ठ मेनुबाट खोल्नुहोस्।</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ले तपाईंलाई समुदाय मोडहरू ब्राउज गर्न दिन्छ। यहाँ फिर्ता आउन शीर्ष पट्टीमा पृष्ठहरू मेनु प्रयोग गर्नुहोस्।</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>शीर्षक पट्टीले अभिभावक पृष्ठ र तपाइँ रहेको पृष्ठ देखाउँछ। यसमा फर्कन अभिभावकको नाम चयन गर्नुहोस्।</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>साइडबार संक्षिप्त वा विस्तार गर्नुहोस्</value>
   </data>

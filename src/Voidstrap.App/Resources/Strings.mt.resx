@@ -2909,6 +2909,30 @@ X'tixtieq tagħmel?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Ibda mill-ġdid Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Tutorial bażiku</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Tixtieq taqbeż dan it-tutorja bażiku?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Home turi logħob Roblox dehru u rakkomandati. Agħżel Play fuq logħba biex tniediha.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Uża l-sidebar biex taqleb bejn il-paġni tas-settings ewlenin. L-iskjerament jikkontrolla kif jitnieda Roblox, u d-Dehra tbiddel kif jidher Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Uża din il-buttuna biex tikkollassa l-sidebar għal ikoni jew tespandiha biex turi l-ismijiet tal-paġni.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Gruppi tal-libreriji li ssalvajt u lgħabt reċentement logħob Roblox. Iftaħ mill-menu Paġni fil-bar ta 'fuq.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods iħallik tfittex mods tal-komunità. Uża l-menu Paġni fil-bar ta 'fuq biex terġa' lura hawn.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>L-istrixxa tat-titlu turi l-paġna prinċipali u l-paġna li qiegħed fuqha. Agħżel l-isem tal-ġenitur biex tmur lura għalih.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Ikkollassa jew tespandi l-sidebar</value>
   </data>

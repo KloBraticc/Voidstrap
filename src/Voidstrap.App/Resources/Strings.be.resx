@@ -2909,6 +2909,30 @@ Roblox будзе спампаваны пры першым запуску пра
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Перазапусціце Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Базавы падручнік</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Ці хочаце вы прапусціць гэты базавы падручнік?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Галоўная паказвае прадстаўленыя і рэкамендаваныя гульні Roblox. Выберыце Гуляць у гульню, каб запусціць яе.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Выкарыстоўвайце бакавую панэль для пераключэння паміж асноўнымі старонкамі налад. Разгортванне кантралюе, як запускаецца Roblox, а Appearance змяняе выгляд Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Выкарыстоўвайце гэтую кнопку, каб згарнуць бакавую панэль да значкоў або разгарнуць яе, каб паказаць назвы старонак.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Бібліятэка групуе вашы захаваныя і нядаўна згуляныя гульні Roblox. Адкрыйце яго з меню старонак у верхняй панэлі.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods дазваляе праглядаць моды супольнасці. Выкарыстоўвайце меню "Старонкі" ў верхняй панэлі, каб вярнуцца сюды.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Радок загалоўка паказвае бацькоўскую старонку і старонку, на якой вы знаходзіцеся. Выберыце бацькоўскае імя, каб вярнуцца да яго.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Згарнуць або разгарнуць бакавую панэль</value>
   </data>

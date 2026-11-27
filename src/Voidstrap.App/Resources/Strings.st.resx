@@ -2909,6 +2909,30 @@ U ka rata ho etsa eng?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Qala hape Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Thuto ya motheo</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>O batla ho tlola thuto ee ea mantlha?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Lipontšo tsa lapeng li hlahisitsoe le ho khothaletsoa lipapali tsa Roblox. Kgetha Bapala papaling ho e qala.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Sebelisa bara ba mahlakoreng ho chencha lipakeng tsa maqephe a mantlha a li-setting. Deployment e laola hore na Roblox e qala joang, 'me Ponahalo e fetola tsela eo Voidstrap e shebahalang ka eona.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Sebelisa konopo ena ho putlanya lehlakore ho litšoantšo kapa ho e holisa ho bontša mabitso a maqephe.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Lihlopha tsa laebrari tseo u li bolokileng 'me li sa tsoa bapala lipapali tsa Roblox. E bule ho tsoa ho Menu ea Maqephe bareng e kaholimo.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods e u lumella ho sheba li-mods tsa sechaba. Sebelisa lethathamo la Maqephe bareng e kaholimo ho khutlela mona.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Sebaka sa sehlooho se bontša leqephe la motsoali le leqephe leo u leng ho lona. Khetha lebitso la motsoali ho khutlela ho lona.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Qhaella kapa u atolose sebaka se ka thōko</value>
   </data>

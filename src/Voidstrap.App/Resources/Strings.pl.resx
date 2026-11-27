@@ -3117,6 +3117,30 @@ Co chcesz zrobić?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Uruchom ponownie Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Podstawowy samouczek</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Czy chcesz pominąć ten podstawowy samouczek?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Strona główna pokazuje polecane i polecane gry Roblox. Wybierz opcję Zagraj w grę, aby ją uruchomić.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Użyj paska bocznego, aby przełączać się między głównymi stronami ustawień. Wdrożenie kontroluje sposób uruchamiania Robloxa, a Wygląd zmienia wygląd Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Użyj tego przycisku, aby zwinąć pasek boczny do ikon lub rozwinąć go, aby wyświetlić nazwy stron.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Biblioteka grupuje zapisane i ostatnio grane gry Roblox. Otwórz go z menu Strony na górnym pasku.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods umożliwia przeglądanie modów społeczności. Aby tu wrócić, użyj menu Strony na górnym pasku.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Pasek tytułowy pokazuje stronę nadrzędną i stronę, na której się znajdujesz. Wybierz nazwę nadrzędną, aby do niej wrócić.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Zwiń lub rozwiń pasek boczny</value>
   </data>

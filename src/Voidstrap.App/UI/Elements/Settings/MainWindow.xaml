@@ -489,6 +489,9 @@
           <MenuItem Header="{resources:Loc About_Title}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuAbout_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Rocket24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
+          <MenuItem Header="{resources:Loc Tutorial_Title}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuTutorial_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="BookOpen24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
           <MenuItem Header="{resources:Loc Ui_Main_CheckForUpdates}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuUpdates_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="ArrowClockwise24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
@@ -1062,8 +1065,10 @@
         </Grid>
       </Border>
     </Grid>
-    <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False" ClipToBounds="True">
+    <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False" ClipToBounds="True" SizeChanged="TutorialPanel_SizeChanged">
       <Border x:Name="LaunchTargetScrim" Background="#4D000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
+      <Border x:Name="TutorialHighlight" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"
+              BorderBrush="{DynamicResource SystemAccentColorPrimaryBrush}" BorderThickness="2" CornerRadius="8" />
       <Border x:Name="LaunchTargetPanel" Style="{StaticResource RinDialogPanelStyle}" Width="400" Margin="0" Padding="18,16,10,16" HorizontalAlignment="Right" VerticalAlignment="Stretch" CornerRadius="0" BorderThickness="1,0,0,0" BorderBrush="{StaticResource LauncherMenuBorderBrush}" Visibility="Visible">
         <Border.RenderTransform>
           <TransformGroup>
@@ -1246,6 +1251,34 @@
           <ScaleTransform x:Name="BootstrapperImportPanelScale" ScaleX="1" ScaleY="1" />
         </Border.RenderTransform>
         <ContentControl x:Name="BootstrapperImportHost" Focusable="False" />
+      </Border>
+      <Border x:Name="TutorialPanel" Style="{StaticResource RinDialogPanelStyle}" Width="440" SizeChanged="TutorialPanel_SizeChanged" KeyboardNavigation.TabNavigation="Cycle">
+        <Border.RenderTransform>
+          <ScaleTransform x:Name="TutorialPanelScale" ScaleX="1" ScaleY="1" />
+        </Border.RenderTransform>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <StackPanel Margin="24,22,24,24">
+            <TextBlock x:Name="TutorialHeading" Style="{StaticResource RinDialogTitleStyle}" TextWrapping="Wrap" />
+            <TextBlock x:Name="TutorialDescription" Margin="0,8,0,0" TextWrapping="Wrap" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" AutomationProperties.LiveSetting="Polite" />
+          </StackPanel>
+          <Border Grid.Row="1" Style="{StaticResource RinDialogFooterStyle}" Padding="16">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <ui:Button x:Name="TutorialSkip" Appearance="Secondary" Click="TutorialSkip_Click" />
+              <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                <ui:Button x:Name="TutorialBack" Appearance="Secondary" Margin="0,0,8,0" Content="{resources:Loc Common_Navigation_Back}" Click="TutorialBack_Click" />
+                <ui:Button x:Name="TutorialNext" Appearance="Primary" Click="TutorialNext_Click" />
+              </StackPanel>
+            </Grid>
+          </Border>
+        </Grid>
       </Border>
       <Border x:Name="LearnMorePanel" Style="{StaticResource RinDialogPanelStyle}" Width="560">
         <Border.RenderTransform>

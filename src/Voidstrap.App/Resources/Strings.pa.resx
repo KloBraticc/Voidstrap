@@ -2909,6 +2909,30 @@ Roblox ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾਵੇਗਾ ਜਦੋ
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapਮੁੜ-ਚਾਲੂ ਕਰੋ</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>ਬੁਨਿਆਦੀ ਟਿਊਟੋਰਿਅਲ</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>ਕੀ ਤੁਸੀਂ ਇਸ ਮੂਲ ਟਿਊਟੋਰਿਅਲ ਨੂੰ ਛੱਡਣਾ ਚਾਹੋਗੇ?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>ਹੋਮ ਪੰਨੇ ਉੱਤੇ ਚੁਣੀਆਂ ਹੋਈਆਂ ਅਤੇ ਸਿਫ਼ਾਰਸ਼ ਕੀਤੀਆਂ Roblox ਗੇਮਾਂ ਦਿਖਦੀਆਂ ਹਨ। ਗੇਮ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਚਲਾਓ ਚੁਣੋ।</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>ਮੁੱਖ ਸੈਟਿੰਗਾਂ ਪੰਨਿਆਂ ਵਿਚਕਾਰ ਸਵਿਚ ਕਰਨ ਲਈ ਸਾਈਡਬਾਰ ਦੀ ਵਰਤੋਂ ਕਰੋ। ਤੈਨਾਤੀ ਕੰਟਰੋਲ ਕਰਦੀ ਹੈ ਕਿ Roblox ਕਿਵੇਂ ਲਾਂਚ ਹੁੰਦਾ ਹੈ, ਅਤੇ ਦਿੱਖ ਬਦਲਦੀ ਹੈ ਕਿ Voidstrap ਕਿਵੇਂ ਦਿਖਾਈ ਦਿੰਦਾ ਹੈ।</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>ਸਾਈਡਬਾਰ ਨੂੰ ਆਈਕਾਨਾਂ 'ਤੇ ਸਮੇਟਣ ਲਈ ਜਾਂ ਪੰਨੇ ਦੇ ਨਾਮ ਦਿਖਾਉਣ ਲਈ ਇਸ ਨੂੰ ਫੈਲਾਉਣ ਲਈ ਇਸ ਬਟਨ ਦੀ ਵਰਤੋਂ ਕਰੋ।</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>ਲਾਇਬ੍ਰੇਰੀ ਤੁਹਾਡੀਆਂ ਰੱਖਿਅਤ ਕੀਤੀਆਂ ਅਤੇ ਹਾਲ ਹੀ ਵਿੱਚ ਖੇਡੀਆਂ ਗਈਆਂ Roblox ਗੇਮਾਂ ਦਾ ਸਮੂਹ ਕਰਦੀ ਹੈ। ਇਸਨੂੰ ਟਾਪ ਬਾਰ ਵਿੱਚ ਪੇਜ ਮੀਨੂ ਤੋਂ ਖੋਲੋ।</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ਤੁਹਾਨੂੰ ਕਮਿਊਨਿਟੀ ਮੋਡਸ ਨੂੰ ਬ੍ਰਾਊਜ਼ ਕਰਨ ਦਿੰਦਾ ਹੈ। ਇੱਥੇ ਵਾਪਸ ਆਉਣ ਲਈ ਸਿਖਰ ਪੱਟੀ ਵਿੱਚ ਪੰਨੇ ਮੀਨੂ ਦੀ ਵਰਤੋਂ ਕਰੋ।</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>ਸਿਰਲੇਖ ਪੱਟੀ ਮੁੱਖ ਪੰਨਾ ਅਤੇ ਉਹ ਪੰਨਾ ਦਿਖਾਉਂਦੀ ਹੈ ਜਿਸ 'ਤੇ ਤੁਸੀਂ ਹੋ। ਇਸ 'ਤੇ ਵਾਪਸ ਜਾਣ ਲਈ ਮਾਤਾ-ਪਿਤਾ ਦਾ ਨਾਮ ਚੁਣੋ।</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>ਸਾਈਡਬਾਰ ਨੂੰ ਸਮੇਟੋ ਜਾਂ ਵਿਸਤਾਰ ਕਰੋ</value>
   </data>

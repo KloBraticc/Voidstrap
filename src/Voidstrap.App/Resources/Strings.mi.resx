@@ -2909,6 +2909,30 @@ Me aha koe?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Tīmata anō Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Akoranga taketake</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Kei te pirangi koe ki te peke i tenei akoranga taketake?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Ko nga whakaaturanga o te kaainga kua whakaatuhia me te taunaki i nga keemu Roblox. Tīpakohia te Purei i runga i tetahi keemu hei whakarewa.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Whakamahia te paetaha ki te huri i waenga i nga wharangi tautuhinga matua. Ko te Whakamahinga te whakahaere me pehea te whakarewatanga o Roblox, ka huri te ahua ki te ahua o Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Whakamahia tenei paatene ki te tiango i te paetaha ki nga ata, ki te whakawhanui ranei hei whakaatu i nga ingoa wharangi.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Ka whakarōpūhia e te whare pukapuka o keemu Roblox kua tiakina, kua purei tata nei. Tuwhera mai i te tahua Whārangi kei te pae runga.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ka taea e koe te tirotiro i nga mods hapori. Whakamahia te tahua Whārangi kei te pae o runga kia hoki mai ki konei.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Ko te pae taitara e whakaatu ana i te wharangi matua me te wharangi kei runga koe. Tīpakohia te ingoa matua ki te hoki ki reira.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Tiango, roha ranei te paetaha</value>
   </data>

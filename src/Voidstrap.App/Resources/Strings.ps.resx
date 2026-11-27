@@ -2909,6 +2909,30 @@ Roblox به ډاونلوډ شي کله چې تاسو د لومړي ځل لپار
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapبیا پیل کړئ</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>بنسټیز درسونه</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>ایا تاسو غواړئ دا بنسټیز ټیوټوریل پریږدئ؟</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>په کورپاڼه کې د Roblox غوره شوې او وړاندیز شوې لوبې ښکاري. د لوبې پیلولو لپاره د لوبې تڼۍ وټاکئ.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>د اصلي ترتیباتو پاڼو ترمنځ د بدلولو لپاره د سائډبار څخه کار واخلئ. ګمارنه کنټرولوي چې څنګه Roblox لانچ کوي ، او ظاهري بڼه بدلوي چې څنګه Voidstrap ښکاري.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>دا تڼۍ وکاروئ تر څو د سايډبار په شبکو کې راټیټ کړئ یا د پاڼې نومونو ښودلو لپاره پراخ کړئ.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>کتابتون ستاسو خوندي شوي او پدې وروستیو کې د Roblox لوبو ګروپ کوي. دا په پورتنۍ بار کې د مخونو مینو څخه خلاص کړئ.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods تاسو ته اجازه درکوي د ټولنې موډونه وپلټئ. دلته د بیرته راتلو لپاره په پورتنۍ بار کې د مخونو مینو وکاروئ.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>د سرلیک بار اصلي پاڼه او هغه پاڼه ښیې چې تاسو یې یاست. د پلار نوم وټاکئ ترڅو بیرته لاړ شي.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>د غاړې پټه ټوټه کړئ یا پراخه کړئ</value>
   </data>

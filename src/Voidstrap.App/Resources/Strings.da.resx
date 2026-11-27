@@ -2909,6 +2909,30 @@ Hvad vil du gerne lave?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Genstart Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Grundlæggende tutorial</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Vil du springe denne grundlæggende tutorial over?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Hjemmeshows fremhævede og anbefalede Roblox-spil. Vælg Spil på et spil for at starte det.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Brug sidebjælken til at skifte mellem hovedindstillingssiderne. Implementeringen styrer, hvordan Roblox lanceres, og Udseende ændrer, hvordan Voidstrap ser ud.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Brug denne knap til at skjule sidebjælken til ikoner eller udvide den for at vise sidenavne.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Biblioteket grupperer dine gemte og nyligt spillede Roblox-spil. Åbn den fra menuen Sider i den øverste bjælke.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods lader dig gennemse community-mods. Brug menuen Sider i den øverste bjælke for at komme tilbage hertil.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Titellinjen viser den overordnede side og den side, du er på. Vælg forældrenavnet for at gå tilbage til det.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Skjul eller udvid sidebjælken</value>
   </data>

@@ -2128,6 +2128,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (_isClosed || _startupWorkStarted)
             return;
         _startupWorkStarted = true;
+        Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(OfferBasicTutorial));
         Voidstrap.Integrations.Mcp.McpBridgeServer.EnsureStarted();
         if (!Voidstrap.Utility.Platform.UsesPortableUi)
         {
@@ -2769,6 +2770,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void TopNavLibrary_Click(object sender, RoutedEventArgs e)
     {
         PagesMenuPopup.IsOpen = false;
+        ShowLibraryPage();
+    }
+
+    private void ShowLibraryPage()
+    {
         _libraryPage ??= new LibraryPage();
         if (!ReferenceEquals(RootFrame.Content, _libraryPage))
         {
@@ -3069,6 +3075,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void TopNavVoidstrapMods_Click(object sender, RoutedEventArgs e)
     {
         PagesMenuPopup.IsOpen = false;
+        ShowVoidstrapModsPage();
+    }
+
+    private void ShowVoidstrapModsPage()
+    {
         _voidstrapModsPage ??= new VoidstrapModsPage();
         if (!ReferenceEquals(RootFrame.Content, _voidstrapModsPage))
         {
@@ -7779,6 +7790,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.AnyProgressChanged -= OnExtensionProgressChanged;
         RootFrame.Navigating -= RootFrame_Navigating;
         RootFrame.Navigated -= RootFrame_Navigated;
+        ResetTutorial();
         PageSidebar.CollapsedChanged -= UpdateSidebarToggleIcon;
         Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated -= OnNavigationPageCreated;
         AppMenuPopup.Closing -= AppMenuPopup_Closing;
@@ -8366,7 +8378,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     }
 
     private Border[] ModalPanels =>
-        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, GameDetailPanel, BootstrapperImportPanel, LearnMorePanel, NewsPostPanel];
+        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, GameDetailPanel, BootstrapperImportPanel, LearnMorePanel, NewsPostPanel, TutorialPanel];
 
     private bool ModalIsSidebar => ReferenceEquals(_modalPanel, LaunchTargetPanel);
 
@@ -8374,6 +8386,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void OpenModalOverlay(Border panel, ScaleTransform scale)
     {
+        if (ReferenceEquals(_modalPanel, TutorialPanel) && !ReferenceEquals(panel, TutorialPanel))
+            ResetTutorial();
         int generation = ++_launchTargetOverlayGeneration;
         bool fresh =
             LaunchTargetOverlay.Visibility != Visibility.Visible
@@ -8744,6 +8758,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (!_simpleModalOpen)
             return;
+        if (ReferenceEquals(_modalPanel, TutorialPanel))
+            CompleteTutorial();
         _simpleModalOpen = false;
         CloseModalOverlay();
     }
@@ -8972,7 +8988,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void LaunchTargetScrim_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        CloseActiveModal();
+        if (!ReferenceEquals(_modalPanel, TutorialPanel))
+            CloseActiveModal();
         e.Handled = true;
     }
 

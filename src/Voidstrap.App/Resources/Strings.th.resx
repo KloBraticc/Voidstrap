@@ -3120,6 +3120,30 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>รีสตาร์ท Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>บทช่วยสอนขั้นพื้นฐาน</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>คุณต้องการข้ามบทช่วยสอนพื้นฐานนี้หรือไม่</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>หน้าแรกแสดงเกม Roblox ที่แนะนำและแนะนำ เลือกเล่นเกมเพื่อเปิดใช้งาน</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>ใช้แถบด้านข้างเพื่อสลับระหว่างหน้าการตั้งค่าหลัก การปรับใช้จะควบคุมวิธีที่ Roblox เปิดตัว และรูปลักษณ์จะเปลี่ยนรูปลักษณ์ของ Voidstrap</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>ใช้ปุ่มนี้เพื่อยุบแถบด้านข้างเป็นไอคอนหรือขยายเพื่อแสดงชื่อหน้า</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>ห้องสมุดจัดกลุ่มเกม Roblox ที่บันทึกไว้และเล่นล่าสุดของคุณ เปิดจากเมนู Pages ในแถบด้านบน</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ให้คุณเรียกดู mod ชุมชนได้ ใช้เมนูหน้าในแถบด้านบนเพื่อกลับมาที่นี่</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>แถบหัวเรื่องจะแสดงหน้าหลักและหน้าที่คุณกำลังดูอยู่ เลือกชื่อหลักเพื่อย้อนกลับ</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>ย่อหรือขยายแถบด้านข้าง</value>
   </data>

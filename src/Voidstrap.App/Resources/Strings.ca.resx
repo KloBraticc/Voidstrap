@@ -2909,6 +2909,30 @@ Què t'agradaria fer?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Reinicieu Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Tutoria bàsica</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Voleu ometre aquest tutorial bàsic?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Mostra a casa jocs de Roblox destacats i recomanats. Seleccioneu Juga en un joc per iniciar-lo.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Utilitzeu la barra lateral per canviar entre les pàgines de configuració principals. El desplegament controla com es llança Roblox i l'aparença canvia l'aspecte de Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Utilitzeu aquest botó per reduir la barra lateral a icones o expandir-la per mostrar els noms de les pàgines.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>La biblioteca agrupa els vostres jocs de Roblox desats i als quals heu jugat recentment. Obriu-lo des del menú Pàgines de la barra superior.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods us permet navegar pels mods de la comunitat. Utilitzeu el menú Pàgines de la barra superior per tornar aquí.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>La barra de títol mostra la pàgina principal i la pàgina on et trobes. Seleccioneu el nom del pare per tornar-hi.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Replega o amplia la barra lateral</value>
   </data>

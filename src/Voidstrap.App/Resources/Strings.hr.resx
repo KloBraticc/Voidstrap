@@ -3123,6 +3123,30 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Ponovno pokreni Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Osnovni tutorial</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Želite li preskočiti ovaj osnovni vodič?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Početna prikazuje istaknute i preporučene Roblox igre. Odaberite Igraj u igri da biste je pokrenuli.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Koristite bočnu traku za prebacivanje između glavnih stranica postavki. Deployment kontrolira kako se Roblox pokreće, a Appearance mijenja kako Voidstrap izgleda.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Pomoću ovog gumba sažmite bočnu traku u ikone ili je proširite za prikaz naziva stranica.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Knjižnica grupira vaše spremljene i nedavno igrane Roblox igre. Otvorite ga iz izbornika Stranice na gornjoj traci.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods vam omogućuje pregledavanje modova zajednice. Upotrijebite izbornik Stranice na gornjoj traci da se vratite ovamo.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Naslovna traka prikazuje nadređenu stranicu i stranicu na kojoj se nalazite. Odaberite nadređeno ime da biste se vratili na njega.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Sažmi ili proširi bočnu traku</value>
   </data>

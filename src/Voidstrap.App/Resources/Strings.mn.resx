@@ -2909,6 +2909,30 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrap-г дахин эхлүүлнэ үү</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Үндсэн заавар</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Та энэ үндсэн хичээлийг алгасмаар байна уу?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Гэртээ онцлох болон санал болгож буй Roblox тоглоомуудыг үзүүлдэг. Тоглоомыг эхлүүлэхийн тулд тоглохыг сонгоно уу.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Үндсэн тохиргооны хуудсууд хооронд шилжихийн тулд хажуугийн самбарыг ашиглана уу. Байрлуулалт нь Roblox хэрхэн эхлүүлэхийг хянадаг ба Гадаад төрх нь Voidstrap-ийн харагдах байдлыг өөрчилдөг.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Энэ товчлуурыг ашиглан хажуугийн самбарыг дүрс болгон буулгах эсвэл хуудасны нэрийг харуулахын тулд өргөжүүлнэ үү.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Таны хадгалсан болон саяхан тоглосон Roblox тоглоомуудыг номын санд бүлэглээрэй. Үүнийг дээд талбар дахь Хуудас цэснээс нээнэ үү.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods нь олон нийтийн горимуудыг үзэх боломжийг танд олгоно. Энд буцаж ирэхийн тулд дээд талбар дахь Хуудас цэсийг ашиглана уу.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Гарчгийн мөрөнд эх хуудас болон таны байгаа хуудсыг харуулдаг. Буцахын тулд эцэг эхийн нэрийг сонгоно уу.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Хажуугийн самбарыг буулгах эсвэл өргөжүүлэх</value>
   </data>

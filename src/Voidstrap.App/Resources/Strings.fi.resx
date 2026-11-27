@@ -3114,6 +3114,30 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Käynnistä Voidstrap uudelleen</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Perusopetusohjelma</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Haluatko ohittaa tämän perusopetuksen?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Kotiohjelmassa esiteltiin ja suositeltiin Roblox-pelejä. Käynnistä peli valitsemalla Pelaa pelissä.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Käytä sivupalkkia vaihtaaksesi pääasetussivujen välillä. Käyttöönotto ohjaa Robloxin käynnistymistä ja Ulkoasu muuttaa Voidstrapin ulkonäköä.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Tällä painikkeella voit tiivistää sivupalkin kuvakkeiksi tai laajentaa sen näyttämään sivujen nimet.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Kirjasto ryhmittelee tallennetut ja äskettäin pelatut Roblox-pelit. Avaa se yläpalkin Sivut-valikosta.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Modsin avulla voit selata yhteisön modeja. Palaa tänne käyttämällä yläpalkin Sivut-valikkoa.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Otsikkopalkissa näkyy pääsivu ja sivu, jolla olet. Valitse vanhemman nimi palataksesi siihen.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Kutista tai laajenna sivupalkki</value>
   </data>

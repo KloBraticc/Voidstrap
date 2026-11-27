@@ -2909,6 +2909,30 @@ Urashaka gukora iki?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Ongera utangire Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Inyigisho shingiro</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Urashaka gusimbuka aya masomo y'ibanze?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Urugo rwerekanwe kandi rusabwa imikino ya Roblox. Hitamo Gukina kumikino kugirango uyitangire.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Koresha kuruhande kugirango uhindure hagati yimpapuro nyamukuru igenamigambi. Kohereza bigenzura uko Roblox itangiza, kandi Kugaragara bihindura uko Voidstrap isa.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Koresha iyi buto kugirango usenye kuruhande rwibishushanyo cyangwa kwagura kugirango werekane amazina yurupapuro.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Amatsinda yibitabo yakijije kandi aherutse gukina imikino ya Roblox. Fungura uhereye kuri menu ya menu murwego rwo hejuru.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Uburyo bwa Voidstrap butuma ureba uburyo bwabaturage. Koresha Urupapuro muri menu yo hejuru kugirango ugaruke hano.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Umutwe wumurongo werekana urupapuro rwababyeyi nurupapuro urimo. Hitamo izina ryababyeyi kugirango usubireyo.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Gusenya cyangwa kwagura kuruhande</value>
   </data>

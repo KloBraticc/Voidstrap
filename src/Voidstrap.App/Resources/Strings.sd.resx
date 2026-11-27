@@ -2909,6 +2909,30 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapٻيهر شروع ڪريو</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>بنيادي سبق</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>ڇا توھان ھن بنيادي سبق کي ڇڏڻ چاھيو ٿا؟</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>گھر جي شوز نمايان ۽ تجويز ڪيل Roblox رانديون. ان کي لانچ ڪرڻ لاءِ راند تي راند کي منتخب ڪريو.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>مکيه سيٽنگون صفحن جي وچ ۾ سوئچ ڪرڻ لاءِ سائڊبار استعمال ڪريو. تعیناتي ڪنٽرول ڪري ٿي ته ڪيئن روبلوڪس لانچ ٿئي ٿو، ۽ ظاهري تبديلي ڪيئن Voidstrap ڏسڻ ۾ اچي ٿي.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>ھي بٽڻ استعمال ڪريو سائڊبار کي ڪليپ ڪرڻ لاءِ آئڪن ڏانھن يا ان کي وڌائڻ لاءِ صفحي جا نالا ڏيکارڻ لاءِ.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>لائبريري گروپن ۾ توهان جي محفوظ ڪيل ۽ تازو کيڏيو Roblox رانديون. ان کي کوليو صفحا مينيو مان مٿين بار ۾.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods توهان کي ڪميونٽي موڊس کي براؤز ڪرڻ جي اجازت ڏئي ٿي. هتي واپس اچڻ لاءِ مٿين بار ۾ صفحا مينيو استعمال ڪريو.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>ٽائيٽل بار ڏيکاري ٿو والدين جو صفحو ۽ اهو صفحو جنهن تي توهان آهيو. ان ڏانهن واپس وڃڻ لاءِ والدين جو نالو چونڊيو.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>سائڊبار کي کوليو يا وڌايو</value>
   </data>

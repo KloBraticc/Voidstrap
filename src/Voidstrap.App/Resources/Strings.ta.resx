@@ -2909,6 +2909,30 @@ Roblox நீங்கள் முதல்முறையாகVoidstrap ம�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapஐ மீண்டும் தொடங்கவும்</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>அடிப்படை பயிற்சி</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>இந்த அடிப்படை டுடோரியலைத் தவிர்க்க விரும்புகிறீர்களா?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>ஹோம் ஷோக்கள் சிறப்பு மற்றும் பரிந்துரைக்கப்பட்ட Roblox கேம்கள். விளையாட்டைத் தொடங்க விளையாடு என்பதைத் தேர்ந்தெடுக்கவும்.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>முக்கிய அமைப்புகள் பக்கங்களுக்கு இடையில் மாற பக்கப்பட்டியைப் பயன்படுத்தவும். வரிசைப்படுத்தல், ரோப்லாக்ஸ் எவ்வாறு தொடங்கப்படுகிறது என்பதைக் கட்டுப்படுத்துகிறது, மேலும் தோற்றமானது Voidstrap எவ்வாறு தோற்றமளிக்கிறது என்பதை மாற்றுகிறது.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>பக்கப்பட்டியை ஐகான்களாக சுருக்கவும் அல்லது பக்கப் பெயர்களைக் காட்ட விரிவாக்கவும் இந்தப் பொத்தானைப் பயன்படுத்தவும்.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>நீங்கள் சேமித்த மற்றும் சமீபத்தில் விளையாடிய Roblox கேம்களை லைப்ரரி குழுக்கள். மேல் பட்டியில் உள்ள பக்கங்கள் மெனுவிலிருந்து அதைத் திறக்கவும்.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ஆனது சமூக மோட்களை உலாவ உங்களை அனுமதிக்கிறது. மீண்டும் இங்கு வர, மேல் பட்டியில் உள்ள பக்கங்கள் மெனுவைப் பயன்படுத்தவும்.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>தலைப்புப் பட்டியில் பெற்றோர் பக்கத்தையும் நீங்கள் இருக்கும் பக்கத்தையும் காட்டுகிறது. அதற்குச் செல்ல பெற்றோர் பெயரைத் தேர்ந்தெடுக்கவும்.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>பக்கப்பட்டியை சுருக்கவும் அல்லது விரிவாக்கவும்</value>
   </data>

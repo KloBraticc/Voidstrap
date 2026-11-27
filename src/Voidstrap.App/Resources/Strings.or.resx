@@ -2909,6 +2909,30 @@ Roblox ଡାଉନଲୋଡ୍ ହେବ | ଲଞ୍ଚ କରିବା ପୂ�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapପୁନ Rest ଆରମ୍ଭ କରନ୍ତୁ |</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>ମ Basic ଳିକ ଟ୍ୟୁଟୋରିଆଲ୍ |</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>ଆପଣ ଏହି ମ basic ଳିକ ଟ୍ୟୁଟୋରିଆଲ୍ କୁ ଏଡ଼ାଇବାକୁ ଚାହୁଁଛନ୍ତି କି?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>ହୋମ୍ ପୃଷ୍ଠାରେ ବଛା ଓ ସୁପାରିଶ କରାଯାଇଥିବା Roblox ଖେଳ ଦେଖାଯାଏ। ଖେଳ ଆରମ୍ଭ କରିବାକୁ ପ୍ଲେ ବାଛନ୍ତୁ।</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>ମୁଖ୍ୟ ସେଟିଙ୍ଗ୍ ପୃଷ୍ଠାଗୁଡ଼ିକ ମଧ୍ୟରେ ସୁଇଚ୍ କରିବାକୁ ପାର୍ଶ୍ୱ ଦଣ୍ଡିକା ବ୍ୟବହାର କରନ୍ତୁ | ନିୟୋଜନ ନିୟନ୍ତ୍ରଣ କରେ କିପରି Roblox ଲଞ୍ଚ ହୁଏ, ଏବଂ Voidstrap କିପରି ଦେଖାଯାଏ, ଦୃଶ୍ୟ ପରିବର୍ତ୍ତନ ହୁଏ |</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>ଆଇକନ୍ ଗୁଡିକରେ ପାର୍ଶ୍ୱ ପଟି ନଷ୍ଟ କରିବାକୁ କିମ୍ବା ପୃଷ୍ଠା ନାମ ଦେଖାଇବା ପାଇଁ ଏହାକୁ ବ expand ାଇବାକୁ ଏହି ବଟନ୍ ବ୍ୟବହାର କରନ୍ତୁ |</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>ଲାଇବ୍ରେରୀଗୁଡିକ ତୁମର ସଞ୍ଚିତ ଏବଂ ନିକଟରେ Roblox ଖେଳଗୁଡିକ ଖେଳିଛି | ଟପ୍ ବାର୍ ରେ ଥିବା ପେଜ୍ ମେନୁରୁ ଏହାକୁ ଖୋଲ |</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap ମୋଡ୍ ଆପଣଙ୍କୁ କମ୍ୟୁନିଟି ମୋଡ୍ ବ୍ରାଉଜ୍ କରିବାକୁ ଦିଏ | ଏଠାକୁ ଫେରିବା ପାଇଁ ଉପର ଦଣ୍ଡିକାରେ ଥିବା ପୃଷ୍ଠାଗୁଡ଼ିକ ମେନୁ ବ୍ୟବହାର କରନ୍ତୁ |</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>ଟାଇଟଲ୍ ବାର୍ ପ୍ୟାରେଣ୍ଟ୍ ପେଜ୍ ଏବଂ ଆପଣ ଥିବା ପେଜ୍ ଦେଖାଏ | ଏହାକୁ ଫେରିବା ପାଇଁ ପିତାମାତା ନାମ ଚୟନ କରନ୍ତୁ |</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>ପାର୍ଶ୍ୱପଟିକୁ ଭାଙ୍ଗନ୍ତୁ କିମ୍ବା ବିସ୍ତାର କରନ୍ତୁ |</value>
   </data>

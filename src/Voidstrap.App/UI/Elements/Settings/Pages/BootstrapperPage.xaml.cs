@@ -36,7 +36,9 @@ public partial class BehaviourPage : UiPage
         }
     }
 
-    private void OpenAdvancedGeneral_Click(object sender, RoutedEventArgs e)
+    private void OpenAdvancedGeneral_Click(object sender, RoutedEventArgs e) => OpenAdvancedGeneral();
+
+    internal void OpenAdvancedGeneral()
     {
         if (DataContext is BehaviourViewModel viewModel)
             NavigationService?.Navigate(new AdvancedGeneralPage(viewModel));

@@ -2909,6 +2909,30 @@ Roblox നിങ്ങൾ ആദ്യമായിVoidstrap വഴി ലോഞ�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapപുനരാരംഭിക്കുക</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>അടിസ്ഥാന ട്യൂട്ടോറിയൽ</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>ഈ അടിസ്ഥാന ട്യൂട്ടോറിയൽ ഒഴിവാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>ഹോം പേജിൽ തിരഞ്ഞെടുത്തതും ശുപാർശ ചെയ്യുന്നതുമായ Roblox ഗെയിമുകൾ കാണാം. ഗെയിം തുടങ്ങാൻ പ്ലേ തിരഞ്ഞെടുക്കുക.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>പ്രധാന ക്രമീകരണ പേജുകൾക്കിടയിൽ മാറാൻ സൈഡ്ബാർ ഉപയോഗിക്കുക. വിന്യാസം Roblox എങ്ങനെ സമാരംഭിക്കുന്നു എന്നതിനെ നിയന്ത്രിക്കുന്നു, കൂടാതെ Voidstrap എങ്ങനെ കാണപ്പെടുന്നുവെന്ന് രൂപഭാവം മാറ്റുന്നു.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>സൈഡ്‌ബാർ ഐക്കണുകളായി ചുരുക്കുന്നതിനോ പേജ് പേരുകൾ കാണിക്കുന്നതിന് വിപുലീകരിക്കുന്നതിനോ ഈ ബട്ടൺ ഉപയോഗിക്കുക.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>നിങ്ങൾ സംരക്ഷിച്ചതും അടുത്തിടെ കളിച്ചതുമായ Roblox ഗെയിമുകൾ ലൈബ്രറി ഗ്രൂപ്പുചെയ്യുന്നു. മുകളിലെ ബാറിലെ പേജുകൾ മെനുവിൽ നിന്ന് ഇത് തുറക്കുക.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>കമ്മ്യൂണിറ്റി മോഡുകൾ ബ്രൗസ് ചെയ്യാൻ Voidstrap മോഡുകൾ നിങ്ങളെ അനുവദിക്കുന്നു. ഇവിടെ തിരികെ വരാൻ മുകളിലെ ബാറിലെ പേജുകൾ മെനു ഉപയോഗിക്കുക.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>ടൈറ്റിൽ ബാർ പാരൻ്റ് പേജും നിങ്ങൾ ഉള്ള പേജും കാണിക്കുന്നു. അതിലേക്ക് മടങ്ങാൻ പേരൻ്റ് നെയിം തിരഞ്ഞെടുക്കുക.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>സൈഡ്ബാർ ചുരുക്കുകയോ വികസിപ്പിക്കുകയോ ചെയ്യുക</value>
   </data>

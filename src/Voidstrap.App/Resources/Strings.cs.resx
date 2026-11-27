@@ -3102,6 +3102,30 @@ Co chcete udělat?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Restartovat Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Základní tutoriál</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Chcete tento základní návod přeskočit?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Domov ukazuje doporučené a doporučené hry Roblox. Chcete-li hru spustit, vyberte možnost Hrát ve hře.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Pomocí postranního panelu můžete přepínat mezi stránkami hlavních nastavení. Nasazení řídí, jak se Roblox spouští, a vzhled mění vzhled Voidstrapu.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Pomocí tohoto tlačítka můžete postranní panel sbalit na ikony nebo jej rozbalit a zobrazit názvy stránek.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Knihovna seskupuje vaše uložené a nedávno hrané hry Roblox. Otevřete jej z nabídky Stránky v horní liště.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods vám umožní procházet komunitní mody. Pro návrat sem použijte nabídku Stránky v horní liště.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>V záhlaví se zobrazuje nadřazená stránka a stránka, na které se nacházíte. Chcete-li se k němu vrátit, vyberte jméno rodiče.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Sbalit nebo rozbalit postranní panel</value>
   </data>

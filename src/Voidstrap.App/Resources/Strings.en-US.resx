@@ -3220,6 +3220,30 @@ What would you like to do?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Restart Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Basic tutorial</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Would you like to skip this basic tutorial?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Home shows featured and recommended Roblox games. Select Play on a game to launch it.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Use the sidebar to switch between the main settings pages. Deployment controls how Roblox launches, and Appearance changes how Voidstrap looks.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Use this button to collapse the sidebar to icons or expand it to show page names.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Library groups your saved and recently played Roblox games. Open it from the Pages menu in the top bar.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods lets you browse community mods. Use the Pages menu in the top bar to come back here.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>The title bar shows the parent page and the page you are on. Select the parent name to go back to it.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Collapse or expand the sidebar</value>
   </data>

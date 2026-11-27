@@ -3123,6 +3123,30 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Рестартирай Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Основен урок</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Искате ли да пропуснете този основен урок?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Начало показва представени и препоръчани игри на Roblox. Изберете Игра на игра, за да я стартирате.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Използвайте страничната лента, за да превключвате между основните страници с настройки. Разгръщането контролира как се стартира Roblox, а Appearance променя начина, по който изглежда Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Използвайте този бутон, за да свиете страничната лента до икони или да я разширите, за да покажете имена на страници.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Библиотеката групира вашите запазени и наскоро играни игри на Roblox. Отворете го от менюто Страници в горната лента.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ви позволява да преглеждате модове на общността. Използвайте менюто Страници в горната лента, за да се върнете тук.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Заглавната лента показва родителската страница и страницата, на която се намирате. Изберете името на родителя, за да се върнете към него.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Свий или разгъни страничната лента</value>
   </data>

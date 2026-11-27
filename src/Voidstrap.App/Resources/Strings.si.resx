@@ -2909,6 +2909,30 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapනැවත ආරම්භ කරන්න</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>මූලික නිබන්ධනය</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>ඔබ මෙම මූලික නිබන්ධනය මඟ හැරීමට කැමතිද?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>මුල් පිටුව සංදර්ශන විශේෂාංග සහ නිර්දේශිත Roblox ක්‍රීඩා. එය දියත් කිරීමට ක්‍රීඩාවක් මත Play තෝරන්න.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>ප්‍රධාන සැකසුම් පිටු අතර මාරු වීමට පැති තීරුව භාවිතා කරන්න. යෙදවීම Roblox දියත් කරන ආකාරය පාලනය කරයි, සහ පෙනුම Voidstrap පෙනුම වෙනස් කරයි.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>පැති තීරුව අයිකනවලට හකුළීමට හෝ පිටු නම් පෙන්වීමට එය පුළුල් කිරීමට මෙම බොත්තම භාවිත කරන්න.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>පුස්තකාලය ඔබ සුරැකි සහ මෑතකදී ක්‍රීඩා කළ Roblox ක්‍රීඩා සමූහ කරන්න. ඉහළ තීරුවේ පිටු මෙනුවෙන් එය විවෘත කරන්න.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ඔබට ප්‍රජා මොඩ්ස් බ්‍රවුස් කිරීමට ඉඩ දෙයි. නැවත මෙහි පැමිණීමට ඉහළ තීරුවේ පිටු මෙනුව භාවිතා කරන්න.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>මාතෘකා තීරුව මාපිය පිටුව සහ ඔබ සිටින පිටුව පෙන්වයි. එය වෙත ආපසු යාමට මාපිය නම තෝරන්න.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>පැති තීරුව හකුළන්න හෝ පුළුල් කරන්න</value>
   </data>

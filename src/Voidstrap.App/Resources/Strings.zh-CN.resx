@@ -3120,6 +3120,30 @@
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>重启 Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>基础教程</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>您想跳过这个基础教程吗？</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>首页显示特色和推荐的 Roblox 游戏。选择玩游戏以启动它。</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>使用侧边栏在主要设置页面之间切换。部署控制 Roblox 的启动方式，而外观则改变 Voidstrap 的外观。</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>使用此按钮可将侧边栏折叠为图标或将其展开以显示页面名称。</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>库对您保存的和最近玩过的 Roblox 游戏进行分组。从顶部栏中的页面菜单将其打开。</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods 可让您浏览社区模组。使用顶部栏中的页面菜单返回此处。</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>标题栏显示父页面和您所在的页面。选择父名称以返回到它。</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>折叠或展开侧边栏</value>
   </data>

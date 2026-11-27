@@ -3102,6 +3102,30 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Reiniciar o Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Tutorial básico</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Gostaria de pular este tutorial básico?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Programas caseiros apresentam e recomendam jogos Roblox. Selecione Jogar em um jogo para iniciá-lo.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Use a barra lateral para alternar entre as páginas principais de configurações. A implantação controla a forma como o Roblox é iniciado e a aparência altera a aparência do Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Use este botão para recolher a barra lateral para ícones ou expandi-la para mostrar nomes de páginas.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>A biblioteca agrupa seus jogos Roblox salvos e jogados recentemente. Abra-o no menu Páginas na barra superior.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods permite navegar pelos mods da comunidade. Use o menu Páginas na barra superior para voltar aqui.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>A barra de título mostra a página principal e a página em que você está. Selecione o nome do pai para voltar a ele.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Recolher ou expandir a barra lateral</value>
   </data>

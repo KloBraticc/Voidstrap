@@ -2909,6 +2909,30 @@ Roblox ডাউনলোড করা হবে যখন আপনি এট�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapপুনরায় চালু করুন</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>বেসিক টিউটোরিয়াল</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>আপনি কি এই মৌলিক টিউটোরিয়ালটি এড়িয়ে যেতে চান?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>হোম শো বৈশিষ্ট্যযুক্ত এবং প্রস্তাবিত Roblox গেম. এটি চালু করতে একটি গেমে খেলুন নির্বাচন করুন।</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>প্রধান সেটিংস পৃষ্ঠাগুলির মধ্যে স্যুইচ করতে সাইডবার ব্যবহার করুন। স্থাপনা নিয়ন্ত্রণ করে কিভাবে Roblox চালু হয়, এবং চেহারা পরিবর্তন করে কিভাবে Voidstrap দেখায়।</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>সাইডবারকে আইকনে সঙ্কুচিত করতে বা পৃষ্ঠার নামগুলি দেখানোর জন্য এটিকে প্রসারিত করতে এই বোতামটি ব্যবহার করুন৷</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>লাইব্রেরি আপনার সংরক্ষিত এবং সম্প্রতি Roblox গেমগুলিকে গোষ্ঠীভুক্ত করে। উপরের বারে পৃষ্ঠা মেনু থেকে এটি খুলুন।</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods আপনাকে সম্প্রদায়ের মোডগুলি ব্রাউজ করতে দেয়। এখানে ফিরে আসতে উপরের বারে পেজ মেনু ব্যবহার করুন।</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>শিরোনাম বার মূল পৃষ্ঠা এবং আপনি যে পৃষ্ঠায় আছেন তা দেখায়। এটিতে ফিরে যেতে পিতামাতার নাম নির্বাচন করুন৷</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>সাইডবারটি সঙ্কুচিত বা প্রসারিত করুন</value>
   </data>

@@ -3080,6 +3080,30 @@ Vad vill du göra?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Starta om Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Grundläggande handledning</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Vill du hoppa över denna grundläggande handledning?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Hemprogram med och rekommenderade Roblox-spel. Välj Spela på ett spel för att starta det.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Använd sidofältet för att växla mellan huvudinställningssidorna. Implementeringen styr hur Roblox lanseras, och utseendet ändrar hur Voidstrap ser ut.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Använd den här knappen för att komprimera sidofältet till ikoner eller expandera det för att visa sidnamn.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Biblioteket grupperar dina sparade och nyligen spelade Roblox-spel. Öppna den från menyn Sidor i det översta fältet.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods låter dig bläddra i community-mods. Använd menyn Sidor i fältet överst för att komma tillbaka hit.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Titelraden visar den överordnade sidan och sidan du är på. Välj föräldranamnet för att gå tillbaka till det.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Fäll ihop eller fäll ut sidofältet</value>
   </data>

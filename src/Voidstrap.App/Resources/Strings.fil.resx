@@ -2897,6 +2897,30 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>I-restart ang Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Pangunahing tutorial</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Gusto mo bang laktawan ang pangunahing tutorial na ito?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Mga palabas sa bahay na itinatampok at inirerekomendang mga larong Roblox. Piliin ang Maglaro sa isang laro upang ilunsad ito.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Gamitin ang sidebar upang lumipat sa pagitan ng mga pangunahing pahina ng mga setting. Kinokontrol ng deployment kung paano ilulunsad ang Roblox, at binabago ng Hitsura ang hitsura ng Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Gamitin ang button na ito upang i-collapse ang sidebar sa mga icon o palawakin ito upang ipakita ang mga pangalan ng pahina.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Pinagpangkat-pangkat ng library ang iyong mga na-save at kamakailang nilaro na laro ng Roblox. Buksan ito mula sa menu ng Mga Pahina sa tuktok na bar.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Hinahayaan ka ng Voidstrap Mods na mag-browse ng mga mod ng komunidad. Gamitin ang menu ng Mga Pahina sa tuktok na bar upang bumalik dito.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Ipinapakita ng title bar ang parent page at ang page na kinaroroonan mo. Piliin ang pangalan ng magulang upang bumalik dito.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>I-collapse o i-expand ang sidebar</value>
   </data>

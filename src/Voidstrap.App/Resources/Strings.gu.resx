@@ -2909,6 +2909,30 @@ Roblox ડાઉનલોડ થશે જ્યારે તમે તેને
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapપુનઃપ્રારંભ કરો</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>મૂળભૂત ટ્યુટોરીયલ</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>શું તમે આ મૂળભૂત ટ્યુટોરીયલ છોડવા માંગો છો?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>હોમ પૃષ્ઠ પર પસંદ કરેલી અને ભલામણ કરેલી Roblox રમતો જોવા મળે છે. રમત શરૂ કરવા માટે રમો પસંદ કરો.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>મુખ્ય સેટિંગ્સ પૃષ્ઠો વચ્ચે સ્વિચ કરવા માટે સાઇડબારનો ઉપયોગ કરો. ડિપ્લોયમેન્ટ એ નિયંત્રિત કરે છે કે Roblox કેવી રીતે લોંચ થાય છે અને Voidstrap કેવો દેખાય છે તેના દેખાવમાં ફેરફાર થાય છે.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>સાઇડબારને ચિહ્નો પર સંકુચિત કરવા અથવા પૃષ્ઠ નામો બતાવવા માટે તેને વિસ્તૃત કરવા માટે આ બટનનો ઉપયોગ કરો.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>લાઇબ્રેરી તમારી સાચવેલી અને તાજેતરમાં રમાયેલી Roblox ગેમ્સનું જૂથ બનાવે છે. તેને ટોચના બારમાં પૃષ્ઠો મેનૂમાંથી ખોલો.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods તમને સમુદાય મોડ્સ બ્રાઉઝ કરવા દે છે. અહીં પાછા આવવા માટે ટોચના બારમાં પૃષ્ઠો મેનૂનો ઉપયોગ કરો.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>શીર્ષક પટ્ટી મુખ્ય પૃષ્ઠ અને તમે જે પૃષ્ઠ પર છો તે બતાવે છે. તેના પર પાછા જવા માટે પિતૃ નામ પસંદ કરો.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>સાઇડબારને સંકુચિત કરો અથવા વિસ્તૃત કરો</value>
   </data>

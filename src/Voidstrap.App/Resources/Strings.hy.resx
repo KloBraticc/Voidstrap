@@ -2909,6 +2909,30 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Վերագործարկեք Voidstrap-ը</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Հիմնական ձեռնարկ</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Ցանկանու՞մ եք բաց թողնել այս հիմնական ձեռնարկը:</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Գլխավոր էջը ցուցադրում է Roblox-ի ներկայացված և առաջարկվող խաղերը: Ընտրեք Խաղալ խաղի վրա՝ այն գործարկելու համար:</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Օգտագործեք կողագոտին՝ հիմնական կարգավորումների էջերի միջև անցնելու համար: Տեղակայումը վերահսկում է, թե ինչպես է գործարկվում Roblox-ը, և արտաքին տեսքը փոխում է Voidstrap-ի տեսքը:</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Օգտագործեք այս կոճակը՝ կողագոտին սրբապատկերների վերածելու կամ ընդլայնելու՝ էջի անունները ցուցադրելու համար:</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Գրադարանը խմբավորում է ձեր պահված և վերջերս խաղացած Roblox խաղերը: Բացեք այն վերևի տողում գտնվող Էջերի ցանկից:</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods-ը թույլ է տալիս զննել համայնքի ռեժիմները: Օգտագործեք Էջերի ընտրացանկը վերևի տողում՝ այստեղ վերադառնալու համար:</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Վերնագրի տողում ցուցադրվում է մայր էջը և այն էջը, որում դուք գտնվում եք: Ընտրեք ծնողի անունը՝ դրան վերադառնալու համար:</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Ծալել կամ ընդլայնել կողագոտին</value>
   </data>

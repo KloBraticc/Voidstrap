@@ -2909,6 +2909,30 @@ Roblox သည် ၎င်းကိုVoidstrap မှတစ်ဆင့် ပ�
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapကို ပြန်လည်စတင်ပါ။</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>အခြေခံသင်ခန်းစာ</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>ဤအခြေခံသင်ခန်းစာကို ကျော်သွားလိုပါသလား။</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Roblox ဂိမ်းများကို အသားပေးဖော်ပြပြီး အကြံပြုထားသော အိမ်ရှိရှိုးများ။ စတင်ရန် ဂိမ်းတစ်ခုပေါ်ရှိ Play ကိုရွေးချယ်ပါ။</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>ပင်မဆက်တင်စာမျက်နှာများအကြား ပြောင်းရန် ဘေးဘားကိုသုံးပါ။ ဖြန့်ကျက်မှုသည် Roblox လွှင့်တင်ပုံကို ထိန်းချုပ်ပြီး အသွင်အပြင်သည် Voidstrap အသွင်အပြင်ကို ပြောင်းလဲသည်။</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>အိုင်ကွန်များဆီသို့ ဘေးဘောင်ကို ပြိုကျရန် သို့မဟုတ် စာမျက်နှာအမည်များကို ပြသရန် ၎င်းကို ချဲ့ရန် ဤခလုတ်ကို အသုံးပြုပါ။</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>စာကြည့်တိုက်တွင် သင်သိမ်းဆည်းပြီး မကြာသေးမီက ကစားခဲ့သော Roblox ဂိမ်းများကို အုပ်စုဖွဲ့ပါ။ အပေါ်ဘားရှိ စာမျက်နှာများမီနူးမှ ၎င်းကိုဖွင့်ပါ။</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods သည် သင့်အား အသိုင်းအဝိုင်း mods များကို ရှာဖွေနိုင်စေပါသည်။ ဤနေရာသို့ပြန်လာရန် အပေါ်ဘားရှိ စာမျက်နှာများမီနူးကို အသုံးပြုပါ။</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>ခေါင်းစဉ်ဘားသည် ပင်မစာမျက်နှာနှင့် သင်ဖွင့်နေသည့် စာမျက်နှာကို ပြသသည်။ ၎င်းသို့ပြန်သွားရန် မိဘအမည်ကို ရွေးပါ။</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>ဘေးဘားကို ခေါက်သိမ်းပါ သို့မဟုတ် ချဲ့ထွင်ပါ။</value>
   </data>

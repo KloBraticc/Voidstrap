@@ -2909,6 +2909,30 @@ Nə etmək istərdiniz?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrap-ni yenidən başladın</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Əsas dərslik</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Bu əsas dərsliyi keçmək istərdinizmi?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Evdə təqdim olunan və tövsiyə olunan Roblox oyunlarını göstərir. Onu işə salmaq üçün Oyunda Play seçin.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Əsas parametrlər səhifələri arasında keçid etmək üçün yan paneldən istifadə edin. Yerləşdirmə Roblox-un necə işə salınmasına nəzarət edir, Görünüş isə Voidstrap-ın görünüşünü dəyişir.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Kenar panelini nişanlara yığışdırmaq və ya səhifə adlarını göstərmək üçün genişləndirmək üçün bu düymədən istifadə edin.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Kitabxana saxladığınız və bu yaxınlarda oynadığınız Roblox oyunlarınızı qruplaşdırın. Onu yuxarı paneldəki Səhifələr menyusundan açın.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Modları icma modlarını nəzərdən keçirməyə imkan verir. Buraya qayıtmaq üçün yuxarı paneldəki Səhifələr menyusundan istifadə edin.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Başlıq çubuğu əsas səhifəni və sizin olduğunuz səhifəni göstərir. Ona qayıtmaq üçün valideyn adını seçin.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Kenar çubuğunu daraldın və ya genişləndirin</value>
   </data>

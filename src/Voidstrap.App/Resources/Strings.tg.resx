@@ -2909,6 +2909,30 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrap-ро аз нав оғоз кунед</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Дарси асосӣ</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Оё шумо мехоҳед, ки ин дарси асосиро гузаред?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Дар хона бозиҳои пешниҳодшуда ва тавсияшудаи Roblox намоиш дода мешаванд. Барои оғоз кардани он бозӣ дар бозӣ интихоб кунед.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Барои гузаштан байни саҳифаҳои танзимоти асосӣ панели паҳлӯро истифода баред. Ҷойгиркунӣ назорат мекунад, ки чӣ гуна Roblox оғоз мешавад ва намуди зоҳирӣ намуди Voidstrap-ро тағир медиҳад.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Ин тугмаро барои пӯшидани панели паҳлӯ ба нишонаҳо истифода баред ё онро барои нишон додани номҳои саҳифа васеъ кунед.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Китобхона бозиҳои захирашудаи Roblox-ро гурӯҳбандӣ мекунад. Онро аз менюи Саҳифаҳо дар сатри боло кушоед.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ба шумо имкон медиҳад, ки модулҳои ҷомеаро паймоиш кунед. Барои баргаштан ба ин ҷо, менюи Саҳифаҳоро дар сатри боло истифода баред.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Сатри унвон саҳифаи волидайн ва саҳифаи дар он бударо нишон медиҳад. Барои баргаштан ба он номи волидайнро интихоб кунед.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Панели паҳлӯро пӯшонед ё васеъ кунед</value>
   </data>

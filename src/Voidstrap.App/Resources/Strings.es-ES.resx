@@ -3114,6 +3114,30 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Reiniciar Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Tutorial básico</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>¿Le gustaría omitir este tutorial básico?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Home muestra juegos de Roblox destacados y recomendados. Seleccione Jugar en un juego para iniciarlo.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Utilice la barra lateral para cambiar entre las páginas de configuración principales. La implementación controla cómo se inicia Roblox y la apariencia cambia la apariencia de Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Utilice este botón para contraer la barra lateral a íconos o expandirla para mostrar los nombres de las páginas.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>La biblioteca agrupa tus juegos de Roblox guardados y jugados recientemente. Ábrelo desde el menú Páginas en la barra superior.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods te permite explorar modificaciones de la comunidad. Utilice el menú Páginas en la barra superior para volver aquí.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>La barra de título muestra la página principal y la página en la que se encuentra. Seleccione el nombre del padre para volver a él.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Contraer o expandir la barra lateral</value>
   </data>

@@ -2909,6 +2909,30 @@ Roblox וועט זיין דאַונלאָודיד ווען איר קאַטער �
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>ריסטאַרט Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>יקערדיק טוטאָריאַל</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>וואָלט איר ווי צו האָפּקען דעם יקערדיק טוטאָריאַל?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>היים ווייַזן פיטשערד און רעקאַמענדיד Roblox שפּילערייַ. אויסקלייַבן שפּיל אויף אַ שפּיל צו קאַטער עס.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>ניצן די סיידבאַר צו באַשטימען צווישן די הויפּט סעטטינגס בלעטער. דיפּלוימאַנט קאָנטראָלס ווי Roblox לאָנטשיז, און אויסזען ענדערונגען ווי Voidstrap קוקט.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>ניצן דעם קנעפּל צו ייַנבראָך די סיידבאַר צו ייקאַנז אָדער יקספּאַנד עס צו ווייַזן בלאַט נעמען.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>ביבליאָטעק גרופּעס דיין געראטעוועט און לעצטנס פּלייַעד Roblox שפּילערייַ. עפֿענען עס פֿון די בלעטער מעניו אין די שפּיץ באַר.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap מאָדס אַלאַוז איר צו בלעטער קהל מאָדס. ניצן די בלעטער מעניו אין די שפּיץ באַר צו קומען צוריק דאָ.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>דער טיטל באַר ווייזט די פאָטער בלאַט און די בלאַט איר זענט אויף. סעלעקטירן דעם פאָטער נאָמען צו גיין צוריק צו אים.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>ייַנבראָך אָדער יקספּאַנד די סיידבאַר</value>
   </data>

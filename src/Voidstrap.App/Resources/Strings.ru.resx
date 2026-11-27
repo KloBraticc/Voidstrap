@@ -3126,6 +3126,30 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Перезапустить Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Базовое руководство</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Хотите пропустить это базовое руководство?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Домашние шоу представлены и рекомендованы игры Roblox. Выберите «Играть в игре», чтобы запустить ее.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Используйте боковую панель для переключения между основными страницами настроек. Развертывание управляет запуском Roblox, а внешний вид меняет внешний вид Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Используйте эту кнопку, чтобы свернуть боковую панель до значков или развернуть ее, чтобы отобразить названия страниц.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Библиотека группирует ваши сохраненные и недавно сыгранные игры Roblox. Откройте его из меню «Страницы» на верхней панели.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods позволяет просматривать моды сообщества. Используйте меню «Страницы» на верхней панели, чтобы вернуться сюда.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>В строке заголовка отображается родительская страница и страница, на которой вы находитесь. Выберите родительское имя, чтобы вернуться к нему.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Свернуть или развернуть боковую панель</value>
   </data>

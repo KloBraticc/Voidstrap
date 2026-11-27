@@ -2909,6 +2909,30 @@ Roblox ڈاؤن لوڈ ہو جائے گا۔ آپ لانچ کرنے سے پہلے
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Voidstrapدوبارہ شروع کریں۔</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>بنیادی ٹیوٹوریل</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>کیا آپ اس بنیادی ٹیوٹوریل کو چھوڑنا چاہیں گے؟</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>ہوم صفحے پر منتخب اور تجویز کردہ Roblox گیمز نظر آتی ہیں۔ کسی گیم کو شروع کرنے کے لیے کھیلیں منتخب کریں۔</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>مرکزی ترتیبات کے صفحات کے درمیان سوئچ کرنے کے لیے سائڈبار کا استعمال کریں۔ تعیناتی کنٹرول کرتی ہے کہ Roblox کیسے شروع ہوتا ہے، اور ظاہری شکل بدلتی ہے کہ Voidstrap کیسا لگتا ہے۔</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>سائڈبار کو آئیکنز پر سمیٹنے یا صفحہ کے نام دکھانے کے لیے اسے پھیلانے کے لیے اس بٹن کا استعمال کریں۔</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>لائبریری آپ کے محفوظ کردہ اور حال ہی میں کھیلے گئے Roblox گیمز کو گروپ کرتی ہے۔ اسے اوپر والے بار میں صفحات کے مینو سے کھولیں۔</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods آپ کو کمیونٹی موڈز کو براؤز کرنے دیتا ہے۔ یہاں واپس آنے کے لیے اوپر والے بار میں صفحات کا مینو استعمال کریں۔</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>ٹائٹل بار بنیادی صفحہ اور وہ صفحہ دکھاتا ہے جس پر آپ ہیں۔ اس پر واپس جانے کے لیے والدین کا نام منتخب کریں۔</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>سائڈبار کو سکیڑیں یا پھیلائیں۔</value>
   </data>

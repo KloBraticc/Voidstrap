@@ -3153,6 +3153,30 @@
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>إعادة تشغيل Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>البرنامج التعليمي الأساسي</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>هل ترغب في تخطي هذا البرنامج التعليمي الأساسي؟</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>عروض منزلية مميزة وألعاب Roblox الموصى بها. حدد تشغيل لعبة لتشغيلها.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>استخدم الشريط الجانبي للتبديل بين صفحات الإعدادات الرئيسية. يتحكم النشر في كيفية تشغيل Roblox، ويغير المظهر شكل Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>استخدم هذا الزر لطي الشريط الجانبي إلى أيقونات أو توسيعه لإظهار أسماء الصفحات.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>تقوم المكتبة بتجميع ألعاب Roblox المحفوظة والتي لعبتها مؤخرًا. افتحه من قائمة الصفحات في الشريط العلوي.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>تتيح لك Voidstrap Mods تصفح تعديلات المجتمع. استخدم قائمة الصفحات في الشريط العلوي للرجوع إلى هنا.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>يعرض شريط العنوان الصفحة الرئيسية والصفحة التي تتصفحها. حدد اسم الوالدين للعودة إليه.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>طي الشريط الجانبي أو توسيعه</value>
   </data>

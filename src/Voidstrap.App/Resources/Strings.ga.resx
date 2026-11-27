@@ -2909,6 +2909,30 @@ Cad ba mhaith leat a dhéanamh?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Atosaigh Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Teagaisc bunúsach</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Ar mhaith leat an teagasc bunúsach seo a scipeáil?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Bhí cluichí Roblox le feiceáil agus molta ag seónna baile. Roghnaigh Seinn ar chluiche chun é a sheoladh.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Úsáid an barra taoibh chun athrú idir na príomhleathanaigh socruithe. Rialaíonn imscaradh conas a sheolann Roblox, agus athraíonn Dealramh cuma Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Úsáid an cnaipe seo chun an barra taoibh a laghdú go deilbhíní nó é a leathnú chun ainmneacha leathanaigh a thaispeáint.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Grúpaí leabharlainne do chluichí Roblox sábháilte agus a d’imir tú le déanaí. Oscail é ón roghchlár Leathanaigh sa bharra barr.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Ligeann Voidstrap Mods duit mods pobail a bhrabhsáil. Úsáid an roghchlár Leathanaigh sa bharra barr chun teacht ar ais anseo.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Taispeánann an barra teidil an leathanach tuismitheora agus an leathanach ar a bhfuil tú. Roghnaigh an t-ainm tuismitheora chun dul ar ais chuige.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Laghdaigh nó leathnaigh an barra taobh</value>
   </data>

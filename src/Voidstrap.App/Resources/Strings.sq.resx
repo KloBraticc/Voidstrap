@@ -2909,6 +2909,30 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Rinisni Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Tutorial bazë</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Dëshironi ta kapërceni këtë tutorial bazë?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Faqja kryesore tregon lojëra të veçuara dhe të rekomanduara Roblox. Zgjidhni Luaj në një lojë për ta nisur atë.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Përdorni shiritin anësor për të kaluar midis faqeve kryesore të cilësimeve. Dislokimi kontrollon se si lansohet Roblox dhe Appearance ndryshon pamjen e Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Përdorni këtë buton për të palosur shiritin anësor në ikona ose për ta zgjeruar atë për të shfaqur emrat e faqeve.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>Biblioteka grupon lojërat tuaja Roblox të ruajtura dhe të luajtura së fundmi. Hapeni atë nga menyja Faqet në shiritin e sipërm.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ju lejon të shfletoni modalitetet e komunitetit. Përdorni menunë Faqet në shiritin e sipërm për t'u kthyer këtu.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>Shiriti i titullit tregon faqen mëmë dhe faqen në të cilën ndodheni. Zgjidhni emrin e prindit për t'u kthyer tek ai.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Palos ose zgjeroje shiritin anësor</value>
   </data>

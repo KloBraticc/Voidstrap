@@ -2909,6 +2909,30 @@ Roblox នឹងត្រូវបានទាញយក នៅពេលអ្ន
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>ចាប់ផ្ដើម Voidstrapឡើងវិញ</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>ការបង្រៀនជាមូលដ្ឋាន</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>តើអ្នកចង់រំលងការបង្រៀនជាមូលដ្ឋាននេះទេ?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>ទំព័រដើមបង្ហាញហ្គេម Roblox ដែលមានលក្ខណៈពិសេស និងណែនាំ។ ជ្រើសរើសលេងនៅលើហ្គេមដើម្បីបើកដំណើរការវា។</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>ប្រើរបារចំហៀងដើម្បីប្តូររវាងទំព័រការកំណត់សំខាន់។ ការដាក់ពង្រាយគ្រប់គ្រងរបៀបដែល Roblox ចាប់ផ្តើម ហើយរូបរាងផ្លាស់ប្តូររបៀបដែល Voidstrap មើលទៅ។</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>ប្រើប៊ូតុងនេះដើម្បីបង្រួមរបារចំហៀងទៅជារូបតំណាង ឬពង្រីកវាដើម្បីបង្ហាញឈ្មោះទំព័រ។</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>បណ្ណាល័យដាក់ក្រុមហ្គេម Roblox ដែលបានរក្សាទុក និងថ្មីៗនេះរបស់អ្នក។ បើកវាពីម៉ឺនុយទំព័រនៅក្នុងរបារខាងលើ។</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods អនុញ្ញាតឱ្យអ្នករុករក mods សហគមន៍។ ប្រើម៉ឺនុយទំព័រនៅក្នុងរបារខាងលើដើម្បីត្រលប់មកទីនេះ។</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>របារចំណងជើងបង្ហាញទំព័រមេ និងទំព័រដែលអ្នកនៅលើ។ ជ្រើសរើសឈ្មោះមេដើម្បីត្រលប់ទៅវាវិញ។</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>បង្រួម ឬពង្រីករបារចំហៀង</value>
   </data>

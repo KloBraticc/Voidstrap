@@ -3090,6 +3090,30 @@ Cosa vuoi fare?</value>
   <data name="Ui.Main.RestartVoidstrap" xml:space="preserve">
     <value>Riavvia Voidstrap</value>
   </data>
+  <data name="Tutorial.Title" xml:space="preserve">
+    <value>Esercitazione di base</value>
+  </data>
+  <data name="Tutorial.Welcome" xml:space="preserve">
+    <value>Vuoi saltare questo tutorial di base?</value>
+  </data>
+  <data name="Tutorial.Home" xml:space="preserve">
+    <value>Home mostra i giochi Roblox presenti e consigliati. Seleziona Gioca su un gioco per avviarlo.</value>
+  </data>
+  <data name="Tutorial.Sidebar" xml:space="preserve">
+    <value>Utilizza la barra laterale per passare da una pagina all'altra delle impostazioni principali. La distribuzione controlla il modo in cui Roblox viene avviato e l'aspetto cambia l'aspetto di Voidstrap.</value>
+  </data>
+  <data name="Tutorial.SidebarToggle" xml:space="preserve">
+    <value>Utilizza questo pulsante per comprimere la barra laterale in icone o espanderla per mostrare i nomi delle pagine.</value>
+  </data>
+  <data name="Tutorial.Library" xml:space="preserve">
+    <value>La libreria raggruppa i giochi Roblox salvati e utilizzati di recente. Aprilo dal menu Pagine nella barra in alto.</value>
+  </data>
+  <data name="Tutorial.Mods" xml:space="preserve">
+    <value>Voidstrap Mods ti consente di sfogliare i mod della community. Utilizza il menu Pagine nella barra in alto per tornare qui.</value>
+  </data>
+  <data name="Tutorial.Breadcrumb" xml:space="preserve">
+    <value>La barra del titolo mostra la pagina principale e la pagina in cui ti trovi. Seleziona il nome del genitore per tornarci.</value>
+  </data>
   <data name="Ui.Main.ToggleSidebar" xml:space="preserve">
     <value>Comprimi o espandi la barra laterale</value>
   </data>

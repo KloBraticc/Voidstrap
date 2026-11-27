@@ -21,6 +21,8 @@ public class State
 
     public int LastPage { get; set; } = 1;
 
+    public bool BasicTutorialCompleted { get; set; }
+
     public int SidebarLayoutVersion { get; set; }
 
     public int HardwareAccelerationResetVersion { get; set; }
