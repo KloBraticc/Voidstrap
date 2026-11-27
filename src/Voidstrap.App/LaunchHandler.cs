@@ -738,6 +738,7 @@ public static class LaunchHandler
             App.Settings.Prop.ConfirmLaunches
             && flag
             && !App.LaunchSettings.MatchmakerRejoinFlag.Active
+            && !(launchMode == LaunchMode.Player && App.LaunchSettings.OverlayServerJoinFlag.Active)
             && (!App.Settings.Prop.IsGameEnabled || string.IsNullOrWhiteSpace(App.Settings.Prop.LaunchGameID))
             && Frontend.ShowMessageBox(Strings.Bootstrapper_ConfirmLaunch, MessageBoxImage.Exclamation, MessageBoxButton.YesNo)
                 != MessageBoxResult.Yes

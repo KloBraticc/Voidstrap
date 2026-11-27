@@ -617,6 +617,8 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         };
         startInfo.ArgumentList.Add("-player");
         startInfo.ArgumentList.Add(LaunchInterceptor.BuildExperienceUri(placeId, accessCode: accessCode));
+        if (activity.InGame)
+            startInfo.ArgumentList.Add("-overlayserverjoin");
         using Process? process = Process.Start(startInfo);
         return process != null;
     }

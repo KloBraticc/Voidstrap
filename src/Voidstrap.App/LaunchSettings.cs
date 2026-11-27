@@ -52,6 +52,7 @@ public class LaunchSettings
     public LaunchFlag BloxshadeFlag { get; } = new LaunchFlag("bloxshade");
 
     public LaunchFlag MatchmakerRejoinFlag { get; } = new LaunchFlag("matchmakerrejoin");
+    public LaunchFlag OverlayServerJoinFlag { get; } = new LaunchFlag("overlayserverjoin");
 
     public LaunchFlag MatchmakerAttemptFlag { get; } = new LaunchFlag("matchmakerattempt");
 

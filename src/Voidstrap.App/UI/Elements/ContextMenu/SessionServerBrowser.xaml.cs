@@ -790,6 +790,7 @@ public partial class SessionServerBrowser : Window
         };
         startInfo.ArgumentList.Add("-player");
         startInfo.ArgumentList.Add(uri);
+        startInfo.ArgumentList.Add("-overlayserverjoin");
         Process.Start(startInfo)?.Dispose();
     }
 
