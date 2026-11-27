@@ -71,13 +71,29 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 
 ## Contents
 
+* [Building](#building)
 * [Installation](#installation)
 * [FAQ](#faq)
 * [Instructions](#instructions)
-* [Building](#building)
 * [Contributing](#contributing)
 * [Inspiration and credits](#inspiration--credits)
 * [License](#license)
+
+## Building
+
+Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), version 10.0.403 or later.
+
+To build on Windows, run these commands.
+
+```powershell
+git clone --recurse-submodules https://github.com/KloBraticc/Voidstrap.git
+cd Voidstrap
+powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
+```
+
+Existing checkout? Run `git submodule update --init --recursive`.
+
+Run `PublishedBuilds\Windows\Voidstrap.exe` with the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 ## Installation
 
@@ -513,22 +529,6 @@ For detailed instructions, ask the client to call `get_guide` with `{"topic":"wo
 Connected clients can change app settings and files. Review their actions and privacy settings before sharing logs. To disconnect, disable or remove the `voidstrap` server in the client.
 
 </details>
-
-## Building
-
-Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), version 10.0.403 or later.
-
-To build on Windows, run these commands.
-
-```powershell
-git clone --recurse-submodules https://github.com/KloBraticc/Voidstrap.git
-cd Voidstrap
-powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
-```
-
-Existing checkout? Run `git submodule update --init --recursive`.
-
-Run `PublishedBuilds\Windows\Voidstrap.exe` with the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 ## Contributing
 
