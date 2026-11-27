@@ -73,8 +73,8 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 
 * [Installation](#installation)
 * [FAQ](#faq)
-* [Building](#building)
 * [Instructions](#instructions)
+* [Building](#building)
 * [Contributing](#contributing)
 * [Inspiration and credits](#inspiration--credits)
 * [License](#license)
@@ -284,31 +284,6 @@ Adding the flake as an input is not enough on its own: enable the module or add 
   You can review the complete source code [here](https://github.com/KloBraticc/Voidstrap).
 </details>
 
-## Building
-
-### Requirements
-
-Desktop builds need [.NET 10 SDK 10.0.403 or a newer stable 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
-
-### Get the source
-
-```bash
-git clone --recurse-submodules https://github.com/KloBraticc/Voidstrap.git
-cd Voidstrap
-```
-
-Already cloned? Run `git submodule update --init --recursive`. On Windows, use a short checkout path like `C:\src\Voidstrap`.
-
-### Packaging and releasing
-
-Publish the Windows executable from the repository root.
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
-```
-
-`PublishedBuilds\Windows\Voidstrap.exe` requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
-
 ## Instructions
 
 <a name="platform-instructions"></a>
@@ -320,7 +295,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only wind
 
 Windows 10 or 11 x64, [Rust with MSVC](https://rustup.rs), Visual Studio C++ Build Tools, and the Windows SDK.
 
-If you have [SignPath](https://signpath.io/) set up for your repository, running `publish-all.ps1` with no arguments builds all release targets and signs the Release `Voidstrap.exe` through the trusted GitHub Actions build. If you do not use SignPath, use the `-Only windows` command above instead.
+If you have [SignPath](https://signpath.io/) set up for your repository, running `publish-all.ps1` with no arguments builds all release targets and signs the Release `Voidstrap.exe` through the trusted GitHub Actions build. For a regular Windows build, use the `-Only windows` command under [Building](#building).
 
 To build and sign with SignPath:
 
@@ -408,7 +383,7 @@ This builds the current checkout, while `.#voidstrap` builds the latest release.
 
 ### macOS build
 
-**You need:** the .NET SDK described above, PowerShell 7 and Bash. On macOS, install Rust with [rustup](https://rustup.rs) and the Xcode Command Line Tools with `xcode-select --install`. Packaging also builds and signs the Rust virtual display helper.
+**You need:** the [.NET SDK](#building), PowerShell 7 and Bash. On macOS, install Rust with [rustup](https://rustup.rs) and the Xcode Command Line Tools with `xcode-select --install`. Packaging also builds and signs the Rust virtual display helper.
 
 To build both macOS architectures on a Mac:
 
@@ -424,7 +399,7 @@ Windows can create macOS `.dmg` files through WSL 2. Install `genisoimage` in yo
 
 ### FreeBSD build
 
-**You need:** the .NET SDK described above and Bash (Git Bash or WSL on Windows). The first build also needs the [GitHub CLI](https://cli.github.com) signed in with `gh auth login`.
+**You need:** the [.NET SDK](#building) and Bash (Git Bash or WSL on Windows). The first build also needs the [GitHub CLI](https://cli.github.com) signed in with `gh auth login`.
 
 FreeBSD x64 is cross published from Windows. Run this from the repository root:
 
@@ -538,6 +513,22 @@ For detailed instructions, ask the client to call `get_guide` with `{"topic":"wo
 Connected clients can change app settings and files. Review their actions and privacy settings before sharing logs. To disconnect, disable or remove the `voidstrap` server in the client.
 
 </details>
+
+## Building
+
+Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), version 10.0.403 or later.
+
+To build on Windows, run these commands.
+
+```powershell
+git clone --recurse-submodules https://github.com/KloBraticc/Voidstrap.git
+cd Voidstrap
+powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
+```
+
+Existing checkout? Run `git submodule update --init --recursive`.
+
+Run `PublishedBuilds\Windows\Voidstrap.exe` with the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 ## Contributing
 
