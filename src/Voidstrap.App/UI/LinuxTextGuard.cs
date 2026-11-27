@@ -648,7 +648,7 @@ public static class LinuxTextGuard
         state.Corrections = 0;
         state.Shrinks = 0;
         state.OwnerWidth = double.NaN;
-        QueueCorrection(block);
+        QueueCorrection(block, DispatcherPriority.Loaded, ignoreMotion: true);
     }
 
     internal static void AttachOwner(DependencyObject root, Window owner)
@@ -722,9 +722,9 @@ public static class LinuxTextGuard
         }
     }
 
-    private static void QueueCorrection(TextBlock block, DispatcherPriority priority = DispatcherPriority.Background)
+    private static void QueueCorrection(TextBlock block, DispatcherPriority priority = DispatcherPriority.Background, bool ignoreMotion = false)
     {
-        if (Wpf.Ui.Animations.RenderReady.IsLayoutMotionActive)
+        if (!ignoreMotion && Wpf.Ui.Animations.RenderReady.IsLayoutMotionActive)
         {
             return;
         }

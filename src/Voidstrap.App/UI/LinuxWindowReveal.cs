@@ -225,6 +225,7 @@ internal static class LinuxWindowReveal
 			if (!Voidstrap.Integrations.Overlays.LinuxGameOverlay.SetWindowOpacity(_handle, 1.0))
 			{
 				DisableForSession("the window could not be made visible");
+				LinuxUiPerformance.FirstPresented(_window, _elapsed.ElapsedMilliseconds);
 				return;
 			}
 			App.Logger.WriteLine(

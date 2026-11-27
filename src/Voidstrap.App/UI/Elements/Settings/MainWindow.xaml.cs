@@ -1195,6 +1195,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         UpdateBreadcrumbIcon();
         RefreshHomeTargetButton();
         AnimatePageHeader(18.0);
+        if (_tutorialOfferPending && e.Content is Page)
+            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(OfferBasicTutorial));
     }
 
     private void PageBreadcrumb_RootItemChanged(object? sender, EventArgs e) => UpdateBreadcrumbIcon();
@@ -1272,6 +1274,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (BreadcrumbPanel == null || PageHeaderShift == null)
             return;
+        Wpf.Ui.Animations.RenderReady.Hold(this, TimeSpan.FromMilliseconds(320));
         PageHeaderShift.BeginAnimation(TranslateTransform.XProperty, GetPageHeaderSlide(fromX));
         BreadcrumbPanel.BeginAnimation(OpacityProperty, PageHeaderFade);
     }
@@ -6148,7 +6151,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             e.Handled = true;
             return;
         }
-        if (_commandPaletteOpen)
+        if (ModalOpen)
         {
             return;
         }
@@ -6617,6 +6620,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.Visibility = Visibility.Visible;
         CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseInOut };
         ease.Freeze();
+        Wpf.Ui.Animations.RenderReady.Hold(this, TimeSpan.FromMilliseconds(260));
         PinPageForSidebarShift(to - from, ease, 220);
         SidebarHost.ClipToBounds = true;
         DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(220))
@@ -8545,6 +8549,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void AnimateLaunchTargetOverlay(double opacity, double scaleTo, TimeSpan fadeDuration, int generation, bool finishClose)
     {
+        Wpf.Ui.Animations.RenderReady.Hold(this, (finishClose ? fadeDuration : ModalScaleDuration) + TimeSpan.FromMilliseconds(50));
         DoubleAnimation fade = CreateLaunchTargetAnimation(opacity, fadeDuration, ModalFadeEase);
         DoubleAnimation scale = CreateLaunchTargetAnimation(scaleTo, ModalScaleDuration, ModalScaleEase);
         DoubleAnimation done = finishClose ? fade : scale;
