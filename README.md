@@ -125,21 +125,17 @@ See [Platform instructions](#platform-instructions) for Android, Gentoo, and Nix
 ## Platform instructions
 
 <details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-windows-dark.svg"><img src="assets/readme/build-windows-light.svg" alt="Windows code signing" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-windows-dark.svg"><img src="assets/readme/build-windows-light.svg" alt="Windows build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-Windows 10 or 11 x64, [Rust with MSVC](https://rustup.rs), Visual Studio C++ Build Tools, and the Windows SDK.
+**You need:** Windows 10 or 11 x64, the .NET SDK described above, [Rust with MSVC](https://rustup.rs), Visual Studio C++ Build Tools, the Windows SDK, and the initialized submodules. Rust builds the native libraries used by the application, including frame pacing, image handling, and package extraction.
 
-If you have [SignPath](https://signpath.io/) set up for your repository, running `publish-all.ps1` with no arguments builds all release targets and signs the Release `Voidstrap.exe` through the trusted GitHub Actions build. If you do not use SignPath, use the `-Only windows` command above instead.
-
-To build and sign with SignPath:
-
-1. Add `SIGNPATH_API_TOKEN` as a repository Actions secret.
-2. Install and sign in to [GitHub CLI](https://cli.github.com/) (`gh auth login`).
-3. From a clean checkout of the latest `main` commit, run:
+From the repository root, run:
 
 ```powershell
-.\publish-all.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
 ```
+
+Output: `PublishedBuilds\Windows\Voidstrap.exe`. Requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 </details>
 
