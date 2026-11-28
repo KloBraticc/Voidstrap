@@ -225,7 +225,7 @@
     </ResourceDictionary>
   </FrameworkElement.Resources>
   <TabControl x:Name="RootTabs" Margin="0,0,14,14" SelectionChanged="RootTabs_SelectionChanged">
-    <TabItem IsSelected="True">
+    <TabItem x:Name="MyLibraryTab" IsSelected="True">
       <TabItem.Header>
         <StackPanel Orientation="Horizontal">
           <Grid Margin="0,0,6,0" VerticalAlignment="Center">

@@ -347,7 +347,7 @@ namespace Voidstrap.UI.Elements.Controls
             menu.Items.Add(new Separator());
             AddItem(menu, Strings.Library_CopyGameLink, Wpf.Ui.Common.SymbolRegular.Link24, "link");
             AddItem(menu, Strings.Ui_Integrations_PlaceID, Wpf.Ui.Common.SymbolRegular.Copy24, "id");
-            AddItem(menu, Strings.Ui_Home_ViewGamePage, Wpf.Ui.Common.SymbolRegular.Open24, "web");
+            AddItem(menu, Strings.Ui_Home_ViewGamePage, Wpf.Ui.Common.SymbolRegular.Open24, "view");
             menu.Closed += Menu_Closed;
             menu.IsOpen = true;
         }
@@ -363,7 +363,6 @@ namespace Voidstrap.UI.Elements.Controls
         {
             if (sender is not MenuItem { Tag: string action, DataContext: DiscoverGameEntry game })
                 return;
-            string url = "https://www.roblox.com/games/" + game.PlaceId;
             switch (action)
             {
                 case "play":
@@ -382,8 +381,9 @@ namespace Voidstrap.UI.Elements.Controls
                 case "id":
                     ClipboardService.SetDataObject(game.PlaceId.ToString(CultureInfo.InvariantCulture), true);
                     break;
-                case "web":
-                    Utilities.OpenWebLink(url);
+                case "view":
+                    if (Window.GetWindow(this) is MainWindow libraryWindow)
+                        libraryWindow.ShowLibraryGame(game.PlaceId, game.UniverseId, game.Name);
                     break;
             }
         }

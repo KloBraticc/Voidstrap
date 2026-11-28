@@ -17,6 +17,8 @@ public partial class LibraryPage : UiPage
 
     private LibraryGameEntry? _shownGame;
 
+    private CancellationTokenSource? _openGameRequest;
+
     private readonly PageSidebar _sidebar;
 
     public bool IsSidebarCollapsed => _sidebar.IsCollapsed;
@@ -28,6 +30,43 @@ public partial class LibraryPage : UiPage
         _ = LoadLibraryTabIconAsync();
         _sidebar = new PageSidebar(LibrarySidebar, SidebarResizer, this, SetSidebarIconsOnly, SaveSidebarWidth);
         _sidebar.Apply(App.Settings.Prop.LibrarySidebarWidth);
+    }
+
+    internal async Task OpenGameAsync(long placeId, long universeId, string name)
+    {
+        const string LOG_IDENT = "LibraryPage::OpenGameAsync";
+
+        _openGameRequest?.Cancel();
+        using CancellationTokenSource request = new();
+        _openGameRequest = request;
+        MyLibraryTab.IsSelected = true;
+        long? previousUniverse = _viewModel.SelectedGame?.UniverseId;
+        try
+        {
+            LibraryGameEntry? game = await _viewModel.ResolveGameAsync(placeId, universeId, name, request.Token);
+            if (request.IsCancellationRequested || !MyLibraryTab.IsSelected || _viewModel.SelectedGame?.UniverseId != previousUniverse)
+                return;
+            if (game == null)
+            {
+                Frontend.ShowMessageBox(Strings.Library_PlaceNotFound, MessageBoxImage.Warning);
+                return;
+            }
+
+            _viewModel.SelectGame(game);
+            DetailScroll.ScrollToTop();
+        }
+        catch (OperationCanceledException) when (request.IsCancellationRequested) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+            if (!request.IsCancellationRequested && MyLibraryTab.IsSelected && _viewModel.SelectedGame?.UniverseId == previousUniverse)
+                Frontend.ShowMessageBox(Strings.Library_PlaceNotFound, MessageBoxImage.Warning);
+        }
+        finally
+        {
+            if (ReferenceEquals(_openGameRequest, request))
+                _openGameRequest = null;
+        }
     }
 
     private void GameContextMenu_Opened(object sender, RoutedEventArgs e)
@@ -219,6 +258,8 @@ public partial class LibraryPage : UiPage
 
     private void RootTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        if (e.OriginalSource == RootTabs && MyLibraryTab?.IsSelected == false)
+            _openGameRequest?.Cancel();
         if (e.OriginalSource == RootTabs && GamesView != null && GamesTab != null)
             GamesView.SetActive(GamesTab.IsSelected);
         if (e.OriginalSource == RootTabs && CommunityView != null && CommunityTab != null)
@@ -245,6 +286,7 @@ public partial class LibraryPage : UiPage
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
+        _openGameRequest?.Cancel();
         GamesView.SetActive(false);
         CommunityView.SetActive(false);
         _viewModel.PropertyChanged -= ViewModel_PropertyChanged;

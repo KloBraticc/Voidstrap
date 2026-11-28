@@ -59,6 +59,10 @@ public sealed class FriendEntry
 
     public Visibility JoinVisibility => CanJoin ? Visibility.Visible : Visibility.Collapsed;
 
+    public bool CanViewGame => Presence.Kind == FriendPresenceKind.InGame && (Presence.PlaceId > 0 || Presence.UniverseId > 0);
+
+    public Visibility ViewGameVisibility => CanViewGame ? Visibility.Visible : Visibility.Collapsed;
+
     public Brush PresenceBrush =>
         Presence.Kind switch
         {

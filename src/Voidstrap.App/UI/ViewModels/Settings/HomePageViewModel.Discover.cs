@@ -140,10 +140,6 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public ICommand PlayDiscoverCommand => _playDiscoverCommand ??= new RelayCommand<DiscoverGameEntry>(PlayDiscover);
 
-        private ICommand? _openDiscoverCommand;
-
-        public ICommand OpenDiscoverCommand => _openDiscoverCommand ??= new RelayCommand<DiscoverGameEntry>(OpenDiscover);
-
         private sealed record DiscoverCacheGame(long UniverseId, long PlaceId, string Name, string PlayerCount, string LikePercent, string? ThumbnailUrl, long? Price = null);
 
         private sealed record DiscoverCache(DiscoverCacheGame? Featured, string? FeaturedVideoPath, List<DiscoverCacheGame> Recommended);
@@ -611,13 +607,6 @@ namespace Voidstrap.UI.ViewModels.Pages
             if (game == null)
                 return;
             LaunchPlace(game.PlaceId);
-        }
-
-        private static void OpenDiscover(DiscoverGameEntry? game)
-        {
-            if (game == null)
-                return;
-            Utilities.OpenWebLink("https://www.roblox.com/games/" + game.PlaceId);
         }
     }
 }

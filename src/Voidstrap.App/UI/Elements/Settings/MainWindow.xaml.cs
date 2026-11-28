@@ -397,7 +397,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     >
     {
         ["HomePage"] = ("Home", "On the home screen"),
-        ["GamePage"] = ("Game Details", "Viewing a game"),
         ["NvidaEditor"] = ("NVIDIA Editor", "Tweaking NVIDIA GPU settings"),
         ["HistoryPage"] = ("Continue Playing", "Browsing recent games"),
         ["IntegrationsPage"] = ("Integrations", "Setting up integrations"),
@@ -2776,13 +2775,20 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ShowLibraryPage();
     }
 
-    private void ShowLibraryPage()
+    private LibraryPage ShowLibraryPage()
     {
         _libraryPage ??= new LibraryPage();
         if (!ReferenceEquals(RootFrame.Content, _libraryPage))
         {
             RootNavigation.NavigateExternal(_libraryPage);
         }
+        return _libraryPage;
+    }
+
+    internal void ShowLibraryGame(long placeId, long universeId, string name)
+    {
+        if (placeId > 0 || universeId > 0)
+            _ = ShowLibraryPage().OpenGameAsync(placeId, universeId, name);
     }
 
     public void ShowRobloxNews()
@@ -9014,7 +9020,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         long placeId = view.PlaceId;
         long universeId = view.UniverseId;
         CloseSimpleModal();
-        RootNavigation.NavigateExternal(new GamePage(placeId, universeId));
+        ShowLibraryGame(placeId, universeId, view.GameName);
     }
 
     private void ReleaseGameDetail()

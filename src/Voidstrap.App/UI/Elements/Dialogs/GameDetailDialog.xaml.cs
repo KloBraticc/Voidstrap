@@ -26,6 +26,8 @@ namespace Voidstrap.UI.Elements.Dialogs
 
         public long UniverseId => _universeId;
 
+        internal string GameName => TitleText.Text;
+
         public GameDetailDialog(long placeId, long universeId, string name)
         {
             _placeId = placeId;

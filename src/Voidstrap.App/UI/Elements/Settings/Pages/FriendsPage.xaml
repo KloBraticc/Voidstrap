@@ -116,6 +116,7 @@
                         <TextBlock Margin="0,3,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Status}" TextTrimming="CharacterEllipsis" />
                       </StackPanel>
                       <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <ui:Button Appearance="Secondary" Height="32" Padding="10,0" Margin="0,0,4,0" VerticalAlignment="Center" Icon="Library24" Content="{resources:Loc Ui_Home_ViewGamePage}" Visibility="{Binding ViewGameVisibility}" Tag="{Binding}" Click="ViewGame_Click" />
                         <ui:Button Appearance="Primary" Height="32" Padding="12,0" Margin="0,0,4,0" VerticalAlignment="Center" Icon="Play24" Content="{resources:Loc Ui_Friends_Join}" Visibility="{Binding JoinVisibility}" Tag="{Binding}" Click="Join_Click" />
                         <ui:Button Style="{StaticResource FriendAction}" Icon="Chat24" ToolTip="{resources:Loc Common_Message}" Tag="{Binding}" Click="Message_Click" />
                         <ui:Button Style="{StaticResource FriendAction}" Icon="Edit24" ToolTip="{resources:Loc Ui_Friends_Nickname}" Tag="{Binding}" Click="Nickname_Click" />

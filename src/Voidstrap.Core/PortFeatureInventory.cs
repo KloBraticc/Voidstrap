@@ -67,7 +67,6 @@ public static class PortFeatureInventory
 		Page("NvidiaFastFlags", "NVIDIA Settings", "NvidiaFastFlagsPage", FeatureId.FrameGeneration),
 		Page("NvidiaEditor", "NVIDIA Editor", "NvidiaFFlagEditorPage", FeatureId.FrameGeneration),
 		Page("FastFlagWarning", "FastFlag Editor Warning", "FastFlagEditorWarningPage", FeatureId.RobloxPlayer),
-		Page("Game", "Game", "GamePage", FeatureId.RobloxPlayer),
 		Page("ServerBrowser", "Server browser", "ServerBrowserPage", FeatureId.EmbeddedBrowser),
 		Page("AboutOverview", "About overview", "About/Pages/AboutPage", null),
 		Page("AboutSupporters", "Supporters", "About/Pages/SupportersPage", null),

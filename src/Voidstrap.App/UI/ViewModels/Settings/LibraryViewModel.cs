@@ -2309,7 +2309,34 @@ public class LibraryViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(SelectedGame));
     }
 
-    private void SelectGame(LibraryGameEntry? game)
+    internal async Task<LibraryGameEntry?> ResolveGameAsync(long placeId, long universeId, string name, CancellationToken token)
+    {
+        if (universeId <= 0 && placeId > 0)
+        {
+            LibraryGameEntry? existing = _masterGames.FirstOrDefault(game => game.PlaceId == placeId);
+            if (existing != null)
+                return existing;
+            await UniverseDetails.ResolvePlacesToUniversesAsync([placeId], token);
+            UniverseDetails.TryGetUniverseForPlace(placeId, out universeId);
+        }
+        if (universeId <= 0)
+            return null;
+
+        LibraryGameEntry? saved = _masterGames.FirstOrDefault(game => game.UniverseId == universeId);
+        if (saved != null)
+            return saved;
+        if (SelectedGame is StoreGameEntry current && current.UniverseId == universeId)
+            return current;
+
+        if (string.IsNullOrWhiteSpace(name))
+            name = placeId > 0 ? string.Format(Strings.ContextMenu_ServerBrowser_Place, placeId) : Strings.Ui_Pages_GameDetails;
+        StoreGameEntry entry = new() { PlaceId = placeId, UniverseId = universeId, Name = name };
+        ApplyCachedDetails([entry]);
+        ApplySessionCount(entry);
+        return entry;
+    }
+
+    internal void SelectGame(LibraryGameEntry? game)
     {
         if (game == null)
             return;

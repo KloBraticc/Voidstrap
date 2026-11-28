@@ -303,6 +303,12 @@ public partial class FriendsPage : UiPage
             HomePageViewModel.LaunchPlace(entry.Presence.PlaceId, entry.Presence.GameId.Length > 0 ? entry.Presence.GameId : null);
     }
 
+    private void ViewGame_Click(object sender, RoutedEventArgs e)
+    {
+        if (EntryOf(sender) is FriendEntry { CanViewGame: true } entry && Window.GetWindow(this) is MainWindow window)
+            window.ShowLibraryGame(entry.Presence.PlaceId, entry.Presence.UniverseId, entry.Presence.LastLocation);
+    }
+
     private void Message_Click(object sender, RoutedEventArgs e)
     {
         if (EntryOf(sender) is not FriendEntry entry)

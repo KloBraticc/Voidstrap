@@ -85,9 +85,15 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 return;
 
             System.Windows.Controls.ContextMenu menu = new() { PlacementTarget = button };
-            foreach (string action in new[] { "Open in Studio", "View game page", "Open in Creator Hub", "Copy place ID" })
+            foreach ((string action, string header) in new[]
             {
-                MenuItem item = new() { Header = action, Tag = project };
+                ("studio", "Open in Studio"),
+                ("view", Strings.Ui_Home_ViewGamePage),
+                ("creator", "Open in Creator Hub"),
+                ("copy", "Copy place ID"),
+            })
+            {
+                MenuItem item = new() { Header = header, Tag = (action, project) };
                 item.Click += StudioMenuItem_Click;
                 menu.Items.Add(item);
             }
@@ -96,22 +102,24 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private void StudioMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is not MenuItem { Tag: Voidstrap.Integrations.StudioProject project, Header: string action } item)
+            if (sender is not MenuItem { Tag: ValueTuple<string, Voidstrap.Integrations.StudioProject> target } item)
                 return;
 
             item.Click -= StudioMenuItem_Click;
+            (string action, Voidstrap.Integrations.StudioProject project) = target;
             switch (action)
             {
-                case "Open in Studio":
+                case "studio":
                     Voidstrap.Integrations.StudioProjects.Open(project);
                     break;
-                case "View game page":
-                    NavigationService?.Navigate(new GamePage(project.PlaceId, project.UniverseId));
+                case "view":
+                    if (Window.GetWindow(this) is MainWindow window)
+                        window.ShowLibraryGame(project.PlaceId, project.UniverseId, project.Name);
                     break;
-                case "Open in Creator Hub":
+                case "creator":
                     Utilities.ShellExecute($"https://create.roblox.com/dashboard/creations/experiences/{project.UniverseId}/overview");
                     break;
-                case "Copy place ID":
+                case "copy":
                     Voidstrap.Utility.ClipboardService.SetText(project.PlaceId.ToString());
                     break;
             }
@@ -131,8 +139,14 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             e.Handled = true;
             if (Window.GetWindow(this) is MainWindow window)
                 window.ShowGameDetail(placeId, universeId, name);
-            else
-                NavigationService?.Navigate(new GamePage(placeId, universeId));
+        }
+
+        private void ViewDiscoverGame_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement { Tag: DiscoverGameEntry game } || Window.GetWindow(this) is not MainWindow window)
+                return;
+            e.Handled = true;
+            window.ShowLibraryGame(game.PlaceId, game.UniverseId, game.Name);
         }
 
         private void MoreActionsButton_Click(object sender, RoutedEventArgs e)

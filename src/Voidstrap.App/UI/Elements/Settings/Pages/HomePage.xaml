@@ -553,7 +553,7 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
                                             <ui:Button x:Name="FeaturedPlayButton" Appearance="Primary" Icon="Play24" Padding="22,8" FontWeight="SemiBold" Content="{resources:Loc Ui_Home_Play}" Command="{Binding PlayDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
-                                            <ui:Button Margin="8,0,0,0" Icon="Open24" Padding="0" Width="{Binding ActualHeight, ElementName=FeaturedPlayButton}" Height="{Binding ActualHeight, ElementName=FeaturedPlayButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#33FFFFFF" BorderBrush="#40FFFFFF" BorderThickness="1" Foreground="White" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding OpenDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
+                                            <ui:Button Margin="8,0,0,0" Icon="Open24" Padding="0" Width="{Binding ActualHeight, ElementName=FeaturedPlayButton}" Height="{Binding ActualHeight, ElementName=FeaturedPlayButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#33FFFFFF" BorderBrush="#40FFFFFF" BorderThickness="1" Foreground="White" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Tag="{Binding FeaturedGame}" Click="ViewDiscoverGame_Click"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
@@ -599,7 +599,7 @@
                                         <DataTemplate>
                                             <Border Margin="0,0,12,14" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                                                 <StackPanel>
-                                                    <Border Height="160" util:ResponsiveLayout.AspectRatio="1.7778" CornerRadius="12,12,0,0" util:TopRoundedClip.Radius="12" Cursor="Hand" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" MouseLeftButtonUp="GameThumbnail_Click" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                                                    <Border Height="160" util:ResponsiveLayout.AspectRatio="1.7778" CornerRadius="12,12,0,0" util:TopRoundedClip.Radius="12" Cursor="Hand" ToolTip="{resources:Loc Ui_Mods_Details}" MouseLeftButtonUp="GameThumbnail_Click" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                                                         <Grid>
                                                             <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl}"/>
                                                             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" CornerRadius="6" Padding="8,4" Background="#CC101010" ToolTip="{Binding PriceTooltip}" Visibility="{Binding PriceVisibility}">
@@ -615,7 +615,7 @@
                                                     <StackPanel Margin="12,10,12,12">
                                                         <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                                         <DockPanel Margin="0,6,0,0">
-                                                            <ui:Button DockPanel.Dock="Right" Padding="4" Icon="Open24" Appearance="Transparent" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding DataContext.OpenDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>
+                                                            <ui:Button DockPanel.Dock="Right" Padding="4" Icon="Open24" Appearance="Transparent" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Tag="{Binding}" Click="ViewDiscoverGame_Click"/>
                                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                                                 <ui:SymbolIcon Symbol="People24" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center"/>
                                                                 <TextBlock Text="{Binding PlayerCount}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="4,-2,12,0" VerticalAlignment="Center"/>
@@ -791,7 +791,7 @@
                                             CornerRadius="12,12,0,0"
                                             util:TopRoundedClip.Radius="12"
                                             Cursor="Hand"
-                                            ToolTip="{resources:Loc Ui_Home_ViewGamePage}"
+                                            ToolTip="{resources:Loc Ui_Mods_Details}"
                                             MouseLeftButtonUp="GameThumbnail_Click"
                                             Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                                                         <Grid>
