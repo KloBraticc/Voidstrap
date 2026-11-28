@@ -737,6 +737,10 @@ public static class LaunchHandler
         App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Initializing bootstrapper");
         Bootstrapper bootstrapper = new(launchMode) { CancellationHandledByCaller = true };
         App.Bootstrapper = bootstrapper;
+        Application? application = Application.Current;
+        var settingsWindow = application?.Dispatcher.Invoke(
+            () => application.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().FirstOrDefault()
+        );
         IBootstrapperDialog? bootstrapperDialog = null;
         if (!App.LaunchSettings.QuietFlag.Active && !flag2)
         {
@@ -767,10 +771,11 @@ public static class LaunchHandler
                             }
                             catch (InvalidOperationException) { }
 
-                            if (Application.Current is { Dispatcher.HasShutdownStarted: false } application)
-                                keepSettingsOpen = application.Dispatcher.Invoke(() =>
-                                    application.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().Any(window => window.IsVisible));
-                            if (!keepSettingsOpen)
+                            if (settingsWindow != null && application is { Dispatcher.HasShutdownStarted: false })
+                                keepSettingsOpen = application.Dispatcher.Invoke(() => application.Windows.Cast<Window>().Contains(settingsWindow));
+                            if (keepSettingsOpen)
+                                App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Roblox launch cancelled, keeping the settings window open");
+                            else
                                 Watcher.ReopenHomeIfEnabled("Roblox launch cancelled");
                         }
                         else if (t.IsFaulted)
