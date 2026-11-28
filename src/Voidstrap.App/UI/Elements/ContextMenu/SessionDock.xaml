@@ -457,8 +457,8 @@
                 <RectangleGeometry Rect="0,0,40,40" RadiusX="10" RadiusY="10" />
               </Image.Clip>
             </Image>
-            <StackPanel x:Name="GameText" VerticalAlignment="Center" MaxWidth="250">
-              <TextBlock x:Name="GameTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+            <StackPanel x:Name="GameText" VerticalAlignment="Center">
+              <TextBlock x:Name="GameTitle" Text="Roblox" FontSize="14" FontWeight="SemiBold" MaxWidth="250" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" />
               <StackPanel Margin="0,1,0,0" Orientation="Horizontal">
                 <!-- Live server indicator: a dot with a short heartbeat every couple of seconds -->
                 <Grid Width="10" Height="10" Margin="0,0,6,0" VerticalAlignment="Center">

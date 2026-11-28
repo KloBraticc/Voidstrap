@@ -685,12 +685,14 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         gameIconHost.Child = gameImage;
         gameRow.Children.Add(gameIconHost);
 
-        StackPanel gameTextStack = new() { VerticalAlignment = VerticalAlignment.Center, MaxWidth = 250, Tag = DockTextTag };
+        StackPanel gameTextStack = new() { VerticalAlignment = VerticalAlignment.Center, Tag = DockTextTag };
         gameTitle = new TextBlock
         {
             Text = "Roblox",
             FontSize = 14,
             FontWeight = FontWeights.SemiBold,
+            MaxWidth = 250,
+            HorizontalAlignment = HorizontalAlignment.Left,
             TextTrimming = TextTrimming.CharacterEllipsis,
             Foreground = Brushes.White,
         };
