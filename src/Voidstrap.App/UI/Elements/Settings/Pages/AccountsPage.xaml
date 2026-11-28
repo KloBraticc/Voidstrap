@@ -227,27 +227,38 @@
           <Border Margin="0,0,0,8" Padding="14,10" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
             <Border.Resources>
               <Style x:Key="StatLabel" TargetType="TextBlock">
+                <Setter Property="Margin" Value="0,0,8,0" />
                 <Setter Property="FontSize" Value="11.5" />
                 <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
-                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                <Setter Property="TextWrapping" Value="Wrap" />
               </Style>
               <Style x:Key="StatValue" TargetType="TextBlock">
                 <Setter Property="Margin" Value="0,2,8,0" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="FontWeight" Value="SemiBold" />
                 <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                <Setter Property="TextWrapping" Value="Wrap" />
               </Style>
             </Border.Resources>
-            <UniformGrid Rows="1">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
               <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Robux}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Robux}" /></StackPanel>
-              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Premium}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Premium}" /></StackPanel>
-              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Friends}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Friends}" /></StackPanel>
-              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Followers}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Followers}" /></StackPanel>
-              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Joined}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Joined}" /></StackPanel>
-              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_LastUsed}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding SelectedAccount.LastUsedText}" /></StackPanel>
-              <StackPanel><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Added}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding SelectedAccount.AddedText}" /></StackPanel>
-            </UniformGrid>
+              <StackPanel Grid.Column="1"><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Premium}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Premium}" /></StackPanel>
+              <StackPanel Grid.Column="2"><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Friends}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Friends}" /></StackPanel>
+              <StackPanel Grid.Column="3"><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Followers}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Followers}" /></StackPanel>
+              <StackPanel Grid.Row="1" Margin="0,10,0,0"><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Joined}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding Joined}" /></StackPanel>
+              <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,10,0,0"><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_LastUsed}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding SelectedAccount.LastUsedText}" /></StackPanel>
+              <StackPanel Grid.Row="1" Grid.Column="3" Margin="0,10,0,0"><TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Accounts_Added}" /><TextBlock Style="{StaticResource StatValue}" Text="{Binding SelectedAccount.AddedText}" /></StackPanel>
+            </Grid>
           </Border>
           <ui:TextBox Margin="0,0,0,4" PlaceholderText="{resources:Loc Accounts_NotePlaceholder}" Text="{Binding SelectedAccount.Note, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
 
