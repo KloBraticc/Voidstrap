@@ -23,42 +23,19 @@ namespace Voidstrap.Integrations;
 public partial class ActivityWatcher : IDisposable
 {
     private const string GameMessageEntry = "[FLog::Output] [VoidstrapRPC]";
-
     private const string SdkGameMessageEntry = "[FLog::Output] [BloxstrapRPC]";
-
-    private const int MaxRPCMessagesPerSecond = 60;
-
     private const string GameJoiningEntry = "[FLog::Output] ! Joining game";
-
     private const string GameTeleportEntry = "[FLog::UgcExperienceController] UgcExperienceController: doTeleport: joinScriptUrl";
-
     private const string GameJoiningUniverseEntry = "[FLog::GameJoinLoadTime] Report game_join_loadtime:";
-
     private const string GameJoiningUDMUXEntry = "[FLog::Network] UDMUX Address = ";
-
     private const string GameJoinedEntry = "[FLog::Network] serverId:";
-
     private const string GameDisconnectedEntry = "[FLog::Network] Time to disconnect replication data:";
-
     private const string GameLeavingEntry = "[FLog::SingleSurfaceApp] leaveUGCGameInternal";
-
     private const string GamePlayerJoinLeaveEntry = "[ExpChat/mountClientApp (Trace)] - Player ";
-
     private const string GameMessageLogEntry = "[ExpChat/mountClientApp (Debug)] - Incoming MessageReceived Status: ";
     private const string GamePlayerDiscoveryEntry = "[DFLog::SocialCounterpartyManager]";
-
-    private const string GameJoiningEntryPattern = "! Joining game '([0-9a-fA-F\\-]{36})' place ([0-9]+)(?: at ([^\\s]+))?";
-
-    private const string GameJoiningUniversePattern = "universeid:([0-9]+)";
-
-    private const string GameJoiningUserPattern = "userid:([0-9]+)";
-
-    private const string GameMessageEntryPattern = "\\[(?:Bloxstrap|Voidstrap)RPC\\] (.*)";
-
     private const string GameJoinSnapshotEntry = "[FLog::Network] Join snapshot timer:";
-
     private const string GameServerPrefixEntry = "[FLog::Output] Server Prefix: ";
-
     private const string GameLoadedEntry = "\"type\":\"game_loaded\"";
 
     internal static readonly string[] LogMarkers =
@@ -80,29 +57,38 @@ public partial class ActivityWatcher : IDisposable
         GameMessageLogEntry,
     ];
 
-    [GeneratedRegex(GameJoiningEntryPattern, RegexOptions.CultureInvariant)]
-    private static partial Regex LogPattern1 { get; }
+    [GeneratedRegex("! Joining game '([0-9a-fA-F\\-]{36})' place ([0-9]+)(?: at ([^\\s]+))?", RegexOptions.CultureInvariant)]
+    private static partial Regex JoiningGamePattern { get; }
 
     [GeneratedRegex("referral_page:([^,]+)", RegexOptions.CultureInvariant)]
-    private static partial Regex LogPattern2 { get; }
+    private static partial Regex ReferralPagePattern { get; }
 
-    [GeneratedRegex(GameJoiningUniversePattern, RegexOptions.CultureInvariant)]
-    private static partial Regex LogPattern3 { get; }
+    [GeneratedRegex("universeid:([0-9]+)", RegexOptions.CultureInvariant)]
+    private static partial Regex JoiningUniverseIdPattern { get; }
 
-    [GeneratedRegex(GameJoiningUserPattern, RegexOptions.CultureInvariant)]
-    private static partial Regex LogPattern3User { get; }
+    [GeneratedRegex("userid:([0-9]+)", RegexOptions.CultureInvariant)]
+    private static partial Regex JoiningUserIdPattern { get; }
 
     [GeneratedRegex(
         "UDMUX Address = ([0-9\\.]+), Port = [0-9]+ \\| RCC Server Address = ([0-9\\.]+), Port = [0-9]+",
         RegexOptions.CultureInvariant
     )]
-    private static partial Regex LogPattern4 { get; }
+    private static partial Regex UdmuxAddressPattern { get; }
 
     [GeneratedRegex("JoinTypeId(?:\"|%22)?(?::|%3a)(\\d+)", RegexOptions.CultureInvariant)]
-    private static partial Regex LogPattern5 { get; }
+    private static partial Regex TeleportJoinTypePattern { get; }
 
     [GeneratedRegex("Server Prefix: \\S*?_(\\d{8}T\\d{6})Z_RCC_", RegexOptions.CultureInvariant)]
     private static partial Regex ServerPrefixPattern { get; }
+
+    [GeneratedRegex("\\[(?:Bloxstrap|Voidstrap)RPC\\] (.*)", RegexOptions.CultureInvariant)]
+    private static partial Regex RpcPayloadPattern { get; }
+
+    [GeneratedRegex("(added|removed): (.*) ([0-9]+)\\s*$", RegexOptions.CultureInvariant)]
+    private static partial Regex PlayerJoinLeavePattern { get; }
+
+    [GeneratedRegex("Success Text: (.*)", RegexOptions.CultureInvariant)]
+    private static partial Regex ChatMessagePattern { get; }
 
     internal static bool TryParseServerStart(string entry, out DateTimeOffset started)
     {
@@ -127,14 +113,7 @@ public partial class ActivityWatcher : IDisposable
         return true;
     }
 
-    [GeneratedRegex(GameMessageEntryPattern, RegexOptions.CultureInvariant)]
-    private static partial Regex LogPattern6 { get; }
-
-    [GeneratedRegex("(added|removed): (.*) ([0-9]+)\\s*$", RegexOptions.CultureInvariant)]
-    private static partial Regex LogPattern7 { get; }
-
-    [GeneratedRegex("Success Text: (.*)", RegexOptions.CultureInvariant)]
-    private static partial Regex LogPattern8 { get; }
+    private const int MaxRpcMessagesPerSecond = 60;
 
     private static readonly string? LaunchStatusFile = Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE");
 
@@ -148,7 +127,7 @@ public partial class ActivityWatcher : IDisposable
 
     private static bool _resolutionApplied = false;
 
-    private DateTime LastRPCRequest;
+    private DateTime _rpcWindowStarted;
 
     private int _rpcMessagesInWindow;
 
@@ -346,13 +325,13 @@ public partial class ActivityWatcher : IDisposable
                 await Voidstrap.Utility.Http.GetString(requestUri, cts.Token).ConfigureAwait(continueOnCapturedContext: false)
             );
             if (
-                jsonDocument.RootElement.TryGetProperty("data", out var value)
-                && value.GetArrayLength() > 0
-                && value[0].TryGetProperty("playing", out var value2)
-                && value2.TryGetInt64(out var value3)
+                jsonDocument.RootElement.TryGetProperty("data", out var games)
+                && games.GetArrayLength() > 0
+                && games[0].TryGetProperty("playing", out var playingValue)
+                && playingValue.TryGetInt64(out long playingCount)
             )
             {
-                total = (int)Math.Clamp(value3, 0L, int.MaxValue);
+                total = (int)Math.Clamp(playingCount, 0L, int.MaxValue);
             }
         }
         catch { }
@@ -1345,7 +1324,7 @@ public partial class ActivityWatcher : IDisposable
         }
         if (entry.Contains(GameJoiningEntry, StringComparison.Ordinal))
         {
-            Match joining = LogPattern1.Match(entry);
+            Match joining = JoiningGamePattern.Match(entry);
             if (!joining.Success || !long.TryParse(joining.Groups[2].Value, out long nextPlace) || nextPlace <= 0)
                 return;
             if (Data.PlaceId == nextPlace && string.Equals(Data.JobId, joining.Groups[1].Value, StringComparison.OrdinalIgnoreCase))
@@ -1372,7 +1351,7 @@ public partial class ActivityWatcher : IDisposable
             {
                 return;
             }
-            Match match = LogPattern1.Match(entry);
+            Match match = JoiningGamePattern.Match(entry);
             if (match.Success && long.TryParse(match.Groups[2].Value, out long placeId) && placeId > 0)
             {
                 InGame = false;
@@ -1403,10 +1382,10 @@ public partial class ActivityWatcher : IDisposable
         {
             if (entry.Contains(GameJoiningUniverseEntry))
             {
-                Match match2 = LogPattern2.Match(entry);
-                if (match2.Groups.Count == 2)
+                Match referralMatch = ReferralPagePattern.Match(entry);
+                if (referralMatch.Groups.Count == 2)
                 {
-                    string value = match2.Groups[1].Value;
+                    string value = referralMatch.Groups[1].Value;
                     if (
                         Data.ServerType != ServerType.Reserved
                         && (
@@ -1418,14 +1397,14 @@ public partial class ActivityWatcher : IDisposable
                         Data.ServerType = ServerType.Private;
                     }
                 }
-                Match match3 = LogPattern3.Match(entry);
-                Match match3User = LogPattern3User.Match(entry);
-                if (!match3.Success || !long.TryParse(match3.Groups[1].Value, out long universeId) || universeId <= 0)
+                Match universeMatch = JoiningUniverseIdPattern.Match(entry);
+                Match userMatch = JoiningUserIdPattern.Match(entry);
+                if (!universeMatch.Success || !long.TryParse(universeMatch.Groups[1].Value, out long universeId) || universeId <= 0)
                 {
                     return;
                 }
                 Data.UniverseId = universeId;
-                if (match3User.Success && long.TryParse(match3User.Groups[1].Value, out long userId))
+                if (userMatch.Success && long.TryParse(userMatch.Groups[1].Value, out long userId))
                     Data.UserId = userId;
                 lock (History)
                 {
@@ -1441,11 +1420,11 @@ public partial class ActivityWatcher : IDisposable
             }
             else if (entry.Contains(GameJoiningUDMUXEntry))
             {
-                Match match4 = LogPattern4.Match(entry);
-                if (match4.Success)
+                Match addressMatch = UdmuxAddressPattern.Match(entry);
+                if (addressMatch.Success)
                 {
-                    string udmuxAddress = match4.Groups[1].Value;
-                    string rccAddress = match4.Groups[2].Value;
+                    string udmuxAddress = addressMatch.Groups[1].Value;
+                    string rccAddress = addressMatch.Groups[2].Value;
                     string routable = !VoidstrapMatchmaker.IsPrivateIp(udmuxAddress)
                         ? udmuxAddress
                         : (!VoidstrapMatchmaker.IsPrivateIp(rccAddress) ? rccAddress : string.Empty);
@@ -1490,19 +1469,12 @@ public partial class ActivityWatcher : IDisposable
                 _teleportMarker = true;
                 App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Initiating teleport (" + Data.JobId + ")");
                 FrameGeneration.FrameGenManager.OnGameJoinStarting();
-                Match match5 = LogPattern5.Match(entry);
-                if (match5.Success && int.TryParse(match5.Groups[1].Value, out var result))
+                Match joinTypeMatch = TeleportJoinTypePattern.Match(entry);
+                if (joinTypeMatch.Success && int.TryParse(joinTypeMatch.Groups[1].Value, out var result))
                 {
                     ServerSessionJoinType serverSessionJoinType = (ServerSessionJoinType)result;
                     App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", $"Teleport JoinTypeId = {result} ({serverSessionJoinType})");
-                    if (
-                        (
-                            serverSessionJoinType == ServerSessionJoinType.NewGamePrivateGame
-                            || serverSessionJoinType == ServerSessionJoinType.SpecificPrivateGame
-                        )
-                            ? true
-                            : false
-                    )
+                    if (serverSessionJoinType is ServerSessionJoinType.NewGamePrivateGame or ServerSessionJoinType.SpecificPrivateGame)
                     {
                         _reservedTeleportMarker = true;
                     }
@@ -1512,53 +1484,53 @@ public partial class ActivityWatcher : IDisposable
                 entry.Contains(SdkGameMessageEntry, StringComparison.Ordinal) || entry.Contains(GameMessageEntry, StringComparison.Ordinal)
             )
             {
-                Match match6 = LogPattern6.Match(entry);
-                if (!match6.Success || match6.Groups.Count != 2)
+                Match rpcMatch = RpcPayloadPattern.Match(entry);
+                if (!rpcMatch.Success || rpcMatch.Groups.Count != 2)
                 {
                     return;
                 }
-                string value2 = match6.Groups[1].Value.Trim();
+                string payload = rpcMatch.Groups[1].Value.Trim();
                 DateTime now = DateTime.Now;
-                if ((now - LastRPCRequest).TotalSeconds >= 1.0)
+                if ((now - _rpcWindowStarted).TotalSeconds >= 1.0)
                 {
-                    LastRPCRequest = now;
+                    _rpcWindowStarted = now;
                     _rpcMessagesInWindow = 0;
                 }
-                if (++_rpcMessagesInWindow > MaxRPCMessagesPerSecond)
+                if (++_rpcMessagesInWindow > MaxRpcMessagesPerSecond)
                 {
                     return;
                 }
-                Message? message3;
+                Message? rpcMessage;
                 try
                 {
-                    message3 = JsonSerializer.Deserialize<Message>(value2);
+                    rpcMessage = JsonSerializer.Deserialize<Message>(payload);
                 }
                 catch
                 {
                     return;
                 }
-                if (message3 == null)
+                if (rpcMessage == null)
                 {
                     return;
                 }
-                if (message3.Command == "SetLaunchData")
+                if (rpcMessage.Command == "SetLaunchData")
                 {
-                    if (message3.Data.ValueKind != JsonValueKind.String)
+                    if (rpcMessage.Data.ValueKind != JsonValueKind.String)
                     {
                         return;
                     }
-                    string? text = message3.Data.GetString();
+                    string? text = rpcMessage.Data.GetString();
                     if (text == null || text.Length > 200)
                     {
                         return;
                     }
                     Data.RPCLaunchData = text;
                 }
-                else if (message3.Command == "SetRichPresence" && message3.Data.ValueKind != JsonValueKind.Object)
+                else if (rpcMessage.Command == "SetRichPresence" && rpcMessage.Data.ValueKind != JsonValueKind.Object)
                 {
                     return;
                 }
-                RaiseEvent(OnRPCMessage, message3, "OnRPCMessage");
+                RaiseEvent(OnRPCMessage, rpcMessage, "OnRPCMessage");
             }
             else if (entry.Contains(GamePlayerDiscoveryEntry, StringComparison.Ordinal))
             {
@@ -1574,21 +1546,21 @@ public partial class ActivityWatcher : IDisposable
             }
             else if (entry.Contains(GamePlayerJoinLeaveEntry))
             {
-                Match match7 = LogPattern7.Match(entry);
-                if (match7.Groups.Count == 4)
+                Match playerMatch = PlayerJoinLeavePattern.Match(entry);
+                if (playerMatch.Groups.Count == 4)
                 {
-                    if (long.TryParse(match7.Groups[3].Value, out long userId))
-                        RecordPlayerEvent(match7.Groups[1].Value, userId, match7.Groups[2].Value);
+                    if (long.TryParse(playerMatch.Groups[3].Value, out long userId))
+                        RecordPlayerEvent(playerMatch.Groups[1].Value, userId, playerMatch.Groups[2].Value);
                 }
             }
             else if (entry.Contains(GameMessageLogEntry))
             {
-                Match match8 = LogPattern8.Match(entry);
-                if (match8.Groups.Count == 2)
+                Match chatMatch = ChatMessagePattern.Match(entry);
+                if (chatMatch.Groups.Count == 2)
                 {
                     ActivityData.UserMessage userMessage = new ActivityData.UserMessage
                     {
-                        Message = match8.Groups[1].Value,
+                        Message = chatMatch.Groups[1].Value,
                         Time = DateTime.Now,
                     };
                     AddBounded(Data.MessageLogs, _nextMessageLogId++, userMessage, MaxMessageLogEntries);
