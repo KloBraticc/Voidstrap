@@ -11,6 +11,8 @@ public partial class GBSEditorPage : UiPage
 {
     private GBSEditorViewModel _viewModel = null!;
 
+    private bool _syncingSectionBar;
+
     public GBSEditorPage()
     {
         SetupViewModel();
@@ -33,6 +35,7 @@ public partial class GBSEditorPage : UiPage
             return;
         }
         _viewModel.Resume();
+        UpdateActiveSectionFromScroll();
     }
 
     private void OnPageUnloaded(object sender, RoutedEventArgs e)
@@ -42,8 +45,57 @@ public partial class GBSEditorPage : UiPage
 
     private void SectionBar_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        if (_syncingSectionBar)
+            return;
         if (SectionBar.SelectedItem is FrameworkElement { Tag: FrameworkElement target })
             target.BringIntoView(new Rect(0, 0, target.ActualWidth, Math.Max(target.ActualHeight, 400)));
+    }
+
+    private void ContentScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        UpdateActiveSectionFromScroll();
+    }
+
+    private void UpdateActiveSectionFromScroll()
+    {
+        FrameworkElement? firstItem = null;
+        FrameworkElement? lastItem = null;
+        FrameworkElement? activeItem = null;
+
+        foreach (object rawItem in SectionBar.Items)
+        {
+            if (rawItem is not FrameworkElement { Tag: FrameworkElement target } item)
+                continue;
+            if (item.Visibility != Visibility.Visible || !target.IsVisible || !ContentScroll.IsAncestorOf(target))
+                continue;
+
+            firstItem ??= item;
+            lastItem = item;
+
+            if (target.TransformToAncestor(ContentScroll).Transform(new Point(0, 0)).Y <= 48.0)
+                activeItem = item;
+        }
+
+        if (firstItem is null)
+            return;
+
+        if (ContentScroll.ScrollableHeight > 0 && ContentScroll.VerticalOffset >= ContentScroll.ScrollableHeight - 2.0)
+            activeItem = lastItem;
+
+        activeItem ??= firstItem;
+
+        if (ReferenceEquals(SectionBar.SelectedItem, activeItem))
+            return;
+
+        _syncingSectionBar = true;
+        try
+        {
+            SectionBar.SelectedItem = activeItem;
+        }
+        finally
+        {
+            _syncingSectionBar = false;
+        }
     }
 
     private void ValidateUInt32(object sender, TextCompositionEventArgs e)

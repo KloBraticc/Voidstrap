@@ -18,7 +18,7 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <ui:DynamicScrollViewer x:Name="ContentScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+    <ui:DynamicScrollViewer x:Name="ContentScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" ScrollChanged="ContentScroll_ScrollChanged">
   <StackPanel Margin="0,0,14,14">
     <TextBlock Margin="0,0,0,2" FontSize="14" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Gbs_TheseAreRobloxSOwnIn}" />
 
