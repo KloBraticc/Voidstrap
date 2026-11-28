@@ -734,7 +734,18 @@
                   <TextBlock Margin="0,0,0,8" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap" Text="{resources:Loc Ui_Session_SocialLinks}" />
                   <controls:GameSocialLinkList ItemsSource="{Binding SocialLinks}" />
                 </StackPanel>
-                <controls:GameFriendsView Margin="0,16,0,0" ShowActivity="True" UniverseId="{Binding SelectedGame.UniverseId, FallbackValue=0}" GameName="{Binding SelectedGame.Name, FallbackValue=''}" />
+                <controls:GameFriendsView ShowActivity="True" UniverseId="{Binding SelectedGame.UniverseId, FallbackValue=0}" GameName="{Binding SelectedGame.Name, FallbackValue=''}">
+                  <controls:GameFriendsView.Style>
+                    <Style TargetType="controls:GameFriendsView">
+                      <Setter Property="Margin" Value="0,16,0,0" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding SocialLinksVisibility}" Value="{x:Static Visibility.Visible}">
+                          <Setter Property="Margin" Value="0,4,0,0" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </controls:GameFriendsView.Style>
+                </controls:GameFriendsView>
               </StackPanel>
                 <controls:GameFriendsView Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Top" UniverseId="{Binding SelectedGame.UniverseId, FallbackValue=0}" GameName="{Binding SelectedGame.Name, FallbackValue=''}" />
               </Grid>
