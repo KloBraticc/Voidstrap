@@ -34,11 +34,11 @@
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_Channel_RobloxWindowBehavior}" Description="{resources:Loc Ui_Channel_RobloxWindowBehavior_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-            <ComboBox HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DropDownOpened="RobloxWindowBehavior_DropDownOpened" SelectedIndex="{Binding RobloxWindowBehaviorIndex, Mode=TwoWay}">
-              <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Misc_None}" TextAlignment="Left" TextWrapping="Wrap" /></ComboBoxItem>
-              <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Channel_KeepOpenAfterRobloxLaunch}" TextAlignment="Left" TextWrapping="Wrap" /></ComboBoxItem>
-              <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Channel_ReopenAfterRobloxCloses}" TextAlignment="Left" TextWrapping="Wrap" /></ComboBoxItem>
-              <ComboBoxItem><TextBlock Text="{resources:Loc Ui_SessionNotify_Both}" TextAlignment="Left" TextWrapping="Wrap" /></ComboBoxItem>
+            <ComboBox SelectedIndex="{Binding RobloxWindowBehaviorIndex, Mode=TwoWay}">
+              <ComboBoxItem Content="{resources:Loc Ui_Misc_None}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Channel_KeepOpenAfterRobloxLaunch}" />
+              <ComboBoxItem Content="{resources:Loc Ui_Channel_ReopenAfterRobloxCloses}" />
+              <ComboBoxItem Content="{resources:Loc Ui_SessionNotify_Both}" />
             </ComboBox>
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />

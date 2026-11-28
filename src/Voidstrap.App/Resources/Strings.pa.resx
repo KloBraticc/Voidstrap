@@ -10475,6 +10475,6 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
     <value>ਲੋਡ ਹੋਣ ਵਿੱਚ ਕਾਫ਼ੀ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ</value>
   </data>
   <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
-    <value>ਜਦੋਂ ਰੋਬਲੋਕਸ ਲਾਂਚ ਹੁੰਦਾ ਹੈ ਤਾਂ ਵੋਇਡਸਟ੍ਰੈਪ ਨੂੰ ਖੁੱਲ੍ਹਾ ਰੱਖੋ, ਰੋਬਲੋਕਸ ਦੇ ਬੰਦ ਹੋਣ 'ਤੇ ਇਸਨੂੰ ਹੋਮ ਪੇਜ 'ਤੇ ਦੁਬਾਰਾ ਖੋਲ੍ਹੋ, ਜਾਂ ਦੋਵੇਂ ਕਰੋ।</value>
+    <value>ਜਦੋਂ Roblox ਲਾਂਚ ਹੁੰਦਾ ਹੈ ਤਾਂ Voidstrap ਨੂੰ ਖੁੱਲ੍ਹਾ ਰੱਖੋ, Roblox ਬੰਦ ਹੋਣ 'ਤੇ ਇਸਨੂੰ ਹੋਮ ਪੇਜ 'ਤੇ ਦੁਬਾਰਾ ਖੋਲ੍ਹੋ, ਜਾਂ ਦੋਵੇਂ ਕਰੋ।</value>
   </data>
 </root>
