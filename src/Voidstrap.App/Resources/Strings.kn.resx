@@ -10297,6 +10297,12 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM ಗುಣಮಟ್ಟದ ಮಟ್ಟವನ್ನು ಬಲವಂತವಾಗಿ ಹೊಂದಿಸುವುದರಿಂದ ಕೆಲವು ಆಟಗಳಲ್ಲಿ ದೃಶ್ಯ ಸಮಸ್ಯೆಗಳು ಉಂಟಾಗಬಹುದು. ಎಚ್ಚರಿಕೆಯಿಂದ ಬಳಸಿ.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap ವಿಂಡೋದ ವರ್ತನೆ</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox ಆರಂಭಿಸಿದ ನಂತರ Voidstrap ತೆರೆದಿರಲಿ</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox ಮುಚ್ಚಿದ ನಂತರ Voidstrap ಅನ್ನು ಮತ್ತೆ ತೆರೆಯಿರಿ</value>
   </data>

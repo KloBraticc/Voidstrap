@@ -2413,7 +2413,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         long placeId = await ResolveStartPlaceAsync(game);
         if (placeId == 0)
             return;
-        if (TryLaunchPlayer($"roblox://experiences/start?placeId={placeId}"))
+        if (TryLaunchPlayer($"roblox://experiences/start?placeId={placeId}") && !LaunchHandler.ShouldKeepCurrentSettingsWindow())
             Application.Current.Shutdown();
     }
 
@@ -2421,6 +2421,7 @@ public class LibraryViewModel : INotifyPropertyChanged
     {
         try
         {
+            App.Settings.FlushDeferred();
             string voidstrapPath = Paths.LaunchExecutable;
             Process.Start(
                 new ProcessStartInfo

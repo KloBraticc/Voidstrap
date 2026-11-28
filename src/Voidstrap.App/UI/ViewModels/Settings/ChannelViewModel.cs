@@ -469,16 +469,17 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
         return choices;
     }
 
-    public bool ReopenAfterRobloxCloses
+    public int RobloxWindowBehaviorIndex
     {
-        get { return App.Settings?.Prop?.ReopenAfterRobloxCloses == true; }
+        get => (App.Settings.Prop.KeepVoidstrapOpenAfterRobloxLaunch ? 1 : 0) + (App.Settings.Prop.ReopenAfterRobloxCloses ? 2 : 0);
         set
         {
-            if (App.Settings?.Prop != null && App.Settings.Prop.ReopenAfterRobloxCloses != value)
-            {
-                App.Settings.Prop.ReopenAfterRobloxCloses = value;
-                OnPropertyChanged(nameof(ReopenAfterRobloxCloses));
-            }
+            if (value is < 0 or > 3 || value == RobloxWindowBehaviorIndex)
+                return;
+
+            App.Settings.Prop.KeepVoidstrapOpenAfterRobloxLaunch = value is 1 or 3;
+            App.Settings.Prop.ReopenAfterRobloxCloses = value is 2 or 3;
+            OnPropertyChanged(nameof(RobloxWindowBehaviorIndex));
         }
     }
 

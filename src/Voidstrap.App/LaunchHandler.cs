@@ -28,6 +28,14 @@ public static class LaunchHandler
 {
     private static int _portableLaunchActive;
 
+    internal static bool KeepSettingsOpenAfterPlayerLaunch =>
+        OperatingSystem.IsWindows() && App.Settings.Prop.KeepVoidstrapOpenAfterRobloxLaunch && !App.LaunchSettings.TestModeFlag.Active;
+
+    internal static bool PreserveSettingsWindowForLaunch =>
+        OperatingSystem.IsWindows() &&
+        ((App.LaunchSettings.RobloxLaunchMode == LaunchMode.Player && KeepSettingsOpenAfterPlayerLaunch)
+         || (App.LaunchSettings.MenuFlag.Active && (KeepSettingsOpenAfterPlayerLaunch || App.LaunchSettings.MenuFlag.Data == TaskbarJumpList.HomeView)));
+
     public static void ProcessNextAction(NextAction action, bool isUnfinishedInstall = false)
     {
         switch (action)
@@ -224,7 +232,7 @@ public static class LaunchHandler
         }
         if (!App.LaunchSettings.WatcherFlag.Active)
         {
-            CloseOtherInstances();
+            CloseOtherInstances(PreserveSettingsWindowForLaunch);
         }
         if (App.LaunchSettings.UninstallFlag.Active)
         {
@@ -606,6 +614,11 @@ public static class LaunchHandler
         }
         App.Settings.FlushDeferred();
         App.FastFlags.FlushDeferred();
+        if (launchMode == LaunchMode.Player && ShouldKeepCurrentSettingsWindow())
+        {
+            StartPlayerBesideSettings();
+            return;
+        }
         if (
             Voidstrap.Integrations.Plugins.PluginHost.Invoke(
                 "roblox.launch",
@@ -732,7 +745,7 @@ public static class LaunchHandler
         bool flag2 = string.Equals(Environment.GetEnvironmentVariable("VOIDSTRAP_FORCE_NATIVE"), "1", StringComparison.Ordinal);
         if (!flag2)
         {
-            CloseOtherInstances();
+            CloseOtherInstances(launchMode == LaunchMode.Player && KeepSettingsOpenAfterPlayerLaunch);
         }
         App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Initializing bootstrapper");
         Bootstrapper bootstrapper = new(launchMode) { CancellationHandledByCaller = true };
@@ -796,6 +809,35 @@ public static class LaunchHandler
             );
         bootstrapperDialog?.ShowBootstrapper();
         App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Exiting");
+    }
+
+    internal static bool ShouldKeepCurrentSettingsWindow()
+    {
+        if (!KeepSettingsOpenAfterPlayerLaunch || Application.Current is not { } application || application.Dispatcher.HasShutdownStarted)
+            return false;
+
+        return application.Dispatcher.Invoke(() => application.Windows.OfType<UI.Elements.Settings.MainWindow>().Any(window => window.IsVisible));
+    }
+
+    private static void StartPlayerBesideSettings()
+    {
+        const string LOG_IDENT = "LaunchHandler::StartPlayerBesideSettings";
+
+        try
+        {
+            ProcessStartInfo info = new(Paths.LaunchExecutable) { UseShellExecute = false };
+            info.ArgumentList.Add("-player");
+            if (!string.IsNullOrEmpty(App.LaunchSettings.RobloxLaunchArgs))
+                info.ArgumentList.Add(App.LaunchSettings.RobloxLaunchArgs);
+            using Process? process = Process.Start(info);
+            if (process == null)
+                throw new InvalidOperationException("The launch process did not start");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+            Frontend.ShowMessageBox(string.Format(Strings.Ui_Shortcuts_LaunchFailed, ex.Message), MessageBoxImage.Error);
+        }
     }
 
     private static bool IsPlayerMutexOpen(string name)
@@ -2415,7 +2457,7 @@ public static class LaunchHandler
         application.Dispatcher.Invoke(show);
     }
 
-    internal static void CloseOtherInstances()
+    internal static void CloseOtherInstances(bool preserveSettings = false)
     {
         try
         {
@@ -2438,6 +2480,9 @@ public static class LaunchHandler
                     {
                         continue;
                     }
+                    if (preserveSettings && process.MainWindowTitle == Strings.Menu_Title)
+                        continue;
+
                     App.Logger.WriteLine("LaunchHandler::CloseOtherInstances", $"Closing other {"Voidstrap"} window (pid {process.Id})");
                     if (!process.CloseMainWindow() || !process.WaitForExit(1500))
                     {

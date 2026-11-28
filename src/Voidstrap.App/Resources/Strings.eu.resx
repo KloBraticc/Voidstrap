@@ -10296,6 +10296,12 @@ SteamVR instalatu orain?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM kalitate maila behartzeak arazo bisualak sor ditzake joko batzuetan. Erabili kontuz.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap leihoaren portaera</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Mantendu Voidstrap irekita Roblox abiarazi ondoren</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Ireki berriro Voidstrap Roblox ixtean</value>
   </data>

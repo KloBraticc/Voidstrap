@@ -10297,6 +10297,12 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>כפיית רמת האיכות של FRM עלולה לגרום לבעיות חזותיות בחלק מהמשחקים. השתמש בזה בזהירות.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>התנהגות חלון Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>השארת Voidstrap פתוח לאחר הפעלת Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>פתיחה מחדש של Voidstrap לאחר סגירת Roblox</value>
   </data>

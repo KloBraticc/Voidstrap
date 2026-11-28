@@ -10297,6 +10297,12 @@ Tāuta SteamVR ināianei?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Mā te akiaki i te taumata kounga FRM ka puta pea he raruraru ataata i ētahi kēmu. Whakamahia mā te tūpato.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Te whanonga o te matapihi Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Waiho kia tuwhera a Voidstrap i muri i te whakarewatanga o Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Whakatuwhera anō i a Voidstrap ina kati a Roblox</value>
   </data>

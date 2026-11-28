@@ -10297,6 +10297,12 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM ਗੁਣਵੱਤਾ ਪੱਧਰ ਨੂੰ ਜ਼ਬਰਦਸਤੀ ਲਾਗੂ ਕਰਨ ਨਾਲ ਕੁਝ ਗੇਮਾਂ ਵਿੱਚ ਦ੍ਰਿਸ਼ ਸਮੱਸਿਆਵਾਂ ਹੋ ਸਕਦੀਆਂ ਹਨ। ਇਸਨੂੰ ਸਾਵਧਾਨੀ ਨਾਲ ਵਰਤੋ।</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap ਵਿੰਡੋ ਦਾ ਵਿਹਾਰ</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox ਸ਼ੁਰੂ ਕਰਨ ਤੋਂ ਬਾਅਦ Voidstrap ਖੁੱਲ੍ਹਾ ਰੱਖੋ</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox ਬੰਦ ਹੋਣ ਤੋਂ ਬਾਅਦ Voidstrap ਮੁੜ ਖੋਲ੍ਹੋ</value>
   </data>

@@ -1107,7 +1107,9 @@ public partial class App : Application
             LaunchHandler.ProcessLaunchArgs();
             return;
         }
-        if (!LaunchSettings.WatcherFlag.Active && !headlessLaunch && !LaunchSettings.OrcRedirectFlag.Active)
+        bool deferSettingsCleanup = OperatingSystem.IsWindows()
+            && (LaunchSettings.RobloxLaunchMode == LaunchMode.Player || LaunchSettings.MenuFlag.Active);
+        if (!LaunchSettings.WatcherFlag.Active && !headlessLaunch && !LaunchSettings.OrcRedirectFlag.Active && !deferSettingsCleanup)
         {
             LaunchHandler.CloseOtherInstances();
         }

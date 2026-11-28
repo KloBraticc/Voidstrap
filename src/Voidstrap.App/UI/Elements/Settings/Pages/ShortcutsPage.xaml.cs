@@ -84,7 +84,8 @@ public partial class ShortcutsPage : UiPage
             using Process? process = Process.Start(startInfo);
             if (process == null)
                 throw new InvalidOperationException("The launcher could not be started.");
-            Application.Current.Shutdown();
+            if (!LaunchHandler.ShouldKeepCurrentSettingsWindow())
+                Application.Current.Shutdown();
         }
         catch (Exception ex)
         {

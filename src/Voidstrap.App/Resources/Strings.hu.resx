@@ -10607,6 +10607,12 @@ Telepítse most az SteamVR-t?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Az FRM minőségi szint kikényszerítése egyes játékokban vizuális hibákat okozhat. Óvatosan használd.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>A Voidstrap ablak viselkedése</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>A Roblox indítása után maradjon nyitva a Voidstrap</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Voidstrap újranyitása a Roblox bezárása után</value>
   </data>

@@ -33,8 +33,13 @@
           <controls:OptionControl Header="{resources:Loc Ui_Channel_LaunchRobloxWithoutVoidstrap}" Description="{resources:Loc Ui_Channel_JoiningAGameFromYourBrowser}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Channel_ReopenAfterRobloxCloses}" Description="{resources:Loc Ui_Channel_ReopenAfterRobloxCloses_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-            <ui:ToggleSwitch IsChecked="{Binding ReopenAfterRobloxCloses, Mode=TwoWay}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_RobloxWindowBehavior}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <ComboBox MinWidth="200" MaxWidth="340" SelectedIndex="{Binding RobloxWindowBehaviorIndex, Mode=TwoWay}">
+              <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Misc_None}" TextWrapping="Wrap" /></ComboBoxItem>
+              <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Channel_KeepOpenAfterRobloxLaunch}" TextWrapping="Wrap" /></ComboBoxItem>
+              <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Channel_ReopenAfterRobloxCloses}" TextWrapping="Wrap" /></ComboBoxItem>
+              <ComboBoxItem><TextBlock Text="{resources:Loc Enums_ModApplyTarget_Both}" TextWrapping="Wrap" /></ComboBoxItem>
+            </ComboBox>
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
           <controls:OptionControl x:Name="DotNetRuntimeOption" Header="{resources:Loc Menu_DotNetRuntime_Title}" Visibility="Collapsed">

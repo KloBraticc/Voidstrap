@@ -10606,6 +10606,12 @@ Asennetaan SteamVR nyt?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM laatutason pakottaminen voi aiheuttaa visuaalisia ongelmia joissakin peleissä. Käytä sitä varoen.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrapin ikkunan toiminta</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Pidä Voidstrap auki Robloxin käynnistyttyä</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Avaa Voidstrap uudelleen, kun Roblox suljetaan</value>
   </data>

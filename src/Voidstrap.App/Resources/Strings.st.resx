@@ -10296,6 +10296,12 @@ Kenya SteamVR hona joale?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Ho qobella boemo ba boleng ba FRM ho ka baka mathata a pono lipapading tse ling. E sebedise ka hloko.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Boitšoaro ba fensetere ea Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Boloka Voidstrap e butsoe ka mor’a ho qala Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Bula Voidstrap hape ka mor'a hore Roblox e kwalwe</value>
   </data>

@@ -10297,6 +10297,12 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM गुणस्तर स्तर जबरजस्ती लागू गर्दा केही खेलहरूमा दृश्य समस्या आउन सक्छ। यसलाई सावधानीसाथ प्रयोग गर्नुहोस्।</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap विन्डोको व्यवहार</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox सुरु गरेपछि Voidstrap खुला राख्नुहोस्</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox बन्द भएपछि Voidstrap फेरि खोल्नुहोस्</value>
   </data>

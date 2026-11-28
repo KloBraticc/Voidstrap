@@ -10296,6 +10296,12 @@ Faka i-SteamVR manje?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Ukuphoqa izinga lekhwalithi le FRM kungadala izinkinga zokubona kweminye imidlalo. Yisebenzise ngokuqaphela.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Ukuziphatha kwewindi le-Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Gcina i-Voidstrap ivuliwe ngemva kokuqalisa i-Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Vula futhi i Voidstrap ngemva kokuvalwa kwe Roblox</value>
   </data>

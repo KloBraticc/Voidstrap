@@ -509,7 +509,8 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
                 SetJoinFailed(privateServer);
                 return Task.CompletedTask;
             }
-            Application.Current.Shutdown();
+            if (!LaunchHandler.ShouldKeepCurrentSettingsWindow())
+                Application.Current.Shutdown();
         }
         catch (Exception ex)
         {

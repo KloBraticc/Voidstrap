@@ -10296,6 +10296,12 @@ Gosod SteamVR nawr?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Gall gorfodi lefel ansawdd FRM achosi problemau gweledol mewn rhai gemau. Defnyddia fe'n ofalus.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Ymddygiad ffenestr Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Cadw Voidstrap ar agor ar ôl lansio Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Ailagor Voidstrap ar ôl i Roblox gau</value>
   </data>

@@ -10605,6 +10605,12 @@ SteamVR jetzt installieren?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Das Erzwingen der FRM Qualitätsstufe kann in manchen Spielen zu Grafikfehlern führen. Verwende es mit Vorsicht.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Fensterverhalten von Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Voidstrap nach dem Start von Roblox geöffnet lassen</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Voidstrap nach dem Schließen von Roblox wieder öffnen</value>
   </data>

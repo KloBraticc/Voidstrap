@@ -10297,6 +10297,12 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM معيار جي سطح کي زبردستي لاڳو ڪرڻ سان ڪجهه راندين ۾ بصري مسئلا ٿي سگهن ٿا. ان کي احتياط سان استعمال ڪريو.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap ونڊو جو رويو</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox شروع ڪرڻ کان پوءِ Voidstrap کليل رکو</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox بند ٿيڻ کان پوءِ Voidstrap ٻيهر کوليو</value>
   </data>

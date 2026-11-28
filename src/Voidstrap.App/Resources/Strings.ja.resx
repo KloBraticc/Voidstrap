@@ -10607,6 +10607,12 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM の品質レベルを強制すると、一部のゲームで表示の問題が起きることがあります。注意してご使用ください。</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap ウィンドウの動作</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox の起動後も Voidstrap を開いたままにする</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox を閉じた後に Voidstrap を再度開く</value>
   </data>

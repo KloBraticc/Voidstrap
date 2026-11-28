@@ -10296,6 +10296,12 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM মানের স্তর জোর করে সেট করলে কিছু গেমে দৃশ্যগত সমস্যা হতে পারে। সতর্কতার সাথে ব্যবহার করুন।</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap উইন্ডোর আচরণ</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox চালু করার পর Voidstrap খোলা রাখুন</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox বন্ধ হওয়ার পর Voidstrap আবার খুলুন</value>
   </data>

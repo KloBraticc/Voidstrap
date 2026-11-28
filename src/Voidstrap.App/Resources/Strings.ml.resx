@@ -10297,6 +10297,12 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM ഗുണനിലവാര നില നിർബന്ധമാക്കുന്നത് ചില ഗെയിമുകളിൽ ദൃശ്യ പ്രശ്നങ്ങൾ ഉണ്ടാക്കിയേക്കാം. ജാഗ്രതയോടെ ഉപയോഗിക്കുക.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap വിൻഡോയുടെ പെരുമാറ്റം</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox ആരംഭിച്ച ശേഷവും Voidstrap തുറന്നുവയ്ക്കുക</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox അടച്ചതിനുശേഷം Voidstrap വീണ്ടും തുറക്കുക</value>
   </data>

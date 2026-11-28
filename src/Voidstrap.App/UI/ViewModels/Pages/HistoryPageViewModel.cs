@@ -411,7 +411,8 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
                 startInfo.ArgumentList.Add(text);
                 Process.Start(startInfo);
             }
-            Application.Current.Shutdown();
+            if (!LaunchHandler.ShouldKeepCurrentSettingsWindow())
+                Application.Current.Shutdown();
         }
         catch (Exception ex)
         {

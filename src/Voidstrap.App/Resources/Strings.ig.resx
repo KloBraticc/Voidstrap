@@ -10297,6 +10297,12 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Ịmanye ọkwa ịdị mma FRM nwere ike ịkpata nsogbu anya n'egwuregwu ụfọdụ. Jiri ya nke ọma.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Omume windo Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Hapụ Voidstrap ka ọ ghe oghe mgbe e mepere Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Megheghachi Voidstrap mgbe Roblox mechiri</value>
   </data>

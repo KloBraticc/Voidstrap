@@ -10606,6 +10606,12 @@ Nainstalovat SteamVR nyní?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Vynucení úrovně kvality FRM může v některých hrách způsobit vizuální problémy. Používejte jej opatrně.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Chování okna Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Po spuštění Robloxu ponechat Voidstrap otevřený</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Znovu otevřít Voidstrap po zavření Roblox</value>
   </data>

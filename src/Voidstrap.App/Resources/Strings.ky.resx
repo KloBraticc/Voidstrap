@@ -10297,6 +10297,12 @@ SteamVR азыр орнотулбу?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM сапат деңгээлин мажбурлоо айрым оюндарда көрүнүш көйгөйлөрүн жаратышы мүмкүн. Аны этияттык менен колдонуңуз.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap терезесинин жүрүм-туруму</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox иштетилгенден кийин Voidstrap ачык калсын</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox жабылгандан кийин Voidstrap кайра ачуу</value>
   </data>

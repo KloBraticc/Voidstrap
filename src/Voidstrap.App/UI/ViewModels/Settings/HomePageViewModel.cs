@@ -1461,7 +1461,8 @@ namespace Voidstrap.UI.ViewModels.Pages
                     return;
                 }
             }
-            Application.Current?.Shutdown();
+            if (!LaunchHandler.ShouldKeepCurrentSettingsWindow())
+                Application.Current?.Shutdown();
         }
 
         private void CopyDeeplink(HistoryGameEntry? entry)

@@ -10606,6 +10606,12 @@ Jugadores: {2}</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Forzar el nivel de calidad de FRM puede causar problemas visuales en algunos juegos. Úsalo con precaución.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Comportamiento de la ventana de Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Mantener Voidstrap abierto al iniciar Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Volver a abrir Voidstrap al cerrar Roblox</value>
   </data>

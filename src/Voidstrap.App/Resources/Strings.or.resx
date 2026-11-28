@@ -10297,6 +10297,12 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM ଗୁଣବତ୍ତା ସ୍ତରକୁ ବାଧ୍ୟତାମୂଳକ କଲେ କିଛି ଗେମରେ ଦୃଶ୍ୟ ସମସ୍ୟା ହୋଇପାରେ। ଏହାକୁ ସାବଧାନତାର ସହ ବ୍ୟବହାର କରନ୍ତୁ।</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap ୱିଣ୍ଡୋର ଆଚରଣ</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox ଚାଲୁ କରିବା ପରେ Voidstrap ଖୋଲା ରଖନ୍ତୁ</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox ବନ୍ଦ ହେବା ପରେ Voidstrap ପୁଣି ଖୋଲନ୍ତୁ</value>
   </data>

@@ -10297,6 +10297,12 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>ការបង្ខំកម្រិតគុណភាព FRM អាចបង្កបញ្ហារូបភាពនៅក្នុងហ្គេមមួយចំនួន។ ប្រើវាដោយប្រុងប្រយ័ត្ន។</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>ឥរិយាបថបង្អួច Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>ទុក Voidstrap ឱ្យនៅបើកបន្ទាប់ពីបើក Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>បើក Voidstrap ឡើងវិញក្រោយពេលបិទ Roblox</value>
   </data>

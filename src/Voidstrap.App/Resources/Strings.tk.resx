@@ -10296,6 +10296,12 @@ Indi SteamVR guruň?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM hil derejesini mejbury etmek käbir oýunlarda wizual meselelere sebäp bolup biler. Ony seresaplylyk bilen ulanyň.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap penjiresiniň hereketi</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox işe girizilenden soň Voidstrap açyk galsyn</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox ýapylandan soň Voidstrap täzeden açylsyn</value>
   </data>

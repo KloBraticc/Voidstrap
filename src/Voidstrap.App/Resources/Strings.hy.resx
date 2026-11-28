@@ -10297,6 +10297,12 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>FRM որակի մակարդակի պարտադրումը կարող է որոշ խաղերում տեսողական խնդիրներ առաջացնել։ Օգտագործեք զգուշությամբ։</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap պատուհանի վարքագիծը</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Roblox-ը գործարկելուց հետո Voidstrap-ը բաց պահել</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Վերաբացել Voidstrap-ը Roblox-ը փակելուց հետո</value>
   </data>

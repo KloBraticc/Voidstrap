@@ -10606,6 +10606,12 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>強制 FRM 畫質等級可能會在部分遊戲中造成畫面問題。請謹慎使用。</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Voidstrap 視窗行為</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>啟動 Roblox 後保持 Voidstrap 視窗開啟</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Roblox 關閉後重新開啟 Voidstrap</value>
   </data>

@@ -10296,6 +10296,12 @@ Sakinisha SteamVR sasa?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Kulazimisha kiwango cha ubora cha FRM kunaweza kusababisha matatizo ya kuona katika baadhi ya michezo. Kitumie kwa tahadhari.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Tabia ya dirisha la Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Weka Voidstrap wazi baada ya kuanzisha Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Fungua Voidstrap tena baada ya Roblox kufungwa</value>
   </data>

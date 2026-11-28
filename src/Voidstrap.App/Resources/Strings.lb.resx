@@ -10297,6 +10297,12 @@ SteamVR elo installéieren?</value>
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>D'FRM Qualitéitsstuf ze forcéieren kann a verschiddene Spiller visuell Problemer verursaachen. Benotzt et mat Virsiicht.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Verhale vun der Voidstrap-Fënster</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Voidstrap nom Start vu Roblox op loossen</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Voidstrap nom Zoumaache vu Roblox nees opmaachen</value>
   </data>

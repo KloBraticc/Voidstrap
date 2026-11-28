@@ -10606,6 +10606,12 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.FastFlags.FRMQualityOverride.Caution" xml:space="preserve">
     <value>Примусовий рівень якості FRM може спричинити візуальні проблеми в деяких іграх. Використовуйте його з обережністю.</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior" xml:space="preserve">
+    <value>Поведінка вікна Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.KeepOpenAfterRobloxLaunch" xml:space="preserve">
+    <value>Залишати Voidstrap відкритим після запуску Roblox</value>
+  </data>
   <data name="Ui.Channel.ReopenAfterRobloxCloses" xml:space="preserve">
     <value>Відкривати Voidstrap знову після закриття Roblox</value>
   </data>
