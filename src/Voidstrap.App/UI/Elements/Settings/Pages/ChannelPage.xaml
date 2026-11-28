@@ -154,7 +154,11 @@
       <TabItem x:Name="GameSettingsTab" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
-            <Image Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxPlayerIcon.png" />
+            <Border Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality">
+              <Border.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Resources/RobloxPlayerIcon.png" />
+              </Border.Background>
+            </Border>
             <TextBlock Text="{resources:Loc Shortcuts_GameTab}" />
           </StackPanel>
         </TabItem.Header>
