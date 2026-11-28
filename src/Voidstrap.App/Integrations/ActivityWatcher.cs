@@ -800,6 +800,10 @@ public partial class ActivityWatcher : IDisposable
         {
             App.Logger.WriteException("ActivityWatcher::Start", ex);
         }
+        finally
+        {
+            StopLogWatcher();
+        }
     }
 
     private static string[] GetClientLogDirectories()
@@ -1192,15 +1196,7 @@ public partial class ActivityWatcher : IDisposable
             "Sober restarted during the game, closing the previous session (" + Data.JobId + ")"
         );
         RestoreOriginalResolution();
-        Data.TimeLeft = DateTime.Now;
-        lock (History)
-        {
-            History.Insert(0, Data);
-            while (History.Count > MaxHistoryEntries)
-            {
-                History.RemoveAt(History.Count - 1);
-            }
-        }
+        SaveCompletedSession();
         InGame = false;
         ResetData();
         FrameGeneration.FrameGenManager.OnGameLeave();
@@ -1215,13 +1211,7 @@ public partial class ActivityWatcher : IDisposable
         if (wasInGame)
         {
             App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Disconnected from Game (" + Data.JobId + ")");
-            Data.TimeLeft = DateTime.Now;
-            lock (History)
-            {
-                History.Insert(0, Data);
-                while (History.Count > MaxHistoryEntries)
-                    History.RemoveAt(History.Count - 1);
-            }
+            SaveCompletedSession();
         }
         InGame = false;
         ResetData();
@@ -1231,50 +1221,67 @@ public partial class ActivityWatcher : IDisposable
             RaiseEvent(OnGameLeave, "OnGameLeave");
     }
 
+    private void SaveCompletedSession()
+    {
+        ActivityData session = Data;
+        session.TimeLeft = DateTime.Now;
+        lock (History)
+        {
+            History.Insert(0, session);
+            while (History.Count > MaxHistoryEntries)
+                History.RemoveAt(History.Count - 1);
+        }
+    }
+
     private void StopLogWatcher()
     {
-        if (_logWatcher == null)
-        {
+        FileSystemWatcher? watcher = Interlocked.Exchange(ref _logWatcher, null);
+        if (watcher == null)
             return;
-        }
-        _logWatcher.EnableRaisingEvents = false;
-        _logWatcher.Changed -= OnLogChanged;
-        _logWatcher.Dispose();
-        _logWatcher = null;
+
+        watcher.Changed -= OnLogChanged;
+        watcher.Error -= OnLogWatcherError;
+        watcher.Dispose();
     }
 
     private void StartLogWatcher(FileInfo logFileInfo)
     {
+        const string LOG_IDENT = "ActivityWatcher::StartLogWatcher";
+
+        FileSystemWatcher? watcher = null;
         try
         {
-            _logWatcher = new FileSystemWatcher(logFileInfo.DirectoryName!, logFileInfo.Name)
+            watcher = new FileSystemWatcher(logFileInfo.DirectoryName!, logFileInfo.Name)
             {
                 NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size,
             };
-            _logWatcher.Changed += OnLogChanged;
-            _logWatcher.Error += OnLogWatcherError;
-            _logWatcher.EnableRaisingEvents = true;
+            watcher.Changed += OnLogChanged;
+            watcher.Error += OnLogWatcherError;
+            watcher.EnableRaisingEvents = true;
+            _logWatcher = watcher;
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("ActivityWatcher::Start", "Log change notifications unavailable: " + ex.Message);
+            if (watcher != null)
+            {
+                watcher.Changed -= OnLogChanged;
+                watcher.Error -= OnLogWatcherError;
+                watcher.Dispose();
+            }
+            App.Logger.WriteLine(LOG_IDENT, "Log change notifications unavailable: " + ex.Message);
         }
     }
 
     private void OnLogWatcherError(object sender, ErrorEventArgs e)
     {
-        App.Logger.WriteLine("ActivityWatcher::Start", "The Roblox log watch hit an error: " + e.GetException().Message);
-        if (IsDisposed || _logSignal.CurrentCount != 0)
-            return;
-        try
-        {
-            _logSignal.Release();
-        }
-        catch (SemaphoreFullException) { }
-        catch (ObjectDisposedException) { }
+        const string LOG_IDENT = "ActivityWatcher::OnLogWatcherError";
+        App.Logger.WriteLine(LOG_IDENT, "The Roblox log watch hit an error: " + e.GetException().Message);
+        SignalLogChange();
     }
 
-    private void OnLogChanged(object sender, FileSystemEventArgs e)
+    private void OnLogChanged(object sender, FileSystemEventArgs e) => SignalLogChange();
+
+    private void SignalLogChange()
     {
         if (IsDisposed || _logSignal.CurrentCount != 0)
             return;
@@ -1649,8 +1656,7 @@ public partial class ActivityWatcher : IDisposable
                     _playerNameCache.TryGetValue(userId, out cached);
                 if (!string.IsNullOrWhiteSpace(cached))
                 {
-                    userLog.Username = cached;
-                    RaiseEvent(OnPlayerLogUpdated, userLog, "OnPlayerLogUpdated");
+                    UpdatePlayerLogName(userLog, cached, generation);
                     return;
                 }
                 using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.SafeToken());
@@ -1670,10 +1676,7 @@ public partial class ActivityWatcher : IDisposable
                     return;
                 lock (_playerStateLock)
                     CachePlayerName(userId, name);
-                if (generation != _playerSessionGeneration || IsDisposed)
-                    return;
-                userLog.Username = name;
-                RaiseEvent(OnPlayerLogUpdated, userLog, "OnPlayerLogUpdated");
+                UpdatePlayerLogName(userLog, name, generation);
             }
             finally
             {
@@ -1689,6 +1692,15 @@ public partial class ActivityWatcher : IDisposable
         {
             Interlocked.Decrement(ref _pendingPlayerLookups);
         }
+    }
+
+    private void UpdatePlayerLogName(ActivityData.UserLog userLog, string name, int generation)
+    {
+        if (generation != Volatile.Read(ref _playerSessionGeneration) || IsDisposed)
+            return;
+
+        userLog.Username = name;
+        RaiseEvent(OnPlayerLogUpdated, userLog, "OnPlayerLogUpdated");
     }
 
     private static void RestoreOriginalResolution()
