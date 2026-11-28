@@ -163,6 +163,12 @@ public partial class ModsPage : UiPage
         OpenSubPage(typeof(OverlaysPage));
     }
 
+    internal void RevealOverlaysCard()
+    {
+        CustomizeTab.IsSelected = true;
+        OverlaysCard.BringIntoView();
+    }
+
     private void OpenModGenerator_Click(object sender, RoutedEventArgs e)
     {
         OpenSubPage(typeof(ModGeneratorPage));

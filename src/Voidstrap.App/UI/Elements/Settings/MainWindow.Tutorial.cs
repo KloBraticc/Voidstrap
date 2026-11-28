@@ -12,7 +12,7 @@ namespace Voidstrap.UI.Elements.Settings;
 
 public partial class MainWindow
 {
-    private enum TutorialStep { Welcome, Home, Sidebar, SidebarToggle, Library, Mods, Breadcrumb, RobloxVersion }
+    private enum TutorialStep { Welcome, Home, Sidebar, SidebarToggle, Library, Mods, Breadcrumb, Overlays, RobloxVersion }
 
     private TutorialStep? _tutorialStep;
     private bool _tutorialOfferPending;
@@ -92,6 +92,7 @@ public partial class MainWindow
             TutorialStep.Library => (nameof(Strings.Ui_Pages_Library), nameof(Strings.Tutorial_Library)),
             TutorialStep.Mods => (nameof(Strings.Ui_Nav_VoidstrapMods), nameof(Strings.Tutorial_Mods)),
             TutorialStep.Breadcrumb => (nameof(Strings.Tutorial_BreadcrumbTitle), nameof(Strings.Tutorial_Breadcrumb)),
+            TutorialStep.Overlays => (nameof(Strings.Ui_Mods_Overlays), nameof(Strings.Ui_Mods_OverlaysCardDescription)),
             TutorialStep.RobloxVersion => (nameof(Strings.Ui_Main_ChooseRobloxVersion), nameof(Strings.Tutorial_RobloxVersion)),
             _ => (nameof(Strings.Installer_Welcome_Title), nameof(Strings.Tutorial_Welcome)),
         };
@@ -136,6 +137,16 @@ public partial class MainWindow
                 break;
             case TutorialStep.Mods:
                 ShowVoidstrapModsPage();
+                break;
+            case TutorialStep.Overlays:
+                if (RootFrame.Content is ModsPage mods)
+                    Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+                    {
+                        if (_tutorialStep == TutorialStep.Overlays && ReferenceEquals(RootFrame.Content, mods))
+                            mods.RevealOverlaysCard();
+                    }));
+                else
+                    NavigateTutorialPage(typeof(ModsPage));
                 break;
             case TutorialStep.Breadcrumb:
                 if (RootFrame.Content is BehaviourPage deployment)
@@ -189,6 +200,7 @@ public partial class MainWindow
             (TutorialStep.SidebarToggle, HomePage) => SidebarToggle,
             (TutorialStep.Library, LibraryPage) or (TutorialStep.Mods, VoidstrapModsPage) => PagesMenuButton,
             (TutorialStep.Home, HomePage) or (TutorialStep.Breadcrumb, AdvancedGeneralPage) => PageBreadcrumb,
+            (TutorialStep.Overlays, ModsPage mods) => mods.OverlaysCard,
             (TutorialStep.RobloxVersion, _) => LaunchTargetHeading,
             _ => null,
         };
@@ -223,7 +235,7 @@ public partial class MainWindow
     private void TutorialBack_Click(object sender, RoutedEventArgs e)
     {
         if (_tutorialStep is { } step && step > TutorialStep.Welcome)
-            ShowTutorialStep(step - 1);
+            ShowTutorialStep(AdjacentTutorialStep(step, -1));
     }
 
     private void TutorialNext_Click(object sender, RoutedEventArgs e)
@@ -236,7 +248,15 @@ public partial class MainWindow
             NavigateTutorialPage(typeof(HomePage));
         }
         else
-            ShowTutorialStep(step + 1);
+            ShowTutorialStep(AdjacentTutorialStep(step, 1));
+    }
+
+    private static TutorialStep AdjacentTutorialStep(TutorialStep step, int direction)
+    {
+        TutorialStep adjacent = step + direction;
+        return adjacent == TutorialStep.Overlays && PlatformFeatureVisibility.Overlay != Visibility.Visible
+            ? adjacent + direction
+            : adjacent;
     }
 
     private void TutorialSkip_Click(object sender, RoutedEventArgs e) => CloseSimpleModal();
