@@ -475,9 +475,10 @@
                     </Ellipse.RenderTransform>
                   </Ellipse>
                 </Grid>
-                <TextBlock x:Name="SessionTimes" FontSize="12" Typography.NumeralAlignment="Tabular" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
-                  <Run Text="{resources:Loc Ui_Session_Session}" /><Run x:Name="SessionClock" Text="0:00" FontWeight="SemiBold" Foreground="{StaticResource IslandGreen}" /><Run Text="{resources:Loc Ui_Session_Server}" /><Run x:Name="ServerClock" Text="--" FontWeight="SemiBold" Foreground="{StaticResource IslandGreen}" />
-                </TextBlock>
+                <TextBlock FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Session_Session}" />
+                <TextBlock x:Name="SessionClock" FontSize="12" VerticalAlignment="Center" FontWeight="SemiBold" Typography.NumeralAlignment="Tabular" Foreground="{StaticResource IslandGreen}" Text="0:00" />
+                <TextBlock FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Session_Server}" />
+                <TextBlock x:Name="ServerClock" FontSize="12" VerticalAlignment="Center" FontWeight="SemiBold" Typography.NumeralAlignment="Tabular" Foreground="{StaticResource IslandGreen}" Text="--" />
               </StackPanel>
             </StackPanel>
             <TextBlock x:Name="GameChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />

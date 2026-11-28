@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
@@ -47,8 +46,8 @@ public partial class SessionOverlayLayoutEditor : Window
     private readonly TextBlock _stageDockProfileHandle;
     private readonly Image _stageDockGameImage;
     private readonly TextBlock _stageDockGameTitle;
-    private readonly Run _stageDockSessionClockRun;
-    private readonly Run _stageDockServerClockRun;
+    private readonly TextBlock _stageDockSessionClock;
+    private readonly TextBlock _stageDockServerClock;
 
     private readonly Border _stageCrosshairWrapper;
     private readonly Image _stageCrosshairImage;
@@ -203,8 +202,8 @@ public partial class SessionOverlayLayoutEditor : Window
             out _stageDockProfileHandle,
             out _stageDockGameImage,
             out _stageDockGameTitle,
-            out _stageDockSessionClockRun,
-            out _stageDockServerClockRun
+            out _stageDockSessionClock,
+            out _stageDockServerClock
         );
         _stageDockWrapper = WrapStageElement(OverlayStudioLayer.Dock, _stageDockRoot);
 
@@ -614,8 +613,8 @@ public partial class SessionOverlayLayoutEditor : Window
             _stageDockProfileHandle,
             _stageDockGameImage,
             _stageDockGameTitle,
-            _stageDockSessionClockRun,
-            _stageDockServerClockRun,
+            _stageDockSessionClock,
+            _stageDockServerClock,
             _gameIcon,
             stageScale
         );

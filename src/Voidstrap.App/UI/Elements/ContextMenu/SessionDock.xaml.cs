@@ -1989,8 +1989,8 @@ public partial class SessionDock : Window
         if (data == null || _closed)
             return;
         _serverStarted ??= data.ServerStartedUtc;
-        SetRun(SessionClock, data.TimeJoined == default ? "0:00" : FormatClock(DateTime.Now - data.TimeJoined));
-        SetRun(ServerClock, _serverStarted.HasValue ? FormatClock(DateTimeOffset.UtcNow - _serverStarted.Value) : "--");
+        SetClock(SessionClock, data.TimeJoined == default ? "0:00" : FormatClock(DateTime.Now - data.TimeJoined));
+        SetClock(ServerClock, _serverStarted.HasValue ? FormatClock(DateTimeOffset.UtcNow - _serverStarted.Value) : "--");
         if (!PopoutOpen)
             return;
         string uptime = _serverStarted.HasValue
@@ -2013,16 +2013,14 @@ public partial class SessionDock : Window
         return span.TotalHours >= 1 ? $"{(int)span.TotalHours}:{span.Minutes:00}:{span.Seconds:00}" : $"{span.Minutes}:{span.Seconds:00}";
     }
 
-    private void SetRun(System.Windows.Documents.Run run, string text)
+    private void SetClock(TextBlock clock, string text)
     {
-        if (string.Equals(run.Text, text, StringComparison.Ordinal))
+        if (string.Equals(clock.Text, text, StringComparison.Ordinal))
             return;
-        bool lengthChanged = run.Text.Length != text.Length;
-        run.Text = text;
+        bool lengthChanged = clock.Text.Length != text.Length;
+        clock.Text = text;
         if (!lengthChanged)
             return;
-        SessionTimes.InvalidateMeasure();
-        GameCard.InvalidateMeasure();
         _fitAnchorPending = true;
         QueueFitWidth();
     }

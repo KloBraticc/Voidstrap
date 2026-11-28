@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -89,8 +88,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private readonly TextBlock _dockProfileHandle;
     private readonly Image _dockGameImage;
     private readonly TextBlock _dockGameTitle;
-    private readonly Run _dockSessionClockRun;
-    private readonly Run _dockServerClockRun;
+    private readonly TextBlock _dockSessionClock;
+    private readonly TextBlock _dockServerClock;
 
     private readonly Border _crosshairWrapper;
     private readonly Image _crosshairImage;
@@ -187,8 +186,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             out _dockProfileHandle,
             out _dockGameImage,
             out _dockGameTitle,
-            out _dockSessionClockRun,
-            out _dockServerClockRun
+            out _dockSessionClock,
+            out _dockServerClock
         );
         _dockWrapper = WrapExactElement(OverlayStudioLayer.Dock, _dockRoot);
 
@@ -515,8 +514,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         out TextBlock profileHandle,
         out Image gameImage,
         out TextBlock gameTitle,
-        out Run sessionClockRun,
-        out Run serverClockRun
+        out TextBlock sessionClock,
+        out TextBlock serverClock
     )
     {
         Grid root = new()
@@ -711,26 +710,12 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         pulseDot.SetResourceReference(Shape.FillProperty, "SystemFillColorSuccessBrush");
         timerRow.Children.Add(pulseDot);
 
-        TextBlock sessionTimes = new()
-        {
-            FontSize = 12,
-            VerticalAlignment = VerticalAlignment.Center,
-            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170)),
-        };
-        sessionTimes.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-        sessionTimes.Inlines.Add(new Run(Strings.Ui_Session_Session));
-        sessionClockRun = new Run("0:00")
-        {
-            FontWeight = FontWeights.SemiBold,
-            Foreground = new SolidColorBrush(Color.FromRgb(108, 203, 95)),
-        };
-        sessionClockRun.SetResourceReference(TextElement.ForegroundProperty, "SystemFillColorSuccessBrush");
-        sessionTimes.Inlines.Add(sessionClockRun);
-        sessionTimes.Inlines.Add(new Run(Strings.Ui_Session_Server));
-        serverClockRun = new Run("--") { FontWeight = FontWeights.SemiBold, Foreground = new SolidColorBrush(Color.FromRgb(108, 203, 95)) };
-        serverClockRun.SetResourceReference(TextElement.ForegroundProperty, "SystemFillColorSuccessBrush");
-        sessionTimes.Inlines.Add(serverClockRun);
-        timerRow.Children.Add(sessionTimes);
+        timerRow.Children.Add(CreateDockTimeText(Strings.Ui_Session_Session));
+        sessionClock = CreateDockTimeText("0:00", clock: true);
+        timerRow.Children.Add(sessionClock);
+        timerRow.Children.Add(CreateDockTimeText(Strings.Ui_Session_Server));
+        serverClock = CreateDockTimeText("--", clock: true);
+        timerRow.Children.Add(serverClock);
         gameTextStack.Children.Add(timerRow);
         gameRow.Children.Add(gameTextStack);
         gameRow.Children.Add(CreateDockChevron());
@@ -780,6 +765,22 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         pill.Child = row;
         root.Children.Add(pill);
         return root;
+    }
+
+    private static TextBlock CreateDockTimeText(string text, bool clock = false)
+    {
+        TextBlock block = new() { Text = text, FontSize = 12, VerticalAlignment = VerticalAlignment.Center };
+        if (clock)
+        {
+            block.FontWeight = FontWeights.SemiBold;
+            block.Typography.NumeralAlignment = FontNumeralAlignment.Tabular;
+            block.SetResourceReference(TextBlock.ForegroundProperty, "SystemFillColorSuccessBrush");
+        }
+        else
+        {
+            block.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+        }
+        return block;
     }
 
     private static TextBlock CreateDockChevron()
@@ -906,8 +907,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         TextBlock profileHandle,
         Image gameImage,
         TextBlock gameTitle,
-        Run sessionClockRun,
-        Run serverClockRun,
+        TextBlock sessionClock,
+        TextBlock serverClock,
         ImageSource? fallbackGameIcon,
         double stageScale
     )
@@ -921,8 +922,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             profileImage.Source = snap.ProfileAvatar;
             gameTitle.Text = snap.GameTitle;
             gameImage.Source = snap.GameIcon ?? fallbackGameIcon;
-            sessionClockRun.Text = snap.SessionTime;
-            serverClockRun.Text = snap.ServerTime;
+            sessionClock.Text = snap.SessionTime;
+            serverClock.Text = snap.ServerTime;
         }
         else if (fallbackGameIcon != null)
         {
@@ -1400,8 +1401,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             _dockProfileHandle,
             _dockGameImage,
             _dockGameTitle,
-            _dockSessionClockRun,
-            _dockServerClockRun,
+            _dockSessionClock,
+            _dockServerClock,
             _gameIcon,
             1.0
         );
