@@ -38,18 +38,16 @@
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
           <TextBlock FontSize="20" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Storefront.FeaturedGame.Name}" ToolTip="{Binding Storefront.FeaturedGame.Name}" />
-          <ItemsControl Grid.Row="1" Margin="0,10,0,0" ItemsSource="{Binding Storefront.FeaturedGame.PreviewShots}">
+          <ItemsControl Grid.Row="1" Margin="0,10,0,0" VerticalAlignment="Top" ItemsSource="{Binding Storefront.FeaturedGame.PreviewShots}">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
                 <UniformGrid>
                   <UniformGrid.Style>
                     <Style TargetType="{x:Type UniformGrid}">
                       <Setter Property="Columns" Value="2" />
-                      <Setter Property="Rows" Value="2" />
                       <Style.Triggers>
                         <DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="1">
                           <Setter Property="Columns" Value="1" />
-                          <Setter Property="Rows" Value="1" />
                         </DataTrigger>
                       </Style.Triggers>
                     </Style>
