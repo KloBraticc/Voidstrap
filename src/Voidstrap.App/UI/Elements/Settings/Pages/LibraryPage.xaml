@@ -730,6 +730,10 @@
                     <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.UpdatedDisplay}" />
                   </StackPanel>
                 </UniformGrid>
+                <StackPanel Margin="0,16,0,0" Visibility="{Binding SocialLinksVisibility}">
+                  <TextBlock Margin="0,0,0,8" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap" Text="{resources:Loc Ui_Session_SocialLinks}" />
+                  <controls:GameSocialLinkList ItemsSource="{Binding SocialLinks}" />
+                </StackPanel>
                 <controls:GameFriendsView Margin="0,16,0,0" ShowActivity="True" UniverseId="{Binding SelectedGame.UniverseId, FallbackValue=0}" GameName="{Binding SelectedGame.Name, FallbackValue=''}" />
               </StackPanel>
                 <controls:GameFriendsView Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Top" UniverseId="{Binding SelectedGame.UniverseId, FallbackValue=0}" GameName="{Binding SelectedGame.Name, FallbackValue=''}" />

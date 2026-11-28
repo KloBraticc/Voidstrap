@@ -899,11 +899,14 @@ public class LibraryViewModel : INotifyPropertyChanged
         _tileOffset = 0;
         GameVideoPath = null;
         _gameShots = new List<string>();
+        SocialLinks = [];
         if (game == null)
             return;
         CancellationTokenSource cancellation = new();
         _mediaCts = cancellation;
         CancellationToken token = cancellation.Token;
+        if (game.UniverseId > 0)
+            _ = LoadSocialLinksAsync(game.UniverseId, token);
         try
         {
             if (game is StoreGameEntry)
@@ -933,6 +936,43 @@ public class LibraryViewModel : INotifyPropertyChanged
         catch (Exception ex)
         {
             App.Logger.WriteException("LibraryViewModel::LoadGameMediaAsync", ex);
+        }
+    }
+
+    private IReadOnlyList<GameSocialLink> _socialLinks = [];
+
+    public IReadOnlyList<GameSocialLink> SocialLinks
+    {
+        get => _socialLinks;
+        private set
+        {
+            _socialLinks = value;
+            OnPropertyChanged(nameof(SocialLinks));
+            OnPropertyChanged(nameof(SocialLinksVisibility));
+        }
+    }
+
+    public Visibility SocialLinksVisibility => SocialLinks.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+    private async Task LoadSocialLinksAsync(long universeId, CancellationToken token)
+    {
+        const string LOG_IDENT = "LibraryViewModel::LoadSocialLinksAsync";
+
+        try
+        {
+            List<GameSocialLink> links = await RobloxGameExtras.GetSocialLinksAsync(universeId, token);
+            if (token.IsCancellationRequested || links.Count == 0)
+                return;
+
+            SocialLinks = links;
+            await RobloxGameExtras.ResolveLinkIconsAsync(links, token);
+            if (!token.IsCancellationRequested && links.Any(static link => link.IconUrl.Length > 0))
+                SocialLinks = links.ToArray();
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
         }
     }
 

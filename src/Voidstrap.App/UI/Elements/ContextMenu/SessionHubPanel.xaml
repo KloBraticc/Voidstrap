@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:util="clr-namespace:Voidstrap.Utility"
+        xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
         xmlns:resources="clr-namespace:Voidstrap.Resources"
         Title="{resources:Loc Ui_Nav_News}" Width="1040" Height="620" MinWidth="760" MinHeight="420"
         WindowStyle="None" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
@@ -93,28 +94,7 @@
 
         <TextBlock Style="{StaticResource HubHeading}" Text="{resources:Loc Ui_Session_SocialLinks}" />
         <TextBlock x:Name="LinksEmpty" Visibility="Collapsed" Style="{StaticResource HubEmpty}" Text="{resources:Loc Ui_Session_HubEmpty}" />
-        <ItemsControl x:Name="LinkList">
-          <ItemsControl.ItemTemplate>
-            <DataTemplate>
-              <Button Style="{StaticResource HubCard}" Margin="0,0,0,8" ToolTip="{Binding Url}" Tag="{Binding Url}" Click="OpenLink_Click">
-                <Grid Margin="10">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-                  <Border Width="44" Height="44" CornerRadius="6" ClipToBounds="True" util:RoundedClip.Radius="6" Background="{Binding TileBrush}">
-                    <Grid>
-                      <ui:SymbolIcon Symbol="Link24" FontSize="22" Foreground="White" Visibility="{Binding FallbackVisibility, Mode=OneTime}" />
-                      <Path Width="24" Height="24" Stretch="Uniform" Fill="White" Data="{Binding Glyph, Mode=OneTime}" />
-                      <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, Mode=OneTime}" />
-                    </Grid>
-                  </Border>
-                  <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" FontWeight="Medium" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Label}" />
-                </Grid>
-              </Button>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <controls:GameSocialLinkList x:Name="LinkList" />
       </StackPanel>
     </ui:DynamicScrollViewer>
 

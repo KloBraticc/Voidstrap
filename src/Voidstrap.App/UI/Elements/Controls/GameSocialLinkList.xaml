@@ -1,0 +1,29 @@
+<ItemsControl x:Class="Voidstrap.UI.Elements.Controls.GameSocialLinkList"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+              xmlns:util="clr-namespace:Voidstrap.Utility">
+  <ItemsControl.ItemTemplate>
+    <DataTemplate>
+      <ui:Button Margin="0,0,0,8" Padding="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                 Appearance="Secondary" ToolTip="{Binding Url}" AutomationProperties.Name="{Binding Label}"
+                 Tag="{Binding Url}" Click="OpenLink_Click">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Width="44" Height="44" CornerRadius="6" ClipToBounds="True" util:RoundedClip.Radius="6" Background="{Binding TileBrush}">
+            <Grid>
+              <ui:SymbolIcon Symbol="Link24" FontSize="22" Foreground="White" Visibility="{Binding FallbackVisibility, Mode=OneTime}" />
+              <Path Width="24" Height="24" Stretch="Uniform" Fill="White" Data="{Binding Glyph, Mode=OneTime}" />
+              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, Mode=OneTime}" />
+            </Grid>
+          </Border>
+          <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" FontWeight="Medium"
+                     TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Label}" />
+        </Grid>
+      </ui:Button>
+    </DataTemplate>
+  </ItemsControl.ItemTemplate>
+</ItemsControl>
