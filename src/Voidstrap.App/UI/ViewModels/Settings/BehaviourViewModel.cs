@@ -896,9 +896,16 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
     public string SelectedCpuPriority
     {
-        get { return _selectedCpuPriority; }
+        get
+        {
+            if (string.IsNullOrWhiteSpace(_selectedCpuPriority) || !CpuOptions.Contains(_selectedCpuPriority))
+                return CpuOptions.FirstOrDefault() ?? "Automatic";
+            return _selectedCpuPriority;
+        }
         set
         {
+            if (string.IsNullOrWhiteSpace(value) || !CpuOptions.Contains(value))
+                return;
             if (_selectedCpuPriority != value)
             {
                 _selectedCpuPriority = value;
