@@ -85,7 +85,7 @@
             </StackPanel>
           </ui:CardAction>
           <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#roblox-window-windows" Header="{resources:Loc Ui_Bootstrapper_FullscreenMode}" Description="{resources:Loc Ui_Bootstrapper_HowTheRobloxGameWindowFills}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-            <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" ItemsSource="{Binding FullscreenModes}" SelectedIndex="{Binding RobloxFullscreenMode, Mode=TwoWay}" />
+            <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" ItemsSource="{Binding FullscreenModes}" SelectedValue="{Binding RobloxFullscreenMode, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_HideFullscreenTitleBar}" Description="{resources:Loc Ui_Bootstrapper_HideFullscreenTitleBarDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding HideFullscreenTitleBar, Mode=TwoWay}" />

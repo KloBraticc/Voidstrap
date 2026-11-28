@@ -2249,13 +2249,36 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
         public string Display { get; init; } = "";
     }
 
-    public ObservableCollection<FullscreenModeItem> FullscreenModes =>
-        new()
+    private ObservableCollection<FullscreenModeItem>? _fullscreenModes;
+
+    private string? _fullscreenModesCulture;
+
+    public ObservableCollection<FullscreenModeItem> FullscreenModes
+    {
+        get
         {
-            new FullscreenModeItem { Value = 0, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenNormal },
-            new FullscreenModeItem { Value = 1, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenBorderless },
-            new FullscreenModeItem { Value = 2, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenExclusive },
-        };
+            string culture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+            _fullscreenModes ??= new ObservableCollection<FullscreenModeItem>();
+            if (_fullscreenModes.Count != 3 || !string.Equals(_fullscreenModesCulture, culture, StringComparison.Ordinal))
+            {
+                _fullscreenModesCulture = culture;
+                if (_fullscreenModes.Count == 3)
+                {
+                    _fullscreenModes[0] = new FullscreenModeItem { Value = 0, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenNormal };
+                    _fullscreenModes[1] = new FullscreenModeItem { Value = 1, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenBorderless };
+                    _fullscreenModes[2] = new FullscreenModeItem { Value = 2, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenExclusive };
+                }
+                else
+                {
+                    _fullscreenModes.Clear();
+                    _fullscreenModes.Add(new FullscreenModeItem { Value = 0, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenNormal });
+                    _fullscreenModes.Add(new FullscreenModeItem { Value = 1, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenBorderless });
+                    _fullscreenModes.Add(new FullscreenModeItem { Value = 2, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenExclusive });
+                }
+            }
+            return _fullscreenModes;
+        }
+    }
 
     public int RobloxFullscreenMode
     {
