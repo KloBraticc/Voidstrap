@@ -10455,4 +10455,13 @@ SteamVR instalatu orain?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ziur zaude joko honetan sartu nahi duzula?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Une honetan joko honetan dabiltzan lagunak</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Zure lagunetako inor ez dabil joko honetan une honetan</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Kargatzeak luze jo dezake</value>
+  </data>
 </root>

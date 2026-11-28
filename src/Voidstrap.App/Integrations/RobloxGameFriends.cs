@@ -12,7 +12,7 @@ public static class RobloxGameFriends
 
     private const int MaxActivity = 40;
 
-    private static readonly TimeSpan PublishInterval = TimeSpan.FromMilliseconds(350);
+    private static readonly TimeSpan PublishInterval = TimeSpan.FromMilliseconds(500);
 
     private static readonly TimeSpan RecentWindow = TimeSpan.FromDays(14);
 
@@ -22,11 +22,17 @@ public static class RobloxGameFriends
 
     private static readonly TimeSpan BuildTimeout = TimeSpan.FromMinutes(3);
 
+    private static readonly TimeSpan PresenceLifetime = TimeSpan.FromSeconds(20);
+
     private static readonly ConcurrentDictionary<long, (DateTime At, GameFriendsReport Report)> Reports = new();
 
     private static readonly ConcurrentDictionary<long, GameFriendsReport> Live = new();
 
     private static readonly ConcurrentDictionary<long, Lazy<Task>> Pending = new();
+
+    private static readonly SemaphoreSlim PresenceGate = new(1, 1);
+
+    private static (long UserId, long FetchedAt, List<FriendPresence> Friends)? _presence;
 
     public static event Action<long, GameFriendsReport>? ReportUpdated;
 
@@ -46,7 +52,46 @@ public static class RobloxGameFriends
             return;
         if (Reports.TryGetValue(universeId, out var entry) && DateTime.UtcNow - entry.At <= ReportLifetime)
             return;
-        _ = Pending.GetOrAdd(universeId, id => new Lazy<Task>(() => BuildAndStoreAsync(id))).Value;
+        _ = Pending.GetOrAdd(universeId, id => new Lazy<Task>(() => Task.Run(() => BuildAndStoreAsync(id)))).Value;
+    }
+
+    internal static async Task<(GameFriendsStatus Status, IReadOnlyList<GameFriend> Friends)> GetPlayingAsync(long universeId, CancellationToken token)
+    {
+        const string LOG_IDENT = "RobloxGameFriends::GetPlayingAsync";
+
+        try
+        {
+            if (string.IsNullOrEmpty(RobloxCookie.Get()))
+                return (GameFriendsStatus.NotSignedIn, []);
+
+            long userId = await RobloxBadges.GetSignedInUserIdAsync(token).ConfigureAwait(false);
+            if (userId <= 0)
+                return (GameFriendsStatus.Unavailable, []);
+
+            HashSet<long>? playing = await LoadPlayingAsync(userId, universeId, token).ConfigureAwait(false);
+            if (playing == null)
+                return (GameFriendsStatus.Unavailable, []);
+
+            List<ServerFriend> resolved = await RobloxPresence.GetProfilesAsync(playing.ToList(), token).ConfigureAwait(false);
+            Dictionary<long, ServerFriend> profiles = resolved.ToDictionary(profile => profile.UserId);
+
+            if (await RobloxBadges.GetSignedInUserIdAsync(token).ConfigureAwait(false) != userId)
+                return (GameFriendsStatus.Unavailable, []);
+
+            List<GameFriend> friends = new(playing.Count);
+            foreach (long id in playing)
+            {
+                GameFriend friend = new() { UserId = id, InGame = true };
+                ApplyProfile(profiles, id, name => friend.Name = name, url => friend.HeadshotUrl = url);
+                friends.Add(friend);
+            }
+            return (GameFriendsStatus.Ready, friends.OrderBy(friend => friend.Name, StringComparer.CurrentCultureIgnoreCase).ThenBy(friend => friend.UserId).ToList());
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException || !token.IsCancellationRequested)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Friends currently playing could not be loaded: " + ex.Message);
+            return (GameFriendsStatus.Unavailable, []);
+        }
     }
 
     private static void Publish(long universeId, GameFriendsReport report)
@@ -68,7 +113,6 @@ public static class RobloxGameFriends
     {
         const string LOG_IDENT = "RobloxGameFriends::BuildAndStoreAsync";
 
-        await Task.Yield();
         using CancellationTokenSource timeout = new(BuildTimeout);
         GameFriendsReport report;
         try
@@ -85,11 +129,14 @@ public static class RobloxGameFriends
             App.Logger.WriteLine(LOG_IDENT, "Friends who play could not be loaded for universe " + universeId + ": " + ex.Message);
             report = new GameFriendsReport { Status = GameFriendsStatus.Unavailable, Complete = true };
         }
+        try
+        {
+            Publish(universeId, report);
+        }
         finally
         {
             Pending.TryRemove(universeId, out _);
         }
-        Publish(universeId, report);
     }
 
     private static async Task<GameFriendsReport> BuildAsync(long universeId, CancellationToken token)
@@ -99,24 +146,22 @@ public static class RobloxGameFriends
         long userId = await RobloxBadges.GetSignedInUserIdAsync(token).ConfigureAwait(false);
         if (userId <= 0)
             return new GameFriendsReport { Status = GameFriendsStatus.NotSignedIn, Complete = true };
-        Task<IReadOnlyList<RobloxBadges.Badge>> badgesTask = LoadBadgesAsync(universeId, token);
-        Task<HashSet<long>> playingTask = LoadPlayingAsync(userId, universeId, token);
         List<long>? friendIds = await RobloxPresence.GetFriendIdsAsync(userId, token).ConfigureAwait(false);
         if (friendIds == null)
             return new GameFriendsReport { Status = GameFriendsStatus.Unavailable, Complete = true };
         if (friendIds.Count == 0)
             return new GameFriendsReport { Status = GameFriendsStatus.Ready, Complete = true };
 
-        Snapshot state = new();
-        state.Playing = await playingTask.ConfigureAwait(false);
-        await EnrichAsync(state, token).ConfigureAwait(false);
-        Publish(universeId, Compose(state, false));
+        Task<IReadOnlyList<RobloxBadges.Badge>> badgesTask = LoadBadgesAsync(universeId, token);
+        Task<HashSet<long>?> playingTask = LoadPlayingAsync(userId, universeId, token);
+        await Task.WhenAll(badgesTask, playingTask).ConfigureAwait(false);
+        Snapshot state = new()
+        {
+            Badges = await badgesTask.ConfigureAwait(false),
+            Playing = await playingTask.ConfigureAwait(false) ?? [],
+        };
 
-        state.Badges = await badgesTask.ConfigureAwait(false);
-        List<long> checkedIds = friendIds
-            .Take(MaxFriendsChecked)
-            .OrderByDescending(id => state.Playing.Contains(id))
-            .ToList();
+        List<long> checkedIds = friendIds.OrderByDescending(state.Playing.Contains).Take(MaxFriendsChecked).ToList();
         int skipped = checkedIds.Count;
         if (state.Badges.Count > 0)
         {
@@ -200,16 +245,22 @@ public static class RobloxGameFriends
                     }
                 })
             );
-            while (!work.IsCompleted)
+            try
             {
-                await Task.WhenAny(work, Task.Delay(PublishInterval, token)).ConfigureAwait(false);
-                if (work.IsCompleted || Interlocked.Exchange(ref changed, 0) == 0)
-                    continue;
-                state.Awarded = new Dictionary<long, IReadOnlyDictionary<long, DateTime>>(found);
-                await EnrichAsync(state, token).ConfigureAwait(false);
-                Publish(universeId, Compose(state, false));
+                while (!work.IsCompleted && !token.IsCancellationRequested)
+                {
+                    await Task.WhenAny(work, Task.Delay(PublishInterval, token)).ConfigureAwait(false);
+                    if (work.IsCompleted || token.IsCancellationRequested || Interlocked.Exchange(ref changed, 0) == 0)
+                        continue;
+                    state.Awarded = new Dictionary<long, IReadOnlyDictionary<long, DateTime>>(found);
+                    await EnrichAsync(state, token).ConfigureAwait(false);
+                    Publish(universeId, Compose(state, false));
+                }
             }
-            await work.ConfigureAwait(false);
+            finally
+            {
+                await work.ConfigureAwait(false);
+            }
             if (skipped > 0)
                 App.Logger.WriteLine(LOG_IDENT, $"Roblox kept rate limiting badge requests, {skipped} of {friendIds.Count} friends were not checked for universe {universeId}");
             return skipped;
@@ -235,38 +286,43 @@ public static class RobloxGameFriends
         }
     }
 
-    private static async Task<HashSet<long>> LoadPlayingAsync(long userId, long universeId, CancellationToken token)
+    private static async Task<HashSet<long>?> LoadPlayingAsync(long userId, long universeId, CancellationToken token)
     {
         const string LOG_IDENT = "RobloxGameFriends::LoadPlayingAsync";
 
-        HashSet<long> playing = new();
+        await PresenceGate.WaitAsync(token).ConfigureAwait(false);
         try
         {
-            List<FriendPresence>? presences = await RobloxPresence.GetFriendPresencesAsync(userId, token).ConfigureAwait(false);
-            foreach (FriendPresence presence in presences ?? [])
-            {
-                if (presence.InGame && presence.UniverseId == universeId)
-                    playing.Add(presence.UserId);
-            }
+            if (_presence is { } cached && cached.UserId == userId && Environment.TickCount64 - cached.FetchedAt < PresenceLifetime.TotalMilliseconds)
+                return PlayingIn(cached.Friends, universeId);
+
+            List<FriendPresence>? presences = await RobloxPresence.GetFriendPresencesAsync(userId, token, requireComplete: true).ConfigureAwait(false);
+            if (presences == null || await RobloxBadges.GetSignedInUserIdAsync(token).ConfigureAwait(false) != userId)
+                return null;
+
+            _presence = (userId, Environment.TickCount64, presences);
+            return PlayingIn(presences, universeId);
         }
-        catch (Exception ex) when (ex is not OperationCanceledException)
+        catch (Exception ex) when (ex is not OperationCanceledException || !token.IsCancellationRequested)
         {
             App.Logger.WriteLine(LOG_IDENT, "Friend presence could not be loaded: " + ex.Message);
+            return null;
         }
-        return playing;
+        finally
+        {
+            PresenceGate.Release();
+        }
     }
 
-    private static async Task EnrichAsync(Snapshot state, CancellationToken token)
-    {
-        const string LOG_IDENT = "RobloxGameFriends::EnrichAsync";
+    private static HashSet<long> PlayingIn(List<FriendPresence> presences, long universeId) =>
+        presences.Where(presence => presence.InGame && presence.UniverseId == universeId).Select(presence => presence.UserId).ToHashSet();
 
-        List<long> missingProfiles = state.Awarded.Keys.Union(state.Playing).Where(id => state.ProfilesTried.Add(id)).ToList();
-        if (missingProfiles.Count > 0)
-        {
-            List<ServerFriend> profiles = await RobloxPresence.GetProfilesAsync(missingProfiles, token).ConfigureAwait(false);
-            foreach (ServerFriend profile in profiles)
-                state.Profiles.TryAdd(profile.UserId, profile);
-        }
+    private static Task EnrichAsync(Snapshot state, CancellationToken token) =>
+        Task.WhenAll(EnrichProfilesAsync(state, token), EnrichIconsAsync(state, token));
+
+    private static async Task EnrichIconsAsync(Snapshot state, CancellationToken token)
+    {
+        const string LOG_IDENT = "RobloxGameFriends::EnrichIconsAsync";
 
         DateTime now = DateTime.UtcNow;
         List<long> missingIcons = state
@@ -287,6 +343,13 @@ public static class RobloxGameFriends
         {
             App.Logger.WriteLine(LOG_IDENT, "Badge icons could not be loaded: " + ex.Message);
         }
+    }
+
+    private static async Task EnrichProfilesAsync(Snapshot state, CancellationToken token)
+    {
+        List<long> missing = state.Awarded.Keys.Union(state.Playing).Where(id => state.ProfilesTried.Add(id)).ToList();
+        foreach (ServerFriend profile in await RobloxPresence.GetProfilesAsync(missing, token).ConfigureAwait(false))
+            state.Profiles.TryAdd(profile.UserId, profile);
     }
 
     private static GameFriendsReport Compose(Snapshot state, bool complete)

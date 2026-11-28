@@ -10456,4 +10456,13 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Vai tiešām vēlaties pievienoties šai spēlei?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Draugi, kuri pašlaik spēlē šo spēli</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Pašlaik neviens no jūsu draugiem nespēlē šo spēli</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Ielāde var aizņemt ilgāku laiku</value>
+  </data>
 </root>

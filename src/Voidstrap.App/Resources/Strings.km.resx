@@ -10456,4 +10456,13 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>តើអ្នកប្រាកដថាចង់ចូលរួមក្នុងហ្គេមនេះឬ?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>មិត្តភក្តិដែលកំពុងលេងហ្គេមនេះ</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>ឥឡូវនេះគ្មានមិត្តភក្តិរបស់អ្នកកំពុងលេងហ្គេមនេះទេ</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>ការផ្ទុកអាចចំណាយពេលយូរ</value>
+  </data>
 </root>

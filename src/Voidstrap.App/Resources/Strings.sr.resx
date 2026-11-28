@@ -10456,4 +10456,13 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Да ли заиста желиш да се придружиш овој игри?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Пријатељи који тренутно играју ову игру</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Нико од твојих пријатеља тренутно не игра ову игру</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Учитавање може да потраје</value>
+  </data>
 </root>

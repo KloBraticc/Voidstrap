@@ -10455,4 +10455,13 @@ Installeer SteamVR nou?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Is jy seker jy wil by hierdie speletjie aansluit?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Vriende wat nou hierdie speletjie speel</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Nie een van jou vriende speel tans hierdie speletjie nie</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Dit kan lank neem om te laai</value>
+  </data>
 </root>

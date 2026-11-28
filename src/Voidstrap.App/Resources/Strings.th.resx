@@ -10765,4 +10765,13 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>คุณแน่ใจหรือไม่ว่าต้องการเข้าร่วมเกมนี้?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>เพื่อนที่กำลังเล่นเกมนี้</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>ตอนนี้ไม่มีเพื่อนของคุณเล่นเกมนี้</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>การโหลดอาจใช้เวลานาน</value>
+  </data>
 </root>

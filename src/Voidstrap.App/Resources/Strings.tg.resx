@@ -10455,4 +10455,13 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Мутмаин ҳастед, ки мехоҳед ба ин бозӣ ҳамроҳ шавед?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Дӯстоне, ки ҳоло ин бозиро бозӣ мекунанд</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Ҳеҷ яке аз дӯстони шумо ҳоло ин бозиро бозӣ намекунад</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Боргирӣ метавонад вақти зиёд гирад</value>
+  </data>
 </root>

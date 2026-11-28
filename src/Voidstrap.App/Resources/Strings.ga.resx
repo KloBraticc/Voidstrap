@@ -10456,4 +10456,13 @@ Suiteáil SteamVR anois?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>An bhfuil tú cinnte gur mhaith leat páirt a ghlacadh sa chluiche seo?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Cairde atá ag imirt an chluiche seo anois</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Níl aon duine de do chairde ag imirt an chluiche seo faoi láthair</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Seans go dtógfaidh sé seo tamall fada le lódáil</value>
+  </data>
 </root>

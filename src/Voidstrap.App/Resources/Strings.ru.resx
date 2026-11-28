@@ -10766,4 +10766,13 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Вы уверены, что хотите присоединиться к этой игре?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Друзья, которые сейчас играют в эту игру</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Никто из ваших друзей сейчас не играет в эту игру</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Загрузка может занять много времени</value>
+  </data>
 </root>

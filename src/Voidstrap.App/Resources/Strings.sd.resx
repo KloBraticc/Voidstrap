@@ -10456,4 +10456,13 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ڇا توهان کي پڪ آهي ته توهان هن راند ۾ شامل ٿيڻ چاهيو ٿا؟</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>دوست جيڪي هن وقت هي راند کيڏي رهيا آهن</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>توهان جو ڪو به دوست هن وقت هي راند نه پيو کيڏي</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>لوڊ ٿيڻ ۾ گهڻو وقت لڳي سگهي ٿو</value>
+  </data>
 </root>

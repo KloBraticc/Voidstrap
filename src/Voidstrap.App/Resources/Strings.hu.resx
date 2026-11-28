@@ -10766,4 +10766,13 @@ Telepítse most az SteamVR-t?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Biztosan csatlakozni szeretnél ehhez a játékhoz?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Barátaid, akik éppen ezzel a játékkal játszanak</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Jelenleg egyik barátod sem játszik ezzel a játékkal</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>A betöltés hosszabb ideig is eltarthat</value>
+  </data>
 </root>

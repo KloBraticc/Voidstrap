@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -32,9 +33,22 @@ public partial class GameFriendsView : UserControl
         new PropertyMetadata(false, OnInputChanged)
     );
 
+    public static readonly DependencyProperty PlayingOnlyProperty = DependencyProperty.Register(
+        nameof(PlayingOnly),
+        typeof(bool),
+        typeof(GameFriendsView),
+        new PropertyMetadata(false, OnInputChanged)
+    );
+
     private const int MaxPreviousAvatars = 24;
 
+    private static readonly TimeSpan PlayingRefreshInterval = TimeSpan.FromSeconds(45);
+
+    private static readonly TimeSpan PlayingRequestTimeout = TimeSpan.FromSeconds(25);
+
     private long _shownUniverseId;
+
+    private CancellationTokenSource? _playingRefresh;
 
     public GameFriendsView()
     {
@@ -61,6 +75,12 @@ public partial class GameFriendsView : UserControl
         set => SetValue(ShowActivityProperty, value);
     }
 
+    public bool PlayingOnly
+    {
+        get => (bool)GetValue(PlayingOnlyProperty);
+        set => SetValue(PlayingOnlyProperty, value);
+    }
+
     private static void OnInputChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is GameFriendsView view && view.IsLoaded)
@@ -78,6 +98,7 @@ public partial class GameFriendsView : UserControl
     {
         RobloxGameFriends.ReportUpdated -= OnReportUpdated;
         _shownUniverseId = 0;
+        StopPlayingRefresh();
     }
 
     private void OnReportUpdated(long universeId, GameFriendsReport report)
@@ -87,7 +108,7 @@ public partial class GameFriendsView : UserControl
         Dispatcher.BeginInvoke(
             () =>
             {
-                if (universeId == _shownUniverseId && IsLoaded)
+                if (universeId == _shownUniverseId && IsLoaded && !PlayingOnly)
                     Render(report);
             }
         );
@@ -95,11 +116,11 @@ public partial class GameFriendsView : UserControl
 
     private void Restart()
     {
-        TitleText.Text = ShowActivity ? Strings.Library_Friends_Activity : Strings.Library_Friends_Title;
+        StopPlayingRefresh();
         Rows.Children.Clear();
         StatusText.Visibility = Visibility.Collapsed;
         long universeId = UniverseId;
-        _shownUniverseId = universeId;
+        _shownUniverseId = PlayingOnly ? 0 : universeId;
         if (universeId <= 0)
         {
             Visibility = Visibility.Collapsed;
@@ -107,6 +128,11 @@ public partial class GameFriendsView : UserControl
             return;
         }
         Visibility = Visibility.Visible;
+        if (PlayingOnly)
+        {
+            UpdatePlayingRefresh();
+            return;
+        }
         if (RobloxGameFriends.TryGetCurrent(universeId, out GameFriendsReport? current) && current != null)
         {
             Render(current);
@@ -118,6 +144,97 @@ public partial class GameFriendsView : UserControl
             LoadingBar.Visibility = Visibility.Visible;
         }
         RobloxGameFriends.Start(universeId);
+    }
+
+    private void OnVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (IsLoaded && PlayingOnly)
+            UpdatePlayingRefresh();
+    }
+
+    private void UpdatePlayingRefresh()
+    {
+        if (!IsVisible || UniverseId <= 0)
+        {
+            StopPlayingRefresh();
+            return;
+        }
+        if (_playingRefresh != null)
+            return;
+
+        Rows.Children.Clear();
+        StatusText.Visibility = Visibility.Collapsed;
+        LoadingBar.Visibility = Visibility.Visible;
+        _playingRefresh = new CancellationTokenSource();
+        _ = RefreshPlayingAsync(UniverseId, _playingRefresh.Token);
+    }
+
+    private void StopPlayingRefresh()
+    {
+        _playingRefresh?.Cancel();
+        _playingRefresh?.Dispose();
+        _playingRefresh = null;
+    }
+
+    private async Task RefreshPlayingAsync(long universeId, CancellationToken token)
+    {
+        const string LOG_IDENT = "GameFriendsView::RefreshPlayingAsync";
+
+        try
+        {
+            while (!token.IsCancellationRequested)
+            {
+                (GameFriendsStatus status, IReadOnlyList<GameFriend> friends) = await FetchPlayingAsync(universeId, token);
+                token.ThrowIfCancellationRequested();
+                RenderPlaying(status, friends);
+                await Task.Delay(PlayingRefreshInterval, token);
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Could not display friends currently playing: " + ex.Message);
+            if (!token.IsCancellationRequested)
+                RenderPlaying(GameFriendsStatus.Unavailable, []);
+        }
+    }
+
+    private static async Task<(GameFriendsStatus, IReadOnlyList<GameFriend>)> FetchPlayingAsync(long universeId, CancellationToken token)
+    {
+        using CancellationTokenSource request = CancellationTokenSource.CreateLinkedTokenSource(token);
+        request.CancelAfter(PlayingRequestTimeout);
+        try
+        {
+            return await Task.Run(() => RobloxGameFriends.GetPlayingAsync(universeId, request.Token), request.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (!token.IsCancellationRequested)
+        {
+            return (GameFriendsStatus.Unavailable, []);
+        }
+    }
+
+    private void RenderPlaying(GameFriendsStatus status, IReadOnlyList<GameFriend> friends)
+    {
+        LoadingBar.Visibility = Visibility.Collapsed;
+        Rows.Children.Clear();
+        string? statusKey = status switch
+        {
+            GameFriendsStatus.NotSignedIn => nameof(Strings.Library_Friends_SignIn),
+            GameFriendsStatus.Unavailable => nameof(Strings.Library_Friends_Unavailable),
+            _ when friends.Count == 0 => nameof(Strings.Library_Friends_NoOnePlaying),
+            _ => null,
+        };
+        StatusText.Visibility = statusKey == null ? Visibility.Collapsed : Visibility.Visible;
+        if (statusKey != null)
+        {
+            StatusText.SetBinding(TextBlock.TextProperty, new Binding($"[{statusKey}]") { Source = LocalizedStrings.Instance });
+            return;
+        }
+
+        UniformGrid grid = new() { Columns = 2 };
+        foreach (GameFriend friend in friends)
+            grid.Children.Add(RecentRow(friend));
+        Rows.Children.Add(grid);
     }
 
     private void Render(GameFriendsReport report)

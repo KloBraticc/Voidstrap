@@ -10456,4 +10456,13 @@ Installa SteamVR issa?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Żgur li trid tingħaqad ma’ din il-logħba?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Ħbieb li qed jilagħbu din il-logħba bħalissa</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>L-ebda wieħed mill-ħbieb tiegħek mhu qed jilgħab din il-logħba bħalissa</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Dan jista’ jieħu ħafna ħin biex jitgħabba</value>
+  </data>
 </root>

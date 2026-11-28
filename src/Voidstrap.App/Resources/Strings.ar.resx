@@ -10765,4 +10765,13 @@
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>هل أنت متأكد من أنك تريد الانضمام إلى هذه اللعبة؟</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>الأصدقاء الذين يلعبون هذه اللعبة الآن</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>لا يلعب أي من أصدقائك هذه اللعبة الآن</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>قد يستغرق التحميل وقتًا طويلًا</value>
+  </data>
 </root>

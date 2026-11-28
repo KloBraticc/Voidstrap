@@ -10455,4 +10455,13 @@ Indi SteamVR guruň?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bu oýna goşulmak isleýändigiňize ynamyňyz barmy?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Häzir bu oýny oýnaýan dostlar</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Dostlaryňyzyň hiç biri häzir bu oýny oýnamaýar</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Ýüklemek köp wagt alyp biler</value>
+  </data>
 </root>

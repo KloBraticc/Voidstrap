@@ -10456,4 +10456,13 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Дали навистина сакате да се придружите на оваа игра?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Пријатели што ја играат оваа игра во моментов</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Никој од твоите пријатели не ја игра оваа игра во моментов</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Вчитувањето може да потрае</value>
+  </data>
 </root>

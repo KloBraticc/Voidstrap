@@ -10455,4 +10455,13 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bu o‘yinga qo‘shilishni xohlayotganingizga ishonchingiz komilmi?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Hozir bu oʻyinni oʻynayotgan doʻstlar</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Doʻstlaringizdan hech biri hozir bu oʻyinni oʻynamayapti</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Yuklanishi uzoq vaqt olishi mumkin</value>
+  </data>
 </root>

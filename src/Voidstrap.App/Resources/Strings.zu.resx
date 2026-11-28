@@ -10455,4 +10455,13 @@ Faka i-SteamVR manje?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Uqinisekile ukuthi ufuna ukujoyina lo mdlalo?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Abangane abadlala lo mdlalo manje</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Akekho umngane wakho odlala lo mdlalo manje</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Ukulayisha kungathatha isikhathi eside</value>
+  </data>
 </root>

@@ -10455,4 +10455,13 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ይህን ጨዋታ መቀላቀል እንደሚፈልጉ እርግጠኛ ነዎት?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>አሁን ይህን ጨዋታ የሚጫወቱ ጓደኞች</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>ከጓደኞችህ መካከል አሁን ይህን ጨዋታ የሚጫወት የለም</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>ይህ ለመጫን ረጅም ጊዜ ሊወስድ ይችላል</value>
+  </data>
 </root>

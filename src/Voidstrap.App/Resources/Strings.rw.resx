@@ -10456,4 +10456,13 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Urizeye neza ko ushaka kwinjira muri uyu mukino?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Inshuti zirimo gukina uyu mukino ubu</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Nta n’umwe mu nshuti zawe urimo gukina uyu mukino ubu</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Bishobora gufata igihe kirekire kugira ngo bifunguke</value>
+  </data>
 </root>

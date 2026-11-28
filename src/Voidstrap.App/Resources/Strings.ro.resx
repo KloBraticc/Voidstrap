@@ -10766,4 +10766,13 @@ Instalați SteamVR acum?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Sigur vrei să intri în acest joc?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Prieteni care joacă acum acest joc</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Niciunul dintre prietenii tăi nu joacă acest joc acum</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Încărcarea poate dura mai mult</value>
+  </data>
 </root>

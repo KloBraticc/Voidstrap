@@ -10455,4 +10455,13 @@ Instalirati SteamVR sada?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Jesi li siguran da se želiš pridružiti ovoj igri?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Prijatelji koji trenutno igraju ovu igru</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Niko od tvojih prijatelja trenutno ne igra ovu igru</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Učitavanje može potrajati</value>
+  </data>
 </root>

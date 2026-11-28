@@ -10766,4 +10766,13 @@ Pasang SteamVR sekarang?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Adakah anda pasti mahu menyertai permainan ini?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Rakan yang sedang bermain permainan ini</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Tiada rakan anda yang sedang bermain permainan ini</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Pemuatan mungkin mengambil masa yang lama</value>
+  </data>
 </root>

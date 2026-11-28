@@ -10455,4 +10455,13 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ṣé ó dá ọ lójú pé o fẹ́ darapọ̀ mọ́ eré yìí?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Àwọn ọ̀rẹ́ tó ń ṣe eré yìí báyìí</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Kò sí ọ̀rẹ́ rẹ tó ń ṣe eré yìí báyìí</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Ó lè gba àkókò pípẹ́ láti ṣàkójọ</value>
+  </data>
 </root>

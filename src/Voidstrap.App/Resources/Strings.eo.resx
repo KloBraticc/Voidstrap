@@ -10455,4 +10455,13 @@ Ludantoj: {2}</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ĉu vi certas, ke vi volas aliĝi al ĉi tiu ludo?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Amikoj nun ludantaj ĉi tiun ludon</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Neniu el viaj amikoj nun ludas ĉi tiun ludon</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Ŝargado povas daŭri longe</value>
+  </data>
 </root>

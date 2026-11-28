@@ -10456,4 +10456,13 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>के तपाईं साँच्चै यो खेलमा सामेल हुन चाहनुहुन्छ?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>अहिले यो खेल खेलिरहेका साथीहरू</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>तपाईंका कुनै पनि साथी अहिले यो खेल खेलिरहेका छैनन्</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>लोड हुन धेरै समय लाग्न सक्छ</value>
+  </data>
 </root>

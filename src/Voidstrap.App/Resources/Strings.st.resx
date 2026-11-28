@@ -10455,4 +10455,13 @@ Kenya SteamVR hona joale?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Na u tiisitse hore u batla ho kenela papali ee?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Metsoalle e ntseng e bapala papali ena hona joale</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Ha ho motsoalle oa hao ea bapalang papali ena hona joale</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Ho kenya ho ka nka nako e telele</value>
+  </data>
 </root>

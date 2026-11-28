@@ -10765,4 +10765,13 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ви впевнені, що хочете приєднатися до цієї гри?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Друзі, які зараз грають у цю гру</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Ніхто з ваших друзів зараз не грає в цю гру</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Завантаження може тривати довго</value>
+  </data>
 </root>

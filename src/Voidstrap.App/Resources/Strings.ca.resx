@@ -10455,4 +10455,13 @@ Instal·leu SteamVR ara?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Segur que et vols unir a aquesta partida?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Amics que juguen a aquest joc ara mateix</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Ara mateix cap dels teus amics juga a aquest joc</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>La càrrega pot trigar força</value>
+  </data>
 </root>

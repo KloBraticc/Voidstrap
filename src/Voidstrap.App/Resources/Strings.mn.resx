@@ -10456,4 +10456,13 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Та энэ тоглоомд нэгдэхийг үнэхээр хүсэж байна уу?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Энэ тоглоомыг одоо тоглож буй найзууд</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Таны найзуудаас хэн ч одоо энэ тоглоомыг тоглохгүй байна</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Ачаалахад удаж магадгүй</value>
+  </data>
 </root>

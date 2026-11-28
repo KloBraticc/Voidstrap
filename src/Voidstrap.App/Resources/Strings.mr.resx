@@ -10456,4 +10456,13 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>तुम्हाला नक्की या गेममध्ये सामील व्हायचे आहे का?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>सध्या हा गेम खेळणारे मित्र</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>तुमच्या मित्रांपैकी कोणीही सध्या हा गेम खेळत नाही</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>लोड होण्यास बराच वेळ लागू शकतो</value>
+  </data>
 </root>

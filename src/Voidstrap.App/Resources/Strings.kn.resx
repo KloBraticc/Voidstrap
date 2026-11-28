@@ -10456,4 +10456,13 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ಈ ಆಟಕ್ಕೆ ಸೇರಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>ಈ ಆಟವನ್ನು ಈಗ ಆಡುತ್ತಿರುವ ಸ್ನೇಹಿತರು</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>ನಿಮ್ಮ ಸ್ನೇಹಿತರಲ್ಲಿ ಯಾರೂ ಈಗ ಈ ಆಟವನ್ನು ಆಡುತ್ತಿಲ್ಲ</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>ಲೋಡ್ ಆಗಲು ಬಹಳ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಬಹುದು</value>
+  </data>
 </root>

@@ -10456,4 +10456,13 @@ Hametraka SteamVR izao?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Azonao antoka ve fa te hiditra amin'ity lalao ity ianao?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Namana milalao ity lalao ity izao</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Tsy misy namanao milalao ity lalao ity izao</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Mety haharitra ela ny fampidirana azy</value>
+  </data>
 </root>

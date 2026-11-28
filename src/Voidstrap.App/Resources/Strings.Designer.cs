@@ -2982,6 +2982,9 @@ namespace Voidstrap.Resources {
         public static string Library_Friends_EarnedBadge => ResourceManager.GetString("Library.Friends.EarnedBadge", resourceCulture);
         public static string Library_Friends_FirstPlay => ResourceManager.GetString("Library.Friends.FirstPlay", resourceCulture);
         public static string Library_Friends_NoActivity => ResourceManager.GetString("Library.Friends.NoActivity", resourceCulture);
+        public static string Library_Friends_CurrentlyPlaying => ResourceManager.GetString("Library.Friends.CurrentlyPlaying", resourceCulture);
+        public static string Library_Friends_NoOnePlaying => ResourceManager.GetString("Library.Friends.NoOnePlaying", resourceCulture);
+        public static string Library_Friends_SlowLoading => ResourceManager.GetString("Library.Friends.SlowLoading", resourceCulture);
         public static string Library_Badges_Tab => ResourceManager.GetString("Library.Badges.Tab", resourceCulture);
 
         public static string Library_Badges_StatNone => ResourceManager.GetString("Library.Badges.StatNone", resourceCulture);

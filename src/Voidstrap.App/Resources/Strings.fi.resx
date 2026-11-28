@@ -10765,4 +10765,13 @@ Asennetaan SteamVR nyt?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Haluatko varmasti liittyä tähän peliin?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Kaverit, jotka pelaavat tätä peliä juuri nyt</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Kukaan kavereistasi ei pelaa tätä peliä juuri nyt</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Lataaminen voi kestää pitkään</value>
+  </data>
 </root>

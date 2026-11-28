@@ -10455,4 +10455,13 @@ Kas installida SteamVR kohe?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Kas soovid kindlasti selle mänguga liituda?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Sõbrad, kes praegu seda mängu mängivad</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Ükski sinu sõber ei mängi praegu seda mängu</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Laadimine võib kaua aega võtta</value>
+  </data>
 </root>

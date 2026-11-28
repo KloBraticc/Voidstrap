@@ -10455,4 +10455,13 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>இந்த விளையாட்டில் சேர விரும்புகிறீர்கள் என்பதில் உறுதியாக இருக்கிறீர்களா?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>இப்போது இந்த விளையாட்டை விளையாடும் நண்பர்கள்</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>உங்கள் நண்பர்கள் யாரும் இப்போது இந்த விளையாட்டை விளையாடவில்லை</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>ஏற்றுவதற்கு நீண்ட நேரம் ஆகலாம்</value>
+  </data>
 </root>

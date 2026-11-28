@@ -10456,4 +10456,13 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Վստա՞հ եք, որ ցանկանում եք միանալ այս խաղին։</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Այս խաղը հիմա խաղացող ընկերները</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Ձեր ընկերներից ոչ ոք հիմա չի խաղում այս խաղը</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Բեռնումը կարող է երկար տևել</value>
+  </data>
 </root>

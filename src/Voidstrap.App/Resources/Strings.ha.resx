@@ -10456,4 +10456,13 @@ Shigar SteamVR yanzu?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Kun tabbata kuna son shiga wannan wasan?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Abokan da ke buga wannan wasa yanzu</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Babu wani daga cikin abokanka da ke buga wannan wasa a yanzu</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Lodawa na iya ɗaukar lokaci mai tsawo</value>
+  </data>
 </root>

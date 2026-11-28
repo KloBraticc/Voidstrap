@@ -10455,4 +10455,13 @@ Install SteamVR now?</value>
   <data name="Ui.Controller.Description" xml:space="preserve">
     <value>Configure controller vibration and adaptive triggers.</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Friends currently playing this game</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>None of your friends are playing this game right now</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>This may take a long time to load</value>
+  </data>
 </root>

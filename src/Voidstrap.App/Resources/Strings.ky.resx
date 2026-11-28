@@ -10456,4 +10456,13 @@ SteamVR азыр орнотулбу?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Бул оюнга кошулгуңуз келеби?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Азыр бул оюнду ойноп жаткан достор</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Досторуңуздун эч кимиси азыр бул оюнду ойноп жаткан жок</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Жүктөө көп убакытты алышы мүмкүн</value>
+  </data>
 </root>

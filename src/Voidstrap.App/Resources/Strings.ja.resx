@@ -10766,4 +10766,13 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>このゲームに参加してもよろしいですか？</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>現在このゲームをプレイ中のフレンド</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>現在このゲームをプレイしているフレンドはいません</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>読み込みに時間がかかる場合があります</value>
+  </data>
 </root>

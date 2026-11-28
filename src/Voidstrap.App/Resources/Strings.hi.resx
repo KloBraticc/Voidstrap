@@ -10456,4 +10456,13 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>क्या आप वाकई इस गेम में शामिल होना चाहते हैं?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>इस गेम को अभी खेल रहे दोस्त</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>आपका कोई दोस्त अभी यह गेम नहीं खेल रहा है</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>लोड होने में काफ़ी समय लग सकता है</value>
+  </data>
 </root>

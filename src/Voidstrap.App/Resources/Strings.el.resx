@@ -10455,4 +10455,13 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Είσαι σίγουρος ότι θέλεις να μπεις σε αυτό το παιχνίδι;</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Φίλοι που παίζουν τώρα αυτό το παιχνίδι</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Κανένας από τους φίλους σας δεν παίζει αυτό το παιχνίδι τώρα</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Η φόρτωση μπορεί να διαρκέσει αρκετή ώρα</value>
+  </data>
 </root>

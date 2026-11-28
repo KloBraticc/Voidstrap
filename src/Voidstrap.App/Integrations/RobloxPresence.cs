@@ -118,7 +118,10 @@ public static class RobloxPresence
     }
 
     // Where every friend is right now, for the friend notifications. Null when it could not be checked.
-    public static async Task<List<FriendPresence>?> GetFriendPresencesAsync(long localUserId, CancellationToken token)
+    public static Task<List<FriendPresence>?> GetFriendPresencesAsync(long localUserId, CancellationToken token) =>
+        GetFriendPresencesAsync(localUserId, token, requireComplete: false);
+
+    internal static async Task<List<FriendPresence>?> GetFriendPresencesAsync(long localUserId, CancellationToken token, bool requireComplete)
     {
         string? cookie = RobloxCookie.Get();
         if (string.IsNullOrEmpty(cookie) || localUserId <= 0)
@@ -147,7 +150,7 @@ public static class RobloxPresence
                     })
             )
             .ConfigureAwait(false);
-        if (answers.All(answer => answer == null))
+        if (requireComplete ? answers.Any(answer => answer == null) : answers.All(answer => answer == null))
             return null;
         return answers
             .Where(answer => answer != null)
@@ -166,8 +169,13 @@ public static class RobloxPresence
     }
 
     // Names and pictures for a few people, cached
-    public static Task<List<ServerFriend>> GetProfilesAsync(List<long> userIds, CancellationToken token) =>
-        ResolveProfilesAsync(userIds, token);
+    public static async Task<List<ServerFriend>> GetProfilesAsync(List<long> userIds, CancellationToken token)
+    {
+        List<ServerFriend> profiles = new(userIds.Count);
+        foreach (List<long> batch in Chunk(userIds, 100))
+            profiles.AddRange(await ResolveProfilesAsync(batch, token).ConfigureAwait(false));
+        return profiles;
+    }
 
     public static async Task<FriendsInServerResult> GetFriendsInServerAsync(
         long localUserId,

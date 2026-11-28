@@ -10764,4 +10764,13 @@ Installer SteamVR maintenant ?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Voulez-vous vraiment rejoindre cette partie ?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Amis qui jouent à ce jeu en ce moment</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Aucun de vos amis ne joue à ce jeu en ce moment</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Le chargement peut prendre du temps</value>
+  </data>
 </root>

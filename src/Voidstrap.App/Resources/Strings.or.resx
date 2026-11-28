@@ -10456,4 +10456,13 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ଆପଣ ନିଶ୍ଚିତ କି ଯେ ଏହି ଖେଳରେ ଯୋଗ ଦେବାକୁ ଚାହୁଁଛନ୍ତି?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>ଏବେ ଏହି ଗେମ୍ ଖେଳୁଥିବା ବନ୍ଧୁମାନେ</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>ଆପଣଙ୍କର କୌଣସି ବନ୍ଧୁ ଏବେ ଏହି ଗେମ୍ ଖେଳୁନାହାନ୍ତି</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>ଲୋଡ୍ ହେବାକୁ ବହୁତ ସମୟ ଲାଗିପାରେ</value>
+  </data>
 </root>

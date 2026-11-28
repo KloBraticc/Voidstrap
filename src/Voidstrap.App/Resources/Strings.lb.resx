@@ -10456,4 +10456,13 @@ SteamVR elo installéieren?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bass du sécher, datt s du bei dësem Spill matmaache wëlls?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Frënn, déi dëst Spill grad spillen</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Keen vun dengen Frënn spillt dëst Spill grad</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>D’Luede ka laang daueren</value>
+  </data>
 </root>

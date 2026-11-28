@@ -10455,4 +10455,13 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Вы ўпэўнены, што хочаце далучыцца да гэтай гульні?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Сябры, якія зараз гуляюць у гэтую гульню</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Зараз ніхто з вашых сяброў не гуляе ў гэтую гульню</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Загрузка можа заняць шмат часу</value>
+  </data>
 </root>

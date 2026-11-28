@@ -10456,4 +10456,13 @@ Nainštalovať SteamVR teraz?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Naozaj sa chcete pripojiť k tejto hre?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Priatelia, ktorí práve hrajú túto hru</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Túto hru práve nehrá žiadny z vašich priateľov</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Načítanie môže trvať dlhšie</value>
+  </data>
 </root>

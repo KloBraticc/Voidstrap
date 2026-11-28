@@ -10766,4 +10766,13 @@ Instal SteamVR sekarang?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Apakah Anda yakin ingin bergabung dengan gim ini?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Teman yang sedang memainkan game ini</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Tidak ada teman Anda yang sedang memainkan game ini</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Pemuatan mungkin memerlukan waktu lama</value>
+  </data>
 </root>

@@ -10455,4 +10455,13 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>کیا آپ کو یقین ہے کہ آپ اس گیم میں شامل ہونا چاہتے ہیں؟</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>دوست جو ابھی یہ گیم کھیل رہے ہیں</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>آپ کے دوستوں میں سے کوئی ابھی یہ گیم نہیں کھیل رہا</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>لوڈ ہونے میں کافی وقت لگ سکتا ہے</value>
+  </data>
 </root>

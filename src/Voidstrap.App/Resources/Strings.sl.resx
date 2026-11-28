@@ -10456,4 +10456,13 @@ Namestite SteamVR zdaj?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ali se res želiš pridružiti tej igri?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Prijatelji, ki trenutno igrajo to igro</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Trenutno nihče od tvojih prijateljev ne igra te igre</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Nalaganje lahko traja dlje časa</value>
+  </data>
 </root>

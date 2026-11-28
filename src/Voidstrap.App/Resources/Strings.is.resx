@@ -10456,4 +10456,13 @@ Settu upp SteamVR núna?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ertu viss um að þú viljir taka þátt í þessum leik?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Vinir sem spila þennan leik núna</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Enginn vina þinna er að spila þennan leik núna</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Það gæti tekið langan tíma að hlaða þessu</value>
+  </data>
 </root>

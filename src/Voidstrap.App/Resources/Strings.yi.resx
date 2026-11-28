@@ -10455,4 +10455,13 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>זענט איר זיכער אַז איר ווילט זיך באַטייליקן אין דעם שפּיל?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>פֿרײַנד וואָס שפּילן איצט דאָס שפּיל</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>קיינער פֿון דײַנע פֿרײַנד שפּילט איצט נישט דאָס שפּיל</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>דאָס לאָדן קען דויערן אַ לאַנגע צײַט</value>
+  </data>
 </root>

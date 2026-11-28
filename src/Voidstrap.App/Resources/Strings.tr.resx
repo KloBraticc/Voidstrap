@@ -10765,4 +10765,13 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bu oyuna katılmak istediğinizden emin misiniz?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Şu anda bu oyunu oynayan arkadaşlar</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Şu anda arkadaşlarınızdan hiçbiri bu oyunu oynamıyor</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Yükleme uzun sürebilir</value>
+  </data>
 </root>

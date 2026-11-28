@@ -10456,4 +10456,13 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>האם ברצונך להצטרף למשחק הזה?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>חברים שמשחקים במשחק הזה כרגע</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>אף אחד מהחברים שלך לא משחק במשחק הזה כרגע</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>הטעינה עשויה להימשך זמן רב</value>
+  </data>
 </root>

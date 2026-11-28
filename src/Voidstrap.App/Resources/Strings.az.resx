@@ -10455,4 +10455,13 @@ SteamVR indi quraşdırılsın?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Bu oyuna qoşulmaq istədiyinizə əminsiniz?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Hazırda bu oyunu oynayan dostlar</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Hazırda dostlarınızdan heç biri bu oyunu oynamır</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Yükləmə uzun çəkə bilər</value>
+  </data>
 </root>

@@ -10456,4 +10456,13 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ایا ډاډه یاست چې غواړئ په دې لوبه کې ګډون وکړئ؟</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>هغه ملګري چې اوس دا لوبه کوي</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>ستاسو هېڅ ملګری اوس دا لوبه نه کوي</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>پورته کېدل ښايي ډېر وخت ونیسي</value>
+  </data>
 </root>

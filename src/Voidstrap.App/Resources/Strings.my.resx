@@ -10455,4 +10455,13 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ဒီဂိမ်းမှာ ပါဝင်ဖို့ သေချာပါသလား။</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>ဤဂိမ်းကို လက်ရှိကစားနေသော သူငယ်ချင်းများ</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>သင့်သူငယ်ချင်းများထဲမှ မည်သူမျှ ဤဂိမ်းကို လက်ရှိမကစားနေပါ</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>ဖွင့်ရန် အချိန်ကြာနိုင်ပါသည်</value>
+  </data>
 </root>

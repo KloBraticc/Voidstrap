@@ -10456,4 +10456,13 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ທ່ານແນ່ໃຈບໍວ່າຕ້ອງການເຂົ້າຮ່ວມເກມນີ້?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>ໝູ່ທີ່ກຳລັງຫຼິ້ນເກມນີ້</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>ຕອນນີ້ບໍ່ມີໝູ່ຂອງເຈົ້າຫຼິ້ນເກມນີ້</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>ການໂຫຼດອາດໃຊ້ເວລາດົນ</value>
+  </data>
 </root>

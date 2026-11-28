@@ -10766,4 +10766,13 @@ Veikimo laikas: {1}
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ar tikrai norite prisijungti prie šio žaidimo?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Draugai, šiuo metu žaidžiantys šį žaidimą</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Šiuo metu nė vienas jūsų draugas nežaidžia šio žaidimo</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Įkėlimas gali užtrukti</value>
+  </data>
 </root>

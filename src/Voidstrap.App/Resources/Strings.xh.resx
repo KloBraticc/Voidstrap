@@ -10455,4 +10455,13 @@ Faka i-SteamVR ngoku?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Uqinisekile ukuba ufuna ukujoyina lo mdlalo?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Abahlobo abadlala lo mdlalo ngoku</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Akukho namnye kubahlobo bakho odlala lo mdlalo ngoku</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Ukulayisha kungathatha ixesha elide</value>
+  </data>
 </root>

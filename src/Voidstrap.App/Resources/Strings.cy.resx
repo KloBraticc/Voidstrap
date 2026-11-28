@@ -10455,4 +10455,13 @@ Gosod SteamVR nawr?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ydych chi'n siŵr eich bod chi am ymuno â'r gêm hon?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Ffrindiau sy’n chwarae’r gêm hon nawr</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Nid oes yr un o’ch ffrindiau’n chwarae’r gêm hon ar hyn o bryd</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Gall hyn gymryd amser hir i’w lwytho</value>
+  </data>
 </root>

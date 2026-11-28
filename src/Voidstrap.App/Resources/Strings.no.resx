@@ -10456,4 +10456,13 @@ Installer SteamVR nå?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Er du sikker på at du vil bli med i dette spillet?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Venner som spiller dette spillet akkurat nå</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Ingen av vennene dine spiller dette spillet akkurat nå</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Det kan ta lang tid å laste inn</value>
+  </data>
 </root>

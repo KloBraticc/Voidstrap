@@ -10456,4 +10456,13 @@ Uptime: {1}
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>დარწმუნებული ხართ, რომ გსურთ ამ თამაშში ჩართვა?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>მეგობრები, რომლებიც ახლა ამ თამაშს თამაშობენ</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>თქვენი მეგობრებიდან ამ თამაშს ახლა არავინ თამაშობს</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>ჩატვირთვას შესაძლოა დიდი დრო დასჭირდეს</value>
+  </data>
 </root>

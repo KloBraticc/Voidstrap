@@ -10456,4 +10456,13 @@ Të instalohet SteamVR tani?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>A je i sigurt që dëshiron t’i bashkohesh kësaj loje?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Miqtë që po luajnë këtë lojë tani</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Asnjë nga miqtë e tu nuk po e luan këtë lojë tani</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Ngarkimi mund të zgjasë</value>
+  </data>
 </root>

@@ -10456,4 +10456,13 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ 'ਤੇ ਇਸ ਗੇਮ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣਾ ਚਾਹੁੰਦੇ ਹੋ?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>ਹੁਣ ਇਹ ਗੇਮ ਖੇਡ ਰਹੇ ਦੋਸਤ</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>ਤੁਹਾਡਾ ਕੋਈ ਦੋਸਤ ਇਸ ਵੇਲੇ ਇਹ ਗੇਮ ਨਹੀਂ ਖੇਡ ਰਿਹਾ</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>ਲੋਡ ਹੋਣ ਵਿੱਚ ਕਾਫ਼ੀ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ</value>
+  </data>
 </root>

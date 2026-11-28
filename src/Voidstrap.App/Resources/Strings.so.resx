@@ -10456,4 +10456,13 @@ Hadda rakib SteamVR?</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>Ma hubtaa inaad rabto inaad ku biirto ciyaartan?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Saaxiibbada hadda ciyaaraya ciyaartan</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Midkoodna saaxiibbadaa hadda ma ciyaarayo ciyaartan</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>Soo raristu waxay qaadan kartaa waqti dheer</value>
+  </data>
 </root>

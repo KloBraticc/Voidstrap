@@ -10765,4 +10765,13 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>你確定要加入這個遊戲嗎？</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>正在玩這款遊戲的好友</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>目前沒有好友正在玩這款遊戲</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>載入可能需要一些時間</value>
+  </data>
 </root>

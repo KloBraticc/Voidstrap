@@ -10765,4 +10765,13 @@ Jugadores: {2}</value>
   <data name="ContextMenu.GameBrowser.ConfirmJoin" xml:space="preserve">
     <value>¿Seguro que quieres unirte a esta partida?</value>
   </data>
+  <data name="Library.Friends.CurrentlyPlaying" xml:space="preserve">
+    <value>Amigos que están jugando a este juego</value>
+  </data>
+  <data name="Library.Friends.NoOnePlaying" xml:space="preserve">
+    <value>Ninguno de tus amigos está jugando a este juego ahora mismo</value>
+  </data>
+  <data name="Library.Friends.SlowLoading" xml:space="preserve">
+    <value>La carga puede tardar bastante</value>
+  </data>
 </root>
