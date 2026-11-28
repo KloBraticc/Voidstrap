@@ -3141,6 +3141,9 @@ Mit szeretnél tenni?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>A Voidstrap Mods segítségével böngészhet a közösségi modok között. Használja a felső sáv Oldalak menüjét, hogy visszatérjen ide.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>A(z) „Modok” részen válaszd a(z) „Testreszabás” lapot, majd nyisd meg a(z) „Átfedések” menüt az alábbi elemek testreszabásához. Munkamenetsáv, kezdőlap háttér, képernyőszínek és játékon belüli eszközök.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Nyissa meg ezt a menüt a Mentés és indítás melletti nyíllal. Válassza ki, hogy melyik Roblox klienst szeretné elindítani. A pipa mutatja az aktuális választást. Az alsó kapcsolóval mozgassa a nyilat jobbra.</value>
   </data>

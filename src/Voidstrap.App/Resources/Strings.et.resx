@@ -2930,6 +2930,9 @@ Mida sa teha tahaksid?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods võimaldab sirvida kogukonna modifikatsioone. Siia naasmiseks kasutage ülemise riba menüüd Lehed.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Vali jaotises „Modifikatsioonid“ vahekaart „Kohanda“ ja ava „Ülekatted“, et neid elemente kohandada. Seansi dokk, kodulehe taust, ekraanivärv ja mängutööriistad.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Avage see menüü noolega valiku Salvesta ja käivita kõrval. Valige, millist Robloxi klienti alustada. Linnuke näitab teie praegust valikut. Noole paremale liigutamiseks kasutage allosas olevat lülitit.</value>
   </data>

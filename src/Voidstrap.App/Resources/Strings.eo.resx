@@ -2930,6 +2930,9 @@ Kion vi ŝatus fari?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ebligas al vi foliumi komunumajn modifojn. Uzu la Paĝojn-menuon en la supra trinkejo por reveni ĉi tien.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>En «Mods», elektu «Agordu» kaj poste malfermu «Supermetaĵoj» por agordi ĉi tiujn elementojn. Sesiodoko, hejmpaĝo fono, ekrankoloro kaj en ludiloj.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Malfermu ĉi tiun menuon per la sago apud Konservi kaj Lanĉi. Elektu kiun Roblox-klienton komenci. La marko montras vian nunan elekton. Uzu la ŝaltilon malsupre por movi la sagon dekstren.</value>
   </data>

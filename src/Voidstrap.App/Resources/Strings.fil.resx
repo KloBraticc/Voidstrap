@@ -2918,6 +2918,9 @@ Ano ang gusto mong gawin?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Hinahayaan ka ng Voidstrap Mods na mag-browse ng mga mod ng komunidad. Gamitin ang menu ng Mga Pahina sa tuktok na bar upang bumalik dito.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Sa «Mga mod», piliin ang «I-customize» at buksan ang «Mga overlay» para ma-customize mo ang mga ito. Session dock, background ng homepage, kulay ng screen at mga tool sa loob ng laro.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Buksan ang menu na ito gamit ang arrow sa tabi ng I-save at Ilunsad. Piliin kung aling Roblox client ang magsisimula. Ipinapakita ng checkmark ang iyong kasalukuyang pinili. Gamitin ang switch sa ibaba upang ilipat ang arrow sa kanan.</value>
   </data>

@@ -648,6 +648,7 @@ namespace Voidstrap.Resources {
         public static string Tutorial_Mods => ResourceManager.GetString("Tutorial.Mods", resourceCulture);
         public static string Tutorial_BreadcrumbTitle => ResourceManager.GetString("Tutorial.BreadcrumbTitle", resourceCulture);
         public static string Tutorial_Breadcrumb => ResourceManager.GetString("Tutorial.Breadcrumb", resourceCulture);
+        public static string Tutorial_Overlays => ResourceManager.GetString("Tutorial.Overlays", resourceCulture);
         public static string Tutorial_RobloxVersion => ResourceManager.GetString("Tutorial.RobloxVersion", resourceCulture);
         public static string Tutorial_Finish => ResourceManager.GetString("Tutorial.Finish", resourceCulture);
 

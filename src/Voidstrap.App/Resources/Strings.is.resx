@@ -2930,6 +2930,9 @@ Hvað myndir þú vilja gera?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods gerir þér kleift að skoða samfélagsbreytingar. Notaðu Pages valmyndina í efstu stikunni til að koma aftur hingað.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Í „Mods“ skaltu velja „Sérsníða“ og opna síðan „Yfirlögn“ til að sérsníða þessa þætti. Session dock, bakgrunnur heimasíða, skjálitur og í leikjaverkfærum.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Opnaðu þessa valmynd með örinni við hlið Save and Launch. Veldu hvaða Roblox viðskiptavin á að byrja. Gátmerkið sýnir núverandi val þitt. Notaðu rofann neðst til að færa örina til hægri.</value>
   </data>

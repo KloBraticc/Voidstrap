@@ -2930,6 +2930,9 @@ Que che gustaría facer?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods permíteche buscar modificacións da comunidade. Usa o menú Páxinas na barra superior para volver aquí.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>En «Mods», selecciona «Personalizar» e abre «Superposicións» para personalizar estes elementos. Base de sesión, fondo da páxina de inicio, cor da pantalla e ferramentas de xogo.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Abre este menú coa frecha ao lado de Gardar e iniciar. Escolle que cliente de Roblox queres comezar. A marca de verificación mostra a túa elección actual. Usa o interruptor da parte inferior para mover a frecha cara á dereita.</value>
   </data>

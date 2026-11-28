@@ -2930,6 +2930,9 @@ X'tixtieq tagħmel?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods iħallik tfittex mods tal-komunità. Uża l-menu Paġni fil-bar ta 'fuq biex terġa' lura hawn.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>F’«Mods», agħżel «Ippersonalizza» u mbagħad iftaħ «Overlays» biex tippersonalizza dawn l-elementi. Dock tas-sessjoni, sfond tal-homepage, kulur tal-iskrin u għodod tal-logħob.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Iftaħ dan il-menu bil-vleġġa ħdejn Save and Launch. Agħżel liema klijent Roblox tibda. Il-marka tal-kontroll turi l-għażla attwali tiegħek. Uża l-iswiċċ fil-qiegħ biex iċċaqlaq il-vleġġa lejn il-lemin.</value>
   </data>

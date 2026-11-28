@@ -92,7 +92,7 @@ public partial class MainWindow
             TutorialStep.Library => (nameof(Strings.Ui_Pages_Library), nameof(Strings.Tutorial_Library)),
             TutorialStep.Mods => (nameof(Strings.Ui_Nav_VoidstrapMods), nameof(Strings.Tutorial_Mods)),
             TutorialStep.Breadcrumb => (nameof(Strings.Tutorial_BreadcrumbTitle), nameof(Strings.Tutorial_Breadcrumb)),
-            TutorialStep.Overlays => (nameof(Strings.Ui_Mods_Overlays), nameof(Strings.Ui_Mods_OverlaysCardDescription)),
+            TutorialStep.Overlays => (nameof(Strings.Ui_Mods_Overlays), nameof(Strings.Tutorial_Overlays)),
             TutorialStep.RobloxVersion => (nameof(Strings.Ui_Main_ChooseRobloxVersion), nameof(Strings.Tutorial_RobloxVersion)),
             _ => (nameof(Strings.Installer_Welcome_Title), nameof(Strings.Tutorial_Welcome)),
         };

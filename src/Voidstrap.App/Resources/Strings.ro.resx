@@ -3123,6 +3123,9 @@ Ce vrei să faci?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vă permite să răsfoiți modurile comunității. Utilizați meniul Pagini din bara de sus pentru a reveni aici.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>În „Mod-uri”, alege „Personalizează”, apoi deschide „Suprapuneri” ca să personalizezi aceste elemente. Bara sesiunii, fundalul paginii principale, culorile ecranului și instrumente în joc.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Deschide acest meniu cu săgeata de lângă Salvare și lansare. Alegeți ce client Roblox să începeți. Bifa arată alegerea dvs. curentă. Folosiți comutatorul din partea de jos pentru a muta săgeata la dreapta.</value>
   </data>

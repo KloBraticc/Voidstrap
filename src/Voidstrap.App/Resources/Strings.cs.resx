@@ -3123,6 +3123,9 @@ Co chcete udělat?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vám umožní procházet komunitní mody. Pro návrat sem použijte nabídku Stránky v horní liště.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>V části „Modifikace“ zvolte „Přizpůsobit“ a poté otevřete „Překryvy“, kde můžete tyto prvky upravit. Panel relace, pozadí domovské stránky, barvy obrazovky a nástroje ve hře.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Otevřete tuto nabídku pomocí šipky vedle položky Uložit a spustit. Vyberte klienta Roblox, který chcete spustit. Zaškrtnutí ukazuje vaši aktuální volbu. Pomocí přepínače ve spodní části posuňte šipku doprava.</value>
   </data>

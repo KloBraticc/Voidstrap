@@ -3174,6 +3174,9 @@
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>تتيح لك Voidstrap Mods تصفح تعديلات المجتمع. استخدم قائمة الصفحات في الشريط العلوي للرجوع إلى هنا.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>في التعديلات (المودات)، اختر «تخصيص» ثم افتح «الطبقات الفوقية» لتخصيص هذه العناصر. شريط الجلسة وخلفية الصفحة الرئيسية وألوان الشاشة وأدوات داخل اللعبة.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>افتح هذه القائمة بالسهم الموجود بجوار Save and Launch. اختر عميل Roblox الذي تريد البدء به. تظهر علامة الاختيار اختيارك الحالي. استخدم المفتاح الموجود بالأسفل لتحريك السهم إلى اليمين.</value>
   </data>

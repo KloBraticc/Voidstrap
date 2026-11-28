@@ -2930,6 +2930,9 @@ Maxaad jeclaan lahayd inaad samayso?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods wuxuu kuu ogolaanayaa inaad baadho qaababka bulshada. Isticmaal liiska boggaga ku yaal bar sare si aad halkan ugu soo noqoto.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Qaybta «Hababka», ka dooro «Habbee», ka dibna fur «dulsaar» si aad u habayso waxyaabahan. Fadhiga fadhiga, asalka bogga hore, midabka shaashadda iyo qalabka ciyaarta.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Ku fur liiskan falaarta ku ag taal Keydi oo Launch Dooro macmiilka Roblox si uu u bilaabo. Calaamaddu waxay muujinaysaa doorashadaada hadda. Isticmaal furaha hoose si aad falaarta ugu dhaqaaqdo dhanka midig.</value>
   </data>

@@ -2930,6 +2930,9 @@ Cad ba mhaith leat a dhéanamh?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Ligeann Voidstrap Mods duit mods pobail a bhrabhsáil. Úsáid an roghchlár Leathanaigh sa bharra barr chun teacht ar ais anseo.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>In «Mods», roghnaigh «Saincheap» agus oscail «Forleagain» chun na gnéithe seo a shaincheapadh. Duga seisiúin, cúlra leathanach baile, dath scáileáin agus in uirlisí cluiche.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Oscail an roghchlár seo leis an tsaighead in aice le Sábháil agus Seoladh. Roghnaigh cén cliant Roblox a thosóidh. Taispeánann an ticmharc do rogha reatha. Bain úsáid as an lasc ag bun chun an tsaighead a bhogadh ar dheis.</value>
   </data>

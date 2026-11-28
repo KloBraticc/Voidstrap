@@ -2930,6 +2930,9 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vám umožňuje prehliadať komunitné mody. Ak sa chcete vrátiť sem, použite ponuku Stránky v hornej lište.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>V časti „Mods“ vyberte „Prispôsobiť“ a potom otvorte „Prekrytia“, kde môžete tieto prvky prispôsobiť. Dok relácie, pozadie domovskej stránky, farba obrazovky a herné nástroje.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Otvorte túto ponuku pomocou šípky vedľa položky Uložiť a spustiť. Vyberte klienta Roblox, ktorý chcete spustiť. Značka začiarknutia zobrazuje vašu aktuálnu voľbu. Pomocou prepínača v spodnej časti posuňte šípku doprava.</value>
   </data>

@@ -2930,6 +2930,9 @@ Zer egin nahiko zenuke?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods-ek komunitateko modak arakatzeko aukera ematen dizu. Erabili goiko barrako Orrialdeak menua hona itzultzeko.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>«Moduak» atalean, hautatu «Pertsonalizatu» eta ireki «Gainjartzeak» elementu hauek pertsonalizatzeko. Saio-dock, hasierako orriaren atzeko planoa, pantailaren kolorea eta joko-tresnetan.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Ireki menu hau Gorde eta Abiarazi ondoko geziarekin. Aukeratu zein Roblox bezero hasteko. Markak zure uneko aukera erakusten du. Erabili beheko etengailua gezia eskuinera mugitzeko.</value>
   </data>

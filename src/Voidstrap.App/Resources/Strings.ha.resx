@@ -2930,6 +2930,9 @@ Me kuke so ku yi?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods yana ba ku damar bincika abubuwan al'umma. Yi amfani da menu na Shafukan da ke saman mashaya don dawowa nan.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>A cikin «Mods», zaɓi «Keɓance», sannan buɗe «Litattafai» don daidaita waɗannan abubuwa. Dokin zama, bangon shafin gida, launi na allo da cikin kayan aikin wasan.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Buɗe wannan menu tare da kibiya kusa da Ajiye da ƙaddamarwa. Zaɓi wanda abokin ciniki Roblox zai fara. Alamar duba tana nuna zaɓinku na yanzu. Yi amfani da maɓalli a ƙasa don matsar da kibiya zuwa dama.</value>
   </data>

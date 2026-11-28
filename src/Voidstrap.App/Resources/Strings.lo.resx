@@ -2930,6 +2930,9 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ໃຫ້ທ່ານທ່ອງເວັບ mods ຂອງຊຸມຊົນ. ໃຊ້ເມນູ Pages ໃນແຖບດ້ານເທິງເພື່ອກັບມາທີ່ນີ້.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>ໃນ «Mods» ເລືອກ «ປັບແຕ່ງ» ແລ້ວເປີດ «ວາງຊ້ອນກັນ» ເພື່ອປັບແຕ່ງລາຍການເຫຼົ່ານີ້. Session dock, ພື້ນຫຼັງຂອງໜ້າຫຼັກ, ສີໜ້າຈໍ ແລະໃນເຄື່ອງມືເກມ.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>ເປີດເມນູນີ້ດ້ວຍລູກສອນທີ່ຢູ່ຂ້າງ Save and Launch. ເລືອກລູກຄ້າ Roblox ທີ່ຈະເລີ່ມຕົ້ນ. ເຄື່ອງໝາຍຖືກສະແດງທາງເລືອກປັດຈຸບັນຂອງເຈົ້າ. ໃຊ້ສະຫຼັບຢູ່ລຸ່ມສຸດເພື່ອເລື່ອນລູກສອນໄປທາງຂວາ.</value>
   </data>

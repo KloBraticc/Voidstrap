@@ -2930,6 +2930,9 @@ Nima qilishni xohlaysiz?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods sizga hamjamiyat modlarini ko'rib chiqish imkonini beradi. Bu yerga qaytish uchun yuqori paneldagi Sahifalar menyusidan foydalaning.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>«Modlar» bo‘limida «Moslashtiring»ni tanlang, so‘ng bu elementlarni sozlash uchun «Qoplamalar»ni oching. Seans dok, bosh sahifa foni, ekran rangi va oʻyin vositalari.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Saqlash va ishga tushirish yonidagi strelka bilan ushbu menyuni oching. Qaysi Roblox mijozini boshlashni tanlang. Belgisi joriy tanlovingizni ko'rsatadi. O'qni o'ngga siljitish uchun pastdagi kalitdan foydalaning.</value>
   </data>

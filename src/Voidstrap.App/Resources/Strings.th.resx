@@ -3141,6 +3141,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ให้คุณเรียกดู mod ชุมชนได้ ใช้เมนูหน้าในแถบด้านบนเพื่อกลับมาที่นี่</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>ใน «ม็อด» ให้เลือก «ปรับแต่ง» แล้วเปิด «โอเวอร์เลย์» เพื่อปรับแต่งรายการเหล่านี้ แถบเซสชัน พื้นหลังหน้าแรก สีหน้าจอ และเครื่องมือในเกม</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>เปิดเมนูนี้โดยมีลูกศรอยู่ข้างๆ บันทึกและเปิดใช้ เลือกไคลเอนต์ Roblox ที่จะเริ่มต้น เครื่องหมายถูกจะแสดงตัวเลือกปัจจุบันของคุณ ใช้สวิตช์ที่ด้านล่างเพื่อเลื่อนลูกศรไปทางขวา</value>
   </data>

@@ -2930,6 +2930,9 @@ Wat wil jy graag doen?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Met Voidstrap Mods kan jy deur die gemeenskap mods blaai. Gebruik die Bladsye-kieslys in die boonste balk om hierheen terug te kom.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Kies Pasmaak in Mods en maak dan Oorlegsels oop om die sessiedok, tuisbladagtergrond, skermkleur en nutsgoed in die speletjie aan te pas.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Maak hierdie spyskaart oop met die pyltjie langs Stoor en begin. Kies watter Roblox-kliënt om te begin. Die regmerkie wys jou huidige keuse. Gebruik die skakelaar aan die onderkant om die pyltjie na regs te skuif.</value>
   </data>

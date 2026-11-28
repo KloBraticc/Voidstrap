@@ -3241,6 +3241,9 @@ What would you like to do?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods lets you browse community mods. Use the Pages menu in the top bar to come back here.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>In Mods, select Customize, then open Overlays to customize the session dock, homepage background, screen color, and in game tools.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Open this menu with the arrow beside Save and Launch. Choose which Roblox client to start. The checkmark shows your current choice. Use the switch at the bottom to move the arrow to the right.</value>
   </data>

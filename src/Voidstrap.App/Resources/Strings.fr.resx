@@ -3065,6 +3065,9 @@ Que souhaitez-vous faire ?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods vous permet de parcourir les mods de la communauté. Utilisez le menu Pages dans la barre supérieure pour revenir ici.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Dans « Mods », sélectionnez « Personnaliser », puis ouvrez « Superpositions » pour personnaliser ces éléments. Barre de session, arrière plan de l&apos;accueil, couleurs de l&apos;écran et outils en jeu.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Ouvrez ce menu avec la flèche à côté de Enregistrer et lancer. Choisissez quel client Roblox démarrer. La coche indique votre choix actuel. Utilisez l'interrupteur en bas pour déplacer la flèche vers la droite.</value>
   </data>

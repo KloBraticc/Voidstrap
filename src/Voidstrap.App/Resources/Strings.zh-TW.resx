@@ -3141,6 +3141,9 @@ Roblox 尚未安裝，這將在您第一次使用 Voidstrap 啟動時進行。�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods 讓您瀏覽社群模組。使用頂部欄中的頁面選單返回此處。</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>在「模組」中選取「自訂」，再開啟「覆疊」即可自訂下列項目。工作階段列、首頁背景、螢幕色彩和遊戲內工具。</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>使用“儲存並啟動”旁邊的箭頭開啟此功能表。選擇要啟動的 Roblox 用戶端。複選標記顯示您目前的選擇。使用底部的開關將箭頭移到右側。</value>
   </data>

@@ -2930,6 +2930,9 @@ Me aha koe?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods ka taea e koe te tirotiro i nga mods hapori. Whakamahia te tahua Whārangi kei te pae o runga kia hoki mai ki konei.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>I «Nga mods», tīpakohia a «Whakaritea», kātahi ka whakatuwhera i «Whakapaparua» hei whakarite i ēnei āhuatanga. Wātū ū, papamuri whārangi kāinga, tae mata me ngā taputapu kēmu.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Whakatuwheratia tenei tahua me te pere i te taha o Tiaki me te Whakarewa. Whiriwhiria ko tehea kaihoko Roblox hei tiimata. Ko te tohutaki e whakaatu ana i to whiringa o naianei. Whakamahia te pana ki raro hei nuku i te pere ki te taha matau.</value>
   </data>

@@ -3138,6 +3138,9 @@ Co chcesz zrobić?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods umożliwia przeglądanie modów społeczności. Aby tu wrócić, użyj menu Strony na górnym pasku.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>W sekcji „Mody” wybierz kartę „Dostosuj”, a potem otwórz „Nakładki”, by dostosować te elementy. Pasek sesji, tło strony głównej, kolory ekranu i narzędzia w grze.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Otwórz to menu za pomocą strzałki obok opcji Zapisz i uruchom. Wybierz klienta Roblox, którego chcesz uruchomić. Znacznik wyboru pokazuje bieżący wybór. Użyj przełącznika na dole, aby przesunąć strzałkę w prawo.</value>
   </data>

@@ -2930,6 +2930,9 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods מאפשר לך לדפדף במונדי קהילה. השתמש בתפריט דפים בסרגל העליון כדי לחזור לכאן.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>בקטע ״מודים״, בחרו ״התאמה אישית״ ואז פתחו את ״שכבות-על״ כדי להתאים אישית את הפריטים הבאים. רציף הפעלה, רקע לדף הבית, צבע מסך ובכלי משחק.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>פתח את התפריט הזה עם החץ לצד שמור והפעל. בחר איזה לקוח Roblox להתחיל. סימן הביקורת מציג את הבחירה הנוכחית שלך. השתמש במתג בתחתית כדי להזיז את החץ ימינה.</value>
   </data>

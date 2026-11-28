@@ -3156,6 +3156,9 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods를 사용하면 커뮤니티 모드를 탐색할 수 있습니다. 여기로 돌아오려면 상단 표시줄의 페이지 메뉴를 사용하세요.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>‘모드’에서 ‘사용자 지정’ 탭을 선택한 뒤 ‘오버레이’를 열어 다음 항목을 맞춤 설정할 수 있습니다. 세션 독, 홈페이지 배경, 화면 색상 및 게임 내 도구.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>저장 및 실행 옆에 있는 화살표로 이 메뉴를 엽니다. 시작할 Roblox 클라이언트를 선택하세요. 체크 표시는 현재 선택 사항을 나타냅니다. 하단의 스위치를 사용하여 화살표를 오른쪽으로 이동하세요.</value>
   </data>

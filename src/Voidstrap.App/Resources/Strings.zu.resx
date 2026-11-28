@@ -2930,6 +2930,9 @@ Yini ongathanda ukuyenza?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>I-Voidstrap Mods ikuvumela ukuthi udlulise amehlo kuma-mods omphakathi. Sebenzisa imenyu Yamakhasi kubha ephezulu ukuze ubuye lapha.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Ku «Ama-Mods», khetha «Enza ngendlela oyifisayo», bese uvula «Imbondela» ukuze wenze lezi zinto ngendlela oyithandayo. Idokhi yesikhathi, ingemuva lekhasi eliyisiqalo, umbala wesikrini namathuluzi egeyimu.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Vula le menyu ngomcibisholo oseceleni kokuthi Gcina futhi Qalisa. Khetha ukuthi iyiphi iklayenti le-Roblox ongaqala ngalo. Uphawu lokuhlola lubonisa ukukhetha kwakho kwamanje. Sebenzisa iswishi engezansi ukuze uhambise umcibisholo kwesokudla.</value>
   </data>

@@ -3114,6 +3114,9 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Mod Voidstrap membolehkan anda menyemak imbas mod komuniti. Gunakan menu Halaman di bar atas untuk kembali ke sini.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Dalam «Mod», pilih «Sesuaikan», kemudian buka «Tindanan» untuk menyesuaikan perkara berikut. Dok sesi, latar belakang laman utama, warna skrin dan alat dalam permainan.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Buka menu ini dengan anak panah di sebelah Simpan dan Lancarkan. Pilih klien Roblox yang mana untuk dimulakan. Tanda semak menunjukkan pilihan semasa anda. Gunakan suis di bahagian bawah untuk menggerakkan anak panah ke kanan.</value>
   </data>

@@ -3141,6 +3141,9 @@
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods 可让您浏览社区模组。使用顶部栏中的页面菜单返回此处。</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>在“模组”中选择“自定义”，然后打开“叠加层”即可自定义以下内容。会话栏、主页背景、屏幕颜色和游戏内工具。</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>使用“保存并启动”旁边的箭头打开此菜单。选择要启动的 Roblox 客户端。复选标记显示您当前的选择。使用底部的开关将箭头移动到右侧。</value>
   </data>

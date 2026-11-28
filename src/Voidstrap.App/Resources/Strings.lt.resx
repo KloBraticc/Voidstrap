@@ -3177,6 +3177,9 @@ Ką norėtumėte daryti?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>„Voidstrap Mods“ leidžia naršyti bendruomenės modifikacijas. Norėdami grįžti čia, naudokite viršutinėje juostoje esantį puslapių meniu.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Skiltyje „Modifikacijos“ pasirinkite „Tinkinti“, tada atidarykite „Perdangos“, kad galėtumėte tinkinti šiuos elementus. Seanso juosta, pagrindinio puslapio fonas, ekrano spalvos ir žaidimo įrankiai.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Atidarykite šį meniu naudodami rodyklę šalia Išsaugoti ir paleisti. Pasirinkite, kurį Roblox klientą pradėti. Varnelė rodo dabartinį jūsų pasirinkimą. Norėdami perkelti rodyklę į dešinę, naudokite apačioje esantį jungiklį.</value>
   </data>

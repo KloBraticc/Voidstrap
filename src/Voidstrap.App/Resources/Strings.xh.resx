@@ -2930,6 +2930,9 @@ Yintoni ongathanda ukuyenza?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>IiMods zeVoidstrap zikuvumela ukuba ukhangele iimod zabahlali. Sebenzisa imenyu yaMaphepha kwibar ephezulu ukubuyela apha.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Ku «IiMods», khetha «Lungiselela», uze uvule «Izigqubuthelo» ukuze ulungise ezi zinto ngendlela oyithandayo. Idokhi yeseshoni, imvelaphi yephepha lasekhaya, umbala wesikrini kunye nezixhobo zomdlalo.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Vula le menyu ngotolo ecaleni Gcina kwaye uQalise. Khetha ukuba ngowuphi umxhasi weRoblox oza kuqala. Inqaku lokukhangela libonisa ukhetho lwakho lwangoku. Sebenzisa iswitshi esezantsi ukuhambisa utolo ekunene.</value>
   </data>

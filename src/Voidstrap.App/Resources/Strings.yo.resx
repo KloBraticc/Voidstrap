@@ -2930,6 +2930,9 @@ Kini iwọ yoo fẹ lati ṣe?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Awọn Mods Voidstrap jẹ ki o lọ kiri lori awọn mods agbegbe. Lo akojọ awọn oju-iwe ni igi oke lati pada si ibi.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Nínú «Mods», yan «Ṣe akanṣe», lẹ́yìn náà ṣí «Awọn agbekọja» láti ṣàtúnṣe àwọn nǹkan wọ̀nyí. Ibi iduro ipade, abẹlẹ oju-ile, awọ iboju ati ninu awọn irinṣẹ ere.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Ṣii akojọ aṣayan yii pẹlu itọka lẹgbẹ Fipamọ ati Ifilọlẹ. Yan iru alabara Roblox lati bẹrẹ. Aami ayẹwo fihan aṣayan rẹ lọwọlọwọ. Lo iyipada ni isale lati gbe itọka si apa ọtun.</value>
   </data>

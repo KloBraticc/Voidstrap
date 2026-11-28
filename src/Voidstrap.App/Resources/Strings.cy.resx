@@ -2930,6 +2930,9 @@ Beth hoffech chi ei wneud?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Mae Voidstrap Mods yn gadael ichi bori trwy mods cymunedol. Defnyddiwch y ddewislen Tudalennau yn y bar uchaf i ddod yn ôl yma.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Yn «Mods», dewiswch «Addasu», yna agorwch «Troshaenau» i addasu’r elfennau hyn. Doc sesiwn, cefndir tudalen gartref, lliw sgrin ac mewn offer gêm.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Agorwch y ddewislen hon gyda'r saeth wrth ymyl Cadw a Lansio. Dewiswch pa gleient Roblox i ddechrau. Mae'r marc gwirio yn dangos eich dewis presennol. Defnyddiwch y switsh ar y gwaelod i symud y saeth i'r dde.</value>
   </data>

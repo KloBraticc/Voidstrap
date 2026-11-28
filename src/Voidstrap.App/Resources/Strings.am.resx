@@ -2930,6 +2930,9 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods የማህበረሰብ ሞጁሎችን እንዲያስሱ ያስችልዎታል። ወደዚህ ለመመለስ በላይኛው አሞሌ ላይ ያለውን የገጾች ሜኑ ተጠቀም።</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>በሞደስ ውስጥ አብጅን ምረጥ፣ ከዚያ ተደራቢዎችን ክፈት። የክፍለ-ጊዜ መትከያ፣ የመነሻ ገጽ ዳራ፣ የስክሪን ቀለም እና በጨዋታ መሳሪያዎች ውስጥ።</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>ይህን ሜኑ በ Save and Launch አጠገብ ባለው ቀስት ይክፈቱት። የትኛውን የ Roblox ደንበኛ እንደሚጀምር ይምረጡ። ምልክት ማድረጊያው የአሁኑን ምርጫዎን ያሳያል። ቀስቱን ወደ ቀኝ ለማንቀሳቀስ ከታች ያለውን ማብሪያ / ማጥፊያ ይጠቀሙ።</value>
   </data>

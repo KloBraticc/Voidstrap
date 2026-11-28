@@ -2930,6 +2930,9 @@ U ka rata ho etsa eng?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods e u lumella ho sheba li-mods tsa sechaba. Sebelisa lethathamo la Maqephe bareng e kaholimo ho khutlela mona.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Ka har’a «Mods», khetha «Iketsetse», ebe u bula «Mekhahlelo» ho ikamahanya le lintho tsena. Boema-kepe ba nako, bokamorao ba leqephe la lapeng, &apos;mala oa skrini le lisebelisoa tsa papali.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Bula lenane lena ka motsu haufi le Boloka le ho Launch. Khetha hore na u batla ho qala moreki ofe oa Roblox. Letšoao le bonts'a khetho ea hau ea hajoale. Sebelisa switjha ka tlase ho isa motsu ho le letona.</value>
   </data>

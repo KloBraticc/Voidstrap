@@ -3071,6 +3071,9 @@ Was möchtest du tun?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Mit Voidstrap Mods können Sie Community-Mods durchsuchen. Verwenden Sie das Menü „Seiten“ in der oberen Leiste, um hierher zurückzukehren.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Wähle unter „Mods“ den Reiter „Anpassen“ und öffne dann „Overlays“, um diese Elemente anzupassen. Sitzungsleiste, Startseitenhintergrund, Bildschirmfarben und Werkzeuge im Spiel.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Öffnen Sie dieses Menü mit dem Pfeil neben „Speichern und starten“. Wählen Sie aus, welcher Roblox-Client gestartet werden soll. Das Häkchen zeigt Ihre aktuelle Auswahl an. Benutzen Sie den Schalter unten, um den Pfeil nach rechts zu bewegen.</value>
   </data>

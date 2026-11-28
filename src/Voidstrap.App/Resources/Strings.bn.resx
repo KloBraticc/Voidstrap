@@ -2930,6 +2930,9 @@ Roblox ডাউনলোড করা হবে যখন আপনি এট�
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods আপনাকে সম্প্রদায়ের মোডগুলি ব্রাউজ করতে দেয়। এখানে ফিরে আসতে উপরের বারে পেজ মেনু ব্যবহার করুন।</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>মোডস-এ «কাস্টমাইজ করুন» নির্বাচন করুন, তারপর এই উপাদানগুলো নিজের মতো সাজাতে «ওভারলে» খুলুন। সেশন ডক, হোমপেজ ব্যাকগ্রাউন্ড, স্ক্রীন কালার এবং ইন গেম টুল।</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Save and Launch এর পাশে তীর দিয়ে এই মেনুটি খুলুন। কোন Roblox ক্লায়েন্ট শুরু করতে হবে তা বেছে নিন। চেকমার্ক আপনার বর্তমান পছন্দ দেখায়. তীরটি ডানদিকে সরাতে নীচের সুইচটি ব্যবহার করুন৷</value>
   </data>

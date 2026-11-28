@@ -2930,6 +2930,9 @@ Je, ungependa kufanya nini?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Mods za Voidstrap hukuruhusu kuvinjari mods za jamii. Tumia menyu ya Kurasa katika upau wa juu ili kurudi hapa.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Katika «Mods», chagua «Geuza kukufaa», kisha fungua «Viwekeleo» ili kubinafsisha vipengele hivi. Gati la kipindi, usuli wa ukurasa wa nyumbani, rangi ya skrini na zana za mchezo.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Fungua menyu hii kwa mshale kando ya Hifadhi na Uzindue. Chagua ni mteja gani wa Roblox uanzishe. Alama ya kuteua inaonyesha chaguo lako la sasa. Tumia swichi iliyo chini ili kusogeza mshale kulia.</value>
   </data>

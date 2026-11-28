@@ -3135,6 +3135,9 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods te permite explorar modificaciones de la comunidad. Utilice el menú Páginas en la barra superior para volver aquí.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>En «Modificadores (mods)», selecciona «Personalizar» y abre «Superposiciones» para personalizar estos elementos. Barra de sesión, fondo de inicio, colores de pantalla y herramientas dentro del juego.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Abra este menú con la flecha al lado de Guardar e iniciar. Elija qué cliente de Roblox iniciar. La marca de verificación muestra su elección actual. Utilice el interruptor en la parte inferior para mover la flecha hacia la derecha.</value>
   </data>

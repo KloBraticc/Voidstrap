@@ -3135,6 +3135,9 @@ Mitä haluat tehdä?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Modsin avulla voit selata yhteisön modeja. Palaa tänne käyttämällä yläpalkin Sivut-valikkoa.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Valitse kohdassa ”Modit” välilehti ”Mukauta” ja avaa ”Peittokuvat”, niin voit mukauttaa näitä kohteita. Istuntopalkki, aloitussivun tausta, näytön värit ja pelinsisäiset työkalut.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Avaa tämä valikko Tallenna ja käynnistä -kohdan vieressä olevalla nuolella. Valitse aloitettava Roblox-asiakas. Valintamerkki näyttää nykyisen valintasi. Käytä alareunassa olevaa kytkintä siirtääksesi nuolta oikealle.</value>
   </data>

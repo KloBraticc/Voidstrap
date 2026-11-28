@@ -2930,6 +2930,9 @@ Hvad vil du gerne lave?</value>
   <data name="Tutorial.Mods" xml:space="preserve">
     <value>Voidstrap Mods lader dig gennemse community-mods. Brug menuen Sider i den øverste bjælke for at komme tilbage hertil.</value>
   </data>
+  <data name="Tutorial.Overlays" xml:space="preserve">
+    <value>Vælg »Tilpas« under »Mods«, og åbn derefter »Overlejringer« for at tilpasse disse elementer. Session dock, startsidebaggrund, skærmfarve og i spilværktøjer.</value>
+  </data>
   <data name="Tutorial.RobloxVersion" xml:space="preserve">
     <value>Åbn denne menu med pilen ved siden af Gem og start. Vælg hvilken Roblox-klient du vil starte. Markeringen viser dit nuværende valg. Brug kontakten i bunden til at flytte pilen til højre.</value>
   </data>
