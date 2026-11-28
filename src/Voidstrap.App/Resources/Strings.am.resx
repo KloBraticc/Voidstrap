@@ -10473,4 +10473,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>ይህ ለመጫን ረጅም ጊዜ ሊወስድ ይችላል</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox ሲጀምር Voidstrap ክፍት እንደሆነ ያቆዩት፣ Roblox ሲዘጋ በመነሻ ገጹ ላይ ይክፈቱት፣ ወይም ሁለቱንም ያድርጉ።</value>
+  </data>
 </root>

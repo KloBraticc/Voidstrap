@@ -10474,4 +10474,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>הטעינה עשויה להימשך זמן רב</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>השאר את Voidstrap פתוח כאשר Roblox מופעל, פתח אותו מחדש בדף הבית כאשר Roblox נסגר, או בצע את שניהם.</value>
+  </data>
 </root>

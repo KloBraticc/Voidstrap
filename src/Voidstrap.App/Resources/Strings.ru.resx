@@ -10784,4 +10784,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Загрузка может занять много времени</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Оставьте Voidstrap открытым при запуске Roblox, снова откройте его на главной странице, когда Roblox закроется, или сделайте и то, и другое.</value>
+  </data>
 </root>

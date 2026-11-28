@@ -10474,4 +10474,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>લોડ થવામાં ઘણો સમય લાગી શકે છે</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>જ્યારે રોબ્લોક્સ લોન્ચ થાય ત્યારે વોઈડસ્ટ્રેપને ખુલ્લું રાખો, જ્યારે રોબ્લોક્સ બંધ થાય ત્યારે તેને હોમ પેજ પર ફરીથી ખોલો અથવા બંને કરો.</value>
+  </data>
 </root>

@@ -10473,4 +10473,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Загрузка можа заняць шмат часу</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Трымайце Voidstrap адкрытым пры запуску Roblox, паўторна адкрыйце яго на галоўнай старонцы, калі Roblox зачыняецца, або зрабіце абодва.</value>
+  </data>
 </root>

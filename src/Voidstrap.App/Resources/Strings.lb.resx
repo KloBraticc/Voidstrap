@@ -10474,4 +10474,7 @@ SteamVR elo installéieren?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>D’Luede ka laang daueren</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Halt de Voidstrap oppen wann de Roblox lancéiert, nei op der Homepage opzemaachen wann de Roblox zou ass, oder maacht béid.</value>
+  </data>
 </root>

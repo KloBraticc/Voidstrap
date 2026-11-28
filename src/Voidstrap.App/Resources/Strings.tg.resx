@@ -10473,4 +10473,7 @@ SteamVR-ро ҳозир насб кунед?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Боргирӣ метавонад вақти зиёд гирад</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Вақте ки Roblox оғоз мешавад, Voidstrap-ро кушода нигоҳ доред, ҳангоми пӯшидани Roblox онро дар саҳифаи асосӣ боз кунед ё ҳардуро иҷро кунед.</value>
+  </data>
 </root>

@@ -10473,4 +10473,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>ஏற்றுவதற்கு நீண்ட நேரம் ஆகலாம்</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox தொடங்கும் போது Voidstrap ஐத் திறந்து வைக்கவும், Roblox மூடப்படும் போது முகப்புப் பக்கத்தில் மீண்டும் திறக்கவும் அல்லது இரண்டையும் செய்யவும்.</value>
+  </data>
 </root>

@@ -10474,4 +10474,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>ଲୋଡ୍ ହେବାକୁ ବହୁତ ସମୟ ଲାଗିପାରେ</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>ରୋବ୍ଲକ୍ସ ଲଞ୍ଚ ହେବାବେଳେ ଭୋଇଡଷ୍ଟ୍ରାପ ଖୋଲା ରଖନ୍ତୁ, ରୋବଲୋକ୍ସ ବନ୍ଦ ହେବାବେଳେ ଏହାକୁ ହୋମ ପେଜରେ ଖୋଲନ୍ତୁ କିମ୍ବା ଉଭୟ କରନ୍ତୁ |</value>
+  </data>
 </root>

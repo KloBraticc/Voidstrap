@@ -10474,4 +10474,7 @@ Uptime: {1}
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>ჩატვირთვას შესაძლოა დიდი დრო დასჭირდეს</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>შეინახეთ Voidstrap ღია Roblox-ის გაშვებისას, ხელახლა გახსენით ის მთავარ გვერდზე, როდესაც Roblox დაიხურება, ან გააკეთეთ ორივე.</value>
+  </data>
 </root>

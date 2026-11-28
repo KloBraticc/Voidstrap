@@ -10473,4 +10473,7 @@ Instalirati SteamVR sada?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Učitavanje može potrajati</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Neka Voidstrap bude otvoren kada se Roblox pokrene, ponovo ga otvorite na početnoj stranici kada se Roblox zatvori ili učinite oboje.</value>
+  </data>
 </root>

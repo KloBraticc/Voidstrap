@@ -10473,4 +10473,7 @@ SteamVR ابھی انسٹال کریں؟</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>لوڈ ہونے میں کافی وقت لگ سکتا ہے</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>روبلوکس کے شروع ہونے پر Voidstrap کو کھلا رکھیں، Roblox بند ہونے پر اسے ہوم پیج پر دوبارہ کھولیں، یا دونوں کریں۔</value>
+  </data>
 </root>

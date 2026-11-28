@@ -10473,4 +10473,7 @@ Faka i-SteamVR manje?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ukulayisha kungathatha isikhathi eside</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Gcina i-Voidstrap ivuliwe lapho i-Roblox yethula, yivule kabusha ekhasini lasekhaya lapho i-Roblox ivala, noma kwenze kokubili.</value>
+  </data>
 </root>

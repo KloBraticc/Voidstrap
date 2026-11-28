@@ -10474,4 +10474,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>ການໂຫຼດອາດໃຊ້ເວລາດົນ</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>ຮັກສາ Voidstrap ເປີດເມື່ອ Roblox ເປີດຕົວ, ເປີດມັນຢູ່ໃນຫນ້າທໍາອິດເມື່ອ Roblox ປິດ, ຫຼືເຮັດທັງສອງ.</value>
+  </data>
 </root>

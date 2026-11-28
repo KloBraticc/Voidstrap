@@ -10783,4 +10783,7 @@ SteamVR را الان نصب کنم؟</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>بارگیری ممکن است مدت زیادی طول بکشد</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>هنگامی که Roblox راه اندازی شد، Voidstrap را باز نگه دارید، زمانی که Roblox بسته شد آن را در صفحه اصلی باز کنید، یا هر دو را انجام دهید.</value>
+  </data>
 </root>

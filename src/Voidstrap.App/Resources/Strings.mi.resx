@@ -10474,4 +10474,7 @@ Tāuta SteamVR ināianei?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ka roa pea te wā e utaina ai</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Kia tuwhera tonu a Voidstrap ina whakarewa ana a Roblox, whakatuwheratia ano ki te wharangi Kainga ka kati a Roblox, mahia nga mea e rua.</value>
+  </data>
 </root>

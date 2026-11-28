@@ -10473,4 +10473,7 @@ SteamVR instalatu orain?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Kargatzeak luze jo dezake</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Mantendu Voidstrap irekita Roblox abiarazten denean, ireki berriro hasierako orrian Roblox ixten denean edo egin biak.</value>
+  </data>
 </root>

@@ -10784,4 +10784,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>読み込みに時間がかかる場合があります</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox の起動時に Voidstrap を開いたままにするか、Roblox が閉じたときにホーム ページで再度 Voidstrap を開くか、その両方を行います。</value>
+  </data>
 </root>

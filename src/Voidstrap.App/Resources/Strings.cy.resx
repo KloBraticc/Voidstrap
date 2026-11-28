@@ -10473,4 +10473,7 @@ Gosod SteamVR nawr?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Gall hyn gymryd amser hir i’w lwytho</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Cadwch Voidstrap ar agor pan fydd Roblox yn lansio, ei ailagor ar yr Hafan pan fydd Roblox yn cau, neu gwnewch y ddau.</value>
+  </data>
 </root>

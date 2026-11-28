@@ -10474,4 +10474,7 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Вчитувањето може да потрае</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Чувајте го Voidstrap отворен кога ќе се стартува Roblox, повторно отворете го на почетната страница кога Roblox ќе се затвори или направете ги двете.</value>
+  </data>
 </root>

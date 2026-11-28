@@ -10474,4 +10474,7 @@ Vai instalēt SteamVR tūlīt?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ielāde var aizņemt ilgāku laiku</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Turiet Voidstrap atvērtu, kad Roblox tiek palaists, atkārtoti atveriet to sākumlapā, kad Roblox tiek aizvērts, vai dariet abus.</value>
+  </data>
 </root>

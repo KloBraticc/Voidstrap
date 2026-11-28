@@ -10474,4 +10474,7 @@ Settu upp SteamVR núna?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Það gæti tekið langan tíma að hlaða þessu</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Haltu Voidstrap opnu þegar Roblox opnar, opnaðu það aftur á heimasíðunni þegar Roblox lokar, eða gerðu bæði.</value>
+  </data>
 </root>

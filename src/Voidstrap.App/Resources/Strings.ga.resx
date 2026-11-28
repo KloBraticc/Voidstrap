@@ -10474,4 +10474,7 @@ Suiteáil SteamVR anois?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Seans go dtógfaidh sé seo tamall fada le lódáil</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Coinnigh Voidstrap ar oscailt nuair a sheolann Roblox, athoscail ar an leathanach baile é nuair a dhúnann Roblox, nó déan an dá rud.</value>
+  </data>
 </root>

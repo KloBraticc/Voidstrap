@@ -10473,4 +10473,7 @@ Uptime: {1}
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>يۈكلىنىشكە ئۇزۇن ۋاقىت كېتىشى مۇمكىن</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox قوزغالغاندا Voidstrap نى ئوچۇق قىلىڭ ، Roblox تاقالغاندا باش بەتتە قايتا ئېچىڭ ياكى ھەر ئىككىسىنى قىلىڭ.</value>
+  </data>
 </root>

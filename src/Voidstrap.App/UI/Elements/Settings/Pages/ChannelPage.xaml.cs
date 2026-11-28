@@ -47,6 +47,15 @@ public partial class ChannelPage : UiPage
 
     internal static bool PendingNotificationsTab;
 
+    private void RobloxWindowBehavior_DropDownOpened(object sender, EventArgs e)
+    {
+        if (sender is System.Windows.Controls.ComboBox comboBox
+            && comboBox.Template.FindName("DropDownBorder", comboBox) is FrameworkElement popupContent)
+        {
+            popupContent.SetBinding(WidthProperty, new System.Windows.Data.Binding(nameof(ActualWidth)) { Source = comboBox });
+        }
+    }
+
     private void UpdateDotNetRuntimeButton()
     {
         if (DotNetRuntimeOption.InnerContent is System.Windows.Controls.Button button)

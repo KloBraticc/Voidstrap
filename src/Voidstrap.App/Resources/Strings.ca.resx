@@ -10473,4 +10473,7 @@ Instal·leu SteamVR ara?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>La càrrega pot trigar força</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Manteniu Voidstrap obert quan s'iniciï Roblox, torneu-lo a obrir a la pàgina d'inici quan es tanqui Roblox o feu les dues coses.</value>
+  </data>
 </root>

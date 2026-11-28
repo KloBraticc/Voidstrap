@@ -10783,4 +10783,7 @@
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>قد يستغرق التحميل وقتًا طويلًا</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>أبقِ Voidstrap مفتوحًا عند تشغيل Roblox، أو أعد فتحه على الصفحة الرئيسية عند إغلاق Roblox، أو قم بالأمرين معًا.</value>
+  </data>
 </root>

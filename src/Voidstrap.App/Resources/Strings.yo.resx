@@ -10473,4 +10473,7 @@ Fi sori ẹrọ SteamVR bayi?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ó lè gba àkókò pípẹ́ láti ṣàkójọ</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Jeki Voidstrap ṣii nigbati Roblox ṣe ifilọlẹ, tun ṣii ni oju-iwe Ile nigbati Roblox ba tilekun, tabi ṣe mejeeji.</value>
+  </data>
 </root>

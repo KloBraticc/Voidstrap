@@ -10474,4 +10474,7 @@ Installer SteamVR nå?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Det kan ta lang tid å laste inn</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Hold Voidstrap åpen når Roblox lanseres, åpne den på nytt på hjemmesiden når Roblox stenger, eller gjør begge deler.</value>
+  </data>
 </root>

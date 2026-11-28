@@ -10473,4 +10473,7 @@ Indi SteamVR guruň?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ýüklemek köp wagt alyp biler</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox işe başlanda Voidstrap-y açyk saklaň, Roblox ýapylanda Baş sahypada açyň ýa-da ikisini hem ediň.</value>
+  </data>
 </root>

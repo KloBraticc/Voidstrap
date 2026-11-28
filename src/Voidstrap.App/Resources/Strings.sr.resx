@@ -10474,4 +10474,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Учитавање може да потраје</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Нека Воидстрап буде отворен када се Роблок покрене, поново га отворите на почетној страници када се Роблок затвори или урадите обоје.</value>
+  </data>
 </root>

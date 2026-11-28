@@ -10473,4 +10473,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Η φόρτωση μπορεί να διαρκέσει αρκετή ώρα</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Διατηρήστε το Voidstrap ανοιχτό όταν κυκλοφορεί το Roblox, ανοίξτε το ξανά στην Αρχική σελίδα όταν το Roblox κλείσει ή κάντε και τα δύο.</value>
+  </data>
 </root>

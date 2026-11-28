@@ -10474,4 +10474,7 @@ Hametraka SteamVR izao?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Mety haharitra ela ny fampidirana azy</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Ataovy misokatra ny Voidstrap rehefa manomboka ny Roblox, sokafy indray ao amin'ny pejin-trano rehefa mihidy i Roblox, na ataovy izy roa.</value>
+  </data>
 </root>

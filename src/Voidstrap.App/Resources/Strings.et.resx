@@ -10473,4 +10473,7 @@ Kas installida SteamVR kohe?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Laadimine võib kaua aega võtta</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Hoidke Voidstrap avatuna, kui Roblox käivitub, avage see uuesti avalehel, kui Roblox sulgub, või tehke mõlemat.</value>
+  </data>
 </root>

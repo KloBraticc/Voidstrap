@@ -10783,4 +10783,7 @@ Jugadores: {2}</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>La carga puede tardar bastante</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Mantenga Voidstrap abierto cuando se inicie Roblox, vuelva a abrirlo en la página de inicio cuando Roblox cierre o haga ambas cosas.</value>
+  </data>
 </root>

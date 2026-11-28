@@ -10473,4 +10473,7 @@ SteamVR ကို ယခု ထည့်သွင်းမလား။</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>ဖွင့်ရန် အချိန်ကြာနိုင်ပါသည်</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox စတင်သောအခါတွင် Voidstrap ကိုဖွင့်ထားပါ၊ Roblox ပိတ်သွားသောအခါ ပင်မစာမျက်နှာတွင် ၎င်းကိုပြန်ဖွင့်ပါ သို့မဟုတ် နှစ်ခုလုံးလုပ်ပါ။</value>
+  </data>
 </root>

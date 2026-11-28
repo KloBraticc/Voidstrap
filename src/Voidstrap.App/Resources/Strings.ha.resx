@@ -10474,4 +10474,7 @@ Shigar SteamVR yanzu?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Lodawa na iya ɗaukar lokaci mai tsawo</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Ci gaba da buɗe Voidstrap lokacin ƙaddamar da Roblox, sake buɗe shi a shafin Gida lokacin da Roblox ya rufe, ko yi duka biyun.</value>
+  </data>
 </root>

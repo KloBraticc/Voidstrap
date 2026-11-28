@@ -10473,4 +10473,7 @@ Faka i-SteamVR ngoku?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ukulayisha kungathatha ixesha elide</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Gcina iVoidstrap ivuliwe xa iRoblox iqalisa, yivule kwakhona kwiphepha laseKhaya xa iRoblox ivala, okanye wenze zombini.</value>
+  </data>
 </root>

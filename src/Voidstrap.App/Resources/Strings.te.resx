@@ -10473,4 +10473,7 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>లోడ్ కావడానికి ఎక్కువ సమయం పట్టవచ్చు</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox ప్రారంభించినప్పుడు Voidstrap తెరిచి ఉంచండి, Roblox మూసివేసినప్పుడు హోమ్ పేజీలో దాన్ని మళ్లీ తెరవండి లేదా రెండింటినీ చేయండి.</value>
+  </data>
 </root>

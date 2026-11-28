@@ -10474,4 +10474,7 @@ SteamVR ਨੂੰ ਹੁਣੇ ਸਥਾਪਿਤ ਕਰਨਾ ਹੈ?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>ਲੋਡ ਹੋਣ ਵਿੱਚ ਕਾਫ਼ੀ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>ਜਦੋਂ ਰੋਬਲੋਕਸ ਲਾਂਚ ਹੁੰਦਾ ਹੈ ਤਾਂ ਵੋਇਡਸਟ੍ਰੈਪ ਨੂੰ ਖੁੱਲ੍ਹਾ ਰੱਖੋ, ਰੋਬਲੋਕਸ ਦੇ ਬੰਦ ਹੋਣ 'ਤੇ ਇਸਨੂੰ ਹੋਮ ਪੇਜ 'ਤੇ ਦੁਬਾਰਾ ਖੋਲ੍ਹੋ, ਜਾਂ ਦੋਵੇਂ ਕਰੋ।</value>
+  </data>
 </root>

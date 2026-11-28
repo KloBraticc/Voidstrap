@@ -10474,4 +10474,7 @@ Të instalohet SteamVR tani?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ngarkimi mund të zgjasë</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Mbajeni Voidstrap të hapur kur të hapet Roblox, rihapni atë në faqen kryesore kur Roblox mbyllet ose bëni të dyja.</value>
+  </data>
 </root>

@@ -10473,4 +10473,7 @@ SteamVR hozir o'rnatilsinmi?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Yuklanishi uzoq vaqt olishi mumkin</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox ishga tushganda Voidstrap-ni ochiq saqlang, Roblox yopilganda uni bosh sahifada qayta oching yoki ikkalasini ham bajaring.</value>
+  </data>
 </root>

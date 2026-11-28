@@ -10474,4 +10474,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>පූරණය වීමට බොහෝ වේලාවක් ගත විය හැක</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox දියත් කරන විට Voidstrap විවෘතව තබා ගන්න, Roblox වැසෙන විට මුල් පිටුවේ එය නැවත විවෘත කරන්න, නැතහොත් දෙකම කරන්න.</value>
+  </data>
 </root>

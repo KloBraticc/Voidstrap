@@ -10473,4 +10473,7 @@ Kenya SteamVR hona joale?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ho kenya ho ka nka nako e telele</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Boloka Voidstrap e bulehile ha Roblox e qala, e bule hape leqepheng la Lehae ha Roblox e koala, kapa u etse ka bobeli.</value>
+  </data>
 </root>

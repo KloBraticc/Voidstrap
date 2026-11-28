@@ -10474,4 +10474,7 @@ SteamVR қазір орнатыңыз ба?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Жүктелуге біраз уақыт кетуі мүмкін</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox іске қосылғанда Voidstrap қолданбасын ашық ұстаңыз, Roblox жабылған кезде оны негізгі бетте қайта ашыңыз немесе екеуін де орындаңыз.</value>
+  </data>
 </root>

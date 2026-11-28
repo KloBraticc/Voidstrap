@@ -10473,4 +10473,7 @@ Sakinisha SteamVR sasa?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Huenda ikachukua muda mrefu kupakia</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Weka Voidstrap wazi wakati Roblox inapozinduliwa, ifungue tena kwenye ukurasa wa Nyumbani Roblox inapofunga, au fanya zote mbili.</value>
+  </data>
 </root>

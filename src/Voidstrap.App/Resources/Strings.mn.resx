@@ -10474,4 +10474,7 @@ SteamVR-г одоо суулгах уу?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ачаалахад удаж магадгүй</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox-г эхлүүлэх үед Voidstrap-г нээлттэй байлгаж, Roblox хаагдах үед нүүр хуудсан дээр дахин нээх эсвэл хоёуланг нь хий.</value>
+  </data>
 </root>

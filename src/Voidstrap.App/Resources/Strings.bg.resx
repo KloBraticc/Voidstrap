@@ -10783,4 +10783,7 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Зареждането може да отнеме повече време</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Дръжте Voidstrap отворен, когато Roblox стартира, отворете го отново на началната страница, когато Roblox се затвори, или направете и двете.</value>
+  </data>
 </root>

@@ -10782,4 +10782,7 @@ I-install ang SteamVR ngayon?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Maaaring matagalan ang pag-load nito</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Panatilihing bukas ang Voidstrap kapag inilunsad ang Roblox, buksan muli ito sa Home page kapag nagsara ang Roblox, o gawin ang pareho.</value>
+  </data>
 </root>

@@ -10474,4 +10474,7 @@ Hadda rakib SteamVR?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Soo raristu waxay qaadan kartaa waqti dheer</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Ka dhig Voidstrap mid furan marka Roblox uu bilaabo, dib ugu fur bogga guriga marka Roblox xidho, ama labadaba samee.</value>
+  </data>
 </root>

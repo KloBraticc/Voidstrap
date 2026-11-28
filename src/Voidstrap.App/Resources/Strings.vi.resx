@@ -10783,4 +10783,7 @@ Cài đặt SteamVR ngay bây giờ?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Có thể mất nhiều thời gian để tải</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Giữ Voidstrap mở khi Roblox khởi chạy, mở lại nó trên Trang chủ khi Roblox đóng hoặc thực hiện cả hai.</value>
+  </data>
 </root>

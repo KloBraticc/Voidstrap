@@ -10783,4 +10783,7 @@ Asennetaan SteamVR nyt?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Lataaminen voi kestää pitkään</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Pidä Voidstrap auki, kun Roblox käynnistyy, avaa se uudelleen kotisivulla, kun Roblox sulkeutuu, tai tee molemmat.</value>
+  </data>
 </root>

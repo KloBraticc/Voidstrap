@@ -10474,4 +10474,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>ការផ្ទុកអាចចំណាយពេលយូរ</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>ទុក Voidstrap បើកនៅពេល Roblox បើកដំណើរការ បើកវាម្តងទៀតនៅលើទំព័រដើមនៅពេលដែល Roblox បិទ ឬធ្វើទាំងពីរ។</value>
+  </data>
 </root>

@@ -10783,4 +10783,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>การโหลดอาจใช้เวลานาน</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>เปิด Voidstrap ไว้ตอน Roblox เปิดตัว เปิดอีกครั้งในหน้าแรกเมื่อ Roblox ปิด หรือทำทั้งสองอย่าง</value>
+  </data>
 </root>

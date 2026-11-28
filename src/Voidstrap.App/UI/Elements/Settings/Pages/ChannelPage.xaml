@@ -33,8 +33,8 @@
           <controls:OptionControl Header="{resources:Loc Ui_Channel_LaunchRobloxWithoutVoidstrap}" Description="{resources:Loc Ui_Channel_JoiningAGameFromYourBrowser}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Channel_RobloxWindowBehavior}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-            <ComboBox HorizontalContentAlignment="Left" SelectedIndex="{Binding RobloxWindowBehaviorIndex, Mode=TwoWay}">
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_RobloxWindowBehavior}" Description="{resources:Loc Ui_Channel_RobloxWindowBehavior_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <ComboBox HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DropDownOpened="RobloxWindowBehavior_DropDownOpened" SelectedIndex="{Binding RobloxWindowBehaviorIndex, Mode=TwoWay}">
               <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Misc_None}" TextAlignment="Left" TextWrapping="Wrap" /></ComboBoxItem>
               <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Channel_KeepOpenAfterRobloxLaunch}" TextAlignment="Left" TextWrapping="Wrap" /></ComboBoxItem>
               <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Channel_ReopenAfterRobloxCloses}" TextAlignment="Left" TextWrapping="Wrap" /></ComboBoxItem>

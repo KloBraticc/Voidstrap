@@ -10783,4 +10783,7 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>載入可能需要一些時間</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>當 Roblox 啟動時保持 Voidstrap 打開，當 Roblox 關閉時在主頁上重新打開它，或者兩者都執行。</value>
+  </data>
 </root>

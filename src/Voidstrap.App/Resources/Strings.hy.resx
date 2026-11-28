@@ -10474,4 +10474,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Բեռնումը կարող է երկար տևել</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Բաց պահեք Voidstrap-ը, երբ Roblox-ը գործարկվի, նորից բացեք այն Գլխավոր էջում, երբ Roblox-ը փակվի, կամ արեք երկուսն էլ:</value>
+  </data>
 </root>

@@ -10784,4 +10784,7 @@ Telepítse most az SteamVR-t?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>A betöltés hosszabb ideig is eltarthat</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Tartsa nyitva a Voidstrap-et a Roblox indításakor, nyissa meg újra a kezdőlapon, amikor a Roblox bezárul, vagy tegye mindkettőt.</value>
+  </data>
 </root>

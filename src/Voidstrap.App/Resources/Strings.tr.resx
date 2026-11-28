@@ -10783,4 +10783,7 @@ SteamVR şimdi kurulsun mu?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Yükleme uzun sürebilir</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox başlatıldığında Voidstrap'i açık tutun, Roblox kapatıldığında Ana sayfada yeniden açın veya her ikisini de yapın.</value>
+  </data>
 </root>

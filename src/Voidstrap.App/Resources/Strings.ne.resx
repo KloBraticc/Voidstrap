@@ -10474,4 +10474,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>लोड हुन धेरै समय लाग्न सक्छ</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox सुरु हुँदा Voidstrap खुला राख्नुहोस्, Roblox बन्द हुँदा गृह पृष्ठमा पुन: खोल्नुहोस्, वा दुवै गर्नुहोस्।</value>
+  </data>
 </root>

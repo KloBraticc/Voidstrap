@@ -10473,4 +10473,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>דאָס לאָדן קען דויערן אַ לאַנגע צײַט</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>האַלטן וואָידסטראַפּ אָפן ווען ראָבלאָקס לאָנטשיז, ריאָופּאַן עס אויף די היים בלאַט ווען ראָבלאָקס קלאָוזיז, אָדער טאָן ביידע.</value>
+  </data>
 </root>

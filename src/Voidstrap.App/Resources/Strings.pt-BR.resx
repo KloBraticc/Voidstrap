@@ -10784,4 +10784,7 @@ Instalar o SteamVR agora?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>O carregamento pode demorar</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Mantenha o Voidstrap aberto quando o Roblox for iniciado, reabra-o na página inicial quando o Roblox fechar ou faça ambos.</value>
+  </data>
 </root>

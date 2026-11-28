@@ -10474,4 +10474,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>लोड होण्यास बराच वेळ लागू शकतो</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox लाँच झाल्यावर Voidstrap उघडा ठेवा, Roblox बंद झाल्यावर मुख्यपृष्ठावर पुन्हा उघडा किंवा दोन्ही करा.</value>
+  </data>
 </root>

@@ -10474,4 +10474,7 @@ Installa SteamVR issa?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Dan jista’ jieħu ħafna ħin biex jitgħabba</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Żomm Voidstrap miftuħ meta jniedi Roblox, iftaħ mill-ġdid fuq il-paġna tad-dar meta jingħalaq Roblox, jew agħmel it-tnejn.</value>
+  </data>
 </root>

@@ -10474,4 +10474,7 @@ Wụnye SteamVR ugbu a?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ibu ya nwere ike iwe ogologo oge</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Mepee Voidstrap mgbe Roblox malitere, mepee ya na ibe ụlọ mgbe Roblox mechiri, ma ọ bụ mee ha abụọ.</value>
+  </data>
 </root>

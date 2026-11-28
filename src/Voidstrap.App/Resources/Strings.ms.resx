@@ -10784,4 +10784,7 @@ Pasang SteamVR sekarang?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Pemuatan mungkin mengambil masa yang lama</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Pastikan Voidstrap terbuka apabila Roblox dilancarkan, buka semula pada halaman Utama apabila Roblox ditutup, atau lakukan kedua-duanya.</value>
+  </data>
 </root>

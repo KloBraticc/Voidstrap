@@ -10784,4 +10784,7 @@ Veikimo laikas: {1}
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Įkėlimas gali užtrukti</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Palikite Voidstrap atidarytą, kai Roblox paleidžiamas, iš naujo atidarykite jį pagrindiniame puslapyje, kai Roblox užsidaro, arba darykite abu.</value>
+  </data>
 </root>

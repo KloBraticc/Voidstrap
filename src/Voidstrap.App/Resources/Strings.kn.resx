@@ -10474,4 +10474,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>ಲೋಡ್ ಆಗಲು ಬಹಳ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಬಹುದು</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Roblox ಪ್ರಾರಂಭಿಸಿದಾಗ Voidstrap ಅನ್ನು ತೆರೆದಿಡಿ, Roblox ಮುಚ್ಚಿದಾಗ ಮುಖಪುಟದಲ್ಲಿ ಅದನ್ನು ಪುನಃ ತೆರೆಯಿರಿ ಅಥವಾ ಎರಡನ್ನೂ ಮಾಡಿ.</value>
+  </data>
 </root>

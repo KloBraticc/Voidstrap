@@ -10474,4 +10474,7 @@ Shyiramo SteamVR ubungubu?</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Bishobora gufata igihe kirekire kugira ngo bifunguke</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Komeza Voidstrap ifunguye mugihe Roblox itangiye, fungura kuri page y'urugo iyo Roblox ifunze, cyangwa ukore byombi.</value>
+  </data>
 </root>

@@ -10473,4 +10473,7 @@ Ludantoj: {2}</value>
   <data name="Library.Friends.SlowLoading" xml:space="preserve">
     <value>Ŝargado povas daŭri longe</value>
   </data>
+  <data name="Ui.Channel.RobloxWindowBehavior.Description" xml:space="preserve">
+    <value>Tenu Voidstrap malfermita kiam Roblox lanĉas, remalfermu ĝin sur la Hejmpaĝo kiam Roblox fermiĝas, aŭ faru ambaŭ.</value>
+  </data>
 </root>
