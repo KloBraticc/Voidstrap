@@ -38,7 +38,7 @@
               <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Misc_None}" TextWrapping="Wrap" /></ComboBoxItem>
               <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Channel_KeepOpenAfterRobloxLaunch}" TextWrapping="Wrap" /></ComboBoxItem>
               <ComboBoxItem><TextBlock Text="{resources:Loc Ui_Channel_ReopenAfterRobloxCloses}" TextWrapping="Wrap" /></ComboBoxItem>
-              <ComboBoxItem><TextBlock Text="{resources:Loc Enums_ModApplyTarget_Both}" TextWrapping="Wrap" /></ComboBoxItem>
+              <ComboBoxItem><TextBlock Text="{resources:Loc Ui_SessionNotify_Both}" TextWrapping="Wrap" /></ComboBoxItem>
             </ComboBox>
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
