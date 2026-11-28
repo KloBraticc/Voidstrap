@@ -133,7 +133,7 @@ public static class AppFont
             {
                 _current = Voidstrap.Utility.Platform.UsesPortableUi
                     ? LoadPortable(appFontPath)
-                    : Fonts.GetFontFamilies(new Uri(appFontPath, UriKind.Absolute)).FirstOrDefault();
+                    : LoadWindowsFont(appFontPath);
             }
         }
         catch (Exception ex)
@@ -198,10 +198,57 @@ public static class AppFont
 		}
 	}
 #else
-    private static FontFamily? LoadPortable(string path) => Fonts.GetFontFamilies(new Uri(path, UriKind.Absolute)).FirstOrDefault();
+    private static FontFamily? LoadPortable(string path) => LoadWindowsFont(path);
 
     private static void SetRendererFonts(object? faces) { }
 #endif
+
+    private static FontFamily? LoadWindowsFont(string path)
+    {
+        string fullPath = Path.GetFullPath(path);
+        Uri fileUri = new(fullPath, UriKind.Absolute);
+        System.Collections.Generic.HashSet<string> targetNames = new(StringComparer.OrdinalIgnoreCase);
+
+        try
+        {
+            GlyphTypeface glyphTypeface = new(fileUri);
+            foreach (string name in glyphTypeface.FamilyNames.Values)
+            {
+                if (!string.IsNullOrWhiteSpace(name))
+                    targetNames.Add(name);
+            }
+            foreach (string name in glyphTypeface.Win32FamilyNames.Values)
+            {
+                if (!string.IsNullOrWhiteSpace(name))
+                    targetNames.Add(name);
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine("AppFont", "Could not inspect font family metadata: " + ex.Message);
+        }
+
+        System.Collections.Generic.ICollection<FontFamily> families = Fonts.GetFontFamilies(fileUri);
+        if (targetNames.Count > 0)
+        {
+            foreach (FontFamily family in families)
+            {
+                if (family.FamilyNames.Values.Any(targetNames.Contains))
+                    return family;
+            }
+
+            string? directory = Path.GetDirectoryName(fullPath);
+            string? primaryName = targetNames.FirstOrDefault();
+            if (!string.IsNullOrEmpty(directory) && !string.IsNullOrEmpty(primaryName))
+            {
+                if (!directory.EndsWith(Path.DirectorySeparatorChar))
+                    directory += Path.DirectorySeparatorChar;
+                return new FontFamily(new Uri(directory, UriKind.Absolute), "./#" + primaryName);
+            }
+        }
+
+        return families.FirstOrDefault();
+    }
 
     private static void ApplyTo(FrameworkElement control)
     {
