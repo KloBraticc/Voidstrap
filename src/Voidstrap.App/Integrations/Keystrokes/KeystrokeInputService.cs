@@ -279,6 +279,7 @@ public static partial class KeystrokeInputService
             nint moduleHandle = GetModuleHandleW(IntPtr.Zero);
             _keyboardHook = SetWindowsHookExW(13, _keyboardProc, moduleHandle, 0);
             _mouseHook = SetWindowsHookExW(14, _mouseProc, moduleHandle, 0);
+            StartWindowsRawMouse();
             _hasInputAccess = _keyboardHook != IntPtr.Zero;
         }
         catch (Exception ex)
@@ -290,6 +291,7 @@ public static partial class KeystrokeInputService
 
     private static void StopWindowsHooks()
     {
+        StopWindowsRawMouse();
         try
         {
             if (_keyboardHook != IntPtr.Zero)
@@ -356,7 +358,7 @@ public static partial class KeystrokeInputService
             {
                 switch ((uint)wParam)
                 {
-                    case 0x0200:
+                    case 0x0200 when _rawMouseSource == null:
                         int x = Marshal.ReadInt32(lParam);
                         int y = Marshal.ReadInt32(lParam, 4);
                         if (_lastMouseX != int.MinValue)
@@ -755,7 +757,7 @@ public static partial class KeystrokeInputService
             bits[0] = 0;
             bits[1] = 0;
             bits[2] = 0;
-            foreach (int raw in new[] { 13, 14, 15, 16 })
+            foreach (int raw in new[] { 13, 14, 15, 16, 17 })
                 bits[raw >> 3] |= (byte)(1 << (raw & 7));
             XIEventMask mask = new() { DeviceId = 1, MaskLen = 3, Mask = (nint)bits };
             if (XISelectEvents(display, XDefaultRootWindow(display), ref mask, 1) != 0)
@@ -791,6 +793,9 @@ public static partial class KeystrokeInputService
                         int detail = Marshal.ReadInt32(data, 56);
                         switch (evtype)
                         {
+                            case 17:
+                                ReadX11MouseMotion(data);
+                                break;
                             case 13:
                             case 14:
                                 if (detail >= 8)
@@ -823,6 +828,23 @@ public static partial class KeystrokeInputService
         {
             XCloseDisplay(display);
         }
+    }
+
+    private static void ReadX11MouseMotion(nint data)
+    {
+        int maskLength = Marshal.ReadInt32(data, 64);
+        nint mask = Marshal.ReadIntPtr(data, 72);
+        nint values = Marshal.ReadIntPtr(data, 88);
+        if (maskLength <= 0 || mask == 0 || values == 0)
+            return;
+
+        int axes = Marshal.ReadByte(mask);
+        bool hasX = (axes & 1) != 0;
+        bool hasY = (axes & 2) != 0;
+        int x = hasX ? (int)BitConverter.Int64BitsToDouble(Marshal.ReadInt64(values)) : 0;
+        int y = hasY ? (int)BitConverter.Int64BitsToDouble(Marshal.ReadInt64(values, hasX ? 8 : 0)) : 0;
+        if (x != 0 || y != 0)
+            AddMouseMotion(x, y, 0);
     }
 
     public static string? MapLinuxCodeToString(ushort code)

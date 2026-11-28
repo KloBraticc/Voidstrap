@@ -18,11 +18,13 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
 
     private const double MouseDecayMs = 120.0;
 
+    private static readonly DoubleAnimation ReleaseFade = CreateReleaseFade();
     private readonly DispatcherTimer _cpsTimer = new() { Interval = TimeSpan.FromMilliseconds(CpsIntervalMs) };
-    private readonly DispatcherTimer _mouseTimer = new(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(MouseIntervalMs) };
+    private readonly DispatcherTimer _mouseTimer = new(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(MouseIntervalMs) };
     private readonly System.Diagnostics.Stopwatch _clock = System.Diagnostics.Stopwatch.StartNew();
     private readonly bool _liveInput;
     private readonly List<KeystrokeKeyVisual> _keys = new();
+    private readonly Dictionary<string, List<KeystrokeKeyVisual>> _keysByInput = new(StringComparer.OrdinalIgnoreCase);
     private readonly List<(string Input, TextBlock Text, string Format)> _cpsTexts = new();
     private readonly List<(FrameworkElement Dot, double Travel, TranslateTransform Move, ScaleTransform Scale)> _circles = new();
     private readonly HashSet<string> _held = new(StringComparer.OrdinalIgnoreCase);
@@ -34,6 +36,8 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
     private double _pendingDx;
     private double _pendingDy;
     private double _lastMouseFrame;
+    private int _lastLmbCps = -1;
+    private int _lastRmbCps = -1;
     private bool _disposed;
 
     public event Action<string?>? ThemeStateChanged;
@@ -81,7 +85,13 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
 
     XElement? IKeystrokeThemeHost.KeyStyle { get; set; }
 
-    void IKeystrokeThemeHost.AddKey(KeystrokeKeyVisual key) => _keys.Add(key);
+    void IKeystrokeThemeHost.AddKey(KeystrokeKeyVisual key)
+    {
+        _keys.Add(key);
+        if (!_keysByInput.TryGetValue(key.Input, out List<KeystrokeKeyVisual>? visuals))
+            _keysByInput[key.Input] = visuals = [];
+        visuals.Add(key);
+    }
 
     void IKeystrokeThemeHost.AddCpsText(string input, TextBlock text, string format) => _cpsTexts.Add((input, text, format));
 
@@ -122,7 +132,7 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
         IsRunning = true;
         if (_liveInput)
         {
-            foreach (string input in _keys.Select(key => key.Input).Distinct(StringComparer.OrdinalIgnoreCase).ToList())
+            foreach (string input in _keysByInput.Keys)
             {
                 if (KeystrokeInputService.IsNamedDown(input))
                     SetKey(input, true);
@@ -146,6 +156,7 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
         _mouseTimer.Stop();
         IsRunning = false;
         _keys.Clear();
+        _keysByInput.Clear();
         _cpsTexts.Clear();
         _circles.Clear();
         _held.Clear();
@@ -155,6 +166,8 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
         _mouseY = 0;
         _pendingDx = 0;
         _pendingDy = 0;
+        _lastLmbCps = -1;
+        _lastRmbCps = -1;
         ((ICustomThemeHost)this).UsedNames.Clear();
         ((IKeystrokeThemeHost)this).KeyStyle = null;
     }
@@ -163,7 +176,7 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
     {
         if (!IsRunning || (down ? !_held.Add(name) : !_held.Remove(name)))
             return;
-        if (down)
+        if (down && !_liveInput)
         {
             double now = _clock.Elapsed.TotalMilliseconds;
             if (name.Equals("LMB", StringComparison.OrdinalIgnoreCase))
@@ -171,9 +184,9 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
             else if (name.Equals("RMB", StringComparison.OrdinalIgnoreCase))
                 _rmbClicks.Enqueue(now);
         }
-        foreach (KeystrokeKeyVisual key in _keys)
+        if (_keysByInput.TryGetValue(name, out List<KeystrokeKeyVisual>? visuals))
         {
-            if (key.Input.Equals(name, StringComparison.OrdinalIgnoreCase))
+            foreach (KeystrokeKeyVisual key in visuals)
                 ApplyState(key, down);
         }
         bool mouseButton = name.Equals("LMB", StringComparison.OrdinalIgnoreCase) || name.Equals("RMB", StringComparison.OrdinalIgnoreCase);
@@ -204,9 +217,7 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
             key.Key.RenderTransform = Math.Abs(key.PressedScale - 1.0) > 0.001 ? new ScaleTransform(key.PressedScale, key.PressedScale) : Transform.Identity;
             return;
         }
-        DoubleAnimation fade = new(0.0, TimeSpan.FromMilliseconds(ReleaseFadeMs));
-        fade.Freeze();
-        key.Highlight.BeginAnimation(OpacityProperty, fade);
+        key.Highlight.BeginAnimation(OpacityProperty, ReleaseFade);
         key.Label.Foreground = key.Foreground;
         if (key.Cps != null)
             key.Cps.Foreground = key.CpsForeground;
@@ -215,11 +226,22 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
 
     private void OnCpsTick(object? sender, EventArgs e) => UpdateCps();
 
+    private static DoubleAnimation CreateReleaseFade()
+    {
+        DoubleAnimation animation = new(0.0, TimeSpan.FromMilliseconds(ReleaseFadeMs));
+        animation.Freeze();
+        return animation;
+    }
+
     private void UpdateCps()
     {
         double now = _clock.Elapsed.TotalMilliseconds;
         int lmb = _liveInput ? KeystrokeInputService.GetLmbCps() : Count(_lmbClicks, now);
         int rmb = _liveInput ? KeystrokeInputService.GetRmbCps() : Count(_rmbClicks, now);
+        if (lmb == _lastLmbCps && rmb == _lastRmbCps)
+            return;
+        _lastLmbCps = lmb;
+        _lastRmbCps = rmb;
         foreach (KeystrokeKeyVisual key in _keys)
         {
             if (key.Cps != null)
@@ -260,10 +282,19 @@ internal sealed class KeystrokeXmlView : ContentControl, IKeystrokeThemeHost, ID
             _pendingDy += dy;
         }
         double now = _clock.Elapsed.TotalMilliseconds;
+        if (_pendingDx == 0 && _pendingDy == 0 && _mouseX == 0 && _mouseY == 0)
+        {
+            _lastMouseFrame = now;
+            return;
+        }
         double decay = Math.Exp(-Math.Max(0, now - _lastMouseFrame) / MouseDecayMs);
         _lastMouseFrame = now;
         _mouseX = Math.Clamp((_mouseX + _pendingDx / MouseDecayMs) * decay, -1, 1);
         _mouseY = Math.Clamp((_mouseY + _pendingDy / MouseDecayMs) * decay, -1, 1);
+        if (Math.Abs(_mouseX) < 0.0001)
+            _mouseX = 0;
+        if (Math.Abs(_mouseY) < 0.0001)
+            _mouseY = 0;
         _pendingDx = 0;
         _pendingDy = 0;
         foreach (var circle in _circles)
