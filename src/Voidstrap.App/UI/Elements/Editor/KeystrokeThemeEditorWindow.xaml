@@ -58,7 +58,31 @@
         <ColumnDefinition Width="420" MinWidth="280" />
       </Grid.ColumnDefinitions>
 
-      <avalonedit:TextEditor x:Name="CodeEditor"
+      <TabControl x:Name="EditingTabs" SelectionChanged="OnEditingTabChanged">
+        <TabItem x:Name="VisualThemeTab" Header="{resources:Loc Ui_Keystrokes_Editor_ThemeControls}">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="12">
+              <ComboBox x:Name="ThemeElementPicker" AutomationProperties.Name="{resources:Loc Common_Name}" SelectionChanged="OnThemeElementChanged" />
+              <StackPanel Margin="0,8,0,14" Orientation="Horizontal">
+                <Button Margin="0,0,6,0" Content="{resources:Loc Ui_Appearance_MoveUp}" Click="OnMoveThemeElementUp" />
+                <Button Margin="0,0,6,0" Content="{resources:Loc Ui_Appearance_MoveDown}" Click="OnMoveThemeElementDown" />
+                <Button Content="{resources:Loc Common_Delete}" Click="OnDeleteThemeElement" />
+              </StackPanel>
+              <ComboBox x:Name="NewThemeElement" IsEditable="True" AutomationProperties.Name="{resources:Loc Common_Type}" />
+              <Button Margin="0,6,0,16" HorizontalAlignment="Left" Content="{resources:Loc Common_AddSingle}" Click="OnAddThemeElement" />
+              <TextBlock Text="{resources:Loc Common_Name}" />
+              <ComboBox x:Name="ThemeAttributePicker" Margin="0,4,0,8" IsEditable="True" SelectionChanged="OnThemeAttributeChanged" />
+              <TextBlock Text="{resources:Loc Common_Value}" />
+              <TextBox x:Name="ThemeAttributeValue" Margin="0,4,0,8" />
+              <StackPanel Orientation="Horizontal">
+                <Button Margin="0,0,6,0" Content="{resources:Loc Ui_Pages_ApplyChanges}" Click="OnApplyThemeAttribute" />
+                <Button Content="{resources:Loc Common_Delete}" Click="OnDeleteThemeAttribute" />
+              </StackPanel>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Header="{resources:Loc Ui_Keystrokes_Editor_ThemeCode}">
+          <avalonedit:TextEditor x:Name="CodeEditor"
                              controls:CodeEditorBehavior.Language=".xml"
                              Style="{StaticResource NewTextEditor}"
                              FontFamily="JetBrains Mono, Cascadia Mono, Consolas"
@@ -66,6 +90,8 @@
                              ShowLineNumbers="True"
                              HorizontalScrollBarVisibility="Auto"
                              VerticalScrollBarVisibility="Auto" />
+        </TabItem>
+      </TabControl>
 
       <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
 

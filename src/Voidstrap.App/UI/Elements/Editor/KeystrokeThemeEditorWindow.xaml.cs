@@ -75,6 +75,8 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     private string? CompileNow()
     {
         _compileTimer.Stop();
+        if (VisualThemeTab.IsSelected)
+            RefreshThemeElements();
         return _preview.Load(CodeEditor.Text, _themeDirectory);
     }
 
