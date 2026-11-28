@@ -810,14 +810,14 @@
                                                                     </Style>
                                                                 </Image.Style>
                                                             </Image>
-                                                            <ui:Button HorizontalAlignment="Right" 
-                                                       VerticalAlignment="Top" 
-                                                       Margin="8" 
-                                                       Padding="6" 
-                                                       Icon="Heart24" 
-                                                       IconFilled="{Binding IsFavorite}" 
-                                                       Appearance="Secondary" 
-                                                       ToolTip="{Binding FavoriteTooltip}" 
+                                                            <ui:Button HorizontalAlignment="Right"
+                                                       VerticalAlignment="Top"
+                                                       Margin="8"
+                                                       Padding="6"
+                                                       Icon="Heart24"
+                                                       IconFilled="{Binding IsFavorite}"
+                                                       Appearance="Secondary"
+                                                       ToolTip="{Binding FavoriteTooltip}"
                                                        Command="{Binding ToggleFavoriteCommand}"/>
 
                                                             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" CornerRadius="6" Padding="8,4" Background="#CC101010" ToolTip="{Binding PriceTooltip}" Visibility="{Binding PriceVisibility}">
@@ -888,7 +888,7 @@
                                                               IsEnabled="{Binding MatchmakerEnabledForGame}"
                                                               ItemsSource="{Binding DatacenterOptions}"
                                                               SelectedItem="{Binding SelectedDatacenter, Mode=TwoWay}"
-                                                              DisplayMemberPath="Display"/> 
+                                                              DisplayMemberPath="Display"/>
                                                     </StackPanel>
 
                                                     <Grid Margin="12,8,12,12">
@@ -905,19 +905,20 @@
                                                             HorizontalAlignment="Stretch"
                                                             Command="{Binding DataContext.LaunchCommand,
                                                                 RelativeSource={RelativeSource AncestorType=Page}}"
-                                                            CommandParameter="{Binding}"/> 
+                                                            CommandParameter="{Binding}"/>
 
                                                         <ui:Button Grid.Column="2"
                                      x:Name="MoreActionsButton"
                                      Icon="MoreHorizontal24"
                                      Appearance="Secondary"
-                                     ToolTip="More actions"
+                                     ToolTip="{resources:Loc Ui_Appearance_MoreActions}"
+                                     AutomationProperties.Name="{resources:Loc Ui_Appearance_MoreActions}"
+                                     Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}"
                                      Click="MoreActionsButton_Click">
                                                             <ui:Button.ContextMenu>
-                                                                <ContextMenu Placement="Bottom">
+                                                                <ContextMenu Placement="Bottom" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                                                     <MenuItem Header="{resources:Loc Ui_Home_CopyGameLink}"
-                                                Command="{Binding DataContext.CopyLinkCommand,
-                                                    RelativeSource={RelativeSource AncestorType=Page}}"
+                                                Command="{Binding PlacementTarget.Tag.CopyLinkCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                 CommandParameter="{Binding}">
                                                                         <MenuItem.Icon>
                                                                             <ui:SymbolIcon Symbol="Copy24"/>
